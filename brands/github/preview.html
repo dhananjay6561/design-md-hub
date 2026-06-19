@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Primer — Design System</title>
+<style>
+  /* ─── CSS Custom Properties: Light Mode ─── */
+  :root,
+  [data-theme="light"] {
+    --bgColor-default: #FFFFFF;
+    --bgColor-muted: #F6F8FA;
+    --bgColor-emphasis: #25292E;
+    --bgColor-inverse: #1F2328;
+    --fgColor-default: #1F2328;
+    --fgColor-muted: #59636E;
+    --fgColor-disabled: #818B98;
+    --fgColor-onEmphasis: #FFFFFF;
+    --borderColor-default: #D1D9E0;
+    --borderColor-muted: rgba(209,217,224,0.7);
+    --borderColor-emphasis: #818B98;
+    --fgColor-accent: #0969DA;
+    --bgColor-accent-muted: #DDF4FF;
+    --bgColor-accent-emphasis: #0969DA;
+    --fgColor-success: #1A7F37;
+    --bgColor-success-muted: #DAFBE1;
+    --bgColor-success-emphasis: #1F883D;
+    --fgColor-danger: #D1242F;
+    --bgColor-danger-muted: #FFEBE9;
+    --bgColor-danger-emphasis: #CF222E;
+    --fgColor-attention: #9A6700;
+    --bgColor-attention-muted: #FFF8C5;
+    --fgColor-severe: #BC4C00;
+    --bgColor-severe-muted: #FFF1E5;
+    --fgColor-done: #8250DF;
+    --bgColor-done-muted: #FBEFFF;
+    --bgColor-done-emphasis: #8250DF;
+    --fgColor-sponsors: #BF3989;
+    --bgColor-sponsors-muted: #FFEFF7;
+
+    --header-bg: #161B22;
+    --header-border: #30363D;
+    --header-text: #E6EDF3;
+
+    --shadow-small: 0 1px 2px rgba(31,35,40,0.07), 0 1px 1px rgba(31,35,40,0.05);
+    --shadow-medium: 0 3px 6px rgba(31,35,40,0.08), 0 2px 4px rgba(31,35,40,0.06);
+    --shadow-large: 0 8px 24px rgba(31,35,40,0.12);
+    --focus-ring: 0 0 0 3px rgba(9,105,218,0.40);
+
+    --fontStack-sansSerif: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+    --fontStack-monospace: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+    --section-border: 1px solid var(--borderColor-default);
+    --pill-indicator-bg: #E6EAEF;
+  }
+
+  /* ─── Dark Mode ─── */
+  [data-theme="dark"] {
+    --bgColor-default: #0D1117;
+    --bgColor-muted: #151B23;
+    --bgColor-emphasis: #3D444D;
+    --fgColor-default: #E6EDF3;
+    --fgColor-muted: #9198A1;
+    --fgColor-disabled: #656C76;
+    --fgColor-onEmphasis: #E6EDF3;
+    --borderColor-default: #3D444D;
+    --borderColor-muted: rgba(61,68,77,0.7);
+    --borderColor-emphasis: #656C76;
+    --fgColor-accent: #4493F8;
+    --bgColor-accent-muted: rgba(56,139,253,0.10);
+    --bgColor-accent-emphasis: #1F6FEB;
+    --fgColor-success: #3FB950;
+    --bgColor-success-muted: rgba(175,245,180,0.10);
+    --bgColor-success-emphasis: #238636;
+    --fgColor-danger: #F85149;
+    --bgColor-danger-muted: rgba(255,113,113,0.10);
+    --bgColor-danger-emphasis: #DA3633;
+    --fgColor-attention: #D29922;
+    --bgColor-attention-muted: rgba(248,227,161,0.10);
+    --fgColor-severe: #DB6D28;
+    --bgColor-severe-muted: rgba(219,109,40,0.10);
+    --fgColor-done: #AB7DF8;
+    --bgColor-done-muted: rgba(210,168,255,0.10);
+    --bgColor-done-emphasis: #8957E5;
+    --fgColor-sponsors: #DB61A2;
+    --bgColor-sponsors-muted: rgba(219,97,162,0.10);
+
+    --header-bg: #161B22;
+    --header-border: #30363D;
+    --header-text: #E6EDF3;
+
+    --shadow-small: 0 1px 2px rgba(0,0,0,0.3), 0 1px 1px rgba(0,0,0,0.2);
+    --shadow-medium: 0 3px 6px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.2);
+    --shadow-large: 0 8px 24px rgba(0,0,0,0.35);
+    --focus-ring: 0 0 0 3px rgba(68,147,248,0.40);
+
+    --pill-indicator-bg: #3D444D;
+  }
+
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--fontStack-sansSerif);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--fgColor-default);
+    background-color: var(--bgColor-default);
+    transition: background-color 0.15s ease, color 0.15s ease;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Global Nav Header ─── */
+  .site-header {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 16px;
+  }
+
+  .site-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--header-text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .site-header-logo svg {
+    fill: #FFFFFF;
+    flex-shrink: 0;
+  }
+
+  .site-header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .site-header-nav a {
+    color: var(--header-text);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    opacity: 0.8;
+    transition: opacity 0.1s;
+  }
+
+  .site-header-nav a:hover { opacity: 1; background: rgba(255,255,255,0.08); }
+
+  .theme-toggle {
+    margin-left: auto;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--header-text);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: var(--fontStack-sansSerif);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.1s;
+    white-space: nowrap;
+  }
+
+  .theme-toggle:hover { background: rgba(255,255,255,0.18); }
+  .theme-toggle:focus { outline: none; box-shadow: var(--focus-ring); }
+
+  /* ─── Hero Section ─── */
+  .hero {
+    background-color: var(--bgColor-inverse, var(--header-bg));
+    padding: 80px 24px;
+    text-align: left;
+  }
+
+  [data-theme="dark"] .hero {
+    background-color: var(--bgColor-muted);
+    border-bottom: 1px solid var(--borderColor-default);
+  }
+
+  .hero-inner {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4493F8;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow svg { fill: #4493F8; }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #E6EDF3;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  [data-theme="dark"] .hero h1 { color: var(--fgColor-default); }
+
+  .hero p {
+    font-size: 1.125rem;
+    line-height: 1.625;
+    color: #9198A1;
+    max-width: 640px;
+    margin-bottom: 32px;
+  }
+
+  [data-theme="dark"] .hero p { color: var(--fgColor-muted); }
+
+  .hero-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(68,147,248,0.12);
+    border: 1px solid rgba(68,147,248,0.25);
+    color: #4493F8;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* ─── Page Content ─── */
+  .page-content {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ─── Section ─── */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: var(--section-border);
+  }
+
+  .section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--fgColor-default);
+  }
+
+  .section-header .section-tag {
+    font-size: 12px;
+    font-family: var(--fontStack-monospace);
+    color: var(--fgColor-muted);
+    background: var(--bgColor-muted);
+    border: 1px solid var(--borderColor-default);
+    border-radius: 4px;
+    padding: 1px 6px;
+  }
+
+  /* ─── Color Palette ─── */
+  .color-group {
+    margin-bottom: 32px;
+  }
+
+  .color-group-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 8px;
+  }
+
+  .color-swatch {
+    border-radius: 6px;
+    border: 1px solid var(--borderColor-default);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    position: relative;
+  }
+
+  .color-swatch:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  .color-swatch:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  .swatch-preview {
+    height: 72px;
+    width: 100%;
+    position: relative;
+  }
+
+  .swatch-copy-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.15s;
+    border-radius: 0;
+  }
+
+  .color-swatch:hover .swatch-copy-hint { opacity: 1; }
+
+  .swatch-info {
+    background: var(--bgColor-default);
+    padding: 8px 10px;
+  }
+
+  .swatch-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fgColor-default);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .swatch-hex {
+    font-family: var(--fontStack-monospace);
+    font-size: 11px;
+    color: var(--fgColor-muted);
+  }
+
+  .swatch-usage {
+    font-size: 10px;
+    color: var(--fgColor-muted);
+    margin-top: 3px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Color scale row */
+  .scale-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+    align-items: flex-end;
+  }
+
+  .scale-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    min-width: 56px;
+    text-align: right;
+    padding-right: 10px;
+    padding-bottom: 6px;
+  }
+
+  .scale-chips {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+  }
+
+  .scale-chip {
+    flex: 1;
+    height: 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    position: relative;
+    min-width: 0;
+  }
+
+  .scale-chip:hover { transform: scaleY(1.15); z-index: 1; }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bgColor-emphasis);
+    color: var(--fgColor-onEmphasis);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-large);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .toast.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── Typography ─── */
+  .type-scale-table {
+    border: var(--section-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 100px 80px 70px 1fr;
+    align-items: center;
+    border-bottom: var(--section-border);
+    background: var(--bgColor-default);
+    transition: background 0.1s;
+  }
+
+  .type-row:last-child { border-bottom: none; }
+  .type-row:hover { background: var(--bgColor-muted); }
+
+  .type-row-header {
+    grid-template-columns: 100px 80px 70px 1fr;
+    background: var(--bgColor-muted);
+    border-bottom: var(--section-border);
+  }
+
+  .type-meta {
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--fgColor-muted);
+    border-right: var(--section-border);
+  }
+
+  .type-meta.header-cell {
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fgColor-muted);
+  }
+
+  .type-sample {
+    padding: 16px 20px;
+    color: var(--fgColor-default);
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mono-stack {
+    margin-top: 16px;
+    background: var(--bgColor-muted);
+    border: var(--section-border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .mono-stack-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .mono-sample {
+    font-family: var(--fontStack-monospace);
+    font-size: 14px;
+    color: var(--fgColor-default);
+  }
+
+  /* ─── Components ─── */
+  .component-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 20px;
+    border: var(--section-border);
+    border-radius: 6px;
+    background: var(--bgColor-muted);
+    margin-bottom: 12px;
+  }
+
+  .component-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fgColor-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--fontStack-sansSerif);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    border-radius: 6px;
+    border: 1px solid;
+    cursor: pointer;
+    padding: 5px 16px;
+    text-decoration: none;
+    transition: background 0.1s, box-shadow 0.1s, border-color 0.1s;
+    white-space: nowrap;
+  }
+
+  .btn:focus { outline: none; box-shadow: var(--focus-ring); }
+
+  .btn-default {
+    background: var(--bgColor-muted);
+    color: var(--fgColor-default);
+    border-color: var(--borderColor-default);
+    box-shadow: var(--shadow-small);
+  }
+
+  .btn-default:hover {
+    background: #E9ECEF;
+    border-color: var(--borderColor-emphasis);
+  }
+
+  [data-theme="dark"] .btn-default:hover {
+    background: #3D444D;
+  }
+
+  .btn-primary {
+    background: #1F883D;
+    color: #FFFFFF;
+    border-color: #1A7F37;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), var(--shadow-small);
+  }
+
+  .btn-primary:hover { background: #1a7f37; }
+
+  .btn-danger {
+    background: var(--bgColor-danger-emphasis);
+    color: #FFFFFF;
+    border-color: #B91C1C;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), var(--shadow-small);
+  }
+
+  .btn-danger:hover { background: #B91C1C; }
+
+  .btn-invisible {
+    background: transparent;
+    color: var(--fgColor-accent);
+    border-color: transparent;
+  }
+
+  .btn-invisible:hover {
+    background: var(--bgColor-accent-muted);
+  }
+
+  /* Button sizes */
+  .btn-sm { padding: 3px 12px; font-size: 12px; }
+  .btn-md { padding: 5px 16px; font-size: 14px; }
+  .btn-lg { padding: 9px 20px; font-size: 16px; }
+
+  /* Button state: disabled */
+  .btn[disabled], .btn-disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Input */
+  .input-demo {
+    padding: 20px;
+    border: var(--section-border);
+    border-radius: 6px;
+    background: var(--bgColor-muted);
+    margin-bottom: 12px;
+  }
+
+  .input-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .input-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fgColor-default);
+  }
+
+  .input-caption {
+    font-size: 12px;
+    color: var(--fgColor-muted);
+    margin-top: 4px;
+  }
+
+  .text-input {
+    height: 32px;
+    padding: 5px 12px;
+    border: 1px solid var(--borderColor-default);
+    border-radius: 6px;
+    background: var(--bgColor-default);
+    font-size: 14px;
+    font-family: var(--fontStack-sansSerif);
+    color: var(--fgColor-default);
+    width: 220px;
+    transition: border-color 0.1s, box-shadow 0.1s;
+    outline: none;
+  }
+
+  .text-input::placeholder { color: var(--fgColor-muted); }
+
+  .text-input:focus {
+    border-color: var(--fgColor-accent);
+    box-shadow: var(--focus-ring);
+  }
+
+  .text-input.input-error {
+    border-color: var(--fgColor-danger);
+  }
+
+  .text-input.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(209,36,47,0.3);
+  }
+
+  .text-input:disabled {
+    background: var(--bgColor-muted);
+    color: var(--fgColor-disabled);
+    cursor: default;
+  }
+
+  .text-input.input-mono {
+    font-family: var(--fontStack-monospace);
+    font-size: 13px;
+  }
+
+  .input-validation-msg {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .input-validation-msg.error { color: var(--fgColor-danger); }
+  .input-validation-msg.success { color: var(--fgColor-success); }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .badge-default    { background: #EFF2F5; color: #454C54; border-color: #D1D9E0; }
+  .badge-accent     { background: #DDF4FF; color: #0969DA; border-color: #B6E3FF; }
+  .badge-success    { background: #DAFBE1; color: #1A7F37; border-color: #ACEEBB; }
+  .badge-danger     { background: #FFEBE9; color: #CF222E; border-color: #FFCECB; }
+  .badge-attention  { background: #FFF8C5; color: #9A6700; border-color: #FAE17D; }
+  .badge-done       { background: #FBEFFF; color: #8250DF; border-color: #ECD8FF; }
+  .badge-draft      { background: #EFF2F5; color: #59636E; border-color: #D1D9E0; }
+  .badge-sponsors   { background: #FFEFF7; color: #BF3989; border-color: #FFD3EB; }
+
+  [data-theme="dark"] .badge-default   { background: rgba(61,68,77,0.5); color: #9198A1; border-color: #3D444D; }
+  [data-theme="dark"] .badge-accent    { background: rgba(56,139,253,0.1); color: #4493F8; border-color: rgba(68,147,248,0.3); }
+  [data-theme="dark"] .badge-success   { background: rgba(175,245,180,0.1); color: #3FB950; border-color: rgba(63,185,80,0.3); }
+  [data-theme="dark"] .badge-danger    { background: rgba(255,113,113,0.1); color: #F85149; border-color: rgba(248,81,73,0.3); }
+  [data-theme="dark"] .badge-attention { background: rgba(248,227,161,0.1); color: #D29922; border-color: rgba(210,153,34,0.3); }
+  [data-theme="dark"] .badge-done      { background: rgba(210,168,255,0.1); color: #AB7DF8; border-color: rgba(171,125,248,0.3); }
+  [data-theme="dark"] .badge-draft     { background: rgba(61,68,77,0.5); color: #656C76; border-color: #3D444D; }
+  [data-theme="dark"] .badge-sponsors  { background: rgba(219,97,162,0.1); color: #DB61A2; border-color: rgba(219,97,162,0.3); }
+
+  /* Card */
+  .card {
+    background: var(--bgColor-default);
+    border: 1px solid var(--borderColor-default);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+
+  [data-theme="dark"] .card {
+    background: var(--bgColor-muted);
+  }
+
+  .card:hover { box-shadow: var(--shadow-medium); }
+
+  .card-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--borderColor-default);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0969DA 0%, #218BFF 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .card-repo-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fgColor-accent);
+    text-decoration: none;
+  }
+
+  .card-repo-name:hover { text-decoration: underline; }
+
+  .card-body {
+    padding: 16px;
+  }
+
+  .card-description {
+    font-size: 13px;
+    color: var(--fgColor-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .card-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--fgColor-muted);
+  }
+
+  .card-meta-item .lang-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ─── Spacing ─── */
+  .spacing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+  }
+
+  .spacing-label-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+    flex-shrink: 0;
+  }
+
+  .spacing-token {
+    font-family: var(--fontStack-monospace);
+    font-size: 12px;
+    color: var(--fgColor-default);
+    font-weight: 500;
+  }
+
+  .spacing-value {
+    font-size: 11px;
+    color: var(--fgColor-muted);
+    margin-top: 1px;
+  }
+
+  .spacing-bar-track {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .spacing-bar {
+    height: 24px;
+    border-radius: 3px;
+    background: var(--bgColor-accent-muted);
+    border: 1px solid var(--fgColor-accent);
+    min-width: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 6px;
+    transition: background 0.15s;
+  }
+
+  [data-theme="dark"] .spacing-bar {
+    background: rgba(68,147,248,0.12);
+    border-color: rgba(68,147,248,0.5);
+  }
+
+  .spacing-bar-val {
+    font-family: var(--fontStack-monospace);
+    font-size: 10px;
+    color: var(--fgColor-accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ─── Tone & Guardrails ─── */
+  .guardrails-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+  }
+
+  .guardrails-panel {
+    border-radius: 6px;
+    overflow: hidden;
+    border: var(--section-border);
+  }
+
+  .guardrails-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .guardrails-panel-header.do {
+    background: var(--bgColor-success-muted);
+    color: var(--fgColor-success);
+    border-bottom: 1px solid #ACEEBB;
+  }
+
+  [data-theme="dark"] .guardrails-panel-header.do {
+    border-bottom-color: rgba(63,185,80,0.3);
+  }
+
+  .guardrails-panel-header.dont {
+    background: var(--bgColor-danger-muted);
+    color: var(--fgColor-danger);
+    border-bottom: 1px solid #FFCECB;
+  }
+
+  [data-theme="dark"] .guardrails-panel-header.dont {
+    border-bottom-color: rgba(248,81,73,0.3);
+  }
+
+  .guardrails-list {
+    list-style: none;
+    padding: 8px 0;
+    background: var(--bgColor-default);
+  }
+
+  [data-theme="dark"] .guardrails-list { background: var(--bgColor-muted); }
+
+  .guardrails-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--fgColor-default);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--borderColor-muted);
+  }
+
+  .guardrails-list li:last-child { border-bottom: none; }
+
+  .guardrails-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .guardrails-icon.do-icon  { color: var(--fgColor-success); }
+  .guardrails-icon.dont-icon { color: var(--fgColor-danger); }
+
+  code {
+    font-family: var(--fontStack-monospace);
+    font-size: 12px;
+    background: var(--bgColor-muted);
+    border: 1px solid var(--borderColor-default);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--fgColor-default);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .hero { padding: 48px 16px; }
+    .hero h1 { font-size: 2rem; }
+    .page-content { padding: 32px 16px 60px; }
+    .type-row { grid-template-columns: 80px 60px 1fr; }
+    .type-row .type-meta:nth-child(3) { display: none; }
+    .type-row-header .type-meta:nth-child(3) { display: none; }
+    .color-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; }
+  }
+
+  /* ─── Utility ─── */
+  .text-muted { color: var(--fgColor-muted); }
+  .mt-8  { margin-top: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .divider {
+    border: none;
+    border-top: var(--section-border);
+    margin: 32px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Global Header ─── -->
+<header class="site-header" role="banner">
+  <a href="#" class="site-header-logo" aria-label="GitHub Primer Design System">
+    <svg height="20" viewBox="0 0 16 16" width="20" aria-hidden="true">
+      <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+    </svg>
+    GitHub Primer
+  </a>
+  <nav class="site-header-nav" aria-label="Design system navigation">
+    <a href="#colors">Colors</a>
+    <a href="#typography">Typography</a>
+    <a href="#components">Components</a>
+    <a href="#spacing">Spacing</a>
+    <a href="#guardrails">Guardrails</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+    <svg id="sunIcon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm0-1.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM8 .75a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0V1.5A.75.75 0 0 1 8 .75Zm0 12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12.75Zm7.25-5a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 .75.75ZM.75 8.75a.75.75 0 0 1 0-1.5h1.5a.75.75 0 0 1 0 1.5H.75Zm11.03-5.47a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM5.06 11.94a.75.75 0 0 1 0 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06a.75.75 0 0 1 1.06 0ZM13.78 11.94a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 1.06-1.06l1.06 1.06ZM4.22 4.22a.75.75 0 0 1-1.06 1.06L2.1 4.22a.75.75 0 0 1 1.06-1.06l1.06 1.06Z"/>
+    </svg>
+    <svg id="moonIcon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="display:none">
+      <path d="M9.598 1.591a.749.749 0 0 1 .785-.175 7.001 7.001 0 1 1-8.533 8.533.75.75 0 0 1 .175-.786l.928-.928a5.001 5.001 0 0 0 5.39-5.39l.255-.254Zm-1.833 2.55-.925.93a6.501 6.501 0 0 1-5.24 5.24l-.931.924a5.501 5.501 0 1 0 7.096-7.095Z"/>
+    </svg>
+    <span id="themeLabel">Dark mode</span>
+  </button>
+</header>
+
+<!-- ─── Hero ─── -->
+<section class="hero" aria-labelledby="hero-heading">
+  <div class="hero-inner">
+    <div class="hero-eyebrow" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/>
+      </svg>
+      Primer — Design System
+    </div>
+    <h1 id="hero-heading">GitHub's Design Language</h1>
+    <p>The world's home for code — a developer collaboration platform where functional density and open-source culture shape every design decision. Primer is built on <strong style="color:#E6EDF3">functional clarity</strong>: ornamentation is minimized, information density is respected, and every component earns its presence by serving workflow.</p>
+    <div class="hero-badges" aria-label="Key design principles">
+      <span class="hero-badge">Developer Ergonomics First</span>
+      <span class="hero-badge">Semantic Color</span>
+      <span class="hero-badge">Adaptive Theming</span>
+      <span class="hero-badge">Accessible by Default</span>
+      <span class="hero-badge">Functional Motion</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Main Content ─── -->
+<main class="page-content" id="main-content">
+
+  <!-- ─── 1. COLOR PALETTE ─── -->
+  <section class="section" id="colors" aria-labelledby="colors-heading">
+    <div class="section-header">
+      <h2 id="colors-heading">Color Palette</h2>
+      <span class="section-tag">semantic tokens + scales</span>
+    </div>
+
+    <!-- Semantic: Core -->
+    <div class="color-group">
+      <p class="color-group-title">Backgrounds &amp; Surfaces</p>
+      <div class="color-grid">
+        <button class="color-swatch" data-hex="#FFFFFF" data-name="bgColor-default" aria-label="Copy #FFFFFF to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FFFFFF;border-bottom:1px solid #e5e7eb"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">bgColor-default</div>
+            <div class="swatch-hex">#FFFFFF</div>
+            <div class="swatch-usage">Page background, modals</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#F6F8FA" data-name="bgColor-muted" aria-label="Copy #F6F8FA to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#F6F8FA"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">bgColor-muted</div>
+            <div class="swatch-hex">#F6F8FA</div>
+            <div class="swatch-usage">Secondary surfaces, code blocks</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#25292E" data-name="bgColor-emphasis" aria-label="Copy #25292E to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#25292E"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">bgColor-emphasis</div>
+            <div class="swatch-hex">#25292E</div>
+            <div class="swatch-usage">Tooltips, dark surfaces</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#1F2328" data-name="bgColor-inverse" aria-label="Copy #1F2328 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#1F2328"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">bgColor-inverse</div>
+            <div class="swatch-hex">#1F2328</div>
+            <div class="swatch-usage">Inverted sections, dark banners</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Semantic: Foreground -->
+    <div class="color-group">
+      <p class="color-group-title">Foreground / Text</p>
+      <div class="color-grid">
+        <button class="color-swatch" data-hex="#1F2328" data-name="fgColor-default" aria-label="Copy #1F2328 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#1F2328"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">fgColor-default</div>
+            <div class="swatch-hex">#1F2328</div>
+            <div class="swatch-usage">Primary text, headings</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#59636E" data-name="fgColor-muted" aria-label="Copy #59636E to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#59636E"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">fgColor-muted</div>
+            <div class="swatch-hex">#59636E</div>
+            <div class="swatch-usage">Timestamps, metadata, placeholders</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#818B98" data-name="fgColor-disabled" aria-label="Copy #818B98 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#818B98"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">fgColor-disabled</div>
+            <div class="swatch-hex">#818B98</div>
+            <div class="swatch-usage">Disabled text and icons</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#0969DA" data-name="fgColor-accent" aria-label="Copy #0969DA to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#0969DA"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">fgColor-accent</div>
+            <div class="swatch-hex">#0969DA</div>
+            <div class="swatch-usage">Links, interactive elements</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Semantic States -->
+    <div class="color-group">
+      <p class="color-group-title">Semantic States</p>
+      <div class="color-grid">
+        <button class="color-swatch" data-hex="#1F883D" data-name="Success" aria-label="Copy #1F883D to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#DAFBE1"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Success / Open</div>
+            <div class="swatch-hex">#1A7F37 / #DAFBE1</div>
+            <div class="swatch-usage">Open issues, PRs, success states</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#CF222E" data-name="Danger" aria-label="Copy #CF222E to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FFEBE9"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Danger / Closed</div>
+            <div class="swatch-hex">#D1242F / #FFEBE9</div>
+            <div class="swatch-usage">Errors, closed items, destructive</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#9A6700" data-name="Attention" aria-label="Copy #9A6700 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FFF8C5"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Attention</div>
+            <div class="swatch-hex">#9A6700 / #FFF8C5</div>
+            <div class="swatch-usage">Warnings and cautions</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#8250DF" data-name="Done / Merged" aria-label="Copy #8250DF to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FBEFFF"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Done / Merged</div>
+            <div class="swatch-hex">#8250DF / #FBEFFF</div>
+            <div class="swatch-usage">Merged PRs, completed states</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#BC4C00" data-name="Severe" aria-label="Copy #BC4C00 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FFF1E5"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Severe</div>
+            <div class="swatch-hex">#BC4C00 / #FFF1E5</div>
+            <div class="swatch-usage">Urgent warnings (not decorative)</div>
+          </div>
+        </button>
+        <button class="color-swatch" data-hex="#BF3989" data-name="Sponsors" aria-label="Copy #BF3989 to clipboard" tabindex="0">
+          <div class="swatch-preview" style="background:#FFEFF7"><span class="swatch-copy-hint">Click to copy</span></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sponsors</div>
+            <div class="swatch-hex">#BF3989 / #FFEFF7</div>
+            <div class="swatch-usage">GitHub Sponsors UI</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Base Color Scales -->
+    <div class="color-group">
+      <p class="color-group-title">Base Color Scales (lightest → darkest)</p>
+      <div style="border:var(--section-border);border-radius:6px;overflow:hidden;">
+        <div class="scale-row" style="padding:10px 16px;border-bottom:var(--section-border);background:var(--bgColor-muted)">
+          <span class="scale-label" style="font-size:11px;font-weight:600;color:var(--fgColor-muted);text-transform:uppercase;letter-spacing:0.05em;">Scale</span>
+          <div class="scale-chips" style="align-items:center;gap:4px">
+            <span style="font-size:10px;color:var(--fgColor-muted);font-weight:600">0</span>
+            <span style="font-size:10px;color:var(--fgColor-muted);">→</span>
+            <span style="font-size:10px;color:var(--fgColor-muted);font-weight:600">5 (base)</span>
+          </div>
+        </div>
+        <div id="scale-rows" style="padding:12px 16px;display:flex;flex-direction:column;gap:10px;">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 2. TYPOGRAPHY ─── -->
+  <section class="section" id="typography" aria-labelledby="typography-heading">
+    <div class="section-header">
+      <h2 id="typography-heading">Typography</h2>
+      <span class="section-tag">--fontStack-sansSerif + monospace</span>
+    </div>
+
+    <div class="type-scale-table" role="table" aria-label="Type scale">
+      <div class="type-row type-row-header" role="row">
+        <div class="type-meta header-cell" role="columnheader">Name</div>
+        <div class="type-meta header-cell" role="columnheader">Size</div>
+        <div class="type-meta header-cell" role="columnheader">Weight</div>
+        <div class="type-meta header-cell" role="columnheader" style="border-right:none">Sample</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">Title Large</div>
+        <div class="type-meta" role="cell">3rem / 48px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:3rem;font-weight:600;line-height:1.25">GitHub</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h0</div>
+        <div class="type-meta" role="cell">2.5rem / 40px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:2.5rem;font-weight:600;line-height:1.25">Where the world builds</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h1</div>
+        <div class="type-meta" role="cell">2rem / 32px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:2rem;font-weight:600;line-height:1.25">Repository overview</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h2</div>
+        <div class="type-meta" role="cell">1.5rem / 24px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:1.5rem;font-weight:600;line-height:1.25">Pull requests</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h3</div>
+        <div class="type-meta" role="cell">1.25rem / 20px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:1.25rem;font-weight:600;line-height:1.25">Latest commits</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h4</div>
+        <div class="type-meta" role="cell">1rem / 16px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:1rem;font-weight:600;line-height:1.5">README.md</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h5</div>
+        <div class="type-meta" role="cell">0.875rem / 14px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:0.875rem;font-weight:600;line-height:1.5">Workflows &amp; Actions</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">h6</div>
+        <div class="type-meta" role="cell">0.75rem / 12px</div>
+        <div class="type-meta" role="cell">600</div>
+        <div class="type-sample" role="cell" style="font-size:0.75rem;font-weight:600;line-height:1.5">CONTRIBUTORS</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">Body</div>
+        <div class="type-meta" role="cell">0.875rem / 14px</div>
+        <div class="type-meta" role="cell">400</div>
+        <div class="type-sample" role="cell" style="font-size:0.875rem;font-weight:400;line-height:1.5">GitHub's base body size is 14px — intentionally compact to support information-dense developer workflows.</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">Body Large</div>
+        <div class="type-meta" role="cell">1rem / 16px</div>
+        <div class="type-meta" role="cell">400</div>
+        <div class="type-sample" role="cell" style="font-size:1rem;font-weight:400;line-height:1.5">Larger body text for README prose and marketing copy.</div>
+      </div>
+      <div class="type-row" role="row">
+        <div class="type-meta" role="cell">Caption</div>
+        <div class="type-meta" role="cell">0.75rem / 12px</div>
+        <div class="type-meta" role="cell">400</div>
+        <div class="type-sample" role="cell" style="font-size:0.75rem;font-weight:400;line-height:1.25;color:var(--fgColor-muted)">Updated 3 hours ago · 47 commits · MIT license</div>
+      </div>
+    </div>
+
+    <div class="mono-stack" aria-label="Monospace font stack preview">
+      <span class="mono-stack-label">Monospace</span>
+      <code class="mono-sample" style="background:none;border:none;padding:0;font-size:14px">
+        git commit -m "feat: add dark mode support" <span style="color:var(--fgColor-muted)">// a3f8d2c</span>
+      </code>
+    </div>
+  </section>
+
+  <!-- ─── 3. COMPONENTS ─── -->
+  <section class="section" id="components" aria-labelledby="components-heading">
+    <div class="section-header">
+      <h2 id="components-heading">Components</h2>
+      <span class="section-tag">buttons · inputs · badges · card</span>
+    </div>
+
+    <!-- Buttons by variant -->
+    <div class="component-row" aria-label="Button variants">
+      <span class="component-label">Variants</span>
+      <button class="btn btn-default">Default</button>
+      <button class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+        New repository
+      </button>
+      <button class="btn btn-danger">Delete repository</button>
+      <button class="btn btn-invisible">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.5 8a6.5 6.5 0 1 1 13 0 6.5 6.5 0 0 1-13 0ZM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm.75 4.75a.75.75 0 0 0-1.5 0v2.5h-2.5a.75.75 0 0 0 0 1.5h2.5v2.5a.75.75 0 0 0 1.5 0v-2.5h2.5a.75.75 0 0 0 0-1.5h-2.5v-2.5Z"/></svg>
+        Add comment
+      </button>
+      <button class="btn btn-default btn-disabled" disabled aria-disabled="true">Disabled</button>
+    </div>
+
+    <!-- Buttons by size -->
+    <div class="component-row" aria-label="Button sizes">
+      <span class="component-label">Sizes</span>
+      <button class="btn btn-default btn-sm">Small</button>
+      <button class="btn btn-default btn-md">Medium</button>
+      <button class="btn btn-default btn-lg">Large</button>
+    </div>
+
+    <!-- Inputs -->
+    <div class="input-demo" aria-label="Input field variants">
+      <div class="input-row">
+        <div class="input-group">
+          <label class="input-label" for="input-default">Repository name</label>
+          <input class="text-input" id="input-default" type="text" placeholder="my-repository" />
+          <p class="input-caption">Great repository names are short and memorable.</p>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="input-error">Branch name</label>
+          <input class="text-input input-error" id="input-error" type="text" value="main/invalid-slash" />
+          <p class="input-validation-msg error">Branch name cannot contain '/'</p>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="input-mono">Commit SHA</label>
+          <input class="text-input input-mono" id="input-mono" type="text" value="a3f8d2c94b1e7f56" />
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="input-disabled">Archived repo</label>
+          <input class="text-input" id="input-disabled" type="text" value="Read-only" disabled />
+          <p class="input-caption">This repository has been archived.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="component-row" style="flex-wrap:wrap;gap:8px;" aria-label="Badge variants">
+      <span class="component-label" style="flex-basis:100%;margin-bottom:4px;">Badges</span>
+      <span class="badge badge-success"><span class="badge-dot"></span>Open</span>
+      <span class="badge badge-danger"><span class="badge-dot"></span>Closed</span>
+      <span class="badge badge-done"><span class="badge-dot"></span>Merged</span>
+      <span class="badge badge-attention"><span class="badge-dot"></span>Warning</span>
+      <span class="badge badge-accent"><span class="badge-dot"></span>Info</span>
+      <span class="badge badge-draft">Draft</span>
+      <span class="badge badge-default">Tag</span>
+      <span class="badge badge-sponsors">
+        <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"/></svg>
+        Sponsor
+      </span>
+    </div>
+
+    <!-- Sample Card -->
+    <div class="mt-16">
+      <p class="color-group-title" style="margin-bottom:12px">Repository Card</p>
+      <div style="max-width:480px;">
+        <div class="card" role="article" aria-label="Sample repository card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-avatar" aria-hidden="true">P</div>
+              <div>
+                <a href="#" class="card-repo-name">primer/react</a>
+                <div style="font-size:11px;color:var(--fgColor-muted);margin-top:2px">github.com/primer/react</div>
+              </div>
+            </div>
+            <span class="badge badge-success" aria-label="Public repository">Public</span>
+          </div>
+          <div class="card-body">
+            <p class="card-description">An implementation of GitHub's Primer Design System as React components. Modular, composable, and accessible by default.</p>
+            <div class="card-meta" aria-label="Repository metadata">
+              <span class="card-meta-item">
+                <span class="lang-dot" style="background:#f1e05a" aria-hidden="true"></span>
+                TypeScript
+              </span>
+              <span class="card-meta-item" aria-label="3.2k stars">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+                3.2k
+              </span>
+              <span class="card-meta-item" aria-label="428 forks">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/></svg>
+                428
+              </span>
+              <span class="card-meta-item" style="margin-left:auto;font-size:11px">Updated 2h ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4. SPACING SCALE ─── -->
+  <section class="section" id="spacing" aria-labelledby="spacing-heading">
+    <div class="section-header">
+      <h2 id="spacing-heading">Spacing Scale</h2>
+      <span class="section-tag">8px base unit</span>
+    </div>
+
+    <div class="spacing-grid" role="list" aria-label="Spacing tokens">
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-2</span>
+          <span class="spacing-value">space.xxs — Form separators</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:2px"><span class="spacing-bar-val" style="position:absolute;left:6px;white-space:nowrap">2px</span></div>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-4</span>
+          <span class="spacing-value">space.xs — Badge padding, icon gaps</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:4px"><span class="spacing-bar-val" style="position:absolute;left:8px;white-space:nowrap">4px</span></div>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-8</span>
+          <span class="spacing-value">space.sm — Standard component gaps</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:8px"><span class="spacing-bar-val" style="position:absolute;left:12px;white-space:nowrap">8px</span></div>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-12</span>
+          <span class="spacing-value">space.md — Container padding</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:12px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">12px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-16</span>
+          <span class="spacing-value">space.lg — Major layout divisions</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:16px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">16px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-24</span>
+          <span class="spacing-value">space.xl — Large section separation</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:24px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">24px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-32</span>
+          <span class="spacing-value">Feature section gaps</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:32px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">32px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-48</span>
+          <span class="spacing-value">Stack condensed padding</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:48px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">48px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-64</span>
+          <span class="spacing-value">Page-level vertical rhythm</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:64px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">64px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-80</span>
+          <span class="spacing-value">Hero section padding</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:80px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">80px</span>
+        </div>
+      </div>
+      <div class="spacing-row" role="listitem">
+        <div class="spacing-label-group">
+          <span class="spacing-token">--base-size-128</span>
+          <span class="spacing-value">Maximum vertical section gap</span>
+        </div>
+        <div class="spacing-bar-track">
+          <div class="spacing-bar" style="width:128px"></div>
+          <span style="font-family:var(--fontStack-monospace);font-size:11px;color:var(--fgColor-muted);margin-left:6px">128px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Border Radius mini-section -->
+    <div class="mt-24">
+      <p class="color-group-title" style="margin-bottom:12px">Border Radius</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end">
+        <div style="text-align:center">
+          <div style="width:48px;height:48px;background:var(--bgColor-accent-muted);border:2px solid var(--fgColor-accent);border-radius:4px;margin:0 auto 8px"></div>
+          <span style="font-size:11px;font-family:var(--fontStack-monospace);color:var(--fgColor-muted)">4px<br>small</span>
+        </div>
+        <div style="text-align:center">
+          <div style="width:48px;height:48px;background:var(--bgColor-accent-muted);border:2px solid var(--fgColor-accent);border-radius:6px;margin:0 auto 8px"></div>
+          <span style="font-size:11px;font-family:var(--fontStack-monospace);color:var(--fgColor-muted)">6px<br>medium</span>
+        </div>
+        <div style="text-align:center">
+          <div style="width:48px;height:48px;background:var(--bgColor-accent-muted);border:2px solid var(--fgColor-accent);border-radius:8px;margin:0 auto 8px"></div>
+          <span style="font-size:11px;font-family:var(--fontStack-monospace);color:var(--fgColor-muted)">8px<br>large</span>
+        </div>
+        <div style="text-align:center">
+          <div style="width:48px;height:48px;background:var(--bgColor-accent-muted);border:2px solid var(--fgColor-accent);border-radius:9999px;margin:0 auto 8px"></div>
+          <span style="font-size:11px;font-family:var(--fontStack-monospace);color:var(--fgColor-muted)">9999px<br>full</span>
+        </div>
+        <div style="margin-left:16px;padding:12px 16px;background:var(--bgColor-muted);border:var(--section-border);border-radius:6px;max-width:280px">
+          <p style="font-size:12px;color:var(--fgColor-muted);line-height:1.5"><strong style="color:var(--fgColor-default)">Default interactive:</strong> 6px for buttons, inputs, cards, and dropdowns. 9999px (pill) reserved for status labels and avatars.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. TONE & GUARDRAILS ─── -->
+  <section class="section" id="guardrails" aria-labelledby="guardrails-heading">
+    <div class="section-header">
+      <h2 id="guardrails-heading">Tone &amp; Guardrails</h2>
+      <span class="section-tag">do / don't</span>
+    </div>
+
+    <div class="guardrails-grid">
+      <div class="guardrails-panel" aria-label="Design do's">
+        <div class="guardrails-panel-header do" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>
+          DO
+        </div>
+        <ul class="guardrails-list">
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use semantic tokens (<code>--fgColor-danger</code>, <code>--bgColor-success-muted</code>) — not raw hex values</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use <code>--fgColor-default</code> for all primary text</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use <code>--fgColor-muted</code> for timestamps, metadata, and helper text</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use <code>--fgColor-accent</code> for all text links — never a different color</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use <strong>weight 600</strong> for button labels, headings, and emphasized UI text</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use the <strong>monospace stack</strong> for code, SHAs, file paths, and terminal output</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Reserve <strong>primary buttons</strong> for one-per-context actions</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Use <strong>6px border radius</strong> as default for all interactive elements</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Keep line widths under ~80 characters for readable prose</li>
+          <li><span class="guardrails-icon do-icon" aria-hidden="true">✓</span>Align text <strong>left with ragged right</strong> — never justify body text</li>
+        </ul>
+      </div>
+      <div class="guardrails-panel" aria-label="Design don'ts">
+        <div class="guardrails-panel-header dont" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/></svg>
+          DON'T
+        </div>
+        <ul class="guardrails-list">
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use color as the <strong>only signal</strong> — always pair with a label, icon, or pattern</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use raw hex values — always use design tokens</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use more than <strong>one primary button</strong> in a single action group</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use the Danger button <strong>without a confirmation step</strong></li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use arbitrary font weights — only 300, 400, 500, or 600</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't <strong>center-align body text</strong> — Primer explicitly discourages it</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't animate decoratively — all motion must be functional, under 300ms</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use <strong>orange</strong> for general highlighting — it maps to the <code>severe</code> role</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't use <strong>purple</strong> outside the done/merged state context</li>
+          <li><span class="guardrails-icon dont-icon" aria-hidden="true">✕</span>Don't override hover/focus states — Primer's focus ring must remain intact</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── Footer ─── -->
+<footer style="background:var(--bgColor-muted);border-top:var(--section-border);padding:24px;text-align:center;">
+  <div style="max-width:980px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;align-items:center;gap:8px;color:var(--fgColor-muted);font-size:12px;">
+      <svg height="16" viewBox="0 0 16 16" width="16" fill="var(--fgColor-muted)" aria-hidden="true">
+        <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+      </svg>
+      GitHub Primer Design System
+    </div>
+    <p style="font-size:12px;color:var(--fgColor-muted)">
+      Rendered from <code>DESIGN.md</code> · Transitions: 80ms · Base font: 14px · Base unit: 8px
+    </p>
+  </div>
+</footer>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>
+  <span id="toastMessage">Copied to clipboard!</span>
+</div>
+
+<script>
+  // ─── Color Scales Data ───
+  const scales = [
+    { name: 'Blue',   colors: ['#DDF4FF','#B6E3FF','#80CCFF','#54AEFF','#218BFF','#0969DA'] },
+    { name: 'Green',  colors: ['#DAFBE1','#ACEEBB','#6FDD8B','#4AC26B','#2DA44E','#1A7F37'] },
+    { name: 'Red',    colors: ['#FFEBE9','#FFCECB','#FFABA8','#FF8182','#FA4549','#CF222E'] },
+    { name: 'Purple', colors: ['#FBEFFF','#ECD8FF','#D8B9FF','#C297FF','#A475F9','#8250DF'] },
+    { name: 'Yellow', colors: ['#FFF8C5','#FAE17D','#EAC54F','#D4A72C','#BF8700','#9A6700'] },
+    { name: 'Orange', colors: ['#FFF1E5','#FFD8B5','#FFB77C','#FB8F44','#E16F24','#BC4C00'] },
+    { name: 'Pink',   colors: ['#FFEFF7','#FFD3EB','#FFADDA','#FF80C8','#E85AAD','#BF3989'] },
+  ];
+
+  const scaleRows = document.getElementById('scale-rows');
+  scales.forEach(scale => {
+    const row = document.createElement('div');
+    row.className = 'scale-row';
+    row.style.cssText = 'padding:0;margin:0;align-items:center';
+
+    const label = document.createElement('span');
+    label.className = 'scale-label';
+    label.style.cssText = 'font-size:12px;font-weight:600;color:var(--fgColor-muted);min-width:56px;text-align:right;padding-right:10px';
+    label.textContent = scale.name;
+    row.appendChild(label);
+
+    const chips = document.createElement('div');
+    chips.className = 'scale-chips';
+
+    scale.colors.forEach((hex, i) => {
+      const chip = document.createElement('button');
+      chip.className = 'scale-chip';
+      chip.style.background = hex;
+      chip.setAttribute('title', `${scale.name} ${i} — ${hex}`);
+      chip.setAttribute('aria-label', `Copy ${hex} to clipboard`);
+      chip.setAttribute('data-hex', hex);
+      chips.appendChild(chip);
+    });
+
+    row.appendChild(chips);
+    scaleRows.appendChild(row);
+  });
+
+  // ─── Copy to clipboard ───
+  function copyToClipboard(hex) {
+    const clean = hex.replace(/[^#0-9A-Fa-f]/g,'');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(clean).then(() => showToast(clean)).catch(() => fallbackCopy(clean));
+    } else {
+      fallbackCopy(clean);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); showToast(text); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  let toastTimer;
+  function showToast(hex) {
+    const toast = document.getElementById('toast');
+    const msg = document.getElementById('toastMessage');
+    msg.textContent = `Copied ${hex}`;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 2200);
+  }
+
+  // Swatch clicks
+  document.querySelectorAll('.color-swatch, .scale-chip').forEach(el => {
+    el.addEventListener('click', () => {
+      const hex = el.getAttribute('data-hex') || el.style.background;
+      copyToClipboard(hex);
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
+
+  // ─── Theme Toggle ───
+  const themeToggle = document.getElementById('themeToggle');
+  const themeLabel  = document.getElementById('themeLabel');
+  const sunIcon     = document.getElementById('sunIcon');
+  const moonIcon    = document.getElementById('moonIcon');
+  const html        = document.documentElement;
+
+  // Try to restore saved theme
+  const saved = localStorage.getItem('gh-primer-theme');
+  if (saved) {
+    html.setAttribute('data-theme', saved);
+    updateThemeToggle(saved);
+  }
+
+  function updateThemeToggle(theme) {
+    if (theme === 'dark') {
+      themeLabel.textContent = 'Light mode';
+      sunIcon.style.display  = 'none';
+      moonIcon.style.display = 'block';
+    } else {
+      themeLabel.textContent = 'Dark mode';
+      sunIcon.style.display  = 'block';
+      moonIcon.style.display = 'none';
+    }
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme') || 'light';
+    const next = current === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('gh-primer-theme', next);
+    updateThemeToggle(next);
+  });
+</script>
+</body>
+</html>

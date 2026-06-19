@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Raycast — Design System</title>
+<style>
+  /* ─────────────────────────────────────────
+     Font: Inter from Google Fonts embedded as
+     system fallback + web-safe stack.
+     We inline a subset via @font-face data URI
+     trick is heavy, so instead we use the system
+     Inter if installed, otherwise fallback.
+  ───────────────────────────────────────── */
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Design Tokens ── */
+  :root {
+    --font-feature: "calt", "kern", "liga", "ss03";
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-card: 14px;
+    --radius-window: 18px;
+    --radius-pill: 9999px;
+
+    /* Spacing */
+    --space-xxs: 2px;
+    --space-xs:  4px;
+    --space-sm:  8px;
+    --space-md:  12px;
+    --space-lg:  16px;
+    --space-xl:  24px;
+    --space-2xl: 32px;
+    --space-3xl: 48px;
+    --space-section: 96px;
+
+    /* Semantic accents (shared) */
+    --red:     #FF6161;
+    --orange:  #FF8C00;
+    --yellow:  #FFC533;
+    --green:   #59D499;
+    --blue:    #57C1FF;
+    --purple:  #A484FE;
+    --magenta: #FF79C6;
+
+    --red-100:     rgba(255, 97,  97,  0.15);
+    --orange-100:  rgba(255, 140,  0,  0.15);
+    --yellow-100:  rgba(255, 197, 51,  0.15);
+    --green-100:   rgba( 89, 212,153,  0.15);
+    --blue-100:    rgba( 87, 193,255,  0.15);
+    --purple-100:  rgba(164, 132,254,  0.15);
+    --magenta-100: rgba(255, 121,198,  0.15);
+
+    /* Transition */
+    --transition: 160ms cubic-bezier(0.2, 0, 0.13, 1);
+  }
+
+  /* ── Dark Mode Tokens ── */
+  [data-theme="dark"] {
+    --bg:               #111113;
+    --bg-secondary:     #111113;
+    --surface:          #181818;
+    --surface-elevated: #212121;
+    --surface-card:     #282828;
+    --canvas:           #0D0D0D;
+
+    --text:             #F2F2F2;
+    --text-600:         rgba(242,242,242, 0.60);
+    --text-400:         rgba(242,242,242, 0.40);
+    --text-100:         rgba(242,242,242, 0.10);
+    --text-200:         rgba(242,242,242, 0.20);
+
+    --border-200:       rgba(242,242,242, 0.20);
+    --border-100:       rgba(242,242,242, 0.10);
+    --hairline:         #393939;
+
+    --selection:        #FF6363;
+    --selection-100:    rgba(255, 99, 99, 0.10);
+    --loader:           #FF6363;
+
+    --brand:            #FF6060;
+    --ink:              #EDEDED;
+    --body:             #B3B3B3;
+    --muted:            #7A7A7A;
+
+    --cta-bg:           #FFFFFF;
+    --cta-text:         #000000;
+    --cta-pressed:      #E8E8E8;
+
+    --page-bg:          #0D0D0D;
+    --card-border:      #393939;
+  }
+
+  /* ── Light Mode Tokens ── */
+  [data-theme="light"] {
+    --bg:               #EFEFEF;
+    --bg-secondary:     #F2F2F2;
+    --surface:          #F2F2F2;
+    --surface-elevated: #E8E8E8;
+    --surface-card:     #DEDEDE;
+    --canvas:           #F5F5F5;
+
+    --text:             #1F1F1F;
+    --text-600:         rgba(31, 31, 31, 0.60);
+    --text-400:         rgba(31, 31, 31, 0.40);
+    --text-100:         rgba(31, 31, 31, 0.08);
+    --text-200:         rgba(31, 31, 31, 0.15);
+
+    --border-200:       rgba(31, 31, 31, 0.18);
+    --border-100:       rgba(31, 31, 31, 0.10);
+    --hairline:         #DDDDDD;
+
+    --selection:        #FF6363;
+    --selection-100:    rgba(255, 99, 99, 0.10);
+    --loader:           #FF6363;
+
+    --brand:            #FF6060;
+    --ink:              #1F1F1F;
+    --body:             #505050;
+    --muted:            #888888;
+
+    --cta-bg:           #1F1F1F;
+    --cta-text:         #FFFFFF;
+    --cta-pressed:      #2E2E2E;
+
+    --page-bg:          #F0F0F0;
+    --card-border:      #DDDDDD;
+  }
+
+  /* ── Base ── */
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-feature-settings: var(--font-feature);
+    -webkit-font-smoothing: antialiased;
+    background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+    transition: background var(--transition), color var(--transition);
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 var(--space-xl);
+  }
+
+  section {
+    padding: var(--space-section) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  /* ── Section Label ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: var(--space-md);
+  }
+
+  .section-heading {
+    font-size: 40px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: var(--space-sm);
+  }
+
+  .section-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--body);
+    margin-bottom: var(--space-3xl);
+    max-width: 560px;
+  }
+
+  /* ══════════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════════ */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--page-bg);
+    border-bottom: 1px solid var(--hairline);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: background var(--transition);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    gap: var(--space-lg);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { display: block; }
+
+  .logo-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--body);
+    text-decoration: none;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .nav-links a:hover {
+    color: var(--ink);
+    background: var(--text-100);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  /* Theme Toggle */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: var(--text-100);
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: 4px;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+
+  .theme-toggle-pill {
+    width: 32px;
+    height: 28px;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background var(--transition), color var(--transition);
+    color: var(--text-400);
+  }
+
+  .theme-toggle-pill.active {
+    background: var(--surface-elevated);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--border-100);
+  }
+
+  /* ══════════════════════════════════════════
+     HERO
+  ══════════════════════════════════════════ */
+  .hero {
+    padding: var(--space-section) 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .hero-stripe {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+      rgba(255, 87, 87, 0.06) 0%,
+      rgba(161, 19, 26, 0.02) 60%,
+      transparent 100%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    background: rgba(255, 96, 96, 0.10);
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(255, 96, 96, 0.20);
+    margin-bottom: var(--space-xl);
+  }
+
+  .hero-title {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-title span {
+    color: var(--brand);
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--body);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .hero-meta-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--hairline);
+  }
+
+  /* ══════════════════════════════════════════
+     COLOR PALETTE
+  ══════════════════════════════════════════ */
+  .palette-group {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .palette-group-title {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .swatch {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    position: relative;
+  }
+
+  .swatch:hover { transform: translateY(-2px); }
+
+  .swatch:active { transform: translateY(0); }
+
+  .swatch-color {
+    height: 80px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .swatch-copy-hint {
+    font-size: 10px;
+    font-weight: 500;
+    opacity: 0;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: opacity var(--transition);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .swatch:hover .swatch-copy-hint { opacity: 1; }
+
+  .swatch-info {
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface);
+  }
+
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .swatch-hex {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+
+  .swatch-usage {
+    font-size: 11px;
+    color: var(--text-400);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .swatch-copied {
+    position: absolute;
+    inset: 0;
+    background: rgba(89, 212, 153, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #59D499;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: var(--radius-card);
+    transition: opacity 200ms;
+  }
+
+  .swatch-copied.show { opacity: 1; }
+
+  /* Semantic accent grid */
+  .accent-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    .accent-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  .accent-swatch {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    transition: transform var(--transition);
+    position: relative;
+  }
+
+  .accent-swatch:hover { transform: translateY(-2px); }
+
+  .accent-color {
+    height: 64px;
+  }
+
+  .accent-info {
+    padding: var(--space-sm);
+    background: var(--surface);
+  }
+
+  .accent-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .accent-hex {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+
+  .accent-copied {
+    position: absolute;
+    inset: 0;
+    background: rgba(89, 212, 153, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #59D499;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: var(--radius-card);
+    transition: opacity 200ms;
+  }
+
+  .accent-copied.show { opacity: 1; }
+
+  /* ══════════════════════════════════════════
+     TYPOGRAPHY
+  ══════════════════════════════════════════ */
+  .type-table {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .type-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    align-items: baseline;
+    gap: var(--space-xl);
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--border-100);
+  }
+
+  .type-row:last-child { border-bottom: none; }
+
+  .type-meta {
+    flex-shrink: 0;
+  }
+
+  .type-token {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    font-family: "SF Mono", "Fira Code", monospace;
+    margin-bottom: 4px;
+  }
+
+  .type-specs {
+    font-size: 11px;
+    color: var(--text-400);
+    line-height: 1.6;
+  }
+
+  .type-sample {
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  /* ── App type scale ── */
+  .app-type-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg);
+    border-radius: var(--radius-window);
+    border: 1px solid var(--border-200);
+    overflow: hidden;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .app-type-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-lg);
+    border-bottom: 1px solid var(--border-100);
+    gap: var(--space-xl);
+  }
+
+  .app-type-row:last-child { border-bottom: none; }
+
+  .app-type-sample { color: var(--text); }
+  .app-type-detail {
+    font-size: 11px;
+    color: var(--text-400);
+    white-space: nowrap;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+
+  /* ══════════════════════════════════════════
+     COMPONENTS
+  ══════════════════════════════════════════ */
+
+  /* Raycast Window Mock */
+  .window-mock {
+    width: 100%;
+    max-width: 750px;
+    border-radius: var(--radius-window);
+    background: var(--bg);
+    box-shadow: inset 0 0 0 1px var(--border-200);
+    overflow: hidden;
+    margin: 0 auto var(--space-3xl);
+    backdrop-filter: blur(72px);
+    -webkit-backdrop-filter: blur(72px);
+  }
+
+  .window-header {
+    height: 56px;
+    padding: 0 var(--space-lg);
+    border-bottom: 1px solid var(--border-100);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    position: relative;
+  }
+
+  .window-search-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-400);
+    flex-shrink: 0;
+  }
+
+  .window-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text);
+    font-family: inherit;
+    caret-color: var(--loader);
+  }
+
+  .window-search-input::placeholder { color: var(--text-400); }
+
+  .window-loader {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--loader), transparent);
+    animation: loader-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes loader-pulse {
+    0%, 100% { opacity: 0.4; transform: translateX(-50%) scaleX(0.6); }
+    50% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+  }
+
+  .window-list { padding: 4px 8px; }
+
+  .section-header-row {
+    padding: var(--space-sm) var(--space-sm);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-600);
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+  }
+
+  .list-item {
+    height: 40px;
+    padding: 0 var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+
+  .list-item:hover { background: var(--selection-100); }
+
+  .list-item.selected { background: var(--selection-100); }
+
+  .list-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .list-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .list-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-600);
+  }
+
+  .list-accessories {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+  }
+
+  .window-footer {
+    height: 40px;
+    padding: 0 var(--space-md);
+    border-top: 1px solid var(--border-100);
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+
+  .footer-action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-600);
+  }
+
+  .footer-action.active { color: var(--text); }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 var(--space-sm);
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+  }
+
+  .badge-red     { color: var(--red);     background: var(--red-100); }
+  .badge-orange  { color: var(--orange);  background: var(--orange-100); }
+  .badge-yellow  { color: var(--yellow);  background: var(--yellow-100); }
+  .badge-green   { color: var(--green);   background: var(--green-100); }
+  .badge-blue    { color: var(--blue);    background: var(--blue-100); }
+  .badge-purple  { color: var(--purple);  background: var(--purple-100); }
+  .badge-magenta { color: var(--magenta); background: var(--magenta-100); }
+
+  /* Keyboard chips */
+  .kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    min-width: 20px;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--text-100);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+  }
+
+  /* Buttons component section */
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .component-card {
+    background: var(--surface);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: var(--space-xl);
+  }
+
+  .component-card-title {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .component-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    font-family: inherit;
+    font-feature-settings: var(--font-feature);
+    -webkit-font-smoothing: antialiased;
+    cursor: pointer;
+    border: none;
+    transition: background var(--transition), color var(--transition), transform 80ms;
+    white-space: nowrap;
+  }
+
+  .btn:active { transform: scale(0.98); }
+
+  .btn-primary {
+    height: 36px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--cta-bg);
+    color: var(--cta-text);
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .btn-primary:hover { background: var(--cta-pressed); }
+
+  .btn-secondary {
+    height: 36px;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--hairline);
+  }
+
+  .btn-secondary:hover { background: var(--text-100); }
+
+  .btn-tertiary {
+    height: 32px;
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    background: var(--surface-elevated);
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .btn-tertiary:hover { background: var(--surface-card); }
+
+  .btn-icon {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    background: var(--text-100);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .btn-icon:hover { background: var(--text-200); }
+
+  /* Input */
+  .input-demo {
+    width: 100%;
+    height: 36px;
+    padding: 0 var(--space-md);
+    background: var(--surface-elevated);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    caret-color: var(--selection);
+  }
+
+  .input-demo::placeholder { color: var(--text-400); }
+
+  .input-demo:focus {
+    border-color: var(--selection);
+    box-shadow: 0 0 0 3px var(--selection-100);
+  }
+
+  /* Badge showcase */
+  .badge-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  /* Card */
+  .sample-card {
+    background: var(--surface-card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-card);
+    padding: var(--space-xl);
+  }
+
+  .sample-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .sample-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #FF5757, #A1131A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .sample-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sample-card-sub {
+    font-size: 13px;
+    color: var(--body);
+  }
+
+  .sample-card-body {
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+  }
+
+  .sample-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  /* ══════════════════════════════════════════
+     SPACING SCALE
+  ══════════════════════════════════════════ */
+  .spacing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
+  .spacing-label {
+    width: 80px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: "SF Mono", "Fira Code", monospace;
+    flex-shrink: 0;
+  }
+
+  .spacing-bar-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .spacing-bar {
+    height: 20px;
+    background: linear-gradient(90deg, var(--brand), rgba(255,96,96,0.4));
+    border-radius: var(--radius-sm);
+    min-width: 2px;
+    position: relative;
+  }
+
+  .spacing-value {
+    font-size: 11px;
+    color: var(--text-400);
+    font-family: "SF Mono", "Fira Code", monospace;
+    white-space: nowrap;
+  }
+
+  /* ══════════════════════════════════════════
+     TONE & GUARDRAILS
+  ══════════════════════════════════════════ */
+  .tone-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  @media (max-width: 640px) {
+    .tone-grid { grid-template-columns: 1fr; }
+  }
+
+  .tone-card {
+    background: var(--surface);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+  }
+
+  .tone-card-header {
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    border-bottom: 1px solid var(--card-border);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .tone-card.do .tone-card-header   { color: var(--green); background: var(--green-100); }
+  .tone-card.dont .tone-card-header { color: var(--red);   background: var(--red-100);   }
+
+  .tone-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tone-card.do   .tone-dot { background: var(--green); }
+  .tone-card.dont .tone-dot { background: var(--red); }
+
+  .tone-list {
+    list-style: none;
+    padding: var(--space-lg) var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .tone-item {
+    display: flex;
+    gap: var(--space-md);
+    font-size: 14px;
+    color: var(--body);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+
+  .tone-item-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .tone-card.do   .tone-item-icon { color: var(--green); }
+  .tone-card.dont .tone-item-icon { color: var(--red); }
+
+  /* ══════════════════════════════════════════
+     BORDER RADIUS SECTION
+  ══════════════════════════════════════════ */
+  .radius-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xl);
+    align-items: flex-end;
+  }
+
+  .radius-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .radius-box {
+    background: var(--surface-elevated);
+    border: 1px solid var(--hairline);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .radius-token {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+
+  .radius-val {
+    font-size: 10px;
+    color: var(--text-400);
+    font-family: "SF Mono", "Fira Code", monospace;
+  }
+
+  /* ══════════════════════════════════════════
+     UTILITIES
+  ══════════════════════════════════════════ */
+  .divider {
+    height: 1px;
+    background: var(--hairline);
+    margin: var(--space-3xl) 0;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    height: 24px;
+    padding: 0 var(--space-sm);
+    background: var(--text-100);
+    border-radius: var(--radius-sm);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-600);
+    letter-spacing: 0.04em;
+  }
+
+  /* Toast notification for copy */
+  #copy-toast {
+    position: fixed;
+    bottom: var(--space-xl);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface-elevated);
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-pill);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms, transform 200ms;
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  #copy-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Monospace code */
+  code {
+    font-family: "SF Mono", "Fira Code", ui-monospace, monospace;
+    font-size: 0.88em;
+    background: var(--text-100);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--body);
+  }
+
+  /* Footer */
+  .page-footer {
+    padding: var(--space-3xl) 0;
+    border-top: 1px solid var(--hairline);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .page-footer-brand {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .page-footer-meta {
+    font-size: 11px;
+    color: var(--text-400);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Copy Toast ── -->
+<div id="copy-toast">
+  <span style="color:var(--green)">✓</span>
+  <span id="copy-toast-text">Copied!</span>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<header>
+  <div class="container">
+    <nav class="nav">
+      <a class="nav-logo" href="#">
+        <div class="logo-mark">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 3L8 13L10 9L14 13" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="logo-name">Raycast</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#colors">Colors</a></li>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#spacing">Spacing</a></li>
+        <li><a href="#tone">Tone</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <div class="theme-toggle-pill active" id="pillDark">🌙</div>
+          <div class="theme-toggle-pill" id="pillLight">☀️</div>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-stripe"></div>
+  <div class="container hero-content">
+    <div class="hero-eyebrow">Design System</div>
+    <h1 class="hero-title">Fast surfaces.<br><span>Rare color.</span></h1>
+    <p class="hero-desc">Raycast's design language — dark-first, glass-morphic, keyboard-first. Every interaction feels instantaneous. Every surface earns its existence.</p>
+    <div class="hero-meta">
+      <span>Inter · ss03</span>
+      <div class="hero-meta-dot"></div>
+      <span>4px base unit</span>
+      <div class="hero-meta-dot"></div>
+      <span>750 × 475 window</span>
+      <div class="hero-meta-dot"></div>
+      <span>Zero drop shadows</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     COLORS
+══════════════════════════════════════════ -->
+<section id="colors">
+  <div class="container">
+    <div class="section-label">01 — Colors</div>
+    <h2 class="section-heading">Color Palette</h2>
+    <p class="section-sub">A dark-first system with a strict single-accent rule. Saturated color is a statement — use it once, make it count.</p>
+
+    <!-- Marketing Site -->
+    <div class="palette-group">
+      <div class="palette-group-title">Marketing Site — ray.so &amp; raycast.com</div>
+      <div class="palette-grid" id="marketingPalette"></div>
+    </div>
+
+    <!-- App Dark -->
+    <div class="palette-group">
+      <div class="palette-group-title">App — Dark Mode</div>
+      <div class="palette-grid" id="appDarkPalette"></div>
+    </div>
+
+    <!-- App Light -->
+    <div class="palette-group">
+      <div class="palette-group-title">App — Light Mode</div>
+      <div class="palette-grid" id="appLightPalette"></div>
+    </div>
+
+    <!-- Semantic Accents -->
+    <div class="palette-group">
+      <div class="palette-group-title">Semantic Accents — App &amp; Marketing</div>
+      <div class="accent-grid" id="accentGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TYPOGRAPHY
+══════════════════════════════════════════ -->
+<section id="typography">
+  <div class="container">
+    <div class="section-label">02 — Typography</div>
+    <h2 class="section-heading">Type Scale</h2>
+    <p class="section-sub">Inter with <code>ss03</code> on web. SF Pro (system-ui) in native contexts. Weight discipline: 400–500 inside the app, 600+ for marketing display only.</p>
+
+    <div class="palette-group-title" style="margin-bottom:var(--space-lg);">Marketing Site — Inter</div>
+    <div class="type-table">
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">display-xl</span>
+          <div class="type-specs">64px · 600<br>Hero headline</div>
+        </div>
+        <div class="type-sample" style="font-size:64px;font-weight:600;letter-spacing:-0.02em;line-height:1;">Launch faster.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">display-lg</span>
+          <div class="type-specs">56px · 500<br>Feature sections</div>
+        </div>
+        <div class="type-sample" style="font-size:56px;font-weight:500;letter-spacing:-0.02em;line-height:1;">Productivity.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">display-md</span>
+          <div class="type-specs">40px · 500<br>Sub-section</div>
+        </div>
+        <div class="type-sample" style="font-size:40px;font-weight:500;letter-spacing:-0.01em;line-height:1.1;">Built for speed.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">heading</span>
+          <div class="type-specs">24px · 600<br>Card titles</div>
+        </div>
+        <div class="type-sample" style="font-size:24px;font-weight:600;line-height:1.2;">Clipboard History</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">body-lg</span>
+          <div class="type-specs">18px · 400<br>Feature desc.</div>
+        </div>
+        <div class="type-sample" style="font-size:18px;font-weight:400;line-height:1.6;color:var(--body);">Every command, every action, instantly accessible from a single keystroke.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">body-md</span>
+          <div class="type-specs">16px · 400<br>Default copy</div>
+        </div>
+        <div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.6;color:var(--body);">Raycast is a blazingly fast, totally extendable launcher. It lets you complete tasks, calculate, share common links, and much more.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">body-sm</span>
+          <div class="type-specs">14px · 400<br>Secondary desc.</div>
+        </div>
+        <div class="type-sample" style="font-size:14px;font-weight:400;line-height:1.6;color:var(--body);">Access thousands of one-click actions built by developers and the Raycast team.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">button-md</span>
+          <div class="type-specs">14px · 500<br>Button labels</div>
+        </div>
+        <div class="type-sample" style="font-size:14px;font-weight:500;line-height:1.4;">Download for Mac — It's free</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">label</span>
+          <div class="type-specs">12px · 500<br>Tags, overlines</div>
+        </div>
+        <div class="type-sample" style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;line-height:1.4;">Extensions · Pro · New</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">xxs</span>
+          <div class="type-specs">11px · 400<br>Legal, footnotes</div>
+        </div>
+        <div class="type-sample" style="font-size:11px;font-weight:400;line-height:1.5;color:var(--muted);">Available for macOS 12 Monterey or later. Requires macOS with Apple Silicon or Intel processor.</div>
+      </div>
+    </div>
+
+    <div class="palette-group-title" style="margin-bottom:var(--space-lg);">App — System UI / SF Pro</div>
+    <div class="app-type-grid">
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:16px;font-weight:400;">Search commands and applications…</span>
+        <span class="app-type-detail">search-input · 16px / 400</span>
+      </div>
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:14px;font-weight:400;">Open Raycast Settings</span>
+        <span class="app-type-detail">list-title · 14px / 400</span>
+      </div>
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:13px;font-weight:400;color:var(--text-600);">System · Preferences</span>
+        <span class="app-type-detail">list-subtitle · 13px / 400</span>
+      </div>
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:12px;font-weight:500;color:var(--text-600);letter-spacing:0.1px;text-transform:uppercase;">RECENTLY USED</span>
+        <span class="app-type-detail">section-header · 12px / 500</span>
+      </div>
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:12px;font-weight:400;">⌘K</span>
+        <span class="app-type-detail">keyboard-key · 12px / 400</span>
+      </div>
+      <div class="app-type-row">
+        <span class="app-type-sample" style="font-size:12px;font-weight:600;color:var(--text-600);">Open • Copy URL • Share</span>
+        <span class="app-type-detail">footer-label · 12px / 600</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     COMPONENTS
+══════════════════════════════════════════ -->
+<section id="components">
+  <div class="container">
+    <div class="section-label">03 — Components</div>
+    <h2 class="section-heading">Components</h2>
+    <p class="section-sub">Every component obeys the surface ladder — no shadows, no decorative gradients. Elevation lives in color steps, not depth.</p>
+
+    <!-- Window Mock -->
+    <div class="palette-group-title">Raycast Window — 750 × 475 px</div>
+    <div class="window-mock" role="application" aria-label="Raycast window preview">
+      <div class="window-header">
+        <svg class="window-search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="8.5" cy="8.5" r="5.25"/>
+          <path d="M12.5 12.5L16.5 16.5" stroke-linecap="round"/>
+        </svg>
+        <input class="window-search-input" type="text" placeholder="Search commands and applications…" value="cal" readonly />
+        <div class="list-accessories">
+          <span class="kbd">⌘</span>
+          <span class="kbd">K</span>
+        </div>
+        <div class="window-loader"></div>
+      </div>
+
+      <div class="window-list">
+        <div class="section-header-row">Recently Used</div>
+        <div class="list-item selected">
+          <div class="list-icon" style="background:linear-gradient(135deg,#FF5757,#A1131A);">📅</div>
+          <span class="list-title">Calendar — Week View</span>
+          <span class="list-subtitle">Fantastical</span>
+          <div class="list-accessories">
+            <span class="badge badge-green">Today</span>
+            <span class="kbd">↵</span>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon" style="background:var(--blue-100);">🧮</div>
+          <span class="list-title">Calculator</span>
+          <span class="list-subtitle">Built-in</span>
+          <div class="list-accessories">
+            <span class="kbd">⌘</span><span class="kbd">2</span>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon" style="background:var(--purple-100);">📋</div>
+          <span class="list-title">Clipboard History</span>
+          <span class="list-subtitle">Raycast</span>
+          <div class="list-accessories">
+            <span class="badge badge-purple">Pro</span>
+            <span class="kbd">⌘</span><span class="kbd">3</span>
+          </div>
+        </div>
+
+        <div class="section-header-row">Extensions</div>
+        <div class="list-item">
+          <div class="list-icon" style="background:var(--green-100);">⚡</div>
+          <span class="list-title">Codebase Search</span>
+          <span class="list-subtitle">GitHub · dj/project</span>
+          <div class="list-accessories">
+            <span class="badge badge-blue">New</span>
+          </div>
+        </div>
+        <div class="list-item">
+          <div class="list-icon" style="background:var(--yellow-100);">🎨</div>
+          <span class="list-title">Color Picker</span>
+          <span class="list-subtitle">Design Tools</span>
+          <div class="list-accessories">
+            <span class="badge badge-orange">⚠ Update</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-footer">
+        <div class="footer-actions">
+          <div class="footer-action active">
+            <span class="kbd">↵</span>
+            <span>Open</span>
+          </div>
+          <div class="footer-action">
+            <span class="kbd">⌘</span><span class="kbd">↵</span>
+            <span>Open with…</span>
+          </div>
+          <div class="footer-action">
+            <span class="kbd">⌘</span><span class="kbd">K</span>
+            <span>Actions</span>
+          </div>
+        </div>
+        <div class="footer-action">
+          <span class="kbd">esc</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Button variants -->
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="component-card-title">Buttons</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-lg);">
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Primary</div>
+            <div class="component-row">
+              <button class="btn btn-primary">Download for Mac</button>
+              <button class="btn btn-primary" style="background:var(--cta-pressed);">Pressed</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Secondary</div>
+            <div class="component-row">
+              <button class="btn btn-secondary">Browse Extensions</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Tertiary</div>
+            <div class="component-row">
+              <button class="btn btn-tertiary">View All</button>
+              <button class="btn btn-tertiary">Settings</button>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Icon Button (24 × 24)</div>
+            <div class="component-row">
+              <button class="btn btn-icon" title="Copy">⌘</button>
+              <button class="btn btn-icon" title="Settings">⚙</button>
+              <button class="btn btn-icon" title="Search">⌕</button>
+              <button class="btn btn-icon" title="Add">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card-title">Search Field</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-lg);">
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Default (app-style)</div>
+            <div style="background:var(--bg);border-radius:var(--radius-md);padding:0 var(--space-md);height:40px;display:flex;align-items:center;gap:var(--space-sm);box-shadow:inset 0 0 0 1px var(--border-200);">
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="var(--text-400)" stroke-width="1.5"><circle cx="8.5" cy="8.5" r="5.25"/><path d="M12.5 12.5L16.5 16.5" stroke-linecap="round"/></svg>
+              <span style="font-size:14px;color:var(--text-400);">Search…</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Standard Input</div>
+            <input class="input-demo" type="text" placeholder="Enter a value…" />
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Focused State</div>
+            <input class="input-demo" type="text" placeholder="Focused input…" style="border-color:var(--selection);box-shadow:0 0 0 3px var(--selection-100);" />
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card-title">Badge / Tag Accessories</div>
+        <div class="badge-showcase">
+          <span class="badge badge-red">Error</span>
+          <span class="badge badge-orange">Warning</span>
+          <span class="badge badge-yellow">Pro</span>
+          <span class="badge badge-green">Online</span>
+          <span class="badge badge-blue">Info</span>
+          <span class="badge badge-purple">Beta</span>
+          <span class="badge badge-magenta">New</span>
+        </div>
+        <div style="margin-top:var(--space-lg);">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:var(--space-sm);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;">Keyboard Shortcut Chips</div>
+          <div style="display:flex;gap:var(--space-xs);flex-wrap:wrap;align-items:center;">
+            <span class="kbd">⌘</span>
+            <span class="kbd">K</span>
+            <span style="color:var(--text-400);font-size:12px;margin:0 4px;">or</span>
+            <span class="kbd">⌥</span>
+            <span class="kbd">Space</span>
+            <span style="color:var(--text-400);font-size:12px;margin:0 4px;">or</span>
+            <span class="kbd">↵</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card-title">Feature Card</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="sample-card-icon">⚡</div>
+            <div>
+              <div class="sample-card-title">Quicklinks</div>
+              <div class="sample-card-sub">Access any URL instantly</div>
+            </div>
+          </div>
+          <p class="sample-card-body">Create custom shortcuts to websites, deeplinks, or any URL pattern. Accessible from anywhere on your Mac in under a second.</p>
+          <div class="sample-card-footer">
+            <span class="badge badge-green">Free</span>
+            <button class="btn btn-secondary" style="height:28px;font-size:13px;padding:4px 12px;">Learn more →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Border Radius -->
+    <div class="palette-group-title" style="margin-bottom:var(--space-xl);">Border Radius Scale</div>
+    <div class="radius-grid" id="radiusGrid"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SPACING
+══════════════════════════════════════════ -->
+<section id="spacing">
+  <div class="container">
+    <div class="section-label">04 — Spacing</div>
+    <h2 class="section-heading">Spacing Scale</h2>
+    <p class="section-sub">Base unit is 4 px. Every gap, padding, and margin derives from this grid. Row heights (40 px, 56 px) are keyboard-navigation-optimized first.</p>
+
+    <div class="spacing-grid" id="spacingGrid"></div>
+
+    <div class="divider"></div>
+
+    <div class="palette-group-title">App Layout Measurements</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--space-lg);margin-top:var(--space-lg);">
+      <div class="component-card" style="padding:var(--space-lg);">
+        <div style="font-size:32px;font-weight:600;color:var(--ink);margin-bottom:4px;">750 × 475</div>
+        <div style="font-size:13px;color:var(--body);">Window size (px)</div>
+      </div>
+      <div class="component-card" style="padding:var(--space-lg);">
+        <div style="font-size:32px;font-weight:600;color:var(--ink);margin-bottom:4px;">56 px</div>
+        <div style="font-size:13px;color:var(--body);">Header bar height</div>
+      </div>
+      <div class="component-card" style="padding:var(--space-lg);">
+        <div style="font-size:32px;font-weight:600;color:var(--ink);margin-bottom:4px;">40 px</div>
+        <div style="font-size:13px;color:var(--body);">List item height · Footer bar</div>
+      </div>
+      <div class="component-card" style="padding:var(--space-lg);">
+        <div style="font-size:32px;font-weight:600;color:var(--ink);margin-bottom:4px;">18 px</div>
+        <div style="font-size:13px;color:var(--body);">Window corner radius</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TONE & GUARDRAILS
+══════════════════════════════════════════ -->
+<section id="tone">
+  <div class="container">
+    <div class="section-label">05 — Tone &amp; Guardrails</div>
+    <h2 class="section-heading">Do's &amp; Don'ts</h2>
+    <p class="section-sub">These rules define what Raycast is and what it isn't. Follow them to keep every screen coherent.</p>
+
+    <div class="tone-grid">
+      <div class="tone-card do">
+        <div class="tone-card-header">
+          <div class="tone-dot"></div>
+          Do
+        </div>
+        <ul class="tone-list">
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Use the surface ladder (background → panel → elevated) for depth.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Keep saturated accent colors on data and status — never on navigation chrome.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Restrict gradients to the window background and one hero stripe per marketing page.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Use Inter with <code>ss03</code> on web; SF Pro (system-ui) in native contexts.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Maintain 40 px row heights for keyboard-navigable lists.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Apply <code>selection</code> color to both the loader bar and selected-row highlight.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Use <code>inset 0 0 0 1px</code> border-shadow on floating containers.</li>
+          <li class="tone-item"><span class="tone-item-icon">✓</span> Let <code>backdrop-filter: blur(72px)</code> carry the frosted-glass effect.</li>
+        </ul>
+      </div>
+
+      <div class="tone-card dont">
+        <div class="tone-card-header">
+          <div class="tone-dot"></div>
+          Don't
+        </div>
+        <ul class="tone-list">
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Add drop shadows to cards, panels, or popups — elevation is color, not shadow.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Use the red/orange brand gradient on interactive elements like buttons or tabs.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Mix multiple accent hues on a single screen's chrome elements.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Use font weights above 600 inside the app window.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Add decorative corners below 6 px or above 18 px except for pill buttons.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Add hover backgrounds to list items unless keyboard-focused or selected.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Use more than one gradient direction per view — window backgrounds are top-to-bottom only.</li>
+          <li class="tone-item"><span class="tone-item-icon">✕</span> Render Raycast-style UI inside a scrollable, multi-column layout.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="page-footer">
+      <div class="page-footer-brand">Raycast Design System — Brand Guidelines</div>
+      <div class="page-footer-meta">Fast surfaces · Rare color · Zero shadow · Always keyboard-first</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Copy toast -->
+<div id="copy-toast">
+  <span style="color:var(--green)">✓</span>
+  <span id="copy-toast-msg">Copied!</span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Theme toggle ── */
+  const html = document.documentElement;
+  const pillDark = document.getElementById('pillDark');
+  const pillLight = document.getElementById('pillLight');
+  const themeToggle = document.getElementById('themeToggle');
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    pillDark.classList.toggle('active', !isDark);
+    pillLight.classList.toggle('active', isDark);
+  });
+
+  /* ── Copy-to-clipboard helper ── */
+  const toast = document.getElementById('copy-toast');
+  const toastMsg = document.getElementById('copy-toast-msg');
+  let toastTimer;
+
+  function showToast(text) {
+    if (toastMsg) toastMsg.textContent = text;
+    toast.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('visible'), 1800);
+  }
+
+  function copyHex(hex, el) {
+    navigator.clipboard.writeText(hex).then(() => {
+      showToast(hex + ' copied');
+      const copiedEl = el.querySelector('.swatch-copied, .accent-copied');
+      if (copiedEl) {
+        copiedEl.classList.add('show');
+        setTimeout(() => copiedEl.classList.remove('show'), 1200);
+      }
+    });
+  }
+
+  /* ── Color Data ── */
+  const marketingColors = [
+    { name: 'canvas',           hex: '#0D0D0D', usage: 'Page background' },
+    { name: 'surface',          hex: '#181818', usage: 'Cards, panels' },
+    { name: 'surface-elevated', hex: '#212121', usage: 'Raised card surfaces' },
+    { name: 'surface-card',     hex: '#282828', usage: 'Feature cards' },
+    { name: 'brand',            hex: '#FF6060', usage: 'Primary CTA, logo mark' },
+    { name: 'hero-stripe-start',hex: '#FF5757', usage: 'Hero gradient origin' },
+    { name: 'hero-stripe-end',  hex: '#A1131A', usage: 'Hero gradient end' },
+    { name: 'ink',              hex: '#EDEDED', usage: 'Headings, high-contrast' },
+    { name: 'body',             hex: '#B3B3B3', usage: 'Body copy' },
+    { name: 'muted',            hex: '#7A7A7A', usage: 'Secondary labels' },
+    { name: 'ash',              hex: '#6D6D6D', usage: 'Disabled, de-emphasized' },
+    { name: 'hairline',         hex: '#393939', usage: 'Dividers, card borders' },
+    { name: 'cta-bg',           hex: '#FFFFFF', usage: 'Primary download button' },
+    { name: 'on-primary',       hex: '#000000', usage: 'Text on white CTA' },
+    { name: 'cta-pressed',      hex: '#E8E8E8', usage: 'Button pressed state' },
+  ];
+
+  const appDarkColors = [
+    { name: 'background',           hex: '#111113', usage: 'Primary window bg (40% opacity over blur)' },
+    { name: 'backgroundSecondary',  hex: '#111113', usage: 'Gradient endpoint (bottom 70%)' },
+    { name: 'text',                 hex: '#F2F2F2', usage: 'Primary text' },
+    { name: 'selection',            hex: '#FF6363', usage: 'Selected row, caret color' },
+    { name: 'loader',               hex: '#FF6363', usage: 'Animated progress bar' },
+    { name: '--text-600',           hex: 'rgba(242,242,242,0.60)', display: '#F2F2F2 @60%', usage: 'Section headers, subtle labels' },
+    { name: '--text-400',           hex: 'rgba(242,242,242,0.40)', display: '#F2F2F2 @40%', usage: 'Placeholder text' },
+    { name: '--text-100',           hex: 'rgba(242,242,242,0.10)', display: '#F2F2F2 @10%', usage: 'Icon button backgrounds' },
+    { name: '--border-200',         hex: 'rgba(242,242,242,0.20)', display: '#F2F2F2 @20%', usage: 'Window inset border' },
+    { name: '--selection-100',      hex: 'rgba(255,99,99,0.10)',   display: '#FF6363 @10%', usage: 'Selected row background' },
+  ];
+
+  const appLightColors = [
+    { name: 'background',    hex: '#EFEFEF', usage: 'App window background' },
+    { name: 'panel',         hex: '#F2F2F2', usage: 'Panel surfaces' },
+    { name: 'text-primary',  hex: '#1F1F1F', usage: 'Primary text' },
+    { name: 'text-secondary',hex: '#505050', usage: 'Secondary text' },
+    { name: 'border',        hex: '#DDDDDD', usage: 'Dividers' },
+  ];
+
+  const accents = [
+    { name: 'red',     hex: '#FF6161', usage: 'Error badges, destructive' },
+    { name: 'orange',  hex: '#FF8C00', usage: 'Warning badges' },
+    { name: 'yellow',  hex: '#FFC533', usage: 'Pro tier highlights' },
+    { name: 'green',   hex: '#59D499', usage: 'Success, online status' },
+    { name: 'blue',    hex: '#57C1FF', usage: 'Info, link tint' },
+    { name: 'purple',  hex: '#A484FE', usage: 'Pro plan accent' },
+    { name: 'magenta', hex: '#FF79C6', usage: 'Decorative, rare' },
+  ];
+
+  /* ── Luminance helper (for swatch text contrast) ── */
+  function hexLuma(hex) {
+    const h = hex.replace('#', '');
+    if (h.length !== 6) return 100;
+    const r = parseInt(h.slice(0,2),16);
+    const g = parseInt(h.slice(2,4),16);
+    const b = parseInt(h.slice(4,6),16);
+    return 0.299*r + 0.587*g + 0.114*b;
+  }
+
+  /* ── Render swatches ── */
+  function renderPalette(containerId, colors) {
+    const grid = document.getElementById(containerId);
+    if (!grid) return;
+    colors.forEach(c => {
+      const hexVal = c.hex.startsWith('#') ? c.hex : (c.display || c.hex);
+      const luma = c.hex.startsWith('#') ? hexLuma(c.hex) : 80;
+      const hintColor = luma < 128 ? 'rgba(255,255,255,0.85)' : 'rgba(0,0,0,0.65)';
+
+      const el = document.createElement('div');
+      el.className = 'swatch';
+      el.setAttribute('title', 'Click to copy ' + (c.display || c.hex));
+      el.innerHTML = `
+        <div class="swatch-color" style="background:${c.hex};">
+          <span class="swatch-copy-hint" style="color:${hintColor};background:${luma < 128 ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.25)'};">Click to copy</span>
+        </div>
+        <div class="swatch-info">
+          <div class="swatch-name">${c.name}</div>
+          <div class="swatch-hex">${c.display || c.hex}</div>
+          <div class="swatch-usage">${c.usage}</div>
+        </div>
+        <div class="swatch-copied">✓ Copied</div>
+      `;
+      el.addEventListener('click', () => copyHex(c.display || c.hex, el));
+      grid.appendChild(el);
+    });
+  }
+
+  function renderAccents(containerId, colors) {
+    const grid = document.getElementById(containerId);
+    if (!grid) return;
+    colors.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'accent-swatch';
+      el.setAttribute('title', 'Click to copy ' + c.hex);
+      el.innerHTML = `
+        <div class="accent-color" style="background:${c.hex};"></div>
+        <div class="accent-info">
+          <div class="accent-name">${c.name}</div>
+          <div class="accent-hex">${c.hex}</div>
+        </div>
+        <div class="accent-copied">✓</div>
+      `;
+      el.addEventListener('click', () => copyHex(c.hex, el));
+      grid.appendChild(el);
+    });
+  }
+
+  renderPalette('marketingPalette', marketingColors);
+  renderPalette('appDarkPalette',   appDarkColors);
+  renderPalette('appLightPalette',  appLightColors);
+  renderAccents('accentGrid',       accents);
+
+  /* ── Spacing scale ── */
+  const spacingTokens = [
+    { token: 'xxs',     value: 2,  label: '2 px',  usage: 'Hairline gaps' },
+    { token: 'xs',      value: 4,  label: '4 px',  usage: 'Icon-to-label gap' },
+    { token: 'sm',      value: 8,  label: '8 px',  usage: 'Intra-component' },
+    { token: 'md',      value: 12, label: '12 px', usage: 'Standard gap' },
+    { token: 'lg',      value: 16, label: '16 px', usage: 'Card inner padding' },
+    { token: 'xl',      value: 24, label: '24 px', usage: 'Feature card padding' },
+    { token: '2xl',     value: 32, label: '32 px', usage: 'Section spacing' },
+    { token: '3xl',     value: 48, label: '48 px', usage: 'Large layout gaps' },
+    { token: 'section', value: 96, label: '96 px', usage: 'Page section rhythm' },
+  ];
+
+  const spacingGrid = document.getElementById('spacingGrid');
+  if (spacingGrid) {
+    spacingTokens.forEach(s => {
+      const maxVal = 96;
+      const pct = Math.max(2, (s.value / maxVal) * 100);
+      const row = document.createElement('div');
+      row.className = 'spacing-row';
+      row.innerHTML = `
+        <div class="spacing-label">${s.token}</div>
+        <div class="spacing-bar-wrap">
+          <div class="spacing-bar" style="width:${pct}%;"></div>
+          <span class="spacing-value">${s.label} — ${s.usage}</span>
+        </div>
+      `;
+      spacingGrid.appendChild(row);
+    });
+  }
+
+  /* ── Border radius scale ── */
+  const radiusTokens = [
+    { token: 'sm',          value: '6px',    px: 6 },
+    { token: 'md',          value: '8px',    px: 8 },
+    { token: 'lg',          value: '10px',   px: 10 },
+    { token: 'icon-btn',    value: '6–8px',  px: 7 },
+    { token: 'kbd',         value: '6px',    px: 6 },
+    { token: 'card',        value: '12–16px',px: 14 },
+    { token: 'window',      value: '18px',   px: 18 },
+    { token: 'pill',        value: '9999px', px: 32 },
+  ];
+
+  const radiusGrid = document.getElementById('radiusGrid');
+  if (radiusGrid) {
+    radiusTokens.forEach(r => {
+      const item = document.createElement('div');
+      item.className = 'radius-item';
+      item.innerHTML = `
+        <div class="radius-box" style="border-radius:${r.px}px;"></div>
+        <span class="radius-token">${r.token}</span>
+        <span class="radius-val">${r.value}</span>
+      `;
+      radiusGrid.appendChild(item);
+    });
+  }
+})();
+</script>
+</body>
+</html>

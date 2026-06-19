@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notion — Design System</title>
+<style>
+  /* ─── Google Fonts: Inter ─── */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  /* ─── CSS Custom Properties ─── */
+  :root {
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace;
+
+    /* Light mode */
+    --bg-primary: #FFFFFF;
+    --bg-sidebar: #F7F6F3;
+    --bg-hover: #EFEFEF;
+    --bg-selected: #E8E8E5;
+    --bg-callout: #F1F1EF;
+    --border-default: #E9E9E7;
+    --border-input: #DFDCD9;
+
+    --text-primary: #37352F;
+    --text-secondary: #787774;
+    --text-tertiary: #9B9A97;
+    --text-link: #337EA9;
+
+    --cta: #097FE8;
+    --cta-hover: #0069C6;
+    --cta-pressed: #005BAB;
+    --danger: #D44C47;
+    --focus-ring: rgba(9, 127, 232, 0.35);
+
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05);
+    --shadow-xl: 0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04);
+    --shadow-focus: 0 0 0 2px rgba(9,127,232,0.35);
+
+    --page-bg: #F7F6F3;
+    --card-bg: #FFFFFF;
+    --section-border: #E9E9E7;
+    --toggle-bg: rgba(55,53,47,0.08);
+    --toggle-icon: #37352F;
+  }
+
+  [data-theme="dark"] {
+    --bg-primary: #191919;
+    --bg-sidebar: #2F3438;
+    --bg-hover: #3F4448;
+    --bg-selected: #373C3F;
+    --bg-callout: #252525;
+    --border-default: #373737;
+    --border-input: #4A4A4A;
+
+    --text-primary: #D4D4D4;
+    --text-secondary: #9B9B9B;
+    --text-tertiary: #7F7F7F;
+    --text-link: #2E7CD1;
+
+    --cta: #097FE8;
+    --cta-hover: #0069C6;
+    --cta-pressed: #005BAB;
+    --danger: #CD4945;
+    --focus-ring: rgba(9, 127, 232, 0.35);
+
+    --shadow-xs: 0 1px 2px rgba(0,0,0,0.18);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.18);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.20), 0 2px 4px rgba(0,0,0,0.14);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.22), 0 4px 6px rgba(0,0,0,0.14);
+    --shadow-xl: 0 20px 25px rgba(0,0,0,0.28), 0 10px 10px rgba(0,0,0,0.11);
+    --shadow-focus: 0 0 0 2px rgba(9,127,232,0.35);
+
+    --page-bg: #191919;
+    --card-bg: #2F2F2F;
+    --section-border: #373737;
+    --toggle-bg: rgba(255,255,255,0.08);
+    --toggle-icon: #D4D4D4;
+  }
+
+  /* ─── Reset & Base ─── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--page-bg);
+    color: var(--text-primary);
+    line-height: 1.5;
+    font-size: 16px;
+    font-weight: 400;
+    transition: background 200ms ease, color 200ms ease;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Layout ─── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section + .section {
+    padding-top: 48px;
+    border-top: 1px solid var(--section-border);
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* ─── Header ─── */
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-default);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-xs);
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-logo {
+    width: 28px;
+    height: 28px;
+    background: var(--text-primary);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 200ms ease;
+  }
+
+  .header-logo svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--bg-primary);
+    transition: fill 200ms ease;
+  }
+
+  .header-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .header-tagline {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ─── Dark Mode Toggle ─── */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--toggle-bg);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: background 120ms ease, color 120ms ease;
+  }
+
+  .theme-toggle:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  .theme-toggle svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--section-border);
+    margin-bottom: 48px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+  }
+
+  .hero-title {
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 560px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  /* ─── Color Palette ─── */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .color-swatch {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-default);
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    position: relative;
+  }
+
+  .color-swatch:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .color-swatch:hover .copy-hint {
+    opacity: 1;
+  }
+
+  .swatch-block {
+    height: 64px;
+    width: 100%;
+    position: relative;
+  }
+
+  .copy-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.18);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  .swatch-info {
+    padding: 10px 12px;
+    background: var(--card-bg);
+    transition: background 200ms ease;
+  }
+
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .swatch-hex {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+  }
+
+  .swatch-usage {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .color-group-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin: 24px 0 12px;
+    letter-spacing: 0.02em;
+  }
+
+  .color-group-title:first-child {
+    margin-top: 0;
+  }
+
+  /* Content color row */
+  .content-colors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .content-color-chip {
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    position: relative;
+    border: 1px solid transparent;
+  }
+
+  .content-color-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .content-color-chip:hover .copy-hint {
+    opacity: 1;
+    border-radius: 8px;
+  }
+
+  .chip-name {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .chip-values {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  /* Copied toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 200ms ease;
+    z-index: 9999;
+    white-space: nowrap;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ─── Typography ─── */
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .type-row:last-child {
+    border-bottom: none;
+  }
+
+  .type-meta {
+    flex-shrink: 0;
+    width: 160px;
+  }
+
+  .type-token {
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--cta);
+    margin-bottom: 4px;
+  }
+
+  .type-spec {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+
+  .type-preview {
+    flex: 1;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+
+  .font-weight-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .weight-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 20px;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .weight-demo {
+    font-size: 28px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .weight-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+  }
+
+  .weight-num {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 2px;
+  }
+
+  .font-family-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .font-family-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 24px 20px;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .font-family-sample {
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .font-family-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    font-family: var(--font-sans);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ─── Components ─── */
+  .component-group {
+    margin-bottom: 40px;
+  }
+
+  .component-group-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .component-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    min-height: 32px;
+    padding: 6px 12px;
+    transition: background 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+
+  .btn-primary {
+    background: var(--cta);
+    color: #FFFFFF;
+  }
+
+  .btn-primary:hover {
+    background: var(--cta-hover);
+  }
+
+  .btn-primary:active {
+    background: var(--cta-pressed);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid rgba(55,53,47,0.16);
+  }
+
+  [data-theme="dark"] .btn-secondary {
+    border-color: rgba(255,255,255,0.14);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(55,53,47,0.08);
+  }
+
+  [data-theme="dark"] .btn-secondary:hover {
+    background: rgba(255,255,255,0.06);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-primary);
+    font-weight: 400;
+    padding: 4px 8px;
+  }
+
+  .btn-ghost:hover {
+    background: rgba(55,53,47,0.06);
+  }
+
+  [data-theme="dark"] .btn-ghost:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .btn-danger {
+    background: var(--danger);
+    color: #FFFFFF;
+  }
+
+  .btn-danger:hover {
+    filter: brightness(0.92);
+  }
+
+  .btn-sm {
+    font-size: 13px;
+    padding: 4px 10px;
+    min-height: 28px;
+  }
+
+  .btn-lg {
+    font-size: 15px;
+    padding: 8px 16px;
+    min-height: 38px;
+  }
+
+  /* Input */
+  .input-demo {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .input-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .input {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-input);
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-primary);
+    padding: 8px 12px;
+    min-height: 32px;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+    outline: none;
+    line-height: 1.5;
+  }
+
+  .input::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .input:focus {
+    border-color: var(--cta);
+    box-shadow: var(--shadow-focus);
+  }
+
+  .input-helper {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+
+  .input-error {
+    border-color: var(--danger);
+  }
+
+  .input-error:focus {
+    box-shadow: 0 0 0 2px rgba(212,76,71,0.25);
+    border-color: var(--danger);
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.4;
+    padding: 2px 8px;
+    height: 20px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .badge-pill {
+    border-radius: 9999px;
+  }
+
+  .badge-primary {
+    background: #097FE8;
+    color: #FFFFFF;
+    font-weight: 500;
+  }
+
+  .badge-gray { background: #F1F1EF; color: #787774; }
+  .badge-brown { background: #F4EEEE; color: #9F6B53; }
+  .badge-orange { background: #FAEBDD; color: #D9730D; }
+  .badge-yellow { background: #FBF3DB; color: #CB912F; }
+  .badge-green { background: #EDF3EC; color: #448361; }
+  .badge-blue { background: #E9F3F7; color: #487CA5; }
+  .badge-purple { background: #F6F3F8; color: #8A67AB; }
+  .badge-pink { background: #F9F2F5; color: #B35488; }
+  .badge-red { background: #FAECEC; color: #C4554D; }
+
+  [data-theme="dark"] .badge-gray { background: #252525; color: #9B9B9B; }
+  [data-theme="dark"] .badge-brown { background: #2E2724; color: #A27763; }
+  [data-theme="dark"] .badge-orange { background: #36291F; color: #CB7B37; }
+  [data-theme="dark"] .badge-yellow { background: #372E20; color: #C19138; }
+  [data-theme="dark"] .badge-green { background: #242B26; color: #4F9768; }
+  [data-theme="dark"] .badge-blue { background: #1F282D; color: #447ACB; }
+  [data-theme="dark"] .badge-purple { background: #2A2430; color: #865DBB; }
+  [data-theme="dark"] .badge-pink { background: #2E2328; color: #BA4A78; }
+  [data-theme="dark"] .badge-red { background: #332523; color: #BE524B; }
+
+  /* Card */
+  .demo-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 120ms ease, transform 120ms ease, background 200ms ease, border-color 200ms ease;
+    max-width: 320px;
+    cursor: default;
+  }
+
+  .demo-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  .card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--bg-callout);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 200ms ease;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin-bottom: 4px;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .card-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .card-badges {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* Callout */
+  .callout {
+    background: var(--bg-callout);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    transition: background 200ms ease;
+    margin-top: 12px;
+    border: 1px solid var(--border-default);
+  }
+
+  .callout-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  /* ─── Spacing Scale ─── */
+  .spacing-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .spacing-row:last-child {
+    border-bottom: none;
+  }
+
+  .spacing-token {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--cta);
+    width: 72px;
+    flex-shrink: 0;
+  }
+
+  .spacing-px {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    width: 40px;
+    flex-shrink: 0;
+  }
+
+  .spacing-bar-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .spacing-bar {
+    height: 8px;
+    background: var(--cta);
+    border-radius: 9999px;
+    opacity: 0.7;
+    transition: opacity 120ms ease;
+  }
+
+  .spacing-row:hover .spacing-bar {
+    opacity: 1;
+  }
+
+  .spacing-usage {
+    font-size: 12px;
+    color: var(--text-secondary);
+    width: 240px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+
+  /* ─── Tone & Guardrails ─── */
+  .guardrails-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .guardrail-col {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border-default);
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .guardrail-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .guardrail-header.do {
+    background: #EDF3EC;
+    color: #448361;
+    border-bottom-color: #D3E7D0;
+  }
+
+  [data-theme="dark"] .guardrail-header.do {
+    background: #242B26;
+    color: #4F9768;
+    border-bottom-color: #2F3D30;
+  }
+
+  .guardrail-header.dont {
+    background: #FAECEC;
+    color: #C4554D;
+    border-bottom-color: #F5D8D8;
+  }
+
+  [data-theme="dark"] .guardrail-header.dont {
+    background: #332523;
+    color: #BE524B;
+    border-bottom-color: #3D2D2A;
+  }
+
+  .guardrail-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .guardrail-dot.do { background: #448361; }
+  .guardrail-dot.dont { background: #C4554D; }
+  [data-theme="dark"] .guardrail-dot.do { background: #4F9768; }
+  [data-theme="dark"] .guardrail-dot.dont { background: #BE524B; }
+
+  .guardrail-list {
+    list-style: none;
+    padding: 8px 0;
+  }
+
+  .guardrail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 18px;
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    border-bottom: 1px solid var(--border-default);
+    transition: background 120ms ease;
+  }
+
+  .guardrail-item:last-child {
+    border-bottom: none;
+  }
+
+  .guardrail-item:hover {
+    background: var(--bg-hover);
+  }
+
+  .guardrail-icon {
+    flex-shrink: 0;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* ─── Border Radius Demo ─── */
+  .radius-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+  }
+
+  .radius-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .radius-box {
+    width: 56px;
+    height: 56px;
+    background: var(--cta);
+    opacity: 0.7;
+  }
+
+  .radius-label {
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  .radius-value {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  /* ─── Shadow Demo ─── */
+  .shadow-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end;
+  }
+
+  .shadow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .shadow-box {
+    width: 72px;
+    height: 56px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-default);
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .shadow-label {
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  /* ─── Nav preview ─── */
+  .sidebar-preview {
+    background: var(--bg-sidebar);
+    border-radius: 8px;
+    padding: 12px 8px;
+    width: 224px;
+    border: 1px solid var(--border-default);
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  .sidebar-section-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    padding: 4px 8px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 120ms ease;
+    user-select: none;
+  }
+
+  .sidebar-item:hover {
+    background: rgba(55,53,47,0.08);
+  }
+
+  [data-theme="dark"] .sidebar-item:hover {
+    background: rgba(255,255,255,0.06);
+  }
+
+  .sidebar-item.active {
+    background: rgba(55,53,47,0.12);
+  }
+
+  [data-theme="dark"] .sidebar-item.active {
+    background: rgba(255,255,255,0.10);
+  }
+
+  .sidebar-item-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-item-label {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .sidebar-item-badge {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border-default);
+    margin: 6px 8px;
+  }
+
+  /* ─── Table Preview ─── */
+  .table-preview {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+
+  .table-preview th {
+    background: var(--bg-sidebar);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-default);
+    border-right: 1px solid var(--border-default);
+    transition: background 200ms ease;
+  }
+
+  .table-preview th:last-child { border-right: none; }
+
+  .table-preview td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-default);
+    border-right: 1px solid var(--border-default);
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: background 120ms ease;
+    height: 46px;
+  }
+
+  .table-preview td:last-child { border-right: none; }
+
+  .table-preview tr:last-child td { border-bottom: none; }
+
+  .table-preview tr:hover td {
+    background: var(--bg-sidebar);
+  }
+
+  /* ─── Two-col layout for some sections ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .demo-area {
+    padding: 24px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-default);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+
+  /* ─── Footer ─── */
+  .page-footer {
+    padding: 32px 0 0;
+    border-top: 1px solid var(--section-border);
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  .footer-link {
+    font-size: 12px;
+    color: var(--text-link);
+    text-decoration: none;
+  }
+
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--bg-callout);
+    padding: 2px 5px;
+    border-radius: 3px;
+    color: var(--text-primary);
+    transition: background 200ms ease;
+  }
+
+  /* ─── Scrollbar ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 9999px; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .page { padding: 40px 16px 64px; }
+    .site-header { padding: 12px 16px; }
+    .hero-title { font-size: 36px; }
+    .hero-sub { font-size: 16px; }
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .font-weight-grid { grid-template-columns: repeat(2, 1fr); }
+    .font-family-grid { grid-template-columns: 1fr; }
+    .type-meta { width: 100px; }
+    .spacing-usage { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── Sticky Header ─── -->
+<header class="site-header">
+  <div class="header-brand">
+    <div class="header-logo" aria-label="Notion logo">
+      <!-- Notion N mark -->
+      <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 3.5L3 14.5L5.5 14.5L5.5 7.5L12 14.5L15 14.5L15 3.5L12.5 3.5L12.5 10.5L6 3.5Z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-name">Notion</div>
+      <div class="header-tagline">Design System</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <!-- sun icon -->
+      <svg id="themeIconLight" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 12A4 4 0 1 0 8 4a4 4 0 0 0 0 8zm0 1.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zM8 1.75a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 8 1.75zm0 10.5a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1a.75.75 0 0 1 .75-.75zm5.5-5.5a.75.75 0 0 1-.75.75h-1a.75.75 0 0 1 0-1.5h1a.75.75 0 0 1 .75.75zM3.25 8a.75.75 0 0 1-.75.75h-1a.75.75 0 0 1 0-1.5h1A.75.75 0 0 1 3.25 8zm9.53-3.78a.75.75 0 0 1 0 1.06l-.707.707a.75.75 0 0 1-1.06-1.06l.706-.708a.75.75 0 0 1 1.061 0zM4.227 11.72a.75.75 0 0 1 0 1.06l-.707.708a.75.75 0 0 1-1.06-1.061l.706-.707a.75.75 0 0 1 1.061 0zM12.78 12.78a.75.75 0 0 1-1.061 0l-.707-.707a.75.75 0 0 1 1.06-1.06l.708.706a.75.75 0 0 1 0 1.061zM4.228 4.22a.75.75 0 0 1-1.061 0l-.707-.707a.75.75 0 0 1 1.06-1.06l.708.706a.75.75 0 0 1 0 1.061z"/>
+      </svg>
+      <!-- moon icon -->
+      <svg id="themeIconDark" viewBox="0 0 16 16" aria-hidden="true" style="display:none">
+        <path d="M7.5 1.5a6 6 0 1 0 7 7A4.5 4.5 0 1 1 7.5 1.5z"/>
+      </svg>
+      <span id="themeLabel">Dark</span>
+    </button>
+  </div>
+</header>
+
+<!-- ─── Main Content ─── -->
+<main class="page">
+
+  <!-- Hero -->
+  <div class="hero" id="hero">
+    <div class="hero-eyebrow">Brand Guidelines · v2025</div>
+    <h1 class="hero-title">Notion<br>Design System</h1>
+    <p class="hero-sub">A calm, newspaper-like productivity workspace where structured content always takes center stage. Warm minimalism — every decision points away from itself and toward the content.</p>
+    <div class="hero-badges">
+      <span class="badge badge-blue">Inter Typeface</span>
+      <span class="badge badge-green">8px Grid</span>
+      <span class="badge badge-purple">Warm Minimalism</span>
+      <span class="badge badge-orange">Content Supremacy</span>
+      <span class="badge badge-gray">Incremental Disclosure</span>
+    </div>
+  </div>
+
+  <!-- ─── Color Palette ─── -->
+  <section class="section" id="colors">
+    <div class="section-label">01 — Colors</div>
+    <h2 class="section-title">Color Palette</h2>
+    <p class="section-desc">Color is used to communicate state and content type, never for decorative flourish. Click any swatch to copy its hex value.</p>
+
+    <div class="color-group-title">Brand Identity</div>
+    <div class="color-grid">
+      <div class="color-swatch" onclick="copyColor('#000000', this)" title="Copy #000000">
+        <div class="swatch-block" style="background:#000000"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Ink</div>
+          <div class="swatch-hex">#000000</div>
+          <div class="swatch-usage">Brand Black</div>
+        </div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#FFFFFF', this)" title="Copy #FFFFFF">
+        <div class="swatch-block" style="background:#FFFFFF; border-bottom:1px solid #E9E9E7"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Paper</div>
+          <div class="swatch-hex">#FFFFFF</div>
+          <div class="swatch-usage">Brand White</div>
+        </div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#E3E2DE', this)" title="Copy #E3E2DE">
+        <div class="swatch-block" style="background:#E3E2DE"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Off-white</div>
+          <div class="swatch-hex">#E3E2DE</div>
+          <div class="swatch-usage">Brand Cream</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-group-title">UI Surfaces</div>
+    <div class="color-grid">
+      <div class="color-swatch" onclick="copyColor('#FFFFFF', this)">
+        <div class="swatch-block" style="background:#FFFFFF; border-bottom:1px solid #E9E9E7"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">bg-primary</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Main page canvas</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#F7F6F3', this)">
+        <div class="swatch-block" style="background:#F7F6F3"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">bg-sidebar</div><div class="swatch-hex">#F7F6F3</div><div class="swatch-usage">Left sidebar</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#EFEFEF', this)">
+        <div class="swatch-block" style="background:#EFEFEF"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">bg-hover</div><div class="swatch-hex">#EFEFEF</div><div class="swatch-usage">Hover state</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#E8E8E5', this)">
+        <div class="swatch-block" style="background:#E8E8E5"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">bg-selected</div><div class="swatch-hex">#E8E8E5</div><div class="swatch-usage">Active item</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#F1F1EF', this)">
+        <div class="swatch-block" style="background:#F1F1EF"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">bg-callout</div><div class="swatch-hex">#F1F1EF</div><div class="swatch-usage">Callout block</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#E9E9E7', this)">
+        <div class="swatch-block" style="background:#E9E9E7"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">border-default</div><div class="swatch-hex">#E9E9E7</div><div class="swatch-usage">Dividers, cells</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#DFDCD9', this)">
+        <div class="swatch-block" style="background:#DFDCD9"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">border-input</div><div class="swatch-hex">#DFDCD9</div><div class="swatch-usage">Input border</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-title">Text</div>
+    <div class="color-grid">
+      <div class="color-swatch" onclick="copyColor('#37352F', this)">
+        <div class="swatch-block" style="background:#37352F"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#37352F</div><div class="swatch-usage">Body, headings</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#787774', this)">
+        <div class="swatch-block" style="background:#787774"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#787774</div><div class="swatch-usage">Placeholder, captions</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#9B9A97', this)">
+        <div class="swatch-block" style="background:#9B9A97"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">text-tertiary</div><div class="swatch-hex">#9B9A97</div><div class="swatch-usage">Disabled, hints</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#337EA9', this)">
+        <div class="swatch-block" style="background:#337EA9"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">text-link</div><div class="swatch-hex">#337EA9</div><div class="swatch-usage">Hyperlinks</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#097FE8', this)">
+        <div class="swatch-block" style="background:#097FE8"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">CTA Blue</div><div class="swatch-hex">#097FE8</div><div class="swatch-usage">Primary action</div></div>
+      </div>
+      <div class="color-swatch" onclick="copyColor('#D44C47', this)">
+        <div class="swatch-block" style="background:#D44C47"><div class="copy-hint">Copy</div></div>
+        <div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#D44C47</div><div class="swatch-usage">Destructive action</div></div>
+      </div>
+    </div>
+
+    <div class="color-group-title">Content Color Palette</div>
+    <div class="content-colors-grid">
+      <div class="content-color-chip badge-gray" onclick="copyColor('#787774', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Gray</div>
+        <div class="chip-values">#787774<br>#F1F1EF</div>
+      </div>
+      <div class="content-color-chip badge-brown" onclick="copyColor('#9F6B53', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Brown</div>
+        <div class="chip-values">#9F6B53<br>#F4EEEE</div>
+      </div>
+      <div class="content-color-chip badge-orange" onclick="copyColor('#D9730D', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Orange</div>
+        <div class="chip-values">#D9730D<br>#FAEBDD</div>
+      </div>
+      <div class="content-color-chip badge-yellow" onclick="copyColor('#CB912F', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Yellow</div>
+        <div class="chip-values">#CB912F<br>#FBF3DB</div>
+      </div>
+      <div class="content-color-chip badge-green" onclick="copyColor('#448361', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Green</div>
+        <div class="chip-values">#448361<br>#EDF3EC</div>
+      </div>
+      <div class="content-color-chip badge-blue" onclick="copyColor('#487CA5', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Blue</div>
+        <div class="chip-values">#487CA5<br>#E9F3F7</div>
+      </div>
+      <div class="content-color-chip badge-purple" onclick="copyColor('#8A67AB', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Purple</div>
+        <div class="chip-values">#8A67AB<br>#F6F3F8</div>
+      </div>
+      <div class="content-color-chip badge-pink" onclick="copyColor('#B35488', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Pink</div>
+        <div class="chip-values">#B35488<br>#F9F2F5</div>
+      </div>
+      <div class="content-color-chip badge-red" onclick="copyColor('#C4554D', this)" style="position:relative">
+        <div class="copy-hint"></div>
+        <div class="chip-name">Red</div>
+        <div class="chip-values">#C4554D<br>#FAECEC</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Typography ─── -->
+  <section class="section" id="typography">
+    <div class="section-label">02 — Typography</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-desc">Notion distributes its own build of Inter as the exclusive UI typeface. Users may switch the page body between sans-serif, serif, and monospace editorial faces.</p>
+
+    <div class="color-group-title" style="margin-top:0">Type Scale</div>
+    <div class="type-scale">
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">display</div>
+          <div class="type-spec">54px · 700 · lh 1.15</div>
+        </div>
+        <div class="type-preview" style="font-size:48px; font-weight:700; line-height:1.15; letter-spacing:-0.02em">Aa</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">heading-xl</div>
+          <div class="type-spec">40px · 700 · lh 1.2</div>
+        </div>
+        <div class="type-preview" style="font-size:40px; font-weight:700; line-height:1.2; letter-spacing:-0.015em">Page Title</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">heading-lg</div>
+          <div class="type-spec">30px · 600 · lh 1.3</div>
+        </div>
+        <div class="type-preview" style="font-size:30px; font-weight:600; line-height:1.3">Section Heading</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">heading-md</div>
+          <div class="type-spec">24px · 600 · lh 1.35</div>
+        </div>
+        <div class="type-preview" style="font-size:24px; font-weight:600; line-height:1.35">Sub Section</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">heading-sm</div>
+          <div class="type-spec">20px · 600 · lh 1.4</div>
+        </div>
+        <div class="type-preview" style="font-size:20px; font-weight:600; line-height:1.4">Section Title</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">body-lg</div>
+          <div class="type-spec">16px · 400 · lh 1.5</div>
+        </div>
+        <div class="type-preview" style="font-size:16px; font-weight:400; line-height:1.5; color: var(--text-secondary)">Default body text. The interface is sparse but never cold — off-white surfaces, ink-dark text, and generous whitespace evoke a well-typeset document.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">body-sm</div>
+          <div class="type-spec">14px · 400 · lh 1.5</div>
+        </div>
+        <div class="type-preview" style="font-size:14px; font-weight:400; line-height:1.5; color: var(--text-secondary)">Small text mode. Sidebar items and captions use this scale for reduced footprint.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">label</div>
+          <div class="type-spec">14px · 500 · lh 1.4</div>
+        </div>
+        <div class="type-preview" style="font-size:14px; font-weight:500; line-height:1.4">UI Label · Button Text · Property Name</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">caption</div>
+          <div class="type-spec">12px · 400 · lh 1.4</div>
+        </div>
+        <div class="type-preview" style="font-size:12px; font-weight:400; line-height:1.4; color: var(--text-tertiary)">Timestamps · Helper text · Footnotes</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-token">code-inline</div>
+          <div class="type-spec">14px · 400 · mono</div>
+        </div>
+        <div class="type-preview"><code>bg-primary</code> · <code>#F7F6F3</code> · <code>border-radius: 8px</code></div>
+      </div>
+    </div>
+
+    <div class="color-group-title">Font Weights</div>
+    <div class="font-weight-grid">
+      <div class="weight-card">
+        <div class="weight-demo" style="font-weight:400">Ag</div>
+        <div class="weight-label">Regular</div>
+        <div class="weight-num">400 — Body text</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-demo" style="font-weight:500">Ag</div>
+        <div class="weight-label">Medium</div>
+        <div class="weight-num">500 — UI labels</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-demo" style="font-weight:600">Ag</div>
+        <div class="weight-label">SemiBold</div>
+        <div class="weight-num">600 — Subheadings</div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-demo" style="font-weight:700">Ag</div>
+        <div class="weight-label">Bold</div>
+        <div class="weight-num">700 — Page titles</div>
+      </div>
+    </div>
+
+    <div class="color-group-title">Typeface Families</div>
+    <div class="font-family-grid">
+      <div class="font-family-card">
+        <div class="font-family-sample" style="font-family: 'Inter', sans-serif; font-weight:500">The quick brown fox jumps.</div>
+        <div class="font-family-name">Sans-serif · Default</div>
+      </div>
+      <div class="font-family-card">
+        <div class="font-family-sample" style="font-family: Georgia, serif">The quick brown fox jumps.</div>
+        <div class="font-family-name">Serif · Editorial</div>
+      </div>
+      <div class="font-family-card">
+        <div class="font-family-sample" style="font-family: 'SFMono-Regular', Consolas, monospace; font-size:16px">const page = "notion";</div>
+        <div class="font-family-name">Mono · Code</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Components ─── -->
+  <section class="section" id="components">
+    <div class="section-label">03 — Components</div>
+    <h2 class="section-title">Components</h2>
+    <p class="section-desc">All interactive components follow the 8px grid, use Inter at weight 500 for labels, and apply shadow-focus on keyboard interaction.</p>
+
+    <!-- Buttons -->
+    <div class="component-group">
+      <div class="component-group-title">Buttons</div>
+      <div class="component-row" style="gap:16px; flex-direction:column; align-items:flex-start">
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+          <button class="btn btn-primary">New Page</button>
+          <button class="btn btn-secondary">Duplicate</button>
+          <button class="btn btn-ghost">More options</button>
+          <button class="btn btn-danger">Delete</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+          <button class="btn btn-primary btn-sm">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            New
+          </button>
+          <button class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M7 1.5v11M1.5 7h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            New page
+          </button>
+          <button class="btn btn-primary btn-lg">Create workspace</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+          <button class="btn btn-secondary" disabled style="opacity:0.4; cursor:not-allowed">Disabled</button>
+          <button class="btn btn-primary" style="opacity:0.4; cursor:not-allowed" disabled>Disabled</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="component-group">
+      <div class="component-group-title">Input Field</div>
+      <div class="component-row" style="gap:20px; flex-direction:column; align-items:flex-start">
+        <div class="input-demo">
+          <label class="input-label" for="demo-input-1">Page title</label>
+          <input class="input" id="demo-input-1" type="text" placeholder="Untitled">
+          <div class="input-helper">Press Enter to confirm</div>
+        </div>
+        <div class="input-demo">
+          <label class="input-label" for="demo-input-2">Search or jump to…</label>
+          <input class="input" id="demo-input-2" type="text" value="Q3 Planning">
+        </div>
+        <div class="input-demo">
+          <label class="input-label" for="demo-input-3" style="color:var(--danger)">Email address</label>
+          <input class="input input-error" id="demo-input-3" type="email" value="not-an-email" aria-invalid="true">
+          <div class="input-helper" style="color:var(--danger)">Please enter a valid email address</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="component-group">
+      <div class="component-group-title">Badges &amp; Tags</div>
+      <div class="component-row" style="flex-wrap:wrap; gap:8px">
+        <span class="badge badge-primary">New</span>
+        <span class="badge badge-gray">Gray</span>
+        <span class="badge badge-brown">Brown</span>
+        <span class="badge badge-orange">In Progress</span>
+        <span class="badge badge-yellow">Review</span>
+        <span class="badge badge-green">Done</span>
+        <span class="badge badge-blue">Active</span>
+        <span class="badge badge-purple">Priority</span>
+        <span class="badge badge-pink">Blocked</span>
+        <span class="badge badge-red">Overdue</span>
+      </div>
+      <div class="component-row" style="flex-wrap:wrap; gap:8px; margin-top:8px">
+        <span class="badge badge-pill badge-primary">New</span>
+        <span class="badge badge-pill badge-gray">Draft</span>
+        <span class="badge badge-pill badge-green">Published</span>
+        <span class="badge badge-pill badge-orange">In Progress</span>
+        <span class="badge badge-pill badge-red">Archived</span>
+        <span class="badge badge-pill badge-purple badge-pill">Feature</span>
+        <span class="badge badge-pill badge-blue">Enhancement</span>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="component-group">
+      <div class="component-group-title">Card</div>
+      <div class="component-row" style="gap:16px; flex-wrap:wrap; align-items:flex-start">
+        <div class="demo-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Q3 Product Roadmap</div>
+              <div class="card-meta">Edited 2 hours ago · 4 members</div>
+            </div>
+            <div class="card-icon">📋</div>
+          </div>
+          <div class="card-body">An overview of upcoming feature work, prioritized by impact and engineering effort across all product squads.</div>
+          <div class="card-footer">
+            <div class="card-badges">
+              <span class="badge badge-green">Active</span>
+              <span class="badge badge-blue">Q3</span>
+            </div>
+            <button class="btn btn-ghost btn-sm">Open</button>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Design Review Notes</div>
+              <div class="card-meta">Edited yesterday · 2 members</div>
+            </div>
+            <div class="card-icon">🎨</div>
+          </div>
+          <div class="card-body">Feedback and decisions from weekly design sync. Includes component iterations and accessibility improvements.</div>
+          <div class="card-footer">
+            <div class="card-badges">
+              <span class="badge badge-purple">Design</span>
+              <span class="badge badge-yellow">Review</span>
+            </div>
+            <button class="btn btn-ghost btn-sm">Open</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Callout -->
+    <div class="component-group">
+      <div class="component-group-title">Callout Block</div>
+      <div class="callout">
+        <div class="callout-icon">💡</div>
+        <div>
+          <strong>Tip:</strong> Use callout blocks to draw attention to important information without disrupting the reading flow. The warm gray background recedes to let the content surface.
+        </div>
+      </div>
+      <div class="callout" style="margin-top:8px; background:#FAECEC; border-color:#F5D8D8; color:#C4554D">
+        <div class="callout-icon">⚠️</div>
+        <div>
+          <strong>Warning:</strong> Deleting a page removes all nested sub-pages. This action cannot be undone.
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Navigation Preview -->
+    <div class="component-group">
+      <div class="component-group-title">Sidebar Navigation</div>
+      <div class="component-row" style="gap:16px; justify-content:flex-start">
+        <div class="sidebar-preview">
+          <div class="sidebar-section-label">Workspace</div>
+          <div class="sidebar-item active">
+            <div class="sidebar-item-icon">🏠</div>
+            <div class="sidebar-item-label">Home</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">🔍</div>
+            <div class="sidebar-item-label">Search</div>
+            <div class="sidebar-item-badge">⌘K</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">📥</div>
+            <div class="sidebar-item-label">Inbox</div>
+            <div class="sidebar-item-badge">3</div>
+          </div>
+          <div class="sidebar-divider"></div>
+          <div class="sidebar-section-label">Pages</div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">📋</div>
+            <div class="sidebar-item-label">Q3 Roadmap</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">🎨</div>
+            <div class="sidebar-item-label">Design System</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">📊</div>
+            <div class="sidebar-item-label">Analytics</div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-icon">📝</div>
+            <div class="sidebar-item-label">Meeting Notes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="component-group">
+      <div class="component-group-title">Database Table View</div>
+      <table class="table-preview">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Assignee</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Homepage redesign</td>
+            <td><span class="badge badge-green">Done</span></td>
+            <td>Akira T.</td>
+            <td><span style="color:var(--text-tertiary); font-size:13px">Jun 10, 2025</span></td>
+          </tr>
+          <tr>
+            <td>Mobile nav audit</td>
+            <td><span class="badge badge-orange">In Progress</span></td>
+            <td>Sam R.</td>
+            <td><span style="color:var(--text-tertiary); font-size:13px">Jun 25, 2025</span></td>
+          </tr>
+          <tr>
+            <td>Token documentation</td>
+            <td><span class="badge badge-yellow">Review</span></td>
+            <td>Priya K.</td>
+            <td><span style="color:var(--text-tertiary); font-size:13px">Jul 1, 2025</span></td>
+          </tr>
+          <tr>
+            <td>Accessibility pass</td>
+            <td><span class="badge badge-red">Blocked</span></td>
+            <td>Jamie L.</td>
+            <td><span style="color:var(--danger); font-size:13px">Jun 5, 2025</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ─── Spacing Scale ─── -->
+  <section class="section" id="spacing">
+    <div class="section-label">04 — Spacing</div>
+    <h2 class="section-title">Spacing Scale</h2>
+    <p class="section-desc">Base unit: <code>8px</code>. All values are multiples of 4px. Every margin, padding, and gap must adhere to the grid.</p>
+
+    <div class="spacing-list">
+      <div class="spacing-row">
+        <div class="spacing-token">space-1</div>
+        <div class="spacing-px">4px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px"></div></div>
+        <div class="spacing-usage">Icon–label gap, inline badge padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-2</div>
+        <div class="spacing-px">8px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px"></div></div>
+        <div class="spacing-usage">Icon containers, sidebar section gap</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-3</div>
+        <div class="spacing-px">12px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px"></div></div>
+        <div class="spacing-usage">Button/input vertical padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-4</div>
+        <div class="spacing-px">16px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px"></div></div>
+        <div class="spacing-usage">Card padding (compact), horizontal button padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-5</div>
+        <div class="spacing-px">20px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:20px"></div></div>
+        <div class="spacing-usage">Card padding (standard), list item horizontal</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-6</div>
+        <div class="spacing-px">24px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px"></div></div>
+        <div class="spacing-usage">Section separation (small), form row gap</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-8</div>
+        <div class="spacing-px">32px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px"></div></div>
+        <div class="spacing-usage">Page content padding-inline (narrow)</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-10</div>
+        <div class="spacing-px">40px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:40px"></div></div>
+        <div class="spacing-usage">Section separation (large), page top padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-12</div>
+        <div class="spacing-px">48px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px"></div></div>
+        <div class="spacing-usage">Major section break</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-16</div>
+        <div class="spacing-px">64px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px"></div></div>
+        <div class="spacing-usage">Hero / full-bleed section padding</div>
+      </div>
+      <div class="spacing-row">
+        <div class="spacing-token">space-24</div>
+        <div class="spacing-px">96px</div>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:96px"></div></div>
+        <div class="spacing-usage">Top-level page section spacing</div>
+      </div>
+    </div>
+
+    <div class="color-group-title" style="margin-top:32px">Border Radius Tokens</div>
+    <div class="radius-grid">
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:0"></div>
+        <div class="radius-label">radius-none</div>
+        <div class="radius-value">0px</div>
+      </div>
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:3px"></div>
+        <div class="radius-label">radius-sm</div>
+        <div class="radius-value">3px</div>
+      </div>
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:4px"></div>
+        <div class="radius-label">radius-md</div>
+        <div class="radius-value">4px</div>
+      </div>
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:8px"></div>
+        <div class="radius-label">radius-lg</div>
+        <div class="radius-value">8px</div>
+      </div>
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:12px"></div>
+        <div class="radius-label">radius-xl</div>
+        <div class="radius-value">12px</div>
+      </div>
+      <div class="radius-item">
+        <div class="radius-box" style="border-radius:9999px"></div>
+        <div class="radius-label">radius-full</div>
+        <div class="radius-value">9999px</div>
+      </div>
+    </div>
+
+    <div class="color-group-title" style="margin-top:32px">Elevation / Shadows</div>
+    <div class="shadow-grid">
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:none; background:var(--bg-hover)"></div>
+        <div class="shadow-label">shadow-none</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 1px 2px rgba(0,0,0,0.06)"></div>
+        <div class="shadow-label">shadow-xs</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)"></div>
+        <div class="shadow-label">shadow-sm</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05)"></div>
+        <div class="shadow-label">shadow-md</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05)"></div>
+        <div class="shadow-label">shadow-lg</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04)"></div>
+        <div class="shadow-label">shadow-xl</div>
+      </div>
+      <div class="shadow-item">
+        <div class="shadow-box" style="box-shadow:0 0 0 2px rgba(9,127,232,0.35); border-color:var(--cta)"></div>
+        <div class="shadow-label">shadow-focus</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Tone & Guardrails ─── -->
+  <section class="section" id="guardrails">
+    <div class="section-label">05 — Tone &amp; Guardrails</div>
+    <h2 class="section-title">Tone &amp; Guardrails</h2>
+    <p class="section-desc">These rules preserve the calm, document-like character of Notion. Every design decision should pass this checklist.</p>
+
+    <div class="guardrails-grid">
+      <div class="guardrail-col">
+        <div class="guardrail-header do">
+          <div class="guardrail-dot do"></div>
+          DO
+        </div>
+        <ul class="guardrail-list">
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use <code>#37352F</code> for reading text — never pure black.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use warm off-white <code>#F7F6F3</code> for sidebar and secondary surfaces.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Apply the 8px grid strictly; every spacing value is a multiple of 4px.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use Inter weight 500 for all UI labels and interactive text.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use the 10-color content palette for semantic tagging.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Keep shadows extremely subtle — nearly flat elevation.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use <code>border-radius: 8px</code> on cards and <code>4px</code> on form controls.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Hide secondary actions behind hover/focus states.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Maintain content max-width of <code>720px</code> on standard pages.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✓</span>Use <code>transition: 120ms ease</code> for hover state changes.</li>
+        </ul>
+      </div>
+      <div class="guardrail-col">
+        <div class="guardrail-header dont">
+          <div class="guardrail-dot dont"></div>
+          DON'T
+        </div>
+        <ul class="guardrail-list">
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use pure <code>#000000</code> black for text.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't apply aggressive drop shadows or heavy borders.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use more than two typefaces at once.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use color as decoration — every color must signal state or type.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't introduce colors outside the 10-color palette and CTA blue.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use font weights above 700 or below 400.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't make secondary controls permanently visible.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use border-radius values outside the token table (no 6px, 10px, 16px).</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use spacing values that aren't multiples of 4px.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't add animation beyond simple opacity/transform at ≤ 200ms.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't center-align body text — all prose is left-aligned.</li>
+          <li class="guardrail-item"><span class="guardrail-icon">✗</span>Don't use color-only status indicators — always pair with icon or text.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="footer-text">Notion Design System · 2025</div>
+    <div class="footer-text">Warm minimalism — content supremacy · 8px grid</div>
+  </footer>
+
+</main>
+
+<!-- Copy toast -->
+<div class="toast" id="copyToast" role="status" aria-live="polite"></div>
+
+<script>
+  // ─── Dark Mode Toggle ───
+  const html = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const themeLabel = document.getElementById('themeLabel');
+  const iconLight = document.getElementById('themeIconLight');
+  const iconDark = document.getElementById('themeIconDark');
+
+  function setTheme(dark) {
+    if (dark) {
+      html.setAttribute('data-theme', 'dark');
+      themeLabel.textContent = 'Light';
+      iconLight.style.display = 'none';
+      iconDark.style.display = 'block';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      themeLabel.textContent = 'Dark';
+      iconLight.style.display = 'block';
+      iconDark.style.display = 'none';
+    }
+  }
+
+  // Respect system preference on load
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  setTheme(prefersDark);
+
+  toggle.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    setTheme(!isDark);
+  });
+
+  // ─── Copy to Clipboard ───
+  const toast = document.getElementById('copyToast');
+  let toastTimeout;
+
+  function copyColor(hex, el) {
+    navigator.clipboard.writeText(hex).then(() => {
+      showToast('Copied ' + hex);
+    }).catch(() => {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = hex;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      showToast('Copied ' + hex);
+    });
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  // ─── Smooth scroll for nav ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>

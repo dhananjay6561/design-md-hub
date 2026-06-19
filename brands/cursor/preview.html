@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="marketing">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor — Design System</title>
+<style>
+  /* ─── Reset & Base ─────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    /* Marketing Palette */
+    --canvas:       #F7F7F4;
+    --inkwell:      #14120B;
+    --espresso:     #26251E;
+    --card-stone:   #E6E5E0;
+    --border-sand:  #D9D5CF;
+    --muted-clay:   #7A7974;
+    --ember:        #f54e00;
+    --brass:        #C08532;
+    --signal:       #4ADE80;
+
+    /* App Palette */
+    --app-bg:       #181818;
+    --app-surface:  #1d1d1d;
+    --app-fg:       #d6d6dd;
+    --app-muted:    #7a797a;
+    --app-border:   #383838;
+    --app-blue:     #228df2;
+    --app-blue-h:   #359dff;
+    --app-select:   #163761;
+    --app-error:    #f14c4c;
+    --app-warn:     #ea7620;
+    --app-success:  #15ac91;
+    --app-modified: #e5b95c;
+    --app-conflict: #aaa0fa;
+    --app-remote:   #5b51ec;
+
+    /* Active theme (marketing by default) */
+    --bg:           var(--canvas);
+    --text:         var(--espresso);
+    --text-muted:   var(--muted-clay);
+    --surface:      var(--card-stone);
+    --border:       var(--border-sand);
+    --accent:       var(--ember);
+    --heading:      var(--inkwell);
+
+    /* Spacing */
+    --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+    --s5: 20px; --s6: 24px; --s7: 28px; --s8: 32px;
+    --s10: 40px; --s12: 48px; --section-gap: 64px;
+    --max-w: 1200px;
+
+    /* Radius */
+    --r-sm: 2px; --r-base: 4px; --r-md: 6px;
+    --r-lg: 8px; --r-xl: 12px; --r-pill: 9999px;
+
+    /* Shadows */
+    --shadow-subtle: 0 0 0 1px rgba(38,37,30,0.10), rgba(0,0,0,0.28) 0px 18px 36px -18px;
+    --shadow-xl: rgba(0,0,0,0.14) 0px 28px 70px 0px, rgba(0,0,0,0.10) 0px 14px 32px 0px, rgba(38,37,30,0.10) 0px 0px 0px 1px;
+  }
+
+  /* Dark (App UI) theme overrides */
+  [data-theme="app"] {
+    --bg:         var(--app-bg);
+    --text:       var(--app-fg);
+    --text-muted: var(--app-muted);
+    --surface:    var(--app-surface);
+    --border:     var(--app-border);
+    --accent:     var(--app-blue);
+    --heading:    var(--app-fg);
+    --shadow-subtle: 0 2px 8px rgba(0,0,0,0.32);
+    --shadow-xl: rgba(0,0,0,0.40) 0px 28px 70px 0px;
+  }
+
+  body {
+    font-family: 'Inter Tight', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    transition: background 0.3s ease, color 0.3s ease;
+    min-height: 100vh;
+  }
+
+  /* ─── Code Font ───────────────────────────────────── */
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
+  }
+
+  /* ─── Container ───────────────────────────────────── */
+  .container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--s8);
+  }
+
+  /* ─── Theme Toggle ────────────────────────────────── */
+  .theme-toggle {
+    position: fixed;
+    top: var(--s6);
+    right: var(--s6);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-pill);
+    padding: var(--s2) var(--s3);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.2s ease;
+    user-select: none;
+    box-shadow: var(--shadow-subtle);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .theme-toggle .dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+  }
+  .theme-label-mkt { display: block; }
+  .theme-label-app { display: none; }
+  [data-theme="app"] .theme-label-mkt { display: none; }
+  [data-theme="app"] .theme-label-app { display: block; }
+
+  /* ─── Header ──────────────────────────────────────── */
+  .site-header {
+    padding: calc(var(--section-gap) * 1.2) 0 var(--section-gap);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 120%, transparent 50%, var(--bg) 100%);
+    pointer-events: none;
+  }
+  [data-theme="marketing"] .site-header::before {
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(245,78,0,0.06) 0%, transparent 70%);
+  }
+  [data-theme="app"] .site-header::before {
+    background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(34,141,242,0.08) 0%, transparent 70%);
+  }
+  .header-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--s4);
+    position: relative;
+  }
+  .brand-wordmark {
+    font-size: 72px;
+    font-weight: 400;
+    letter-spacing: -0.030em;
+    line-height: 1.0;
+    color: var(--heading);
+  }
+  .brand-wordmark span {
+    color: var(--accent);
+  }
+  .brand-tagline {
+    font-size: 16px;
+    color: var(--text-muted);
+    letter-spacing: 0.005em;
+    max-width: 480px;
+  }
+  .brand-chips {
+    display: flex;
+    gap: var(--s2);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--s2);
+  }
+  .chip {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    background: transparent;
+  }
+
+  /* ─── Section Layout ──────────────────────────────── */
+  .section {
+    padding: var(--section-gap) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s3);
+    margin-bottom: var(--s10);
+  }
+  .section-num {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    min-width: 28px;
+  }
+  .section-title {
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--heading);
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+  }
+  .section-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: var(--s3);
+    align-self: center;
+  }
+
+  /* ─── Sub-section ─────────────────────────────────── */
+  .subsection {
+    margin-bottom: var(--s12);
+  }
+  .subsection:last-child { margin-bottom: 0; }
+  .subsection-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: var(--s6);
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+  }
+  .subsection-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Color Palette ───────────────────────────────── */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--s4);
+  }
+  .swatch {
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    position: relative;
+  }
+  .swatch:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+  .swatch-color {
+    height: 72px;
+    position: relative;
+  }
+  .swatch-copy-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.18);
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .swatch:hover .swatch-copy-hint { opacity: 1; }
+  .swatch-info {
+    padding: var(--s3) var(--s3) var(--s3);
+    background: var(--surface);
+  }
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--heading);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .swatch-usage {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Copied toast */
+  .copy-toast {
+    position: fixed;
+    bottom: var(--s8);
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--espresso);
+    color: var(--canvas);
+    padding: var(--s3) var(--s6);
+    border-radius: var(--r-pill);
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: 999;
+  }
+  [data-theme="app"] .copy-toast {
+    background: var(--app-blue);
+    color: var(--app-fg);
+  }
+  .copy-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ─── Typography ──────────────────────────────────── */
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s8);
+  }
+  .type-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--s6);
+    align-items: baseline;
+    padding-bottom: var(--s8);
+    border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .type-role {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .type-spec {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .type-sample {
+    color: var(--heading);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /* ─── Components ──────────────────────────────────── */
+  .components-grid {
+    display: grid;
+    gap: var(--section-gap);
+  }
+
+  /* Buttons */
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s4);
+    align-items: center;
+  }
+
+  /* Marketing buttons */
+  .btn-primary-mkt {
+    background: var(--espresso);
+    color: var(--canvas);
+    border: none;
+    border-radius: var(--r-pill);
+    padding: 10px 22px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn-primary-mkt:hover { background: var(--inkwell); color: #cf2d56; }
+
+  .btn-ghost-mkt {
+    background: transparent;
+    color: var(--espresso);
+    border: 1px solid var(--border-sand);
+    border-radius: var(--r-pill);
+    padding: 10px 22px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .btn-ghost-mkt:hover { border-color: var(--espresso); }
+
+  /* App UI buttons */
+  .btn-primary-app {
+    background: #228df2;
+    color: #e6e6ed;
+    border: none;
+    border-radius: var(--r-base);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-primary-app:hover { background: #359dff; }
+
+  .btn-secondary-app {
+    background: #1d1d1d;
+    color: #d6d6dd;
+    border: 1px solid #383838;
+    border-radius: var(--r-base);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-secondary-app:hover { background: #303030; }
+
+  /* Input Fields */
+  .input-demo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s6);
+  }
+  .input-demo-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s3);
+  }
+  .input-demo-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .input-mkt {
+    background: var(--canvas);
+    border: 1px solid var(--border-sand);
+    color: var(--espresso);
+    border-radius: var(--r-base);
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .input-mkt::placeholder { color: var(--muted-clay); }
+  .input-mkt:focus { border-color: var(--inkwell); }
+
+  .input-app {
+    background: #1d1d1d;
+    border: 1px solid #383838;
+    color: #d6d6dd;
+    border-radius: var(--r-base);
+    padding: 5px 10px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .input-app::placeholder { color: #7a797a; }
+  .input-app:focus { border-color: #228df2; }
+
+  /* Cards */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s6);
+  }
+  .card-mkt {
+    background: var(--canvas);
+    border: 1px solid var(--border-sand);
+    border-radius: var(--r-lg);
+    padding: var(--s6);
+    box-shadow: var(--shadow-subtle);
+  }
+  .card-mkt-title {
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--inkwell);
+    letter-spacing: -0.005em;
+    margin-bottom: var(--s3);
+  }
+  .card-mkt-body {
+    font-size: 14px;
+    color: var(--muted-clay);
+    line-height: 1.5;
+    margin-bottom: var(--s5);
+  }
+  .card-mkt-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-mkt-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: var(--r-pill);
+    background: var(--card-stone);
+    color: var(--espresso);
+  }
+  .card-mkt-tag-outline {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--signal);
+    color: var(--espresso);
+    background: transparent;
+  }
+
+  .card-app {
+    background: #1d1d1d;
+    border: 1px solid #383838;
+    border-radius: var(--r-lg);
+    padding: var(--s4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.32);
+  }
+  .card-app-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #d6d6dd;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: var(--s2);
+  }
+  .card-app-body {
+    font-size: 12px;
+    color: #a6a6a6;
+    line-height: 1.5;
+    margin-bottom: var(--s4);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .card-app-footer {
+    display: flex;
+    gap: var(--s2);
+  }
+
+  /* Badges */
+  .badge-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s2);
+    align-items: center;
+  }
+  .badge-app {
+    background: #228df2;
+    color: #d6d6dd;
+    border-radius: var(--r-pill);
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .badge-app-error { background: #f14c4c; color: #fff; border-radius: var(--r-pill); padding: 2px 6px; font-size: 10px; font-weight: 500; }
+  .badge-app-success { background: #15ac91; color: #fff; border-radius: var(--r-pill); padding: 2px 6px; font-size: 10px; font-weight: 500; }
+  .badge-app-warn { background: #ea7620; color: #fff; border-radius: var(--r-pill); padding: 2px 6px; font-size: 10px; font-weight: 500; }
+  .badge-app-purple { background: #5b51ec; color: #fff; border-radius: var(--r-pill); padding: 2px 6px; font-size: 10px; font-weight: 500; }
+
+  .badge-mkt {
+    background: var(--card-stone);
+    color: var(--espresso);
+    border-radius: var(--r-pill);
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .badge-mkt-outline {
+    background: transparent;
+    color: var(--espresso);
+    border: 1px solid var(--border-sand);
+    border-radius: var(--r-pill);
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .badge-mkt-green {
+    background: transparent;
+    color: var(--espresso);
+    border: 1px solid var(--signal);
+    border-radius: var(--r-pill);
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .badge-mkt-ember {
+    background: var(--ember);
+    color: #fff;
+    border-radius: var(--r-pill);
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  /* ─── Spacing ─────────────────────────────────────── */
+  .spacing-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s3);
+  }
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s6);
+  }
+  .spacing-token {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    min-width: 96px;
+    font-weight: 500;
+  }
+  .spacing-bar-wrap {
+    flex: 1;
+    height: 24px;
+    display: flex;
+    align-items: center;
+  }
+  .spacing-bar {
+    height: 16px;
+    background: var(--accent);
+    opacity: 0.7;
+    border-radius: var(--r-sm);
+    transition: opacity 0.15s;
+    min-width: 4px;
+  }
+  .spacing-bar:hover { opacity: 1; }
+  .spacing-val {
+    font-size: 11px;
+    color: var(--text-muted);
+    min-width: 44px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .spacing-usage {
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  /* ─── Tone & Guardrails ───────────────────────────── */
+  .guardrails-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s6);
+  }
+  .guardrail-panel {
+    border-radius: var(--r-xl);
+    padding: var(--s6);
+    border: 1px solid var(--border);
+  }
+  .guardrail-panel-do {
+    background: rgba(74, 222, 128, 0.05);
+    border-color: rgba(74, 222, 128, 0.3);
+  }
+  .guardrail-panel-dont {
+    background: rgba(241, 76, 76, 0.05);
+    border-color: rgba(241, 76, 76, 0.3);
+  }
+  [data-theme="app"] .guardrail-panel-do {
+    background: rgba(21, 172, 145, 0.08);
+    border-color: rgba(21, 172, 145, 0.3);
+  }
+  [data-theme="app"] .guardrail-panel-dont {
+    background: rgba(241, 76, 76, 0.08);
+    border-color: rgba(241, 76, 76, 0.3);
+  }
+  .guardrail-header {
+    display: flex;
+    align-items: center;
+    gap: var(--s3);
+    margin-bottom: var(--s5);
+  }
+  .guardrail-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .guardrail-icon-do { background: rgba(74,222,128,0.2); color: #15ac91; }
+  .guardrail-icon-dont { background: rgba(241,76,76,0.2); color: #f14c4c; }
+  .guardrail-title-do { font-size: 14px; font-weight: 600; color: #15ac91; }
+  .guardrail-title-dont { font-size: 14px; font-weight: 600; color: #f14c4c; }
+  .guardrail-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s3);
+  }
+  .guardrail-item {
+    display: flex;
+    gap: var(--s3);
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  .guardrail-item-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin-top: 7px;
+    flex-shrink: 0;
+  }
+  .guardrail-item-dot-do { background: #15ac91; }
+  .guardrail-item-dot-dont { background: #f14c4c; }
+  code.inline {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── Footer ──────────────────────────────────────── */
+  .site-footer {
+    padding: var(--s12) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--s4);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .footer-dot { color: var(--border); }
+
+  /* ─── Responsive ──────────────────────────────────── */
+  @media (max-width: 768px) {
+    .container { padding: 0 var(--s6); }
+    .brand-wordmark { font-size: 40px; }
+    .cards-grid, .guardrails-grid, .input-demo-row { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 1fr; gap: var(--s3); }
+    .spacing-usage { display: none; }
+    .palette-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  }
+
+  /* ─── App UI Mock Sidebar Preview ────────────────────*/
+  .app-ui-preview {
+    background: #181818;
+    border: 1px solid #383838;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 48px 264px 1fr;
+    height: 320px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.32);
+  }
+  .app-activity-bar {
+    background: #181818;
+    border-right: 1px solid #383838;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--s4) 0;
+    gap: var(--s4);
+  }
+  .app-icon {
+    width: 22px; height: 22px;
+    background: #7a797a;
+    border-radius: var(--r-base);
+    position: relative;
+  }
+  .app-icon.active { background: #e3e1e3; }
+  .app-icon.has-badge::after {
+    content: '3';
+    position: absolute;
+    top: -5px; right: -5px;
+    background: #228df2;
+    color: #fff;
+    font-size: 8px;
+    font-weight: 500;
+    padding: 1px 3px;
+    border-radius: var(--r-pill);
+    font-family: 'JetBrains Mono', monospace;
+    min-width: 14px;
+    text-align: center;
+  }
+  .app-sidebar {
+    background: #181818;
+    border-right: 1px solid #383838;
+    padding: var(--s3) 0;
+    overflow: hidden;
+  }
+  .app-sidebar-header {
+    font-size: 11px;
+    color: #d1d1d1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: var(--s2) var(--s4);
+    margin-bottom: var(--s1);
+  }
+  .app-file-item {
+    padding: 3px var(--s4);
+    font-size: 12px;
+    color: #d1d1d1;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .app-file-item.active { background: #163761; }
+  .app-file-item:not(.active):hover { background: #2a2a2a; }
+  .app-file-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #535353;
+    flex-shrink: 0;
+  }
+  .app-file-dot.modified { background: #1981ef; }
+  .app-file-dot.added { background: #5a964d; }
+  .app-file-dot.deleted { background: #f14c4c; }
+  .app-editor {
+    background: #181818;
+    padding: var(--s4);
+    overflow: hidden;
+  }
+  .app-code-line {
+    display: flex;
+    gap: var(--s4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .app-line-num { color: #535353; min-width: 20px; text-align: right; user-select: none; }
+  .app-line-num.active { color: #c2c2c2; }
+  .c-kw { color: #aaa0fa; }
+  .c-fn { color: #228df2; }
+  .c-str { color: #e5b95c; }
+  .c-comment { color: #535353; }
+  .c-default { color: #d6d6dd; }
+  .c-num { color: #ea7620; }
+</style>
+</head>
+<body>
+
+<div class="copy-toast" id="copyToast">Copied to clipboard</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle between Marketing and App UI theme">
+  <span class="dot" id="themeIcon">◑</span>
+  <span class="theme-label-mkt">Marketing Mode</span>
+  <span class="theme-label-app">App UI Mode</span>
+</button>
+
+<!-- ─── HEADER ─────────────────────────────────────── -->
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <div class="brand-wordmark">Cursor<span>.</span></div>
+      <p class="brand-tagline">AI-native code editor. Maximum signal, minimum noise — 95% achromatic, one chromatic accent.</p>
+      <div class="brand-chips">
+        <span class="chip">Anysphere Dark</span>
+        <span class="chip">Cursor Gothic</span>
+        <span class="chip">Berkeley Mono</span>
+        <span class="chip">4px Grid</span>
+        <span class="chip">VS Code Fork</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ─── COLORS ─────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Color Palette</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Marketing Site — Warm Parchment</div>
+      <div class="palette-grid">
+        <div class="swatch" onclick="copyHex('#F7F7F4', this)">
+          <div class="swatch-color" style="background:#F7F7F4; border-bottom:1px solid #E6E5E0;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Canvas Parchment</div>
+            <div class="swatch-hex">#F7F7F4</div>
+            <div class="swatch-usage">Page background, card surfaces</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#14120B', this)">
+          <div class="swatch-color" style="background:#14120B;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Inkwell</div>
+            <div class="swatch-hex">#14120B</div>
+            <div class="swatch-usage">Primary text, headings</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#26251E', this)">
+          <div class="swatch-color" style="background:#26251E;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Espresso</div>
+            <div class="swatch-hex">#26251E</div>
+            <div class="swatch-usage">Body text, filled buttons</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#E6E5E0', this)">
+          <div class="swatch-color" style="background:#E6E5E0; border-bottom:1px solid #D9D5CF;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Card Stone</div>
+            <div class="swatch-hex">#E6E5E0</div>
+            <div class="swatch-usage">Elevated card surfaces</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#D9D5CF', this)">
+          <div class="swatch-color" style="background:#D9D5CF;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Border Sand</div>
+            <div class="swatch-hex">#D9D5CF</div>
+            <div class="swatch-usage">Dividers, card borders</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#7A7974', this)">
+          <div class="swatch-color" style="background:#7A7974;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Muted Clay</div>
+            <div class="swatch-hex">#7A7974</div>
+            <div class="swatch-usage">Secondary text, placeholders</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#f54e00', this)">
+          <div class="swatch-color" style="background:#f54e00;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Ember Orange</div>
+            <div class="swatch-hex">#f54e00</div>
+            <div class="swatch-usage">Primary CTA, hover accents</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#C08532', this)">
+          <div class="swatch-color" style="background:#C08532;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Brass Gold</div>
+            <div class="swatch-hex">#C08532</div>
+            <div class="swatch-usage">Icon strokes, decorative accents</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#4ADE80', this)">
+          <div class="swatch-color" style="background:#4ADE80;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info">
+            <div class="swatch-name">Signal Green</div>
+            <div class="swatch-hex">#4ADE80</div>
+            <div class="swatch-usage">Tag outlines, focus edges</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">App UI — Anysphere Dark</div>
+      <div class="palette-grid">
+        <div class="swatch" onclick="copyHex('#181818', this)">
+          <div class="swatch-color" style="background:#181818; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Editor BG</div>
+            <div class="swatch-hex">#181818</div>
+            <div class="swatch-usage">Main canvas, panels, tabs</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#1d1d1d', this)">
+          <div class="swatch-color" style="background:#1d1d1d; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Surface</div>
+            <div class="swatch-hex">#1d1d1d</div>
+            <div class="swatch-usage">Dropdowns, popups, menus</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#228df2', this)">
+          <div class="swatch-color" style="background:#228df2;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Accent Blue</div>
+            <div class="swatch-hex">#228df2</div>
+            <div class="swatch-usage">Caret, buttons, links, badges</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#d6d6dd', this)">
+          <div class="swatch-color" style="background:#d6d6dd; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Foreground</div>
+            <div class="swatch-hex">#d6d6dd</div>
+            <div class="swatch-usage">Default text and icons</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#383838', this)">
+          <div class="swatch-color" style="background:#383838; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Border</div>
+            <div class="swatch-hex">#383838</div>
+            <div class="swatch-usage">Panel borders, tab borders</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#163761', this)">
+          <div class="swatch-color" style="background:#163761; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Selection</div>
+            <div class="swatch-hex">#163761</div>
+            <div class="swatch-usage">Text selection, active item</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#f14c4c', this)">
+          <div class="swatch-color" style="background:#f14c4c; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Error</div>
+            <div class="swatch-hex">#f14c4c</div>
+            <div class="swatch-usage">Errors, deleted git gutter</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#ea7620', this)">
+          <div class="swatch-color" style="background:#ea7620; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Warning</div>
+            <div class="swatch-hex">#ea7620</div>
+            <div class="swatch-usage">Warnings, debug bar</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#15ac91', this)">
+          <div class="swatch-color" style="background:#15ac91; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Success</div>
+            <div class="swatch-hex">#15ac91</div>
+            <div class="swatch-usage">Git added, progress bar</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#e5b95c', this)">
+          <div class="swatch-color" style="background:#e5b95c; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Modified</div>
+            <div class="swatch-hex">#e5b95c</div>
+            <div class="swatch-usage">Git modified gutter</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#aaa0fa', this)">
+          <div class="swatch-color" style="background:#aaa0fa; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Conflict</div>
+            <div class="swatch-hex">#aaa0fa</div>
+            <div class="swatch-usage">Git conflict resource</div>
+          </div>
+        </div>
+        <div class="swatch" onclick="copyHex('#5b51ec', this)">
+          <div class="swatch-color" style="background:#5b51ec; border-bottom:1px solid #383838;">
+            <div class="swatch-copy-hint">Copy hex</div>
+          </div>
+          <div class="swatch-info" style="background:#1d1d1d; border-top:1px solid #383838;">
+            <div class="swatch-name" style="color:#d6d6dd;">Remote</div>
+            <div class="swatch-hex">#5b51ec</div>
+            <div class="swatch-usage">Status bar remote indicator</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TYPOGRAPHY ─────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Typography</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Marketing Site — Minor Third Scale (15px base)</div>
+      <div class="type-scale">
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">display</span>
+            <span class="type-spec">72px / 400<br>lh 1.00 / ls −0.030em</span>
+          </div>
+          <div class="type-sample" style="font-size:72px; font-weight:400; line-height:1.0; letter-spacing:-0.030em; color:var(--heading);">Cursor</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">heading-lg</span>
+            <span class="type-spec">36px / 400<br>lh 1.10 / ls −0.020em</span>
+          </div>
+          <div class="type-sample" style="font-size:36px; font-weight:400; line-height:1.1; letter-spacing:-0.020em; color:var(--heading);">AI-native code editor</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">heading</span>
+            <span class="type-spec">26px / 400<br>lh 1.20 / ls −0.012em</span>
+          </div>
+          <div class="type-sample" style="font-size:26px; font-weight:400; line-height:1.2; letter-spacing:-0.012em; color:var(--heading);">Design System Guidelines</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">heading-sm</span>
+            <span class="type-spec">22px / 400<br>lh 1.30 / ls −0.005em</span>
+          </div>
+          <div class="type-sample" style="font-size:22px; font-weight:400; line-height:1.3; letter-spacing:-0.005em; color:var(--heading);">Color, typography, and components</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">body-16</span>
+            <span class="type-spec">16px / 400<br>lh 1.50 / ls +0.005em</span>
+          </div>
+          <div class="type-sample" style="font-size:16px; font-weight:400; line-height:1.5; letter-spacing:0.005em;">Cursor is built around ambient intelligence, expressing technical precision through a warm, achromatic aesthetic.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">body-14</span>
+            <span class="type-spec">14px / 400<br>lh 1.50 / ls +0.010em</span>
+          </div>
+          <div class="type-sample" style="font-size:14px; font-weight:400; line-height:1.5; letter-spacing:0.010em;">95%+ achromatic surface coverage. Colour communicates state, never decoration. Typography carries brand character; layout carries hierarchy.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">caption</span>
+            <span class="type-spec">13px / 400<br>lh 1.55 / ls +0.010em</span>
+          </div>
+          <div class="type-sample" style="font-size:13px; font-weight:400; line-height:1.55; letter-spacing:0.010em;">Bespoke condensed grotesque commissioned from Kimera — maximum signal, minimum noise.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta">
+            <span class="type-role">small</span>
+            <span class="type-spec">12px / 400<br>lh 1.67</span>
+          </div>
+          <div class="type-sample" style="font-size:12px; font-weight:400; line-height:1.67; color:var(--text-muted);">Berkeley Mono · Cursor Gothic · EB Garamond · Inter</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">App UI Type Scale</div>
+      <div class="app-ui-preview" style="grid-template-columns: 1fr; height: auto; background: #181818; padding: var(--s6); display: flex; flex-direction: column; gap: var(--s4); border-radius: var(--r-lg);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 400; color: #d6d6dd; line-height: 1.5;">Editor body — 13–14px / 400 — Code and chat panel prose</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; color: #d1d1d1; letter-spacing: 0.04em; text-transform: uppercase;">SIDEBAR LABEL — 11px / 400 / UPPERCASE</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; color: #a6a6a6;">status bar — 11px / 400 — bottom bar text</div>
+        <div style="display:flex; gap: var(--s3); align-items: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; background: #228df2; color: #fff; padding: 2px 6px; border-radius: 9999px;">3</span>
+          <span style="font-size: 12px; color: #7a797a; font-family: 'JetBrains Mono', monospace;">Badge — 10px / 500</span>
+        </div>
+        <div style="display:flex; gap: var(--s2); align-items: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a6a6a6;">src</span>
+          <span style="color: #535353; font-size: 12px;">/</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #a6a6a6;">components</span>
+          <span style="color: #535353; font-size: 12px;">/</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #d6d6dd;">Button.tsx</span>
+          <span style="font-size: 11px; color: #535353; margin-left: var(--s2);">Breadcrumb — #a6a6a6</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-label">Font Families</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--s4);">
+        <div style="padding: var(--s5); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);">
+          <div style="font-size: 11px; color: var(--accent); font-family: monospace; margin-bottom: var(--s2); font-weight: 500;">BRAND / DISPLAY</div>
+          <div style="font-size: 22px; color: var(--heading); margin-bottom: var(--s2);">Cursor Gothic</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Bespoke condensed grotesque by Kimera<br>Fallback: Inter Tight, IBM Plex Sans</div>
+        </div>
+        <div style="padding: var(--s5); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);">
+          <div style="font-size: 11px; color: var(--accent); font-family: monospace; margin-bottom: var(--s2); font-weight: 500;">CODE / MONO</div>
+          <div style="font-size: 22px; color: var(--heading); margin-bottom: var(--s2); font-family: 'JetBrains Mono', monospace;">Berkeley Mono</div>
+          <div style="font-size: 12px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">All code, paths, CLI output<br>Fallback: JetBrains Mono, IBM Plex Mono</div>
+        </div>
+        <div style="padding: var(--s5); border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--surface);">
+          <div style="font-size: 11px; color: var(--accent); font-family: monospace; margin-bottom: var(--s2); font-weight: 500;">EDITORIAL ACCENT</div>
+          <div style="font-size: 22px; color: var(--heading); margin-bottom: var(--s2); font-family: 'EB Garamond', Georgia, serif; font-style: italic;">EB Garamond</div>
+          <div style="font-size: 12px; color: var(--text-muted);">Pull-quotes, long-form editorial<br>Marketing pages only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPONENTS ─────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Components</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="subsection">
+      <div class="subsection-label">Buttons</div>
+      <div style="display: flex; flex-direction: column; gap: var(--s6);">
+        <div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--s3); font-family: monospace;">Marketing Site</div>
+          <div class="btn-group">
+            <button class="btn-primary-mkt">Download for Mac</button>
+            <button class="btn-primary-mkt">Get started free</button>
+            <button class="btn-ghost-mkt">Sign in</button>
+            <button class="btn-ghost-mkt">View changelog</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--s3); font-family: monospace;">App UI — Anysphere Dark</div>
+          <div class="btn-group" style="background: #181818; padding: var(--s5); border-radius: var(--r-lg); border: 1px solid #383838;">
+            <button class="btn-primary-app">Accept</button>
+            <button class="btn-primary-app">Apply fix</button>
+            <button class="btn-secondary-app">Reject</button>
+            <button class="btn-secondary-app">Discard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="subsection">
+      <div class="subsection-label">Badges &amp; Pills</div>
+      <div style="display: flex; flex-direction: column; gap: var(--s5);">
+        <div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--s3); font-family: monospace;">Marketing Site</div>
+          <div class="badge-group">
+            <span class="badge-mkt">Design System</span>
+            <span class="badge-mkt">Cursor Gothic</span>
+            <span class="badge-mkt-outline">VS Code Fork</span>
+            <span class="badge-mkt-green">Signal Green</span>
+            <span class="badge-mkt-ember">New</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--s3); font-family: monospace;">App UI — Semantic Statuses</div>
+          <div class="badge-group" style="background: #181818; padding: var(--s5); border-radius: var(--r-lg); border: 1px solid #383838;">
+            <span class="badge-app">3 suggestions</span>
+            <span class="badge-app-error">2 errors</span>
+            <span class="badge-app-warn">4 warnings</span>
+            <span class="badge-app-success">Tests passed</span>
+            <span class="badge-app-purple">Remote: origin</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="subsection">
+      <div class="subsection-label">Input Fields</div>
+      <div class="input-demo-row">
+        <div class="input-demo-group">
+          <div class="input-demo-label">Marketing Site</div>
+          <input class="input-mkt" type="text" placeholder="Search documentation…">
+          <input class="input-mkt" type="email" placeholder="you@company.com">
+        </div>
+        <div class="input-demo-group">
+          <div class="input-demo-label" style="color: #7a797a;">App UI — Anysphere Dark</div>
+          <input class="input-app" type="text" placeholder="Find in files…">
+          <input class="input-app" type="text" placeholder="Ask Cursor anything…">
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="subsection">
+      <div class="subsection-label">Cards</div>
+      <div class="cards-grid">
+        <div class="card-mkt">
+          <div class="card-mkt-title">Tab Autocomplete</div>
+          <div class="card-mkt-body">Cursor predicts your next edit. As you write, it ghosts in multi-line suggestions across your entire codebase — just press Tab to apply.</div>
+          <div class="card-mkt-footer">
+            <span class="card-mkt-tag">Feature</span>
+            <span class="card-mkt-tag-outline">AI-native</span>
+          </div>
+        </div>
+        <div class="card-mkt" style="background: var(--card-stone);">
+          <div class="card-mkt-title">Cmd+K Edit</div>
+          <div class="card-mkt-body">Select code and hit Cmd+K to edit with natural language. Cursor writes the diff, you review it inline with a one-key accept or reject.</div>
+          <div class="card-mkt-footer">
+            <span class="card-mkt-tag">Feature</span>
+            <button class="btn-ghost-mkt" style="font-size: 12px; padding: 5px 14px;">Learn more</button>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: var(--s6);">
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: var(--s3); font-family: monospace;">App UI Card</div>
+        <div class="card-app" style="max-width: 340px;">
+          <div class="card-app-title">cursor.indexing.ts</div>
+          <div class="card-app-body">Function analyzeImports() — 14 references<br>Last modified 2 hours ago</div>
+          <div class="card-app-footer">
+            <button class="btn-primary-app" style="font-size: 11px; padding: 4px 10px;">Open file</button>
+            <button class="btn-secondary-app" style="font-size: 11px; padding: 4px 10px;">View refs</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App UI Preview -->
+    <div class="subsection">
+      <div class="subsection-label">App UI — IDE Shell Preview</div>
+      <div class="app-ui-preview">
+        <div class="app-activity-bar">
+          <div class="app-icon active"></div>
+          <div class="app-icon has-badge"></div>
+          <div class="app-icon"></div>
+          <div class="app-icon"></div>
+          <div style="flex:1;"></div>
+          <div class="app-icon"></div>
+        </div>
+        <div class="app-sidebar">
+          <div class="app-sidebar-header">Explorer</div>
+          <div class="app-file-item">
+            <div class="app-file-dot"></div>src
+          </div>
+          <div class="app-file-item active">
+            <div class="app-file-dot modified"></div>Button.tsx
+          </div>
+          <div class="app-file-item">
+            <div class="app-file-dot added"></div>tokens.ts
+          </div>
+          <div class="app-file-item">
+            <div class="app-file-dot deleted"></div>old-theme.css
+          </div>
+          <div class="app-file-item">
+            <div class="app-file-dot"></div>index.ts
+          </div>
+          <div class="app-file-item">
+            <div class="app-file-dot"></div>README.md
+          </div>
+          <div class="app-sidebar-header" style="margin-top: var(--s4);">Outline</div>
+          <div class="app-file-item">
+            <div class="app-file-dot"></div>ButtonProps
+          </div>
+          <div class="app-file-item">
+            <div class="app-file-dot"></div>Button
+          </div>
+        </div>
+        <div class="app-editor">
+          <div class="app-code-line"><span class="app-line-num">1</span><span class="c-comment">// Button.tsx — Cursor Design System</span></div>
+          <div class="app-code-line"><span class="app-line-num">2</span></div>
+          <div class="app-code-line"><span class="app-line-num active">3</span><span class="c-kw">import</span><span class="c-default"> React </span><span class="c-kw">from</span><span class="c-str"> 'react'</span></div>
+          <div class="app-code-line"><span class="app-line-num">4</span></div>
+          <div class="app-code-line"><span class="app-line-num">5</span><span class="c-kw">const </span><span class="c-fn">Button</span><span class="c-default"> = ({ children, variant = </span><span class="c-str">'primary'</span><span class="c-default"> }) =&gt; {</span></div>
+          <div class="app-code-line"><span class="app-line-num">6</span><span class="c-default">  </span><span class="c-kw">const</span><span class="c-default"> bg = variant === </span><span class="c-str">'primary'</span><span class="c-default"> ? </span><span class="c-str">'#228df2'</span><span class="c-default"> : </span><span class="c-str">'#1d1d1d'</span></div>
+          <div class="app-code-line"><span class="app-line-num">7</span><span class="c-default">  </span><span class="c-kw">return</span><span class="c-default"> &lt;</span><span class="c-fn">button</span><span class="c-default"> style={{ background: bg, borderRadius: </span><span class="c-num">4</span><span class="c-default"> }}&gt;</span></div>
+          <div class="app-code-line"><span class="app-line-num">8</span><span class="c-default">    {children}</span></div>
+          <div class="app-code-line"><span class="app-line-num">9</span><span class="c-default">  &lt;/</span><span class="c-fn">button</span><span class="c-default">&gt;</span></div>
+          <div class="app-code-line"><span class="app-line-num">10</span><span class="c-default">}</span></div>
+          <div class="app-code-line"><span class="app-line-num">11</span></div>
+          <div class="app-code-line"><span class="app-line-num">12</span><span class="c-kw">export default </span><span class="c-fn">Button</span></div>
+        </div>
+      </div>
+      <div style="background: #181818; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s4); height: 22px; border: 1px solid #383838; border-top: none; border-radius: 0 0 var(--r-lg) var(--r-lg);">
+        <div style="display: flex; gap: var(--s4); align-items: center;">
+          <span style="background: #5b51ec; color: #fff; font-size: 10px; font-family: 'JetBrains Mono', monospace; padding: 0 6px; height: 22px; display: flex; align-items: center; margin-left: calc(-1 * var(--s4));">⎇ main</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a6a6a6;">Button.tsx</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a6a6a6;">TypeScript JSX</span>
+        </div>
+        <div style="display: flex; gap: var(--s4); align-items: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #a6a6a6;">Ln 7, Col 14</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #228df2;">Cursor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SPACING ─────────────────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Spacing Scale</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div style="margin-bottom: var(--s3); font-size: 13px; color: var(--text-muted);">Base unit: 4px. All spacing tokens are multiples of 4.</div>
+    <div class="spacing-grid">
+      <div class="spacing-row">
+        <span class="spacing-token">space-1</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px;"></div></div>
+        <span class="spacing-val">4px</span>
+        <span class="spacing-usage">Icon padding, tight gaps</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-2</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px;"></div></div>
+        <span class="spacing-val">8px</span>
+        <span class="spacing-usage">Between list items, small element gaps</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-3</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px;"></div></div>
+        <span class="spacing-val">12px</span>
+        <span class="spacing-usage">Inner padding of compact components</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-4</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px;"></div></div>
+        <span class="spacing-val">16px</span>
+        <span class="spacing-usage">Default component padding, form field height rhythm</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-5</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:20px;"></div></div>
+        <span class="spacing-val">20px</span>
+        <span class="spacing-usage">Section sub-gaps</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-6</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px;"></div></div>
+        <span class="spacing-val">24px</span>
+        <span class="spacing-usage">Card padding, panel insets</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-8</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px;"></div></div>
+        <span class="spacing-val">32px</span>
+        <span class="spacing-usage">Component group separation</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-10</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:40px;"></div></div>
+        <span class="spacing-val">40px</span>
+        <span class="spacing-usage">Panel header height</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">space-12</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px;"></div></div>
+        <span class="spacing-val">48px</span>
+        <span class="spacing-usage">Hero sub-sections</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-token">section-gap</span>
+        <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px;"></div></div>
+        <span class="spacing-val">64px</span>
+        <span class="spacing-usage">Marketing page section gaps</span>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--s10);">
+      <div class="subsection-label">Border Radius Tokens</div>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--s5); align-items: flex-end;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 0; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">0px<br><span style="color: var(--accent);">none</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 2px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">2px<br><span style="color: var(--accent);">sm</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 4px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">4px<br><span style="color: var(--accent);">base</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 6px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">6px<br><span style="color: var(--accent);">md</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 8px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">8px<br><span style="color: var(--accent);">lg</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 48px; height: 48px; background: var(--accent); border-radius: 12px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">12px<br><span style="color: var(--accent);">xl</span></span>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: var(--s3);">
+          <div style="width: 80px; height: 48px; background: var(--accent); border-radius: 9999px; opacity: 0.85;"></div>
+          <span style="font-size: 11px; font-family: monospace; color: var(--text-muted);">9999px<br><span style="color: var(--accent);">pill</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TONE & GUARDRAILS ───────────────────────────── -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Tone &amp; Guardrails</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="guardrails-grid">
+      <div class="guardrail-panel guardrail-panel-do">
+        <div class="guardrail-header">
+          <div class="guardrail-icon guardrail-icon-do">✓</div>
+          <span class="guardrail-title-do">DO</span>
+        </div>
+        <ul class="guardrail-list">
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Use <code class="inline">#228df2</code> as the one and only chromatic colour in the app UI — all other colour is reserved for semantic status.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Keep all app surfaces within the <code class="inline">#141414</code>–<code class="inline">#1d1d1d</code> range. Never introduce mid-grey or coloured backgrounds.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Render all code — in editor, chat bubbles, tooltips, and inline diffs — in <strong>Berkeley Mono</strong>.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Use <strong>Cursor Gothic</strong> exclusively for brand and marketing text. Never set it inside the editor canvas or code-adjacent contexts.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Maintain 95%+ achromatic coverage on any surface. Chromatic colours are states, not backgrounds.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Apply <code class="inline">#14120B</code> / <code class="inline">#26251E</code> for text on marketing pages — never pure <code class="inline">#000000</code>.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Use pill (<code class="inline">9999px</code>) radius for marketing buttons and strict <code class="inline">4px</code> / <code class="inline">8px</code> for IDE UI elements.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-do"></div>
+            <span>Preserve the <code class="inline">64px</code> section gap rhythm on marketing pages for breathing room and editorial quality.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="guardrail-panel guardrail-panel-dont">
+        <div class="guardrail-header">
+          <div class="guardrail-icon guardrail-icon-dont">✕</div>
+          <span class="guardrail-title-dont">DON'T</span>
+        </div>
+        <ul class="guardrail-list">
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't use gradients, drop shadows, or coloured glows in the app UI. Depth is implied by background value alone.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't add decorative illustrations or icons to the editor shell. Iconography is functional and monochromatic.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't use orange (<code class="inline">#f54e00</code>) inside the IDE — that accent is marketing-only.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't mix light UI widgets into a dark theme context or vice versa.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't use <code class="inline">#000000</code> pure black for any text — always warm it (Espresso <code class="inline">#26251E</code> on marketing).</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't reduce the Activity Bar below 48px or the AI panel below 200px.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't use EB Garamond outside editorial / marketing long-form contexts.</span>
+          </li>
+          <li class="guardrail-item">
+            <div class="guardrail-item-dot guardrail-item-dot-dont"></div>
+            <span>Don't refer to the product as "Cursor AI" or "Cursor Code" — it is simply <strong>Cursor</strong>.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────────────── -->
+<footer class="site-footer">
+  <span>Cursor Design System</span>
+  <span class="footer-dot">·</span>
+  <span>Anysphere Dark</span>
+  <span class="footer-dot">·</span>
+  <span>Warm Parchment</span>
+  <span class="footer-dot">·</span>
+  <span style="font-family: 'JetBrains Mono', monospace; color: var(--accent);">v2025</span>
+</footer>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    html.setAttribute('data-theme', current === 'marketing' ? 'app' : 'marketing');
+  }
+
+  function copyHex(hex, el) {
+    // Try modern clipboard API
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(hex).then(() => showToast(hex)).catch(() => fallbackCopy(hex));
+    } else {
+      fallbackCopy(hex);
+      showToast(hex);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  function showToast(hex) {
+    const toast = document.getElementById('copyToast');
+    toast.textContent = hex + ' copied';
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+</script>
+</body>
+</html>
