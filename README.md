@@ -41,6 +41,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 18 | [Upstash](brands/upstash/DESIGN.md) | Developer Tools | [preview](brands/upstash/preview.html) |
 | 19 | [Infisical](brands/infisical/DESIGN.md) | Developer Tools | [preview](brands/infisical/preview.html) |
 | 20 | [Doppler](brands/doppler/DESIGN.md) | Developer Tools | [preview](brands/doppler/preview.html) |
+| 21 | [Sentry](brands/sentry/DESIGN.md) | Developer Tools | [preview](brands/sentry/preview.html) |
+| 22 | [PostHog](brands/posthog/DESIGN.md) | Developer Tools | [preview](brands/posthog/preview.html) |
+| 23 | [Cloudflare](brands/cloudflare/DESIGN.md) | Developer Tools | [preview](brands/cloudflare/preview.html) |
+| 24 | [Prisma](brands/prisma/DESIGN.md) | Developer Tools | [preview](brands/prisma/preview.html) |
+| 25 | [Lemon Squeezy](brands/lemonsqueezy/DESIGN.md) | Fintech | [preview](brands/lemonsqueezy/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lemon Squeezy – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0C0C0C;
+  --surface: #161616;
+  --elevated: #202020;
+  --border: #2E2E2E;
+  --primary: #FDE047;
+  --primary-hover: #EAC800;
+  --primary-text: #0F0F0F;
+  --purple: #7C3AED;
+  --purple-hover: #6D28D9;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --text: #F5F5F5;
+  --text-2: #888888;
+  --text-3: #555555;
+  --toggle-bg: #202020;
+  --toggle-text: #F5F5F5;
+  --toggle-border: #2E2E2E;
+}
+:root[data-theme="light"] {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --elevated: #F0F0F0;
+  --border: #E0E0E0;
+  --primary: #D4B800;
+  --primary-hover: #B89F00;
+  --primary-text: #FFFFFF;
+  --purple: #7C3AED;
+  --purple-hover: #6D28D9;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
+  --text: #111111;
+  --text-2: #555555;
+  --text-3: #888888;
+  --toggle-bg: #F0F0F0;
+  --toggle-text: #111111;
+  --toggle-border: #E0E0E0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  transition: background 0.2s, color 0.2s;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 999;
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  border: 1px solid var(--toggle-border);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.toggle-btn:hover { border-color: var(--primary); }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--purple);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-logo { flex-shrink: 0; }
+.hero-text h1 { font-size: 32px; font-weight: 800; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+
+.section { margin-bottom: 56px; }
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  margin-bottom: 6px;
+}
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: var(--elevated);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.type-sample { flex: 1; }
+
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.btn-primary { background: #FDE047; color: #0F0F0F; }
+.btn-primary:hover { background: #EAC800; }
+.btn-purple { background: var(--purple); color: #fff; }
+.btn-purple:hover { background: var(--purple-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: #FDE047; }
+
+.input-demo {
+  width: 100%;
+  height: 42px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  margin-bottom: 10px;
+}
+.input-demo:focus { border-color: #FDE047; }
+
+/* Pricing card */
+.pricing-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.pricing-card.featured { border-color: #FDE047; box-shadow: 0 4px 24px rgba(253,224,71,0.1); }
+.pricing-name { font-size: 13px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.pricing-price { font-size: 36px; font-weight: 800; color: var(--text); }
+.pricing-period { font-size: 13px; color: var(--text-3); margin-left: 4px; }
+.pricing-cta { width: 100%; height: 42px; background: #FDE047; color: #0F0F0F; border: none; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: background 0.15s; }
+.pricing-cta:hover { background: #EAC800; }
+
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 12px;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+.badge-success { background: rgba(34,197,94,0.12); color: #22C55E; border-color: rgba(34,197,94,0.3); }
+.badge-warning { background: rgba(245,158,11,0.12); color: #F59E0B; border-color: rgba(245,158,11,0.3); }
+.badge-danger { background: rgba(239,68,68,0.12); color: #EF4444; border-color: rgba(239,68,68,0.3); }
+.badge-yellow { background: rgba(253,224,71,0.12); color: #FDE047; border-color: rgba(253,224,71,0.3); }
+
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: #FDE047; border-radius: 9999px; opacity: 0.85; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#161616"/>
+        <!-- Lemon shape -->
+        <ellipse cx="36" cy="36" rx="18" ry="14" fill="#FDE047"/>
+        <path d="M54 36 C54 38 52 40 50 40 C48 40 48 36 50 32 C52 28 54 34 54 36Z" fill="#FDE047"/>
+        <path d="M18 36 C18 34 20 32 22 32 C24 32 24 36 22 40 C20 44 18 38 18 36Z" fill="#FDE047"/>
+        <!-- Lemon highlight -->
+        <ellipse cx="30" cy="30" rx="5" ry="3" fill="#FEFCE8" opacity="0.6" transform="rotate(-20 30 30)"/>
+        <!-- Leaf -->
+        <path d="M36 22 C38 18 44 16 46 20 C42 20 40 22 38 24 C37 23 36 22 36 22Z" fill="#22C55E"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Lemon Squeezy</h1>
+      <p>Payments &amp; subscriptions for indie developers and software creators</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FDE047', this)"><div class="swatch-dot" style="background:#FDE047"></div><div class="swatch-info"><span class="swatch-name">Lemon Yellow</span><span class="swatch-hex">#FDE047</span></div></div>
+        <div class="swatch" onclick="copyHex('#EAC800', this)"><div class="swatch-dot" style="background:#EAC800"></div><div class="swatch-info"><span class="swatch-name">Yellow Dark</span><span class="swatch-hex">#EAC800</span></div></div>
+        <div class="swatch" onclick="copyHex('#7C3AED', this)"><div class="swatch-dot" style="background:#7C3AED"></div><div class="swatch-info"><span class="swatch-name">Purple</span><span class="swatch-hex">#7C3AED</span></div></div>
+        <div class="swatch" onclick="copyHex('#22C55E', this)"><div class="swatch-dot" style="background:#22C55E"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#22C55E</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0C0C0C', this)"><div class="swatch-dot" style="background:#0C0C0C;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0C0C0C</span></div></div>
+        <div class="swatch" onclick="copyHex('#161616', this)"><div class="swatch-dot" style="background:#161616;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161616</span></div></div>
+        <div class="swatch" onclick="copyHex('#202020', this)"><div class="swatch-dot" style="background:#202020;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#202020</span></div></div>
+        <div class="swatch" onclick="copyHex('#2E2E2E', this)"><div class="swatch-dot" style="background:#2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2E2E2E</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F5F5F5', this)"><div class="swatch-dot" style="background:#F5F5F5"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#F5F5F5</span></div></div>
+        <div class="swatch" onclick="copyHex('#888888', this)"><div class="swatch-dot" style="background:#888888"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#888888</span></div></div>
+        <div class="swatch" onclick="copyHex('#555555', this)"><div class="swatch-dot" style="background:#555555"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#555555</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <div class="section-title">Typography — Plus Jakarta Sans</div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">48px</span><span class="spec-pill">800</span></div>
+      <div class="type-sample" style="font-size:48px;font-weight:800;">Display</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div>
+      <div class="type-sample" style="font-size:32px;font-weight:700;">Page Title</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div>
+      <div class="type-sample" style="font-size:22px;font-weight:600;">Section Header</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div>
+      <div class="type-sample" style="font-size:15px;">Body text — content, descriptions, and all UI prose</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div>
+      <div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — labels, captions, metadata</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div>
+      <div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">sk_live_abc123xyz · $49.00/mo</div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Get Started</button>
+          <button class="btn btn-purple">Upgrade</button>
+          <button class="btn btn-ghost">Learn More</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Input</h3>
+        <input class="input-demo" type="text" placeholder="Product name..." />
+        <input class="input-demo" type="text" placeholder="$9.99/month" />
+      </div>
+      <div class="comp-card">
+        <h3>Pricing Card</h3>
+        <div class="pricing-card featured">
+          <div class="pricing-name">Pro</div>
+          <div><span class="pricing-price">$49</span><span class="pricing-period">/month</span></div>
+          <button class="pricing-cta">Start for free</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Status Badges</h3>
+        <div class="badge-row">
+          <span class="badge badge-success">Paid</span>
+          <span class="badge badge-warning">Trial</span>
+          <span class="badge badge-danger">Failed</span>
+          <span class="badge badge-yellow">New</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-20</span><div class="spacing-bar" style="width:80px"></div><span class="spacing-value">80px</span></div>
+    </div>
+  </div>
+
+  <!-- Guardrails -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Lead with the yellow — it's the brand's identity anchor</li>
+          <li>Use large bold numbers for revenue metrics like MRR</li>
+          <li>Use rounded corners and friendly typography throughout</li>
+          <li>Show success states with enthusiasm — payments are wins</li>
+          <li>Use Plus Jakarta Sans at heavy weights for CTAs</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use muted or desaturated palettes</li>
+          <li>Don't overuse purple — yellow is the primary anchor</li>
+          <li>Don't use thin fonts — they feel too corporate</li>
+          <li>Don't put yellow text on white/light backgrounds</li>
+          <li>Don't use aggressive corporate copy like "Request a demo"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

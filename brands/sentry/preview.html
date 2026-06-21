@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sentry – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #1A1625;
+  --surface: #241C35;
+  --elevated: #2E2541;
+  --border: #3A2F50;
+  --primary: #6C5FC7;
+  --primary-hover: #7B6DD6;
+  --accent: #F55C47;
+  --warning: #F0A858;
+  --success: #2BA22B;
+  --text: #EBE6F5;
+  --text-2: #9B8EC4;
+  --text-3: #6A5E8A;
+  --toggle-bg: #2E2541;
+  --toggle-text: #EBE6F5;
+  --toggle-border: #3A2F50;
+}
+:root[data-theme="light"] {
+  --bg: #F7F5FF;
+  --surface: #FFFFFF;
+  --elevated: #EDE9FF;
+  --border: #C9BEE8;
+  --primary: #6C5FC7;
+  --primary-hover: #5A4EB5;
+  --accent: #D94B38;
+  --warning: #C07820;
+  --success: #1F8C1F;
+  --text: #1A1025;
+  --text-2: #4B4270;
+  --text-3: #8A7FAA;
+  --toggle-bg: #EDE9FF;
+  --toggle-text: #1A1025;
+  --toggle-border: #C9BEE8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  transition: background 0.2s, color 0.2s;
+}
+
+.toggle-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 999;
+  background: var(--toggle-bg);
+  color: var(--toggle-text);
+  border: 1px solid var(--toggle-border);
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.toggle-btn:hover { border-color: var(--primary); }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* Hero */
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-logo { flex-shrink: 0; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+
+/* Section */
+.section { margin-bottom: 56px; }
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+
+/* Colors */
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  margin-bottom: 6px;
+}
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--text-2); }
+
+/* Typography */
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--elevated);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.type-sample { flex: 1; }
+
+/* Components */
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+
+/* Buttons showcase */
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+.btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-danger { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+
+/* Input */
+.input-demo {
+  width: 100%;
+  height: 36px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0 12px;
+  font-family: 'Rubik', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  margin-bottom: 10px;
+}
+.input-demo:focus { border-color: var(--primary); }
+
+/* Badges */
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.badge-error { background: rgba(245,92,71,0.12); color: #F55C47; border-color: rgba(245,92,71,0.3); }
+.badge-warning { background: rgba(240,168,88,0.12); color: #F0A858; border-color: rgba(240,168,88,0.3); }
+.badge-info { background: rgba(108,95,199,0.12); color: #6C5FC7; border-color: rgba(108,95,199,0.3); }
+.badge-resolved { background: rgba(43,162,43,0.12); color: #2BA22B; border-color: rgba(43,162,43,0.3); }
+
+/* Issue row */
+.issue-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent);
+  margin-bottom: 8px;
+}
+.issue-title { font-size: 13px; font-weight: 500; flex: 1; }
+.issue-count { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--text-2); background: var(--elevated); padding: 2px 8px; border-radius: 4px; }
+
+/* Spacing */
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+
+/* Guardrails */
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--accent); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--accent); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#362D59"/>
+        <path d="M36 14L14 54h8.5L36 30.5 49.5 54H58L36 14Z" fill="#6C5FC7"/>
+        <path d="M27 54h18l-9-16-9 16Z" fill="#F55C47"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Sentry</h1>
+      <p>Error monitoring &amp; performance for developers</p>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#6C5FC7', this)"><div class="swatch-dot" style="background:#6C5FC7"></div><div class="swatch-info"><span class="swatch-name">Purple</span><span class="swatch-hex">#6C5FC7</span></div></div>
+        <div class="swatch" onclick="copyHex('#F55C47', this)"><div class="swatch-dot" style="background:#F55C47"></div><div class="swatch-info"><span class="swatch-name">Pink/Error</span><span class="swatch-hex">#F55C47</span></div></div>
+        <div class="swatch" onclick="copyHex('#F0A858', this)"><div class="swatch-dot" style="background:#F0A858"></div><div class="swatch-info"><span class="swatch-name">Orange</span><span class="swatch-hex">#F0A858</span></div></div>
+        <div class="swatch" onclick="copyHex('#2BA22B', this)"><div class="swatch-dot" style="background:#2BA22B"></div><div class="swatch-info"><span class="swatch-name">Green</span><span class="swatch-hex">#2BA22B</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1A1625', this)"><div class="swatch-dot" style="background:#1A1625;border:1px solid #3A2F50"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#1A1625</span></div></div>
+        <div class="swatch" onclick="copyHex('#241C35', this)"><div class="swatch-dot" style="background:#241C35;border:1px solid #3A2F50"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#241C35</span></div></div>
+        <div class="swatch" onclick="copyHex('#2E2541', this)"><div class="swatch-dot" style="background:#2E2541;border:1px solid #3A2F50"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#2E2541</span></div></div>
+        <div class="swatch" onclick="copyHex('#3A2F50', this)"><div class="swatch-dot" style="background:#3A2F50"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#3A2F50</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#EBE6F5', this)"><div class="swatch-dot" style="background:#EBE6F5"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#EBE6F5</span></div></div>
+        <div class="swatch" onclick="copyHex('#9B8EC4', this)"><div class="swatch-dot" style="background:#9B8EC4"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#9B8EC4</span></div></div>
+        <div class="swatch" onclick="copyHex('#6A5E8A', this)"><div class="swatch-dot" style="background:#6A5E8A"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#6A5E8A</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <div class="section-title">Typography — Rubik + Roboto Mono</div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div>
+      <div class="type-sample" style="font-size:32px;font-weight:700;">Display Heading</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div>
+      <div class="type-sample" style="font-size:24px;font-weight:600;">Section Header</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">18px</span><span class="spec-pill">600</span></div>
+      <div class="type-sample" style="font-size:18px;font-weight:600;">Card Title</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div>
+      <div class="type-sample" style="font-size:14px;">Body text — default content and descriptions go here</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div>
+      <div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, timestamps, captions</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div>
+      <div class="type-sample" style="font-size:13px;font-family:'Roboto Mono',monospace;color:var(--text-2);">TypeError: Cannot read properties of undefined</div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Resolve</button>
+          <button class="btn btn-danger">Ignore</button>
+          <button class="btn btn-ghost">View Details</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Input</h3>
+        <input class="input-demo" type="text" placeholder="Search issues..." />
+        <input class="input-demo" type="text" placeholder="Filter by project..." />
+      </div>
+      <div class="comp-card">
+        <h3>Event Levels</h3>
+        <div class="badge-row">
+          <span class="badge badge-error">error</span>
+          <span class="badge badge-warning">warning</span>
+          <span class="badge badge-info">info</span>
+          <span class="badge badge-resolved">resolved</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Issue Rows</h3>
+        <div class="issue-row">
+          <span class="issue-title">TypeError: Cannot read property 'map'</span>
+          <span class="issue-count">1.2k</span>
+        </div>
+        <div class="issue-row" style="border-left-color:var(--warning)">
+          <span class="issue-title">Slow DB query detected</span>
+          <span class="issue-count">284</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <!-- Guardrails -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Use monospace for all event IDs and stack traces</li>
+          <li>Color-code severity consistently across the UI</li>
+          <li>Show timestamps as relative time with absolute on hover</li>
+          <li>Keep error messages technical and precise</li>
+          <li>Use #F55C47 only for actual errors, not branding</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use bright colors on large surface areas</li>
+          <li>Don't round corners beyond 8px</li>
+          <li>Don't use light backgrounds for the main dashboard</li>
+          <li>Don't mix multiple accent colors in one component</li>
+          <li>Don't add animations to data tables</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>
