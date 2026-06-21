@@ -1,1553 +1,428 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude — Design System</title>
-  <style>
-    /* ─── CSS Custom Properties ─────────────────────────────────────────── */
-    :root {
-      --primary: #D97757;
-      --primary-hover: #C4633F;
-      --bg: #FAF9F7;
-      --surface: #FFFFFF;
-      --surface-secondary: #F3F2EF;
-      --text-primary: #1A1A1A;
-      --text-secondary: #6B6B6B;
-      --text-muted: #9E9E9E;
-      --border: #E5E4E0;
-      --border-strong: #CCCBC7;
-      --error: #E53935;
-      --success: #43A047;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --radius-xl: 16px;
-      --radius-full: 9999px;
-      --font-sans: 'Söhne', ui-sans-serif, system-ui, -apple-system, sans-serif;
-      --font-mono: 'Söhne Mono', ui-monospace, monospace;
-      --transition: 150ms ease;
-    }
-
-    [data-theme="dark"] {
-      --bg: #1A1A1A;
-      --surface: #242424;
-      --surface-secondary: #2E2E2E;
-      --text-primary: #F0EFE9;
-      --text-secondary: #9E9D97;
-      --text-muted: #666662;
-      --border: #3A3A3A;
-      --border-strong: #4A4A4A;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-      --shadow-lg: 0 8px 24px rgba(0,0,0,0.4);
-    }
-
-    /* ─── Reset & Base ──────────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg);
-      color: var(--text-primary);
-      font-size: 15px;
-      line-height: 1.6;
-      transition: background var(--transition), color var(--transition);
-    }
-
-    ::selection { background: rgba(217, 119, 87, 0.2); }
-
-    /* ─── Layout ────────────────────────────────────────────────────────── */
-    .page-wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
-
-    section {
-      padding: 80px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    section:last-of-type { border-bottom: none; }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      line-height: 1.3;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
-
-    .section-desc {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-bottom: 48px;
-      max-width: 520px;
-    }
-
-    /* ─── Navigation ────────────────────────────────────────────────────── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-    }
-
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .nav-logo {
-      width: 28px;
-      height: 28px;
-      background: var(--primary);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .nav-logo svg {
-      width: 16px;
-      height: 16px;
-      fill: white;
-    }
-
-    .nav-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .nav-links a {
-      font-size: 13px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      padding: 5px 10px;
-      border-radius: var(--radius-md);
-      transition: color var(--transition), background var(--transition);
-    }
-
-    .nav-links a:hover {
-      color: var(--text-primary);
-      background: var(--surface-secondary);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-      color: var(--text-secondary);
-    }
-
-    .theme-toggle:hover {
-      background: var(--surface-secondary);
-      color: var(--text-primary);
-    }
-
-    .theme-toggle svg { width: 16px; height: 16px; }
-
-    /* ─── Hero Header ───────────────────────────────────────────────────── */
-    .hero {
-      padding: 96px 0 80px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--primary);
-      background: rgba(217, 119, 87, 0.1);
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      margin-bottom: 24px;
-    }
-
-    .hero-eyebrow-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-
-    h1.hero-title {
-      font-size: 48px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.1;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
-
-    h1.hero-title span {
-      color: var(--primary);
-    }
-
-    .hero-sub {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 480px;
-      line-height: 1.6;
-      margin-bottom: 40px;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 32px;
-    }
-
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .hero-stat-value {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-    }
-
-    .hero-stat-label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    /* ─── Color Palette ─────────────────────────────────────────────────── */
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
-    }
-
-    .color-swatch {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition);
-      position: relative;
-    }
-
-    .color-swatch:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .color-swatch:active { transform: translateY(0); }
-
-    .swatch-block {
-      height: 80px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 8px;
-    }
-
-    .copy-hint {
-      font-size: 10px;
-      font-weight: 500;
-      padding: 3px 7px;
-      border-radius: var(--radius-sm);
-      background: rgba(0,0,0,0.2);
-      color: rgba(255,255,255,0.9);
-      opacity: 0;
-      transition: opacity var(--transition);
-      backdrop-filter: blur(4px);
-    }
-
-    .color-swatch:hover .copy-hint { opacity: 1; }
-
-    .swatch-info {
-      background: var(--surface);
-      padding: 10px 12px;
-    }
-
-    .swatch-name {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-
-    .swatch-hex {
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-    }
-
-    .swatch-usage {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 3px;
-      line-height: 1.3;
-    }
-
-    .copy-toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      background: var(--text-primary);
-      color: var(--bg);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: var(--radius-full);
-      opacity: 0;
-      transition: opacity 200ms ease, transform 200ms ease;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    .copy-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .dark-mode-note {
-      margin-top: 40px;
-    }
-
-    .dm-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-    }
-
-    .dm-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-    }
-
-    .dm-swatch {
-      height: 56px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: flex-end;
-      padding: 6px 8px;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: transform var(--transition);
-      position: relative;
-    }
-
-    .dm-swatch:hover { transform: translateY(-1px); }
-
-    .dm-swatch span {
-      font-size: 10px;
-      font-family: var(--font-mono);
-      color: rgba(255,255,255,0.7);
-      background: rgba(0,0,0,0.3);
-      padding: 2px 5px;
-      border-radius: 3px;
-    }
-
-    /* ─── Typography ────────────────────────────────────────────────────── */
-    .type-stack { display: flex; flex-direction: column; gap: 0; }
-
-    .type-row {
-      display: grid;
-      grid-template-columns: 140px 1fr 200px;
-      align-items: center;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--border);
-      gap: 24px;
-    }
-
-    .type-row:last-child { border-bottom: none; }
-
-    .type-meta { display: flex; flex-direction: column; gap: 2px; }
-
-    .type-token {
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    .type-specs {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .type-preview { color: var(--text-primary); }
-
-    .type-attrs {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      align-items: flex-end;
-    }
-
-    .type-attr-pill {
-      font-size: 11px;
-      font-family: var(--font-mono);
-      color: var(--text-secondary);
-      background: var(--surface-secondary);
-      padding: 2px 7px;
-      border-radius: var(--radius-sm);
-    }
-
-    /* ─── Components ────────────────────────────────────────────────────── */
-    .components-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .component-block {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    .component-header {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .component-name {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    .component-count {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-
-    .component-body {
-      padding: 24px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 500;
-      padding: 10px 18px;
-      border-radius: var(--radius-md);
-      border: none;
-      cursor: pointer;
-      transition: all var(--transition);
-      line-height: 1;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-primary:hover { background: var(--primary-hover); }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text-primary);
-      border: 1px solid var(--border-strong);
-    }
-
-    .btn-secondary:hover { background: var(--surface-secondary); }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-secondary);
-    }
-
-    .btn-ghost:hover {
-      background: var(--surface-secondary);
-      color: var(--text-primary);
-    }
-
-    .btn-danger {
-      background: var(--error);
-      color: white;
-    }
-
-    .btn-danger:hover { background: #C62828; }
-
-    .btn-sm {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-
-    /* Input */
-    .input-demo { width: 100%; flex-direction: column; gap: 12px; }
-
-    .input-field {
-      width: 100%;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.6;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: var(--surface);
-      color: var(--text-primary);
-      outline: none;
-      transition: border-color var(--transition), box-shadow var(--transition);
-    }
-
-    .input-field::placeholder { color: var(--text-muted); }
-
-    .input-field:hover { border-color: var(--border-strong); }
-
-    .input-field:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.15);
-    }
-
-    /* Badges */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-
-    .badge-neutral {
-      background: var(--surface-secondary);
-      color: var(--text-secondary);
-      border: 1px solid var(--border);
-    }
-
-    .badge-primary {
-      background: rgba(217, 119, 87, 0.12);
-      color: var(--primary);
-      border: 1px solid rgba(217, 119, 87, 0.2);
-    }
-
-    .badge-success {
-      background: rgba(67, 160, 71, 0.1);
-      color: var(--success);
-      border: 1px solid rgba(67, 160, 71, 0.2);
-    }
-
-    .badge-error {
-      background: rgba(229, 57, 53, 0.1);
-      color: var(--error);
-      border: 1px solid rgba(229, 57, 53, 0.2);
-    }
-
-    .badge-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    /* Card */
-    .sample-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow var(--transition), transform var(--transition);
-      cursor: default;
-      width: 100%;
-    }
-
-    .sample-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
-    }
-
-    .card-eyebrow {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .card-body {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-avatar-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: var(--radius-full);
-      background: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: white;
-    }
-
-    .avatar-name {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    /* Chat bubbles */
-    .chat-demo {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
-      padding: 4px 0;
-    }
-
-    .bubble-wrap {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .bubble-wrap.user { align-items: flex-end; }
-    .bubble-wrap.assistant { align-items: flex-start; }
-
-    .bubble-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-      padding: 0 4px;
-    }
-
-    .bubble {
-      max-width: 75%;
-      padding: 12px 16px;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    .bubble.user {
-      background: var(--surface-secondary);
-      border-radius: var(--radius-lg);
-      border-top-right-radius: var(--radius-sm);
-      color: var(--text-primary);
-    }
-
-    .bubble.assistant {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      border-top-left-radius: var(--radius-sm);
-      color: var(--text-primary);
-    }
-
-    .bubble code {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      background: var(--surface-secondary);
-      padding: 1px 5px;
-      border-radius: var(--radius-sm);
-      color: var(--primary);
-    }
-
-    /* ─── Spacing Scale ─────────────────────────────────────────────────── */
-    .spacing-list { display: flex; flex-direction: column; gap: 0; }
-
-    .spacing-row {
-      display: grid;
-      grid-template-columns: 100px 80px 1fr;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      gap: 20px;
-    }
-
-    .spacing-row:last-child { border-bottom: none; }
-
-    .spacing-token {
-      font-size: 12px;
-      font-family: var(--font-mono);
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    .spacing-value {
-      font-size: 12px;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-    }
-
-    .spacing-bar-wrap {
-      height: 24px;
-      display: flex;
-      align-items: center;
-    }
-
-    .spacing-bar {
-      height: 16px;
-      background: rgba(217, 119, 87, 0.2);
-      border-radius: 3px;
-      border-left: 3px solid var(--primary);
-      transition: width 600ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* ─── Tone & Guardrails ─────────────────────────────────────────────── */
-    .guardrails-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    .guardrail-panel {
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .panel-header {
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-header.do { background: rgba(67, 160, 71, 0.06); }
-    .panel-header.dont { background: rgba(229, 57, 53, 0.06); }
-
-    .panel-icon {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .panel-icon.do { background: var(--success); color: white; }
-    .panel-icon.dont { background: var(--error); color: white; }
-
-    .panel-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .panel-title.do { color: var(--success); }
-    .panel-title.dont { color: var(--error); }
-
-    .guardrail-list {
-      list-style: none;
-      background: var(--surface);
-    }
-
-    .guardrail-list li {
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .guardrail-list li:last-child { border-bottom: none; }
-
-    .guardrail-list li::before {
-      content: '';
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 7px;
-    }
-
-    .guardrail-list.do li::before { background: var(--success); }
-    .guardrail-list.dont li::before { background: var(--error); }
-
-    /* ─── Footer ────────────────────────────────────────────────────────── */
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .footer-left {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .footer-left strong {
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .footer-version {
-      font-size: 12px;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      background: var(--surface-secondary);
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      border: 1px solid var(--border);
-    }
-
-    /* ─── Responsive ────────────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .page-wrap { padding: 0 20px; }
-      .nav-inner { padding: 0 20px; }
-      .nav-links { display: none; }
-      h1.hero-title { font-size: 36px; }
-      .hero-meta { gap: 20px; }
-      .components-grid { grid-template-columns: 1fr; }
-      .guardrails-grid { grid-template-columns: 1fr; }
-      .type-row { grid-template-columns: 100px 1fr; }
-      .type-attrs { display: none; }
-      .dm-grid { grid-template-columns: repeat(3, 1fr); }
-      .footer-inner { flex-direction: column; gap: 12px; align-items: flex-start; }
-      .spacing-row { grid-template-columns: 90px 60px 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="light"] {
+    --bg: #FAF9F7;
+    --surface: #FFFFFF;
+    --surface-raised: #F3F2EF;
+    --surface-overlay: #E8E7E3;
+    --text-primary: #1A1A1A;
+    --text-secondary: #6B6B6B;
+    --text-muted: #9E9E9E;
+    --border: #E5E4E0;
+    --border-strong: #CCCBC7;
+    --primary: #D97757;
+    --primary-hover: #C4633F;
+    --coral-dim: rgba(217,119,87,0.12);
+    --error: #E53935;
+    --success: #43A047;
+  }
+  :root[data-theme="dark"] {
+    --bg: #1A1A1A;
+    --surface: #242424;
+    --surface-raised: #2E2E2E;
+    --surface-overlay: #383838;
+    --text-primary: #F0EFE9;
+    --text-secondary: #9A9A8A;
+    --text-muted: #6A6A5A;
+    --border: #3A3A3A;
+    --border-strong: #4A4A4A;
+    --primary: #D97757;
+    --primary-hover: #C4633F;
+    --coral-dim: rgba(217,119,87,0.15);
+    --error: #EF5350;
+    --success: #66BB6A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+  }
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 999;
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    color: var(--text-primary); padding: 6px 14px; border-radius: 9999px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: inherit; letter-spacing: -0.01em; transition: background 150ms;
+  }
+  .toggle-btn:hover { background: var(--surface-overlay); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  .section { margin-bottom: 64px; }
+  .section-title {
+    font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 48px 40px; margin-bottom: 64px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px; background: var(--coral-dim);
+    border-radius: 50%; filter: blur(40px);
+  }
+  .hero-logo { margin-bottom: 20px; }
+  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
+
+  /* COLORS */
+  .colors-group { margin-bottom: 32px; }
+  .colors-group-title {
+    font-size: 12px; font-weight: 500; color: var(--text-muted);
+    letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .swatch {
+    background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 150ms;
+  }
+  .swatch:hover { border-color: var(--border-strong); }
+  .swatch-block { height: 80px; width: 100%; }
+  .swatch-info { padding: 8px 10px; }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .swatch-hex { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface-overlay); border: 1px solid var(--border-strong);
+    color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px;
+    transition: transform 200ms; z-index: 1000; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TYPOGRAPHY */
+  .type-row {
+    display: grid; grid-template-columns: 100px 1fr auto;
+    align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family: 'Courier New', monospace; color: var(--text-muted); }
+  .type-sample { color: var(--text-primary); }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill {
+    font-size: 11px; font-family: 'Courier New', monospace; padding: 2px 6px; border-radius: 3px;
+    background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap;
+  }
+
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .comp-card-title {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 16px;
+  }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; transition: background 150ms, color 150ms;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--surface-raised); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
+  .btn-danger { background: var(--error); color: #fff; }
+
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
+  .input {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-primary);
+    transition: border-color 150ms; width: 100%;
+  }
+  .input::placeholder { color: var(--text-muted); }
+  .input:hover { border-color: var(--border-strong); }
+  .input:focus { outline: none; border-color: var(--primary); }
+
+  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge {
+    font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sample-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
+
+  /* SPACING */
+  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
+  .spacing-row { display: flex; align-items: center; gap: 12px; }
+  .spacing-label { font-family: 'Courier New', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar-wrap { flex: 1; }
+  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
+  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
+
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: var(--success); }
+  .guardrails-heading.dont { color: var(--error); }
+  .guardrail-item {
+    font-size: 13px; color: var(--text-secondary); padding: 8px 12px;
+    border-radius: 6px; border-left: 3px solid transparent; background: var(--surface);
+  }
+  .guardrail-item.do { border-left-color: var(--success); }
+  .guardrail-item.dont { border-left-color: var(--error); }
+
+  @media (max-width: 600px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 80px 1fr; }
+    .type-specs { display: none; }
+  }
+</style>
 </head>
 <body>
+<button class="toggle-btn" id="themeToggle" onclick="toggleTheme()">🌙 Dark</button>
+<div class="toast" id="toast">Copied!</div>
 
-<!-- ─── Navigation ──────────────────────────────────────────────────────── -->
-<nav>
-  <div class="nav-inner">
-    <div class="nav-brand">
-      <div class="nav-logo">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-        </svg>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="40" y="4" width="51" height="51" rx="6" transform="rotate(45 40 4)" fill="#D97757"/>
+      </svg>
+    </div>
+    <h1>Claude</h1>
+    <p>Warm, minimal, and human — an AI interface that feels thoughtful rather than mechanical.</p>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#D97757', this)">
+          <div class="swatch-block" style="background:#D97757"></div>
+          <div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#D97757</div><div class="swatch-usage">CTAs, active states</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#C4633F', this)">
+          <div class="swatch-block" style="background:#C4633F"></div>
+          <div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#C4633F</div><div class="swatch-usage">Button hover</div></div>
+        </div>
       </div>
-      <span class="nav-title">Claude Design System</span>
     </div>
-    <div class="nav-links">
-      <a href="#colors">Colors</a>
-      <a href="#typography">Typography</a>
-      <a href="#components">Components</a>
-      <a href="#spacing">Spacing</a>
-      <a href="#guardrails">Tone</a>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FAF9F7', this)">
+          <div class="swatch-block" style="background:#FAF9F7;border:1px solid #E5E4E0;"></div>
+          <div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#FAF9F7</div><div class="swatch-usage">Page background</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#FFFFFF', this)">
+          <div class="swatch-block" style="background:#FFFFFF;border:1px solid #E5E4E0;"></div>
+          <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Cards, panels</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#F3F2EF', this)">
+          <div class="swatch-block" style="background:#F3F2EF"></div>
+          <div class="swatch-info"><div class="swatch-name">surface-secondary</div><div class="swatch-hex">#F3F2EF</div><div class="swatch-usage">Subtle backgrounds</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#E5E4E0', this)">
+          <div class="swatch-block" style="background:#E5E4E0"></div>
+          <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#E5E4E0</div><div class="swatch-usage">Dividers, inputs</div></div>
+        </div>
+      </div>
     </div>
-    <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">
-        <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
+    <div class="colors-group">
+      <div class="colors-group-title">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1A1A1A', this)">
+          <div class="swatch-block" style="background:#1A1A1A"></div>
+          <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#1A1A1A</div><div class="swatch-usage">Headings, body</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#6B6B6B', this)">
+          <div class="swatch-block" style="background:#6B6B6B"></div>
+          <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#6B6B6B</div><div class="swatch-usage">Supporting text</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#9E9E9E', this)">
+          <div class="swatch-block" style="background:#9E9E9E"></div>
+          <div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#9E9E9E</div><div class="swatch-usage">Placeholders, disabled</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Semantic</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#E53935', this)">
+          <div class="swatch-block" style="background:#E53935"></div>
+          <div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#E53935</div><div class="swatch-usage">Error states</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#43A047', this)">
+          <div class="swatch-block" style="background:#43A047"></div>
+          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#43A047</div><div class="swatch-usage">Success states</div></div>
+        </div>
+      </div>
     </div>
   </div>
-</nav>
 
-<!-- ─── Hero ────────────────────────────────────────────────────────────── -->
-<div class="page-wrap">
-  <section class="hero" style="border-bottom: 1px solid var(--border); padding: 96px 0 80px;">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-dot"></span>
-      Brand Guidelines · Design System
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-row">
+      <div class="type-name">display</div>
+      <div class="type-sample" style="font-size:32px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.2</span></div>
     </div>
-    <h1 class="hero-title">Warm. Minimal.<br><span>Human.</span></h1>
-    <p class="hero-sub">An AI interface that feels thoughtful rather than mechanical — editorial, calm, and built on genuine clarity.</p>
-    <div class="hero-meta">
-      <div class="hero-stat">
-        <span class="hero-stat-value">12</span>
-        <span class="hero-stat-label">Color tokens</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-value">7</span>
-        <span class="hero-stat-label">Type scales</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-value">9</span>
-        <span class="hero-stat-label">Spacing units</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-value">4px</span>
-        <span class="hero-stat-label">Base unit</span>
-      </div>
+    <div class="type-row">
+      <div class="type-name">heading-lg</div>
+      <div class="type-sample" style="font-size:24px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
     </div>
-  </section>
-
-  <!-- ─── Colors ─────────────────────────────────────────────────────────── -->
-  <section id="colors">
-    <p class="section-label">01 — Color Palette</p>
-    <h2 class="section-title">Warm neutrals &amp; a single accent</h2>
-    <p class="section-desc">Creamy off-whites, deep charcoals, and a coral-orange that should appear sparingly — one CTA per view. Click any swatch to copy its hex value.</p>
-
-    <div class="color-grid">
-      <div class="color-swatch" onclick="copyColor('#D97757', this)">
-        <div class="swatch-block" style="background:#D97757">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">primary</div>
-          <div class="swatch-hex">#D97757</div>
-          <div class="swatch-usage">CTAs, active states, highlights</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#C4633F', this)">
-        <div class="swatch-block" style="background:#C4633F">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">primary-hover</div>
-          <div class="swatch-hex">#C4633F</div>
-          <div class="swatch-usage">Button hover state</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#FAF9F7', this)">
-        <div class="swatch-block" style="background:#FAF9F7; border-bottom: 1px solid #E5E4E0;">
-          <span class="copy-hint" style="color: rgba(0,0,0,0.6); background: rgba(0,0,0,0.08);">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">background</div>
-          <div class="swatch-hex">#FAF9F7</div>
-          <div class="swatch-usage">Page background (warm white)</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#FFFFFF', this)">
-        <div class="swatch-block" style="background:#FFFFFF; border-bottom: 1px solid #E5E4E0;">
-          <span class="copy-hint" style="color: rgba(0,0,0,0.6); background: rgba(0,0,0,0.08);">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface</div>
-          <div class="swatch-hex">#FFFFFF</div>
-          <div class="swatch-usage">Cards, panels</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#F3F2EF', this)">
-        <div class="swatch-block" style="background:#F3F2EF; border-bottom: 1px solid #E5E4E0;">
-          <span class="copy-hint" style="color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.08);">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface-secondary</div>
-          <div class="swatch-hex">#F3F2EF</div>
-          <div class="swatch-usage">Subtle section backgrounds</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#1A1A1A', this)">
-        <div class="swatch-block" style="background:#1A1A1A">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-primary</div>
-          <div class="swatch-hex">#1A1A1A</div>
-          <div class="swatch-usage">Body text, headings</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#6B6B6B', this)">
-        <div class="swatch-block" style="background:#6B6B6B">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-secondary</div>
-          <div class="swatch-hex">#6B6B6B</div>
-          <div class="swatch-usage">Supporting text, metadata</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#9E9E9E', this)">
-        <div class="swatch-block" style="background:#9E9E9E">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-muted</div>
-          <div class="swatch-hex">#9E9E9E</div>
-          <div class="swatch-usage">Placeholders, disabled</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#E5E4E0', this)">
-        <div class="swatch-block" style="background:#E5E4E0; border-bottom: 1px solid #CCCBC7;">
-          <span class="copy-hint" style="color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.08);">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">border</div>
-          <div class="swatch-hex">#E5E4E0</div>
-          <div class="swatch-usage">Dividers, input borders</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#CCCBC7', this)">
-        <div class="swatch-block" style="background:#CCCBC7; border-bottom: 1px solid #BBBAB6;">
-          <span class="copy-hint" style="color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.08);">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">border-strong</div>
-          <div class="swatch-hex">#CCCBC7</div>
-          <div class="swatch-usage">Emphasized borders</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#E53935', this)">
-        <div class="swatch-block" style="background:#E53935">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">error</div>
-          <div class="swatch-hex">#E53935</div>
-          <div class="swatch-usage">Error states</div>
-        </div>
-      </div>
-      <div class="color-swatch" onclick="copyColor('#43A047', this)">
-        <div class="swatch-block" style="background:#43A047">
-          <span class="copy-hint">Copy hex</span>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">success</div>
-          <div class="swatch-hex">#43A047</div>
-          <div class="swatch-usage">Success states</div>
-        </div>
-      </div>
+    <div class="type-row">
+      <div class="type-name">heading-md</div>
+      <div class="type-sample" style="font-size:18px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div>
     </div>
-
-    <div class="dark-mode-note">
-      <p class="dm-title">Dark Mode Overrides</p>
-      <div class="dm-grid">
-        <div class="dm-swatch" style="background:#1A1A1A" onclick="copyColor('#1A1A1A', this)" title="background">
-          <span>#1A1A1A</span>
-        </div>
-        <div class="dm-swatch" style="background:#242424" onclick="copyColor('#242424', this)" title="surface">
-          <span>#242424</span>
-        </div>
-        <div class="dm-swatch" style="background:#2E2E2E" onclick="copyColor('#2E2E2E', this)" title="surface-secondary">
-          <span>#2E2E2E</span>
-        </div>
-        <div class="dm-swatch" style="background:#3A3A3A" onclick="copyColor('#3A3A3A', this)" title="border">
-          <span>#3A3A3A</span>
-        </div>
-        <div class="dm-swatch" style="background:#F0EFE9" onclick="copyColor('#F0EFE9', this)" title="text-primary">
-          <span style="color: rgba(0,0,0,0.5); background: rgba(0,0,0,0.1);">#F0EFE9</span>
-        </div>
-      </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
     </div>
-  </section>
-
-  <!-- ─── Typography ─────────────────────────────────────────────────────── -->
-  <section id="typography">
-    <p class="section-label">02 — Typography</p>
-    <h2 class="section-title">Söhne — editorial clarity</h2>
-    <p class="section-desc">Generous line height, tight letter-spacing on headings, and a mono companion for code. Two weights maximum per screen.</p>
-
-    <div class="type-stack">
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">display</span>
-          <span class="type-specs">32px · 600 · lh 1.2</span>
-        </div>
-        <div class="type-preview" style="font-size:32px; font-weight:600; line-height:1.2; letter-spacing:-0.01em;">
-          Thinking clearly
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">32px</span>
-          <span class="type-attr-pill">weight 600</span>
-          <span class="type-attr-pill">ls -0.01em</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">heading-lg</span>
-          <span class="type-specs">24px · 600 · lh 1.3</span>
-        </div>
-        <div class="type-preview" style="font-size:24px; font-weight:600; line-height:1.3; letter-spacing:-0.01em;">
-          Warm by design
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">24px</span>
-          <span class="type-attr-pill">weight 600</span>
-          <span class="type-attr-pill">ls -0.01em</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">heading-md</span>
-          <span class="type-specs">18px · 600 · lh 1.4</span>
-        </div>
-        <div class="type-preview" style="font-size:18px; font-weight:600; line-height:1.4; letter-spacing:-0.01em;">
-          Calm, focused interfaces
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">18px</span>
-          <span class="type-attr-pill">weight 600</span>
-          <span class="type-attr-pill">ls -0.01em</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">body</span>
-          <span class="type-specs">15px · 400 · lh 1.6</span>
-        </div>
-        <div class="type-preview" style="font-size:15px; font-weight:400; line-height:1.6; color: var(--text-secondary);">
-          Claude's design language prioritizes legibility, warmth, and calm focus. It avoids the cold blues common in enterprise software, leaning instead into creamy off-whites and deep charcoals.
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">15px</span>
-          <span class="type-attr-pill">weight 400</span>
-          <span class="type-attr-pill">ls normal</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">body-sm</span>
-          <span class="type-specs">13px · 400 · lh 1.5</span>
-        </div>
-        <div class="type-preview" style="font-size:13px; font-weight:400; line-height:1.5; color: var(--text-secondary);">
-          Supporting text at smaller scale — sidebar items, metadata, timestamps, and auxiliary information.
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">13px</span>
-          <span class="type-attr-pill">weight 400</span>
-          <span class="type-attr-pill">ls normal</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">caption</span>
-          <span class="type-specs">12px · 400 · lh 1.4</span>
-        </div>
-        <div class="type-preview" style="font-size:12px; font-weight:400; line-height:1.4; color: var(--text-muted);">
-          Labels, tags, and supplementary detail at minimum readable scale.
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">12px</span>
-          <span class="type-attr-pill">weight 400</span>
-          <span class="type-attr-pill">text-muted</span>
-        </div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">code</span>
-          <span class="type-specs">13px · 400 · lh 1.6</span>
-        </div>
-        <div class="type-preview" style="font-size:13px; font-weight:400; line-height:1.6; font-family: 'Söhne Mono', ui-monospace, monospace; color: var(--primary);">
-          const response = await claude.complete(prompt);
-        </div>
-        <div class="type-attrs">
-          <span class="type-attr-pill">13px</span>
-          <span class="type-attr-pill">mono</span>
-          <span class="type-attr-pill">ls normal</span>
-        </div>
-      </div>
+    <div class="type-row">
+      <div class="type-name">body-sm</div>
+      <div class="type-sample" style="font-size:13px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
     </div>
-  </section>
+    <div class="type-row">
+      <div class="type-name">caption</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-secondary);">Caption text for metadata</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">code</div>
+      <div class="type-sample" style="font-size:13px;font-family:'Courier New',monospace;color:var(--primary);">const reply = await claude.ask(prompt)</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+  </div>
 
-  <!-- ─── Components ─────────────────────────────────────────────────────── -->
-  <section id="components">
-    <p class="section-label">03 — Components</p>
-    <h2 class="section-title">Composed from the same atoms</h2>
-    <p class="section-desc">Every component inherits from the same token set — consistent radius, spacing, and color throughout.</p>
-
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-title">Components</div>
     <div class="components-grid">
-
-      <!-- Buttons -->
-      <div class="component-block">
-        <div class="component-header">
-          <span class="component-name">Buttons</span>
-          <span class="component-count">4 variants</span>
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-danger">Danger</button>
         </div>
-        <div class="component-body" style="flex-direction: column; align-items: flex-start;">
-          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-            <button class="btn btn-primary">Send message</button>
-            <button class="btn btn-secondary">Cancel</button>
-            <button class="btn btn-ghost">Learn more</button>
-            <button class="btn btn-danger">Delete</button>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Ask Claude anything…">
+          <input class="input" type="text" placeholder="Focused state" style="border-color:var(--primary);">
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badge-group">
+          <span class="badge" style="background:rgba(67,160,71,0.12);color:#43A047;">
+            <span class="badge-dot" style="background:#43A047;"></span>Active
+          </span>
+          <span class="badge" style="background:rgba(217,119,87,0.12);color:#D97757;">
+            <span class="badge-dot" style="background:#D97757;"></span>Thinking
+          </span>
+          <span class="badge" style="background:rgba(229,57,53,0.12);color:#E53935;">
+            <span class="badge-dot" style="background:#E53935;"></span>Error
+          </span>
+          <span class="badge" style="background:var(--surface-raised);color:var(--text-secondary);">
+            <span class="badge-dot" style="background:var(--text-muted);"></span>Idle
+          </span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Sample Card</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="sample-card-title">Summarize this document</div>
+            <span class="badge" style="background:rgba(217,119,87,0.12);color:#D97757;font-size:11px;">Thinking</span>
           </div>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px;">
-            <button class="btn btn-primary btn-sm">New chat</button>
-            <button class="btn btn-secondary btn-sm">Share</button>
-            <button class="btn btn-ghost btn-sm">Dismiss</button>
-          </div>
+          <div class="sample-card-meta">Started just now · Claude 3.5 Sonnet</div>
         </div>
       </div>
-
-      <!-- Badges -->
-      <div class="component-block">
-        <div class="component-header">
-          <span class="component-name">Badges &amp; Tags</span>
-          <span class="component-count">4 variants</span>
-        </div>
-        <div class="component-body" style="align-items: center;">
-          <span class="badge badge-neutral">Neutral</span>
-          <span class="badge badge-primary"><span class="badge-dot"></span>Active</span>
-          <span class="badge badge-success"><span class="badge-dot"></span>Online</span>
-          <span class="badge badge-error"><span class="badge-dot"></span>Error</span>
-          <span class="badge badge-neutral">claude-3-5-sonnet</span>
-          <span class="badge badge-primary">Beta</span>
-          <span class="badge badge-success">Completed</span>
-          <span class="badge badge-error">Blocked</span>
-        </div>
-      </div>
-
-      <!-- Input -->
-      <div class="component-block">
-        <div class="component-header">
-          <span class="component-name">Input Field</span>
-          <span class="component-count">hover · focus states</span>
-        </div>
-        <div class="component-body input-demo" style="flex-direction: column;">
-          <input type="text" class="input-field" placeholder="Message Claude..." />
-          <input type="text" class="input-field" value="Focused state" id="focusedInput" />
-          <input type="text" class="input-field" placeholder="Disabled input" disabled style="opacity: 0.5; cursor: not-allowed;" />
-        </div>
-      </div>
-
-      <!-- Card -->
-      <div class="component-block">
-        <div class="component-header">
-          <span class="component-name">Card</span>
-          <span class="component-count">hover elevates shadow</span>
-        </div>
-        <div class="component-body">
-          <div class="sample-card">
-            <div class="card-eyebrow">
-              <span class="badge badge-primary">New conversation</span>
-              <span style="font-size:12px; font-family: var(--font-mono); color: var(--text-muted);">2m ago</span>
-            </div>
-            <div class="card-title">Understanding context windows</div>
-            <div class="card-body">Claude maintains context across long documents and multi-turn conversations, adapting its responses with care.</div>
-            <div class="card-footer">
-              <div class="card-avatar-row">
-                <div class="avatar">C</div>
-                <span class="avatar-name">Claude</span>
-              </div>
-              <button class="btn btn-ghost btn-sm">Continue →</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Chat Bubbles (full width) -->
-      <div class="component-block" style="grid-column: 1 / -1;">
-        <div class="component-header">
-          <span class="component-name">Message Bubbles</span>
-          <span class="component-count">user · assistant · code inline</span>
-        </div>
-        <div class="component-body">
-          <div class="chat-demo">
-            <div class="bubble-wrap user">
-              <span class="bubble-label">You</span>
-              <div class="bubble user">Can you help me understand how Claude handles long context windows?</div>
-            </div>
-            <div class="bubble-wrap assistant">
-              <span class="bubble-label">Claude</span>
-              <div class="bubble assistant">Of course. Claude uses a sliding attention mechanism — you can think of it like a very focused reader who keeps the whole document in view. The context is handled via <code>context_window</code>, which you can inspect at runtime. Important passages are weighted by relevance rather than recency alone.</div>
-            </div>
-            <div class="bubble-wrap user">
-              <span class="bubble-label">You</span>
-              <div class="bubble user">That's helpful. How long is the current context window?</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-  </section>
+  </div>
 
-  <!-- ─── Spacing ─────────────────────────────────────────────────────────── -->
-  <section id="spacing">
-    <p class="section-label">04 — Spacing Scale</p>
-    <h2 class="section-title">Built on a 4px base</h2>
-    <p class="section-desc">Every spacing value is a multiple of 4px. Use generously — crowded UI feels anxious.</p>
-
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-title">Spacing</div>
     <div class="spacing-list">
-      <div class="spacing-row">
-        <span class="spacing-token">space-1</span>
-        <span class="spacing-value">4px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 4px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-2</span>
-        <span class="spacing-value">8px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 8px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-3</span>
-        <span class="spacing-value">12px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 12px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-4</span>
-        <span class="spacing-value">16px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 16px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-5</span>
-        <span class="spacing-value">20px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 20px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-6</span>
-        <span class="spacing-value">24px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 24px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-8</span>
-        <span class="spacing-value">32px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 32px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-10</span>
-        <span class="spacing-value">40px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 40px;"></div>
-        </div>
-      </div>
-      <div class="spacing-row">
-        <span class="spacing-token">space-12</span>
-        <span class="spacing-value">48px</span>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: 48px;"></div>
-        </div>
-      </div>
+      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/48*100%)"></div></div><div class="spacing-val">4px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/48*100%)"></div></div><div class="spacing-val">8px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/48*100%)"></div></div><div class="spacing-val">12px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/48*100%)"></div></div><div class="spacing-val">16px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/48*100%)"></div></div><div class="spacing-val">20px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/48*100%)"></div></div><div class="spacing-val">24px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(32/48*100%)"></div></div><div class="spacing-val">32px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-12</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">48px</div></div>
     </div>
-  </section>
+  </div>
 
-  <!-- ─── Guardrails ─────────────────────────────────────────────────────── -->
-  <section id="guardrails">
-    <p class="section-label">05 — Tone &amp; Guardrails</p>
-    <h2 class="section-title">Rules that protect the aesthetic</h2>
-    <p class="section-desc">A design system is only as good as the decisions it prevents. These are non-negotiable principles.</p>
-
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-panel">
-        <div class="panel-header do">
-          <div class="panel-icon do">✓</div>
-          <span class="panel-title do">Do</span>
-        </div>
-        <ul class="guardrail-list do">
-          <li>Use generous whitespace — crowded UI feels anxious</li>
-          <li>Prefer warm neutrals over pure white or pure black</li>
-          <li>Use the coral accent sparingly — one CTA per view</li>
-          <li>Animate with <code style="font-family: var(--font-mono); font-size: 12px; background: var(--surface-secondary); padding: 1px 5px; border-radius: 3px;">ease</code> curves, keep transitions under 200ms</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Use generous whitespace — crowded UI feels anxious</div>
+        <div class="guardrail-item do">Prefer warm neutrals over pure white or black</div>
+        <div class="guardrail-item do">Use the coral accent sparingly — one CTA per view</div>
+        <div class="guardrail-item do">Animate with ease curves, keep transitions under 200ms</div>
       </div>
-      <div class="guardrail-panel">
-        <div class="panel-header dont">
-          <div class="panel-icon dont">✕</div>
-          <span class="panel-title dont">Don't</span>
-        </div>
-        <ul class="guardrail-list dont">
-          <li>Use harsh drop shadows or heavy borders</li>
-          <li>Use blue as a primary color — it conflicts with the brand</li>
-          <li>Use all-caps headings anywhere in the interface</li>
-          <li>Use more than 2 font weights on a single screen</li>
-          <li>Add decorative gradients or glass-morphism effects</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Use harsh drop shadows or heavy borders</div>
+        <div class="guardrail-item dont">Use blue as a primary color — it conflicts with the brand</div>
+        <div class="guardrail-item dont">Use all-caps headings</div>
+        <div class="guardrail-item dont">Add decorative gradients or glass-morphism effects</div>
       </div>
     </div>
-  </section>
+  </div>
 
 </div>
 
-<!-- ─── Footer ──────────────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-left">
-      <strong>Claude Design System</strong> · Anthropic · Warm, minimal, and human
-    </div>
-    <span class="footer-version">v1.0 · DESIGN.md</span>
-  </div>
-</footer>
-
-<!-- ─── Copy toast ───────────────────────────────────────────────────────── -->
-<div class="copy-toast" id="copyToast">Copied to clipboard</div>
-
 <script>
-  // ── Theme toggle ──────────────────────────────────────────────────────────
+function toggleTheme() {
   const html = document.documentElement;
-  const toggleBtn = document.getElementById('themeToggle');
-  const iconSun = document.getElementById('iconSun');
-  const iconMoon = document.getElementById('iconMoon');
-
-  function applyTheme(theme) {
-    html.setAttribute('data-theme', theme);
-    if (theme === 'dark') {
-      iconSun.style.display = 'none';
-      iconMoon.style.display = '';
-    } else {
-      iconSun.style.display = '';
-      iconMoon.style.display = 'none';
-    }
-    localStorage.setItem('claude-ds-theme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (html.getAttribute('data-theme') === 'light') {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️ Light';
+  } else {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '🌙 Dark';
   }
-
-  toggleBtn.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    applyTheme(current === 'dark' ? 'light' : 'dark');
-  });
-
-  // Respect stored or system preference
-  const stored = localStorage.getItem('claude-ds-theme');
-  if (stored) {
-    applyTheme(stored);
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    applyTheme('dark');
-  }
-
-  // ── Copy to clipboard ─────────────────────────────────────────────────────
-  const toast = document.getElementById('copyToast');
-  let toastTimer;
-
-  function copyColor(hex, el) {
-    navigator.clipboard.writeText(hex).then(() => {
-      clearTimeout(toastTimer);
-      toast.textContent = `Copied ${hex}`;
-      toast.classList.add('show');
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
-    }).catch(() => {
-      // Fallback for environments without clipboard API
-      const ta = document.createElement('textarea');
-      ta.value = hex;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      toast.textContent = `Copied ${hex}`;
-      toast.classList.add('show');
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
-    });
-  }
-
-  // ── Focus demo input ──────────────────────────────────────────────────────
-  document.getElementById('focusedInput').addEventListener('focus', function() {
-    this.select();
-  });
-
-  // ── Animate spacing bars on scroll ───────────────────────────────────────
-  const bars = document.querySelectorAll('.spacing-bar');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Bars already have their width set via inline style
-        // Just trigger a reflow for animation
-        entry.target.style.transition = 'width 600ms cubic-bezier(0.16, 1, 0.3, 1)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  bars.forEach(bar => observer.observe(bar));
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>
