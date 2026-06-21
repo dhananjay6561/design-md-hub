@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Algolia – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #1C1E21;
+  --surface: #26292D;
+  --elevated: #303439;
+  --border: #3C4148;
+  --primary: #003DFF;
+  --primary-mid: #5468FF;
+  --primary-light: #8594FF;
+  --highlight: #FFE000;
+  --success: #18981D;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --text: #F0F0F0;
+  --text-2: #9BA1A6;
+  --text-3: #5C6370;
+  --toggle-bg: #303439;
+  --toggle-text: #F0F0F0;
+  --toggle-border: #3C4148;
+}
+:root[data-theme="light"] {
+  --bg: #F5F6FA;
+  --surface: #FFFFFF;
+  --elevated: #E8EAFF;
+  --border: #D0D4E8;
+  --primary: #003DFF;
+  --primary-mid: #5468FF;
+  --primary-light: #8594FF;
+  --highlight: #FFE000;
+  --success: #18981D;
+  --warning: #B07000;
+  --danger: #DC2626;
+  --text: #1C1E21;
+  --text-2: #4A4F5A;
+  --text-3: #9BA1A6;
+  --toggle-bg: #E8EAFF;
+  --toggle-text: #1C1E21;
+  --toggle-border: #D0D4E8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary-mid); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary-mid); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary-mid); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Search box */
+.search-wrap { position: relative; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
+.search-input { width: 100%; height: 42px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px 0 38px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.15s; }
+.search-input:focus { border-color: var(--primary-mid); box-shadow: 0 0 0 3px rgba(84,104,255,0.15); }
+.search-stats { font-size: 11px; color: var(--text-3); margin-top: 6px; }
+/* Hit rows */
+.hit-row { padding: 10px 0; border-bottom: 1px solid var(--border); }
+.hit-row:last-child { border-bottom: none; }
+.hit-breadcrumb { font-size: 11px; color: var(--text-3); margin-bottom: 2px; }
+.hit-title { font-size: 13px; font-weight: 500; color: var(--text); }
+.hit-title mark { background: var(--highlight); color: #1C1E21; border-radius: 2px; padding: 0 2px; }
+.hit-snippet { font-size: 12px; color: var(--text-2); margin-top: 3px; }
+/* Index badge */
+.index-tag { display: inline-flex; align-items: center; background: rgba(84,104,255,0.10); border: 1px solid rgba(84,104,255,0.28); color: var(--primary-mid); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 3px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary-mid); color: #fff; }
+.btn-primary:hover { background: var(--primary); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary-mid); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary-mid); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div>
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#1C1E21"/>
+        <!-- Algolia A mark with magnifier -->
+        <circle cx="36" cy="34" r="14" fill="none" stroke="#5468FF" stroke-width="3.5"/>
+        <path d="M46 44 L54 52" stroke="#5468FF" stroke-width="3.5" stroke-linecap="round"/>
+        <!-- A hint inside circle -->
+        <path d="M30 40 L36 26 L42 40" stroke="#003DFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="32" y1="36" x2="40" y2="36" stroke="#003DFF" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Algolia</h1>
+      <p>Search-as-a-service — instant, typo-tolerant results for any dataset</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#003DFF',this)"><div class="swatch-dot" style="background:#003DFF"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#003DFF</span></div></div>
+        <div class="swatch" onclick="copyHex('#5468FF',this)"><div class="swatch-dot" style="background:#5468FF"></div><div class="swatch-info"><span class="swatch-name">Blue Mid</span><span class="swatch-hex">#5468FF</span></div></div>
+        <div class="swatch" onclick="copyHex('#FFE000',this)"><div class="swatch-dot" style="background:#FFE000"></div><div class="swatch-info"><span class="swatch-name">Highlight</span><span class="swatch-hex">#FFE000</span></div></div>
+        <div class="swatch" onclick="copyHex('#EF4444',this)"><div class="swatch-dot" style="background:#EF4444"></div><div class="swatch-info"><span class="swatch-name">Error</span><span class="swatch-hex">#EF4444</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1C1E21',this)"><div class="swatch-dot" style="background:#1C1E21;border:1px solid #3C4148"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#1C1E21</span></div></div>
+        <div class="swatch" onclick="copyHex('#26292D',this)"><div class="swatch-dot" style="background:#26292D;border:1px solid #3C4148"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#26292D</span></div></div>
+        <div class="swatch" onclick="copyHex('#303439',this)"><div class="swatch-dot" style="background:#303439"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#303439</span></div></div>
+        <div class="swatch" onclick="copyHex('#3C4148',this)"><div class="swatch-dot" style="background:#3C4148"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#3C4148</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:26px;font-weight:700;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — default content for docs and dashboard</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — result counts, index stats, metadata</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary-mid);">products_v3_en</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Search Box</h3>
+        <div class="search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input class="search-input" type="text" placeholder="Search products, docs..." value="head" />
+        </div>
+        <div class="search-stats">1,204 results in 1ms</div>
+      </div>
+      <div class="comp-card">
+        <h3>Search Hits</h3>
+        <div class="hit-row">
+          <div class="hit-breadcrumb">Electronics / Audio</div>
+          <div class="hit-title"><mark>Head</mark>phones Pro Max</div>
+          <div class="hit-snippet">Over-ear noise cancelling...</div>
+        </div>
+        <div class="hit-row">
+          <div class="hit-breadcrumb">Electronics / Accessories</div>
+          <div class="hit-title"><mark>Head</mark>set Gaming USB</div>
+          <div class="hit-snippet">7.1 surround sound...</div>
+        </div>
+        <div class="hit-row">
+          <div class="hit-breadcrumb">Docs / API Reference</div>
+          <div class="hit-title">Set <mark>head</mark>er attributes</div>
+          <div class="hit-snippet">Configure response headers...</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Index Badges</h3>
+        <div>
+          <span class="index-tag">products_v3_en</span>
+          <span class="index-tag">blog_posts</span>
+          <span class="index-tag">users_dev</span>
+          <span class="index-tag">docs_search</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary">New Index</button>
+          <button class="btn btn-ghost">Browse Records</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Always highlight matched query terms in yellow</li>
+          <li>Show result count and query time — speed is a feature</li>
+          <li>Index names always in monospace</li>
+          <li>Mask API keys — show partial only</li>
+          <li>Use blue glow on search input focus state</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't show un-highlighted results</li>
+          <li>Don't use empty states during search — use skeletons</li>
+          <li>Don't use dark blue (#003DFF) as text on dark bg</li>
+          <li>Don't truncate index names without tooltip</li>
+          <li>Don't expose full API keys in the UI</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

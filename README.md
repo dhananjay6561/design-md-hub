@@ -56,6 +56,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 33 | [Firebase](brands/firebase/DESIGN.md) | Developer Tools | [preview](brands/firebase/preview.html) |
 | 34 | [Twilio](brands/twilio/DESIGN.md) | Developer Tools | [preview](brands/twilio/preview.html) |
 | 35 | [Auth0](brands/auth0/DESIGN.md) | Auth | [preview](brands/auth0/preview.html) |
+| 36 | [Netlify](brands/netlify/DESIGN.md) | Developer Tools | [preview](brands/netlify/preview.html) |
+| 37 | [Shopify](brands/shopify/DESIGN.md) | E-commerce | [preview](brands/shopify/preview.html) |
+| 38 | [Algolia](brands/algolia/DESIGN.md) | Developer Tools | [preview](brands/algolia/preview.html) |
+| 39 | [Segment](brands/segment/DESIGN.md) | Developer Tools | [preview](brands/segment/preview.html) |
+| 40 | [Amplitude](brands/amplitude/DESIGN.md) | Analytics | [preview](brands/amplitude/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Segment – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0D1B2A;
+  --surface: #162336;
+  --elevated: #1E3048;
+  --border: #2A4060;
+  --primary: #52BD94;
+  --primary-hover: #3D9E7A;
+  --success: #52BD94;
+  --warning: #F5A623;
+  --danger: #E03E3E;
+  --info: #3D8EF0;
+  --text: #E8F0F8;
+  --text-2: #7A9BBB;
+  --text-3: #3D5A78;
+  --toggle-bg: #1E3048;
+  --toggle-text: #E8F0F8;
+  --toggle-border: #2A4060;
+}
+:root[data-theme="light"] {
+  --bg: #F0F6FF;
+  --surface: #FFFFFF;
+  --elevated: #D6EEE6;
+  --border: #B8D8CC;
+  --primary: #3D9E7A;
+  --primary-hover: #2E8062;
+  --success: #3D9E7A;
+  --warning: #B07000;
+  --danger: #C02020;
+  --info: #2A6EC0;
+  --text: #0D1B2A;
+  --text-2: #2A4A6A;
+  --text-3: #7A9BBB;
+  --toggle-bg: #D6EEE6;
+  --toggle-text: #0D1B2A;
+  --toggle-border: #B8D8CC;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Event stream */
+.event-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.event-row:last-child { border-bottom: none; }
+.event-type { display: inline-block; padding: 2px 8px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; flex-shrink: 0; }
+.ev-track { background: rgba(82,189,148,0.12); color: #52BD94; border: 1px solid rgba(82,189,148,0.3); }
+.ev-identify { background: rgba(61,142,240,0.12); color: #3D8EF0; border: 1px solid rgba(61,142,240,0.3); }
+.ev-page { background: rgba(245,166,35,0.12); color: #F5A623; border: 1px solid rgba(245,166,35,0.3); }
+.ev-screen { background: rgba(160,100,240,0.12); color: #A064F0; border: 1px solid rgba(160,100,240,0.3); }
+.event-name { color: var(--text); font-weight: 500; }
+.event-meta { color: var(--text-3); font-size: 11px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+.event-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); flex-shrink: 0; }
+/* Source card */
+.source-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--elevated); border-radius: 8px; margin-bottom: 8px; }
+.src-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.src-name { font-size: 13px; font-weight: 500; flex: 1; }
+.src-key { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
+/* write key */
+.wk-wrap { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.wk-val { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-2); flex: 1; }
+.wk-btn { font-size: 11px; padding: 4px 10px; border-radius: 4px; background: var(--elevated); color: var(--text-2); border: 1px solid var(--border); cursor: pointer; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div>
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#0D1B2A"/>
+        <!-- Segment circle mark with data flows -->
+        <circle cx="36" cy="36" r="12" fill="none" stroke="#52BD94" stroke-width="3"/>
+        <!-- Data flow lines -->
+        <line x1="16" y1="28" x2="25" y2="32" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="16" y1="36" x2="24" y2="36" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="16" y1="44" x2="25" y2="40" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="47" y1="28" x2="56" y2="24" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="47" y1="36" x2="56" y2="36" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+        <line x1="47" y1="44" x2="56" y2="48" stroke="#52BD94" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Segment</h1>
+      <p>Customer data platform — collect, clean, and route events to every tool</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#52BD94',this)"><div class="swatch-dot" style="background:#52BD94"></div><div class="swatch-info"><span class="swatch-name">Green</span><span class="swatch-hex">#52BD94</span></div></div>
+        <div class="swatch" onclick="copyHex('#3D8EF0',this)"><div class="swatch-dot" style="background:#3D8EF0"></div><div class="swatch-info"><span class="swatch-name">Info</span><span class="swatch-hex">#3D8EF0</span></div></div>
+        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-info"><span class="swatch-name">Warning</span><span class="swatch-hex">#F5A623</span></div></div>
+        <div class="swatch" onclick="copyHex('#E03E3E',this)"><div class="swatch-dot" style="background:#E03E3E"></div><div class="swatch-info"><span class="swatch-name">Danger</span><span class="swatch-hex">#E03E3E</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0D1B2A',this)"><div class="swatch-dot" style="background:#0D1B2A;border:1px solid #2A4060"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D1B2A</span></div></div>
+        <div class="swatch" onclick="copyHex('#162336',this)"><div class="swatch-dot" style="background:#162336;border:1px solid #2A4060"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#162336</span></div></div>
+        <div class="swatch" onclick="copyHex('#1E3048',this)"><div class="swatch-dot" style="background:#1E3048"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1E3048</span></div></div>
+        <div class="swatch" onclick="copyHex('#2A4060',this)"><div class="swatch-dot" style="background:#2A4060"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2A4060</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:26px;font-weight:700;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — pipeline docs, source descriptions, integrations</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — event timestamps, property keys</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">Order Completed</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Event Stream</h3>
+        <div class="event-row">
+          <span class="event-type ev-track">track</span>
+          <div style="flex:1">
+            <div class="event-name">Order Completed</div>
+            <div class="event-meta">userId: usr_8821a · revenue: 124.00</div>
+          </div>
+          <span class="event-time">1s ago</span>
+        </div>
+        <div class="event-row">
+          <span class="event-type ev-identify">identify</span>
+          <div style="flex:1">
+            <div class="event-name">User Identified</div>
+            <div class="event-meta">userId: usr_8821a · email: j@ex.com</div>
+          </div>
+          <span class="event-time">4s ago</span>
+        </div>
+        <div class="event-row">
+          <span class="event-type ev-page">page</span>
+          <div style="flex:1">
+            <div class="event-name">Checkout</div>
+            <div class="event-meta">url: /checkout · referrer: /cart</div>
+          </div>
+          <span class="event-time">6s ago</span>
+        </div>
+        <div class="event-row">
+          <span class="event-type ev-screen">screen</span>
+          <div style="flex:1">
+            <div class="event-name">Product Detail</div>
+            <div class="event-meta">name: ProductScreen · platform: ios</div>
+          </div>
+          <span class="event-time">9s ago</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Sources</h3>
+        <div class="source-card">
+          <div class="src-dot" style="background:#52BD94"></div>
+          <div style="flex:1">
+            <div class="src-name">Web (analytics.js)</div>
+            <div class="src-key">wk_••••••••3a9f</div>
+          </div>
+          <span style="font-size:11px;color:#52BD94">Live</span>
+        </div>
+        <div class="source-card">
+          <div class="src-dot" style="background:#52BD94"></div>
+          <div style="flex:1">
+            <div class="src-name">iOS App</div>
+            <div class="src-key">wk_••••••••bc12</div>
+          </div>
+          <span style="font-size:11px;color:#52BD94">Live</span>
+        </div>
+        <div class="source-card">
+          <div class="src-dot" style="background:#3D5A78"></div>
+          <div style="flex:1">
+            <div class="src-name">Backend (Node.js)</div>
+            <div class="src-key">wk_••••••••40ee</div>
+          </div>
+          <span style="font-size:11px;color:var(--text-3)">Paused</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Write Key</h3>
+        <div class="wk-wrap">
+          <span class="wk-val">wk_••••••••••••••••••3a9f</span>
+          <button class="wk-btn">Reveal</button>
+          <button class="wk-btn">Copy</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary">Add Source</button>
+          <button class="btn btn-ghost">View Debugger</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Event names always in monospace — they're identifiers</li>
+          <li>Mask write keys — reveal only on explicit toggle</li>
+          <li>Color-code event types (track/identify/page/screen)</li>
+          <li>Show data flow direction clearly: source → destination</li>
+          <li>Green for live/healthy source only</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't truncate event payloads — add expand affordance</li>
+          <li>Don't expose write keys in plain text by default</li>
+          <li>Don't reuse green for generic success states</li>
+          <li>Don't use small fonts for event property values</li>
+          <li>Don't hide source status behind a click</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

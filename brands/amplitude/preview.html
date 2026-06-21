@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amplitude – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0D0F1A;
+  --surface: #161929;
+  --elevated: #1F2340;
+  --border: #2A3058;
+  --primary: #1C57EB;
+  --primary-hover: #1648C9;
+  --primary-light: #5B8AF5;
+  --success: #00BFA5;
+  --warning: #F5A623;
+  --danger: #E03E3E;
+  --c2: #9B59F5;
+  --c3: #00BFA5;
+  --c4: #F5A623;
+  --text: #EEF0FA;
+  --text-2: #8B93C4;
+  --text-3: #4A5280;
+  --toggle-bg: #1F2340;
+  --toggle-text: #EEF0FA;
+  --toggle-border: #2A3058;
+}
+:root[data-theme="light"] {
+  --bg: #F4F5FF;
+  --surface: #FFFFFF;
+  --elevated: #E0E5FF;
+  --border: #C8D0F0;
+  --primary: #1C57EB;
+  --primary-hover: #1648C9;
+  --primary-light: #5B8AF5;
+  --success: #008E78;
+  --warning: #B07000;
+  --danger: #C02020;
+  --c2: #7B30D5;
+  --c3: #008E78;
+  --c4: #B07000;
+  --text: #0D0F1A;
+  --text-2: #2A3060;
+  --text-3: #8B93C4;
+  --toggle-bg: #E0E5FF;
+  --toggle-text: #0D0F1A;
+  --toggle-border: #C8D0F0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary-light); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary-light); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Metric card */
+.metric-num { font-size: 36px; font-weight: 700; color: var(--text); }
+.metric-label { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+.metric-trend { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.trend-up { color: var(--success); font-size: 13px; font-weight: 600; }
+.trend-down { color: var(--danger); font-size: 13px; font-weight: 600; }
+.trend-period { font-size: 11px; color: var(--text-3); }
+/* Sparkline (SVG chart) */
+.sparkline-wrap { margin-top: 14px; }
+/* Funnel */
+.funnel-step { margin-bottom: 10px; }
+.funnel-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+.funnel-name { color: var(--text); }
+.funnel-pct { color: var(--primary-light); font-weight: 600; }
+.funnel-track { background: var(--elevated); border-radius: 3px; height: 10px; overflow: hidden; }
+.funnel-fill { height: 100%; border-radius: 3px; }
+/* Event prop tag */
+.prop-tag { display: inline-block; background: rgba(28,87,235,0.10); border: 1px solid rgba(28,87,235,0.28); color: var(--primary-light); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin: 3px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary-light); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div>
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#0D0F1A"/>
+        <!-- Amplitude A mark: bold upward arrow/chart shape -->
+        <path d="M20 52 L36 20 L52 52" stroke="#1C57EB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="26" y1="42" x2="46" y2="42" stroke="#1C57EB" stroke-width="4" stroke-linecap="round"/>
+        <!-- chart bars hint -->
+        <rect x="28" y="46" width="4" height="6" rx="1" fill="#5B8AF5" opacity="0.7"/>
+        <rect x="34" y="43" width="4" height="9" rx="1" fill="#5B8AF5" opacity="0.7"/>
+        <rect x="40" y="40" width="4" height="12" rx="1" fill="#1C57EB"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Amplitude</h1>
+      <p>Product analytics — understand user behavior, drive growth decisions</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand & Chart Series</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1C57EB',this)"><div class="swatch-dot" style="background:#1C57EB"></div><div class="swatch-info"><span class="swatch-name">Indigo</span><span class="swatch-hex">#1C57EB</span></div></div>
+        <div class="swatch" onclick="copyHex('#9B59F5',this)"><div class="swatch-dot" style="background:#9B59F5"></div><div class="swatch-info"><span class="swatch-name">Purple</span><span class="swatch-hex">#9B59F5</span></div></div>
+        <div class="swatch" onclick="copyHex('#00BFA5',this)"><div class="swatch-dot" style="background:#00BFA5"></div><div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#00BFA5</span></div></div>
+        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-info"><span class="swatch-name">Amber</span><span class="swatch-hex">#F5A623</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0D0F1A',this)"><div class="swatch-dot" style="background:#0D0F1A;border:1px solid #2A3058"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D0F1A</span></div></div>
+        <div class="swatch" onclick="copyHex('#161929',this)"><div class="swatch-dot" style="background:#161929;border:1px solid #2A3058"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161929</span></div></div>
+        <div class="swatch" onclick="copyHex('#1F2340',this)"><div class="swatch-dot" style="background:#1F2340"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1F2340</span></div></div>
+        <div class="swatch" onclick="copyHex('#2A3058',this)"><div class="swatch-dot" style="background:#2A3058"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2A3058</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:26px;font-weight:700;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — chart labels, cohort descriptions, annotations</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:11px;color:var(--text-2);">Small — axis labels, chart ticks, percentages</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary-light);">event_properties.revenue</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Metric Card</h3>
+        <div class="metric-label">Monthly Active Users</div>
+        <div class="metric-num">48,291</div>
+        <div class="metric-trend">
+          <span class="trend-up">↑ 12.4%</span>
+          <span class="trend-period">vs last month</span>
+        </div>
+        <div class="sparkline-wrap">
+          <svg width="100%" height="40" viewBox="0 0 240 40" preserveAspectRatio="none">
+            <polyline points="0,36 40,28 80,30 120,20 160,18 200,12 240,8" fill="none" stroke="#1C57EB" stroke-width="2"/>
+            <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1C57EB" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#1C57EB" stop-opacity="0"/>
+            </linearGradient>
+            <polygon points="0,36 40,28 80,30 120,20 160,18 200,12 240,8 240,40 0,40" fill="url(#sg)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Conversion Funnel</h3>
+        <div class="funnel-step">
+          <div class="funnel-label"><span class="funnel-name">Page View</span><span class="funnel-pct">100%</span></div>
+          <div class="funnel-track"><div class="funnel-fill" style="width:100%;background:#1C57EB"></div></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label"><span class="funnel-name">Add to Cart</span><span class="funnel-pct">62%</span></div>
+          <div class="funnel-track"><div class="funnel-fill" style="width:62%;background:#5B8AF5"></div></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label"><span class="funnel-name">Checkout</span><span class="funnel-pct">38%</span></div>
+          <div class="funnel-track"><div class="funnel-fill" style="width:38%;background:#9B59F5"></div></div>
+        </div>
+        <div class="funnel-step">
+          <div class="funnel-label"><span class="funnel-name">Purchase</span><span class="funnel-pct">21%</span></div>
+          <div class="funnel-track"><div class="funnel-fill" style="width:21%;background:#00BFA5"></div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Event Properties</h3>
+        <div>
+          <span class="prop-tag">event_type</span>
+          <span class="prop-tag">user_id</span>
+          <span class="prop-tag">revenue</span>
+          <span class="prop-tag">product_id</span>
+          <span class="prop-tag">platform</span>
+          <span class="prop-tag">country</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary">New Chart</button>
+          <button class="btn btn-ghost">Export CSV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Always show absolute numbers alongside percentages</li>
+          <li>Use chart colors in series order — never skip</li>
+          <li>Trend arrows use red/green only — not indigo</li>
+          <li>Event properties always in monospace</li>
+          <li>Empty chart states must include a CTA</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use indigo for warning or error states</li>
+          <li>Don't show percentages without context period</li>
+          <li>Don't use thin axis labels — they must be legible</li>
+          <li>Don't truncate chart series labels</li>
+          <li>Don't show stacked charts without a legend</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

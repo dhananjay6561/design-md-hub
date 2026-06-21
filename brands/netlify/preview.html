@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Netlify – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0E1E25;
+  --surface: #1B2E36;
+  --elevated: #243D48;
+  --border: #2E4D5C;
+  --primary: #00C7B7;
+  --primary-hover: #009E91;
+  --success: #28B487;
+  --warning: #FFCC00;
+  --danger: #FF4949;
+  --text: #EEF5F7;
+  --text-2: #7FA8B8;
+  --text-3: #4A7080;
+  --toggle-bg: #243D48;
+  --toggle-text: #EEF5F7;
+  --toggle-border: #2E4D5C;
+}
+:root[data-theme="light"] {
+  --bg: #F0FAFA;
+  --surface: #FFFFFF;
+  --elevated: #D8F5F3;
+  --border: #B0E0DC;
+  --primary: #00A89A;
+  --primary-hover: #008880;
+  --success: #1E8C6A;
+  --warning: #B89000;
+  --danger: #CC2C2C;
+  --text: #0E1E25;
+  --text-2: #336070;
+  --text-3: #7AA8B8;
+  --toggle-bg: #D8F5F3;
+  --toggle-text: #0E1E25;
+  --toggle-border: #B0E0DC;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+.deploy-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.deploy-item:last-child { border-bottom: none; }
+.status-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.status-dot.success { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.status-dot.building { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+.status-dot.failed { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+.deploy-info { flex: 1; }
+.deploy-branch { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); }
+.deploy-commit { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.deploy-msg { font-size: 13px; color: var(--text); margin-top: 4px; }
+.deploy-time { font-size: 11px; color: var(--text-3); }
+.log-block { background: #060F14; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 2; }
+.log-success { color: var(--success); }
+.log-info { color: var(--text-2); }
+.log-error { color: var(--danger); }
+.branch-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,199,183,0.10); border: 1px solid rgba(0,199,183,0.28); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; margin: 4px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #0E1E25; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div>
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#0E1E25"/>
+        <!-- Netlify N mark -->
+        <path d="M20 52 L20 24 L36 48 L36 24" stroke="#00C7B7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M36 48 L52 24 L52 52" stroke="#00C7B7" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Netlify</h1>
+      <p>Deploy web projects with git — instant builds, previews, and serverless</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#00C7B7',this)"><div class="swatch-dot" style="background:#00C7B7"></div><div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#00C7B7</span></div></div>
+        <div class="swatch" onclick="copyHex('#009E91',this)"><div class="swatch-dot" style="background:#009E91"></div><div class="swatch-info"><span class="swatch-name">Teal Dark</span><span class="swatch-hex">#009E91</span></div></div>
+        <div class="swatch" onclick="copyHex('#28B487',this)"><div class="swatch-dot" style="background:#28B487"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#28B487</span></div></div>
+        <div class="swatch" onclick="copyHex('#FF4949',this)"><div class="swatch-dot" style="background:#FF4949"></div><div class="swatch-info"><span class="swatch-name">Error</span><span class="swatch-hex">#FF4949</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0E1E25',this)"><div class="swatch-dot" style="background:#0E1E25;border:1px solid #2E4D5C"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0E1E25</span></div></div>
+        <div class="swatch" onclick="copyHex('#1B2E36',this)"><div class="swatch-dot" style="background:#1B2E36;border:1px solid #2E4D5C"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#1B2E36</span></div></div>
+        <div class="swatch" onclick="copyHex('#243D48',this)"><div class="swatch-dot" style="background:#243D48"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#243D48</span></div></div>
+        <div class="swatch" onclick="copyHex('#2E4D5C',this)"><div class="swatch-dot" style="background:#2E4D5C"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2E4D5C</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:26px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — default content for dashboards and docs</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, timestamps, labels</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">feat/add-analytics-dashboard</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Deploy Log</h3>
+        <div class="log-block">
+          <div class="log-success">✔ Build successful</div>
+          <div class="log-info">› Installing dependencies...</div>
+          <div class="log-info">› npm run build</div>
+          <div class="log-success">✔ 42 files uploaded</div>
+          <div class="log-info">› Deploy live at site.netlify.app</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Deploy Status</h3>
+        <div class="deploy-item">
+          <div class="status-dot success"></div>
+          <div class="deploy-info">
+            <div class="deploy-branch"># main</div>
+            <div class="deploy-commit">a3f8c12</div>
+            <div class="deploy-msg">fix: update OG image path</div>
+          </div>
+          <div class="deploy-time">2m ago</div>
+        </div>
+        <div class="deploy-item">
+          <div class="status-dot building"></div>
+          <div class="deploy-info">
+            <div class="deploy-branch"># feat/redesign</div>
+            <div class="deploy-commit">e1b9d04</div>
+            <div class="deploy-msg">refactor: nav component</div>
+          </div>
+          <div class="deploy-time">just now</div>
+        </div>
+        <div class="deploy-item">
+          <div class="status-dot failed"></div>
+          <div class="deploy-info">
+            <div class="deploy-branch"># fix/auth</div>
+            <div class="deploy-commit">7c2a831</div>
+            <div class="deploy-msg">chore: bump deps</div>
+          </div>
+          <div class="deploy-time">18m ago</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Branch Badges</h3>
+        <div>
+          <span class="branch-tag">main</span>
+          <span class="branch-tag">feat/redesign</span>
+          <span class="branch-tag">fix/auth</span>
+          <span class="branch-tag">dev</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">New Site</button>
+          <button class="btn btn-ghost">View Logs</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Use monospace for branch names, commit hashes, deploy IDs</li>
+          <li>Lead deploy status with colored dot — scannable at a glance</li>
+          <li>Dark log background to distinguish from UI chrome</li>
+          <li>Teal CTAs on dark surfaces only</li>
+          <li>Keep deploy cards information-dense but scannable</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use gradients on functional UI elements</li>
+          <li>Don't show deploy status without a timestamp</li>
+          <li>Don't truncate branch names — they're identifiers</li>
+          <li>Don't use teal for warnings — it reads as success</li>
+          <li>Don't use thin fonts in log output</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>
