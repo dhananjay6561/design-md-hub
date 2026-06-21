@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CircleCI – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #161616; --surface: #1E1E1E; --elevated: #282828; --border: #383838;
+  --primary: #04AA51; --primary-hover: #038B42;
+  --passed: #04AA51; --failed: #E5483A; --running: #FA7A14; --onhold: #9B9B9B;
+  --text: #F5F5F5; --text-2: #9A9A9A; --text-3: #5A5A5A;
+  --toggle-bg: #282828; --toggle-text: #F5F5F5; --toggle-border: #383838;
+}
+:root[data-theme="light"] {
+  --bg: #F5F5F5; --surface: #FFFFFF; --elevated: #EBEBEB; --border: #D8D8D8;
+  --primary: #04AA51; --primary-hover: #038B42;
+  --passed: #04AA51; --failed: #D03020; --running: #D06010; --onhold: #777;
+  --text: #161616; --text-2: #555; --text-3: #999;
+  --toggle-bg: #EBEBEB; --toggle-text: #161616; --toggle-border: #D8D8D8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Pipeline rows */
+.pipe-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.pipe-row:last-child { border-bottom: none; }
+.pipe-status { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.pipe-branch { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-2); flex: 1; }
+.pipe-sha { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); }
+.pipe-dur { font-size: 11px; color: var(--text-3); flex-shrink: 0; }
+/* Workflow graph */
+.workflow-graph { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 8px 0; }
+.wf-node { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+.wf-connector { width: 20px; height: 2px; flex-shrink: 0; }
+.wf-job { width: 80px; padding: 8px; border-radius: 6px; border: 1px solid; text-align: center; font-size: 11px; font-weight: 500; }
+.wf-passed { background: rgba(4,170,81,0.12); color: #04AA51; border-color: rgba(4,170,81,0.3); }
+.wf-failed { background: rgba(229,72,58,0.12); color: #E5483A; border-color: rgba(229,72,58,0.3); }
+.wf-running { background: rgba(250,122,20,0.12); color: #FA7A14; border-color: rgba(250,122,20,0.3); }
+.wf-onhold { background: rgba(155,155,155,0.10); color: #9B9B9B; border-color: rgba(155,155,155,0.25); }
+.wf-label { font-size: 9px; color: var(--text-3); }
+/* Status badges */
+.status-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.st-badge { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 4px; }
+.st-pass { background: rgba(4,170,81,0.12); color: #04AA51; }
+.st-fail { background: rgba(229,72,58,0.12); color: #E5483A; }
+.st-run { background: rgba(250,122,20,0.12); color: #FA7A14; }
+.st-hold { background: rgba(155,155,155,0.10); color: #9B9B9B; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row2 { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--passed); } .guardrail-card.dont { border-top: 3px solid var(--failed); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--passed); } .guardrail-card.dont .guardrail-label { color: var(--failed); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#161616"/>
+      <!-- CircleCI circle mark -->
+      <circle cx="36" cy="36" r="18" fill="none" stroke="#04AA51" stroke-width="3"/>
+      <circle cx="36" cy="36" r="7" fill="#04AA51"/>
+    </svg>
+    <div class="hero-text"><h1>CircleCI</h1><p>CI/CD platform — automate builds, tests, and deployments at speed</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand & Build Status</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#04AA51',this)"><div class="swatch-dot" style="background:#04AA51"></div><div class="swatch-name">Passed</div><div class="swatch-hex">#04AA51</div></div>
+        <div class="swatch" onclick="copyHex('#E5483A',this)"><div class="swatch-dot" style="background:#E5483A"></div><div class="swatch-name">Failed</div><div class="swatch-hex">#E5483A</div></div>
+        <div class="swatch" onclick="copyHex('#FA7A14',this)"><div class="swatch-dot" style="background:#FA7A14"></div><div class="swatch-name">Running</div><div class="swatch-hex">#FA7A14</div></div>
+        <div class="swatch" onclick="copyHex('#9B9B9B',this)"><div class="swatch-dot" style="background:#9B9B9B"></div><div class="swatch-name">On Hold</div><div class="swatch-hex">#9B9B9B</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#161616',this)"><div class="swatch-dot" style="background:#161616;border:1px solid #383838"></div><div class="swatch-name">Background</div><div class="swatch-hex">#161616</div></div>
+        <div class="swatch" onclick="copyHex('#1E1E1E',this)"><div class="swatch-dot" style="background:#1E1E1E;border:1px solid #383838"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#1E1E1E</div></div>
+        <div class="swatch" onclick="copyHex('#282828',this)"><div class="swatch-dot" style="background:#282828"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#282828</div></div>
+        <div class="swatch" onclick="copyHex('#383838',this)"><div class="swatch-dot" style="background:#383838"></div><div class="swatch-name">Border</div><div class="swatch-hex">#383838</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — pipeline descriptions, job logs, config docs</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, durations, executor labels</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">feat/add-e2e-tests</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Workflow Graph</h3>
+        <div class="workflow-graph">
+          <div class="wf-node"><div class="wf-label">checkout</div><div class="wf-job wf-passed">✓ checkout</div></div>
+          <div class="wf-connector" style="background:#04AA51;opacity:0.4"></div>
+          <div class="wf-node"><div class="wf-label">test</div><div class="wf-job wf-passed">✓ unit-test</div></div>
+          <div class="wf-connector" style="background:#04AA51;opacity:0.4"></div>
+          <div class="wf-node"><div class="wf-label">test</div><div class="wf-job wf-running">⟳ e2e</div></div>
+          <div class="wf-connector" style="background:var(--border)"></div>
+          <div class="wf-node"><div class="wf-label">build</div><div class="wf-job wf-onhold">◷ docker</div></div>
+          <div class="wf-connector" style="background:var(--border)"></div>
+          <div class="wf-node"><div class="wf-label">deploy</div><div class="wf-job wf-onhold">◷ prod</div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Pipeline History</h3>
+        <div class="pipe-row"><div class="pipe-status" style="background:#04AA51"></div><div><div class="pipe-branch">main · a3f8c12</div><div class="pipe-sha">fix: resolve token refresh</div></div><div class="pipe-dur">1m 42s</div></div>
+        <div class="pipe-row"><div class="pipe-status" style="background:#E5483A"></div><div><div class="pipe-branch">feat/new-ui · e1b9d04</div><div class="pipe-sha">feat: add dashboard v2</div></div><div class="pipe-dur">3m 11s</div></div>
+        <div class="pipe-row"><div class="pipe-status" style="background:#FA7A14;box-shadow:0 0 4px #FA7A14"></div><div><div class="pipe-branch">fix/auth · 7c2a831</div><div class="pipe-sha">chore: bump dependencies</div></div><div class="pipe-dur">running…</div></div>
+      </div>
+      <div class="comp-card">
+        <h3>Status Badges</h3>
+        <div class="status-row">
+          <span class="st-badge st-pass">Passed</span>
+          <span class="st-badge st-fail">Failed</span>
+          <span class="st-badge st-run">Running</span>
+          <span class="st-badge st-hold">On Hold</span>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Rerun Workflow</button>
+          <button class="btn btn-ghost">View Config</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row2"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row2"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row2"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row2"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row2"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row2"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>Build status colors are semantic — never repurpose</li>
+        <li>Branch names and SHAs always in monospace</li>
+        <li>Workflow graph always horizontal</li>
+        <li>Failed builds must be visually prominent</li>
+        <li>Show duration on all completed jobs</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't truncate branch names in pipeline view</li>
+        <li>Don't use green for anything other than passed</li>
+        <li>Don't stack workflow nodes vertically</li>
+        <li>Don't hide re-run action behind a menu</li>
+        <li>Don't show running state without an indicator</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

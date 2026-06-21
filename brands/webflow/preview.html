@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Webflow – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #0E0E10; --surface: #1A1A1F; --elevated: #242429; --border: #34343C;
+  --primary: #4353FF; --primary-hover: #3343EE; --primary-light: #6B7AFF;
+  --success: #12A150; --warning: #F5A623; --danger: #E03E3E;
+  --text: #F2F2F5; --text-2: #9090A0; --text-3: #55556A;
+  --toggle-bg: #242429; --toggle-text: #F2F2F5; --toggle-border: #34343C;
+}
+:root[data-theme="light"] {
+  --bg: #F4F4FF; --surface: #FFFFFF; --elevated: #E8E9FF; --border: #D4D5EE;
+  --primary: #4353FF; --primary-hover: #3343EE; --primary-light: #6B7AFF;
+  --success: #12A150; --warning: #B07000; --danger: #C02020;
+  --text: #0E0E10; --text-2: #40408A; --text-3: #9090A0;
+  --toggle-bg: #E8E9FF; --toggle-text: #0E0E10; --toggle-border: #D4D5EE;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Canvas element */
+.canvas-area { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; position: relative; min-height: 120px; }
+.canvas-el { border: 2px dashed var(--border); border-radius: 4px; padding: 10px 14px; margin-bottom: 8px; position: relative; transition: border-color 0.15s; cursor: pointer; }
+.canvas-el:hover { border-color: var(--primary); }
+.canvas-el.selected { border: 2px solid var(--primary); border-style: solid; }
+.canvas-label { position: absolute; top: -10px; left: 8px; background: var(--primary); color: #fff; font-size: 9px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+.canvas-content { font-size: 12px; color: var(--text-2); }
+/* Breakpoints */
+.bp-row { display: flex; gap: 6px; margin-bottom: 16px; }
+.bp-pill { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); color: var(--text-2); background: var(--elevated); transition: all 0.15s; }
+.bp-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+/* Style panel */
+.style-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.style-row:last-child { border-bottom: none; }
+.style-key { color: var(--text-3); }
+.style-val { font-family: 'JetBrains Mono', monospace; color: var(--primary-light); }
+/* Class badge */
+.class-tag { display: inline-block; background: rgba(67,83,255,0.10); border: 1px solid rgba(67,83,255,0.28); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 3px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0E0E10"/>
+      <!-- Webflow W mark -->
+      <path d="M14 22 L24 50 L32 34 L40 50 L50 22 L58 22" stroke="#4353FF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <div class="hero-text"><h1>Webflow</h1><p>Visual web development — design, build, and launch without writing code</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#4353FF',this)"><div class="swatch-dot" style="background:#4353FF"></div><div class="swatch-name">Indigo</div><div class="swatch-hex">#4353FF</div></div>
+        <div class="swatch" onclick="copyHex('#6B7AFF',this)"><div class="swatch-dot" style="background:#6B7AFF"></div><div class="swatch-name">Indigo Light</div><div class="swatch-hex">#6B7AFF</div></div>
+        <div class="swatch" onclick="copyHex('#12A150',this)"><div class="swatch-dot" style="background:#12A150"></div><div class="swatch-name">Success</div><div class="swatch-hex">#12A150</div></div>
+        <div class="swatch" onclick="copyHex('#E03E3E',this)"><div class="swatch-dot" style="background:#E03E3E"></div><div class="swatch-name">Error</div><div class="swatch-hex">#E03E3E</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0E0E10',this)"><div class="swatch-dot" style="background:#0E0E10;border:1px solid #34343C"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0E0E10</div></div>
+        <div class="swatch" onclick="copyHex('#1A1A1F',this)"><div class="swatch-dot" style="background:#1A1A1F;border:1px solid #34343C"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#1A1A1F</div></div>
+        <div class="swatch" onclick="copyHex('#242429',this)"><div class="swatch-dot" style="background:#242429"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#242429</div></div>
+        <div class="swatch" onclick="copyHex('#34343C',this)"><div class="swatch-dot" style="background:#34343C"></div><div class="swatch-name">Border</div><div class="swatch-hex">#34343C</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — panel labels, project descriptions, help text</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — style properties, breakpoint labels</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary-light);">.hero-section</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Canvas Elements</h3>
+        <div class="canvas-area">
+          <div class="canvas-el selected"><div class="canvas-label">Section</div><div class="canvas-content">Hero Section</div></div>
+          <div class="canvas-el"><div class="canvas-content">Nav Bar</div></div>
+          <div class="canvas-el"><div class="canvas-content">Footer</div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Breakpoints</h3>
+        <div class="bp-row">
+          <div class="bp-pill active">🖥 Desktop</div>
+          <div class="bp-pill">📱 Tablet</div>
+          <div class="bp-pill">📲 Mobile</div>
+        </div>
+        <div class="style-row"><span class="style-key">width</span><span class="style-val">1280px</span></div>
+        <div class="style-row"><span class="style-key">padding</span><span class="style-val">48px 64px</span></div>
+        <div class="style-row"><span class="style-key">display</span><span class="style-val">flex</span></div>
+        <div class="style-row"><span class="style-key">gap</span><span class="style-val">24px</span></div>
+      </div>
+      <div class="comp-card">
+        <h3>Class Tags</h3>
+        <div><span class="class-tag">.hero-section</span><span class="class-tag">.nav-link</span><span class="class-tag">.cta-button</span><span class="class-tag">.grid-3col</span></div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Publish Site</button>
+          <button class="btn btn-ghost">Preview</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>CSS values and class names always in monospace</li>
+        <li>Selected canvas element has solid indigo border</li>
+        <li>Breakpoint indicators always persistent</li>
+        <li>Style panel values color-coded by type</li>
+        <li>Class tags visually distinct from plain text</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't use indigo for warning states</li>
+        <li>Don't hide breakpoints — they're always relevant</li>
+        <li>Don't truncate class names</li>
+        <li>Don't use more than 3 panels visible at once</li>
+        <li>Don't show raw HTML in the canvas layer</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

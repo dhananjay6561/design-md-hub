@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DigitalOcean – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #0B1624; --surface: #131F2E; --elevated: #1C2D40; --border: #273D54;
+  --primary: #0080FF; --primary-hover: #0064CC;
+  --success: #00B27A; --warning: #FFB020; --danger: #FF4040;
+  --text: #EBF4FF; --text-2: #6B9BBB; --text-3: #3A5A78;
+  --toggle-bg: #1C2D40; --toggle-text: #EBF4FF; --toggle-border: #273D54;
+}
+:root[data-theme="light"] {
+  --bg: #EEF6FF; --surface: #FFFFFF; --elevated: #D8EEFF; --border: #BBDAFF;
+  --primary: #0080FF; --primary-hover: #0064CC;
+  --success: #00875A; --warning: #B07000; --danger: #CC2020;
+  --text: #0B1624; --text-2: #1A4060; --text-3: #6B9BBB;
+  --toggle-bg: #D8EEFF; --toggle-text: #0B1624; --toggle-border: #BBDAFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Droplet card */
+.droplet-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+.droplet-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.status-dot-sm { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.droplet-name { font-size: 14px; font-weight: 600; flex: 1; }
+.droplet-region { font-size: 11px; color: var(--text-3); }
+.droplet-specs { display: flex; gap: 12px; font-size: 11px; color: var(--text-2); margin-bottom: 8px; }
+.spec-item { display: flex; align-items: center; gap: 4px; }
+.droplet-ip { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); }
+/* Usage bar */
+.usage-row { margin-bottom: 12px; }
+.usage-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+.usage-label { color: var(--text-2); }
+.usage-pct { font-weight: 600; }
+.usage-track { background: var(--elevated); border-radius: 4px; height: 8px; overflow: hidden; }
+.usage-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+/* Region badge */
+.region-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--elevated); border: 1px solid var(--border); color: var(--text-2); border-radius: 6px; padding: 4px 12px; font-size: 12px; margin: 4px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0B1624"/>
+      <!-- DigitalOcean D-O mark -->
+      <circle cx="36" cy="36" r="16" fill="#0080FF"/>
+      <circle cx="36" cy="36" r="9" fill="#0B1624"/>
+      <rect x="27" y="52" width="9" height="5" rx="2.5" fill="#0080FF"/>
+      <rect x="20" y="47" width="6" height="5" rx="2.5" fill="#0080FF"/>
+    </svg>
+    <div class="hero-text"><h1>DigitalOcean</h1><p>Developer cloud — simple, affordable infrastructure for builders</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0080FF',this)"><div class="swatch-dot" style="background:#0080FF"></div><div class="swatch-name">Ocean Blue</div><div class="swatch-hex">#0080FF</div></div>
+        <div class="swatch" onclick="copyHex('#00B27A',this)"><div class="swatch-dot" style="background:#00B27A"></div><div class="swatch-name">Success</div><div class="swatch-hex">#00B27A</div></div>
+        <div class="swatch" onclick="copyHex('#FFB020',this)"><div class="swatch-dot" style="background:#FFB020"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#FFB020</div></div>
+        <div class="swatch" onclick="copyHex('#FF4040',this)"><div class="swatch-dot" style="background:#FF4040"></div><div class="swatch-name">Danger</div><div class="swatch-hex">#FF4040</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0B1624',this)"><div class="swatch-dot" style="background:#0B1624;border:1px solid #273D54"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0B1624</div></div>
+        <div class="swatch" onclick="copyHex('#131F2E',this)"><div class="swatch-dot" style="background:#131F2E;border:1px solid #273D54"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#131F2E</div></div>
+        <div class="swatch" onclick="copyHex('#1C2D40',this)"><div class="swatch-dot" style="background:#1C2D40"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1C2D40</div></div>
+        <div class="swatch" onclick="copyHex('#273D54',this)"><div class="swatch-dot" style="background:#273D54"></div><div class="swatch-name">Border</div><div class="swatch-hex">#273D54</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:22px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — resource descriptions, docs, billing info</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — region labels, spec metadata</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--primary);">167.99.204.12</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Droplets</h3>
+        <div class="droplet-card">
+          <div class="droplet-header"><div class="status-dot-sm" style="background:#00B27A;box-shadow:0 0 5px #00B27A"></div><div class="droplet-name">web-prod-1</div><div class="droplet-region">🇺🇸 NYC3</div></div>
+          <div class="droplet-specs"><span class="spec-item">2 vCPUs</span><span class="spec-item">4 GB RAM</span><span class="spec-item">80 GB SSD</span></div>
+          <div class="droplet-ip">167.99.204.12</div>
+        </div>
+        <div class="droplet-card">
+          <div class="droplet-header"><div class="status-dot-sm" style="background:#FFB020"></div><div class="droplet-name">db-staging</div><div class="droplet-region">🇩🇪 FRA1</div></div>
+          <div class="droplet-specs"><span class="spec-item">1 vCPU</span><span class="spec-item">2 GB RAM</span><span class="spec-item">50 GB SSD</span></div>
+          <div class="droplet-ip">128.140.52.44</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Resource Usage</h3>
+        <div class="usage-row">
+          <div class="usage-header"><span class="usage-label">CPU</span><span class="usage-pct" style="color:#00B27A">34%</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width:34%;background:#00B27A"></div></div>
+        </div>
+        <div class="usage-row">
+          <div class="usage-header"><span class="usage-label">Memory</span><span class="usage-pct" style="color:#FFB020">71%</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width:71%;background:#FFB020"></div></div>
+        </div>
+        <div class="usage-row">
+          <div class="usage-header"><span class="usage-label">Disk</span><span class="usage-pct" style="color:#FF4040">88%</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width:88%;background:#FF4040"></div></div>
+        </div>
+        <div class="usage-row">
+          <div class="usage-header"><span class="usage-label">Bandwidth</span><span class="usage-pct" style="color:#00B27A">22%</span></div>
+          <div class="usage-track"><div class="usage-fill" style="width:22%;background:#00B27A"></div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Regions</h3>
+        <div><span class="region-tag">🇺🇸 NYC3</span><span class="region-tag">🇺🇸 SFO3</span><span class="region-tag">🇩🇪 FRA1</span><span class="region-tag">🇸🇬 SGP1</span><span class="region-tag">🇳🇱 AMS3</span></div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Create Droplet</button>
+          <button class="btn btn-ghost">View All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>IP addresses always in monospace</li>
+        <li>Show vCPU/RAM/disk specs together always</li>
+        <li>Usage bar color changes by threshold</li>
+        <li>Status dot always visible with glow on active</li>
+        <li>Show pricing alongside specs — key decision factor</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't truncate droplet names</li>
+        <li>Don't hide status behind hover</li>
+        <li>Don't use blue for warning states</li>
+        <li>Don't show resource usage without unit</li>
+        <li>Don't omit region from resource cards</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

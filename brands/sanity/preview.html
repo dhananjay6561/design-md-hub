@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sanity – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #101112; --surface: #1A1B1D; --elevated: #232428; --border: #313238;
+  --primary: #F03E2F; --primary-hover: #D43020;
+  --success: #43BF8F; --warning: #F5A623; --danger: #F03E2F; --info: #2276FC;
+  --text: #F5F5F5; --text-2: #9898A6; --text-3: #565660;
+  --toggle-bg: #232428; --toggle-text: #F5F5F5; --toggle-border: #313238;
+}
+:root[data-theme="light"] {
+  --bg: #FFF5F4; --surface: #FFFFFF; --elevated: #FFE8E6; --border: #FFCCC9;
+  --primary: #F03E2F; --primary-hover: #D43020;
+  --success: #2A9070; --warning: #B07000; --danger: #F03E2F; --info: #1565CC;
+  --text: #101112; --text-2: #404048; --text-3: #9898A6;
+  --toggle-bg: #FFE8E6; --toggle-text: #101112; --toggle-border: #FFCCC9;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Document list */
+.doc-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.doc-row:last-child { border-bottom: none; }
+.doc-row:hover { opacity: 0.85; }
+.doc-type { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 3px; flex-shrink: 0; }
+.dt-post { background: rgba(240,62,47,0.12); color: #F03E2F; }
+.dt-author { background: rgba(34,118,252,0.12); color: #2276FC; }
+.dt-page { background: rgba(67,191,143,0.12); color: #43BF8F; }
+.doc-title { flex: 1; font-size: 13px; font-weight: 500; }
+.pub-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.doc-date { font-size: 11px; color: var(--text-3); flex-shrink: 0; }
+/* GROQ block */
+.groq-block { background: #070708; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.9; }
+.groq-op { color: #9898A6; }
+.groq-field { color: #F03E2F; }
+.groq-string { color: #43BF8F; }
+.groq-bracket { color: #F5A623; }
+/* Portable text toolbar */
+.pt-toolbar { display: flex; gap: 4px; padding: 8px 10px; background: var(--elevated); border: 1px solid var(--border); border-radius: 6px; flex-wrap: wrap; }
+.pt-btn { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-2); transition: all 0.12s; }
+.pt-btn:hover, .pt-btn.active { background: var(--border); color: var(--text); }
+.pt-divider { width: 1px; background: var(--border); margin: 2px 4px; }
+.pt-body { padding: 12px 0; font-size: 14px; line-height: 1.7; color: var(--text); }
+.pt-annotation { border-bottom: 1.5px solid var(--primary); color: var(--primary); cursor: pointer; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#101112"/>
+      <!-- Sanity S mark -->
+      <path d="M22 30 C22 24 48 20 48 28 C48 34 24 34 24 42 C24 50 50 48 50 42" stroke="#F03E2F" stroke-width="5" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div class="hero-text"><h1>Sanity</h1><p>Headless CMS — structured content platform with real-time collaboration</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F03E2F',this)"><div class="swatch-dot" style="background:#F03E2F"></div><div class="swatch-name">Red</div><div class="swatch-hex">#F03E2F</div></div>
+        <div class="swatch" onclick="copyHex('#43BF8F',this)"><div class="swatch-dot" style="background:#43BF8F"></div><div class="swatch-name">Success</div><div class="swatch-hex">#43BF8F</div></div>
+        <div class="swatch" onclick="copyHex('#2276FC',this)"><div class="swatch-dot" style="background:#2276FC"></div><div class="swatch-name">Info</div><div class="swatch-hex">#2276FC</div></div>
+        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#F5A623</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#101112',this)"><div class="swatch-dot" style="background:#101112;border:1px solid #313238"></div><div class="swatch-name">Background</div><div class="swatch-hex">#101112</div></div>
+        <div class="swatch" onclick="copyHex('#1A1B1D',this)"><div class="swatch-dot" style="background:#1A1B1D;border:1px solid #313238"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#1A1B1D</div></div>
+        <div class="swatch" onclick="copyHex('#232428',this)"><div class="swatch-dot" style="background:#232428"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#232428</div></div>
+        <div class="swatch" onclick="copyHex('#313238',this)"><div class="swatch-dot" style="background:#313238"></div><div class="swatch-name">Border</div><div class="swatch-hex">#313238</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:22px;font-weight:600;">Document Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — portable text content, field values, descriptions</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — document IDs, field names, metadata</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">*[_type == "post"]</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Document List</h3>
+        <div class="doc-row"><span class="doc-type dt-post">post</span><span class="doc-title">Building a Design System in 2025</span><div class="pub-dot" style="background:#43BF8F"></div><span class="doc-date">Jun 18</span></div>
+        <div class="doc-row"><span class="doc-type dt-author">author</span><span class="doc-title">Dhananjay Aggarwal</span><div class="pub-dot" style="background:#43BF8F"></div><span class="doc-date">Jun 12</span></div>
+        <div class="doc-row"><span class="doc-type dt-page">page</span><span class="doc-title">About Us</span><div class="pub-dot" style="background:#565660"></div><span class="doc-date">Jun 5</span></div>
+        <div class="doc-row"><span class="doc-type dt-post">post</span><span class="doc-title">Why Headless CMS Wins in 2025</span><div class="pub-dot" style="background:#F5A623"></div><span class="doc-date">May 30</span></div>
+      </div>
+      <div class="comp-card">
+        <h3>GROQ Query</h3>
+        <div class="groq-block">
+          <span class="groq-op">*</span><span class="groq-bracket">[</span><span class="groq-field">_type</span> <span class="groq-op">==</span> <span class="groq-string">"post"</span><span class="groq-bracket">]</span><br/>
+          <span class="groq-op">| order(</span><span class="groq-field">publishedAt</span> <span class="groq-op">desc)</span><br/>
+          <span class="groq-bracket">{</span><br/>
+          &nbsp;&nbsp;<span class="groq-field">title</span><span class="groq-op">,</span><br/>
+          &nbsp;&nbsp;<span class="groq-field">slug</span><span class="groq-op">.</span><span class="groq-field">current</span><span class="groq-op">,</span><br/>
+          &nbsp;&nbsp;<span class="groq-field">publishedAt</span><br/>
+          <span class="groq-bracket">}</span>
+        </div>
+      </div>
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Portable Text Editor</h3>
+        <div class="pt-toolbar">
+          <button class="pt-btn active"><b>B</b></button>
+          <button class="pt-btn"><i>I</i></button>
+          <button class="pt-btn"><u>U</u></button>
+          <div class="pt-divider"></div>
+          <button class="pt-btn">H1</button>
+          <button class="pt-btn">H2</button>
+          <button class="pt-btn">H3</button>
+          <div class="pt-divider"></div>
+          <button class="pt-btn">🔗</button>
+          <button class="pt-btn">⋯</button>
+        </div>
+        <div class="pt-body">Building a great design system requires <strong>consistent tokens</strong>, a clear <span class="pt-annotation">component hierarchy</span>, and a shared language between designers and engineers.</div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Publish</button>
+          <button class="btn btn-ghost">Save Draft</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>GROQ queries always in monospace</li>
+        <li>Published vs draft state always visible</li>
+        <li>Document IDs in monospace</li>
+        <li>Portable text toolbar appears on selection only</li>
+        <li>Inline annotations underlined in red</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't use red for warnings — red is brand</li>
+        <li>Don't show toolbar always — only on selection</li>
+        <li>Don't truncate document titles in the list</li>
+        <li>Don't show draft and published as same state</li>
+        <li>Don't omit document type badge</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

@@ -68,6 +68,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 45 | [Mixpanel](brands/mixpanel/DESIGN.md) | Analytics | [preview](brands/mixpanel/preview.html) |
 | 46 | [Intercom](brands/intercom/DESIGN.md) | Developer Tools | [preview](brands/intercom/preview.html) |
 | 47 | [PagerDuty](brands/pagerduty/DESIGN.md) | Developer Tools | [preview](brands/pagerduty/preview.html) |
+| 48 | [Webflow](brands/webflow/DESIGN.md) | Developer Tools | [preview](brands/webflow/preview.html) |
+| 49 | [DigitalOcean](brands/digitalocean/DESIGN.md) | Developer Tools | [preview](brands/digitalocean/preview.html) |
+| 50 | [CircleCI](brands/circleci/DESIGN.md) | Developer Tools | [preview](brands/circleci/preview.html) |
+| 51 | [LaunchDarkly](brands/launchdarkly/DESIGN.md) | Developer Tools | [preview](brands/launchdarkly/preview.html) |
+| 52 | [Sanity](brands/sanity/DESIGN.md) | Developer Tools | [preview](brands/sanity/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
