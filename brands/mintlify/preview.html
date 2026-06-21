@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mintlify – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0D1117;
+  --surface: #161C24;
+  --elevated: #1E2633;
+  --border: #2A3441;
+  --primary: #0EA47A;
+  --primary-hover: #0C9470;
+  --success: #0EA47A;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  --text: #F8FAFC;
+  --text-2: #94A3B8;
+  --text-3: #546882;
+  --text-green: #34D399;
+  --toggle-bg: #1E2633;
+  --toggle-text: #F8FAFC;
+  --toggle-border: #2A3441;
+}
+:root[data-theme="light"] {
+  --bg: #FFFFFF;
+  --surface: #F8FAFC;
+  --elevated: #EEF2F8;
+  --border: #D4DCE8;
+  --primary: #0EA47A;
+  --primary-hover: #0C9470;
+  --success: #0EA47A;
+  --warning: #D97706;
+  --danger: #DC2626;
+  --info: #2563EB;
+  --text: #0D1117;
+  --text-2: #4A5568;
+  --text-3: #8090A8;
+  --text-green: #0D7A5C;
+  --toggle-bg: #EEF2F8;
+  --toggle-text: #0D1117;
+  --toggle-border: #D4DCE8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
+.type-sample { flex: 1; }
+
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+
+.input-demo { width: 100%; height: 38px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
+.input-demo:focus { border-color: var(--primary); }
+
+/* Callout boxes */
+.callout { border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; border-left: 3px solid; font-size: 13px; }
+.callout-tip { background: rgba(14,164,122,0.08); border-color: #0EA47A; color: var(--text); }
+.callout-warn { background: rgba(245,158,11,0.08); border-color: #F59E0B; color: var(--text); }
+.callout-danger { background: rgba(239,68,68,0.08); border-color: #EF4444; color: var(--text); }
+.callout-info { background: rgba(59,130,246,0.08); border-color: #3B82F6; color: var(--text); }
+.callout strong { display: block; margin-bottom: 2px; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+.callout-tip strong { color: #0EA47A; }
+.callout-warn strong { color: #F59E0B; }
+.callout-danger strong { color: #EF4444; }
+.callout-info strong { color: #3B82F6; }
+
+/* API method badges */
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; }
+.badge-get { background: rgba(34,197,94,0.12); color: #22C55E; }
+.badge-post { background: rgba(59,130,246,0.12); color: #3B82F6; }
+.badge-put { background: rgba(245,158,11,0.12); color: #F59E0B; }
+.badge-del { background: rgba(239,68,68,0.12); color: #EF4444; }
+.badge-patch { background: rgba(139,92,246,0.12); color: #8B5CF6; }
+
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--primary); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--primary); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#0D1117"/>
+        <!-- Mintlify M logo with leaf/mint feel -->
+        <path d="M18 52 L18 22 L36 40 L54 22 L54 52" stroke="#0EA47A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="36" cy="18" r="5" fill="#34D399" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Mintlify</h1>
+      <p>Beautiful documentation that converts — built for developer products</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0EA47A', this)"><div class="swatch-dot" style="background:#0EA47A"></div><div class="swatch-info"><span class="swatch-name">Mint Green</span><span class="swatch-hex">#0EA47A</span></div></div>
+        <div class="swatch" onclick="copyHex('#34D399', this)"><div class="swatch-dot" style="background:#34D399"></div><div class="swatch-info"><span class="swatch-name">Green Light</span><span class="swatch-hex">#34D399</span></div></div>
+        <div class="swatch" onclick="copyHex('#10B981', this)"><div class="swatch-dot" style="background:#10B981"></div><div class="swatch-info"><span class="swatch-name">Emerald</span><span class="swatch-hex">#10B981</span></div></div>
+        <div class="swatch" onclick="copyHex('#3B82F6', this)"><div class="swatch-dot" style="background:#3B82F6"></div><div class="swatch-info"><span class="swatch-name">Info Blue</span><span class="swatch-hex">#3B82F6</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0D1117', this)"><div class="swatch-dot" style="background:#0D1117;border:1px solid #2A3441"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D1117</span></div></div>
+        <div class="swatch" onclick="copyHex('#161C24', this)"><div class="swatch-dot" style="background:#161C24;border:1px solid #2A3441"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161C24</span></div></div>
+        <div class="swatch" onclick="copyHex('#1E2633', this)"><div class="swatch-dot" style="background:#1E2633;border:1px solid #2A3441"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1E2633</span></div></div>
+        <div class="swatch" onclick="copyHex('#2A3441', this)"><div class="swatch-dot" style="background:#2A3441"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2A3441</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F8FAFC', this)"><div class="swatch-dot" style="background:#F8FAFC"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#F8FAFC</span></div></div>
+        <div class="swatch" onclick="copyHex('#94A3B8', this)"><div class="swatch-dot" style="background:#94A3B8"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#94A3B8</span></div></div>
+        <div class="swatch" onclick="copyHex('#546882', this)"><div class="swatch-dot" style="background:#546882"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#546882</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">40px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:40px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">30px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:30px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:22px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:15px;">Body text — documentation prose with generous spacing</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — captions, metadata, sidebar labels</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-green);">GET /api/v1/users/{id}</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Deploy Docs</button>
+          <button class="btn btn-ghost">Preview</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>API Methods</h3>
+        <div class="badge-row">
+          <span class="badge badge-get">GET</span>
+          <span class="badge badge-post">POST</span>
+          <span class="badge badge-put">PUT</span>
+          <span class="badge badge-del">DELETE</span>
+          <span class="badge badge-patch">PATCH</span>
+        </div>
+      </div>
+      <div class="comp-card" style="grid-column: span 2;">
+        <h3>Callout Boxes</h3>
+        <div class="callout callout-tip"><strong>Tip</strong>Use callout boxes to guide readers to important information in docs.</div>
+        <div class="callout callout-warn"><strong>Warning</strong>This endpoint is deprecated and will be removed in v3.0.</div>
+        <div class="callout callout-danger"><strong>Breaking Change</strong>This migration drops support for Node.js 16 and below.</div>
+        <div class="callout callout-info"><strong>Note</strong>Rate limits apply to all endpoints — 100 requests per minute.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Use API method badges (GET/POST/PUT/DELETE) consistently</li>
+          <li>Use callout boxes to guide readers to key info</li>
+          <li>Show inline code with green tint for types and paths</li>
+          <li>Keep sidebar navigation clean — max 2 nesting levels</li>
+          <li>Make search a first-class navigation element</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use more than 4 heading levels per page</li>
+          <li>Don't overload the TOC sidebar — shorten the page</li>
+          <li>Don't use green for warning or danger callouts</li>
+          <li>Don't make code blocks feel like afterthoughts</li>
+          <li>Don't write in passive voice — "Run this" not "can be run"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

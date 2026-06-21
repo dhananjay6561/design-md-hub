@@ -46,6 +46,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 23 | [Cloudflare](brands/cloudflare/DESIGN.md) | Developer Tools | [preview](brands/cloudflare/preview.html) |
 | 24 | [Prisma](brands/prisma/DESIGN.md) | Developer Tools | [preview](brands/prisma/preview.html) |
 | 25 | [Lemon Squeezy](brands/lemonsqueezy/DESIGN.md) | Fintech | [preview](brands/lemonsqueezy/preview.html) |
+| 26 | [Datadog](brands/datadog/DESIGN.md) | Developer Tools | [preview](brands/datadog/preview.html) |
+| 27 | [Expo](brands/expo/DESIGN.md) | Developer Tools | [preview](brands/expo/preview.html) |
+| 28 | [Deno](brands/deno/DESIGN.md) | Developer Tools | [preview](brands/deno/preview.html) |
+| 29 | [Mintlify](brands/mintlify/DESIGN.md) | Developer Tools | [preview](brands/mintlify/preview.html) |
+| 30 | [Render](brands/render/DESIGN.md) | Developer Tools | [preview](brands/render/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
