@@ -73,6 +73,12 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 50 | [CircleCI](brands/circleci/DESIGN.md) | Developer Tools | [preview](brands/circleci/preview.html) |
 | 51 | [LaunchDarkly](brands/launchdarkly/DESIGN.md) | Developer Tools | [preview](brands/launchdarkly/preview.html) |
 | 52 | [Sanity](brands/sanity/DESIGN.md) | Developer Tools | [preview](brands/sanity/preview.html) |
+| 53 | [Hasura](brands/hasura/DESIGN.md) | Developer Tools | [preview](brands/hasura/preview.html) |
+| 54 | [Contentful](brands/contentful/DESIGN.md) | Developer Tools | [preview](brands/contentful/preview.html) |
+| 55 | [Temporal](brands/temporal/DESIGN.md) | Developer Tools | [preview](brands/temporal/preview.html) |
+| 56 | [WorkOS](brands/workos/DESIGN.md) | Auth | [preview](brands/workos/preview.html) |
+| 57 | [Pinecone](brands/pinecone/DESIGN.md) | Developer Tools | [preview](brands/pinecone/preview.html) |
+| 58 | [Hugging Face](brands/huggingface/DESIGN.md) | AI/ML | [preview](brands/huggingface/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

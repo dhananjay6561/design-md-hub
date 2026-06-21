@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasura Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0F1117;
+  --surface: #1A1D27;
+  --elevated: #242837;
+  --border: #2E3347;
+  --brand: #1EB4D4;
+  --brand-light: #5ECFE7;
+  --brand-dark: #0F8BA6;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  --success: #27AE60;
+  --warning: #F2994A;
+  --error: #EB5757;
+  --syn-field: #1EB4D4;
+  --syn-type: #A78BFA;
+  --syn-string: #86EFAC;
+  --syn-keyword: #FB923C;
+  --syn-comment: #64748B;
+}
+:root[data-theme="light"] {
+  --bg: #F1F5F9;
+  --surface: #FFFFFF;
+  --elevated: #F8FAFC;
+  --border: #CBD5E1;
+  --brand: #0F8BA6;
+  --brand-light: #1EB4D4;
+  --brand-dark: #0A6B80;
+  --text-primary: #0F1117;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --success: #16A34A;
+  --warning: #D97706;
+  --error: #DC2626;
+  --syn-field: #0F8BA6;
+  --syn-type: #7C3AED;
+  --syn-string: #15803D;
+  --syn-keyword: #C2410C;
+  --syn-comment: #94A3B8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.6; }
+.toggle { position: fixed; top: 16px; right: 16px; background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; font-family: inherit; z-index: 100; }
+.toggle:hover { border-color: var(--brand); }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+/* Hero */
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
+.logo-wrap { width: 64px; height: 64px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.hero-text h1 { font-size: 28px; font-weight: 700; }
+.hero-text p { color: var(--text-secondary); margin-top: 4px; }
+.hero-badge { margin-left: auto; background: rgba(30,180,212,0.12); color: var(--brand); border: 1px solid rgba(30,180,212,0.3); padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; }
+
+/* Section */
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+
+/* Colors */
+.color-groups { display: flex; flex-direction: column; gap: 20px; }
+.color-group-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+.color-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+.swatch-block { width: 56px; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); transition: transform 0.1s; }
+.swatch:hover .swatch-block { transform: scale(1.08); }
+.swatch span { font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+/* Typography */
+.type-rows { display: flex; flex-direction: column; gap: 12px; }
+.type-row { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.type-label { font-size: 11px; color: var(--text-muted); width: 80px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+.type-sample { color: var(--text-primary); }
+
+/* Components */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.comp-card h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+
+/* Query Editor */
+.query-editor { background: var(--elevated); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.query-editor-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.query-editor-header span { font-size: 12px; color: var(--text-muted); }
+.run-btn { background: var(--brand); color: #0F1117; border: none; padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.query-body { padding: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; }
+.q-keyword { color: var(--syn-keyword); }
+.q-field { color: var(--syn-field); }
+.q-type { color: var(--syn-type); }
+.q-string { color: var(--syn-string); }
+.q-comment { color: var(--syn-comment); }
+
+/* Schema Browser */
+.schema-list { display: flex; flex-direction: column; gap: 2px; }
+.schema-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+.schema-item:hover { background: var(--elevated); }
+.schema-item.active { background: rgba(30,180,212,0.1); border-left: 2px solid var(--brand); }
+.schema-icon { font-size: 14px; }
+.schema-name { flex: 1; }
+.schema-cols { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+
+/* Column list */
+.col-list { display: flex; flex-direction: column; gap: 4px; }
+.col-row { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 4px; font-size: 12px; }
+.col-row:hover { background: var(--elevated); }
+.col-name { flex: 1; font-family: 'JetBrains Mono', monospace; color: var(--syn-field); }
+.col-type { font-size: 11px; color: var(--text-muted); background: var(--elevated); padding: 1px 6px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; }
+.col-pk { font-size: 10px; color: var(--warning); background: rgba(242,153,74,0.15); padding: 1px 5px; border-radius: 3px; }
+
+/* Status badges */
+.badge-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+.badge-tracked { background: rgba(30,180,212,0.15); color: var(--brand); border: 1px solid rgba(30,180,212,0.3); }
+.badge-untracked { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+.badge-error { background: rgba(235,87,87,0.12); color: var(--error); border: 1px solid rgba(235,87,87,0.3); }
+.badge-deprecated { background: rgba(242,153,74,0.12); color: var(--warning); border: 1px solid rgba(242,153,74,0.3); }
+
+/* Permission matrix */
+.perm-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.perm-table th { text-align: center; padding: 6px 10px; color: var(--text-muted); font-weight: 500; border-bottom: 1px solid var(--border); }
+.perm-table th:first-child { text-align: left; }
+.perm-table td { text-align: center; padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.perm-table td:first-child { text-align: left; font-family: 'JetBrains Mono', monospace; color: var(--text-primary); }
+.perm-check { color: var(--brand); }
+.perm-partial { color: var(--warning); }
+.perm-none { color: var(--border); }
+
+/* Spacing */
+.spacing-bars { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 12px; }
+.spacing-bar { background: var(--brand); border-radius: 3px; height: 14px; opacity: 0.8; }
+.spacing-label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 36px; }
+.spacing-val { font-size: 11px; color: var(--text-secondary); }
+
+/* Guardrails */
+.guardrail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.guardrail-card.do { border-top: 2px solid var(--success); }
+.guardrail-card.dont { border-top: 2px solid var(--error); }
+.guardrail-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.05em; }
+.guardrail-card.do h4 { color: var(--success); }
+.guardrail-card.dont h4 { color: var(--error); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.guardrail-card ul li { font-size: 12px; color: var(--text-secondary); padding-left: 14px; position: relative; }
+.guardrail-card ul li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; }
+.guardrail-card.do ul li::before { background: var(--success); }
+.guardrail-card.dont ul li::before { background: var(--error); }
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.dataset.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">Toggle theme</button>
+<div class="wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <polygon points="18,4 30,11 30,25 18,32 6,25 6,11" fill="none" stroke="#1EB4D4" stroke-width="2"/>
+        <polygon points="18,10 25,14 25,22 18,26 11,22 11,14" fill="#1EB4D4" opacity="0.25"/>
+        <circle cx="18" cy="18" r="3" fill="#1EB4D4"/>
+        <line x1="18" y1="10" x2="18" y2="15" stroke="#1EB4D4" stroke-width="1.5"/>
+        <line x1="25" y1="14" x2="21" y2="16.5" stroke="#1EB4D4" stroke-width="1.5"/>
+        <line x1="25" y1="22" x2="21" y2="19.5" stroke="#1EB4D4" stroke-width="1.5"/>
+        <line x1="18" y1="26" x2="18" y2="21" stroke="#1EB4D4" stroke-width="1.5"/>
+        <line x1="11" y1="22" x2="15" y2="19.5" stroke="#1EB4D4" stroke-width="1.5"/>
+        <line x1="11" y1="14" x2="15" y2="16.5" stroke="#1EB4D4" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Hasura</h1>
+      <p>Instant GraphQL APIs on your data</p>
+    </div>
+    <div class="hero-badge">GRAPHQL ENGINE</div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-groups">
+      <div>
+        <div class="color-group-label">Brand</div>
+        <div class="color-row">
+          <div class="swatch" onclick="navigator.clipboard.writeText('#1EB4D4')"><div class="swatch-block" style="background:#1EB4D4"></div><span>#1EB4D4</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#5ECFE7')"><div class="swatch-block" style="background:#5ECFE7"></div><span>#5ECFE7</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#0F8BA6')"><div class="swatch-block" style="background:#0F8BA6"></div><span>#0F8BA6</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="color-group-label">Backgrounds</div>
+        <div class="color-row">
+          <div class="swatch" onclick="navigator.clipboard.writeText('#0F1117')"><div class="swatch-block" style="background:#0F1117;border:1px solid #2E3347"></div><span>#0F1117</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#1A1D27')"><div class="swatch-block" style="background:#1A1D27"></div><span>#1A1D27</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#242837')"><div class="swatch-block" style="background:#242837"></div><span>#242837</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#2E3347')"><div class="swatch-block" style="background:#2E3347"></div><span>#2E3347</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="color-group-label">Syntax</div>
+        <div class="color-row">
+          <div class="swatch" onclick="navigator.clipboard.writeText('#1EB4D4')"><div class="swatch-block" style="background:#1EB4D4"></div><span>Field</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#A78BFA')"><div class="swatch-block" style="background:#A78BFA"></div><span>Type</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#86EFAC')"><div class="swatch-block" style="background:#86EFAC"></div><span>String</span></div>
+          <div class="swatch" onclick="navigator.clipboard.writeText('#FB923C')"><div class="swatch-block" style="background:#FB923C"></div><span>Keyword</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-label">2xl / 700</span><span class="type-sample" style="font-size:28px;font-weight:700">GraphQL Explorer</span></div>
+      <div class="type-row"><span class="type-label">xl / 600</span><span class="type-sample" style="font-size:22px;font-weight:600">Schema Browser</span></div>
+      <div class="type-row"><span class="type-label">lg / 500</span><span class="type-sample" style="font-size:18px;font-weight:500">Table Relationships</span></div>
+      <div class="type-row"><span class="type-label">base / 400</span><span class="type-sample" style="font-size:14px">Track existing tables and views</span></div>
+      <div class="type-row"><span class="type-label">mono</span><span class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:#1EB4D4">query { users { id email role } }</span></div>
+    </div>
+  </div>
+
+  <!-- Components -->
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
+
+      <!-- Query Editor -->
+      <div class="comp-card" style="grid-column: span 2;">
+        <h3>Query Editor</h3>
+        <div class="query-editor">
+          <div class="query-editor-header">
+            <span>Explorer</span>
+            <button class="run-btn">▶ Run</button>
+          </div>
+          <div class="query-body">
+            <span class="q-keyword">query</span> <span class="q-field">GetUsers</span>(<span class="q-type">$limit</span>: <span class="q-type">Int</span> = <span class="q-string">10</span>) {<br>
+            &nbsp;&nbsp;<span class="q-field">users</span>(<span class="q-field">limit</span>: <span class="q-type">$limit</span>, <span class="q-field">order_by</span>: {<span class="q-field">created_at</span>: <span class="q-string">desc</span>}) {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">id</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">email</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">role</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">profile</span> {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">display_name</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="q-field">avatar_url</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;}<br>
+            }<br>
+            <span class="q-comment">// Returns paginated user list with nested profile</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schema Browser -->
+      <div class="comp-card">
+        <h3>Schema Browser</h3>
+        <div class="schema-list">
+          <div class="schema-item active"><span class="schema-icon">⊞</span><span class="schema-name">users</span><span class="schema-cols">8 cols</span></div>
+          <div class="schema-item"><span class="schema-icon">⊞</span><span class="schema-name">orders</span><span class="schema-cols">11 cols</span></div>
+          <div class="schema-item"><span class="schema-icon">⊞</span><span class="schema-name">products</span><span class="schema-cols">9 cols</span></div>
+          <div class="schema-item"><span class="schema-icon">◫</span><span class="schema-name">v_user_stats</span><span class="schema-cols">view</span></div>
+          <div class="schema-item"><span class="schema-icon">⊞</span><span class="schema-name">profiles</span><span class="schema-cols">6 cols</span></div>
+        </div>
+      </div>
+
+      <!-- Column List -->
+      <div class="comp-card">
+        <h3>Table Columns — users</h3>
+        <div class="col-list">
+          <div class="col-row"><span class="col-name">id</span><span class="col-type">uuid</span><span class="col-pk">PK</span></div>
+          <div class="col-row"><span class="col-name">email</span><span class="col-type">text</span></div>
+          <div class="col-row"><span class="col-name">role</span><span class="col-type">text</span></div>
+          <div class="col-row"><span class="col-name">created_at</span><span class="col-type">timestamptz</span></div>
+          <div class="col-row"><span class="col-name">is_active</span><span class="col-type">bool</span></div>
+        </div>
+      </div>
+
+      <!-- Status Badges -->
+      <div class="comp-card">
+        <h3>Table Status Badges</h3>
+        <div class="badge-grid">
+          <span class="badge badge-tracked">✓ Tracked</span>
+          <span class="badge badge-untracked">○ Untracked</span>
+          <span class="badge badge-error">✕ Error</span>
+          <span class="badge badge-deprecated">⚠ Deprecated</span>
+        </div>
+      </div>
+
+      <!-- Permission Matrix -->
+      <div class="comp-card">
+        <h3>Permission Matrix</h3>
+        <table class="perm-table">
+          <thead><tr><th>Role</th><th>Insert</th><th>Select</th><th>Update</th><th>Delete</th></tr></thead>
+          <tbody>
+            <tr><td>admin</td><td class="perm-check">✓</td><td class="perm-check">✓</td><td class="perm-check">✓</td><td class="perm-check">✓</td></tr>
+            <tr><td>user</td><td class="perm-check">✓</td><td class="perm-partial">◑</td><td class="perm-partial">◑</td><td class="perm-none">—</td></tr>
+            <tr><td>guest</td><td class="perm-none">—</td><td class="perm-partial">◑</td><td class="perm-none">—</td><td class="perm-none">—</td></tr>
+            <tr><td>service</td><td class="perm-check">✓</td><td class="perm-check">✓</td><td class="perm-check">✓</td><td class="perm-check">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Spacing -->
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-bars">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
+    </div>
+  </div>
+
+  <!-- Guardrails -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrail-grid">
+      <div class="guardrail-card do">
+        <h4>DO</h4>
+        <ul>
+          <li>Use monospace for all query text and identifiers</li>
+          <li>Use teal exclusively for primary actions and active states</li>
+          <li>Layer backgrounds: base → surface → elevated</li>
+          <li>Show type badges on every column in schema view</li>
+          <li>Color-code GraphQL syntax tokens consistently</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <h4>DON'T</h4>
+        <ul>
+          <li>Don't use rounded corners > 8px — too soft for a DB tool</li>
+          <li>Don't color other elements teal — it signals "action"</li>
+          <li>Don't show raw SQL unless explicitly toggled</li>
+          <li>Don't use animations > 250ms in query workflows</li>
+          <li>Don't mix UI font and mono in the same label</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
