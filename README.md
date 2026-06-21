@@ -31,6 +31,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | [Stripe](brands/stripe/DESIGN.md) | Fintech | [preview](brands/stripe/preview.html) |
 | [Supabase](brands/supabase/DESIGN.md) | Developer Tools | [preview](brands/supabase/preview.html) |
 | [Vercel](brands/vercel/DESIGN.md) | Developer Tools | [preview](brands/vercel/preview.html) |
+| [Clerk](brands/clerk/DESIGN.md) | Auth | [preview](brands/clerk/preview.html) |
+| [Neon](brands/neon/DESIGN.md) | Developer Tools | [preview](brands/neon/preview.html) |
+| [Perplexity](brands/perplexity/DESIGN.md) | AI/LLM | [preview](brands/perplexity/preview.html) |
+| [Railway](brands/railway/DESIGN.md) | Developer Tools | [preview](brands/railway/preview.html) |
+| [Retool](brands/retool/DESIGN.md) | Developer Tools | [preview](brands/retool/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
