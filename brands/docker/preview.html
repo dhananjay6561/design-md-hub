@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Docker – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #0D1117;
+  --surface: #131D2B;
+  --elevated: #1A2840;
+  --border: #243550;
+  --primary: #2496ED;
+  --primary-hover: #1A7BC4;
+  --success: #26A269;
+  --warning: #E5A50A;
+  --danger: #E01E37;
+  --text: #F0F6FF;
+  --text-2: #8BA5C4;
+  --text-3: #506580;
+  --toggle-bg: #1A2840;
+  --toggle-text: #F0F6FF;
+  --toggle-border: #243550;
+}
+:root[data-theme="light"] {
+  --bg: #F0F6FF;
+  --surface: #FFFFFF;
+  --elevated: #E0ECFF;
+  --border: #C0D4F0;
+  --primary: #2496ED;
+  --primary-hover: #1A7BC4;
+  --success: #1A8050;
+  --warning: #A07000;
+  --danger: #C01020;
+  --text: #0D1117;
+  --text-2: #2A4060;
+  --text-3: #6080A0;
+  --toggle-bg: #E0ECFF;
+  --toggle-text: #0D1117;
+  --toggle-border: #C0D4F0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+.input-demo { width: 100%; height: 36px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
+.input-demo:focus { border-color: var(--primary); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; }
+.badge-run { background: rgba(38,162,105,0.12); color: #26A269; border-color: rgba(38,162,105,0.3); }
+.badge-stop { background: rgba(224,30,55,0.12); color: #E01E37; border-color: rgba(224,30,55,0.3); }
+.badge-restart { background: rgba(229,165,10,0.12); color: #E5A50A; border-color: rgba(229,165,10,0.3); }
+.badge-pull { background: rgba(36,150,237,0.12); color: #2496ED; border-color: rgba(36,150,237,0.3); }
+/* Terminal */
+.terminal { background: #000000; border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; }
+.t-prompt { color: #2496ED; }
+.t-cmd { color: #F0F6FF; }
+.t-out { color: #8BA5C4; }
+.t-ok { color: #26A269; }
+/* Resource bar */
+.resource-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.resource-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 80px; flex-shrink: 0; }
+.resource-track { flex: 1; height: 6px; background: var(--elevated); border-radius: 9999px; overflow: hidden; }
+.resource-fill { height: 100%; border-radius: 9999px; background: var(--primary); }
+.resource-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 36px; text-align: right; }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#0D1117"/>
+        <!-- Docker whale -->
+        <path d="M14 38 C14 38 18 34 36 34 C54 34 58 38 58 38 C58 44 52 48 36 48 C20 48 14 44 14 38Z" fill="#2496ED"/>
+        <!-- water spray -->
+        <path d="M50 32 C50 32 52 26 54 24" stroke="#2496ED" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M54 24 C54 24 56 22 57 20" stroke="#2496ED" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+        <!-- containers on whale -->
+        <rect x="20" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
+        <rect x="30" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
+        <rect x="40" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
+        <rect x="25" y="23" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.7"/>
+        <rect x="35" y="23" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.7"/>
+        <!-- tail fin -->
+        <path d="M14 40 C10 38 8 42 12 44" stroke="#2496ED" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Docker</h1>
+      <p>Build, ship, and run containerized applications anywhere</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#2496ED', this)"><div class="swatch-dot" style="background:#2496ED"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#2496ED</span></div></div>
+        <div class="swatch" onclick="copyHex('#1A7BC4', this)"><div class="swatch-dot" style="background:#1A7BC4"></div><div class="swatch-info"><span class="swatch-name">Blue Dark</span><span class="swatch-hex">#1A7BC4</span></div></div>
+        <div class="swatch" onclick="copyHex('#26A269', this)"><div class="swatch-dot" style="background:#26A269"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#26A269</span></div></div>
+        <div class="swatch" onclick="copyHex('#E01E37', this)"><div class="swatch-dot" style="background:#E01E37"></div><div class="swatch-info"><span class="swatch-name">Danger</span><span class="swatch-hex">#E01E37</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0D1117', this)"><div class="swatch-dot" style="background:#0D1117;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D1117</span></div></div>
+        <div class="swatch" onclick="copyHex('#131D2B', this)"><div class="swatch-dot" style="background:#131D2B;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#131D2B</span></div></div>
+        <div class="swatch" onclick="copyHex('#1A2840', this)"><div class="swatch-dot" style="background:#1A2840;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1A2840</span></div></div>
+        <div class="swatch" onclick="copyHex('#243550', this)"><div class="swatch-dot" style="background:#243550"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#243550</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:26px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">18px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:18px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body text — default content for dashboard and docs</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, container IDs, timestamps</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">docker run -p 3000:3000 my-app:latest</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Pull Image</button>
+          <button class="btn btn-danger">Stop</button>
+          <button class="btn btn-ghost">Logs</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Container Status</h3>
+        <div class="badge-row">
+          <span class="badge badge-run">Running</span>
+          <span class="badge badge-stop">Stopped</span>
+          <span class="badge badge-restart">Restarting</span>
+          <span class="badge badge-pull">Pulling</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Terminal</h3>
+        <div class="terminal">
+          <div><span class="t-prompt">$ </span><span class="t-cmd">docker ps</span></div>
+          <div class="t-out">CONTAINER ID   IMAGE</div>
+          <div class="t-ok">a1b2c3d4e5f6   nginx:latest</div>
+          <div><span class="t-prompt">$ </span><span class="t-cmd">docker logs a1b2</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Resource Usage</h3>
+        <div class="resource-row"><span class="resource-name">CPU</span><div class="resource-track"><div class="resource-fill" style="width:34%"></div></div><span class="resource-pct">34%</span></div>
+        <div class="resource-row"><span class="resource-name">Memory</span><div class="resource-track"><div class="resource-fill" style="width:61%;background:#26A269"></div></div><span class="resource-pct">61%</span></div>
+        <div class="resource-row"><span class="resource-name">Network</span><div class="resource-track"><div class="resource-fill" style="width:18%"></div></div><span class="resource-pct">18%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Use monospace for image names, container IDs, tags</li>
+          <li>Color-code container status consistently</li>
+          <li>Show container logs in a black terminal block</li>
+          <li>Use resource bars (CPU/RAM) not just numbers</li>
+          <li>Blue for primary actions — it must feel clickable</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use light mode for container dashboards</li>
+          <li>Don't round corners beyond 8px</li>
+          <li>Don't mix the teal accent with blue in one component</li>
+          <li>Don't show partial image names — always show full tag</li>
+          <li>Don't use color alone for status — pair with text labels</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Twilio – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #06080D;
+  --surface: #0F1623;
+  --elevated: #172030;
+  --border: #1F2D42;
+  --primary: #F22F46;
+  --primary-hover: #C82333;
+  --blue: #0263E0;
+  --success: #07BB8B;
+  --warning: #E8A800;
+  --danger: #F22F46;
+  --text: #F4F6FA;
+  --text-2: #8896AD;
+  --text-3: #4E5F78;
+  --toggle-bg: #172030;
+  --toggle-text: #F4F6FA;
+  --toggle-border: #1F2D42;
+}
+:root[data-theme="light"] {
+  --bg: #FFF5F5;
+  --surface: #FFFFFF;
+  --elevated: #FFE8E8;
+  --border: #F0C0C0;
+  --primary: #C82333;
+  --primary-hover: #A01020;
+  --blue: #0263E0;
+  --success: #057855;
+  --warning: #906000;
+  --danger: #C82333;
+  --text: #06080D;
+  --text-2: #3A4A60;
+  --text-3: #7888A0;
+  --toggle-bg: #FFE8E8;
+  --toggle-text: #06080D;
+  --toggle-border: #F0C0C0;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.swatch-info { display: flex; flex-direction: column; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+.input-demo { width: 100%; height: 38px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
+.input-demo:focus { border-color: var(--primary); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; }
+.badge-delivered { background: rgba(7,187,139,0.12); color: #07BB8B; border-color: rgba(7,187,139,0.3); }
+.badge-sent { background: rgba(2,99,224,0.12); color: #0263E0; border-color: rgba(2,99,224,0.3); }
+.badge-queued { background: rgba(232,168,0,0.12); color: #E8A800; border-color: rgba(232,168,0,0.3); }
+.badge-failed { background: rgba(242,47,70,0.12); color: #F22F46; border-color: rgba(242,47,70,0.3); }
+/* Message bubble */
+.msg-list { display: flex; flex-direction: column; gap: 8px; }
+.msg { padding: 8px 12px; border-radius: 8px; font-size: 13px; max-width: 80%; }
+.msg-in { background: var(--elevated); color: var(--text); align-self: flex-start; }
+.msg-out { background: var(--primary); color: white; align-self: flex-end; }
+.msg-meta { font-size: 10px; color: var(--text-3); margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+/* Error block */
+.error-block { background: var(--bg); border-left: 3px solid var(--primary); border-radius: 6px; padding: 12px 14px; }
+.error-code { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px; }
+.error-msg { font-size: 12px; color: var(--text-2); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid #E8A800; }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: #E8A800; }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#06080D"/>
+        <!-- Twilio mark: two red dots + connecting line -->
+        <circle cx="24" cy="36" r="10" fill="#F22F46"/>
+        <circle cx="48" cy="36" r="10" fill="#F22F46"/>
+        <circle cx="24" cy="36" r="5" fill="#06080D"/>
+        <circle cx="48" cy="36" r="5" fill="#06080D"/>
+        <line x1="34" y1="36" x2="38" y2="36" stroke="#F22F46" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>Twilio</h1>
+      <p>Cloud communications platform — SMS, voice, video &amp; email APIs</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F22F46', this)"><div class="swatch-dot" style="background:#F22F46"></div><div class="swatch-info"><span class="swatch-name">Red</span><span class="swatch-hex">#F22F46</span></div></div>
+        <div class="swatch" onclick="copyHex('#0263E0', this)"><div class="swatch-dot" style="background:#0263E0"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#0263E0</span></div></div>
+        <div class="swatch" onclick="copyHex('#07BB8B', this)"><div class="swatch-dot" style="background:#07BB8B"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#07BB8B</span></div></div>
+        <div class="swatch" onclick="copyHex('#E8A800', this)"><div class="swatch-dot" style="background:#E8A800"></div><div class="swatch-info"><span class="swatch-name">Warning</span><span class="swatch-hex">#E8A800</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#06080D', this)"><div class="swatch-dot" style="background:#06080D;border:1px solid #1F2D42"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#06080D</span></div></div>
+        <div class="swatch" onclick="copyHex('#0F1623', this)"><div class="swatch-dot" style="background:#0F1623;border:1px solid #1F2D42"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#0F1623</span></div></div>
+        <div class="swatch" onclick="copyHex('#172030', this)"><div class="swatch-dot" style="background:#172030;border:1px solid #1F2D42"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#172030</span></div></div>
+        <div class="swatch" onclick="copyHex('#1F2D42', this)"><div class="swatch-dot" style="background:#1F2D42"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#1F2D42</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:26px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body text — default content for console and docs</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, SIDs, timestamps</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">+12025551234 · SM1a2b3c4d5e…</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Send SMS</button>
+          <button class="btn btn-blue">Buy Number</button>
+          <button class="btn btn-ghost">View Logs</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Message Status</h3>
+        <div class="badge-row">
+          <span class="badge badge-delivered">Delivered</span>
+          <span class="badge badge-sent">Sent</span>
+          <span class="badge badge-queued">Queued</span>
+          <span class="badge badge-failed">Failed</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>SMS Preview</h3>
+        <div class="msg-list">
+          <div>
+            <div class="msg msg-out">Your verification code is 847291. Valid for 10 min.</div>
+            <div class="msg-meta" style="text-align:right">+12025551234 · Delivered</div>
+          </div>
+          <div>
+            <div class="msg msg-in">STOP</div>
+            <div class="msg-meta">+14155552671 · Received</div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Error Code</h3>
+        <div class="error-block">
+          <div class="error-code">Error 21610</div>
+          <div class="error-msg">Attempt to send to unsubscribed recipient. Message blocked.</div>
+        </div>
+        <br>
+        <input class="input-demo" type="text" placeholder="+12025551234" />
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Use monospace for all phone numbers, SIDs, webhooks</li>
+          <li>Color-code message status consistently</li>
+          <li>Show error codes prominently — devs need them fast</li>
+          <li>Twilio red IS the primary action color — use it confidently</li>
+          <li>Display delivery receipts with relative timestamps</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't confuse brand red with danger — it's primary here</li>
+          <li>Don't truncate phone numbers — always show E.164 format</li>
+          <li>Don't use light mode for the console</li>
+          <li>Don't use corners beyond 8px — enterprise grade</li>
+          <li>Don't show vague "failed" — always include error code</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

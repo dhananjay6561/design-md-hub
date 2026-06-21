@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MongoDB – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root[data-theme="dark"] {
+  --bg: #001E2B;
+  --surface: #0C2336;
+  --elevated: #112B40;
+  --border: #1C3D54;
+  --primary: #00ED64;
+  --primary-hover: #00C84F;
+  --primary-text: #001E2B;
+  --success: #00ED64;
+  --warning: #FFC010;
+  --danger: #FF6960;
+  --info: #0498EC;
+  --text: #FFFFFF;
+  --text-2: #89A0B1;
+  --text-3: #4E6C7D;
+  --toggle-bg: #112B40;
+  --toggle-text: #FFFFFF;
+  --toggle-border: #1C3D54;
+}
+:root[data-theme="light"] {
+  --bg: #F0FBF5;
+  --surface: #FFFFFF;
+  --elevated: #E0F5EA;
+  --border: #B8DEC8;
+  --primary: #00684A;
+  --primary-hover: #00513A;
+  --primary-text: #FFFFFF;
+  --success: #00684A;
+  --warning: #A07000;
+  --danger: #CC3030;
+  --info: #0070C0;
+  --text: #001E2B;
+  --text-2: #2E5C48;
+  --text-3: #6A9080;
+  --toggle-bg: #E0F5EA;
+  --toggle-text: #001E2B;
+  --toggle-border: #B8DEC8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: var(--primary-text); padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; }
+.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.color-group { margin-bottom: 24px; }
+.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
+.type-sample { flex: 1; }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: var(--primary-text); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); }
+.input-demo { width: 100%; height: 40px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
+.input-demo:focus { border-color: var(--primary); }
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; display: inline-flex; align-items: center; gap: 6px; }
+.badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.badge-connected { background: rgba(0,237,100,0.1); color: #00ED64; border-color: rgba(0,237,100,0.3); }
+.badge-connected::before { background: #00ED64; }
+.badge-error { background: rgba(255,105,96,0.1); color: #FF6960; border-color: rgba(255,105,96,0.3); }
+.badge-error::before { background: #FF6960; }
+.badge-connecting { background: rgba(4,152,236,0.1); color: #0498EC; border-color: rgba(4,152,236,0.3); }
+.badge-connecting::before { background: #0498EC; }
+/* Document card */
+.doc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.doc-header { background: var(--elevated); padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); border-bottom: 1px solid var(--border); }
+.doc-body { padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; }
+.doc-key { color: var(--text-2); }
+.doc-val { color: var(--text); }
+.doc-str { color: #00ED64; }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.7; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); }
+.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); }
+.guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="72" height="72" rx="14" fill="#001E2B"/>
+        <path d="M36 12 C36 12 22 28 22 40 C22 48.8 28.3 56 36 56 C43.7 56 50 48.8 50 40 C50 28 36 12 36 12Z" fill="#00ED64"/>
+        <path d="M36 12 C36 12 36 40 36 56" stroke="#00684A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M36 48 C36 48 40 44 42 40" stroke="#00684A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1>MongoDB</h1>
+      <p>The world's most popular NoSQL database — build apps at any scale</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group">
+      <div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#00ED64', this)"><div class="swatch-dot" style="background:#00ED64"></div><div class="swatch-name" style="flex:1">Green<br><span class="swatch-hex">#00ED64</span></div></div>
+        <div class="swatch" onclick="copyHex('#00684A', this)"><div class="swatch-dot" style="background:#00684A"></div><div class="swatch-name" style="flex:1">Green Dark<br><span class="swatch-hex">#00684A</span></div></div>
+        <div class="swatch" onclick="copyHex('#0498EC', this)"><div class="swatch-dot" style="background:#0498EC"></div><div class="swatch-name" style="flex:1">Info<br><span class="swatch-hex">#0498EC</span></div></div>
+        <div class="swatch" onclick="copyHex('#FF6960', this)"><div class="swatch-dot" style="background:#FF6960"></div><div class="swatch-name" style="flex:1">Danger<br><span class="swatch-hex">#FF6960</span></div></div>
+      </div>
+    </div>
+    <div class="color-group">
+      <div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#001E2B', this)"><div class="swatch-dot" style="background:#001E2B;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Background<br><span class="swatch-hex">#001E2B</span></div></div>
+        <div class="swatch" onclick="copyHex('#0C2336', this)"><div class="swatch-dot" style="background:#0C2336;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Surface<br><span class="swatch-hex">#0C2336</span></div></div>
+        <div class="swatch" onclick="copyHex('#112B40', this)"><div class="swatch-dot" style="background:#112B40;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Elevated<br><span class="swatch-hex">#112B40</span></div></div>
+        <div class="swatch" onclick="copyHex('#1C3D54', this)"><div class="swatch-dot" style="background:#1C3D54"></div><div class="swatch-name" style="flex:1">Border<br><span class="swatch-hex">#1C3D54</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">40px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:40px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">28px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:28px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:15px;">Body text — content, descriptions, documentation prose</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — labels, metadata, timestamps</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:#00ED64;">db.users.find({ age: { $gt: 18 } })</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div class="btn-row">
+          <button class="btn btn-primary">Connect</button>
+          <button class="btn btn-ghost">View Docs</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Query Input</h3>
+        <input class="input-demo" type="text" placeholder='db.collection.find({})' />
+        <input class="input-demo" type="text" placeholder="Search collections..." />
+      </div>
+      <div class="comp-card">
+        <h3>Connection Status</h3>
+        <div class="badge-row" style="flex-direction:column;gap:8px;">
+          <span class="badge badge-connected">Connected</span>
+          <span class="badge badge-connecting">Connecting</span>
+          <span class="badge badge-error">Connection Failed</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Document Viewer</h3>
+        <div class="doc-card">
+          <div class="doc-header">users › ObjectId("64f…")</div>
+          <div class="doc-body">
+            <span class="doc-key">_id: </span><span class="doc-str">"64f3a2b1c…"</span><br>
+            <span class="doc-key">name: </span><span class="doc-str">"Ada Lovelace"</span><br>
+            <span class="doc-key">age: </span><span class="doc-val">28</span><br>
+            <span class="doc-key">active: </span><span class="doc-val">true</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do">
+        <div class="guardrail-label">Do</div>
+        <ul>
+          <li>Dark navy on all surfaces — it's MongoDB's identity</li>
+          <li>Use monospace for queries, JSON, and collection names</li>
+          <li>Use bright green sparingly — CTAs and status only</li>
+          <li>Dark text on green buttons — navy contrast demands it</li>
+          <li>Show document counts and query times in monospace</li>
+        </ul>
+      </div>
+      <div class="guardrail-card dont">
+        <div class="guardrail-label">Don't</div>
+        <ul>
+          <li>Don't use grey or black background — navy is the signal</li>
+          <li>Don't use green for errors or warnings</li>
+          <li>Don't round corners beyond 10px</li>
+          <li>Don't use thin font weights on navy backgrounds</li>
+          <li>Don't omit connection status from database UIs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const root = document.documentElement;
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.toggle-btn').textContent = isDark ? '🌙 Dark' : '☀️ Light';
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = `Copied ${hex}`;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>

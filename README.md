@@ -51,6 +51,11 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 28 | [Deno](brands/deno/DESIGN.md) | Developer Tools | [preview](brands/deno/preview.html) |
 | 29 | [Mintlify](brands/mintlify/DESIGN.md) | Developer Tools | [preview](brands/mintlify/preview.html) |
 | 30 | [Render](brands/render/DESIGN.md) | Developer Tools | [preview](brands/render/preview.html) |
+| 31 | [MongoDB](brands/mongodb/DESIGN.md) | Developer Tools | [preview](brands/mongodb/preview.html) |
+| 32 | [Docker](brands/docker/DESIGN.md) | Developer Tools | [preview](brands/docker/preview.html) |
+| 33 | [Firebase](brands/firebase/DESIGN.md) | Developer Tools | [preview](brands/firebase/preview.html) |
+| 34 | [Twilio](brands/twilio/DESIGN.md) | Developer Tools | [preview](brands/twilio/preview.html) |
+| 35 | [Auth0](brands/auth0/DESIGN.md) | Auth | [preview](brands/auth0/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
