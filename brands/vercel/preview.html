@@ -1,1460 +1,442 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vercel — Geist Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    /* ─── CSS Custom Properties ─── */
-    :root {
-      --bg-100: #ffffff;
-      --bg-200: #fafafa;
-      --gray-100: #f7f7f7;
-      --gray-200: #ebebeb;
-      --gray-300: #e0e0e0;
-      --gray-400: #a8a8a8;
-      --gray-500: #737373;
-      --gray-600: #525252;
-      --gray-700: #3d3d3d;
-      --gray-800: #292929;
-      --gray-900: #1a1a1a;
-      --gray-1000: #171717;
-      --foreground: #000000;
-      --border: rgba(0,0,0,0.08);
-      --border-strong: rgba(0,0,0,0.15);
-      --blue-600: #0070f3;
-      --blue-700: #0072f5;
-      --blue-800: #0068d6;
-      --blue-100: #ebf5ff;
-      --develop-blue: #0a72ef;
-      --preview-pink: #de1d8d;
-      --ship-red: #ff5b4f;
-      --success: #16a34a;
-      --warning: #eab308;
-      --error: #dc2626;
-      --shadow-border: 0 0 0 1px rgba(0,0,0,0.08);
-      --shadow-border-strong: 0 0 0 1px rgba(0,0,0,0.15);
-      --shadow-sm: 0 2px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.04), 0 8px 8px -8px rgba(0,0,0,0.04);
-      --shadow-card: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.04), 0 8px 8px -8px rgba(0,0,0,0.04);
-      --shadow-popover: 0 1px 1px rgba(0,0,0,0.02), 0 4px 8px -4px rgba(0,0,0,0.04), 0 16px 24px -8px rgba(0,0,0,0.06);
-      --shadow-focus: 0 0 0 2px #ffffff, 0 0 0 4px #0072f5;
-    }
-
-    [data-theme="dark"] {
-      --bg-100: #0a0a0a;
-      --bg-200: #000000;
-      --gray-100: #111111;
-      --gray-200: #1a1a1a;
-      --gray-300: #262626;
-      --gray-400: #3d3d3d;
-      --gray-500: #525252;
-      --gray-600: #737373;
-      --gray-700: #8c8c8c;
-      --gray-800: #a8a8a8;
-      --gray-900: #ededed;
-      --gray-1000: #fafafa;
-      --foreground: #ffffff;
-      --border: rgba(255,255,255,0.08);
-      --border-strong: rgba(255,255,255,0.15);
-      --blue-100: #0d1f3c;
-      --shadow-border: 0 0 0 1px rgba(255,255,255,0.08);
-      --shadow-border-strong: 0 0 0 1px rgba(255,255,255,0.15);
-      --shadow-sm: 0 2px 2px rgba(0,0,0,0.2);
-      --shadow-md: 0 0 0 1px rgba(255,255,255,0.08), 0 2px 2px rgba(0,0,0,0.1), 0 8px 8px -8px rgba(0,0,0,0.1);
-      --shadow-card: 0 0 0 1px rgba(255,255,255,0.08), 0 2px 2px rgba(0,0,0,0.1), 0 8px 8px -8px rgba(0,0,0,0.1);
-      --shadow-focus: 0 0 0 2px #0a0a0a, 0 0 0 4px #0072f5;
-    }
-
-    /* ─── Reset & Base ─── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { font-size: 16px; scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Geist', 'Arial', -apple-system, 'Segoe UI', sans-serif;
-      background-color: var(--bg-100);
-      color: var(--gray-1000);
-      font-size: 14px;
-      line-height: 1.5;
-      font-weight: 400;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      transition: background-color 0.2s, color 0.2s;
-    }
-
-    /* ─── Layout ─── */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    section {
-      padding: 64px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    section:last-child { border-bottom: none; }
-
-    .section-label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-size: 32px;
-      font-weight: 600;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: var(--foreground);
-      margin-bottom: 8px;
-    }
-
-    .section-desc {
-      font-size: 16px;
-      color: var(--gray-600);
-      line-height: 1.5;
-      max-width: 560px;
-      margin-bottom: 40px;
-    }
-
-    /* ─── Navigation ─── */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.2s;
-    }
-
-    [data-theme="dark"] .nav {
-      background: rgba(10,10,10,0.85);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--foreground);
-    }
-
-    .nav-logo svg { display: block; }
-
-    .nav-wordmark {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--foreground);
-    }
-
-    .nav-divider {
-      width: 1px;
-      height: 20px;
-      background: var(--border-strong);
-    }
-
-    .nav-subtitle {
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--gray-500);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: none;
-      background: var(--gray-100);
-      color: var(--gray-700);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-
-    .theme-toggle:hover { background: var(--gray-200); color: var(--gray-1000); }
-    .theme-toggle:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-
-    /* ─── Hero ─── */
-    .hero {
-      padding: 96px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 24px;
-    }
-
-    .hero-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--blue-600);
-    }
-
-    .hero-title {
-      font-size: 72px;
-      font-weight: 600;
-      letter-spacing: -0.05em;
-      line-height: 1.05;
-      color: var(--foreground);
-      margin-bottom: 24px;
-      max-width: 800px;
-    }
-
-    .hero-desc {
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.5;
-      color: var(--gray-600);
-      max-width: 560px;
-      margin-bottom: 40px;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    /* ─── Color Palette ─── */
-    .palette-group { margin-bottom: 40px; }
-    .palette-group-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray-1000);
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .swatches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .swatch {
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-
-    .swatch:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-card), 0 8px 24px rgba(0,0,0,0.08);
-    }
-
-    .swatch:active { transform: translateY(0); }
-
-    .swatch-color {
-      height: 80px;
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-      padding: 8px;
-    }
-
-    .swatch-copy-hint {
-      font-size: 10px;
-      font-family: 'Geist Mono', monospace;
-      font-weight: 500;
-      opacity: 0;
-      transition: opacity 0.15s;
-      padding: 3px 6px;
-      border-radius: 4px;
-      background: rgba(0,0,0,0.5);
-      color: #fff;
-    }
-
-    .swatch:hover .swatch-copy-hint { opacity: 1; }
-
-    .swatch-info {
-      background: var(--bg-200);
-      padding: 10px 12px;
-    }
-
-    .swatch-name {
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--gray-1000);
-      margin-bottom: 2px;
-      font-family: 'Geist Mono', monospace;
-    }
-
-    .swatch-hex {
-      font-size: 11px;
-      color: var(--gray-500);
-      font-family: 'Geist Mono', monospace;
-    }
-
-    .swatch-usage {
-      font-size: 11px;
-      color: var(--gray-500);
-      margin-top: 4px;
-      line-height: 1.3;
-    }
-
-    .copy-toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      background: var(--gray-1000);
-      color: var(--bg-100);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 10px 18px;
-      border-radius: 6px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s, transform 0.2s;
-      z-index: 500;
-      font-family: 'Geist Mono', monospace;
-    }
-
-    .copy-toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ─── Typography ─── */
-    .type-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-
-    .type-table th {
-      text-align: left;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--gray-500);
-      padding: 8px 12px 8px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .type-table td {
-      padding: 16px 12px 16px 0;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-
-    .type-table tr:last-child td { border-bottom: none; }
-
-    .type-preview { color: var(--foreground); }
-
-    .type-meta {
-      font-size: 12px;
-      font-family: 'Geist Mono', monospace;
-      color: var(--gray-500);
-      white-space: nowrap;
-    }
-
-    .type-usage {
-      font-size: 12px;
-      color: var(--gray-600);
-    }
-
-    .type-section-header {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--gray-1000);
-      margin: 32px 0 16px;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .type-tag {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--gray-500);
-      background: var(--gray-100);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    /* ─── Components ─── */
-    .components-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 768px) {
-      .components-grid { grid-template-columns: 1fr; }
-      .hero-title { font-size: 40px; }
-      .swatches-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-    }
-
-    .component-block {
-      background: var(--bg-200);
-      border-radius: 8px;
-      padding: 24px;
-      box-shadow: var(--shadow-card);
-    }
-
-    .component-block-title {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      margin-bottom: 20px;
-    }
-
-    .component-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .component-row:last-child { margin-bottom: 0; }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: 'Geist', sans-serif;
-      font-weight: 500;
-      cursor: pointer;
-      border-radius: 6px;
-      border: none;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: background 0.15s, opacity 0.15s, box-shadow 0.15s;
-      line-height: 1;
-    }
-
-    .btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
-
-    .btn-sm  { height: 32px; padding: 6px 12px; font-size: 12px; }
-    .btn-md  { height: 40px; padding: 8px 16px;  font-size: 14px; }
-    .btn-lg  { height: 48px; padding: 10px 20px; font-size: 16px; }
-
-    .btn-primary {
-      background: var(--gray-1000);
-      color: var(--bg-100);
-    }
-    .btn-primary:hover { background: #111; }
-    [data-theme="dark"] .btn-primary { background: #ffffff; color: #000000; }
-    [data-theme="dark"] .btn-primary:hover { background: #ededed; }
-
-    .btn-secondary {
-      background: var(--bg-200);
-      color: var(--gray-1000);
-      box-shadow: 0 0 0 1px var(--border-strong);
-    }
-    .btn-secondary:hover { background: var(--gray-100); }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--gray-1000);
-    }
-    .btn-ghost:hover { background: var(--gray-100); }
-
-    .btn-destructive {
-      background: #dc2626;
-      color: #ffffff;
-    }
-    .btn-destructive:hover { background: #b91c1c; }
-
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* Inputs */
-    .input-group { display: flex; flex-direction: column; gap: 6px; width: 100%; }
-
-    .input-label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-1000);
-    }
-
-    .input-field {
-      height: 40px;
-      padding: 0 12px;
-      border-radius: 6px;
-      border: none;
-      background: var(--bg-200);
-      color: var(--gray-1000);
-      font-family: 'Geist', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      box-shadow: 0 0 0 1px var(--border-strong);
-      transition: box-shadow 0.15s;
-      width: 100%;
-      outline: none;
-    }
-
-    .input-field::placeholder { color: var(--gray-400); }
-
-    .input-field:focus {
-      box-shadow: 0 0 0 1px var(--blue-700), 0 0 0 3px rgba(0,114,245,0.15);
-    }
-
-    .input-field.error { box-shadow: 0 0 0 1px var(--error); }
-
-    .input-helper {
-      font-size: 12px;
-      color: var(--gray-500);
-    }
-
-    .input-error-text {
-      font-size: 12px;
-      color: var(--error);
-    }
-
-    /* Badges */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      height: 24px;
-      padding: 0 8px;
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .badge-gray { background: #f7f7f7; color: #525252; box-shadow: 0 0 0 1px rgba(0,0,0,0.08); }
-    [data-theme="dark"] .badge-gray { background: #1a1a1a; color: #a8a8a8; box-shadow: 0 0 0 1px rgba(255,255,255,0.1); }
-
-    .badge-blue  { background: #ebf5ff; color: #0068d6; }
-    [data-theme="dark"] .badge-blue { background: #0d1f3c; color: #60a5fa; }
-
-    .badge-green { background: #dcfce7; color: #15803d; }
-    [data-theme="dark"] .badge-green { background: #052e16; color: #4ade80; }
-
-    .badge-red   { background: #fee2e2; color: #b91c1c; }
-    [data-theme="dark"] .badge-red { background: #3b0707; color: #f87171; }
-
-    .badge-amber { background: #fef3c7; color: #92400e; }
-    [data-theme="dark"] .badge-amber { background: #2d1700; color: #fbbf24; }
-
-    .badge-black { background: #171717; color: #ffffff; }
-
-    /* Sample Card */
-    .sample-card {
-      background: var(--bg-100);
-      border-radius: 8px;
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-    }
-
-    .card-header {
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .card-header-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray-1000);
-    }
-
-    .card-body { padding: 24px; }
-
-    .deployment-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .deployment-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .deployment-row:first-child { padding-top: 0; }
-
-    .deployment-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      background: var(--gray-100);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .deployment-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-1000);
-    }
-
-    .deployment-meta {
-      font-size: 12px;
-      color: var(--gray-500);
-      font-family: 'Geist Mono', monospace;
-    }
-
-    .deployment-info { flex: 1; }
-    .deployment-time { font-size: 12px; color: var(--gray-500); white-space: nowrap; }
-
-    /* ─── Spacing Scale ─── */
-    .spacing-rows { display: flex; flex-direction: column; gap: 0; }
-
-    .spacing-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .spacing-row:last-child { border-bottom: none; }
-
-    .spacing-token {
-      width: 80px;
-      font-size: 12px;
-      font-family: 'Geist Mono', monospace;
-      font-weight: 500;
-      color: var(--gray-1000);
-      flex-shrink: 0;
-    }
-
-    .spacing-value {
-      width: 48px;
-      font-size: 12px;
-      font-family: 'Geist Mono', monospace;
-      color: var(--gray-500);
-      flex-shrink: 0;
-    }
-
-    .spacing-bar-wrap {
-      flex: 1;
-      height: 20px;
-      display: flex;
-      align-items: center;
-    }
-
-    .spacing-bar {
-      height: 8px;
-      background: var(--gray-1000);
-      border-radius: 2px;
-      min-width: 4px;
-      opacity: 0.85;
-    }
-
-    .spacing-usage {
-      width: 200px;
-      font-size: 12px;
-      color: var(--gray-500);
-      text-align: right;
-    }
-
-    /* ─── Tone & Guardrails ─── */
-    .guardrails-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-
-    @media (max-width: 640px) {
-      .guardrails-grid { grid-template-columns: 1fr; }
-    }
-
-    .guardrail-card {
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .guardrail-header {
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .guardrail-header.do   { background: #dcfce7; color: #15803d; }
-    .guardrail-header.dont { background: #fee2e2; color: #b91c1c; }
-    [data-theme="dark"] .guardrail-header.do   { background: #052e16; color: #4ade80; }
-    [data-theme="dark"] .guardrail-header.dont { background: #3b0707; color: #f87171; }
-
-    .guardrail-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    .guardrail-icon.do   { background: #15803d; color: #fff; }
-    .guardrail-icon.dont { background: #b91c1c; color: #fff; }
-
-    .guardrail-list {
-      list-style: none;
-      padding: 16px 20px;
-      background: var(--bg-200);
-    }
-
-    .guardrail-list li {
-      font-size: 13px;
-      color: var(--gray-700);
-      line-height: 1.5;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      padding-left: 14px;
-      position: relative;
-    }
-
-    .guardrail-list li:last-child { border-bottom: none; }
-
-    .guardrail-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 14px;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-    }
-
-    .guardrail-list.do-list li::before   { background: #15803d; }
-    .guardrail-list.dont-list li::before { background: #b91c1c; }
-
-    code {
-      font-family: 'Geist Mono', monospace;
-      font-size: 0.9em;
-      background: var(--gray-100);
-      padding: 1px 5px;
-      border-radius: 3px;
-      color: var(--gray-800);
-    }
-
-    /* ─── Workflow Markers ─── */
-    .workflow-markers {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .workflow-marker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 6px;
-      background: var(--bg-200);
-      box-shadow: var(--shadow-card);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--gray-1000);
-    }
-
-    .workflow-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    /* ─── Section navigation (sidebar dots) ─── */
-    .progress-nav {
-      position: fixed;
-      right: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      z-index: 100;
-    }
-
-    .progress-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gray-300);
-      cursor: pointer;
-      transition: background 0.15s, transform 0.15s;
-      border: none;
-    }
-
-    .progress-dot:hover,
-    .progress-dot.active {
-      background: var(--gray-1000);
-      transform: scale(1.4);
-    }
-
-    @media (max-width: 960px) { .progress-nav { display: none; } }
-
-    /* ─── Footer ─── */
-    .footer {
-      padding: 32px 0;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--gray-500);
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vercel Design System — Geist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --bg2: #fafafa;
+    --gray100: #f7f7f7;
+    --gray200: #ebebeb;
+    --gray400: #a8a8a8;
+    --gray500: #737373;
+    --gray600: #525252;
+    --gray1000: #171717;
+    --fg: #000000;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --text: #171717;
+    --text2: #525252;
+    --text3: #737373;
+    --accent: #0070f3;
+    --error: #dc2626;
+    --success: #16a34a;
+    --warning: #eab308;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --gray100: #111111;
+    --gray200: #1a1a1a;
+    --gray400: #3d3d3d;
+    --gray500: #525252;
+    --gray600: #737373;
+    --gray1000: #fafafa;
+    --fg: #ffffff;
+    --border: rgba(255,255,255,0.08);
+    --border-strong: rgba(255,255,255,0.15);
+    --text: #fafafa;
+    --text2: #a8a8a8;
+    --text3: #737373;
+    --accent: #0070f3;
+    --error: #dc2626;
+    --success: #16a34a;
+    --warning: #eab308;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', Arial, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 999;
+    background: var(--gray1000); color: var(--bg); border: none;
+    padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; transition: opacity 150ms;
+  }
+  .toggle-btn:hover { opacity: 0.8; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  .section { margin-bottom: 64px; }
+  .section-title {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text3); margin-bottom: 24px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--gray200);
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--bg2); box-shadow: 0 0 0 1px var(--border);
+    border-radius: 8px; padding: 56px 48px; margin-bottom: 64px;
+  }
+  .hero-logo { margin-bottom: 24px; }
+  .hero h1 { font-size: 48px; font-weight: 600; line-height: 1.1; letter-spacing: -0.04em; color: var(--fg); margin-bottom: 16px; }
+  .hero p { font-size: 18px; font-weight: 400; line-height: 1.5; color: var(--text2); max-width: 540px; }
+
+  /* COLORS */
+  .colors-group { margin-bottom: 32px; }
+  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .swatch {
+    box-shadow: 0 0 0 1px var(--border); border-radius: 6px; overflow: hidden;
+    cursor: pointer; background: var(--bg); transition: box-shadow 150ms;
+  }
+  .swatch:hover { box-shadow: 0 0 0 1px var(--border-strong); }
+  .swatch-block { height: 80px; }
+  .swatch-info { padding: 8px 10px; }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .swatch-hex { font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .swatch-usage { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--gray1000); color: var(--bg);
+    font-size: 13px; padding: 8px 16px; border-radius: 6px;
+    transition: transform 200ms; z-index: 1000; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TYPOGRAPHY */
+  .type-row {
+    display: grid; grid-template-columns: 120px 1fr auto; align-items: center;
+    gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--gray200);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family: 'Geist Mono', monospace; color: var(--text3); }
+  .type-sample { color: var(--text); }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill {
+    font-size: 11px; font-family: 'Geist Mono', monospace; padding: 2px 6px; border-radius: 4px;
+    background: var(--gray100); box-shadow: 0 0 0 1px var(--border); color: var(--text2); white-space: nowrap;
+  }
+
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card {
+    background: var(--bg); box-shadow: 0 0 0 1px var(--border), 0 2px 2px rgba(0,0,0,0.04);
+    border-radius: 8px; padding: 20px;
+  }
+  .comp-card-title { font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text3); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn {
+    font-family: 'Geist', sans-serif; font-size: 14px; font-weight: 500;
+    padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer;
+    height: 40px; line-height: 1; transition: opacity 150ms;
+  }
+  .btn-primary { background: var(--gray1000); color: var(--bg); }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary { background: var(--bg2); color: var(--text); box-shadow: 0 0 0 1px var(--border-strong); }
+  .btn-secondary:hover { background: var(--gray100); }
+  .btn-ghost { background: transparent; color: var(--text); }
+  .btn-ghost:hover { background: var(--gray100); }
+  .btn-destructive { background: var(--error); color: #fff; }
+
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
+  .input {
+    background: var(--bg2); box-shadow: 0 0 0 1px var(--border-strong); border: none;
+    border-radius: 6px; padding: 0 12px; font-family: 'Geist', sans-serif; font-size: 14px;
+    color: var(--text); height: 40px; transition: box-shadow 150ms; width: 100%;
+  }
+  .input::placeholder { color: var(--gray400); }
+  .input:focus { outline: none; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #0072f5; }
+
+  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge {
+    font-size: 12px; font-weight: 500; padding: 0 8px; height: 24px;
+    border-radius: 9999px; display: inline-flex; align-items: center;
+  }
+
+  .sample-card {
+    background: var(--bg2); box-shadow: 0 0 0 1px var(--border); border-radius: 8px; padding: 16px;
+  }
+  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sample-card-title { font-size: 14px; font-weight: 600; color: var(--text); }
+  .sample-card-meta { font-size: 12px; color: var(--text3); margin-bottom: 6px; }
+  .sample-card-body { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  /* SPACING */
+  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
+  .spacing-row { display: flex; align-items: center; gap: 12px; }
+  .spacing-label { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--text3); width: 80px; flex-shrink: 0; }
+  .spacing-bar-wrap { flex: 1; }
+  .spacing-bar { height: 8px; background: var(--gray1000); opacity: 0.55; }
+  .spacing-val { font-size: 12px; color: var(--text2); width: 44px; text-align: right; }
+
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: var(--success); }
+  .guardrails-heading.dont { color: var(--error); }
+  .guardrail-item {
+    font-size: 13px; color: var(--text2); padding: 8px 12px;
+    border-radius: 6px; border-left: 3px solid transparent; background: var(--gray100);
+  }
+  .guardrail-item.do { border-left-color: var(--success); }
+  .guardrail-item.dont { border-left-color: var(--error); }
+
+  @media (max-width: 600px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 80px 1fr; }
+    .type-specs { display: none; }
+  }
+</style>
 </head>
 <body>
+<button class="toggle-btn" id="themeToggle" onclick="toggleTheme()">🌙 Dark</button>
+<div class="toast" id="toast">Copied!</div>
 
-<!-- Copy Toast -->
-<div class="copy-toast" id="copyToast">Copied to clipboard</div>
+<div class="container">
 
-<!-- Progress Nav -->
-<nav class="progress-nav" id="progressNav" aria-hidden="true">
-  <button class="progress-dot active" data-target="hero" title="Overview"></button>
-  <button class="progress-dot" data-target="colors" title="Colors"></button>
-  <button class="progress-dot" data-target="typography" title="Typography"></button>
-  <button class="progress-dot" data-target="components" title="Components"></button>
-  <button class="progress-dot" data-target="spacing" title="Spacing"></button>
-  <button class="progress-dot" data-target="guardrails" title="Guardrails"></button>
-</nav>
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="48" viewBox="0 0 116 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M57.5 0L115 100H0L57.5 0Z" fill="currentColor"/>
+      </svg>
+    </div>
+    <h1>Vercel</h1>
+    <p>A stark, developer-first deployment platform defined by pure contrast, zero ornamentation, and ruthless typographic precision.</p>
+  </div>
 
-<!-- Navigation -->
-<header class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo" aria-label="Vercel">
-        <!-- Vercel Triangle -->
-        <svg width="20" height="18" viewBox="0 0 284 268" fill="currentColor" aria-hidden="true">
-          <path d="M141.68 0L283.36 267.36H0L141.68 0Z"/>
-        </svg>
-        <span class="nav-wordmark">Vercel</span>
-        <span class="nav-divider"></span>
-        <span class="nav-subtitle">Geist Design System</span>
-      </a>
-      <div class="nav-right">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-          <!-- Sun icon (shown in dark mode) -->
-          <svg id="sunIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-          <!-- Moon icon (shown in light mode) -->
-          <svg id="moonIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </button>
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#000000', this)">
+          <div class="swatch-block" style="background:#000000"></div>
+          <div class="swatch-info"><div class="swatch-name">foreground</div><div class="swatch-hex">#000000</div><div class="swatch-usage">Hero text, logotype</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#171717', this)">
+          <div class="swatch-block" style="background:#171717"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-1000</div><div class="swatch-hex">#171717</div><div class="swatch-usage">Primary text</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#0070f3', this)">
+          <div class="swatch-block" style="background:#0070f3"></div>
+          <div class="swatch-info"><div class="swatch-name">blue-600</div><div class="swatch-hex">#0070f3</div><div class="swatch-usage">Primary accent</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#ffffff', this)">
+          <div class="swatch-block" style="background:#ffffff;outline:1px solid #ebebeb;"></div>
+          <div class="swatch-info"><div class="swatch-name">background-100</div><div class="swatch-hex">#ffffff</div><div class="swatch-usage">Page background</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#fafafa', this)">
+          <div class="swatch-block" style="background:#fafafa"></div>
+          <div class="swatch-info"><div class="swatch-name">background-200</div><div class="swatch-hex">#fafafa</div><div class="swatch-usage">Secondary surfaces</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#f7f7f7', this)">
+          <div class="swatch-block" style="background:#f7f7f7"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-100</div><div class="swatch-hex">#f7f7f7</div><div class="swatch-usage">Component backgrounds</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#ebebeb', this)">
+          <div class="swatch-block" style="background:#ebebeb"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-200</div><div class="swatch-hex">#ebebeb</div><div class="swatch-usage">Borders, dividers</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#525252', this)">
+          <div class="swatch-block" style="background:#525252"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-600</div><div class="swatch-hex">#525252</div><div class="swatch-usage">Secondary body</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#737373', this)">
+          <div class="swatch-block" style="background:#737373"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-500</div><div class="swatch-hex">#737373</div><div class="swatch-usage">Tertiary, meta</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#a8a8a8', this)">
+          <div class="swatch-block" style="background:#a8a8a8"></div>
+          <div class="swatch-info"><div class="swatch-name">gray-400</div><div class="swatch-hex">#a8a8a8</div><div class="swatch-usage">Placeholders</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Semantic</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#dc2626', this)">
+          <div class="swatch-block" style="background:#dc2626"></div>
+          <div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#dc2626</div><div class="swatch-usage">Error status</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#16a34a', this)">
+          <div class="swatch-block" style="background:#16a34a"></div>
+          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#16a34a</div><div class="swatch-usage">Positive status</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#eab308', this)">
+          <div class="swatch-block" style="background:#eab308"></div>
+          <div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#eab308</div><div class="swatch-usage">Warning status</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#de1d8d', this)">
+          <div class="swatch-block" style="background:#de1d8d"></div>
+          <div class="swatch-info"><div class="swatch-name">preview-pink</div><div class="swatch-hex">#de1d8d</div><div class="swatch-usage">Preview workflow</div></div>
+        </div>
       </div>
     </div>
   </div>
-</header>
 
-<!-- Hero -->
-<section class="hero" id="hero">
-  <div class="container">
-    <div class="hero-eyebrow">
-      <span class="hero-dot"></span>
-      Geist Design System
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-row">
+      <div class="type-name">heading-48</div>
+      <div class="type-sample" style="font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-0.04em;">Deploy.</div>
+      <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">600</span><span class="spec-pill">-0.04em</span></div>
     </div>
-    <h1 class="hero-title">Built for&nbsp;speed.<br/>Defined by&nbsp;contrast.</h1>
-    <p class="hero-desc">
-      A stark, developer-first design language built around aggressive reduction. Pure black and white anchor the system. Color appears only to carry semantic meaning.
-    </p>
-    <div class="hero-tags">
-      <span class="badge badge-gray">Geist Sans</span>
-      <span class="badge badge-gray">8px Grid</span>
-      <span class="badge badge-blue">WCAG AA</span>
-      <span class="badge badge-green">Open Source</span>
-      <span class="badge badge-gray">Zero Ornamentation</span>
+    <div class="type-row">
+      <div class="type-name">heading-32</div>
+      <div class="type-sample" style="font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-0.03em;">Ship faster</div>
+      <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">600</span><span class="spec-pill">-0.03em</span></div>
     </div>
-    <div class="workflow-markers">
-      <div class="workflow-marker">
-        <span class="workflow-dot" style="background:#0a72ef"></span>
-        Develop
-      </div>
-      <div class="workflow-marker">
-        <span class="workflow-dot" style="background:#de1d8d"></span>
-        Preview
-      </div>
-      <div class="workflow-marker">
-        <span class="workflow-dot" style="background:#ff5b4f"></span>
-        Ship
-      </div>
+    <div class="type-row">
+      <div class="type-name">heading-24</div>
+      <div class="type-sample" style="font-size:24px;font-weight:600;line-height:1.2;letter-spacing:-0.02em;">Card title heading</div>
+      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">600</span><span class="spec-pill">-0.02em</span></div>
     </div>
-  </div>
-</section>
-
-<!-- Color Palette -->
-<section id="colors">
-  <div class="container">
-    <p class="section-label">02 — Colors</p>
-    <h2 class="section-title">Color Palette</h2>
-    <p class="section-desc">True neutrals with no warm or cool undertone bias. Accent appears at most once per view, exclusively for primary interactive actions. Click a swatch to copy its hex.</p>
-
-    <div class="palette-group">
-      <div class="palette-group-title">Neutrals — Core Grays</div>
-      <div class="swatches-grid" id="lightSwatches">
-        <!-- Swatches injected by JS -->
-      </div>
+    <div class="type-row">
+      <div class="type-name">label-16</div>
+      <div class="type-sample" style="font-size:16px;font-weight:500;line-height:1.4;">Navigation label</div>
+      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.4</span></div>
     </div>
-
-    <div class="palette-group">
-      <div class="palette-group-title">Accent &amp; Semantic</div>
-      <div class="swatches-grid" id="accentSwatches"></div>
+    <div class="type-row">
+      <div class="type-name">copy-16</div>
+      <div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5;">Default body copy for prose and descriptions.</div>
+      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">label-14</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400;line-height:1.4;color:var(--text2);">Secondary labels, table cells</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">label-12</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;line-height:1.4;color:var(--text3);">Captions, helper text</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample" style="font-size:14px;font-family:'Geist Mono',monospace;font-weight:400;color:var(--accent);">npx create-next-app@latest</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">mono</span><span class="spec-pill">400</span></div>
     </div>
   </div>
-</section>
 
-<!-- Typography -->
-<section id="typography">
-  <div class="container">
-    <p class="section-label">03 — Typography</p>
-    <h2 class="section-title">Type Scale</h2>
-    <p class="section-desc">Hierarchy through weight and size within a single typeface family — Geist. No color or decoration needed. All sizes implement in <code>rem</code> (1rem = 16px).</p>
-
-    <div class="type-section-header">
-      Headings
-      <span class="type-tag">Geist Sans · 600</span>
-    </div>
-    <table class="type-table">
-      <thead>
-        <tr>
-          <th style="width:50%">Preview</th>
-          <th>Token</th>
-          <th>Size / Weight</th>
-          <th>Usage</th>
-        </tr>
-      </thead>
-      <tbody id="headingRows"></tbody>
-    </table>
-
-    <div class="type-section-header">
-      Labels &amp; UI Text
-      <span class="type-tag">Geist Sans · 400–500</span>
-    </div>
-    <table class="type-table">
-      <thead>
-        <tr>
-          <th style="width:50%">Preview</th>
-          <th>Token</th>
-          <th>Size / Weight</th>
-          <th>Usage</th>
-        </tr>
-      </thead>
-      <tbody id="labelRows"></tbody>
-    </table>
-
-    <div class="type-section-header">
-      Body Copy
-      <span class="type-tag">Geist Sans · 400</span>
-    </div>
-    <table class="type-table">
-      <thead>
-        <tr>
-          <th style="width:50%">Preview</th>
-          <th>Token</th>
-          <th>Size / Weight</th>
-          <th>Usage</th>
-        </tr>
-      </thead>
-      <tbody id="bodyRows"></tbody>
-    </table>
-
-    <div class="type-section-header">
-      Mono — Code &amp; Data
-      <span class="type-tag">Geist Mono</span>
-    </div>
-    <div style="background:var(--gray-100);border-radius:8px;padding:24px;box-shadow:var(--shadow-card)">
-      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:var(--gray-500);margin-bottom:16px;">USED FOR</div>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;">
-        <span class="badge badge-gray" style="font-family:'Geist Mono',monospace">vercel deploy</span>
-        <span class="badge badge-gray" style="font-family:'Geist Mono',monospace">abc123def</span>
-        <span class="badge badge-gray" style="font-family:'Geist Mono',monospace">VERCEL_URL</span>
-        <span class="badge badge-gray" style="font-family:'Geist Mono',monospace">my-project.vercel.app</span>
-        <span class="badge badge-gray" style="font-family:'Geist Mono',monospace">npm run build</span>
-      </div>
-      <div style="margin-top:20px;font-family:'Geist Mono',monospace;font-size:14px;line-height:1.8;color:var(--gray-800);background:var(--bg-200);padding:16px;border-radius:6px;box-shadow:var(--shadow-border)">
-        <span style="color:var(--gray-500)">$</span> vercel deploy --prod<br/>
-        <span style="color:var(--success)">✓</span> Deployed to <span style="color:var(--blue-600)">https://my-project-abc123.vercel.app</span><br/>
-        <span style="color:var(--gray-500)">Build time: 23s · 847 functions</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Components -->
-<section id="components">
-  <div class="container">
-    <p class="section-label">04 — Components</p>
-    <h2 class="section-title">Components</h2>
-    <p class="section-desc">All components derive from the same token system. No gradients on interactive UI. Shadow-based borders adapt to any surface.</p>
-
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-title">Components</div>
     <div class="components-grid">
-
-      <!-- Buttons -->
-      <div class="component-block">
-        <div class="component-block-title">Buttons</div>
-        <div style="margin-bottom:8px;font-size:11px;color:var(--gray-500);font-weight:500;text-transform:uppercase;letter-spacing:.06em">Variants</div>
-        <div class="component-row">
-          <button class="btn btn-md btn-primary">Deploy</button>
-          <button class="btn btn-md btn-secondary">Cancel</button>
-          <button class="btn btn-md btn-ghost">View Logs</button>
-          <button class="btn btn-md btn-destructive">Delete</button>
-        </div>
-        <div style="margin-top:16px;margin-bottom:8px;font-size:11px;color:var(--gray-500);font-weight:500;text-transform:uppercase;letter-spacing:.06em">Sizes</div>
-        <div class="component-row" style="align-items:center">
-          <button class="btn btn-sm btn-primary">Small</button>
-          <button class="btn btn-md btn-primary">Medium</button>
-          <button class="btn btn-lg btn-primary">Large</button>
-        </div>
-        <div style="margin-top:16px;margin-bottom:8px;font-size:11px;color:var(--gray-500);font-weight:500;text-transform:uppercase;letter-spacing:.06em">States</div>
-        <div class="component-row">
-          <button class="btn btn-md btn-primary" disabled>Disabled</button>
-          <button class="btn btn-md btn-secondary" disabled>Disabled</button>
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Deploy</button>
+          <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-ghost">Learn more</button>
+          <button class="btn btn-destructive">Delete</button>
         </div>
       </div>
-
-      <!-- Badges -->
-      <div class="component-block">
-        <div class="component-block-title">Badges</div>
-        <div style="margin-bottom:8px;font-size:11px;color:var(--gray-500);font-weight:500;text-transform:uppercase;letter-spacing:.06em">Status Variants</div>
-        <div class="component-row">
-          <span class="badge badge-gray"><span class="badge-dot" style="background:#525252"></span>Default</span>
-          <span class="badge badge-blue"><span class="badge-dot" style="background:#0068d6"></span>Info</span>
-          <span class="badge badge-green"><span class="badge-dot" style="background:#15803d"></span>Ready</span>
-          <span class="badge badge-red"><span class="badge-dot" style="background:#b91c1c"></span>Error</span>
-          <span class="badge badge-amber"><span class="badge-dot" style="background:#92400e"></span>Warning</span>
-        </div>
-        <div class="component-row" style="margin-top:8px">
-          <span class="badge badge-black">New</span>
-          <span class="badge badge-gray">Beta</span>
-          <span class="badge badge-blue">Pro</span>
-          <span class="badge badge-green">Deployed</span>
-        </div>
-        <div style="margin-top:16px;margin-bottom:8px;font-size:11px;color:var(--gray-500);font-weight:500;text-transform:uppercase;letter-spacing:.06em">Workflow</div>
-        <div class="component-row">
-          <span class="badge" style="background:#ebf0ff;color:#0a72ef"><span class="badge-dot" style="background:#0a72ef"></span>Develop</span>
-          <span class="badge" style="background:#fce7f6;color:#de1d8d"><span class="badge-dot" style="background:#de1d8d"></span>Preview</span>
-          <span class="badge" style="background:#fff1f0;color:#ff5b4f"><span class="badge-dot" style="background:#ff5b4f"></span>Ship</span>
-        </div>
-      </div>
-
-      <!-- Input -->
-      <div class="component-block">
-        <div class="component-block-title">Input Fields</div>
-        <div class="input-group" style="margin-bottom:16px">
-          <label class="input-label">Project Name</label>
-          <input type="text" class="input-field" placeholder="my-awesome-project" />
-          <span class="input-helper">Use lowercase letters, numbers, and hyphens only.</span>
-        </div>
-        <div class="input-group" style="margin-bottom:16px">
-          <label class="input-label">Root Directory</label>
-          <input type="text" class="input-field" value="./src" />
-        </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
         <div class="input-group">
-          <label class="input-label">Build Command</label>
-          <input type="text" class="input-field error" placeholder="npm run build" />
-          <span class="input-error-text">Build command must not be empty.</span>
+          <input class="input" type="text" placeholder="your-project.vercel.app">
+          <input class="input" type="text" value="Focused state" style="box-shadow:0 0 0 2px var(--bg),0 0 0 4px #0072f5;">
         </div>
       </div>
-
-      <!-- Sample Card -->
-      <div class="component-block">
-        <div class="component-block-title">Card — Deployments</div>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badge-group">
+          <span class="badge" style="background:#f7f7f7;color:#525252;box-shadow:0 0 0 1px rgba(0,0,0,0.08);">Default</span>
+          <span class="badge" style="background:#ebf5ff;color:#0068d6;">Info</span>
+          <span class="badge" style="background:#dcfce7;color:#15803d;">Ready</span>
+          <span class="badge" style="background:#fee2e2;color:#b91c1c;">Error</span>
+          <span class="badge" style="background:#fef3c7;color:#92400e;">Warning</span>
+          <span class="badge" style="background:#171717;color:#fff;">New</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Sample Card</div>
         <div class="sample-card">
-          <div class="card-header">
-            <span class="card-header-title">Recent Deployments</span>
-            <button class="btn btn-sm btn-secondary">View All</button>
+          <div class="sample-card-header">
+            <div class="sample-card-title">my-next-app</div>
+            <span class="badge" style="background:#dcfce7;color:#15803d;font-size:11px;">Ready</span>
           </div>
-          <div class="card-body">
-            <div class="deployment-row">
-              <div class="deployment-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div class="deployment-info">
-                <div class="deployment-name">main</div>
-                <div class="deployment-meta">a1b2c3d — fix: update nav component</div>
-              </div>
-              <span class="badge badge-green"><span class="badge-dot" style="background:#15803d"></span>Ready</span>
-              <span class="deployment-time">2m ago</span>
-            </div>
-            <div class="deployment-row">
-              <div class="deployment-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div class="deployment-info">
-                <div class="deployment-name">feat/dark-mode</div>
-                <div class="deployment-meta">e4f5a6b — feat: add dark mode toggle</div>
-              </div>
-              <span class="badge badge-blue"><span class="badge-dot" style="background:#0068d6"></span>Preview</span>
-              <span class="deployment-time">14m ago</span>
-            </div>
-            <div class="deployment-row">
-              <div class="deployment-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div class="deployment-info">
-                <div class="deployment-name">main</div>
-                <div class="deployment-meta">7c8d9e0 — chore: upgrade dependencies</div>
-              </div>
-              <span class="badge badge-red"><span class="badge-dot" style="background:#b91c1c"></span>Failed</span>
-              <span class="deployment-time">1h ago</span>
-            </div>
-          </div>
+          <div class="sample-card-meta">main · 3m ago · Production</div>
+          <div class="sample-card-body">Automatically deployed on every push to the main branch.</div>
         </div>
       </div>
-
     </div>
   </div>
-</section>
 
-<!-- Spacing Scale -->
-<section id="spacing">
-  <div class="container">
-    <p class="section-label">05 — Spacing</p>
-    <h2 class="section-title">Spacing Scale</h2>
-    <p class="section-desc">Base unit is 8px. All values are multiples or half-multiples. 8px between items in a group, 16px between groups, 32–40px between components, 64–96px between sections.</p>
-
-    <div class="spacing-rows" id="spacingRows"></div>
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/128*100%)"></div></div><div class="spacing-val">4px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/128*100%)"></div></div><div class="spacing-val">8px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/128*100%)"></div></div><div class="spacing-val">16px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/128*100%)"></div></div><div class="spacing-val">24px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(32/128*100%)"></div></div><div class="spacing-val">32px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-12</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(48/128*100%)"></div></div><div class="spacing-val">48px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-16</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(64/128*100%)"></div></div><div class="spacing-val">64px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-24</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(96/128*100%)"></div></div><div class="spacing-val">96px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-32</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">128px</div></div>
+    </div>
   </div>
-</section>
 
-<!-- Tone & Guardrails -->
-<section id="guardrails">
-  <div class="container">
-    <p class="section-label">06 — Tone &amp; Guardrails</p>
-    <h2 class="section-title">Dos &amp; Don'ts</h2>
-    <p class="section-desc">These rules define the Vercel aesthetic. Following them ensures the system reads as authoritative, fast, and engineering-driven.</p>
-
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-card">
-        <div class="guardrail-header do">
-          <span class="guardrail-icon do">✓</span>
-          DO
-        </div>
-        <ul class="guardrail-list do-list">
-          <li>Use <code>#171717</code> (not <code>#000000</code>) for body text in light mode — avoids optical harshness</li>
-          <li>Use shadow-based borders (<code>box-shadow: 0 0 0 1px rgba(0,0,0,0.08)</code>) on cards and components</li>
-          <li>Apply the 2px white gap + 2px blue ring focus pattern for all keyboard targets</li>
-          <li>Reserve blue accent (<code>#0070f3</code>) for exactly one primary action per view</li>
-          <li>Use <code>9999px</code> radius only for badges and pills — never standard buttons</li>
-          <li>Maintain consistent spacing using the 8px grid; all values must be multiples of 4px minimum</li>
-          <li>Use Geist Mono for all code, CLI output, env var names, deployment IDs, and numeric dashboards</li>
-          <li>Keep motion fast: 150ms for micro-interactions, 200ms for popovers, 300ms for page overlays</li>
-          <li>Apply <code>prefers-reduced-motion</code> to all transitions and animations</li>
-          <li>Use WCAG AA contrast (4.5:1) as the minimum; AA+ (7:1) for primary body text</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Use #171717 for body text — avoids optical harshness vs pure black</div>
+        <div class="guardrail-item do">Use shadow-based borders (box-shadow: 0 0 0 1px rgba(0,0,0,0.08)) on cards</div>
+        <div class="guardrail-item do">Reserve blue accent for exactly one primary action per view</div>
+        <div class="guardrail-item do">Use 9999px radius only for badges and pills — never standard buttons</div>
+        <div class="guardrail-item do">Keep motion fast: 150ms micro-interactions, 300ms page-level overlays</div>
       </div>
-      <div class="guardrail-card">
-        <div class="guardrail-header dont">
-          <span class="guardrail-icon dont">✕</span>
-          DON'T
-        </div>
-        <ul class="guardrail-list dont-list">
-          <li>Don't use gradients on interactive UI — marketing hero backgrounds are the sole exception</li>
-          <li>Don't use more than one accent color per view</li>
-          <li>Don't apply drop shadows for elevation on cards — use the ring-border shadow technique</li>
-          <li>Don't mix border-radius families within a single view (e.g. 6px and 12px in the same card group)</li>
-          <li>Don't use color to convey meaning without a secondary indicator (icon or text label)</li>
-          <li>Don't center-align multi-line body text or lists</li>
-          <li>Don't use font weights other than 400, 500, and 600</li>
-          <li>Don't add decorative illustrations, stock photos, or abstract graphics in dashboard UI</li>
-          <li>Don't animate layout properties (width, height, top, left) — animate only <code>transform</code> and <code>opacity</code></li>
-          <li>Don't use the pill radius (<code>9999px</code>) on primary CTA buttons — reads as friendly, not authoritative</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Use gradients on interactive UI components</div>
+        <div class="guardrail-item dont">Use more than one accent color per view</div>
+        <div class="guardrail-item dont">Apply drop shadows for elevation — use ring-border technique</div>
+        <div class="guardrail-item dont">Mix border-radius families within a single view</div>
+        <div class="guardrail-item dont">Use font weights other than 400, 500, and 600</div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="footer">
-      <div class="footer-logo">
-        <svg width="16" height="14" viewBox="0 0 284 268" fill="currentColor">
-          <path d="M141.68 0L283.36 267.36H0L141.68 0Z"/>
-        </svg>
-        <span>Vercel Geist Design System</span>
-      </div>
-      <span>Built with the brand's own design system</span>
-    </div>
-  </div>
-</footer>
+</div>
 
 <script>
-  /* ─── Theme Toggle ─── */
+function toggleTheme() {
   const html = document.documentElement;
-  const toggle = document.getElementById('themeToggle');
-  const sunIcon = document.getElementById('sunIcon');
-  const moonIcon = document.getElementById('moonIcon');
-
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    html.setAttribute('data-theme', saved);
-    if (saved === 'dark') { sunIcon.style.display = ''; moonIcon.style.display = 'none'; }
+  const btn = document.getElementById('themeToggle');
+  if (html.getAttribute('data-theme') === 'light') {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️ Light';
+  } else {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '🌙 Dark';
   }
-
-  toggle.addEventListener('click', () => {
-    const isDark = html.getAttribute('data-theme') === 'dark';
-    const next = isDark ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    sunIcon.style.display = isDark ? 'none' : '';
-    moonIcon.style.display = isDark ? '' : 'none';
-  });
-
-  /* ─── Copy Toast ─── */
-  const toast = document.getElementById('copyToast');
-  let toastTimer;
-
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
-  }
-
-  function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => showToast('Copied ' + text));
-  }
-
-  /* ─── Color Swatches ─── */
-  const neutralColors = [
-    { name: 'foreground', hex: '#000000', usage: 'Hero text, logotype' },
-    { name: 'gray-1000', hex: '#171717', usage: 'Primary text (Vercel Black)' },
-    { name: 'gray-900', hex: '#1a1a1a', usage: 'Secondary text, labels' },
-    { name: 'gray-800', hex: '#292929', usage: 'Strong body text' },
-    { name: 'gray-700', hex: '#3d3d3d', usage: 'De-emphasized headings' },
-    { name: 'gray-600', hex: '#525252', usage: 'Secondary body text' },
-    { name: 'gray-500', hex: '#737373', usage: 'Tertiary labels, meta' },
-    { name: 'gray-400', hex: '#a8a8a8', usage: 'Placeholder, secondary icons' },
-    { name: 'gray-300', hex: '#e0e0e0', usage: 'Disabled state borders' },
-    { name: 'gray-200', hex: '#ebebeb', usage: 'Card borders, dividers' },
-    { name: 'gray-100', hex: '#f7f7f7', usage: 'Subtle component backgrounds' },
-    { name: 'background-200', hex: '#fafafa', usage: 'Secondary surfaces, inputs' },
-    { name: 'background-100', hex: '#ffffff', usage: 'Default page background' },
-  ];
-
-  const accentColors = [
-    { name: 'blue-600', hex: '#0070f3', usage: 'Primary interactive accent' },
-    { name: 'blue-700', hex: '#0072f5', usage: 'Link color, focus ring' },
-    { name: 'blue-800', hex: '#0068d6', usage: 'Badge text, active nav' },
-    { name: 'develop-blue', hex: '#0a72ef', usage: 'Develop workflow marker' },
-    { name: 'preview-pink', hex: '#de1d8d', usage: 'Preview workflow marker' },
-    { name: 'ship-red', hex: '#ff5b4f', usage: 'Ship workflow marker' },
-    { name: 'success', hex: '#16a34a', usage: 'Positive status' },
-    { name: 'warning', hex: '#eab308', usage: 'Warning status' },
-    { name: 'error', hex: '#dc2626', usage: 'Error status' },
-  ];
-
-  function isLight(hex) {
-    const r = parseInt(hex.slice(1,3),16);
-    const g = parseInt(hex.slice(3,5),16);
-    const b = parseInt(hex.slice(5,7),16);
-    return (r * 0.299 + g * 0.587 + b * 0.114) > 155;
-  }
-
-  function makeSwatch(c) {
-    const light = isLight(c.hex);
-    const textColor = light ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)';
-    const div = document.createElement('div');
-    div.className = 'swatch';
-    div.title = 'Click to copy ' + c.hex;
-    div.innerHTML = `
-      <div class="swatch-color" style="background:${c.hex}">
-        <span class="swatch-copy-hint" style="color:${textColor};background:${light ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)'}">Copy</span>
-      </div>
-      <div class="swatch-info">
-        <div class="swatch-name">${c.name}</div>
-        <div class="swatch-hex">${c.hex}</div>
-        <div class="swatch-usage">${c.usage}</div>
-      </div>
-    `;
-    div.addEventListener('click', () => copyText(c.hex));
-    return div;
-  }
-
-  document.getElementById('lightSwatches').append(...neutralColors.map(makeSwatch));
-  document.getElementById('accentSwatches').append(...accentColors.map(makeSwatch));
-
-  /* ─── Typography ─── */
-  const headings = [
-    { token: 'heading-72', size: 72, weight: 600, lh: 1.1, ls: '-0.05em', usage: 'Marketing heroes only' },
-    { token: 'heading-56', size: 56, weight: 600, lh: 1.1, ls: '-0.04em', usage: 'Section heroes' },
-    { token: 'heading-48', size: 48, weight: 600, lh: 1.1, ls: '-0.04em', usage: 'Page titles' },
-    { token: 'heading-40', size: 40, weight: 600, lh: 1.1, ls: '-0.03em', usage: 'Section headings' },
-    { token: 'heading-32', size: 32, weight: 600, lh: 1.15, ls: '-0.03em', usage: 'Card group headers' },
-    { token: 'heading-24', size: 24, weight: 600, lh: 1.2, ls: '-0.02em', usage: 'Card titles, dialogs' },
-    { token: 'heading-20', size: 20, weight: 600, lh: 1.25, ls: '-0.01em', usage: 'Sub-section headings' },
-    { token: 'heading-16', size: 16, weight: 600, lh: 1.3, ls: '-0.01em', usage: 'Inline headings' },
-    { token: 'heading-14', size: 14, weight: 600, lh: 1.4, ls: '0', usage: 'Micro headings, table headers' },
-  ];
-
-  const labels = [
-    { token: 'label-20', size: 20, weight: 500, lh: 1.4, usage: 'Navigation items (large)' },
-    { token: 'label-16', size: 16, weight: 500, lh: 1.4, usage: 'Default nav, form labels' },
-    { token: 'label-14', size: 14, weight: 400, lh: 1.4, usage: 'Secondary labels, table cells' },
-    { token: 'label-13', size: 13, weight: 400, lh: 1.4, usage: 'Metadata, timestamps' },
-    { token: 'label-12', size: 12, weight: 400, lh: 1.4, usage: 'Captions, helper text' },
-  ];
-
-  const bodyCopy = [
-    { token: 'copy-24', size: 24, weight: 400, lh: 1.5, usage: 'Large lead paragraphs' },
-    { token: 'copy-20', size: 20, weight: 400, lh: 1.5, usage: 'Article body' },
-    { token: 'copy-18', size: 18, weight: 400, lh: 1.5, usage: 'Standard body text' },
-    { token: 'copy-16', size: 16, weight: 400, lh: 1.5, usage: 'Default prose' },
-    { token: 'copy-14', size: 14, weight: 400, lh: 1.5, usage: 'Secondary body text' },
-    { token: 'copy-13', size: 13, weight: 400, lh: 1.5, usage: 'Fine print' },
-  ];
-
-  function sampleText(size) {
-    if (size >= 56) return 'Ship faster.';
-    if (size >= 40) return 'Deploy with confidence.';
-    if (size >= 24) return 'Zero-config deployments for every team.';
-    return 'From localhost to global edge infrastructure in seconds.';
-  }
-
-  function makeTypeRow(t) {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="type-preview" style="font-size:${Math.min(t.size, 48)}px;font-weight:${t.weight};line-height:${t.lh};letter-spacing:${t.ls || '0'}">${sampleText(t.size)}</td>
-      <td class="type-meta">${t.token}</td>
-      <td class="type-meta">${t.size}px / ${t.weight}</td>
-      <td class="type-usage">${t.usage}</td>
-    `;
-    return tr;
-  }
-
-  headings.forEach(h => document.getElementById('headingRows').appendChild(makeTypeRow(h)));
-  labels.forEach(l => document.getElementById('labelRows').appendChild(makeTypeRow(l)));
-  bodyCopy.forEach(b => document.getElementById('bodyRows').appendChild(makeTypeRow(b)));
-
-  /* ─── Spacing Scale ─── */
-  const spacings = [
-    { token: 'space-1',  value: 4,   usage: 'Icon padding, micro gaps' },
-    { token: 'space-2',  value: 8,   usage: 'Internal component padding' },
-    { token: 'space-3',  value: 12,  usage: 'Compact component padding' },
-    { token: 'space-4',  value: 16,  usage: 'Standard element padding' },
-    { token: 'space-5',  value: 20,  usage: 'Comfortable padding' },
-    { token: 'space-6',  value: 24,  usage: 'Card internal padding' },
-    { token: 'space-8',  value: 32,  usage: 'Section sub-group separation' },
-    { token: 'space-10', value: 40,  usage: 'Component-to-component gap' },
-    { token: 'space-12', value: 48,  usage: 'Section gap (mobile)' },
-    { token: 'space-16', value: 64,  usage: 'Section gap (tablet)' },
-    { token: 'space-20', value: 80,  usage: 'Large section gap' },
-    { token: 'space-24', value: 96,  usage: 'Section gap (desktop)' },
-    { token: 'space-32', value: 128, usage: 'Major section separation' },
-    { token: 'space-48', value: 192, usage: 'Hero-scale section spacing' },
-  ];
-
-  const maxSpacing = 192;
-  const container = document.getElementById('spacingRows');
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'spacing-row';
-    const barWidth = Math.round((s.value / maxSpacing) * 600);
-    row.innerHTML = `
-      <span class="spacing-token">${s.token}</span>
-      <span class="spacing-value">${s.value}px</span>
-      <div class="spacing-bar-wrap">
-        <div class="spacing-bar" style="width:${barWidth}px;max-width:100%"></div>
-      </div>
-      <span class="spacing-usage">${s.usage}</span>
-    `;
-    container.appendChild(row);
-  });
-
-  /* ─── Progress Nav ─── */
-  const sections = ['hero','colors','typography','components','spacing','guardrails'];
-  const dots = document.querySelectorAll('.progress-dot');
-
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const el = document.getElementById(dot.dataset.target);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        dots.forEach(d => d.classList.remove('active'));
-        const idx = sections.indexOf(entry.target.id);
-        if (idx >= 0 && dots[idx]) dots[idx].classList.add('active');
-      }
-    });
-  }, { threshold: 0.3 });
-
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
-
-  /* ─── Reduced Motion ─── */
-  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-  function applyReducedMotion(reduced) {
-    if (reduced) {
-      document.body.style.setProperty('--transition-speed', '0ms');
-    }
-  }
-  applyReducedMotion(mq.matches);
-  mq.addEventListener('change', e => applyReducedMotion(e.matches));
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>

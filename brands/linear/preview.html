@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Linear — Design System</title>
+<title>Linear Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
-
-  /* ─── CSS Variables ─── */
-  :root {
-    --primary: #5E6AD2;
-    --primary-hover: #4F5BBF;
-    --background: #0F0F10;
+  :root[data-theme="dark"] {
+    --bg: #0F0F10;
     --surface: #1A1A1C;
     --surface-raised: #242427;
     --surface-overlay: #2E2E32;
@@ -20,1751 +17,433 @@
     --text-muted: #5A5A6A;
     --border: #2A2A2E;
     --border-strong: #3A3A40;
+    --primary: #5E6AD2;
+    --primary-hover: #4F5BBF;
+    --purple-dim: rgba(94,106,210,0.15);
     --error: #E5484D;
     --warning: #FFB224;
     --success: #46A758;
-    --purple-dim: rgba(94, 106, 210, 0.15);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
-    --radius-sm: 3px;
-    --radius-md: 6px;
-    --radius-lg: 8px;
-    --radius-full: 9999px;
-    --font: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
-
-  [data-theme="light"] {
-    --background: #FFFFFF;
-    --surface: #F5F5F6;
-    --surface-raised: #EBEBED;
-    --surface-overlay: #E1E1E5;
-    --text-primary: #0F0F10;
+  :root[data-theme="light"] {
+    --bg: #FAFAFA;
+    --surface: #F0F0F2;
+    --surface-raised: #E5E5E8;
+    --surface-overlay: #DCDCE0;
+    --text-primary: #111113;
     --text-secondary: #5A5A6A;
-    --text-muted: #9A9AAA;
-    --border: #DDDDE0;
-    --border-strong: #C8C8CE;
-    --purple-dim: rgba(94, 106, 210, 0.1);
+    --text-muted: #8A8A9A;
+    --border: #D8D8DC;
+    --border-strong: #C0C0C8;
+    --primary: #5E6AD2;
+    --primary-hover: #4F5BBF;
+    --purple-dim: rgba(94,106,210,0.12);
+    --error: #C9373C;
+    --warning: #D4900A;
+    --success: #2F8A3E;
   }
-
-  /* ─── Reset ─── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
   body {
-    font-family: var(--font);
-    background: var(--background);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--bg);
     color: var(--text-primary);
     font-size: 14px;
-    font-weight: 400;
     line-height: 1.5;
     letter-spacing: -0.01em;
-    -webkit-font-smoothing: antialiased;
   }
-
-  /* ─── Layout ─── */
-  .page-wrapper {
-    display: flex;
-    min-height: 100vh;
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 999;
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    color: var(--text-primary); padding: 6px 14px; border-radius: 9999px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    font-family: inherit; letter-spacing: -0.01em; transition: background 100ms;
   }
-
-  .sidebar {
-    width: 220px;
-    flex-shrink: 0;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 16px 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sidebar-logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 12px 16px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
-  }
-
-  .sidebar-logo svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .sidebar-logo-text {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-  }
-
-  .sidebar-section {
-    padding: 8px 12px 4px;
-  }
-
-  .sidebar-section-label {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 0 0 4px;
-  }
-
-  .sidebar-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 32px;
-    padding: 0 8px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    color: var(--text-secondary);
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 100ms, color 100ms;
-    letter-spacing: -0.01em;
-  }
-
-  .sidebar-nav-item:hover {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-  }
-
-  .sidebar-nav-item.active {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-  }
-
-  .sidebar-nav-item svg {
-    width: 16px;
-    height: 16px;
-    color: var(--text-secondary);
-    flex-shrink: 0;
-  }
-
-  .sidebar-nav-item.active svg,
-  .sidebar-nav-item:hover svg {
-    color: var(--text-primary);
-  }
-
-  .sidebar-bottom {
-    margin-top: auto;
-    padding: 12px;
-    border-top: 1px solid var(--border);
-  }
-
-  .theme-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 32px;
-    padding: 0 8px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    border: none;
-    background: transparent;
-    width: 100%;
-    font-family: var(--font);
-    letter-spacing: -0.01em;
-    transition: background 100ms, color 100ms;
-  }
-
-  .theme-toggle:hover {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-  }
-
-  .toggle-track {
-    width: 28px;
-    height: 16px;
-    background: var(--border-strong);
-    border-radius: var(--radius-full);
-    position: relative;
-    transition: background 100ms;
-    flex-shrink: 0;
-  }
-
-  [data-theme="light"] .toggle-track {
-    background: var(--primary);
-  }
-
-  .toggle-thumb {
-    width: 12px;
-    height: 12px;
-    background: var(--text-primary);
-    border-radius: var(--radius-full);
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    transition: transform 100ms;
-  }
-
-  [data-theme="light"] .toggle-thumb {
-    transform: translateX(12px);
-  }
-
-  /* ─── Main Content ─── */
-  .main-content {
-    flex: 1;
-    overflow: hidden;
-  }
-
-  /* ─── Hero ─── */
-  .hero {
-    padding: 64px 64px 48px;
-    border-bottom: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 100% at 80% 50%, rgba(94, 106, 210, 0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--primary);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    background: var(--purple-dim);
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-  }
-
-  .hero-title {
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
-    margin-bottom: 12px;
-  }
-
-  .hero-subtitle {
-    font-size: 15px;
-    color: var(--text-secondary);
-    max-width: 540px;
-    line-height: 1.6;
-  }
-
-  .hero-meta {
-    display: flex;
-    gap: 24px;
-    margin-top: 28px;
-  }
-
-  .hero-meta-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .hero-meta-label {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-  }
-
-  .hero-meta-value {
-    font-size: 13px;
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-  }
-
-  /* ─── Sections ─── */
-  .section {
-    padding: 48px 64px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section:last-child {
-    border-bottom: none;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-
+  .toggle-btn:hover { background: var(--surface-overlay); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  .section { margin-bottom: 64px; }
   .section-title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.3;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
+    font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
   }
 
-  .section-count {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    background: var(--surface-raised);
-    padding: 2px 7px;
-    border-radius: var(--radius-full);
-    font-family: var(--font-mono);
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 48px 40px; margin-bottom: 64px;
+    position: relative; overflow: hidden;
   }
-
-  /* ─── Color Palette ─── */
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px; background: var(--purple-dim);
+    border-radius: 50%; filter: blur(40px);
   }
+  .hero-logo { margin-bottom: 20px; }
+  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
 
-  .color-swatch {
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: transform 100ms, box-shadow 100ms;
-    position: relative;
+  /* COLORS */
+  .colors-group { margin-bottom: 32px; }
+  .colors-group-title {
+    font-size: 12px; font-weight: 500; color: var(--text-muted);
+    letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px;
   }
-
-  .color-swatch:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .swatch {
+    background: var(--surface-raised); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 100ms;
   }
+  .swatch:hover { border-color: var(--border-strong); }
+  .swatch-block { height: 80px; width: 100%; }
+  .swatch-info { padding: 8px 10px; }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 
-  .color-swatch:active {
-    transform: translateY(0);
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--surface-overlay); border: 1px solid var(--border-strong);
+    color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px;
+    transition: transform 200ms; z-index: 1000; pointer-events: none;
   }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-  .swatch-preview {
-    height: 64px;
-    position: relative;
-  }
-
-  .swatch-copy-hint {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.5);
-    opacity: 0;
-    transition: opacity 100ms;
-    font-size: 11px;
-    font-weight: 500;
-    color: #fff;
-    letter-spacing: 0.02em;
-  }
-
-  .color-swatch:hover .swatch-copy-hint {
-    opacity: 1;
-  }
-
-  .swatch-info {
-    padding: 10px 12px;
-    background: var(--surface-raised);
-  }
-
-  .swatch-name {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-    margin-bottom: 2px;
-  }
-
-  .swatch-hex {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin-bottom: 4px;
-  }
-
-  .swatch-usage {
-    font-size: 11px;
-    color: var(--text-secondary);
-    line-height: 1.4;
-  }
-
-  .copied-toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
-    background: var(--surface-overlay);
-    color: var(--text-primary);
-    border: 1px solid var(--border-strong);
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    transition: opacity 150ms, transform 150ms;
-    pointer-events: none;
-    z-index: 9999;
-  }
-
-  .copied-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  /* ─── Typography ─── */
-  .type-scale {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
+  /* TYPOGRAPHY */
   .type-row {
-    display: grid;
-    grid-template-columns: 120px 1fr 180px;
-    align-items: center;
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    gap: 16px;
-    transition: background 100ms;
+    display: grid; grid-template-columns: 100px 1fr auto;
+    align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+  .type-sample { color: var(--text-primary); }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill {
+    font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px;
+    background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap;
   }
 
-  .type-row:hover {
-    background: var(--surface-raised);
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .comp-card-title {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 16px;
   }
-
-  .type-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .type-token {
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--primary);
-  }
-
-  .type-specs {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .type-sample {
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-  }
-
-  .type-sample.heading {
-    letter-spacing: -0.02em;
-  }
-
-  .type-pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .type-pill {
-    font-size: 11px;
-    padding: 2px 7px;
-    border-radius: var(--radius-sm);
-    background: var(--surface-overlay);
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    white-space: nowrap;
-  }
-
-  .mono-row {
-    background: var(--surface-raised);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    margin-top: 16px;
-    border: 1px solid var(--border);
-  }
-
-  .mono-label {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-
-  .mono-sample {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  /* ─── Components ─── */
-  .component-grid {
-    display: grid;
-    gap: 24px;
-  }
-
-  .component-block {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .component-label {
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .component-label-name {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    letter-spacing: -0.01em;
-  }
-
-  .component-label-desc {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .component-preview {
-    padding: 28px 24px;
-    background: var(--surface-raised);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  /* Buttons */
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 500;
-    font-family: var(--font);
-    line-height: 1;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: background 100ms, color 100ms, border-color 100ms;
-    letter-spacing: -0.01em;
-    text-decoration: none;
-    white-space: nowrap;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+    padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 100ms, color 100ms;
   }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--surface-overlay); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
+  .btn-danger { background: var(--error); color: #fff; }
 
-  .btn-primary {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
-
-  .btn-primary:hover {
-    background: var(--primary-hover);
-    border-color: var(--primary-hover);
-  }
-
-  .btn-secondary {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-    border-color: var(--border-strong);
-  }
-
-  .btn-secondary:hover {
-    background: var(--surface-overlay);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-secondary);
-    border-color: transparent;
-  }
-
-  .btn-ghost:hover {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-  }
-
-  .btn-danger {
-    background: var(--error);
-    color: #fff;
-    border-color: var(--error);
-  }
-
-  .btn-danger:hover {
-    background: #d13b40;
-    border-color: #d13b40;
-  }
-
-  .btn-danger-ghost {
-    background: transparent;
-    color: var(--error);
-    border-color: transparent;
-  }
-
-  .btn-danger-ghost:hover {
-    background: rgba(229, 72, 77, 0.1);
-  }
-
-  /* Input */
-  .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 280px;
-  }
-
-  .input-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    letter-spacing: -0.01em;
-  }
-
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
   .input {
-    height: 32px;
-    padding: 6px 10px;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-family: var(--font);
-    color: var(--text-primary);
-    outline: none;
-    transition: border-color 100ms;
-    letter-spacing: -0.01em;
-    width: 100%;
+    background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px;
+    padding: 6px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-primary);
+    height: 32px; transition: border-color 100ms; width: 100%;
   }
+  .input::placeholder { color: var(--text-muted); }
+  .input:hover { border-color: var(--border-strong); }
+  .input:focus { outline: none; border-color: var(--primary); }
 
-  .input:hover {
-    border-color: var(--border-strong);
-  }
-
-  .input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.2);
-  }
-
-  .input::placeholder {
-    color: var(--text-muted);
-  }
-
-  /* Badges */
+  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
   .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.3;
-    letter-spacing: -0.01em;
+    font-size: 12px; font-weight: 500; padding: 2px 6px; border-radius: 3px;
+    display: inline-flex; align-items: center; gap: 4px;
   }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
 
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: var(--radius-full);
-    flex-shrink: 0;
-  }
+  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sample-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
+  .sample-card-body { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
-  .badge-backlog { background: rgba(90, 90, 106, 0.2); color: #8A8A9A; }
-  .badge-backlog .badge-dot { background: #5A5A6A; }
+  /* SPACING */
+  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
+  .spacing-row { display: flex; align-items: center; gap: 12px; }
+  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar-wrap { flex: 1; }
+  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
+  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
 
-  .badge-inprogress { background: rgba(94, 106, 210, 0.15); color: #8A9EE8; }
-  .badge-inprogress .badge-dot { background: var(--primary); }
-
-  .badge-done { background: rgba(70, 167, 88, 0.15); color: #6DC87E; }
-  .badge-done .badge-dot { background: var(--success); }
-
-  .badge-cancelled { background: rgba(90, 90, 106, 0.15); color: #6A6A7A; }
-  .badge-cancelled .badge-dot { background: #5A5A6A; }
-
-  .badge-error { background: rgba(229, 72, 77, 0.15); color: #F17070; }
-  .badge-error .badge-dot { background: var(--error); }
-
-  .badge-warning { background: rgba(255, 178, 36, 0.15); color: #FFCA6A; }
-  .badge-warning .badge-dot { background: var(--warning); }
-
-  /* Issue card */
-  .issue-list {
-    display: flex;
-    flex-direction: column;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    background: var(--surface);
-  }
-
-  .issue-row {
-    display: flex;
-    align-items: center;
-    height: 36px;
-    padding: 0 12px;
-    gap: 8px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    transition: background 100ms;
-  }
-
-  .issue-row:last-child { border-bottom: none; }
-
-  .issue-row:hover {
-    background: var(--surface-raised);
-  }
-
-  .issue-row.selected {
-    background: var(--purple-dim);
-    border-left: 2px solid var(--primary);
-    padding-left: 10px;
-  }
-
-  .issue-priority {
-    width: 14px;
-    height: 14px;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-
-  .issue-status {
-    width: 16px;
-    height: 16px;
-    border-radius: var(--radius-full);
-    flex-shrink: 0;
-  }
-
-  .status-todo { border: 2px solid var(--text-muted); background: transparent; }
-  .status-progress { border: 2px solid var(--primary); background: var(--purple-dim); }
-  .status-done { background: var(--success); }
-
-  .issue-title {
-    flex: 1;
-    font-size: 14px;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .issue-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-
-  .issue-id {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .issue-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 600;
-    color: #fff;
-    flex-shrink: 0;
-  }
-
-  /* Command Palette */
-  .command-palette {
-    background: var(--surface-overlay);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .command-input-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 0 16px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .command-input-icon {
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-
-  .command-input {
-    height: 48px;
-    background: transparent;
-    border: none;
-    font-size: 16px;
-    font-family: var(--font);
-    color: var(--text-primary);
-    outline: none;
-    letter-spacing: -0.01em;
-    flex: 1;
-  }
-
-  .command-input::placeholder {
-    color: var(--text-muted);
-  }
-
-  .command-results {
-    padding: 6px;
-  }
-
-  .command-result-item {
-    display: flex;
-    align-items: center;
-    height: 36px;
-    padding: 0 10px;
-    border-radius: var(--radius-md);
-    gap: 8px;
-    cursor: pointer;
-    transition: background 100ms;
-  }
-
-  .command-result-item:hover,
-  .command-result-item.active {
-    background: var(--surface-raised);
-  }
-
-  .command-result-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--text-secondary);
-    flex-shrink: 0;
-  }
-
-  .command-result-label {
-    flex: 1;
-    font-size: 13px;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-  }
-
-  .command-shortcut {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    background: var(--surface-raised);
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-  }
-
-  /* ─── Spacing Scale ─── */
-  .spacing-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .spacing-row {
-    display: grid;
-    grid-template-columns: 80px 60px 1fr;
-    align-items: center;
-    gap: 16px;
-    padding: 8px 12px;
-    border-radius: var(--radius-md);
-    transition: background 100ms;
-  }
-
-  .spacing-row:hover {
-    background: var(--surface-raised);
-  }
-
-  .spacing-token {
-    font-size: 12px;
-    font-family: var(--font-mono);
-    color: var(--primary);
-  }
-
-  .spacing-value {
-    font-size: 12px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  .spacing-bar-wrap {
-    background: var(--surface-raised);
-    border-radius: var(--radius-sm);
-    height: 24px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .spacing-bar {
-    height: 100%;
-    background: var(--purple-dim);
-    border-right: 2px solid var(--primary);
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-    transition: width 300ms ease;
-  }
-
-  .spacing-bar-label {
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  /* ─── Tone & Guardrails ─── */
-  .guardrails-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .guardrail-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .guardrail-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    border: 1px solid var(--border);
-    border-bottom: none;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .guardrail-header.do {
-    background: rgba(70, 167, 88, 0.08);
-    color: var(--success);
-    border-color: rgba(70, 167, 88, 0.2);
-  }
-
-  .guardrail-header.dont {
-    background: rgba(229, 72, 77, 0.08);
-    color: var(--error);
-    border-color: rgba(229, 72, 77, 0.2);
-  }
-
-  .guardrail-list {
-    border: 1px solid var(--border);
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    overflow: hidden;
-    background: var(--surface);
-  }
-
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: var(--success); }
+  .guardrails-heading.dont { color: var(--error); }
   .guardrail-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    letter-spacing: -0.01em;
+    font-size: 13px; color: var(--text-secondary); padding: 8px 12px;
+    border-radius: 6px; border-left: 3px solid transparent; background: var(--surface);
   }
+  .guardrail-item.do { border-left-color: var(--success); }
+  .guardrail-item.dont { border-left-color: var(--error); }
 
-  .guardrail-item:last-child { border-bottom: none; }
-
-  .guardrail-icon {
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-    margin-top: 1px;
+  @media (max-width: 600px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 80px 1fr; }
+    .type-specs { display: none; }
   }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--radius-full); }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 </style>
 </head>
 <body>
+<button class="toggle-btn" id="themeToggle" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
 
-<div class="page-wrapper">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-logo">
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 11.47L11.47 0l77.06 88.53L77.06 100z" fill="#5E6AD2"/>
-        <path d="M17.35 0L100 94.12V100h-5.88L0 5.88V0z" fill="#5E6AD2"/>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 10 L10 90 L30 90 L30 30 L90 30 L90 10 Z" fill="#5E6AD2"/>
+        <path d="M30 50 L30 90 L50 90 L50 50 Z" fill="#5E6AD2" opacity="0.65"/>
       </svg>
-      <span class="sidebar-logo-text">Linear</span>
     </div>
+    <h1>Linear</h1>
+    <p>Fast, focused, and opinionated — a productivity tool that feels like it was built for people who hate slow software.</p>
+  </div>
 
-    <div class="sidebar-section">
-      <div class="sidebar-section-label">Design System</div>
-      <a class="sidebar-nav-item active" href="#colors">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2" fill="currentColor" stroke="none"/>
-        </svg>
-        Colors
-      </a>
-      <a class="sidebar-nav-item" href="#typography">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 4h12M8 4v8M5 12h6"/>
-        </svg>
-        Typography
-      </a>
-      <a class="sidebar-nav-item" href="#components">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/>
-          <rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/>
-        </svg>
-        Components
-      </a>
-      <a class="sidebar-nav-item" href="#spacing">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 8h12M2 4h4M2 12h4M10 4h4M10 12h4"/>
-        </svg>
-        Spacing
-      </a>
-      <a class="sidebar-nav-item" href="#guardrails">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M8 2L2 5v4c0 3 2.5 5 6 6 3.5-1 6-3 6-6V5L8 2z"/>
-        </svg>
-        Guardrails
-      </a>
-    </div>
-
-    <div class="sidebar-bottom">
-      <button class="theme-toggle" onclick="toggleTheme()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="8" cy="8" r="3"/>
-          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"/>
-        </svg>
-        <span id="theme-label">Light mode</span>
-        <div class="toggle-track" style="margin-left:auto">
-          <div class="toggle-thumb"></div>
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#5E6AD2', this)">
+          <div class="swatch-block" style="background:#5E6AD2"></div>
+          <div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#5E6AD2</div><div class="swatch-usage">Active states, CTAs</div></div>
         </div>
-      </button>
-    </div>
-  </aside>
-
-  <!-- Main -->
-  <main class="main-content">
-
-    <!-- Hero -->
-    <div class="hero">
-      <div class="hero-eyebrow">
-        <svg width="10" height="10" viewBox="0 0 100 100"><path d="M0 11.47L11.47 0l77.06 88.53L77.06 100z" fill="currentColor"/><path d="M17.35 0L100 94.12V100h-5.88L0 5.88V0z" fill="currentColor"/></svg>
-        Design System
-      </div>
-      <h1 class="hero-title">Linear Brand Guidelines</h1>
-      <p class="hero-subtitle">Fast, focused, and opinionated — a productivity tool that feels like it was built for people who hate slow software. Dark-first, dense, and precise.</p>
-      <div class="hero-meta">
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Font Family</span>
-          <span class="hero-meta-value">Inter</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Mono Font</span>
-          <span class="hero-meta-value">JetBrains Mono</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Accent</span>
-          <span class="hero-meta-value">#5E6AD2</span>
-        </div>
-        <div class="hero-meta-item">
-          <span class="hero-meta-label">Base Unit</span>
-          <span class="hero-meta-value">4px</span>
+        <div class="swatch" onclick="copyHex('#4F5BBF', this)">
+          <div class="swatch-block" style="background:#4F5BBF"></div>
+          <div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#4F5BBF</div><div class="swatch-usage">Hover on primary</div></div>
         </div>
       </div>
     </div>
-
-    <!-- Colors -->
-    <section class="section" id="colors">
-      <div class="section-header">
-        <h2 class="section-title">Color Palette</h2>
-        <span class="section-count">14</span>
-      </div>
-      <div class="color-grid">
-        <!-- Primary -->
-        <div class="color-swatch" onclick="copyColor('#5E6AD2', this)">
-          <div class="swatch-preview" style="background:#5E6AD2">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">primary</div>
-            <div class="swatch-hex">#5E6AD2</div>
-            <div class="swatch-usage">Active states, CTAs, links</div>
-          </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0F0F10', this)">
+          <div class="swatch-block" style="background:#0F0F10;border:1px solid #2A2A2E;"></div>
+          <div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#0F0F10</div><div class="swatch-usage">App background</div></div>
         </div>
-        <div class="color-swatch" onclick="copyColor('#4F5BBF', this)">
-          <div class="swatch-preview" style="background:#4F5BBF">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">primary-hover</div>
-            <div class="swatch-hex">#4F5BBF</div>
-            <div class="swatch-usage">Hover on primary</div>
-          </div>
+        <div class="swatch" onclick="copyHex('#1A1A1C', this)">
+          <div class="swatch-block" style="background:#1A1A1C"></div>
+          <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#1A1A1C</div><div class="swatch-usage">Panels, sidebars</div></div>
         </div>
-        <!-- Surfaces -->
-        <div class="color-swatch" onclick="copyColor('#0F0F10', this)">
-          <div class="swatch-preview" style="background:#0F0F10; border-bottom:1px solid #2A2A2E">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">background</div>
-            <div class="swatch-hex">#0F0F10</div>
-            <div class="swatch-usage">App background</div>
-          </div>
+        <div class="swatch" onclick="copyHex('#242427', this)">
+          <div class="swatch-block" style="background:#242427"></div>
+          <div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#242427</div><div class="swatch-usage">Cards, dropdowns</div></div>
         </div>
-        <div class="color-swatch" onclick="copyColor('#1A1A1C', this)">
-          <div class="swatch-preview" style="background:#1A1A1C">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">surface</div>
-            <div class="swatch-hex">#1A1A1C</div>
-            <div class="swatch-usage">Panels, sidebars</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#242427', this)">
-          <div class="swatch-preview" style="background:#242427">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">surface-raised</div>
-            <div class="swatch-hex">#242427</div>
-            <div class="swatch-usage">Cards, dropdowns</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#2E2E32', this)">
-          <div class="swatch-preview" style="background:#2E2E32">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">surface-overlay</div>
-            <div class="swatch-hex">#2E2E32</div>
-            <div class="swatch-usage">Modals, popovers</div>
-          </div>
-        </div>
-        <!-- Text -->
-        <div class="color-swatch" onclick="copyColor('#F2F2F3', this)">
-          <div class="swatch-preview" style="background:#F2F2F3">
-            <div class="swatch-copy-hint" style="color:#0F0F10">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">text-primary</div>
-            <div class="swatch-hex">#F2F2F3</div>
-            <div class="swatch-usage">Primary text</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#8A8A9A', this)">
-          <div class="swatch-preview" style="background:#8A8A9A">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">text-secondary</div>
-            <div class="swatch-hex">#8A8A9A</div>
-            <div class="swatch-usage">Supporting text, metadata</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#5A5A6A', this)">
-          <div class="swatch-preview" style="background:#5A5A6A">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">text-muted</div>
-            <div class="swatch-hex">#5A5A6A</div>
-            <div class="swatch-usage">Placeholders, disabled</div>
-          </div>
-        </div>
-        <!-- Status -->
-        <div class="color-swatch" onclick="copyColor('#E5484D', this)">
-          <div class="swatch-preview" style="background:#E5484D">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">error</div>
-            <div class="swatch-hex">#E5484D</div>
-            <div class="swatch-usage">Errors, destructive</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#FFB224', this)">
-          <div class="swatch-preview" style="background:#FFB224">
-            <div class="swatch-copy-hint" style="color:#0F0F10">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">warning</div>
-            <div class="swatch-hex">#FFB224</div>
-            <div class="swatch-usage">Warnings</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#46A758', this)">
-          <div class="swatch-preview" style="background:#46A758">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">success</div>
-            <div class="swatch-hex">#46A758</div>
-            <div class="swatch-usage">Success, completed</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#2A2A2E', this)">
-          <div class="swatch-preview" style="background:#2A2A2E; border-bottom:1px solid #3A3A40">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">border</div>
-            <div class="swatch-hex">#2A2A2E</div>
-            <div class="swatch-usage">Dividers, subtle borders</div>
-          </div>
-        </div>
-        <div class="color-swatch" onclick="copyColor('#3A3A40', this)">
-          <div class="swatch-preview" style="background:#3A3A40">
-            <div class="swatch-copy-hint">Click to copy</div>
-          </div>
-          <div class="swatch-info">
-            <div class="swatch-name">border-strong</div>
-            <div class="swatch-hex">#3A3A40</div>
-            <div class="swatch-usage">Input borders, emphasized</div>
-          </div>
+        <div class="swatch" onclick="copyHex('#2E2E32', this)">
+          <div class="swatch-block" style="background:#2E2E32"></div>
+          <div class="swatch-info"><div class="swatch-name">surface-overlay</div><div class="swatch-hex">#2E2E32</div><div class="swatch-usage">Modals, popovers</div></div>
         </div>
       </div>
-    </section>
-
-    <!-- Typography -->
-    <section class="section" id="typography">
-      <div class="section-header">
-        <h2 class="section-title">Typography</h2>
-        <span class="section-count">Inter + JetBrains Mono</span>
-      </div>
-      <div class="type-scale">
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">heading-lg</span>
-            <span class="type-specs">20px / 600</span>
-          </div>
-          <div class="type-sample heading" style="font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-0.02em">
-            Issue Board
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">20px</span>
-            <span class="type-pill">600</span>
-            <span class="type-pill">lh 1.3</span>
-          </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F2F2F3', this)">
+          <div class="swatch-block" style="background:#F2F2F3"></div>
+          <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#F2F2F3</div><div class="swatch-usage">Primary text</div></div>
         </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">heading-md</span>
-            <span class="type-specs">16px / 600</span>
-          </div>
-          <div class="type-sample heading" style="font-size:16px;font-weight:600;line-height:1.4;letter-spacing:-0.02em">
-            All Issues
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">16px</span>
-            <span class="type-pill">600</span>
-            <span class="type-pill">lh 1.4</span>
-          </div>
+        <div class="swatch" onclick="copyHex('#8A8A9A', this)">
+          <div class="swatch-block" style="background:#8A8A9A"></div>
+          <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#8A8A9A</div><div class="swatch-usage">Supporting text</div></div>
         </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">heading-sm</span>
-            <span class="type-specs">13px / 600</span>
-          </div>
-          <div class="type-sample heading" style="font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-0.02em">
-            In Progress
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">13px</span>
-            <span class="type-pill">600</span>
-            <span class="type-pill">lh 1.4</span>
-          </div>
+        <div class="swatch" onclick="copyHex('#5A5A6A', this)">
+          <div class="swatch-block" style="background:#5A5A6A"></div>
+          <div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#5A5A6A</div><div class="swatch-usage">Placeholders</div></div>
         </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">body</span>
-            <span class="type-specs">14px / 400</span>
-          </div>
-          <div class="type-sample" style="font-size:14px;font-weight:400;line-height:1.5">
-            Fix navigation keyboard shortcut regression
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">14px</span>
-            <span class="type-pill">400</span>
-            <span class="type-pill">lh 1.5</span>
-          </div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">body-sm</span>
-            <span class="type-specs">13px / 400</span>
-          </div>
-          <div class="type-sample" style="font-size:13px;font-weight:400;line-height:1.5;color:var(--text-secondary)">
-            Assigned to Jamie · Due Thursday
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">13px</span>
-            <span class="type-pill">400</span>
-            <span class="type-pill">lh 1.5</span>
-          </div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">caption</span>
-            <span class="type-specs">12px / 400</span>
-          </div>
-          <div class="type-sample" style="font-size:12px;font-weight:400;line-height:1.4;color:var(--text-muted)">
-            Last updated 2 hours ago
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">12px</span>
-            <span class="type-pill">400</span>
-            <span class="type-pill">lh 1.4</span>
-          </div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta">
-            <span class="type-token">label</span>
-            <span class="type-specs">12px / 500</span>
-          </div>
-          <div class="type-sample" style="font-size:12px;font-weight:500;line-height:1.3;letter-spacing:-0.01em">
-            INBOX
-          </div>
-          <div class="type-pills">
-            <span class="type-pill">12px</span>
-            <span class="type-pill">500</span>
-            <span class="type-pill">lh 1.3</span>
-          </div>
+        <div class="swatch" onclick="copyHex('#2A2A2E', this)">
+          <div class="swatch-block" style="background:#2A2A2E"></div>
+          <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#2A2A2E</div><div class="swatch-usage">Dividers</div></div>
         </div>
       </div>
-
-      <div class="mono-row">
-        <div class="mono-label">Mono — JetBrains Mono · 12px / 400 / lh 1.6</div>
-        <div class="mono-sample">LIN-2847 &nbsp;·&nbsp; const issueId = generateId(prefix, timestamp); &nbsp;·&nbsp; #5E6AD2</div>
-      </div>
-    </section>
-
-    <!-- Components -->
-    <section class="section" id="components">
-      <div class="section-header">
-        <h2 class="section-title">Components</h2>
-        <span class="section-count">5</span>
-      </div>
-      <div class="component-grid">
-
-        <!-- Buttons -->
-        <div class="component-block">
-          <div class="component-label">
-            <span class="component-label-name">Button</span>
-            <span class="component-label-desc">13px · 500 · 7px 14px · r6 · 100ms</span>
-          </div>
-          <div class="component-preview">
-            <button class="btn btn-primary">Create issue</button>
-            <button class="btn btn-secondary">
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v10M3 8h10"/></svg>
-              New cycle
-            </button>
-            <button class="btn btn-ghost">View all</button>
-            <button class="btn btn-danger">Delete</button>
-            <button class="btn btn-danger-ghost">Remove member</button>
-          </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Semantic</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#E5484D', this)">
+          <div class="swatch-block" style="background:#E5484D"></div>
+          <div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#E5484D</div><div class="swatch-usage">Errors, destructive</div></div>
         </div>
-
-        <!-- Input -->
-        <div class="component-block">
-          <div class="component-label">
-            <span class="component-label-name">Input</span>
-            <span class="component-label-desc">32px · body-sm · r6</span>
-          </div>
-          <div class="component-preview" style="flex-direction:column;align-items:flex-start;gap:16px">
-            <div class="input-wrapper">
-              <label class="input-label">Issue title</label>
-              <input class="input" type="text" placeholder="What needs to be done?">
-            </div>
-            <div class="input-wrapper">
-              <label class="input-label">Search issues</label>
-              <input class="input" type="text" placeholder="Filter by title, assignee…" value="">
-            </div>
-          </div>
+        <div class="swatch" onclick="copyHex('#FFB224', this)">
+          <div class="swatch-block" style="background:#FFB224"></div>
+          <div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#FFB224</div><div class="swatch-usage">Warnings</div></div>
         </div>
-
-        <!-- Badges -->
-        <div class="component-block">
-          <div class="component-label">
-            <span class="component-label-name">Badge / Label</span>
-            <span class="component-label-desc">12px · 500 · r3 · 2px 6px</span>
-          </div>
-          <div class="component-preview">
-            <span class="badge badge-backlog"><span class="badge-dot"></span>Backlog</span>
-            <span class="badge badge-inprogress"><span class="badge-dot"></span>In Progress</span>
-            <span class="badge badge-done"><span class="badge-dot"></span>Done</span>
-            <span class="badge badge-cancelled"><span class="badge-dot"></span>Cancelled</span>
-            <span class="badge badge-error"><span class="badge-dot"></span>Blocked</span>
-            <span class="badge badge-warning"><span class="badge-dot"></span>At Risk</span>
-          </div>
-        </div>
-
-        <!-- Issue List -->
-        <div class="component-block">
-          <div class="component-label">
-            <span class="component-label-name">Issue Row</span>
-            <span class="component-label-desc">36px · icon + title + metadata</span>
-          </div>
-          <div class="component-preview" style="flex-direction:column;align-items:stretch;padding:20px">
-            <div class="issue-list">
-              <div class="issue-row selected">
-                <svg class="issue-priority" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 2v5l3 3"/>
-                </svg>
-                <div class="issue-status status-progress"></div>
-                <span class="issue-title">Fix Cmd+K keyboard shortcut on Windows</span>
-                <div class="issue-meta">
-                  <span class="issue-id">LIN-2847</span>
-                  <div class="issue-avatar">J</div>
-                </div>
-              </div>
-              <div class="issue-row">
-                <svg class="issue-priority" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M2 7h10"/>
-                </svg>
-                <div class="issue-status status-todo"></div>
-                <span class="issue-title">Add project milestone tracking to board view</span>
-                <div class="issue-meta">
-                  <span class="issue-id">LIN-2848</span>
-                  <div class="issue-avatar" style="background:#46A758">S</div>
-                </div>
-              </div>
-              <div class="issue-row">
-                <svg class="issue-priority" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M7 2v5l3 3"/><circle cx="7" cy="12" r="1" fill="currentColor"/>
-                </svg>
-                <div class="issue-status status-progress"></div>
-                <span class="issue-title">Refactor sidebar navigation to support nested teams</span>
-                <div class="issue-meta">
-                  <span class="issue-id">LIN-2851</span>
-                  <div class="issue-avatar" style="background:#E5484D">A</div>
-                </div>
-              </div>
-              <div class="issue-row">
-                <svg class="issue-priority" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M2 7h10"/>
-                </svg>
-                <div class="issue-status status-done"></div>
-                <span class="issue-title" style="color:var(--text-secondary)">Implement optimistic UI for issue status updates</span>
-                <div class="issue-meta">
-                  <span class="issue-id">LIN-2839</span>
-                  <div class="issue-avatar" style="background:#FFB224;color:#0F0F10">K</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Command Palette -->
-        <div class="component-block">
-          <div class="component-label">
-            <span class="component-label-name">Command Palette</span>
-            <span class="component-label-desc">Cmd+K · surface-overlay · r8 · shadow-lg</span>
-          </div>
-          <div class="component-preview" style="justify-content:center">
-            <div class="command-palette">
-              <div class="command-input-wrap">
-                <svg class="command-input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3 3"/>
-                </svg>
-                <input class="command-input" type="text" placeholder="Search issues, projects, teams…">
-              </div>
-              <div class="command-results">
-                <div class="command-result-item active">
-                  <svg class="command-result-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
-                  <span class="command-result-label">Go to Issues</span>
-                  <span class="command-shortcut">G I</span>
-                </div>
-                <div class="command-result-item">
-                  <svg class="command-result-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>
-                  <span class="command-result-label">Create new issue</span>
-                  <span class="command-shortcut">C</span>
-                </div>
-                <div class="command-result-item">
-                  <svg class="command-result-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/></svg>
-                  <span class="command-result-label">Switch team</span>
-                  <span class="command-shortcut">G T</span>
-                </div>
-                <div class="command-result-item">
-                  <svg class="command-result-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v12M2 8h12"/></svg>
-                  <span class="command-result-label">Open inbox</span>
-                  <span class="command-shortcut">G I</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Spacing -->
-    <section class="section" id="spacing">
-      <div class="section-header">
-        <h2 class="section-title">Spacing Scale</h2>
-        <span class="section-count">Base 4px</span>
-      </div>
-      <div class="spacing-list">
-        <div class="spacing-row">
-          <span class="spacing-token">space-1</span>
-          <span class="spacing-value">4px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:6.25%"></div>
-            <span class="spacing-bar-label">4px · icon gap, micro nudge</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-2</span>
-          <span class="spacing-value">8px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:12.5%"></div>
-            <span class="spacing-bar-label">8px · component internal gap</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-3</span>
-          <span class="spacing-value">12px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:18.75%"></div>
-            <span class="spacing-bar-label">12px · row padding</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-4</span>
-          <span class="spacing-value">16px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:25%"></div>
-            <span class="spacing-bar-label">16px · section padding</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-5</span>
-          <span class="spacing-value">20px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:31.25%"></div>
-            <span class="spacing-bar-label">20px · content area gap</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-6</span>
-          <span class="spacing-value">24px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:37.5%"></div>
-            <span class="spacing-bar-label">24px · panel padding</span>
-          </div>
-        </div>
-        <div class="spacing-row">
-          <span class="spacing-token">space-8</span>
-          <span class="spacing-value">32px</span>
-          <div class="spacing-bar-wrap">
-            <div class="spacing-bar" style="width:50%"></div>
-            <span class="spacing-bar-label">32px · layout gaps</span>
-          </div>
+        <div class="swatch" onclick="copyHex('#46A758', this)">
+          <div class="swatch-block" style="background:#46A758"></div>
+          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#46A758</div><div class="swatch-usage">Success, completed</div></div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div style="margin-top:24px;padding:16px;background:var(--surface-raised);border-radius:var(--radius-md);border:1px solid var(--border)">
-        <div style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:8px">Border Radius</div>
-        <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-            <div style="width:32px;height:32px;background:var(--primary);border-radius:3px"></div>
-            <div style="font-size:11px;font-family:var(--font-mono);color:var(--text-muted)">r3<br><span style="color:var(--text-secondary)">badges</span></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-            <div style="width:32px;height:32px;background:var(--primary);border-radius:6px"></div>
-            <div style="font-size:11px;font-family:var(--font-mono);color:var(--text-muted)">r6<br><span style="color:var(--text-secondary)">buttons</span></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-            <div style="width:32px;height:32px;background:var(--primary);border-radius:8px"></div>
-            <div style="font-size:11px;font-family:var(--font-mono);color:var(--text-muted)">r8<br><span style="color:var(--text-secondary)">modals</span></div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-            <div style="width:32px;height:32px;background:var(--primary);border-radius:9999px"></div>
-            <div style="font-size:11px;font-family:var(--font-mono);color:var(--text-muted)">full<br><span style="color:var(--text-secondary)">avatars</span></div>
-          </div>
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-row">
+      <div class="type-name">heading-lg</div>
+      <div class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.02em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-md</div>
+      <div class="type-sample" style="font-size:16px;font-weight:600;letter-spacing:-0.02em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-sm</div>
+      <div class="type-sample" style="font-size:13px;font-weight:600;letter-spacing:-0.02em;">The quick brown fox</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body-sm</div>
+      <div class="type-sample" style="font-size:13px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">caption</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-secondary);">Caption text for metadata</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">label</div>
+      <div class="type-sample" style="font-size:12px;font-weight:500;">UI Labels</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">code</div>
+      <div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">const x = issue.status</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn btn-danger">Danger</button>
         </div>
       </div>
-    </section>
-
-    <!-- Guardrails -->
-    <section class="section" id="guardrails">
-      <div class="section-header">
-        <h2 class="section-title">Tone & Guardrails</h2>
-        <span class="section-count">5 + 5</span>
-      </div>
-      <div class="guardrails-grid">
-        <div class="guardrail-col">
-          <div class="guardrail-header do">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 8l4 4 6-6"/>
-            </svg>
-            Do
-          </div>
-          <div class="guardrail-list">
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#46A758" stroke-width="1.5"><path d="M3 8l4 4 6-6"/></svg>
-              Default to dark theme — it's the primary experience
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#46A758" stroke-width="1.5"><path d="M3 8l4 4 6-6"/></svg>
-              Keep UI dense; whitespace is earned, not default
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#46A758" stroke-width="1.5"><path d="M3 8l4 4 6-6"/></svg>
-              Use the purple accent only for selection, focus, and active state
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#46A758" stroke-width="1.5"><path d="M3 8l4 4 6-6"/></svg>
-              Make interactions feel instant — <code style="font-family:var(--font-mono);font-size:11px;background:var(--surface-overlay);padding:1px 5px;border-radius:3px">100ms</code> max hover transitions
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#46A758" stroke-width="1.5"><path d="M3 8l4 4 6-6"/></svg>
-              Use keyboard shortcuts everywhere; surface them in tooltips
-            </div>
-          </div>
-        </div>
-        <div class="guardrail-col">
-          <div class="guardrail-header dont">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4l8 8M12 4l-8 8"/>
-            </svg>
-            Don't
-          </div>
-          <div class="guardrail-list">
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#E5484D" stroke-width="1.5"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-              Use rounded corners larger than <code style="font-family:var(--font-mono);font-size:11px;background:var(--surface-overlay);padding:1px 5px;border-radius:3px">8px</code>
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#E5484D" stroke-width="1.5"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-              Add decorative gradients, illustrations, or hero images
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#E5484D" stroke-width="1.5"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-              Use color for anything other than status, priority, and labels
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#E5484D" stroke-width="1.5"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-              Add loading spinners where optimistic UI is possible
-            </div>
-            <div class="guardrail-item">
-              <svg class="guardrail-icon" viewBox="0 0 16 16" fill="none" stroke="#E5484D" stroke-width="1.5"><path d="M4 4l8 8M12 4l-8 8"/></svg>
-              Use modals for simple confirmations — prefer inline or toast
-            </div>
-          </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Search issues...">
+          <input class="input" type="text" placeholder="Focused state" style="border-color:var(--primary);">
         </div>
       </div>
-    </section>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badge-group">
+          <span class="badge" style="background:rgba(70,167,88,0.15);color:#46A758;">
+            <span class="badge-dot" style="background:#46A758;"></span>Done
+          </span>
+          <span class="badge" style="background:rgba(94,106,210,0.15);color:#5E6AD2;">
+            <span class="badge-dot" style="background:#5E6AD2;"></span>In Progress
+          </span>
+          <span class="badge" style="background:rgba(229,72,77,0.15);color:#E5484D;">
+            <span class="badge-dot" style="background:#E5484D;"></span>Cancelled
+          </span>
+          <span class="badge" style="background:rgba(255,178,36,0.15);color:#FFB224;">
+            <span class="badge-dot" style="background:#FFB224;"></span>Blocked
+          </span>
+          <span class="badge" style="background:var(--surface-raised);color:var(--text-secondary);">
+            <span class="badge-dot" style="background:var(--text-muted);"></span>Backlog
+          </span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Sample Card</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="sample-card-title">ENG-2841 Fix auth redirect loop</div>
+            <span class="badge" style="background:rgba(94,106,210,0.15);color:#5E6AD2;font-size:11px;">In Progress</span>
+          </div>
+          <div class="sample-card-meta">Reported by Sarah · Due Dec 15 · P1</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  </main>
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/32*100%)"></div></div><div class="spacing-val">4px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/32*100%)"></div></div><div class="spacing-val">8px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/32*100%)"></div></div><div class="spacing-val">12px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/32*100%)"></div></div><div class="spacing-val">16px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/32*100%)"></div></div><div class="spacing-val">20px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/32*100%)"></div></div><div class="spacing-val">24px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">32px</div></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Default to dark theme — it's the primary experience</div>
+        <div class="guardrail-item do">Keep UI dense; whitespace is earned, not default</div>
+        <div class="guardrail-item do">Use the purple accent only for selection, focus, and active state</div>
+        <div class="guardrail-item do">Make interactions feel instant — 100ms max for hover transitions</div>
+        <div class="guardrail-item do">Use keyboard shortcuts everywhere; surface them in tooltips</div>
+      </div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Use rounded corners larger than 8px</div>
+        <div class="guardrail-item dont">Add decorative gradients, illustrations, or hero images</div>
+        <div class="guardrail-item dont">Use color for anything other than status, priority, and labels</div>
+        <div class="guardrail-item dont">Add loading spinners where optimistic UI is possible</div>
+        <div class="guardrail-item dont">Use modals for simple confirmations — prefer inline or toast</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- Toast -->
-<div class="copied-toast" id="toast">Copied to clipboard</div>
-
 <script>
-  // Sidebar active link on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navItems = document.querySelectorAll('.sidebar-nav-item');
-
-  function updateNav() {
-    let current = '';
-    sections.forEach(s => {
-      const rect = s.getBoundingClientRect();
-      if (rect.top <= 120) current = s.id;
-    });
-    navItems.forEach(item => {
-      item.classList.toggle('active', item.getAttribute('href') === '#' + current);
-    });
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  if (html.getAttribute('data-theme') === 'dark') {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '🌙 Dark';
+  } else {
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️ Light';
   }
-
-  document.querySelector('.main-content').addEventListener('scroll', updateNav);
-  updateNav();
-
-  // Smooth scroll for nav items
-  navItems.forEach(item => {
-    item.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(item.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Color copy
-  let toastTimer;
-  function copyColor(hex, el) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
-  }
-
-  // Theme toggle
-  function toggleTheme() {
-    const html = document.documentElement;
-    const isDark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.getElementById('theme-label').textContent = isDark ? 'Dark mode' : 'Light mode';
-  }
-
-  // Command palette input interaction
-  const cmdInput = document.querySelector('.command-input');
-  if (cmdInput) {
-    cmdInput.addEventListener('input', function() {
-      // just for feel
-    });
-  }
-
-  // Make issue rows interactive
-  document.querySelectorAll('.issue-row').forEach(row => {
-    row.addEventListener('click', function() {
-      document.querySelectorAll('.issue-row').forEach(r => r.classList.remove('selected'));
-      this.classList.add('selected');
-    });
-  });
-
-  // Scroll main content for sidebar observer
-  const mainEl = document.querySelector('.main-content');
-  mainEl.style.overflow = 'auto';
-  mainEl.style.height = '100vh';
-  mainEl.addEventListener('scroll', updateNav);
+}
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>

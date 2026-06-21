@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Railway — Brand Guidelines</title>
+<title>Railway — Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
   :root {
     --primary: #7B61FF;
     --primary-hover: #6B50EF;
@@ -26,1142 +26,402 @@
     --purple-glow: rgba(123,97,255,0.20);
     --shadow-sm: 0 1px 4px rgba(0,0,0,0.5);
     --shadow-md: 0 4px 20px rgba(0,0,0,0.6);
-    --shadow-lg: 0 8px 40px rgba(0,0,0,0.7);
     --glow-purple: 0 0 20px rgba(123,97,255,0.25);
   }
-
+  [data-theme="light"] {
+    --background: #F5F5F5;
+    --surface: #FFFFFF;
+    --surface-raised: #EFEFEF;
+    --surface-overlay: #E4E4E4;
+    --text-primary: #0B0D0E;
+    --text-secondary: #5A5A5A;
+    --text-muted: #999999;
+    --border: #DCDCDC;
+    --border-strong: #C8C8C8;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+    --glow-purple: 0 0 16px rgba(123,97,255,0.15);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--text-primary);
-    background: var(--background);
+    background: var(--background); color: var(--text-primary);
+    font-size: 14px; line-height: 1.5; transition: background 0.2s, color 0.2s;
   }
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    color: var(--text-primary); border-radius: 9999px;
+    padding: 6px 14px; font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    font-family: inherit; transition: background 0.15s;
+  }
+  .toggle-btn:hover { background: var(--surface-overlay); }
 
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--background); }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
 
-  /* ── HEADER ── */
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(11,13,14,0.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+  .hero {
+    background: linear-gradient(135deg, rgba(123,97,255,0.08) 0%, transparent 60%);
     border-bottom: 1px solid var(--border);
-    padding: 0 44px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 54px;
+    padding: 64px 0 56px; text-align: center;
   }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+  .hero-logo { display: flex; justify-content: center; margin-bottom: 24px; }
+  .hero h1 { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 12px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
 
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  .section-title { font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 32px; }
+  .section-subtitle { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 28px 0 14px; }
+
+  .swatches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; margin-bottom: 8px; }
+  .swatch {
+    border-radius: 10px; border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s; background: var(--surface);
   }
+  .swatch:hover { box-shadow: var(--glow-purple); transform: translateY(-2px); border-color: var(--border-strong); }
+  .swatch-color { height: 80px; width: 100%; }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-token { font-size: 12px; font-weight: 500; color: var(--text-primary); display: block; }
+  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  .swatch-usage { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
 
-  .logo-icon {
-    width: 30px;
-    height: 30px;
-    background: var(--primary);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 12px rgba(123,97,255,0.4);
-  }
-
-  .logo-icon svg { width: 16px; height: 16px; fill: white; }
-
-  .logo-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .pill-tag {
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 9999px;
-    background: var(--purple-dim);
-    color: var(--primary);
-    border: 1px solid rgba(123,97,255,0.25);
-    letter-spacing: 0.02em;
-  }
-
-  /* ── HERO ── */
-  .page-hero {
-    border-bottom: 1px solid var(--border);
-    padding: 88px 44px 70px;
-    max-width: 1040px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.4;
-    pointer-events: none;
-  }
-
-  .hero-glow {
-    position: absolute;
-    bottom: -100px;
-    left: -80px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(123,97,255,0.12) 0%, transparent 65%);
-    pointer-events: none;
-  }
-
-  .hero-inner { position: relative; z-index: 1; }
-
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--primary);
-    margin-bottom: 24px;
-    background: var(--purple-dim);
-    padding: 5px 12px;
-    border-radius: 9999px;
-    border: 1px solid rgba(123,97,255,0.2);
-  }
-
-  .hero-title {
-    font-size: 52px;
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    color: var(--text-primary);
-    margin-bottom: 24px;
-  }
-
-  .hero-title em {
-    font-style: normal;
-    color: var(--primary);
-  }
-
-  .hero-desc {
-    font-size: 16px;
-    line-height: 1.65;
-    color: var(--text-secondary);
-    max-width: 500px;
-  }
-
-  /* ── CANVAS PREVIEW ── */
-  .canvas-preview {
-    margin-top: 48px;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    height: 160px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .canvas-preview::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(circle, var(--border) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.5;
-  }
-
-  .canvas-service {
-    position: absolute;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    cursor: pointer;
-    transition: all 180ms ease;
-    min-width: 120px;
-    z-index: 1;
-  }
-  .canvas-service:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--glow-purple);
-  }
-
-  .canvas-service-head {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    margin-bottom: 6px;
-  }
-
-  .s-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .s-dot.green { background: var(--success); box-shadow: 0 0 5px var(--success); }
-  .s-dot.orange { background: var(--warning); box-shadow: 0 0 5px var(--warning); }
-  .s-dot.muted { background: var(--text-muted); }
-
-  .s-name {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .s-type {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-  }
-
-  .canvas-edge {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 0;
-  }
-
-  /* ── MAIN ── */
-  .main-content {
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 0 44px 100px;
-  }
-
-  /* ── SECTION ── */
-  .section {
-    padding-top: 72px;
-  }
-
-  .section-eyebrow {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-eyebrow::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    max-width: 80px;
-  }
-
-  .section-title {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-  }
-
-  .section-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    line-height: 1.6;
-    max-width: 560px;
-  }
-
-  /* ── COLORS ── */
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-    gap: 8px;
-  }
-
-  .color-swatch {
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    background: var(--surface);
-    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-  }
-  .color-swatch:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--glow-purple);
-    border-color: rgba(123,97,255,0.3);
-  }
-
-  .swatch-block {
-    height: 76px;
-    position: relative;
-  }
-
-  .swatch-copy-hint {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 150ms ease;
-    background: rgba(0,0,0,0.35);
-    font-size: 10px;
-    font-weight: 600;
-    color: white;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .color-swatch:hover .swatch-copy-hint { opacity: 1; }
-
-  .swatch-info { padding: 10px 12px 12px; }
-  .swatch-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); margin-bottom: 2px; }
-  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-primary); margin-bottom: 3px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
-
-  /* ── TOAST ── */
   .toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--primary);
-    color: white;
-    padding: 10px 22px;
-    border-radius: 9999px;
-    font-size: 13px;
-    font-weight: 600;
-    z-index: 1000;
-    transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none;
-    box-shadow: var(--glow-purple);
-    white-space: nowrap;
+    background: var(--primary); color: #fff;
+    padding: 8px 18px; border-radius: 9999px;
+    font-size: 13px; font-weight: 500;
+    transition: transform 0.25s ease; z-index: 200; pointer-events: none;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* ── TYPOGRAPHY ── */
-  .type-rows {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
+  .type-table { width: 100%; border-collapse: collapse; }
+  .type-table tr { border-bottom: 1px solid var(--border); }
+  .type-table tr:last-child { border-bottom: none; }
+  .type-table td { padding: 14px 12px; vertical-align: middle; }
+  .type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 120px; }
+  .type-table td:nth-child(2) { min-width: 220px; color: var(--text-primary); }
+  .type-table td:last-child { display: flex; gap: 6px; flex-wrap: wrap; }
+  .spec-pill {
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    border-radius: 4px; padding: 2px 7px; font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); white-space: nowrap;
   }
 
-  .type-row {
-    display: flex;
-    align-items: stretch;
-    border-bottom: 1px solid var(--border);
-    transition: background 120ms ease;
-  }
-  .type-row:last-child { border-bottom: none; }
-  .type-row:hover { background: var(--surface-raised); }
-
-  .type-meta {
-    width: 180px;
-    flex-shrink: 0;
-    padding: 16px 20px;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    background: var(--surface);
-  }
-
-  .type-token {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--primary);
-  }
-
-  .type-spec {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .type-preview {
-    padding: 16px 24px;
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  /* ── COMPONENTS ── */
-  .comp-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .comp-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .comp-header {
-    background: var(--surface-raised);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .comp-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-  }
-
-  .comp-body {
-    padding: 28px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-
-  /* Buttons */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-direction: column; gap: 8px; }
   .btn {
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 18px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: all 120ms ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 13px; font-weight: 500;
+    border-radius: 6px; padding: 8px 18px; border: none;
+    cursor: pointer; transition: background 120ms ease, box-shadow 120ms ease;
   }
-
-  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary { background: var(--primary); color: #fff; }
   .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--glow-purple); }
+  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--surface-overlay); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--surface-raised); }
+  .btn-danger { background: var(--error); color: #fff; }
 
-  .btn-secondary { background: var(--surface-raised); color: var(--text-primary); border: 1px solid var(--border-strong); }
-  .btn-secondary:hover { border-color: var(--text-muted); }
-
-  .btn-ghost { background: transparent; color: var(--text-secondary); border: 1px solid transparent; }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-
-  .btn-danger { background: var(--error); color: white; }
-  .btn-danger:hover { opacity: 0.9; }
-
-  /* Service Cards */
-  .service-card-demo {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    width: 200px;
-    cursor: pointer;
-    transition: all 180ms ease;
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input-field {
+    height: 36px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0 12px; font-family: inherit; font-size: 13px;
+    color: var(--text-primary); outline: none;
+    transition: border-color 120ms, box-shadow 120ms; width: 100%;
   }
-  .service-card-demo:hover {
-    box-shadow: var(--glow-purple);
-    border-color: var(--border-strong);
+  .input-field:focus { border-color: var(--primary); box-shadow: var(--glow-purple); }
+  .input-field::placeholder { color: var(--text-muted); }
+
+  .badges-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge { padding: 3px 8px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
+  .badge-deployed { background: rgba(35,196,94,0.15); color: var(--success); }
+  .badge-building { background: rgba(255,178,36,0.15); color: var(--warning); }
+  .badge-failed { background: rgba(255,68,68,0.15); color: var(--error); }
+  .badge-sleeping { background: var(--surface-raised); color: var(--text-muted); border: 1px solid var(--border); }
+
+  .sample-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+    transition: box-shadow 0.15s, border-color 0.15s;
   }
+  .sample-card:hover { box-shadow: var(--glow-purple); border-color: var(--border-strong); }
+  .sample-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .sample-card-title { font-size: 14px; font-weight: 600; flex: 1; }
+  .sample-card-body { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); background: var(--surface-raised); padding: 8px 10px; border-radius: 6px; }
 
-  .sc-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
+  .spacing-list { display: flex; flex-direction: column; gap: 10px; }
+  .spacing-row { display: flex; align-items: center; gap: 16px; }
+  .spacing-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar { height: 16px; background: var(--primary); border-radius: 4px; opacity: 0.6; transition: opacity 0.1s; }
+  .spacing-bar:hover { opacity: 1; }
+  .spacing-val { font-size: 11px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
 
-  .sc-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .guardrail-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrail-col-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .do-title { color: var(--success); }
+  .dont-title { color: var(--error); }
+  .guardrail-item { padding: 10px 14px; border-radius: 6px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  .do-item { border-left: 3px solid var(--success); background: rgba(35,196,94,0.06); }
+  .dont-item { border-left: 3px solid var(--error); background: rgba(255,68,68,0.06); }
 
-  .sc-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-  .sc-type { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
-  .sc-meta { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
-
-  /* Status badge pill */
-  .status-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 3px 8px;
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  .status-pill::before {
-    content: '';
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: currentColor;
-    flex-shrink: 0;
-  }
-
-  .status-deployed { background: rgba(35,196,94,0.12); color: var(--success); }
-  .status-building { background: rgba(255,178,36,0.12); color: var(--warning); }
-  .status-failed { background: rgba(255,68,68,0.12); color: var(--error); }
-  .status-sleeping { background: var(--surface-raised); color: var(--text-muted); border: 1px solid var(--border-strong); }
-
-  /* Deploy Log */
-  .deploy-log {
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-  }
-
-  .deploy-log-header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .deploy-log-body {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  .log-line { display: flex; gap: 12px; line-height: 1.7; }
-  .log-time { color: var(--text-muted); flex-shrink: 0; }
-  .log-success { color: var(--success); }
-  .log-error { color: var(--error); }
-  .log-info { color: var(--text-secondary); }
-  .log-build { color: var(--warning); }
-
-  /* Input */
-  .input-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .input-label-text {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  .input-demo {
-    height: 36px;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0 12px;
-    font-family: inherit;
-    font-size: 13px;
-    color: var(--text-primary);
-    outline: none;
-    width: 240px;
-    transition: all 120ms ease;
-  }
-  .input-demo:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(123,97,255,0.15);
-  }
-  .input-demo::placeholder { color: var(--text-muted); }
-
-  /* ── SPACING ── */
-  .spacing-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .sp-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 10px 20px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    transition: background 120ms ease;
-  }
-  .sp-row:last-child { border-bottom: none; }
-  .sp-row:hover { background: var(--surface-raised); }
-
-  .sp-token {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--primary);
-    width: 72px;
-    flex-shrink: 0;
-  }
-
-  .sp-bar-wrap { flex: 1; display: flex; align-items: center; }
-
-  .sp-bar {
-    height: 16px;
-    background: var(--primary);
-    border-radius: 4px;
-    opacity: 0.55;
-    transition: opacity 120ms ease;
-  }
-  .sp-row:hover .sp-bar { opacity: 0.9; }
-
-  .sp-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-    width: 40px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  /* ── RADIUS ── */
-  .radius-flex {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
-
-  .radius-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .radius-box { width: 60px; height: 60px; background: var(--surface-raised); border: 1.5px solid var(--primary); }
-  .radius-token { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--primary); text-align: center; }
-  .radius-val { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); text-align: center; }
-
-  /* ── GUARDRAILS ── */
-  .guardrails-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .gr-card {
-    border-radius: 10px;
-    padding: 24px 28px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .gr-card.do {
-    background: rgba(35,196,94,0.04);
-    border: 1px solid rgba(35,196,94,0.18);
-  }
-
-  .gr-card.dont {
-    background: rgba(255,68,68,0.04);
-    border: 1px solid rgba(255,68,68,0.15);
-  }
-
-  .gr-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .gr-card.do .gr-head { color: var(--success); }
-  .gr-card.dont .gr-head { color: var(--error); }
-
-  .gr-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .gr-card.do .gr-icon { background: var(--success); }
-  .gr-card.dont .gr-icon { background: var(--error); }
-
-  .gr-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .gr-list li {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    padding-left: 16px;
-    position: relative;
-  }
-
-  .gr-list li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); font-size: 11px; top: 2px; }
-
-  @media (max-width: 640px) {
-    .site-header { padding: 0 20px; }
-    .page-hero { padding: 48px 20px 40px; }
-    .main-content { padding: 0 20px 60px; }
-    .guardrails-row { grid-template-columns: 1fr; }
-    .color-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-title { font-size: 32px; }
-    .type-row { flex-direction: column; }
-    .type-meta { border-right: none; border-bottom: 1px solid var(--border); width: 100%; }
+  @media (max-width: 600px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .wrapper { padding: 0 16px 60px; }
+    .hero-inner { padding: 0 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <a class="logo-area" href="#">
-    <div class="logo-icon">
-      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2 2h6l6 6v6H2V2z"/>
-      </svg>
-    </div>
-    <span class="logo-name">Railway</span>
-  </a>
-  <div class="header-right">
-    <span class="pill-tag">Brand Guidelines</span>
-  </div>
-</header>
+<button class="toggle-btn" onclick="toggleTheme()" id="themeToggle">☀️ Light</button>
 
-<!-- HERO -->
-<div class="page-hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
+<div class="hero">
   <div class="hero-inner">
-    <span class="hero-eyebrow">Design System</span>
-    <h1 class="hero-title">Deploy in<br><em>seconds.</em></h1>
-    <p class="hero-desc">Railway makes infrastructure feel effortless — and almost playful. Deep dark backgrounds, a warm violet accent, and smooth animations that communicate progress without noise.</p>
-
-    <!-- Mini canvas preview -->
-    <div class="canvas-preview">
-      <div class="canvas-service" style="top:28px; left:28px;">
-        <div class="canvas-service-head">
-          <div class="s-dot green"></div>
-          <span class="s-name">web</span>
-        </div>
-        <div class="s-type">Next.js · main</div>
-      </div>
-      <div class="canvas-service" style="top:28px; left:200px;">
-        <div class="canvas-service-head">
-          <div class="s-dot green"></div>
-          <span class="s-name">api</span>
-        </div>
-        <div class="s-type">Node.js · main</div>
-      </div>
-      <div class="canvas-service" style="top:28px; left:372px;">
-        <div class="canvas-service-head">
-          <div class="s-dot orange"></div>
-          <span class="s-name">worker</span>
-        </div>
-        <div class="s-type">Building…</div>
-      </div>
-      <div class="canvas-service" style="top:28px; left:544px;">
-        <div class="canvas-service-head">
-          <div class="s-dot green"></div>
-          <span class="s-name">postgres</span>
-        </div>
-        <div class="s-type">Database</div>
-      </div>
-      <!-- SVG connector lines -->
-      <svg style="position:absolute;inset:0;width:100%;height:100%;z-index:0;" xmlns="http://www.w3.org/2000/svg">
-        <line x1="152" y1="54" x2="200" y2="54" stroke="#2A2D30" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <line x1="322" y1="54" x2="372" y2="54" stroke="#2A2D30" stroke-width="1.5" stroke-dasharray="4,3"/>
-        <line x1="492" y1="54" x2="544" y2="54" stroke="#2A2D30" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <div class="hero-logo">
+      <!-- Railway: purple abstract R/track mark -->
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Railway logo">
+        <rect width="80" height="80" rx="18" fill="#161819"/>
+        <!-- Stylized R with descending leg like a track -->
+        <rect x="18" y="16" width="9" height="48" rx="3" fill="#7B61FF"/>
+        <path d="M27 16 H50 C56.627 16 62 21.373 62 28 C62 34.627 56.627 40 50 40 H27" stroke="#7B61FF" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M36 40 L62 64" stroke="#7B61FF" stroke-width="9" stroke-linecap="round"/>
       </svg>
     </div>
+    <h1>Railway</h1>
+    <p>Deploy in seconds — a deployment platform that makes infrastructure feel effortless and almost playful.</p>
   </div>
 </div>
 
-<div class="main-content">
+<div class="wrapper">
 
-  <!-- COLORS -->
-  <section class="section" id="colors">
-    <p class="section-eyebrow">01 — Colors</p>
-    <h2 class="section-title">Color Palette</h2>
-    <p class="section-desc">Click any swatch to copy its hex. Violet is the single interactive accent — used for CTAs, active states, and focus rings.</p>
+  <section>
+    <h2 class="section-title">Colors</h2>
 
-    <div class="color-grid" id="swatchGrid"></div>
-  </section>
+    <p class="section-subtitle">Primary</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#7B61FF')">
+        <div class="swatch-color" style="background:#7B61FF"></div>
+        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#7B61FF</span><span class="swatch-usage">CTAs, active states, links</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#6B50EF')">
+        <div class="swatch-color" style="background:#6B50EF"></div>
+        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#6B50EF</span><span class="swatch-usage">Hover on primary</span></div>
+      </div>
+    </div>
 
-  <!-- TYPOGRAPHY -->
-  <section class="section" id="typography">
-    <p class="section-eyebrow">02 — Typography</p>
-    <h2 class="section-title">Type Scale</h2>
-    <p class="section-desc">Inter throughout. JetBrains Mono for deploy logs, service names, environment variables, and branch identifiers.</p>
+    <p class="section-subtitle">Surfaces</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#0B0D0E')">
+        <div class="swatch-color" style="background:#0B0D0E; border-bottom:1px solid #2A2D30"></div>
+        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#0B0D0E</span><span class="swatch-usage">App background</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#161819')">
+        <div class="swatch-color" style="background:#161819"></div>
+        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#161819</span><span class="swatch-usage">Cards, panels</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#1E2022')">
+        <div class="swatch-color" style="background:#1E2022"></div>
+        <div class="swatch-info"><span class="swatch-token">surface-raised</span><span class="swatch-hex">#1E2022</span><span class="swatch-usage">Elevated surfaces</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#26292B')">
+        <div class="swatch-color" style="background:#26292B"></div>
+        <div class="swatch-info"><span class="swatch-token">surface-overlay</span><span class="swatch-hex">#26292B</span><span class="swatch-usage">Dropdowns, modals</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#2A2D30')">
+        <div class="swatch-color" style="background:#2A2D30"></div>
+        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#2A2D30</span><span class="swatch-usage">Dividers, borders</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#383B3E')">
+        <div class="swatch-color" style="background:#383B3E"></div>
+        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#383B3E</span><span class="swatch-usage">Inputs, emphasis</span></div>
+      </div>
+    </div>
 
-    <div class="type-rows">
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-lg</div>
-          <div class="type-spec">22px · 600 · lh 1.3</div>
-        </div>
-        <div class="type-preview" style="font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-0.02em;">Deploy to production</div>
+    <p class="section-subtitle">Text</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#F1F0EF')">
+        <div class="swatch-color" style="background:#F1F0EF"></div>
+        <div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#F1F0EF</span><span class="swatch-usage">Primary text</span></div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-md</div>
-          <div class="type-spec">16px · 600 · lh 1.4</div>
-        </div>
-        <div class="type-preview" style="font-size:16px;font-weight:600;line-height:1.4;">Service Variables</div>
+      <div class="swatch" onclick="copyHex('#8A8886')">
+        <div class="swatch-color" style="background:#8A8886"></div>
+        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#8A8886</span><span class="swatch-usage">Supporting text</span></div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-sm</div>
-          <div class="type-spec">14px · 600 · lh 1.4</div>
-        </div>
-        <div class="type-preview" style="font-size:14px;font-weight:600;line-height:1.4;">Environment · Production</div>
+      <div class="swatch" onclick="copyHex('#555250')">
+        <div class="swatch-color" style="background:#555250"></div>
+        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#555250</span><span class="swatch-usage">Placeholders, disabled</span></div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">body</div>
-          <div class="type-spec">14px · 400 · lh 1.5</div>
-        </div>
-        <div class="type-preview" style="font-size:14px;line-height:1.5;color:var(--text-secondary);">Railway detects your framework automatically and provides the right build commands, environment defaults, and scaling settings for your project.</div>
+    </div>
+
+    <p class="section-subtitle">Semantic</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#23C45E')">
+        <div class="swatch-color" style="background:#23C45E"></div>
+        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#23C45E</span><span class="swatch-usage">Success, deployed</span></div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">body-sm</div>
-          <div class="type-spec">13px · 400 · lh 1.5</div>
-        </div>
-        <div class="type-preview" style="font-size:13px;line-height:1.5;color:var(--text-secondary);">Deployed 2 minutes ago from main</div>
+      <div class="swatch" onclick="copyHex('#FFB224')">
+        <div class="swatch-color" style="background:#FFB224"></div>
+        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#FFB224</span><span class="swatch-usage">Building, warnings</span></div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">caption</div>
-          <div class="type-spec">12px · 400 · lh 1.4</div>
-        </div>
-        <div class="type-preview" style="font-size:12px;line-height:1.4;color:var(--text-muted);">us-west1 · 512 MB · $0.000231/min</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">code</div>
-          <div class="type-spec">12px · 400 · mono · lh 1.6</div>
-        </div>
-        <div class="type-preview" style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;color:var(--primary);">railway run node server.js</div>
+      <div class="swatch" onclick="copyHex('#FF4444')">
+        <div class="swatch-color" style="background:#FF4444"></div>
+        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#FF4444</span><span class="swatch-usage">Errors, destructive</span></div>
       </div>
     </div>
   </section>
 
-  <!-- COMPONENTS -->
-  <section class="section" id="components">
-    <p class="section-eyebrow">03 — Components</p>
-    <h2 class="section-title">UI Components</h2>
-    <p class="section-desc">120ms transitions. Glow on interactive focus — violet only. Status colors are strict: green=live, yellow=building, red=error.</p>
+  <section>
+    <h2 class="section-title">Typography</h2>
+    <table class="type-table">
+      <tbody>
+        <tr>
+          <td>heading-lg</td>
+          <td><span style="font-size:22px;font-weight:600;line-height:1.3">Deploy in seconds</span></td>
+          <td><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
+        </tr>
+        <tr>
+          <td>heading-md</td>
+          <td><span style="font-size:16px;font-weight:600;line-height:1.4">Service management</span></td>
+          <td><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>heading-sm</td>
+          <td><span style="font-size:14px;font-weight:600;line-height:1.4">Environment variables</span></td>
+          <td><span class="spec-pill">14px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>body</td>
+          <td><span style="font-size:14px;font-weight:400;line-height:1.5">Standard body text for interface</span></td>
+          <td><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>body-sm</td>
+          <td><span style="font-size:13px;font-weight:400;line-height:1.5">Small body for metadata and labels</span></td>
+          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>caption</td>
+          <td><span style="font-size:12px;font-weight:400;line-height:1.4">Caption and supporting text</span></td>
+          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>code</td>
+          <td><span style="font-size:12px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6;color:#7B61FF">railway up --detach</span></td>
+          <td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <div class="comp-stack">
-
-      <!-- Buttons -->
+  <section>
+    <h2 class="section-title">Components</h2>
+    <div class="components-grid">
       <div class="comp-card">
-        <div class="comp-header"><span class="comp-title">Buttons</span></div>
-        <div class="comp-body">
-          <button class="btn btn-primary">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M2 5l4-4 4 4"/></svg>
-            Deploy Now
-          </button>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Deploy Now</button>
           <button class="btn btn-secondary">View Logs</button>
           <button class="btn btn-ghost">Cancel</button>
-          <button class="btn btn-danger">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h8l-1 7H3L2 3z"/><path d="M5 5v3M7 5v3M4 3V2h4v1"/></svg>
-            Delete Service
-          </button>
+          <button class="btn btn-danger">Remove Service</button>
         </div>
       </div>
-
-      <!-- Service Cards -->
       <div class="comp-card">
-        <div class="comp-header"><span class="comp-title">Service Cards (Canvas)</span></div>
-        <div class="comp-body" style="gap:12px; align-items:flex-start; flex-wrap:wrap;">
-          <div class="service-card-demo">
-            <div class="sc-header">
-              <div class="sc-icon" style="background:rgba(123,97,255,0.15);">⬡</div>
-              <span class="status-pill status-deployed">Deployed</span>
-            </div>
-            <div class="sc-name">web-frontend</div>
-            <div class="sc-type">Next.js · main</div>
-            <div class="sc-meta">Updated 3 min ago</div>
-          </div>
-          <div class="service-card-demo">
-            <div class="sc-header">
-              <div class="sc-icon" style="background:rgba(255,178,36,0.12);">⚙</div>
-              <span class="status-pill status-building">Building</span>
-            </div>
-            <div class="sc-name">api-service</div>
-            <div class="sc-type">Node.js · feat/auth</div>
-            <div class="sc-meta">Deploy #47 in progress</div>
-          </div>
-          <div class="service-card-demo">
-            <div class="sc-header">
-              <div class="sc-icon" style="background:rgba(35,196,94,0.1);">🗄</div>
-              <span class="status-pill status-deployed">Live</span>
-            </div>
-            <div class="sc-name">postgres</div>
-            <div class="sc-type">PostgreSQL 15</div>
-            <div class="sc-meta">512 MB · us-west1</div>
-          </div>
-          <div class="service-card-demo">
-            <div class="sc-header">
-              <div class="sc-icon" style="background:var(--surface-overlay);">💤</div>
-              <span class="status-pill status-sleeping">Sleeping</span>
-            </div>
-            <div class="sc-name">cron-worker</div>
-            <div class="sc-type">Python · main</div>
-            <div class="sc-meta">No traffic for 30 min</div>
-          </div>
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <input class="input-field" type="text" placeholder="Service name">
+          <input class="input-field" type="text" placeholder="PORT=3000" style="font-family:'JetBrains Mono',monospace;font-size:12px">
         </div>
       </div>
-
-      <!-- Deploy Log -->
       <div class="comp-card">
-        <div class="comp-header"><span class="comp-title">Deploy Log</span></div>
-        <div class="comp-body" style="display:block; padding:0;">
-          <div class="deploy-log" style="border:none; border-radius:0;">
-            <div class="deploy-log-header">
-              <span>Deploy #47 · api-service · feat/auth</span>
-              <span class="status-pill status-building" style="font-size:10px;">Building</span>
-            </div>
-            <div class="deploy-log-body">
-              <div class="log-line"><span class="log-time">12:04:01</span><span class="log-info">Cloning repository... done</span></div>
-              <div class="log-line"><span class="log-time">12:04:02</span><span class="log-info">Detected: Node.js 20 (npm)</span></div>
-              <div class="log-line"><span class="log-time">12:04:03</span><span class="log-build">Running: npm install</span></div>
-              <div class="log-line"><span class="log-time">12:04:12</span><span class="log-info">added 847 packages in 8.4s</span></div>
-              <div class="log-line"><span class="log-time">12:04:13</span><span class="log-build">Running: npm run build</span></div>
-              <div class="log-line"><span class="log-time">12:04:22</span><span class="log-success">✓ Build complete in 9.1s</span></div>
-              <div class="log-line"><span class="log-time">12:04:23</span><span class="log-success">✓ Deploying to us-west1</span></div>
-              <div class="log-line"><span class="log-time">12:04:24</span><span class="log-success">✓ Health check passed · :3000</span></div>
-              <div class="log-line"><span class="log-time">12:04:25</span><span class="log-success">🚀 Deploy #47 live</span></div>
-            </div>
-          </div>
+        <div class="comp-card-title">Badges</div>
+        <div class="badges-group">
+          <span class="badge badge-deployed">Deployed</span>
+          <span class="badge badge-building">Building</span>
+          <span class="badge badge-failed">Failed</span>
+          <span class="badge badge-sleeping">Sleeping</span>
         </div>
       </div>
-
-      <!-- Input + Badges -->
       <div class="comp-card">
-        <div class="comp-header"><span class="comp-title">Inputs &amp; Status Badges</span></div>
-        <div class="comp-body" style="gap:20px; align-items:flex-start; flex-wrap:wrap;">
-          <div class="input-wrap">
-            <span class="input-label-text">Environment Variable</span>
-            <input class="input-demo" type="text" placeholder="DATABASE_URL">
+        <div class="comp-card-title">Service Card</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="status-dot" style="background:#23C45E"></div>
+            <span class="sample-card-title">web-api</span>
+            <span class="badge badge-deployed">Deployed</span>
           </div>
-          <div class="input-wrap">
-            <span class="input-label-text">Service Name</span>
-            <input class="input-demo" type="text" value="api-service">
-          </div>
-          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:8px;">
-            <span class="status-pill status-deployed">Deployed</span>
-            <span class="status-pill status-building">Building</span>
-            <span class="status-pill status-failed">Failed</span>
-            <span class="status-pill status-sleeping">Sleeping</span>
-          </div>
+          <div class="sample-card-body">node:18-alpine · 512MB · us-west1</div>
         </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SPACING -->
-  <section class="section" id="spacing">
-    <p class="section-eyebrow">04 — Spacing</p>
-    <h2 class="section-title">Spacing Scale</h2>
-    <p class="section-desc">4px base unit. Strict multiples only.</p>
-
-    <div class="spacing-list" id="spacingScale"></div>
-  </section>
-
-  <!-- BORDER RADIUS -->
-  <section class="section" id="radius">
-    <p class="section-eyebrow">05 — Shape</p>
-    <h2 class="section-title">Border Radius</h2>
-    <p class="section-desc">Cards and panels use radius-lg (10px). Pills are reserved for status badges. Modals use radius-xl (14px).</p>
-
-    <div class="radius-flex">
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:4px;"></div>
-        <span class="radius-token">radius-sm</span>
-        <span class="radius-val">4px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:6px;"></div>
-        <span class="radius-token">radius-md</span>
-        <span class="radius-val">6px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:10px;"></div>
-        <span class="radius-token">radius-lg</span>
-        <span class="radius-val">10px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:14px;"></div>
-        <span class="radius-token">radius-xl</span>
-        <span class="radius-val">14px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:9999px; width:60px; height:60px;"></div>
-        <span class="radius-token">radius-full</span>
-        <span class="radius-val">9999px</span>
       </div>
     </div>
   </section>
 
-  <!-- GUARDRAILS -->
-  <section class="section" id="guardrails">
-    <p class="section-eyebrow">06 — Guardrails</p>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-    <p class="section-desc">Principles that keep Railway warm, purposeful, and trustworthy without becoming cluttered.</p>
+  <section>
+    <h2 class="section-title">Spacing</h2>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-5</span><div class="spacing-bar" style="width:20px"></div><span class="spacing-val">20px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-10</span><div class="spacing-bar" style="width:40px"></div><span class="spacing-val">40px</span></div>
+    </div>
+  </section>
 
-    <div class="guardrails-row">
-      <div class="gr-card do">
-        <div class="gr-head">
-          <div class="gr-icon">✓</div>
-          Do
-        </div>
-        <ul class="gr-list">
-          <li>Use violet/purple accent for all interactive highlights</li>
-          <li>Keep the canvas view clean — services are the content</li>
-          <li>Use status colors consistently: green=live, yellow=building, red=error</li>
-          <li>Animate deployments — motion communicates progress</li>
-        </ul>
+  <section>
+    <h2 class="section-title">Guardrails</h2>
+    <div class="guardrails-grid">
+      <div class="guardrail-col">
+        <div class="guardrail-col-title do-title">DO</div>
+        <div class="guardrail-item do-item">Use violet/purple accent for all interactive highlights</div>
+        <div class="guardrail-item do-item">Keep the canvas view clean — services are the content</div>
+        <div class="guardrail-item do-item">Use status colors consistently: green=live, yellow=building, red=error</div>
+        <div class="guardrail-item do-item">Animate deployments — motion communicates progress</div>
       </div>
-      <div class="gr-card dont">
-        <div class="gr-head">
-          <div class="gr-icon">✕</div>
-          Don't
-        </div>
-        <ul class="gr-list">
-          <li>Use harsh drop shadows — glow effects instead</li>
-          <li>Clutter the canvas with too much metadata per card</li>
-          <li>Use light backgrounds inside the app — dark only</li>
-          <li>Use more than one glow effect per screen</li>
-          <li>Show raw stack traces inline — collapse behind "show details"</li>
-        </ul>
+      <div class="guardrail-col">
+        <div class="guardrail-col-title dont-title">DON'T</div>
+        <div class="guardrail-item dont-item">Use harsh drop shadows — glow effects instead</div>
+        <div class="guardrail-item dont-item">Clutter the canvas with too much metadata per card</div>
+        <div class="guardrail-item dont-item">Use light backgrounds inside the app — dark only</div>
+        <div class="guardrail-item dont-item">Use more than one glow effect per screen</div>
+        <div class="guardrail-item dont-item">Show raw stack traces inline — collapse behind "show details"</div>
       </div>
     </div>
   </section>
 
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-  const colors = [
-    { name: 'primary', hex: '#7B61FF', usage: 'CTAs, active states, links' },
-    { name: 'primary-hover', hex: '#6B50EF', usage: 'Hover on primary' },
-    { name: 'background', hex: '#0B0D0E', usage: 'App background' },
-    { name: 'surface', hex: '#161819', usage: 'Cards, panels' },
-    { name: 'surface-raised', hex: '#1E2022', usage: 'Elevated surfaces' },
-    { name: 'surface-overlay', hex: '#26292B', usage: 'Dropdowns, modals' },
-    { name: 'text-primary', hex: '#F1F0EF', usage: 'Primary text' },
-    { name: 'text-secondary', hex: '#8A8886', usage: 'Supporting text' },
-    { name: 'text-muted', hex: '#555250', usage: 'Placeholders, disabled' },
-    { name: 'border', hex: '#2A2D30', usage: 'Dividers, borders' },
-    { name: 'border-strong', hex: '#383B3E', usage: 'Inputs, emphasis' },
-    { name: 'error', hex: '#FF4444', usage: 'Errors, destructive' },
-    { name: 'warning', hex: '#FFB224', usage: 'Warnings, building' },
-    { name: 'success', hex: '#23C45E', usage: 'Success, deployed' },
-  ];
-
-  const grid = document.getElementById('swatchGrid');
-  colors.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 'color-swatch';
-    el.innerHTML = `
-      <div class="swatch-block" style="background:${c.hex};">
-        <div class="swatch-copy-hint">Copy hex</div>
-      </div>
-      <div class="swatch-info">
-        <div class="swatch-name">${c.name}</div>
-        <div class="swatch-hex">${c.hex}</div>
-        <div class="swatch-usage">${c.usage}</div>
-      </div>
-    `;
-    el.addEventListener('click', () => {
-      navigator.clipboard.writeText(c.hex).then(() => showToast(c.hex));
-    });
-    grid.appendChild(el);
-  });
-
-  const spacings = [
-    { token: 'space-1', value: 4 },
-    { token: 'space-2', value: 8 },
-    { token: 'space-3', value: 12 },
-    { token: 'space-4', value: 16 },
-    { token: 'space-5', value: 20 },
-    { token: 'space-6', value: 24 },
-    { token: 'space-8', value: 32 },
-    { token: 'space-10', value: 40 },
-  ];
-
-  const scaleEl = document.getElementById('spacingScale');
-  const maxVal = 40;
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'sp-row';
-    const pct = (s.value / maxVal) * 100;
-    row.innerHTML = `
-      <span class="sp-token">${s.token}</span>
-      <div class="sp-bar-wrap">
-        <div class="sp-bar" style="width:${pct}%; max-width:400px;"></div>
-      </div>
-      <span class="sp-val">${s.value}px</span>
-    `;
-    scaleEl.appendChild(row);
-  });
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = `Copied ${msg}`;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '🌙 Dark';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️ Light';
+    }
+  }
+  function copyHex(hex) {
+    navigator.clipboard.writeText(hex).catch(() => {});
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Copied ' + hex;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
   }
 </script>
 </body>

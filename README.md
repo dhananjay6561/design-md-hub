@@ -19,23 +19,23 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 
 ## Browse the Collection
 
-| Brand | Category | Preview |
-|-------|----------|---------|
-| [Cursor](brands/cursor/DESIGN.md) | Developer Tools | [preview](brands/cursor/preview.html) |
-| [Figma](brands/figma/DESIGN.md) | Design Tools | [preview](brands/figma/preview.html) |
-| [GitHub](brands/github/DESIGN.md) | Developer Tools | [preview](brands/github/preview.html) |
-| [Linear](brands/linear/DESIGN.md) | Developer Tools | [preview](brands/linear/preview.html) |
-| [Notion](brands/notion/DESIGN.md) | Productivity | [preview](brands/notion/preview.html) |
-| [PlanetScale](brands/planetscale/DESIGN.md) | Developer Tools | [preview](brands/planetscale/preview.html) |
-| [Raycast](brands/raycast/DESIGN.md) | Developer Tools | [preview](brands/raycast/preview.html) |
-| [Stripe](brands/stripe/DESIGN.md) | Fintech | [preview](brands/stripe/preview.html) |
-| [Supabase](brands/supabase/DESIGN.md) | Developer Tools | [preview](brands/supabase/preview.html) |
-| [Vercel](brands/vercel/DESIGN.md) | Developer Tools | [preview](brands/vercel/preview.html) |
-| [Clerk](brands/clerk/DESIGN.md) | Auth | [preview](brands/clerk/preview.html) |
-| [Neon](brands/neon/DESIGN.md) | Developer Tools | [preview](brands/neon/preview.html) |
-| [Perplexity](brands/perplexity/DESIGN.md) | AI/LLM | [preview](brands/perplexity/preview.html) |
-| [Railway](brands/railway/DESIGN.md) | Developer Tools | [preview](brands/railway/preview.html) |
-| [Retool](brands/retool/DESIGN.md) | Developer Tools | [preview](brands/retool/preview.html) |
+| # | Brand | Category | Preview |
+|---|-------|----------|---------|
+| 1 | [Clerk](brands/clerk/DESIGN.md) | Auth | [preview](brands/clerk/preview.html) |
+| 2 | [Cursor](brands/cursor/DESIGN.md) | Developer Tools | [preview](brands/cursor/preview.html) |
+| 3 | [Figma](brands/figma/DESIGN.md) | Design Tools | [preview](brands/figma/preview.html) |
+| 4 | [GitHub](brands/github/DESIGN.md) | Developer Tools | [preview](brands/github/preview.html) |
+| 5 | [Linear](brands/linear/DESIGN.md) | Developer Tools | [preview](brands/linear/preview.html) |
+| 6 | [Neon](brands/neon/DESIGN.md) | Developer Tools | [preview](brands/neon/preview.html) |
+| 7 | [Notion](brands/notion/DESIGN.md) | Productivity | [preview](brands/notion/preview.html) |
+| 8 | [Perplexity](brands/perplexity/DESIGN.md) | AI/LLM | [preview](brands/perplexity/preview.html) |
+| 9 | [PlanetScale](brands/planetscale/DESIGN.md) | Developer Tools | [preview](brands/planetscale/preview.html) |
+| 10 | [Railway](brands/railway/DESIGN.md) | Developer Tools | [preview](brands/railway/preview.html) |
+| 11 | [Raycast](brands/raycast/DESIGN.md) | Developer Tools | [preview](brands/raycast/preview.html) |
+| 12 | [Retool](brands/retool/DESIGN.md) | Developer Tools | [preview](brands/retool/preview.html) |
+| 13 | [Stripe](brands/stripe/DESIGN.md) | Fintech | [preview](brands/stripe/preview.html) |
+| 14 | [Supabase](brands/supabase/DESIGN.md) | Developer Tools | [preview](brands/supabase/preview.html) |
+| 15 | [Vercel](brands/vercel/DESIGN.md) | Developer Tools | [preview](brands/vercel/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

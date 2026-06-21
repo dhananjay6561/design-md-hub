@@ -3,15 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clerk — Brand Guidelines</title>
+<title>Clerk — Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap');
-
-  /* ── CSS Custom Properties ── */
   :root {
     --primary: #6C47FF;
     --primary-hover: #5A38E8;
-    --primary-dim: rgba(108,71,255,0.08);
     --background: #FFFFFF;
     --surface: #FAFAFA;
     --surface-secondary: #F4F4F5;
@@ -23,18 +21,11 @@
     --error: #EF4444;
     --success: #22C55E;
     --warning: #F59E0B;
+    --purple-dim: rgba(108,71,255,0.08);
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
     --shadow-lg: 0 8px 24px rgba(0,0,0,0.10);
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-full: 9999px;
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   }
-
   [data-theme="dark"] {
     --background: #09090B;
     --surface: #18181B;
@@ -44,1576 +35,416 @@
     --text-muted: #71717A;
     --border: #3F3F46;
     --border-strong: #52525B;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
     --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
+    --purple-dim: rgba(108,71,255,0.15);
   }
-
-  /* ── Reset & Base ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--text-primary);
-    background: var(--background);
-    transition: background 0.2s ease, color 0.2s ease;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--background); color: var(--text-primary);
+    font-size: 14px; line-height: 1.5; transition: background 0.2s, color 0.2s;
   }
-
-  /* ── Layout ── */
-  .page-wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-
-  section {
-    padding: 72px 0;
-    border-bottom: 1px solid var(--border);
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-primary); border-radius: 9999px;
+    padding: 6px 14px; font-size: 14px; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: var(--shadow-sm); font-family: inherit;
+    transition: background 0.15s;
   }
-  section:last-child { border-bottom: none; }
+  .toggle-btn:hover { background: var(--surface-secondary); }
 
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--primary);
-    margin-bottom: 8px;
-  }
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
 
-  .section-title {
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-  }
-
-  .section-desc {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 40px;
-    max-width: 560px;
-  }
-
-  /* ── Header ── */
-  .site-header {
-    background: var(--background);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(12px);
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-  }
-
-  .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-
-  .brand-logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--primary);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 15px;
-  }
-
-  .brand-logo-text {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .brand-logo-badge {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-muted);
-    padding: 2px 7px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-full);
-  }
-
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .theme-toggle {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    background: var(--surface);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    font-size: 16px;
-    transition: all 0.15s ease;
-  }
-  .theme-toggle:hover {
-    background: var(--surface-secondary);
-    color: var(--text-primary);
-  }
-
-  /* ── Hero Section ── */
   .hero {
-    padding: 80px 0 72px;
+    background: linear-gradient(135deg, rgba(108,71,255,0.05) 0%, rgba(108,71,255,0.02) 100%);
     border-bottom: 1px solid var(--border);
+    padding: 64px 0 56px; text-align: center;
   }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+  .hero-logo { display: flex; justify-content: center; margin-bottom: 24px; }
+  .hero h1 { font-size: 28px; font-weight: 700; line-height: 1.2; color: var(--text-primary); margin-bottom: 12px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
 
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--primary);
-    background: var(--primary-dim);
-    padding: 4px 12px;
-    border-radius: var(--radius-full);
-    margin-bottom: 24px;
-  }
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  .section-title { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 32px; }
+  .section-subtitle { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 28px 0 14px; }
 
-  .hero-eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--primary);
-    border-radius: 50%;
-  }
-
-  .hero-title {
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-
-  .hero-title span {
-    color: var(--primary);
-  }
-
-  .hero-subtitle {
-    font-size: 18px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    max-width: 520px;
-    margin-bottom: 32px;
-  }
-
-  .hero-meta {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .hero-meta-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-
-  .hero-meta-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  /* ── Color Section ── */
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 16px;
-    margin-bottom: 32px;
-  }
-
+  .swatches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 8px; }
   .swatch {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .swatch:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
-
-  .swatch-color {
-    height: 80px;
-    width: 100%;
-    position: relative;
-  }
-
-  .swatch-copy-hint {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.15);
-    color: white;
-    font-size: 11px;
-    font-weight: 500;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    backdrop-filter: blur(2px);
-  }
-
-  .swatch:hover .swatch-copy-hint { opacity: 1; }
-
-  .swatch-info {
-    padding: 10px 12px;
-    background: var(--surface);
-  }
-
-  .swatch-name {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 2px;
-  }
-
-  .swatch-hex {
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-  }
-
-  .swatch-usage {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  .color-group-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin: 32px 0 16px;
-  }
-
-  /* ── Typography Section ── */
-  .type-scale {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .type-row {
-    display: grid;
-    grid-template-columns: 140px 1fr 120px;
-    align-items: center;
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    gap: 24px;
-    transition: background 0.1s ease;
-  }
-
-  .type-row:last-child { border-bottom: none; }
-  .type-row:hover { background: var(--surface-secondary); }
-
-  .type-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
-
-  .type-token {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--primary);
-    background: var(--primary-dim);
-    padding: 2px 6px;
-    border-radius: 3px;
-    display: inline-block;
-    width: fit-content;
-  }
-
-  .type-specs {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .type-preview { color: var(--text-primary); }
-
-  .type-attrs {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-align: right;
-    font-family: var(--font-mono);
-    line-height: 1.8;
-  }
-
-  .mono-sample {
-    margin-top: 24px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-
-  .mono-header {
-    padding: 10px 16px;
-    background: var(--surface-secondary);
-    border-bottom: 1px solid var(--border);
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .mono-dots span {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 4px;
-  }
-
-  .mono-body {
-    padding: 16px;
-    background: var(--surface);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-primary);
-  }
-
-  .mono-body .kw { color: var(--primary); }
-  .mono-body .str { color: var(--success); }
-  .mono-body .cm { color: var(--text-muted); }
-
-  /* ── Components Section ── */
-  .component-group {
-    margin-bottom: 48px;
-  }
-
-  .component-group-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .component-canvas {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-sans);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
-    padding: 10px 18px;
-    border-radius: var(--radius-md);
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all 0.15s ease;
-    text-decoration: none;
-  }
-
-  .btn-primary {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-  }
-  .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
-
-  .btn-secondary {
-    background: var(--surface);
-    color: var(--text-primary);
-    border-color: var(--border);
-  }
-  .btn-secondary:hover { background: var(--surface-secondary); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-secondary);
-    border-color: transparent;
-  }
-  .btn-ghost:hover { background: var(--surface-secondary); color: var(--text-primary); }
-
-  .btn-destructive {
-    background: var(--error);
-    color: white;
-    border-color: var(--error);
-  }
-  .btn-destructive:hover { background: #DC2626; }
-
-  .btn-sm {
-    font-size: 12px;
-    padding: 6px 12px;
-  }
-
-  /* Auth Card */
-  .auth-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 32px;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: var(--shadow-lg);
-  }
-
-  .auth-card-logo {
-    width: 40px;
-    height: 40px;
-    background: var(--primary);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-
-  .auth-card-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.3;
-    margin-bottom: 4px;
-  }
-
-  .auth-card-subtitle {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 24px;
-  }
-
-  .oauth-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 10px 18px;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    cursor: pointer;
-    margin-bottom: 8px;
-    transition: background 0.15s ease;
-    font-family: var(--font-sans);
-  }
-  .oauth-btn:hover { background: var(--surface-secondary); }
-
-  .divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* Input */
-  .form-group {
-    margin-bottom: 16px;
-  }
-
-  .form-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-
-  .form-input {
-    width: 100%;
-    height: 40px;
-    padding: 10px 14px;
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    font-size: 14px;
-    font-family: var(--font-sans);
-    color: var(--text-primary);
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    outline: none;
-  }
-  .form-input::placeholder { color: var(--text-muted); }
-  .form-input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-dim);
-  }
-
-  .form-input.error { border-color: var(--error); }
-  .form-input.error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
-
-  .form-error {
-    font-size: 12px;
-    color: var(--error);
-    margin-top: 4px;
-  }
-
-  /* User Button */
-  .user-button-demo {
-    position: relative;
-    display: inline-block;
-  }
-
-  .user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .user-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    min-width: 220px;
-    overflow: hidden;
-  }
-
-  .user-dropdown-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .user-dropdown-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .user-dropdown-info { min-width: 0; }
-
-  .user-dropdown-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .user-dropdown-email {
-    font-size: 12px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 16px;
-    font-size: 13px;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: background 0.1s ease;
-  }
-  .dropdown-item:hover { background: var(--surface-secondary); }
-  .dropdown-item.danger { color: var(--error); }
-
-  .dropdown-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--text-muted);
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-  }
-  .dropdown-item.danger .dropdown-icon { color: var(--error); }
-
-  /* Badges */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.3;
-  }
-
-  .badge-admin {
-    background: var(--primary-dim);
-    color: var(--primary);
-  }
-
-  .badge-member {
-    background: var(--surface-secondary);
-    color: var(--text-secondary);
-  }
-
-  .badge-pending {
-    background: rgba(245,158,11,0.1);
-    color: #B45309;
-  }
-
-  .badge-error {
-    background: rgba(239,68,68,0.1);
-    color: var(--error);
-  }
-
-  .badge-success {
-    background: rgba(34,197,94,0.1);
-    color: #15803D;
-  }
-
-  /* ── Spacing Section ── */
-  .spacing-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .spacing-row {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .spacing-label {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--primary);
-    background: var(--primary-dim);
-    padding: 2px 8px;
-    border-radius: 3px;
-    min-width: 90px;
-    text-align: center;
-  }
-
-  .spacing-bar-wrap {
-    flex: 1;
-    height: 28px;
-    background: var(--surface-secondary);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    position: relative;
-  }
-
-  .spacing-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--primary-hover));
-    opacity: 0.7;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    padding-left: 8px;
-    transition: width 0.3s ease;
-  }
-
-  .spacing-value {
-    font-size: 11px;
-    color: var(--text-secondary);
-    min-width: 40px;
-    text-align: right;
-    font-family: var(--font-mono);
-  }
-
-  /* ── Guardrails Section ── */
-  .guardrails-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .guardrail-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
-  .guardrail-header {
-    padding: 14px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .guardrail-header.do {
-    background: rgba(34,197,94,0.08);
-    color: #15803D;
-    border-bottom: 1px solid rgba(34,197,94,0.15);
-  }
-
-  .guardrail-header.dont {
-    background: rgba(239,68,68,0.06);
-    color: var(--error);
-    border-bottom: 1px solid rgba(239,68,68,0.12);
-  }
-
-  .guardrail-list {
-    list-style: none;
-    padding: 0;
-    background: var(--surface);
-  }
-
-  .guardrail-item {
-    padding: 12px 20px;
-    font-size: 13px;
-    color: var(--text-primary);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    line-height: 1.5;
-  }
-
-  .guardrail-item:last-child { border-bottom: none; }
-
-  .guardrail-icon {
-    font-size: 12px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  /* ── Toast ── */
-  .toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    pointer-events: none;
-  }
+    border-radius: 12px; border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s; background: var(--surface);
+  }
+  .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .swatch-color { height: 80px; width: 100%; }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-token { font-size: 12px; font-weight: 500; color: var(--text-primary); display: block; }
+  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  .swatch-usage { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
   .toast {
-    background: var(--text-primary);
-    color: var(--background);
-    padding: 10px 16px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 500;
-    box-shadow: var(--shadow-md);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: toast-in 0.2s ease forwards;
-    pointer-events: auto;
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--text-primary); color: var(--background);
+    padding: 8px 18px; border-radius: 9999px;
+    font-size: 13px; font-weight: 500;
+    transition: transform 0.25s ease; z-index: 200; pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .type-table { width: 100%; border-collapse: collapse; }
+  .type-table tr { border-bottom: 1px solid var(--border); }
+  .type-table tr:last-child { border-bottom: none; }
+  .type-table td { padding: 14px 16px; vertical-align: middle; }
+  .type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 130px; }
+  .type-table td:nth-child(2) { min-width: 220px; color: var(--text-primary); }
+  .type-table td:last-child { display: flex; gap: 6px; flex-wrap: wrap; }
+  .spec-pill {
+    background: var(--surface-secondary); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 8px; font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); white-space: nowrap;
   }
 
-  .toast.removing {
-    animation: toast-out 0.2s ease forwards;
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm); }
+  .comp-card-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    border-radius: 8px; padding: 10px 18px; border: none;
+    cursor: pointer; transition: background 150ms ease;
   }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--surface-secondary); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--surface-secondary); }
+  .btn-destructive { background: var(--error); color: #fff; }
 
-  @keyframes toast-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; display: block; }
+  .input-wrap { display: flex; flex-direction: column; gap: 4px; }
+  .input-field {
+    height: 40px; background: var(--background);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 0 14px; font-family: inherit; font-size: 14px;
+    color: var(--text-primary); outline: none;
+    transition: border-color 150ms; width: 100%;
   }
-  @keyframes toast-out {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(8px); }
+  .input-field:focus { border-color: var(--primary); }
+  .input-field::placeholder { color: var(--text-muted); }
+  .input-error { border-color: var(--error) !important; }
+  .input-error-msg { font-size: 12px; color: var(--error); }
+
+  .badges-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+  .badge-admin { background: var(--purple-dim); color: var(--primary); }
+  .badge-member { background: var(--surface-secondary); color: var(--text-secondary); }
+  .badge-success { background: rgba(34,197,94,0.12); color: var(--success); }
+  .badge-pending { background: rgba(245,158,11,0.12); color: var(--warning); }
+
+  /* Auth card */
+  .auth-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px;
+    box-shadow: var(--shadow-lg); max-width: 360px;
   }
-
-  /* ── Misc ── */
-  .flex-gap { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-
-  .surface-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow-sm);
+  .auth-card-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  .auth-card-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
+  .oauth-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 10px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-primary); font-family: inherit; font-size: 14px;
+    font-weight: 500; cursor: pointer; margin-bottom: 8px;
+    transition: background 150ms;
   }
+  .oauth-btn:hover { background: var(--surface-secondary); }
+  .auth-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text-muted); font-size: 12px; }
+  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  .nav-dots {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
+  .spacing-list { display: flex; flex-direction: column; gap: 12px; }
+  .spacing-row { display: flex; align-items: center; gap: 16px; }
+  .spacing-label { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar { height: 20px; background: var(--primary); border-radius: 4px; opacity: 0.7; transition: opacity 0.15s; }
+  .spacing-bar:hover { opacity: 1; }
+  .spacing-val { font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
 
-  .nav-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: transform 0.15s;
-  }
-  .nav-dot:hover { transform: scale(1.3); }
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .guardrail-col { display: flex; flex-direction: column; gap: 10px; }
+  .guardrail-col-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .do-title { color: var(--success); }
+  .dont-title { color: var(--error); }
+  .guardrail-item { padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  .do-item { border-left: 3px solid var(--success); background: rgba(34,197,94,0.05); }
+  .dont-item { border-left: 3px solid var(--error); background: rgba(239,68,68,0.05); }
 
-  hr.divider-line {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 24px 0;
-  }
-
-  .canvas-preview {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    display: flex;
-    justify-content: center;
+  @media (max-width: 600px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .wrapper { padding: 0 16px 60px; }
+    .hero-inner { padding: 0 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ── Header ── -->
-<header class="site-header">
-  <div class="page-wrap">
-    <div class="header-inner">
-      <a class="brand-logo" href="#">
-        <div class="brand-logo-mark">C</div>
-        <span class="brand-logo-text">Clerk</span>
-        <span class="brand-logo-badge">Brand Guidelines</span>
-      </a>
-      <div class="header-actions">
-        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode" id="theme-btn">
-          🌙
-        </button>
-      </div>
-    </div>
-  </div>
-</header>
+<button class="toggle-btn" onclick="toggleTheme()" id="themeToggle">🌙 Dark</button>
 
-<!-- ── Hero ── -->
 <div class="hero">
-  <div class="page-wrap">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-dot"></span>
-      Design System · v2025
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <!-- Clerk: violet shield/C mark -->
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Clerk logo">
+        <!-- Shield shape -->
+        <path d="M40 8 L68 20 L68 44 C68 57 55 68 40 72 C25 68 12 57 12 44 L12 20 Z" fill="#6C47FF"/>
+        <!-- C letterform cutout -->
+        <path d="M52 30 C48 26 42 25 37 27 C30 30 27 37 29 44 C31 51 38 55 45 53 C48 52 51 50 53 47" stroke="white" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+      </svg>
     </div>
-    <h1 class="hero-title">Auth that just<br><span>works.</span></h1>
-    <p class="hero-subtitle">Clean, professional, and conversion-optimized. Clerk's design communicates security and reliability without feeling sterile — modern SaaS with polish at every layer.</p>
-    <div class="hero-meta">
-      <div class="hero-meta-item">
-        <span class="hero-meta-dot" style="background: var(--primary)"></span>
-        Violet-first accent
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-dot" style="background: var(--success)"></span>
-        Light + Dark modes
-      </div>
-      <div class="hero-meta-item">
-        <span class="hero-meta-dot" style="background: var(--text-muted)"></span>
-        Inter typeface
-      </div>
-    </div>
+    <h1>Clerk</h1>
+    <p>Auth that just works — a developer authentication platform with a polished, trust-first UI.</p>
   </div>
 </div>
 
-<!-- ── Colors ── -->
-<section id="colors">
-  <div class="page-wrap">
-    <div class="section-label">01 · Colors</div>
-    <h2 class="section-title">Color Palette</h2>
-    <p class="section-desc">Click any swatch to copy its hex value. Violet is the single primary accent — reserve it for the most important action on each view.</p>
+<div class="wrapper">
 
-    <div class="color-group-label">Core Palette</div>
-    <div class="color-grid">
-      <div class="swatch" onclick="copyHex('#6C47FF', 'primary')">
-        <div class="swatch-color" style="background:#6C47FF">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">primary</div>
-          <div class="swatch-hex">#6C47FF</div>
-          <div class="swatch-usage">CTAs, active states</div>
-        </div>
+  <section>
+    <h2 class="section-title">Colors</h2>
+
+    <p class="section-subtitle">Primary</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#6C47FF')">
+        <div class="swatch-color" style="background:#6C47FF"></div>
+        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#6C47FF</span><span class="swatch-usage">CTAs, active states, links</span></div>
       </div>
-
-      <div class="swatch" onclick="copyHex('#5A38E8', 'primary-hover')">
-        <div class="swatch-color" style="background:#5A38E8">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">primary-hover</div>
-          <div class="swatch-hex">#5A38E8</div>
-          <div class="swatch-usage">Hover on primary</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#FFFFFF', 'background')">
-        <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #E4E4E7">
-          <div class="swatch-copy-hint" style="color:#09090B; background:rgba(0,0,0,0.06)">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">background</div>
-          <div class="swatch-hex">#FFFFFF</div>
-          <div class="swatch-usage">Page background</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#FAFAFA', 'surface')">
-        <div class="swatch-color" style="background:#FAFAFA; border-bottom:1px solid #E4E4E7">
-          <div class="swatch-copy-hint" style="color:#09090B; background:rgba(0,0,0,0.06)">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface</div>
-          <div class="swatch-hex">#FAFAFA</div>
-          <div class="swatch-usage">Cards, panels</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#F4F4F5', 'surface-secondary')">
-        <div class="swatch-color" style="background:#F4F4F5; border-bottom:1px solid #E4E4E7">
-          <div class="swatch-copy-hint" style="color:#09090B; background:rgba(0,0,0,0.06)">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface-secondary</div>
-          <div class="swatch-hex">#F4F4F5</div>
-          <div class="swatch-usage">Hover states</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#09090B', 'text-primary')">
-        <div class="swatch-color" style="background:#09090B">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-primary</div>
-          <div class="swatch-hex">#09090B</div>
-          <div class="swatch-usage">Body, headings</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#71717A', 'text-secondary')">
-        <div class="swatch-color" style="background:#71717A">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-secondary</div>
-          <div class="swatch-hex">#71717A</div>
-          <div class="swatch-usage">Supporting text</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#A1A1AA', 'text-muted')">
-        <div class="swatch-color" style="background:#A1A1AA">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">text-muted</div>
-          <div class="swatch-hex">#A1A1AA</div>
-          <div class="swatch-usage">Placeholders</div>
-        </div>
-      </div>
-
-      <div class="swatch" onclick="copyHex('#E4E4E7', 'border')">
-        <div class="swatch-color" style="background:#E4E4E7">
-          <div class="swatch-copy-hint" style="color:#09090B; background:rgba(0,0,0,0.08)">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">border</div>
-          <div class="swatch-hex">#E4E4E7</div>
-          <div class="swatch-usage">Dividers, inputs</div>
-        </div>
+      <div class="swatch" onclick="copyHex('#5A38E8')">
+        <div class="swatch-color" style="background:#5A38E8"></div>
+        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#5A38E8</span><span class="swatch-usage">Hover on primary</span></div>
       </div>
     </div>
 
-    <div class="color-group-label">Semantic Colors</div>
-    <div class="color-grid">
-      <div class="swatch" onclick="copyHex('#EF4444', 'error')">
-        <div class="swatch-color" style="background:#EF4444">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">error</div>
-          <div class="swatch-hex">#EF4444</div>
-          <div class="swatch-usage">Error states</div>
-        </div>
+    <p class="section-subtitle">Surfaces</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')">
+        <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #E4E4E7"></div>
+        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-usage">Page background</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#22C55E', 'success')">
-        <div class="swatch-color" style="background:#22C55E">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">success</div>
-          <div class="swatch-hex">#22C55E</div>
-          <div class="swatch-usage">Success states</div>
-        </div>
+      <div class="swatch" onclick="copyHex('#FAFAFA')">
+        <div class="swatch-color" style="background:#FAFAFA"></div>
+        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#FAFAFA</span><span class="swatch-usage">Cards, panels</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#F59E0B', 'warning')">
-        <div class="swatch-color" style="background:#F59E0B">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">warning</div>
-          <div class="swatch-hex">#F59E0B</div>
-          <div class="swatch-usage">Warnings</div>
-        </div>
+      <div class="swatch" onclick="copyHex('#F4F4F5')">
+        <div class="swatch-color" style="background:#F4F4F5"></div>
+        <div class="swatch-info"><span class="swatch-token">surface-secondary</span><span class="swatch-hex">#F4F4F5</span><span class="swatch-usage">Hover states, fills</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#E4E4E7')">
+        <div class="swatch-color" style="background:#E4E4E7"></div>
+        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#E4E4E7</span><span class="swatch-usage">Dividers, input borders</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#D4D4D8')">
+        <div class="swatch-color" style="background:#D4D4D8"></div>
+        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#D4D4D8</span><span class="swatch-usage">Emphasized borders</span></div>
       </div>
     </div>
 
-    <div class="color-group-label">Dark Mode Overrides</div>
-    <div class="color-grid">
-      <div class="swatch" onclick="copyHex('#09090B', 'bg-dark')">
-        <div class="swatch-color" style="background:#09090B">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">background (dark)</div>
-          <div class="swatch-hex">#09090B</div>
-          <div class="swatch-usage">Dark page bg</div>
-        </div>
+    <p class="section-subtitle">Text</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#09090B')">
+        <div class="swatch-color" style="background:#09090B"></div>
+        <div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#09090B</span><span class="swatch-usage">Body text, headings</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#18181B', 'surface-dark')">
-        <div class="swatch-color" style="background:#18181B">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface (dark)</div>
-          <div class="swatch-hex">#18181B</div>
-          <div class="swatch-usage">Dark cards</div>
-        </div>
+      <div class="swatch" onclick="copyHex('#71717A')">
+        <div class="swatch-color" style="background:#71717A"></div>
+        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#71717A</span><span class="swatch-usage">Supporting text</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#27272A', 'surface2-dark')">
-        <div class="swatch-color" style="background:#27272A">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">surface-secondary (dark)</div>
-          <div class="swatch-hex">#27272A</div>
-          <div class="swatch-usage">Dark hover fills</div>
-        </div>
-      </div>
-      <div class="swatch" onclick="copyHex('#3F3F46', 'border-dark')">
-        <div class="swatch-color" style="background:#3F3F46">
-          <div class="swatch-copy-hint">Click to copy</div>
-        </div>
-        <div class="swatch-info">
-          <div class="swatch-name">border (dark)</div>
-          <div class="swatch-hex">#3F3F46</div>
-          <div class="swatch-usage">Dark dividers</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Typography ── -->
-<section id="typography">
-  <div class="page-wrap">
-    <div class="section-label">02 · Typography</div>
-    <h2 class="section-title">Type Scale</h2>
-    <p class="section-desc">Inter is the primary typeface. JetBrains Mono for all code. Type is never all-caps — sentence case throughout.</p>
-
-    <div class="type-scale">
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">heading-xl</span>
-          <span class="type-specs">28px · 700</span>
-        </div>
-        <div class="type-preview" style="font-size:28px; font-weight:700; line-height:1.2">Sign in to Clerk</div>
-        <div class="type-attrs">28px<br>700<br>1.2</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">heading-lg</span>
-          <span class="type-specs">22px · 600</span>
-        </div>
-        <div class="type-preview" style="font-size:22px; font-weight:600; line-height:1.3">Create your account</div>
-        <div class="type-attrs">22px<br>600<br>1.3</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">heading-md</span>
-          <span class="type-specs">16px · 600</span>
-        </div>
-        <div class="type-preview" style="font-size:16px; font-weight:600; line-height:1.4">Organization members</div>
-        <div class="type-attrs">16px<br>600<br>1.4</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">body</span>
-          <span class="type-specs">14px · 400</span>
-        </div>
-        <div class="type-preview" style="font-size:14px; font-weight:400; line-height:1.5">Use your account to access all Clerk-powered applications with a single sign-in experience.</div>
-        <div class="type-attrs">14px<br>400<br>1.5</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">body-sm</span>
-          <span class="type-specs">13px · 400</span>
-        </div>
-        <div class="type-preview" style="font-size:13px; font-weight:400; line-height:1.5">By continuing, you agree to our Terms of Service and Privacy Policy.</div>
-        <div class="type-attrs">13px<br>400<br>1.5</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">caption</span>
-          <span class="type-specs">12px · 400</span>
-        </div>
-        <div class="type-preview" style="font-size:12px; font-weight:400; line-height:1.4; color: var(--text-muted)">Last signed in 3 hours ago · San Francisco, CA</div>
-        <div class="type-attrs">12px<br>400<br>1.4</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">label</span>
-          <span class="type-specs">12px · 500</span>
-        </div>
-        <div class="type-preview" style="font-size:12px; font-weight:500; line-height:1.3">Email address</div>
-        <div class="type-attrs">12px<br>500<br>1.3</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <span class="type-token">code</span>
-          <span class="type-specs">13px · 400</span>
-        </div>
-        <div class="type-preview" style="font-size:13px; font-weight:400; line-height:1.6; font-family: var(--font-mono)">clerkPublishableKey</div>
-        <div class="type-attrs">13px<br>400<br>1.6</div>
+      <div class="swatch" onclick="copyHex('#A1A1AA')">
+        <div class="swatch-color" style="background:#A1A1AA"></div>
+        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#A1A1AA</span><span class="swatch-usage">Placeholders, disabled</span></div>
       </div>
     </div>
 
-    <div class="mono-sample">
-      <div class="mono-header">
-        <span class="mono-dots">
-          <span style="background:#EF4444"></span>
-          <span style="background:#F59E0B"></span>
-          <span style="background:#22C55E"></span>
-        </span>
-        JetBrains Mono — code sample
+    <p class="section-subtitle">Semantic</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#EF4444')">
+        <div class="swatch-color" style="background:#EF4444"></div>
+        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#EF4444</span><span class="swatch-usage">Error states</span></div>
       </div>
-      <div class="mono-body"><span class="kw">import</span> { ClerkProvider, SignIn } <span class="kw">from</span> <span class="str">'@clerk/nextjs'</span>;<br><br><span class="kw">export default function</span> App() {<br>&nbsp;&nbsp;<span class="kw">return</span> (<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;ClerkProvider publishableKey={<span class="str">process.env.CLERK_KEY</span>}&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Your application here</span><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SignIn <span class="str">routing</span>=<span class="str">"path"</span> <span class="str">path</span>=<span class="str">"/sign-in"</span> /&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ClerkProvider&gt;<br>&nbsp;&nbsp;);<br>}</div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Components ── -->
-<section id="components">
-  <div class="page-wrap">
-    <div class="section-label">03 · Components</div>
-    <h2 class="section-title">Component Library</h2>
-    <p class="section-desc">Every component embeds seamlessly with minimal opinionation. One primary button per view — violet signals the single most important action.</p>
-
-    <!-- Buttons -->
-    <div class="component-group">
-      <div class="component-group-title">Buttons</div>
-      <div class="component-canvas">
-        <button class="btn btn-primary">Continue with email</button>
-        <button class="btn btn-secondary">Cancel</button>
-        <button class="btn btn-ghost">Learn more</button>
-        <button class="btn btn-destructive">Delete account</button>
-        <button class="btn btn-primary btn-sm">Save changes</button>
-        <button class="btn btn-secondary btn-sm">Discard</button>
+      <div class="swatch" onclick="copyHex('#22C55E')">
+        <div class="swatch-color" style="background:#22C55E"></div>
+        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#22C55E</span><span class="swatch-usage">Success states</span></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#F59E0B')">
+        <div class="swatch-color" style="background:#F59E0B"></div>
+        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#F59E0B</span><span class="swatch-usage">Warnings</span></div>
       </div>
     </div>
+  </section>
 
-    <!-- Auth Card -->
-    <div class="component-group">
-      <div class="component-group-title">Auth Card (SignIn)</div>
-      <div class="canvas-preview">
+  <section>
+    <h2 class="section-title">Typography</h2>
+    <table class="type-table">
+      <tbody>
+        <tr>
+          <td>heading-xl</td>
+          <td><span style="font-size:28px;font-weight:700;line-height:1.2">Sign in to Acme</span></td>
+          <td><span class="spec-pill">28px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.2</span></td>
+        </tr>
+        <tr>
+          <td>heading-lg</td>
+          <td><span style="font-size:22px;font-weight:600;line-height:1.3">User management</span></td>
+          <td><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
+        </tr>
+        <tr>
+          <td>heading-md</td>
+          <td><span style="font-size:16px;font-weight:600;line-height:1.4">Security settings</span></td>
+          <td><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>body</td>
+          <td><span style="font-size:14px;font-weight:400;line-height:1.5">Standard body text for interface copy</span></td>
+          <td><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>body-sm</td>
+          <td><span style="font-size:13px;font-weight:400;line-height:1.5">Small body for metadata and labels</span></td>
+          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>label</td>
+          <td><span style="font-size:12px;font-weight:500;line-height:1.3">Email address</span></td>
+          <td><span class="spec-pill">12px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></td>
+        </tr>
+        <tr>
+          <td>caption</td>
+          <td><span style="font-size:12px;font-weight:400;line-height:1.4">Caption and supporting text</span></td>
+          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>code</td>
+          <td><span style="font-size:13px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6">pk_live_abc123xyz</span></td>
+          <td><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="section-title">Components</h2>
+    <div class="components-grid">
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Continue</button>
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-destructive">Delete account</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <div class="input-wrap">
+            <label class="input-label">Email address</label>
+            <input class="input-field" type="email" placeholder="you@example.com">
+          </div>
+          <div class="input-wrap">
+            <label class="input-label">Password</label>
+            <input class="input-field input-error" type="password" value="pass">
+            <span class="input-error-msg">Password must be at least 8 characters</span>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badges-group">
+          <span class="badge badge-admin">Admin</span>
+          <span class="badge badge-member">Member</span>
+          <span class="badge badge-success">Active</span>
+          <span class="badge badge-pending">Pending</span>
+        </div>
+      </div>
+      <div class="comp-card" style="background:var(--background)">
+        <div class="comp-card-title">Auth Card</div>
         <div class="auth-card">
-          <div class="auth-card-logo">C</div>
           <div class="auth-card-title">Sign in</div>
-          <div class="auth-card-subtitle">to continue to your application</div>
-
+          <div class="auth-card-subtitle">to continue to your app</div>
           <button class="oauth-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4285F4"/><path d="M8 5v3l2.5 1.5" stroke="#4285F4" stroke-linecap="round"/></svg>
             Continue with Google
           </button>
-          <button class="oauth-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            Continue with GitHub
-          </button>
-
-          <div class="divider">or</div>
-
-          <div class="form-group">
-            <label class="form-label">Email address</label>
-            <input class="form-input" type="email" placeholder="you@example.com" value="">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <input class="form-input" type="password" placeholder="Enter your password" value="">
-          </div>
-
-          <div class="form-group" style="margin-top:4px">
-            <label class="form-label" style="color:var(--error)">Email address</label>
-            <input class="form-input error" type="email" value="not-an-email">
-            <div class="form-error">Enter a valid email address</div>
-          </div>
-
-          <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px">Continue</button>
+          <div class="auth-divider">or</div>
+          <input class="input-field" type="email" placeholder="Email address" style="margin-bottom:8px">
+          <button class="btn btn-primary" style="width:100%">Continue</button>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- User Button Dropdown -->
-    <div class="component-group">
-      <div class="component-group-title">User Button</div>
-      <div class="component-canvas" style="min-height:280px; align-items:flex-start; padding-bottom:16px">
-        <div style="position:relative">
-          <div class="user-avatar">AJ</div>
-          <div class="user-dropdown" style="position:relative; top:8px; right:auto; display:block">
-            <div class="user-dropdown-header">
-              <div class="user-dropdown-avatar">AJ</div>
-              <div class="user-dropdown-info">
-                <div class="user-dropdown-name">Alice Johnson</div>
-                <div class="user-dropdown-email">alice@example.com</div>
-              </div>
-            </div>
-            <div class="dropdown-item">
-              <span class="dropdown-icon">⚙</span>
-              Manage account
-            </div>
-            <div class="dropdown-item">
-              <span class="dropdown-icon">＋</span>
-              Add account
-            </div>
-            <div class="dropdown-item danger">
-              <span class="dropdown-icon">↩</span>
-              Sign out
-            </div>
-          </div>
-        </div>
-      </div>
+  <section>
+    <h2 class="section-title">Spacing</h2>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-5</span><div class="spacing-bar" style="width:20px"></div><span class="spacing-val">20px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-10</span><div class="spacing-bar" style="width:40px"></div><span class="spacing-val">40px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">48px</span></div>
     </div>
+  </section>
 
-    <!-- Badges -->
-    <div class="component-group">
-      <div class="component-group-title">Badges / Role Tags</div>
-      <div class="component-canvas">
-        <span class="badge badge-admin">Admin</span>
-        <span class="badge badge-member">Member</span>
-        <span class="badge badge-pending">Pending</span>
-        <span class="badge badge-success">Verified</span>
-        <span class="badge badge-error">Suspended</span>
-      </div>
-    </div>
-
-    <!-- Inputs -->
-    <div class="component-group">
-      <div class="component-group-title">Input States</div>
-      <div class="component-canvas" style="gap:20px; flex-direction:column; align-items:stretch; max-width:400px">
-        <div class="form-group" style="margin:0">
-          <label class="form-label">Default</label>
-          <input class="form-input" type="text" placeholder="Enter value">
-        </div>
-        <div class="form-group" style="margin:0">
-          <label class="form-label">Focused (simulated)</label>
-          <input class="form-input" type="text" value="user@example.com" style="border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-dim)">
-        </div>
-        <div class="form-group" style="margin:0">
-          <label class="form-label" style="color:var(--error)">Error state</label>
-          <input class="form-input error" type="text" value="invalid-input">
-          <div class="form-error">This field is required and must be valid</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Spacing ── -->
-<section id="spacing">
-  <div class="page-wrap">
-    <div class="section-label">04 · Spacing</div>
-    <h2 class="section-title">Spacing Scale</h2>
-    <p class="section-desc">4px base unit. Consistent increments create visual rhythm across every surface.</p>
-
-    <div class="spacing-grid">
-      <div class="spacing-row">
-        <div class="spacing-label">space-1</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(4/48*100%)"></div>
-        </div>
-        <div class="spacing-value">4px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-2</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(8/48*100%)"></div>
-        </div>
-        <div class="spacing-value">8px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-3</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(12/48*100%)"></div>
-        </div>
-        <div class="spacing-value">12px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-4</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(16/48*100%)"></div>
-        </div>
-        <div class="spacing-value">16px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-5</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(20/48*100%)"></div>
-        </div>
-        <div class="spacing-value">20px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-6</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(24/48*100%)"></div>
-        </div>
-        <div class="spacing-value">24px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-8</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(32/48*100%)"></div>
-        </div>
-        <div class="spacing-value">32px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-10</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width: calc(40/48*100%)"></div>
-        </div>
-        <div class="spacing-value">40px</div>
-      </div>
-      <div class="spacing-row">
-        <div class="spacing-label">space-12</div>
-        <div class="spacing-bar-wrap">
-          <div class="spacing-bar" style="width:100%"></div>
-        </div>
-        <div class="spacing-value">48px</div>
-      </div>
-    </div>
-
-    <!-- Radius -->
-    <div style="margin-top:48px">
-      <div class="section-label" style="margin-bottom:8px">Border Radius</div>
-      <div class="flex-gap" style="margin-top:16px; align-items:flex-end; gap:16px">
-        <div style="text-align:center">
-          <div style="width:40px; height:40px; background:var(--primary); border-radius:4px; margin:0 auto 8px"></div>
-          <div style="font-size:11px; font-weight:500; color:var(--text-secondary)">radius-sm</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted)">4px</div>
-        </div>
-        <div style="text-align:center">
-          <div style="width:40px; height:40px; background:var(--primary); border-radius:8px; margin:0 auto 8px"></div>
-          <div style="font-size:11px; font-weight:500; color:var(--text-secondary)">radius-md</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted)">8px</div>
-        </div>
-        <div style="text-align:center">
-          <div style="width:40px; height:40px; background:var(--primary); border-radius:12px; margin:0 auto 8px"></div>
-          <div style="font-size:11px; font-weight:500; color:var(--text-secondary)">radius-lg</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted)">12px</div>
-        </div>
-        <div style="text-align:center">
-          <div style="width:40px; height:40px; background:var(--primary); border-radius:16px; margin:0 auto 8px"></div>
-          <div style="font-size:11px; font-weight:500; color:var(--text-secondary)">radius-xl</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted)">16px</div>
-        </div>
-        <div style="text-align:center">
-          <div style="width:40px; height:40px; background:var(--primary); border-radius:9999px; margin:0 auto 8px"></div>
-          <div style="font-size:11px; font-weight:500; color:var(--text-secondary)">radius-full</div>
-          <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted)">9999px</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Guardrails ── -->
-<section id="guardrails">
-  <div class="page-wrap">
-    <div class="section-label">05 · Guardrails</div>
-    <h2 class="section-title">Design Principles</h2>
-    <p class="section-desc">Rules that keep every Clerk-powered UI trustworthy, focused, and accessible. These are non-negotiable.</p>
-
+  <section>
+    <h2 class="section-title">Guardrails</h2>
     <div class="guardrails-grid">
-      <div class="guardrail-card">
-        <div class="guardrail-header do">
-          <span>✓</span> Do
-        </div>
-        <ul class="guardrail-list">
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--success)">✓</span>
-            Prioritize trust signals — use consistent borders, clean spacing, accessible contrast ratios throughout
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--success)">✓</span>
-            Use violet only for the single primary action per view — one CTA to rule them all
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--success)">✓</span>
-            Keep auth components tight and focused — no distractions during sign-in flows
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--success)">✓</span>
-            Show clear error states with actionable, human-readable messages
-          </li>
-        </ul>
+      <div class="guardrail-col">
+        <div class="guardrail-col-title do-title">DO</div>
+        <div class="guardrail-item do-item">Prioritize trust signals — use consistent borders, clean spacing, accessible contrast</div>
+        <div class="guardrail-item do-item">Use violet only for the primary action per view</div>
+        <div class="guardrail-item do-item">Keep auth components tight and focused — no distractions during sign-in flows</div>
+        <div class="guardrail-item do-item">Show clear error states with actionable messages</div>
       </div>
-
-      <div class="guardrail-card">
-        <div class="guardrail-header dont">
-          <span>✗</span> Don't
-        </div>
-        <ul class="guardrail-list">
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--error)">✗</span>
-            Use more than one primary button per screen — violet has one job at a time
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--error)">✗</span>
-            Add decorative backgrounds to auth pages — plain white or subtle gray only
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--error)">✗</span>
-            Show technical error codes to end users — translate to plain language always
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--error)">✗</span>
-            Use animations that delay the form becoming interactive — no motion tax on auth
-          </li>
-          <li class="guardrail-item">
-            <span class="guardrail-icon" style="color:var(--error)">✗</span>
-            Use all-caps labels or uppercase text anywhere in the UI
-          </li>
-        </ul>
+      <div class="guardrail-col">
+        <div class="guardrail-col-title dont-title">DON'T</div>
+        <div class="guardrail-item dont-item">Use more than one primary button per screen</div>
+        <div class="guardrail-item dont-item">Add decorative backgrounds to auth pages — plain white or subtle gray only</div>
+        <div class="guardrail-item dont-item">Show technical error codes to end users</div>
+        <div class="guardrail-item dont-item">Use animations that delay the form becoming interactive</div>
+        <div class="guardrail-item dont-item">Use all-caps labels or uppercase text</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── Footer ── -->
-<footer style="background:var(--surface); border-top:1px solid var(--border); padding:32px 0;">
-  <div class="page-wrap" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
-    <div style="display:flex; align-items:center; gap:10px;">
-      <div style="width:24px; height:24px; background:var(--primary); border-radius:6px; display:flex; align-items:center; justify-content:center; color:white; font-size:11px; font-weight:700">C</div>
-      <span style="font-size:13px; font-weight:600; color:var(--text-primary)">Clerk</span>
-      <span style="font-size:13px; color:var(--text-muted)">Brand Guidelines</span>
-    </div>
-    <div style="font-size:12px; color:var(--text-muted)">clerk.com · Auth that just works</div>
-  </div>
-</footer>
+</div>
 
-<!-- ── Toast Container ── -->
-<div class="toast-container" id="toasts"></div>
+<div class="toast" id="toast">Copied!</div>
 
 <script>
-  // Theme toggle
   function toggleTheme() {
     const html = document.documentElement;
-    const btn = document.getElementById('theme-btn');
-    if (html.dataset.theme === 'dark') {
-      html.dataset.theme = 'light';
-      btn.textContent = '🌙';
+    const btn = document.getElementById('themeToggle');
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '🌙 Dark';
     } else {
-      html.dataset.theme = 'dark';
-      btn.textContent = '☀️';
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️ Light';
     }
   }
-
-  // Copy hex to clipboard
-  function copyHex(hex, name) {
-    navigator.clipboard.writeText(hex).then(() => {
-      showToast('✓ Copied ' + hex);
-    }).catch(() => {
-      // fallback
-      const ta = document.createElement('textarea');
-      ta.value = hex;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('✓ Copied ' + hex);
-    });
-  }
-
-  // Toast
-  function showToast(msg) {
-    const container = document.getElementById('toasts');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = msg;
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.classList.add('removing');
-      setTimeout(() => toast.remove(), 200);
-    }, 2000);
+  function copyHex(hex) {
+    navigator.clipboard.writeText(hex).catch(() => {});
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Copied ' + hex;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
   }
 </script>
 </body>

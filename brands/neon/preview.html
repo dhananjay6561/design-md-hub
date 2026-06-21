@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Neon — Brand Guidelines</title>
+<title>Neon — Design System Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
   :root {
     --primary: #00E599;
     --primary-hover: #00CC88;
@@ -28,1211 +28,479 @@
     --shadow-md: 0 4px 16px rgba(0,0,0,0.6);
     --glow-primary: 0 0 16px rgba(0,229,153,0.2);
   }
-
+  [data-theme="light"] {
+    --background: #F4F4F4;
+    --surface: #FFFFFF;
+    --surface-raised: #EEEEEE;
+    --surface-overlay: #E4E4E4;
+    --text-primary: #111111;
+    --text-secondary: #5A5A5A;
+    --text-muted: #999999;
+    --border: #DEDEDE;
+    --border-strong: #CCCCCC;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+    --glow-primary: 0 0 12px rgba(0,229,153,0.25);
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--text-primary);
-    background: var(--background);
+    transition: background 0.2s, color 0.2s;
   }
+  .toggle-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 100;
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    color: var(--text-primary); border-radius: 9999px;
+    padding: 6px 14px; font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    font-family: inherit; transition: background 0.15s;
+  }
+  .toggle-btn:hover { background: var(--surface-overlay); }
 
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--background); }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
 
-  /* ── HEADER ── */
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(12,12,12,0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+  .hero {
+    background: linear-gradient(135deg, rgba(0,229,153,0.05) 0%, transparent 60%);
     border-bottom: 1px solid var(--border);
-    padding: 0 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 52px;
+    padding: 64px 0 56px; text-align: center;
   }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+  .hero-logo { display: flex; justify-content: center; margin-bottom: 24px; }
+  .hero h1 { font-size: 24px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 12px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
 
-  .logo-wrap {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-
-  .logo-symbol {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--primary);
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .logo-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-  }
-
-  .header-badges {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 3px 8px;
-    border-radius: 3px;
-    background: var(--green-dim);
-    color: var(--primary);
-    border: 1px solid rgba(0,229,153,0.2);
-  }
-
-  .dot-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--text-muted);
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  .section-title { font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 32px; }
+  .section-subtitle {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-muted); margin: 28px 0 14px;
     font-family: 'JetBrains Mono', monospace;
   }
 
-  .dot-status::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 6px var(--primary);
-    flex-shrink: 0;
+  .swatches-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px; margin-bottom: 8px;
   }
-
-  /* ── HERO ── */
-  .page-hero {
-    border-bottom: 1px solid var(--border);
-    padding: 80px 40px 64px;
-    max-width: 1000px;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: -80px;
-    right: -80px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0,229,153,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--primary);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .hero-eyebrow::before {
-    content: '';
-    width: 24px;
-    height: 1px;
-    background: var(--primary);
-  }
-
-  .hero-title {
-    font-size: 42px;
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    color: var(--text-primary);
-    margin-bottom: 20px;
-  }
-
-  .hero-title span { color: var(--primary); }
-
-  .hero-desc {
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    max-width: 520px;
-  }
-
-  /* ── MAIN ── */
-  .main-content {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 40px 100px;
-  }
-
-  /* ── SECTION ── */
-  .section {
-    padding-top: 72px;
-  }
-
-  .section-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-eyebrow::before {
-    content: '';
-    width: 16px;
-    height: 1px;
-    background: var(--border-strong);
-  }
-
-  .section-title {
-    font-size: 20px;
-    font-weight: 600;
-    line-height: 1.3;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-    letter-spacing: -0.02em;
-  }
-
-  .section-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 560px;
-    line-height: 1.6;
-  }
-
-  /* ── COLOR SWATCHES ── */
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .color-swatch {
+  .swatch {
+    border-radius: 8px; border: 1px solid var(--border);
+    overflow: hidden; cursor: pointer;
+    transition: box-shadow 0.15s, transform 0.15s;
     background: var(--surface);
-    cursor: pointer;
-    transition: background 120ms ease;
-    position: relative;
-    overflow: hidden;
   }
-  .color-swatch:hover { background: var(--surface-raised); }
+  .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--border-strong); }
+  .swatch-color { height: 80px; width: 100%; }
+  .swatch-info { padding: 10px 12px; }
+  .swatch-token { font-size: 11px; font-weight: 500; color: var(--text-primary); display: block; font-family: 'JetBrains Mono', monospace; }
+  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  .swatch-usage { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
 
-  .swatch-block {
-    height: 72px;
-    width: 100%;
-    position: relative;
-  }
-
-  .swatch-copy-hint {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 120ms ease;
-    background: rgba(0,0,0,0.4);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    color: white;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .color-swatch:hover .swatch-copy-hint { opacity: 1; }
-
-  .swatch-info {
-    padding: 10px 12px 12px;
-  }
-
-  .swatch-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 3px;
-  }
-
-  .swatch-hex {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-  }
-
-  .swatch-usage {
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* ── TOAST ── */
   .toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
+    position: fixed; bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--surface-raised);
-    color: var(--primary);
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: 1px solid rgba(0,229,153,0.3);
+    background: var(--primary); color: #0C0C0C;
+    padding: 8px 18px; border-radius: 6px;
+    font-size: 13px; font-weight: 500;
+    transition: transform 0.25s ease; z-index: 200; pointer-events: none;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    z-index: 1000;
-    transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1);
-    pointer-events: none;
-    box-shadow: var(--glow-primary);
-    white-space: nowrap;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* ── TYPOGRAPHY ── */
-  .type-table {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
+  .type-table { width: 100%; border-collapse: collapse; }
+  .type-table tr { border-bottom: 1px solid var(--border); }
+  .type-table tr:last-child { border-bottom: none; }
+  .type-table td { padding: 14px 12px; vertical-align: middle; }
+  .type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 120px; }
+  .type-table td:nth-child(2) { min-width: 220px; color: var(--text-primary); }
+  .type-table td:last-child { display: flex; gap: 6px; flex-wrap: wrap; }
+  .spec-pill {
+    background: var(--surface-raised); border: 1px solid var(--border-strong);
+    border-radius: 3px; padding: 2px 7px; font-size: 11px;
+    font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); white-space: nowrap;
   }
 
-  .type-row {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    border-bottom: 1px solid var(--border);
-    transition: background 100ms ease;
-  }
-  .type-row:last-child { border-bottom: none; }
-  .type-row:hover { background: var(--surface-raised); }
-
-  .type-meta {
-    padding: 18px 20px;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-  }
-
-  .type-token {
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .comp-card-title {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 16px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--primary);
-    font-weight: 500;
   }
-
-  .type-spec {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  .type-preview-cell {
-    padding: 18px 24px;
-    display: flex;
-    align-items: center;
-  }
-
-  /* ── COMPONENT CARDS ── */
-  .comp-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    background: var(--border);
-  }
-
-  .comp-block {
-    background: var(--surface);
-  }
-
-  .comp-header {
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--border);
-    background: var(--background);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .comp-title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .comp-body {
-    padding: 28px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-  }
-
-  /* Buttons */
+  .btn-group { display: flex; flex-direction: column; gap: 8px; }
   .btn {
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    transition: all 100ms ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: inherit; font-size: 13px; font-weight: 500;
+    border-radius: 6px; padding: 8px 16px; border: none;
+    cursor: pointer; transition: background 100ms ease;
   }
+  .btn-primary { background: var(--primary); color: #0C0C0C; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); }
+  .btn-secondary:hover { background: var(--surface-overlay); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); }
+  .btn-ghost:hover { background: var(--surface-raised); }
+  .btn-danger { background: var(--error); color: #fff; }
 
-  .btn-primary {
-    background: var(--primary);
-    color: #0C0C0C;
-    font-weight: 600;
-  }
-  .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--glow-primary); }
-
-  .btn-secondary {
-    background: var(--surface-raised);
-    color: var(--text-primary);
-    border: 1px solid var(--border-strong);
-  }
-  .btn-secondary:hover { border-color: var(--text-muted); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid transparent;
-  }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-
-  .btn-danger {
-    background: var(--error);
-    color: white;
-  }
-  .btn-danger:hover { opacity: 0.9; }
-
-  /* Input */
-  .input-demo {
-    height: 36px;
-    border-radius: 6px;
-    background: var(--surface-raised);
-    border: 1px solid var(--border);
-    padding: 0 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--text-primary);
-    outline: none;
-    width: 260px;
-    transition: all 100ms ease;
-  }
-  .input-demo:focus {
-    border-color: var(--primary);
-    box-shadow: var(--glow-primary);
-  }
-  .input-demo::placeholder { color: var(--text-muted); }
-
-  .input-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 6px;
-    display: block;
-  }
-
-  /* Branch Card */
-  .branch-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    width: 280px;
-    cursor: pointer;
-    transition: all 100ms ease;
-  }
-  .branch-card:hover {
-    border-color: var(--border-strong);
-    background: var(--surface-raised);
-  }
-
-  .branch-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .branch-name {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .branch-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 0 6px var(--primary);
-    flex-shrink: 0;
-  }
-
-  .branch-dot.idle { background: var(--text-muted); box-shadow: none; }
-
-  .branch-name-text {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  .branch-meta {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
-  .branch-stat {
-    display: flex;
-    gap: 16px;
-    margin-top: 8px;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-  }
-
-  .stat-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .stat-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
-  }
-
-  .stat-label {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  /* Badges */
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 11px;
-    font-weight: 500;
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input-field {
+    height: 36px; background: var(--surface-raised);
+    border: 1px solid var(--border); border-radius: 6px;
+    padding: 0 12px; font-size: 13px;
+    color: var(--text-primary); outline: none;
+    transition: border-color 100ms, box-shadow 100ms; width: 100%;
     font-family: 'JetBrains Mono', monospace;
   }
+  .input-field:focus { border-color: var(--primary); box-shadow: var(--glow-primary); }
+  .input-field::placeholder { color: var(--text-muted); }
 
-  .badge-active { background: var(--green-dim); color: var(--primary); border: 1px solid rgba(0,229,153,0.2); }
-  .badge-idle { background: var(--surface-raised); color: var(--text-muted); border: 1px solid var(--border-strong); }
-  .badge-error { background: rgba(240,71,71,0.1); color: var(--error); border: 1px solid rgba(240,71,71,0.2); }
-  .badge-warning { background: rgba(245,166,35,0.1); color: var(--warning); border: 1px solid rgba(245,166,35,0.2); }
+  .badges-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .badge { padding: 2px 6px; border-radius: 3px; font-size: 12px; font-weight: 500; font-family: 'JetBrains Mono', monospace; }
+  .badge-active { background: var(--green-dim); color: var(--primary); }
+  .badge-idle { background: var(--surface-raised); color: var(--text-secondary); border: 1px solid var(--border); }
+  .badge-error { background: rgba(240,71,71,0.12); color: var(--error); }
+  .badge-warn { background: rgba(245,166,35,0.12); color: var(--warning); }
 
-  .badge::before {
-    content: '';
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: currentColor;
-    flex-shrink: 0;
+  .sample-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px 20px;
+    transition: border-color 0.1s, background 0.1s;
   }
+  .sample-card:hover { border-color: var(--border-strong); background: var(--surface-raised); }
+  .sample-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .branch-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+  .branch-name { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-primary); }
+  .sample-card-stat { display: flex; gap: 20px; }
+  .stat-item { font-family: 'JetBrains Mono', monospace; }
+  .stat-value { font-size: 18px; font-weight: 600; color: var(--primary); }
+  .stat-label { font-size: 11px; color: var(--text-muted); }
 
-  /* SQL Block */
-  .sql-editor {
-    background: var(--background);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    width: 100%;
-  }
+  .spacing-list { display: flex; flex-direction: column; gap: 10px; }
+  .spacing-row { display: flex; align-items: center; gap: 16px; }
+  .spacing-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar { height: 16px; background: var(--primary); border-radius: 3px; opacity: 0.6; transition: opacity 0.1s; }
+  .spacing-bar:hover { opacity: 1; }
+  .spacing-val { font-size: 11px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
 
-  .sql-toolbar {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .guardrail-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrail-col-title { font-size: 11px; font-weight: 600; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
+  .do-title { color: var(--success); }
+  .dont-title { color: var(--error); }
+  .guardrail-item { padding: 10px 14px; border-radius: 6px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  .do-item { border-left: 3px solid var(--success); background: rgba(0,229,153,0.06); }
+  .dont-item { border-left: 3px solid var(--error); background: rgba(240,71,71,0.06); }
 
-  .sql-toolbar-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .sql-lang-tag {
-    background: var(--surface-raised);
-    color: var(--text-secondary);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 10px;
-    border: 1px solid var(--border-strong);
-  }
-
-  .sql-code {
-    padding: 20px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--text-secondary);
-    white-space: pre;
-    overflow-x: auto;
-  }
-
-  .sql-kw { color: var(--primary); font-weight: 500; }
-  .sql-str { color: #E9C46A; }
-  .sql-fn { color: #A8D8F0; }
-  .sql-num { color: #FFB347; }
-  .sql-comment { color: var(--text-muted); }
-
-  /* Metrics Row */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .metric-cell {
-    background: var(--surface);
-    padding: 20px;
-    transition: background 100ms ease;
-  }
-  .metric-cell:hover { background: var(--surface-raised); }
-
-  .metric-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  .metric-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 24px;
-    font-weight: 600;
-    color: var(--primary);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .metric-value.error { color: var(--error); }
-
-  .metric-delta {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  /* ── SPACING ── */
-  .spacing-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .spacing-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 10px 16px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    transition: background 100ms ease;
-  }
-  .spacing-row:last-child { border-bottom: none; }
-  .spacing-row:hover { background: var(--surface-raised); }
-
-  .sp-token {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--primary);
-    width: 72px;
-    flex-shrink: 0;
-  }
-
-  .sp-bar-wrap {
-    flex: 1;
-    display: flex;
-    align-items: center;
-  }
-
-  .sp-bar {
-    height: 14px;
-    background: var(--primary);
-    border-radius: 2px;
-    opacity: 0.6;
-    transition: opacity 100ms ease;
-  }
-  .spacing-row:hover .sp-bar { opacity: 1; }
-
-  .sp-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-    width: 36px;
-    text-align: right;
-    flex-shrink: 0;
-  }
-
-  /* ── RADIUS ── */
-  .radius-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
-
-  .radius-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .radius-box {
-    width: 56px;
-    height: 56px;
-    background: var(--surface-raised);
-    border: 1.5px solid var(--primary);
-  }
-
-  .radius-token {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--primary);
-    display: block;
-    text-align: center;
-    margin-bottom: 1px;
-  }
-
-  .radius-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    display: block;
-    text-align: center;
-  }
-
-  /* ── GUARDRAILS ── */
-  .guardrails-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .guardrail-pane {
-    background: var(--surface);
-    padding: 24px 28px;
-  }
-
-  .guardrail-head {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .guardrail-pane.do .guardrail-head { color: var(--primary); }
-  .guardrail-pane.dont .guardrail-head { color: var(--error); }
-
-  .guardrail-icon {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: var(--background);
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .guardrail-pane.do .guardrail-icon { background: var(--primary); }
-  .guardrail-pane.dont .guardrail-icon { background: var(--error); }
-
-  .guardrail-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .guardrail-list li {
-    font-size: 13px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    padding-left: 14px;
-    position: relative;
-  }
-
-  .guardrail-list li::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: var(--border-strong);
-  }
-
-  @media (max-width: 640px) {
-    .site-header { padding: 0 20px; }
-    .page-hero { padding: 48px 20px 40px; }
-    .main-content { padding: 0 20px 60px; }
+  @media (max-width: 600px) {
     .guardrails-grid { grid-template-columns: 1fr; }
-    .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-title { font-size: 28px; }
-    .type-row { grid-template-columns: 1fr; }
-    .type-meta { border-right: none; border-bottom: 1px solid var(--border); }
+    .wrapper { padding: 0 16px 60px; }
+    .hero-inner { padding: 0 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
-  <a class="logo-wrap" href="#">
-    <span class="logo-symbol">⬡</span>
-    <span class="logo-name">Neon</span>
-  </a>
-  <div class="header-badges">
-    <span class="dot-status">serverless postgres</span>
-    <span class="tag">brand guidelines</span>
+<button class="toggle-btn" onclick="toggleTheme()" id="themeToggle">☀️ Light</button>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <!-- Neon: green glowing N mark on dark background -->
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Neon logo">
+        <rect width="80" height="80" rx="14" fill="#141414"/>
+        <defs>
+          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <path d="M20 18 L20 62 L44 26 L44 62 M44 62 L60 62 L60 18" stroke="#00E599" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon-glow)" fill="none"/>
+      </svg>
+    </div>
+    <h1>Neon</h1>
+    <p>Serverless Postgres with a dark, developer-focused interface and a signature green glow.</p>
   </div>
-</header>
-
-<!-- HERO -->
-<div class="page-hero">
-  <div class="hero-glow"></div>
-  <p class="hero-eyebrow">Design System</p>
-  <h1 class="hero-title">Dark. Precise.<br><span>Developer-first.</span></h1>
-  <p class="hero-desc">Neon's design signals modern infrastructure. Deep dark backgrounds, a signature green accent, and monospace-heavy UI communicate that this is a tool built for engineers.</p>
 </div>
 
-<div class="main-content">
+<div class="wrapper">
 
-  <!-- COLORS -->
-  <section class="section" id="colors">
-    <p class="section-eyebrow">01 — Colors</p>
-    <h2 class="section-title">Color Palette</h2>
-    <p class="section-desc">Click any swatch to copy the hex. Green is reserved for CTAs, active states, and success — never decorative.</p>
+  <section>
+    <h2 class="section-title">Colors</h2>
 
-    <div class="color-grid" id="swatchGrid"></div>
-  </section>
+    <p class="section-subtitle">Primary</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#00E599')">
+        <div class="swatch-color" style="background:#00E599"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">primary</span>
+          <span class="swatch-hex">#00E599</span>
+          <span class="swatch-usage">CTAs, active states, brand</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#00CC88')">
+        <div class="swatch-color" style="background:#00CC88"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">primary-hover</span>
+          <span class="swatch-hex">#00CC88</span>
+          <span class="swatch-usage">Hover on primary</span>
+        </div>
+      </div>
+    </div>
 
-  <!-- TYPOGRAPHY -->
-  <section class="section" id="typography">
-    <p class="section-eyebrow">02 — Typography</p>
-    <h2 class="section-title">Type Scale</h2>
-    <p class="section-desc">Inter for UI labels and copy. JetBrains Mono for SQL, connection strings, branch names, metrics, and any technical value.</p>
+    <p class="section-subtitle">Surfaces</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#0C0C0C')">
+        <div class="swatch-color" style="background:#0C0C0C; border-bottom:1px solid #282828"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">background</span>
+          <span class="swatch-hex">#0C0C0C</span>
+          <span class="swatch-usage">App background</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#141414')">
+        <div class="swatch-color" style="background:#141414"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">surface</span>
+          <span class="swatch-hex">#141414</span>
+          <span class="swatch-usage">Cards, panels</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#1C1C1C')">
+        <div class="swatch-color" style="background:#1C1C1C"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">surface-raised</span>
+          <span class="swatch-hex">#1C1C1C</span>
+          <span class="swatch-usage">Elevated surfaces</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#242424')">
+        <div class="swatch-color" style="background:#242424"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">surface-overlay</span>
+          <span class="swatch-hex">#242424</span>
+          <span class="swatch-usage">Modals, tooltips</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#282828')">
+        <div class="swatch-color" style="background:#282828"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">border</span>
+          <span class="swatch-hex">#282828</span>
+          <span class="swatch-usage">Dividers, borders</span>
+        </div>
+      </div>
+      <div class="swatch" onclick="copyHex('#333333')">
+        <div class="swatch-color" style="background:#333333"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">border-strong</span>
+          <span class="swatch-hex">#333333</span>
+          <span class="swatch-usage">Input borders, emphasis</span>
+        </div>
+      </div>
+    </div>
 
-    <div class="type-table">
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-lg</div>
-          <div class="type-spec">24px · 600 · lh 1.3</div>
+    <p class="section-subtitle">Text</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#EDEDED')">
+        <div class="swatch-color" style="background:#EDEDED"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">text-primary</span>
+          <span class="swatch-hex">#EDEDED</span>
+          <span class="swatch-usage">Primary text</span>
         </div>
-        <div class="type-preview-cell" style="font-size:24px;font-weight:600;line-height:1.3;letter-spacing:-0.02em;">Database Branches</div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-md</div>
-          <div class="type-spec">18px · 600 · lh 1.4</div>
+      <div class="swatch" onclick="copyHex('#8C8C8C')">
+        <div class="swatch-color" style="background:#8C8C8C"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">text-secondary</span>
+          <span class="swatch-hex">#8C8C8C</span>
+          <span class="swatch-usage">Supporting text</span>
         </div>
-        <div class="type-preview-cell" style="font-size:18px;font-weight:600;line-height:1.4;letter-spacing:-0.01em;">Connection Pooling</div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">heading-sm</div>
-          <div class="type-spec">14px · 600 · lh 1.4</div>
+      <div class="swatch" onclick="copyHex('#555555')">
+        <div class="swatch-color" style="background:#555555"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">text-muted</span>
+          <span class="swatch-hex">#555555</span>
+          <span class="swatch-usage">Placeholders, disabled</span>
         </div>
-        <div class="type-preview-cell" style="font-size:14px;font-weight:600;line-height:1.4;">Active Computes</div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">body</div>
-          <div class="type-spec">14px · 400 · lh 1.5</div>
+    </div>
+
+    <p class="section-subtitle">Semantic</p>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#F04747')">
+        <div class="swatch-color" style="background:#F04747"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">error</span>
+          <span class="swatch-hex">#F04747</span>
+          <span class="swatch-usage">Errors</span>
         </div>
-        <div class="type-preview-cell" style="font-size:14px;line-height:1.5;color:var(--text-secondary);">Neon separates storage and compute to provide serverless Postgres that scales to zero when idle, saving resources on inactive databases.</div>
       </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">body-sm</div>
-          <div class="type-spec">13px · 400 · lh 1.5</div>
+      <div class="swatch" onclick="copyHex('#F5A623')">
+        <div class="swatch-color" style="background:#F5A623"></div>
+        <div class="swatch-info">
+          <span class="swatch-token">warning</span>
+          <span class="swatch-hex">#F5A623</span>
+          <span class="swatch-usage">Warnings</span>
         </div>
-        <div class="type-preview-cell" style="font-size:13px;line-height:1.5;color:var(--text-secondary);">Last active 2 minutes ago</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">caption</div>
-          <div class="type-spec">12px · 400 · lh 1.4</div>
-        </div>
-        <div class="type-preview-cell" style="font-size:12px;line-height:1.4;color:var(--text-muted);">us-east-1 · pg16 · 0.25 vCPU</div>
-      </div>
-      <div class="type-row">
-        <div class="type-meta">
-          <div class="type-token">code</div>
-          <div class="type-spec">13px · 400 · mono · lh 1.6</div>
-        </div>
-        <div class="type-preview-cell" style="font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:var(--primary);">postgresql://user:pass@ep-123.us-east-2.aws.neon.tech/neondb</div>
       </div>
     </div>
   </section>
 
-  <!-- COMPONENTS -->
-  <section class="section" id="components">
-    <p class="section-eyebrow">03 — Components</p>
-    <h2 class="section-title">UI Components</h2>
-    <p class="section-desc">100ms transitions. Elevation via background layering — not box shadows. Green glow only on interactive focus.</p>
+  <section>
+    <h2 class="section-title">Typography</h2>
+    <table class="type-table">
+      <tbody>
+        <tr>
+          <td>heading-lg</td>
+          <td><span style="font-size:24px;font-weight:600;line-height:1.3">Serverless Postgres</span></td>
+          <td><span class="spec-pill">24px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
+        </tr>
+        <tr>
+          <td>heading-md</td>
+          <td><span style="font-size:18px;font-weight:600;line-height:1.4">Branch management</span></td>
+          <td><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>heading-sm</td>
+          <td><span style="font-size:14px;font-weight:600;line-height:1.4">Connection pooling</span></td>
+          <td><span class="spec-pill">14px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>body</td>
+          <td><span style="font-size:14px;font-weight:400;line-height:1.5">Standard body text for interface copy</span></td>
+          <td><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>body-sm</td>
+          <td><span style="font-size:13px;font-weight:400;line-height:1.5">Small body for metadata and labels</span></td>
+          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+        <tr>
+          <td>caption</td>
+          <td><span style="font-size:12px;font-weight:400;line-height:1.4">Caption and supporting text</span></td>
+          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
+        </tr>
+        <tr>
+          <td>code</td>
+          <td><span style="font-size:13px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6;color:#00E599">SELECT * FROM users WHERE active = true;</span></td>
+          <td><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 
-    <div class="comp-grid">
-
-      <!-- Buttons -->
-      <div class="comp-block">
-        <div class="comp-header">
-          <span class="comp-title">Buttons</span>
-        </div>
-        <div class="comp-body">
-          <button class="btn btn-primary">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 1v10M1 6h10"/></svg>
-            New Project
-          </button>
+  <section>
+    <h2 class="section-title">Components</h2>
+    <div class="components-grid">
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">New Project</button>
           <button class="btn btn-secondary">Connect</button>
-          <button class="btn btn-ghost">View Docs</button>
-          <button class="btn btn-danger">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8"/></svg>
-            Delete Branch
-          </button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-danger">Delete Branch</button>
         </div>
       </div>
-
-      <!-- SQL Editor -->
-      <div class="comp-block">
-        <div class="comp-header">
-          <span class="comp-title">SQL Editor</span>
-        </div>
-        <div class="comp-body" style="display:block; padding:0;">
-          <div class="sql-editor" style="border:none; border-radius:0;">
-            <div class="sql-toolbar">
-              <div class="sql-toolbar-left">
-                <span class="sql-lang-tag">SQL</span>
-                <span>neondb / main</span>
-              </div>
-              <button class="btn btn-primary" style="padding:5px 12px; font-size:12px;">▶ Run</button>
-            </div>
-            <div class="sql-code"><span class="sql-kw">SELECT</span> u.id, u.email, <span class="sql-fn">COUNT</span>(o.id) <span class="sql-kw">AS</span> order_count,
-       <span class="sql-fn">SUM</span>(o.total) <span class="sql-kw">AS</span> total_spent
-<span class="sql-kw">FROM</span> users u
-<span class="sql-kw">LEFT JOIN</span> orders o <span class="sql-kw">ON</span> o.user_id = u.id
-<span class="sql-kw">WHERE</span> u.created_at > <span class="sql-str">'2024-01-01'</span>
-<span class="sql-kw">GROUP BY</span> u.id, u.email
-<span class="sql-kw">ORDER BY</span> total_spent <span class="sql-kw">DESC</span>
-<span class="sql-kw">LIMIT</span> <span class="sql-num">50</span>;</div>
-          </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <input class="input-field" type="text" placeholder="postgres://user:pass@host/db">
+          <input class="input-field" type="text" placeholder="branch-name-here">
         </div>
       </div>
-
-      <!-- Branch Card + Input -->
-      <div class="comp-block">
-        <div class="comp-header">
-          <span class="comp-title">Branch Card &amp; Input</span>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badges-group">
+          <span class="badge badge-active">active</span>
+          <span class="badge badge-idle">idle</span>
+          <span class="badge badge-error">error</span>
+          <span class="badge badge-warn">warn</span>
         </div>
-        <div class="comp-body" style="gap:20px; align-items:flex-start;">
-          <div class="branch-card">
-            <div class="branch-header">
-              <div class="branch-name">
-                <div class="branch-dot"></div>
-                <span class="branch-name-text">main</span>
-              </div>
-              <span class="badge badge-active">Active</span>
-            </div>
-            <div class="branch-meta">us-east-2 · PostgreSQL 16</div>
-            <div class="branch-stat">
-              <div class="stat-item">
-                <span class="stat-val">1.2 GB</span>
-                <span class="stat-label">Storage</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-val">3</span>
-                <span class="stat-label">Connections</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-val">0.25</span>
-                <span class="stat-label">vCPU</span>
-              </div>
-            </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Branch Card</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="branch-dot"></div>
+            <span class="branch-name">main</span>
+            <span class="badge badge-active" style="margin-left:auto">active</span>
           </div>
-
-          <div style="display:flex;flex-direction:column;gap:16px;">
-            <div>
-              <label class="input-label">Connection String</label>
-              <input class="input-demo" type="text" value="ep-cool-math-123456.us-east-2.aws">
+          <div class="sample-card-stat">
+            <div class="stat-item">
+              <div class="stat-value">2.4 GB</div>
+              <div class="stat-label">storage</div>
             </div>
-            <div>
-              <label class="input-label" style="font-family:inherit;">Branch Name</label>
-              <input class="input-demo" type="text" placeholder="feature/new-schema">
+            <div class="stat-item">
+              <div class="stat-value">18ms</div>
+              <div class="stat-label">latency</div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Metrics -->
-      <div class="comp-block">
-        <div class="comp-header">
-          <span class="comp-title">Metrics &amp; Stats</span>
-        </div>
-        <div class="comp-body" style="display:block; padding:0;">
-          <div class="metrics-grid">
-            <div class="metric-cell">
-              <div class="metric-label">Queries / sec</div>
-              <div class="metric-value">2,841</div>
-              <div class="metric-delta">↑ 12% from last hour</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Avg latency</div>
-              <div class="metric-value">4.2ms</div>
-              <div class="metric-delta">p99: 18ms</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Storage</div>
-              <div class="metric-value">1.2 GB</div>
-              <div class="metric-delta">of 10 GB free</div>
-            </div>
-            <div class="metric-cell">
-              <div class="metric-label">Errors</div>
-              <div class="metric-value error">3</div>
-              <div class="metric-delta">last 5 minutes</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Badges -->
-      <div class="comp-block">
-        <div class="comp-header">
-          <span class="comp-title">Status Badges</span>
-        </div>
-        <div class="comp-body">
-          <span class="badge badge-active">Active</span>
-          <span class="badge badge-idle">Idle</span>
-          <span class="badge badge-error">Error</span>
-          <span class="badge badge-warning">Degraded</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SPACING -->
-  <section class="section" id="spacing">
-    <p class="section-eyebrow">04 — Spacing</p>
-    <h2 class="section-title">Spacing Scale</h2>
-    <p class="section-desc">4px base unit. All values are strict multiples.</p>
-
-    <div class="spacing-rows" id="spacingScale"></div>
-  </section>
-
-  <!-- BORDER RADIUS -->
-  <section class="section" id="radius">
-    <p class="section-eyebrow">05 — Shape</p>
-    <h2 class="section-title">Border Radius</h2>
-    <p class="section-desc">Keep corners sharp — max 8px. This is a precision developer tool, not a marketing site.</p>
-
-    <div class="radius-row">
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:3px;"></div>
-        <span class="radius-token">radius-sm</span>
-        <span class="radius-val">3px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:6px;"></div>
-        <span class="radius-token">radius-md</span>
-        <span class="radius-val">6px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:8px;"></div>
-        <span class="radius-token">radius-lg</span>
-        <span class="radius-val">8px</span>
-      </div>
-      <div class="radius-item">
-        <div class="radius-box" style="border-radius:9999px; width:56px; height:56px;"></div>
-        <span class="radius-token">radius-full</span>
-        <span class="radius-val">9999px</span>
       </div>
     </div>
   </section>
 
-  <!-- GUARDRAILS -->
-  <section class="section" id="guardrails">
-    <p class="section-eyebrow">06 — Guardrails</p>
-    <h2 class="section-title">Do's &amp; Don'ts</h2>
-    <p class="section-desc">Design principles that keep Neon's interface sharp, technical, and trustworthy.</p>
+  <section>
+    <h2 class="section-title">Spacing</h2>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">12px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-5</span><div class="spacing-bar" style="width:20px"></div><span class="spacing-val">20px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
+    </div>
+  </section>
 
+  <section>
+    <h2 class="section-title">Guardrails</h2>
     <div class="guardrails-grid">
-      <div class="guardrail-pane do">
-        <div class="guardrail-head">
-          <div class="guardrail-icon">✓</div>
-          Do
-        </div>
-        <ul class="guardrail-list">
-          <li>Use green accent only for CTAs, active states, and success</li>
-          <li>Prefer monospace for all technical values — IDs, branches, SQL</li>
-          <li>Keep backgrounds layered — depth via color steps, not shadows</li>
-          <li>Make metrics and numbers the visual hero on dashboard screens</li>
-        </ul>
+      <div class="guardrail-col">
+        <div class="guardrail-col-title do-title">DO</div>
+        <div class="guardrail-item do-item">Use green accent only for CTAs, active states, and success</div>
+        <div class="guardrail-item do-item">Prefer monospace for all technical values (IDs, branches, SQL)</div>
+        <div class="guardrail-item do-item">Keep backgrounds layered — depth via color steps not shadows</div>
+        <div class="guardrail-item do-item">Make metrics and numbers the visual hero on dashboard screens</div>
       </div>
-      <div class="guardrail-pane dont">
-        <div class="guardrail-head">
-          <div class="guardrail-icon">✕</div>
-          Don't
-        </div>
-        <ul class="guardrail-list">
-          <li>Use the green glow decoratively — only on interactive focus</li>
-          <li>Add rounded corners above 8px — keep the UI sharp</li>
-          <li>Use light mode as the primary experience</li>
-          <li>Add illustrations or marketing visuals inside the dashboard</li>
-          <li>Show loading spinners where skeleton screens work better</li>
-        </ul>
+      <div class="guardrail-col">
+        <div class="guardrail-col-title dont-title">DON'T</div>
+        <div class="guardrail-item dont-item">Use the green glow decoratively — only on interactive focus</div>
+        <div class="guardrail-item dont-item">Add rounded corners above 8px — keep the UI sharp</div>
+        <div class="guardrail-item dont-item">Use light mode as the primary experience</div>
+        <div class="guardrail-item dont-item">Add illustrations or marketing visuals inside the dashboard</div>
+        <div class="guardrail-item dont-item">Show loading spinners where skeleton screens work better</div>
       </div>
     </div>
   </section>
 
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-  const colors = [
-    { name: 'primary', hex: '#00E599', usage: 'CTAs, active states, brand' },
-    { name: 'primary-hover', hex: '#00CC88', usage: 'Hover on primary' },
-    { name: 'background', hex: '#0C0C0C', usage: 'App background' },
-    { name: 'surface', hex: '#141414', usage: 'Cards, panels' },
-    { name: 'surface-raised', hex: '#1C1C1C', usage: 'Elevated surfaces' },
-    { name: 'surface-overlay', hex: '#242424', usage: 'Modals, tooltips' },
-    { name: 'text-primary', hex: '#EDEDED', usage: 'Primary text' },
-    { name: 'text-secondary', hex: '#8C8C8C', usage: 'Supporting text' },
-    { name: 'text-muted', hex: '#555555', usage: 'Placeholders, disabled' },
-    { name: 'border', hex: '#282828', usage: 'Dividers, subtle borders' },
-    { name: 'border-strong', hex: '#333333', usage: 'Input borders' },
-    { name: 'error', hex: '#F04747', usage: 'Errors' },
-    { name: 'warning', hex: '#F5A623', usage: 'Warnings' },
-  ];
-
-  const grid = document.getElementById('swatchGrid');
-  colors.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 'color-swatch';
-    el.innerHTML = `
-      <div class="swatch-block" style="background:${c.hex};">
-        <div class="swatch-copy-hint">copy hex</div>
-      </div>
-      <div class="swatch-info">
-        <div class="swatch-name">${c.name}</div>
-        <div class="swatch-hex">${c.hex}</div>
-        <div class="swatch-usage">${c.usage}</div>
-      </div>
-    `;
-    el.addEventListener('click', () => {
-      navigator.clipboard.writeText(c.hex).then(() => showToast(`${c.hex}`));
-    });
-    grid.appendChild(el);
-  });
-
-  const spacings = [
-    { token: 'space-1', value: 4 },
-    { token: 'space-2', value: 8 },
-    { token: 'space-3', value: 12 },
-    { token: 'space-4', value: 16 },
-    { token: 'space-5', value: 20 },
-    { token: 'space-6', value: 24 },
-    { token: 'space-8', value: 32 },
-  ];
-
-  const scaleEl = document.getElementById('spacingScale');
-  const maxVal = 32;
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'spacing-row';
-    const pct = (s.value / maxVal) * 100;
-    row.innerHTML = `
-      <span class="sp-token">${s.token}</span>
-      <div class="sp-bar-wrap">
-        <div class="sp-bar" style="width:${pct}%; max-width:360px;"></div>
-      </div>
-      <span class="sp-value">${s.value}px</span>
-    `;
-    scaleEl.appendChild(row);
-  });
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = `copied ${msg}`;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    if (html.getAttribute('data-theme') === 'dark') {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '🌙 Dark';
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☀️ Light';
+    }
+  }
+  function copyHex(hex) {
+    navigator.clipboard.writeText(hex).catch(() => {});
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Copied ' + hex;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
   }
 </script>
 </body>
