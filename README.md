@@ -61,6 +61,13 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 38 | [Algolia](brands/algolia/DESIGN.md) | Developer Tools | [preview](brands/algolia/preview.html) |
 | 39 | [Segment](brands/segment/DESIGN.md) | Developer Tools | [preview](brands/segment/preview.html) |
 | 40 | [Amplitude](brands/amplitude/DESIGN.md) | Analytics | [preview](brands/amplitude/preview.html) |
+| 41 | [Jira](brands/jira/DESIGN.md) | Developer Tools | [preview](brands/jira/preview.html) |
+| 42 | [GitLab](brands/gitlab/DESIGN.md) | Developer Tools | [preview](brands/gitlab/preview.html) |
+| 43 | [Terraform](brands/terraform/DESIGN.md) | Developer Tools | [preview](brands/terraform/preview.html) |
+| 44 | [Airtable](brands/airtable/DESIGN.md) | Productivity | [preview](brands/airtable/preview.html) |
+| 45 | [Mixpanel](brands/mixpanel/DESIGN.md) | Analytics | [preview](brands/mixpanel/preview.html) |
+| 46 | [Intercom](brands/intercom/DESIGN.md) | Developer Tools | [preview](brands/intercom/preview.html) |
+| 47 | [PagerDuty](brands/pagerduty/DESIGN.md) | Developer Tools | [preview](brands/pagerduty/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

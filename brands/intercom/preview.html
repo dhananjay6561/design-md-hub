@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Intercom – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #0C1219; --surface: #14202E; --elevated: #1D2F42; --border: #283E55;
+  --primary: #1F8EFA; --primary-hover: #0F7AE5;
+  --online: #00C896; --warning: #F5A623; --danger: #FC4747;
+  --text: #EDF2F7; --text-2: #7FA8C4; --text-3: #3D6080;
+  --toggle-bg: #1D2F42; --toggle-text: #EDF2F7; --toggle-border: #283E55;
+}
+:root[data-theme="light"] {
+  --bg: #F0F6FF; --surface: #FFFFFF; --elevated: #D8EBF8; --border: #BDD6EC;
+  --primary: #1F8EFA; --primary-hover: #0F7AE5;
+  --online: #00A87A; --warning: #B07000; --danger: #C02020;
+  --text: #0C1219; --text-2: #2A5070; --text-3: #7FA8C4;
+  --toggle-bg: #D8EBF8; --toggle-text: #0C1219; --toggle-border: #BDD6EC;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Chat bubbles */
+.chat-wrap { display: flex; flex-direction: column; gap: 10px; }
+.msg-row { display: flex; gap: 8px; align-items: flex-end; }
+.msg-row.user { flex-direction: row-reverse; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; position: relative; }
+.presence { position: absolute; bottom: 0; right: 0; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--surface); }
+.bubble { max-width: 220px; padding: 10px 14px; font-size: 13px; line-height: 1.45; }
+.bubble.agent { background: var(--elevated); border-radius: 18px 18px 18px 4px; color: var(--text); }
+.bubble.user { background: var(--primary); border-radius: 18px 18px 4px 18px; color: #fff; }
+.bubble-time { font-size: 10px; color: var(--text-3); margin-top: 3px; text-align: right; }
+/* Conversation list */
+.conv-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+.conv-row:last-child { border-bottom: none; }
+.conv-row:hover { background: var(--elevated); border-radius: 6px; padding: 10px 8px; margin: 0 -8px; }
+.conv-info { flex: 1; min-width: 0; }
+.conv-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.conv-preview { font-size: 12px; color: var(--text-3); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.unread-badge { background: var(--primary); color: #fff; border-radius: 9999px; font-size: 10px; font-weight: 700; padding: 2px 7px; flex-shrink: 0; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--online); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--online); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0C1219"/>
+      <!-- Intercom speech bubble mark -->
+      <rect x="14" y="16" width="44" height="32" rx="8" fill="#1F8EFA"/>
+      <circle cx="26" cy="32" r="3.5" fill="white"/>
+      <circle cx="36" cy="32" r="3.5" fill="white"/>
+      <circle cx="46" cy="32" r="3.5" fill="white"/>
+      <path d="M22 48 L28 56 L36 48" fill="#1F8EFA"/>
+    </svg>
+    <div class="hero-text"><h1>Intercom</h1><p>Customer messaging — live chat, support, and product tours at scale</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1F8EFA',this)"><div class="swatch-dot" style="background:#1F8EFA"></div><div class="swatch-name">Blue</div><div class="swatch-hex">#1F8EFA</div></div>
+        <div class="swatch" onclick="copyHex('#00C896',this)"><div class="swatch-dot" style="background:#00C896"></div><div class="swatch-name">Online</div><div class="swatch-hex">#00C896</div></div>
+        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#F5A623</div></div>
+        <div class="swatch" onclick="copyHex('#FC4747',this)"><div class="swatch-dot" style="background:#FC4747"></div><div class="swatch-name">Danger</div><div class="swatch-hex">#FC4747</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0C1219',this)"><div class="swatch-dot" style="background:#0C1219;border:1px solid #283E55"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0C1219</div></div>
+        <div class="swatch" onclick="copyHex('#14202E',this)"><div class="swatch-dot" style="background:#14202E;border:1px solid #283E55"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#14202E</div></div>
+        <div class="swatch" onclick="copyHex('#1D2F42',this)"><div class="swatch-dot" style="background:#1D2F42"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1D2F42</div></div>
+        <div class="swatch" onclick="copyHex('#283E55',this)"><div class="swatch-dot" style="background:#283E55"></div><div class="swatch-name">Border</div><div class="swatch-hex">#283E55</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — chat messages, notes, conversation previews</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;">Bubble — chat message content</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">10px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:10px;color:var(--text-3);">Timestamp — 2m ago · Seen</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Chat Thread</h3>
+        <div class="chat-wrap">
+          <div class="msg-row">
+            <div class="avatar" style="background:#1D2F42;color:var(--text-2)">S<div class="presence" style="background:#00C896"></div></div>
+            <div><div class="bubble agent">Hey! How can I help you today?</div><div class="bubble-time">Sarah · 2m ago</div></div>
+          </div>
+          <div class="msg-row user">
+            <div class="avatar" style="background:#1F8EFA;color:#fff">M</div>
+            <div><div class="bubble user">I can't reset my password</div><div class="bubble-time">Just now · Sent</div></div>
+          </div>
+          <div class="msg-row">
+            <div class="avatar" style="background:#1D2F42;color:var(--text-2)">S<div class="presence" style="background:#00C896"></div></div>
+            <div><div class="bubble agent">No problem! Let me send you a reset link right away.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Conversation List</h3>
+        <div class="conv-row">
+          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">A<div class="presence" style="background:#00C896"></div></div>
+          <div class="conv-info"><div class="conv-name">Alice Martin</div><div class="conv-preview">Can I upgrade my plan today?</div></div>
+          <span class="unread-badge">2</span>
+        </div>
+        <div class="conv-row">
+          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">J<div class="presence" style="background:#3D6080"></div></div>
+          <div class="conv-info"><div class="conv-name">James K.</div><div class="conv-preview">Thanks, that worked perfectly!</div></div>
+          <span style="font-size:10px;color:var(--text-3)">1h</span>
+        </div>
+        <div class="conv-row">
+          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">P<div class="presence" style="background:#3D6080"></div></div>
+          <div class="conv-info"><div class="conv-name">Priya S.</div><div class="conv-preview">Is there a bulk export option?</div></div>
+          <span style="font-size:10px;color:var(--text-3)">3h</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Buttons</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-primary">New Conversation</button>
+          <button class="btn btn-ghost">View All</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>User vs agent bubbles must be clearly distinct</li>
+        <li>Presence dot always visible on avatars</li>
+        <li>Generous padding in chat bubbles</li>
+        <li>Unread badge must be prominent</li>
+        <li>Never truncate message below 2 lines in preview</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't reuse blue for non-user messages</li>
+        <li>Don't hide the send button on mobile</li>
+        <li>Don't use tiny timestamps — they must be legible</li>
+        <li>Don't remove presence dot from avatars</li>
+        <li>Don't use justified text in chat bubbles</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

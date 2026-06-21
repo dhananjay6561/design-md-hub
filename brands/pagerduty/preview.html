@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PagerDuty – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #0B0B0E; --surface: #14151A; --elevated: #1E1F26; --border: #2C2E38;
+  --primary: #06AC38; --primary-hover: #059030;
+  --p1: #E8001C; --p2: #FF6B00; --p3: #F5A623; --p4: #2D9CDB; --p5: #828282;
+  --triggered: #E8001C; --ack: #F5A623; --resolved: #06AC38; --silenced: #828282;
+  --text: #F0F1F5; --text-2: #8A8FA8; --text-3: #4A4E62;
+  --toggle-bg: #1E1F26; --toggle-text: #F0F1F5; --toggle-border: #2C2E38;
+}
+:root[data-theme="light"] {
+  --bg: #F2FFF6; --surface: #FFFFFF; --elevated: #D6F5E0; --border: #B8E8C8;
+  --primary: #06AC38; --primary-hover: #059030;
+  --p1: #C40018; --p2: #CC5500; --p3: #B07000; --p4: #1A7AB0; --p5: #606060;
+  --triggered: #C40018; --ack: #B07000; --resolved: #06AC38; --silenced: #606060;
+  --text: #0B0B0E; --text-2: #2A2E40; --text-3: #8A8FA8;
+  --toggle-bg: #D6F5E0; --toggle-text: #0B0B0E; --toggle-border: #B8E8C8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Incident card */
+.incident-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; border-left-width: 4px; }
+.inc-p1 { border-left-color: var(--p1); }
+.inc-p2 { border-left-color: var(--p2); }
+.inc-p3 { border-left-color: var(--p3); }
+.inc-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.inc-title { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+.status-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+.st-triggered { background: rgba(232,0,28,0.12); color: #E8001C; }
+.st-ack { background: rgba(245,166,35,0.12); color: #F5A623; }
+.st-resolved { background: rgba(6,172,56,0.12); color: #06AC38; }
+.inc-meta { font-size: 11px; color: var(--text-3); margin-top: 6px; }
+.inc-service { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+/* On-call schedule */
+.oncall-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.oncall-row:last-child { border-bottom: none; }
+.oncall-row.active { background: rgba(6,172,56,0.06); border-radius: 6px; padding: 10px 8px; margin: 0 -8px; border-left: 3px solid var(--primary); }
+.oc-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--elevated); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-2); flex-shrink: 0; }
+.oc-name { font-size: 13px; font-weight: 500; flex: 1; }
+.oc-shift { font-size: 11px; color: var(--text-3); font-family: 'JetBrains Mono', monospace; }
+.sev-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
+.sev-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.sev-label { font-size: 12px; font-weight: 600; width: 80px; }
+.sev-desc { font-size: 12px; color: var(--text-2); }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-danger { background: var(--p1); color: #fff; }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--resolved); } .guardrail-card.dont { border-top: 3px solid var(--triggered); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--resolved); } .guardrail-card.dont .guardrail-label { color: var(--triggered); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0B0B0E"/>
+      <!-- PagerDuty PD mark -->
+      <rect x="18" y="16" width="14" height="40" rx="4" fill="#06AC38"/>
+      <path d="M32 16 C50 16 50 36 32 36" stroke="#06AC38" stroke-width="0" fill="#06AC38"/>
+      <rect x="38" y="36" width="14" height="20" rx="4" fill="#06AC38" opacity="0.7"/>
+      <path d="M38 36 C56 36 56 56 38 56" stroke="#06AC38" stroke-width="0" fill="#06AC38" opacity="0.7"/>
+    </svg>
+    <div class="hero-text"><h1>PagerDuty</h1><p>Incident management — on-call scheduling, alerting, and response automation</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand & Severity</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#06AC38',this)"><div class="swatch-dot" style="background:#06AC38"></div><div class="swatch-name">Green</div><div class="swatch-hex">#06AC38</div></div>
+        <div class="swatch" onclick="copyHex('#E8001C',this)"><div class="swatch-dot" style="background:#E8001C"></div><div class="swatch-name">P1 Critical</div><div class="swatch-hex">#E8001C</div></div>
+        <div class="swatch" onclick="copyHex('#FF6B00',this)"><div class="swatch-dot" style="background:#FF6B00"></div><div class="swatch-name">P2 High</div><div class="swatch-hex">#FF6B00</div></div>
+        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-name">P3 Medium</div><div class="swatch-hex">#F5A623</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0B0B0E',this)"><div class="swatch-dot" style="background:#0B0B0E;border:1px solid #2C2E38"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0B0B0E</div></div>
+        <div class="swatch" onclick="copyHex('#14151A',this)"><div class="swatch-dot" style="background:#14151A;border:1px solid #2C2E38"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#14151A</div></div>
+        <div class="swatch" onclick="copyHex('#1E1F26',this)"><div class="swatch-dot" style="background:#1E1F26"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1E1F26</div></div>
+        <div class="swatch" onclick="copyHex('#2C2E38',this)"><div class="swatch-dot" style="background:#2C2E38"></div><div class="swatch-name">Border</div><div class="swatch-hex">#2C2E38</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — incident summaries, runbook steps, notes</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, service names, escalation policy</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--primary);">payment-service-prod</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Incident Alerts</h3>
+        <div class="incident-card inc-p1">
+          <div class="inc-header"><span class="inc-title">Payment API — 5xx error rate &gt; 20%</span><span class="status-badge st-triggered">Triggered</span></div>
+          <div class="inc-service">payment-service-prod</div>
+          <div class="inc-meta">P1 · 3 min ago · Auto-escalated</div>
+        </div>
+        <div class="incident-card inc-p2">
+          <div class="inc-header"><span class="inc-title">Auth latency spike p99 &gt; 2s</span><span class="status-badge st-ack">Acknowledged</span></div>
+          <div class="inc-service">auth-service-prod</div>
+          <div class="inc-meta">P2 · 12 min ago · Assigned to Maya</div>
+        </div>
+        <div class="incident-card" style="border-left-color:var(--resolved)">
+          <div class="inc-header"><span class="inc-title">CDN cache invalidation complete</span><span class="status-badge st-resolved">Resolved</span></div>
+          <div class="inc-service">cdn-edge-nodes</div>
+          <div class="inc-meta">P3 · Resolved 8 min ago</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>On-Call Schedule</h3>
+        <div class="oncall-row active">
+          <div class="oc-avatar" style="color:#06AC38">M</div>
+          <div style="flex:1"><div class="oc-name">Maya Patel</div><div class="oc-shift">Now → Jun 22 09:00</div></div>
+          <span style="font-size:11px;color:#06AC38;font-weight:600">On call</span>
+        </div>
+        <div class="oncall-row">
+          <div class="oc-avatar">R</div>
+          <div style="flex:1"><div class="oc-name">Raj Kumar</div><div class="oc-shift">Jun 22 → Jun 24</div></div>
+        </div>
+        <div class="oncall-row">
+          <div class="oc-avatar">S</div>
+          <div style="flex:1"><div class="oc-name">Sara Chen</div><div class="oc-shift">Jun 24 → Jun 26</div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Severity Scale</h3>
+        <div class="sev-row"><div class="sev-dot" style="background:#E8001C"></div><span class="sev-label" style="color:#E8001C">P1</span><span class="sev-desc">Critical — immediate action</span></div>
+        <div class="sev-row"><div class="sev-dot" style="background:#FF6B00"></div><span class="sev-label" style="color:#FF6B00">P2</span><span class="sev-desc">High — urgent response</span></div>
+        <div class="sev-row"><div class="sev-dot" style="background:#F5A623"></div><span class="sev-label" style="color:#F5A623">P3</span><span class="sev-desc">Medium — same shift</span></div>
+        <div class="sev-row"><div class="sev-dot" style="background:#2D9CDB"></div><span class="sev-label" style="color:#2D9CDB">P4</span><span class="sev-desc">Low — informational</span></div>
+        <div style="margin-top:14px;display:flex;gap:10px;">
+          <button class="btn btn-danger">Trigger Incident</button>
+          <button class="btn btn-ghost">View Schedule</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>Severity colors are life-safety semantics — never repurpose</li>
+        <li>P1 incidents must have prominent red treatment</li>
+        <li>Service names always in monospace</li>
+        <li>Resolved state must feel calming — green, not grey</li>
+        <li>Acknowledge button always visible, never behind hover</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't use grey for resolved — it reads as deprioritized</li>
+        <li>Don't reuse P-level colors for other meanings</li>
+        <li>Don't truncate incident titles</li>
+        <li>Don't hide on-call person behind a click</li>
+        <li>Don't use color alone for severity — always show P-label</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

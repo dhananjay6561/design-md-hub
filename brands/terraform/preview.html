@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terraform – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #1A1625; --surface: #231E32; --elevated: #2D2740; --border: #3D3558;
+  --primary: #844FBA; --primary-hover: #6B3FA0;
+  --add: #27AE60; --change: #F39C12; --destroy: #E74C3C; --noop: #7F8C8D;
+  --text: #EDE8F8; --text-2: #9A8FC0; --text-3: #5A5078;
+  --toggle-bg: #2D2740; --toggle-text: #EDE8F8; --toggle-border: #3D3558;
+}
+:root[data-theme="light"] {
+  --bg: #F5F2FF; --surface: #FFFFFF; --elevated: #EBE3FF; --border: #D8CCEE;
+  --primary: #844FBA; --primary-hover: #6B3FA0;
+  --add: #1E8449; --change: #B7770D; --destroy: #C0392B; --noop: #666;
+  --text: #1A1625; --text-2: #4A3A70; --text-3: #9A8FC0;
+  --toggle-bg: #EBE3FF; --toggle-text: #1A1625; --toggle-border: #D8CCEE;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Plan output */
+.plan-block { background: #0D0A15; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.9; }
+.plan-add { color: #27AE60; } .plan-change { color: #F39C12; } .plan-destroy { color: #E74C3C; } .plan-noop { color: #7F8C8D; }
+.plan-summary { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
+/* Resource card */
+.resource-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.res-address { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); margin-bottom: 6px; }
+.res-attrs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
+.res-attr { font-size: 11px; } .res-key { color: var(--text-3); } .res-val { color: var(--text-2); font-family: 'JetBrains Mono', monospace; }
+/* Provider badge */
+.provider-tag { display: inline-block; background: rgba(132,79,186,0.12); border: 1px solid rgba(132,79,186,0.3); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 3px; }
+.status-chip { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
+.chip-planned { background: rgba(39,174,96,0.12); color: #27AE60; }
+.chip-applied { background: rgba(39,174,96,0.2); color: #2ECC71; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--add); } .guardrail-card.dont { border-top: 3px solid var(--destroy); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--add); } .guardrail-card.dont .guardrail-label { color: var(--destroy); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#1A1625"/>
+      <!-- Terraform diamond/T mark -->
+      <path d="M36 14 L52 24 L52 44 L36 54 L20 44 L20 24 Z" fill="none" stroke="#844FBA" stroke-width="2.5"/>
+      <path d="M28 28 L28 44 L36 40 L36 32 Z" fill="#844FBA"/>
+      <path d="M44 24 L44 40 L36 36 L36 28 Z" fill="#A678D4" opacity="0.8"/>
+    </svg>
+    <div class="hero-text"><h1>Terraform</h1><p>Infrastructure as code — provision and manage cloud resources declaratively</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand & Plan Diff</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#844FBA',this)"><div class="swatch-dot" style="background:#844FBA"></div><div class="swatch-name">Purple</div><div class="swatch-hex">#844FBA</div></div>
+        <div class="swatch" onclick="copyHex('#27AE60',this)"><div class="swatch-dot" style="background:#27AE60"></div><div class="swatch-name">+ Add</div><div class="swatch-hex">#27AE60</div></div>
+        <div class="swatch" onclick="copyHex('#F39C12',this)"><div class="swatch-dot" style="background:#F39C12"></div><div class="swatch-name">~ Change</div><div class="swatch-hex">#F39C12</div></div>
+        <div class="swatch" onclick="copyHex('#E74C3C',this)"><div class="swatch-dot" style="background:#E74C3C"></div><div class="swatch-name">- Destroy</div><div class="swatch-hex">#E74C3C</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1A1625',this)"><div class="swatch-dot" style="background:#1A1625;border:1px solid #3D3558"></div><div class="swatch-name">Background</div><div class="swatch-hex">#1A1625</div></div>
+        <div class="swatch" onclick="copyHex('#231E32',this)"><div class="swatch-dot" style="background:#231E32;border:1px solid #3D3558"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#231E32</div></div>
+        <div class="swatch" onclick="copyHex('#2D2740',this)"><div class="swatch-dot" style="background:#2D2740"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#2D2740</div></div>
+        <div class="swatch" onclick="copyHex('#3D3558',this)"><div class="swatch-dot" style="background:#3D3558"></div><div class="swatch-name">Border</div><div class="swatch-hex">#3D3558</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — workspace descriptions, run history, docs</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, run IDs, workspace labels</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">aws_s3_bucket.app_assets</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <h3>Plan Output</h3>
+        <div class="plan-block">
+          <div class="plan-add">+ aws_s3_bucket.app_assets</div>
+          <div class="plan-add">+ aws_cloudfront.distribution</div>
+          <div class="plan-change">~ aws_iam_role.lambda_exec</div>
+          <div class="plan-destroy">- aws_lambda.old_handler</div>
+          <div class="plan-noop">= aws_vpc.main (no changes)</div>
+          <div class="plan-summary">Plan: 2 to add, 1 to change, 1 to destroy.</div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Resource</h3>
+        <div class="resource-card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div class="res-address">aws_s3_bucket.app_assets</div>
+            <span class="status-chip chip-planned">planned</span>
+          </div>
+          <div class="res-attrs">
+            <div class="res-attr"><span class="res-key">bucket</span><br><span class="res-val">my-app-prod</span></div>
+            <div class="res-attr"><span class="res-key">region</span><br><span class="res-val">us-east-1</span></div>
+            <div class="res-attr"><span class="res-key">versioning</span><br><span class="res-val">true</span></div>
+            <div class="res-attr"><span class="res-key">acl</span><br><span class="res-val">private</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Provider Badges</h3>
+        <div><span class="provider-tag">aws</span><span class="provider-tag">google</span><span class="provider-tag">azurerm</span><span class="provider-tag">kubernetes</span><span class="provider-tag">datadog</span></div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Apply Plan</button>
+          <button class="btn btn-ghost">View State</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>Resource addresses always in monospace</li>
+        <li>Plan diff colors (+/-/~) must match exactly</li>
+        <li>Always show plan summary count before apply</li>
+        <li>Provider names always in monospace</li>
+        <li>Destroy actions need prominent red treatment</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't abbreviate resource addresses</li>
+        <li>Don't repurpose plan diff colors</li>
+        <li>Don't allow apply without showing plan first</li>
+        <li>Don't use color alone to convey plan type</li>
+        <li>Don't truncate attribute values in resource view</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

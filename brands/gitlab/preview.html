@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GitLab – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #1F1F1F; --surface: #2B2B2B; --elevated: #363636; --border: #4A4A4A;
+  --primary: #FC6D26; --primary-hover: #E24329;
+  --success: #108548; --warning: #C17D10; --danger: #AE1800;
+  --text: #FAFAFA; --text-2: #ACACAC; --text-3: #737373;
+  --toggle-bg: #363636; --toggle-text: #FAFAFA; --toggle-border: #4A4A4A;
+}
+:root[data-theme="light"] {
+  --bg: #F9F9F9; --surface: #FFFFFF; --elevated: #FFE8D9; --border: #E0E0E0;
+  --primary: #FC6D26; --primary-hover: #E24329;
+  --success: #108548; --warning: #A56200; --danger: #AE1800;
+  --text: #1F1F1F; --text-2: #555; --text-3: #999;
+  --toggle-bg: #FFE8D9; --toggle-text: #1F1F1F; --toggle-border: #E0E0E0;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Pipeline */
+.pipeline-chain { display: flex; align-items: center; gap: 0; overflow-x: auto; padding-bottom: 4px; }
+.pipe-stage { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+.pipe-connector { width: 24px; height: 2px; background: var(--border); flex-shrink: 0; }
+.pipe-job { width: 72px; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; text-align: center; border: 1px solid; }
+.pipe-passed { background: rgba(16,133,72,0.12); color: #1aaa55; border-color: rgba(16,133,72,0.3); }
+.pipe-running { background: rgba(252,109,38,0.12); color: #FC6D26; border-color: rgba(252,109,38,0.3); }
+.pipe-failed { background: rgba(174,24,0,0.12); color: #f14a26; border-color: rgba(174,24,0,0.3); }
+.pipe-pending { background: rgba(117,111,163,0.12); color: #756FA3; border-color: rgba(117,111,163,0.3); }
+.pipe-label { font-size: 10px; color: var(--text-3); }
+/* MR rows */
+.mr-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.mr-row:last-child { border-bottom: none; }
+.mr-title { flex: 1; font-size: 13px; color: var(--text); }
+.mr-branch { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
+.mr-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+.mr-open { background: rgba(16,133,72,0.12); color: #1aaa55; }
+.mr-draft { background: rgba(172,172,172,0.12); color: #ACACAC; }
+.branch-tag { display: inline-block; background: rgba(252,109,38,0.10); border: 1px solid rgba(252,109,38,0.28); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin: 3px; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#1F1F1F"/>
+      <!-- GitLab fox/diamond mark -->
+      <path d="M36 54 L18 28 L24 20 L36 38 L48 20 L54 28 Z" fill="#FC6D26"/>
+      <path d="M18 28 L14 40 L36 54 Z" fill="#FCA326" opacity="0.8"/>
+      <path d="M54 28 L58 40 L36 54 Z" fill="#FCA326" opacity="0.8"/>
+    </svg>
+    <div class="hero-text"><h1>GitLab</h1><p>DevOps platform — code, CI/CD, security, and deployment in one place</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand & Pipeline</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FC6D26',this)"><div class="swatch-dot" style="background:#FC6D26"></div><div class="swatch-name">Orange</div><div class="swatch-hex">#FC6D26</div></div>
+        <div class="swatch" onclick="copyHex('#108548',this)"><div class="swatch-dot" style="background:#108548"></div><div class="swatch-name">Passed</div><div class="swatch-hex">#108548</div></div>
+        <div class="swatch" onclick="copyHex('#AE1800',this)"><div class="swatch-dot" style="background:#AE1800"></div><div class="swatch-name">Failed</div><div class="swatch-hex">#AE1800</div></div>
+        <div class="swatch" onclick="copyHex('#756FA3',this)"><div class="swatch-dot" style="background:#756FA3"></div><div class="swatch-name">Pending</div><div class="swatch-hex">#756FA3</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#1F1F1F',this)"><div class="swatch-dot" style="background:#1F1F1F;border:1px solid #4A4A4A"></div><div class="swatch-name">Background</div><div class="swatch-hex">#1F1F1F</div></div>
+        <div class="swatch" onclick="copyHex('#2B2B2B',this)"><div class="swatch-dot" style="background:#2B2B2B;border:1px solid #4A4A4A"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#2B2B2B</div></div>
+        <div class="swatch" onclick="copyHex('#363636',this)"><div class="swatch-dot" style="background:#363636"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#363636</div></div>
+        <div class="swatch" onclick="copyHex('#4A4A4A',this)"><div class="swatch-dot" style="background:#4A4A4A"></div><div class="swatch-name">Border</div><div class="swatch-hex">#4A4A4A</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Page Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — MR descriptions, pipeline logs, issue details</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, job names, metadata</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">feat/add-oauth-provider</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card" style="grid-column: span 2">
+        <h3>Pipeline Stages</h3>
+        <div class="pipeline-chain">
+          <div class="pipe-stage"><div class="pipe-label">build</div><div class="pipe-job pipe-passed">✓ compile</div></div>
+          <div class="pipe-connector"></div>
+          <div class="pipe-stage"><div class="pipe-label">test</div><div class="pipe-job pipe-passed">✓ unit</div></div>
+          <div class="pipe-connector"></div>
+          <div class="pipe-stage"><div class="pipe-label">test</div><div class="pipe-job pipe-running">⟳ e2e</div></div>
+          <div class="pipe-connector"></div>
+          <div class="pipe-stage"><div class="pipe-label">security</div><div class="pipe-job pipe-pending">◷ sast</div></div>
+          <div class="pipe-connector"></div>
+          <div class="pipe-stage"><div class="pipe-label">deploy</div><div class="pipe-job pipe-pending">◷ staging</div></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Merge Requests</h3>
+        <div class="mr-row"><div style="width:8px;height:8px;border-radius:50%;background:#1aaa55;flex-shrink:0"></div><div style="flex:1"><div class="mr-title">feat: add SSO with SAML 2.0</div><div class="mr-branch">feat/saml-sso</div></div><span class="mr-badge mr-open">Open</span></div>
+        <div class="mr-row"><div style="width:8px;height:8px;border-radius:50%;background:#ACACAC;flex-shrink:0"></div><div style="flex:1"><div class="mr-title">WIP: refactor auth middleware</div><div class="mr-branch">refactor/auth-v2</div></div><span class="mr-badge mr-draft">Draft</span></div>
+      </div>
+      <div class="comp-card">
+        <h3>Branch Tags</h3>
+        <div><span class="branch-tag">main</span><span class="branch-tag">feat/saml-sso</span><span class="branch-tag">fix/token-refresh</span></div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <button class="btn btn-primary">New MR</button>
+          <button class="btn btn-ghost">Run Pipeline</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>Branch names always in monospace</li>
+        <li>Pipeline stage chain always horizontal</li>
+        <li>Pipeline status colors match the defined set exactly</li>
+        <li>Show passed/total count per stage header</li>
+        <li>Use orange only for brand and running state</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't use orange for error states</li>
+        <li>Don't truncate MR titles on desktop</li>
+        <li>Don't stack pipeline stages vertically</li>
+        <li>Don't hide pipeline job status behind a click</li>
+        <li>Don't use more than 6 pipeline stages</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>

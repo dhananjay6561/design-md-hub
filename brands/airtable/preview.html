@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Airtable – Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"] {
+  --bg: #18191A; --surface: #242526; --elevated: #2E2F30; --border: #3E3F40;
+  --primary: #2D7FF9; --primary-hover: #1D6FE9; --accent: #FCB400;
+  --text: #F0F0F0; --text-2: #A0A0A0; --text-3: #606060;
+  --toggle-bg: #2E2F30; --toggle-text: #F0F0F0; --toggle-border: #3E3F40;
+}
+:root[data-theme="light"] {
+  --bg: #F7F7F8; --surface: #FFFFFF; --elevated: #E8F0FF; --border: #DCDCDD;
+  --primary: #2D7FF9; --primary-hover: #1D6FE9; --accent: #FCB400;
+  --text: #18191A; --text-2: #505050; --text-3: #A0A0A0;
+  --toggle-bg: #E8F0FF; --toggle-text: #18191A; --toggle-border: #DCDCDD;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.toggle-btn:hover { border-color: var(--primary); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
+.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
+.section { margin-bottom: 56px; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
+.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
+.swatch:hover { border-color: var(--primary); }
+.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.type-row:last-child { border-bottom: none; }
+.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
+.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* Grid view */
+.grid-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.grid-table th { background: var(--elevated); color: var(--text-2); font-weight: 600; padding: 7px 10px; text-align: left; border: 1px solid var(--border); font-size: 11px; }
+.grid-table td { padding: 7px 10px; border: 1px solid var(--border); color: var(--text); vertical-align: middle; }
+.grid-table tr:hover td { background: var(--elevated); }
+.grid-row-num { color: var(--text-3); font-size: 10px; width: 28px; text-align: center; }
+/* Select chip */
+.sel-chip { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 9999px; }
+/* Field type badge */
+.field-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; padding: 3px 10px; border-radius: 4px; background: var(--elevated); color: var(--text-2); margin: 3px; }
+/* Base cards */
+.base-card { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s; }
+.base-card:hover { border-color: var(--primary); }
+.base-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.base-name { font-size: 14px; font-weight: 500; }
+.base-ws { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
+.spacing-list { display: flex; flex-direction: column; gap: 10px; }
+.spacing-row { display: flex; align-items: center; gap: 16px; }
+.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
+.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
+.spacing-value { font-size: 11px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.guardrail-card.do { border-top: 3px solid #20C933; } .guardrail-card.dont { border-top: 3px solid #F82B60; }
+.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.guardrail-card.do .guardrail-label { color: #20C933; } .guardrail-card.dont .guardrail-label { color: #F82B60; }
+.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
+.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+</style>
+</head>
+<body>
+<button class="toggle-btn" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+  <div class="hero">
+    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#18191A"/>
+      <!-- Airtable A mark with colored blocks -->
+      <rect x="18" y="28" width="16" height="16" rx="3" fill="#FCB400"/>
+      <rect x="38" y="24" width="16" height="12" rx="3" fill="#2D7FF9"/>
+      <rect x="18" y="48" width="16" height="8" rx="3" fill="#F82B60" opacity="0.85"/>
+      <rect x="38" y="40" width="16" height="16" rx="3" fill="#20C933" opacity="0.85"/>
+    </svg>
+    <div class="hero-text"><h1>Airtable</h1><p>Flexible database platform — build apps, grids, and workflows without code</p></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-group"><div class="color-group-label">Brand & Field Types</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#2D7FF9',this)"><div class="swatch-dot" style="background:#2D7FF9"></div><div class="swatch-name">Blue</div><div class="swatch-hex">#2D7FF9</div></div>
+        <div class="swatch" onclick="copyHex('#FCB400',this)"><div class="swatch-dot" style="background:#FCB400"></div><div class="swatch-name">Yellow</div><div class="swatch-hex">#FCB400</div></div>
+        <div class="swatch" onclick="copyHex('#20C933',this)"><div class="swatch-dot" style="background:#20C933"></div><div class="swatch-name">Green</div><div class="swatch-hex">#20C933</div></div>
+        <div class="swatch" onclick="copyHex('#F82B60',this)"><div class="swatch-dot" style="background:#F82B60"></div><div class="swatch-name">Pink</div><div class="swatch-hex">#F82B60</div></div>
+        <div class="swatch" onclick="copyHex('#8B46FF',this)"><div class="swatch-dot" style="background:#8B46FF"></div><div class="swatch-name">Purple</div><div class="swatch-hex">#8B46FF</div></div>
+        <div class="swatch" onclick="copyHex('#FF6F2C',this)"><div class="swatch-dot" style="background:#FF6F2C"></div><div class="swatch-name">Orange</div><div class="swatch-hex">#FF6F2C</div></div>
+      </div>
+    </div>
+    <div class="color-group"><div class="color-group-label">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#18191A',this)"><div class="swatch-dot" style="background:#18191A;border:1px solid #3E3F40"></div><div class="swatch-name">Background</div><div class="swatch-hex">#18191A</div></div>
+        <div class="swatch" onclick="copyHex('#242526',this)"><div class="swatch-dot" style="background:#242526;border:1px solid #3E3F40"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#242526</div></div>
+        <div class="swatch" onclick="copyHex('#2E2F30',this)"><div class="swatch-dot" style="background:#2E2F30"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#2E2F30</div></div>
+        <div class="swatch" onclick="copyHex('#3E3F40',this)"><div class="swatch-dot" style="background:#3E3F40"></div><div class="swatch-name">Border</div><div class="swatch-hex">#3E3F40</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography — Inter + JetBrains Mono</div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Base Title</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — record content, descriptions, comments</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — field labels, view names, metadata</div></div>
+    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--primary);">IF({Status}="Done", 1, 0)</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Grid View</h3>
+        <table class="grid-table">
+          <thead><tr>
+            <th class="grid-row-num">#</th>
+            <th>Name</th><th>Status</th><th>Priority</th><th>Due Date</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="grid-row-num">1</td><td>Homepage redesign</td><td><span class="sel-chip" style="background:rgba(32,201,51,0.15);color:#20C933">Done</span></td><td><span class="sel-chip" style="background:rgba(243,156,18,0.15);color:#F39C12">High</span></td><td>Jun 10</td></tr>
+            <tr><td class="grid-row-num">2</td><td>API rate limiting</td><td><span class="sel-chip" style="background:rgba(45,127,249,0.15);color:#2D7FF9">In Progress</span></td><td><span class="sel-chip" style="background:rgba(231,76,60,0.15);color:#E74C3C">Critical</span></td><td>Jun 18</td></tr>
+            <tr><td class="grid-row-num">3</td><td>Write release notes</td><td><span class="sel-chip" style="background:rgba(139,70,255,0.15);color:#8B46FF">Review</span></td><td><span class="sel-chip" style="background:rgba(96,96,96,0.15);color:#A0A0A0">Low</span></td><td>Jun 25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="comp-card">
+        <h3>Field Types</h3>
+        <div>
+          <span class="field-badge">📝 Text</span>
+          <span class="field-badge">🔢 Number</span>
+          <span class="field-badge">📅 Date</span>
+          <span class="field-badge">☑ Checkbox</span>
+          <span class="field-badge">🔗 Link</span>
+          <span class="field-badge">📎 Attachment</span>
+          <span class="field-badge">= Formula</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <h3>Bases</h3>
+        <div class="base-card"><div class="base-icon" style="background:#FCB40022">📊</div><div><div class="base-name">Product Roadmap</div><div class="base-ws">Engineering workspace</div></div></div>
+        <div class="base-card"><div class="base-icon" style="background:#2D7FF922">📋</div><div><div class="base-name">Content Calendar</div><div class="base-ws">Marketing workspace</div></div></div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <button class="btn btn-primary">New Base</button>
+          <button class="btn btn-ghost">Import</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing Scale</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
+        <li>Each select option gets a distinct color</li>
+        <li>Field type colors are semantic — use them consistently</li>
+        <li>Formulas and field IDs in monospace</li>
+        <li>Grid must show 20+ rows without scrolling</li>
+        <li>Row hover state must be clearly visible</li>
+      </ul></div>
+      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
+        <li>Don't use two identical select option colors</li>
+        <li>Don't repurpose field type colors for other meanings</li>
+        <li>Don't add vertical borders to grid cells</li>
+        <li>Don't close record expand modal without confirmation if edited</li>
+        <li>Don't truncate formula output in cells</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<script>
+function toggleTheme() { const r=document.documentElement; const d=r.getAttribute('data-theme')==='dark'; r.setAttribute('data-theme',d?'light':'dark'); document.querySelector('.toggle-btn').textContent=d?'🌙 Dark':'☀️ Light'; }
+function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</script>
+</body>
+</html>
