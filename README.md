@@ -15,21 +15,22 @@ A `DESIGN.md` is a single markdown file that describes a brand's visual language
 - Layout principles & responsive behavior
 - Tone, guardrails & dos/don'ts
 
-AI coding agents (Claude, Cursor, Copilot, etc.) read this file to generate UI that looks and feels like the real thing.
+AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI that looks and feels like the real thing.
 
 ## Browse the Collection
 
 | Brand | Category | Preview |
 |-------|----------|---------|
-| [Airbnb](design-md/airbnb.md) | Travel | — |
-| [Apple](design-md/apple.md) | Consumer | — |
-| [Claude](design-md/claude.md) | AI/LLM | — |
-| [GitHub](design-md/github.md) | Developer Tools | — |
-| [Linear](design-md/linear.md) | Developer Tools | — |
-| [Notion](design-md/notion.md) | Productivity | — |
-| [OpenAI](design-md/openai.md) | AI/LLM | — |
-| [Spotify](design-md/spotify.md) | Consumer | — |
-| [Vercel](design-md/vercel.md) | Developer Tools | — |
+| [Cursor](brands/cursor/DESIGN.md) | Developer Tools | [preview](brands/cursor/preview.html) |
+| [Figma](brands/figma/DESIGN.md) | Design Tools | [preview](brands/figma/preview.html) |
+| [GitHub](brands/github/DESIGN.md) | Developer Tools | [preview](brands/github/preview.html) |
+| [Linear](brands/linear/DESIGN.md) | Developer Tools | [preview](brands/linear/preview.html) |
+| [Notion](brands/notion/DESIGN.md) | Productivity | [preview](brands/notion/preview.html) |
+| [PlanetScale](brands/planetscale/DESIGN.md) | Developer Tools | [preview](brands/planetscale/preview.html) |
+| [Raycast](brands/raycast/DESIGN.md) | Developer Tools | [preview](brands/raycast/preview.html) |
+| [Stripe](brands/stripe/DESIGN.md) | Fintech | [preview](brands/stripe/preview.html) |
+| [Supabase](brands/supabase/DESIGN.md) | Developer Tools | [preview](brands/supabase/preview.html) |
+| [Vercel](brands/vercel/DESIGN.md) | Developer Tools | [preview](brands/vercel/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -37,20 +38,12 @@ AI coding agents (Claude, Cursor, Copilot, etc.) read this file to generate UI t
 
 1. Pick a `DESIGN.md` from the collection above
 2. Copy it into the root of your project
-3. Tell your AI agent: *"Follow the DESIGN.md in the root of this project"*
+3. Tell your coding agent: *"Follow the DESIGN.md in the root of this project"*
 4. Generate UI components, pages, or entire apps with consistent styling
-
-## Categories
-
-- **AI/LLM Platforms** — Claude, OpenAI, Mistral, Replicate
-- **Developer Tools** — GitHub, Linear, Vercel, Cursor, Raycast
-- **Productivity** — Notion, Figma, Loom
-- **Consumer** — Apple, Spotify, Nike, Airbnb
-- **Enterprise** — Salesforce, MongoDB, Stripe
 
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding a new `DESIGN.md`.
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding a new brand.
 
 ## License
 
