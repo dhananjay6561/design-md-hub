@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infisical Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root[data-theme="dark"] {
+    --bg: #0D0D0F;
+    --surface: #18181B;
+    --surface-raised: #232326;
+    --surface-overlay: #2C2C30;
+    --text-primary: #F4F4F5;
+    --text-secondary: #A1A1AA;
+    --text-muted: #71717A;
+    --border: #27272A;
+    --border-strong: #3F3F46;
+    --primary: #FFDE00;
+    --primary-hover: #F5D000;
+    --primary-dim: rgba(255,222,0,0.10);
+    --error: #F87171;
+    --warning: #FB923C;
+    --success: #4ADE80;
+  }
+  :root[data-theme="light"] {
+    --bg: #FFFFFF;
+    --surface: #FAFAFA;
+    --surface-raised: #F4F4F5;
+    --surface-overlay: #E4E4E7;
+    --text-primary: #09090B;
+    --text-secondary: #71717A;
+    --text-muted: #A1A1AA;
+    --border: #E4E4E7;
+    --border-strong: #D4D4D8;
+    --primary: #D4B800;
+    --primary-hover: #C4A800;
+    --primary-dim: rgba(212,184,0,0.10);
+    --error: #EF4444;
+    --warning: #F97316;
+    --success: #22C55E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.5; }
+  .toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); padding: 6px 14px; border-radius: 9999px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: background 120ms; }
+  .toggle-btn:hover { background: var(--surface-overlay); }
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+  .section { margin-bottom: 64px; }
+  .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; margin-bottom: 64px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: var(--primary-dim); border-radius: 50%; filter: blur(40px); }
+  .hero-logo { margin-bottom: 20px; }
+  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
+  .colors-group { margin-bottom: 32px; }
+  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+  .swatch { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 120ms; }
+  .swatch:hover { border-color: var(--border-strong); }
+  .swatch-block { height: 80px; width: 100%; }
+  .swatch-info { padding: 8px 10px; }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-overlay); border: 1px solid var(--border-strong); color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px; transition: transform 200ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
+  .type-sample { color: var(--text-primary); }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px; background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .comp-card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 120ms; }
+  .btn-primary { background: var(--primary); color: #0D0D0F; }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); font-weight: 500; }
+  .btn-secondary:hover { background: var(--surface-overlay); }
+  .btn-ghost { background: transparent; color: var(--text-secondary); font-weight: 500; }
+  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
+  .btn-danger { background: var(--error); color: #fff; }
+  .input-group { display: flex; flex-direction: column; gap: 8px; }
+  .input { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-primary); height: 32px; transition: border-color 120ms; width: 100%; }
+  .input::placeholder { color: var(--text-muted); font-family: 'Inter', sans-serif; }
+  .input:focus { outline: none; border-color: var(--primary); }
+  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .sample-card-title { font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
+  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
+  .spacing-row { display: flex; align-items: center; gap: 12px; }
+  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .spacing-bar-wrap { flex: 1; }
+  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
+  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
+  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: var(--success); }
+  .guardrails-heading.dont { color: var(--error); }
+  .guardrail-item { font-size: 13px; color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; border-left: 3px solid transparent; background: var(--surface); }
+  .guardrail-item.do { border-left-color: var(--success); }
+  .guardrail-item.dont { border-left-color: var(--error); }
+  @media (max-width: 600px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
+</style>
+</head>
+<body>
+<button class="toggle-btn" id="themeToggle" onclick="toggleTheme()">☀️ Light</button>
+<div class="toast" id="toast">Copied!</div>
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-logo">
+      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="16" fill="#18181B"/>
+        <path d="M50 15 L80 32 L80 68 L50 85 L20 68 L20 32 Z" fill="none" stroke="#FFDE00" stroke-width="5"/>
+        <circle cx="50" cy="50" r="12" fill="#FFDE00"/>
+        <line x1="50" y1="38" x2="50" y2="32" stroke="#FFDE00" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h1>Infisical</h1>
+    <p>Open-source secrets management — a security-first platform with a dark UI and a distinctive yellow accent.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FFDE00', this)"><div class="swatch-block" style="background:#FFDE00"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#FFDE00</div><div class="swatch-usage">CTAs, brand accent</div></div></div>
+        <div class="swatch" onclick="copyHex('#F5D000', this)"><div class="swatch-block" style="background:#F5D000"></div><div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#F5D000</div><div class="swatch-usage">Hover on primary</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0D0D0F', this)"><div class="swatch-block" style="background:#0D0D0F;border:1px solid #27272A"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#0D0D0F</div><div class="swatch-usage">App background</div></div></div>
+        <div class="swatch" onclick="copyHex('#18181B', this)"><div class="swatch-block" style="background:#18181B"></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#18181B</div><div class="swatch-usage">Cards, panels</div></div></div>
+        <div class="swatch" onclick="copyHex('#232326', this)"><div class="swatch-block" style="background:#232326"></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#232326</div><div class="swatch-usage">Elevated surfaces</div></div></div>
+        <div class="swatch" onclick="copyHex('#2C2C30', this)"><div class="swatch-block" style="background:#2C2C30"></div><div class="swatch-info"><div class="swatch-name">surface-overlay</div><div class="swatch-hex">#2C2C30</div><div class="swatch-usage">Modals, tooltips</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F4F4F5', this)"><div class="swatch-block" style="background:#F4F4F5"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#F4F4F5</div><div class="swatch-usage">Primary text</div></div></div>
+        <div class="swatch" onclick="copyHex('#A1A1AA', this)"><div class="swatch-block" style="background:#A1A1AA"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#A1A1AA</div><div class="swatch-usage">Supporting text</div></div></div>
+        <div class="swatch" onclick="copyHex('#71717A', this)"><div class="swatch-block" style="background:#71717A"></div><div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#71717A</div><div class="swatch-usage">Placeholders</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Semantic</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F87171', this)"><div class="swatch-block" style="background:#F87171"></div><div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#F87171</div><div class="swatch-usage">Errors, critical</div></div></div>
+        <div class="swatch" onclick="copyHex('#4ADE80', this)"><div class="swatch-block" style="background:#4ADE80"></div><div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#4ADE80</div><div class="swatch-usage">Synced, success</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-row"><div class="type-name">heading-lg</div><div class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.02em;">Secrets management</div><div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div></div>
+    <div class="type-row"><div class="type-name">heading-md</div><div class="type-sample" style="font-size:16px;font-weight:600;">Production secrets</div><div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div></div>
+    <div class="type-row"><div class="type-name">body</div><div class="type-sample" style="font-size:14px;font-weight:400;">Store and sync environment variables across your team</div><div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
+    <div class="type-row"><div class="type-name">body-sm</div><div class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary);">Last synced 2 minutes ago · 24 secrets</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
+    <div class="type-row"><div class="type-name">caption</div><div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-muted);">Production · 3 services connected</div><div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div></div>
+    <div class="type-row"><div class="type-name">code</div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">DATABASE_URL=••••••••</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-primary">Add Secret</button>
+          <button class="btn btn-secondary">Sync</button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-danger">Revoke</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="SECRET_KEY">
+          <input class="input" type="password" placeholder="••••••••••••" style="border-color:var(--primary);">
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Badges</div>
+        <div class="badge-group">
+          <span class="badge" style="background:rgba(74,222,128,0.12);color:#4ADE80;"><span class="badge-dot" style="background:#4ADE80"></span>Synced</span>
+          <span class="badge" style="background:rgba(255,222,0,0.12);color:#FFDE00;"><span class="badge-dot" style="background:#FFDE00"></span>Out of sync</span>
+          <span class="badge" style="background:rgba(248,113,113,0.12);color:#F87171;"><span class="badge-dot" style="background:#F87171"></span>Error</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Secret Row</div>
+        <div class="sample-card">
+          <div class="sample-card-header">
+            <div class="sample-card-title">DATABASE_URL</div>
+            <span class="badge" style="background:rgba(74,222,128,0.12);color:#4ADE80;font-size:11px;">Synced</span>
+          </div>
+          <div class="sample-card-meta">Production · Updated 5m ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-list">
+      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/32*100%)"></div></div><div class="spacing-val">4px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/32*100%)"></div></div><div class="spacing-val">8px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/32*100%)"></div></div><div class="spacing-val">12px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/32*100%)"></div></div><div class="spacing-val">16px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/32*100%)"></div></div><div class="spacing-val">20px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/32*100%)"></div></div><div class="spacing-val">24px</div></div>
+      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">32px</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrails-grid">
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Yellow accent is the brand — use it confidently for CTAs</div>
+        <div class="guardrail-item do">Mask all secret values by default</div>
+        <div class="guardrail-item do">Use monospace for all secret keys and values</div>
+        <div class="guardrail-item do">Show environment context always — Dev/Staging/Prod unambiguous</div>
+      </div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Show unmasked secrets in logs or error messages</div>
+        <div class="guardrail-item dont">Use yellow for warning states — it's a brand color</div>
+        <div class="guardrail-item dont">Use decorative animations near secret operations</div>
+        <div class="guardrail-item dont">Use light mode as default</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  if (html.getAttribute('data-theme') === 'dark') { html.setAttribute('data-theme', 'light'); btn.textContent = '🌙 Dark'; }
+  else { html.setAttribute('data-theme', 'dark'); btn.textContent = '☀️ Light'; }
+}
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
