@@ -51,14 +51,7 @@
     line-height: 1.5;
     transition: background 0.2s, color 0.2s;
   }
-  .toggle-btn {
-    position: fixed; top: 16px; right: 16px; z-index: 100;
-    background: var(--surface-raised); border: 1px solid var(--border-strong);
-    color: var(--text-primary); border-radius: 9999px;
-    padding: 6px 14px; font-size: 13px; cursor: pointer;
-    display: flex; align-items: center; gap: 6px;
-    font-family: inherit; transition: background 0.15s;
-  }
+  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
   .toggle-btn:hover { background: var(--surface-overlay); }
 
   .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
@@ -191,19 +184,21 @@
   .do-title { color: var(--success); }
   .dont-title { color: var(--error); }
   .guardrail-item { padding: 10px 14px; border-radius: 6px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
-  .do-item { border-left: 3px solid var(--success); background: rgba(0,229,153,0.06); }
-  .dont-item { border-left: 3px solid var(--error); background: rgba(240,71,71,0.06); }
+  .do-item { ; background: rgba(0,229,153,0.06); }
+  .dont-item { ; background: rgba(240,71,71,0.06); }
 
   @media (max-width: 600px) {
     .guardrails-grid { grid-template-columns: 1fr; }
     .wrapper { padding: 0 16px 60px; }
     .hero-inner { padding: 0 16px; }
   }
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
 
-<button class="toggle-btn" onclick="toggleTheme()" id="themeToggle">☀️ Light</button>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 
 <div class="hero">
   <div class="hero-inner">
@@ -484,17 +479,6 @@
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const btn = document.getElementById('themeToggle');
-    if (html.getAttribute('data-theme') === 'dark') {
-      html.setAttribute('data-theme', 'light');
-      btn.textContent = '🌙 Dark';
-    } else {
-      html.setAttribute('data-theme', 'dark');
-      btn.textContent = '☀️ Light';
-    }
-  }
   function copyHex(hex) {
     navigator.clipboard.writeText(hex).catch(() => {});
     const toast = document.getElementById('toast');

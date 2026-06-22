@@ -52,14 +52,7 @@
     transition: background 0.2s, color 0.2s;
   }
   /* Floating dark/light toggle */
-  .toggle-btn {
-    position: fixed; top: 16px; right: 16px; z-index: 999;
-    background: var(--surface-200); color: var(--text-primary);
-    border: 1px solid var(--border-strong); border-radius: 9999px;
-    padding: 8px 16px; font-size: 13px; font-family: inherit;
-    cursor: pointer; display: flex; align-items: center; gap: 6px;
-    transition: all 0.15s;
-  }
+  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
   .toggle-btn:hover { border-color: var(--border-stronger); }
   .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
   section { padding: 64px 0; border-bottom: 1px solid var(--border); }
@@ -130,7 +123,7 @@
 
   /* SPACING */
   .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
-  .spacing-bar { height: 20px; background: rgba(62,207,142,0.12); border-radius: 2px; border-left: 2px solid #3ECF8E; }
+  .spacing-bar { height: 20px; background: rgba(62,207,142,0.12); border-radius: 2px; ; }
   .spacing-label { font-size: 12px; color: var(--text-muted); width: 90px; flex-shrink: 0; }
   .spacing-value { font-size: 12px; color: var(--text-faint); }
 
@@ -140,17 +133,19 @@
   .guardrail-do h3 { color: #3ECF8E; }
   .guardrail-dont h3 { color: #E5484D; }
   .guardrail-item { padding: 10px 14px; margin-bottom: 8px; border-radius: 4px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-  .guardrail-do .guardrail-item { border-left: 3px solid #3ECF8E; background: rgba(62,207,142,0.05); }
-  .guardrail-dont .guardrail-item { border-left: 3px solid #E5484D; background: rgba(229,72,77,0.05); }
+  .guardrail-do .guardrail-item {; background: rgba(62,207,142,0.05); }
+  .guardrail-dont .guardrail-item {; background: rgba(229,72,77,0.05); }
 
   /* Toast */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-300); color: var(--text-primary); font-size: 13px; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border-strong); box-shadow: 0 8px 32px rgba(0,0,0,0.5); transition: transform 0.2s ease; z-index: 9999; pointer-events: none; }
   .toast.show { transform: translateX(-50%) translateY(0); }
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
 
-<button class="toggle-btn" onclick="toggleTheme()"><span id="theme-icon">☀️</span> <span id="theme-label">Light mode</span></button>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 <div class="toast" id="toast">Copied!</div>
 
 <!-- 1. HERO -->
@@ -405,13 +400,7 @@
 </section>
 
 <script>
-  function toggleTheme() {
-    const html = document.documentElement;
-    const isDark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
-    document.getElementById('theme-label').textContent = isDark ? 'Dark mode' : 'Light mode';
-  }
+  
 
   function copyHex(hex, el) {
     navigator.clipboard.writeText(hex).catch(() => {});

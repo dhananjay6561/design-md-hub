@@ -85,7 +85,6 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 62 | [Liveblocks](brands/liveblocks/DESIGN.md) | Developer Tools | [preview](brands/liveblocks/preview.html) |
 | 63 | [Convex](brands/convex/DESIGN.md) | Developer Tools | [preview](brands/convex/preview.html) |
 | 64 | [Stytch](brands/stytch/DESIGN.md) | Auth | [preview](brands/stytch/preview.html) |
-| 65 | [Canva](brands/canva/DESIGN.md) | Design Tools | [preview](brands/canva/preview.html) |
 | 66 | [Postman](brands/postman/DESIGN.md) | Developer Tools | [preview](brands/postman/preview.html) |
 | 67 | [OpenAI](brands/openai/DESIGN.md) | AI/LLM | [preview](brands/openai/preview.html) |
 | 68 | [Snowflake](brands/snowflake/DESIGN.md) | Data Platform | [preview](brands/snowflake/preview.html) |

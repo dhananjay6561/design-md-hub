@@ -104,9 +104,9 @@ Cursor ships VS Code's Default Light Modern as the light option. Key values:
 
 | Role | Family | Weights | Notes |
 |------|---------|---------|-------|
-| **Brand / Display** | Cursor Gothic | 400 | Bespoke condensed grotesque by Kimera; fallback: Inter Tight, IBM Plex Sans |
-| **UI / Body** | Cursor Gothic → Inter | 400, 500 | App chrome and marketing prose |
-| **Code / Mono** | Berkeley Mono | 400, 500 | All code, paths, CLI output in the editor; fallback: JetBrains Mono, IBM Plex Mono |
+| **Brand / Display** | Cursor Gothic | 400 | Proprietary — use `Geist` (Google Fonts) as substitute |
+| **UI / Body** | `Geist, system-ui, sans-serif` | 400, 500 | App chrome; Geist is the closest open alternative |
+| **Code / Mono** | Berkeley Mono | 400, 500 | Proprietary — use `JetBrains Mono` (Google Fonts) as substitute |
 | **Editorial Accent** | EB Garamond | 400, 500 | Pull-quotes and long-form editorial on marketing pages only |
 
 > **Rule:** Code always renders in Berkeley Mono. Cursor Gothic never appears inside the code editor canvas.

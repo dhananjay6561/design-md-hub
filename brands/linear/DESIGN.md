@@ -28,7 +28,7 @@ Linear's design is dark-first, dense, and precise. It prioritizes information de
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
+- **Font family**: `Plus Jakarta Sans`, `system-ui`, `sans-serif`
 - **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
 
 | Scale | Size | Weight | Line Height |
