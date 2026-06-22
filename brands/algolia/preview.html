@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Algolia – Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root[data-theme="dark"] {
   --bg: #1C1E21;
@@ -47,8 +47,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+.toggle-btn { position: fixed; top: 16px; right: 16px; z-index: 999; background: var(--toggle-bg); color: var(--toggle-text); border: 1px solid var(--toggle-border); border-radius: 9999px; padding: 8px 18px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
 .toggle-btn:hover { border-color: var(--primary-mid); }
 .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary-mid); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -78,7 +78,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 /* Search box */
 .search-wrap { position: relative; }
 .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-3); pointer-events: none; }
-.search-input { width: 100%; height: 42px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px 0 38px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.15s; }
+.search-input { width: 100%; height: 42px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0 12px 0 38px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.15s; }
 .search-input:focus { border-color: var(--primary-mid); box-shadow: 0 0 0 3px rgba(84,104,255,0.15); }
 .search-stats { font-size: 11px; color: var(--text-3); margin-top: 6px; }
 /* Hit rows */
@@ -90,7 +90,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 .hit-snippet { font-size: 12px; color: var(--text-2); margin-top: 3px; }
 /* Index badge */
 .index-tag { display: inline-flex; align-items: center; background: rgba(84,104,255,0.10); border: 1px solid rgba(84,104,255,0.28); color: var(--primary-mid); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 3px; }
-.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
+.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
 .btn-primary { background: var(--primary-mid); color: #fff; }
 .btn-primary:hover { background: var(--primary); }
 .btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
