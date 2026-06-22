@@ -79,6 +79,13 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 56 | [WorkOS](brands/workos/DESIGN.md) | Auth | [preview](brands/workos/preview.html) |
 | 57 | [Pinecone](brands/pinecone/DESIGN.md) | Developer Tools | [preview](brands/pinecone/preview.html) |
 | 58 | [Hugging Face](brands/huggingface/DESIGN.md) | AI/ML | [preview](brands/huggingface/preview.html) |
+| 59 | [Replicate](brands/replicate/DESIGN.md) | AI/ML | [preview](brands/replicate/preview.html) |
+| 60 | [Weights & Biases](brands/wandb/DESIGN.md) | AI/ML | [preview](brands/wandb/preview.html) |
+| 61 | [Dagster](brands/dagster/DESIGN.md) | Developer Tools | [preview](brands/dagster/preview.html) |
+| 62 | [Liveblocks](brands/liveblocks/DESIGN.md) | Developer Tools | [preview](brands/liveblocks/preview.html) |
+| 63 | [Convex](brands/convex/DESIGN.md) | Developer Tools | [preview](brands/convex/preview.html) |
+| 64 | [Stytch](brands/stytch/DESIGN.md) | Auth | [preview](brands/stytch/preview.html) |
+| 65 | [Canva](brands/canva/DESIGN.md) | Design Tools | [preview](brands/canva/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

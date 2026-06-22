@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convex Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"]{--bg:#0A0A0A;--surface:#111111;--elevated:#1A1A1A;--border:#2A2A2A;--brand:#F5A623;--brand-light:#FFBE5C;--text-primary:#F5F5F5;--text-secondary:#A0A0A0;--text-muted:#666666;--text-on-brand:#0A0A0A;--success:#22C55E;--warning:#F5A623;--error:#EF4444;--fn-query:#60A5FA;--fn-mutation:#F5A623;--fn-action:#A78BFA;--fn-http:#34D399}
+:root[data-theme="light"]{--bg:#FAFAF8;--surface:#FFFFFF;--elevated:#F5F5F0;--border:#E0DDD8;--brand:#C07D0F;--brand-light:#F5A623;--text-primary:#0A0A0A;--text-secondary:#525252;--text-muted:#A0A0A0;--text-on-brand:#FFFFFF;--success:#16A34A;--warning:#C07D0F;--error:#DC2626;--fn-query:#2563EB;--fn-mutation:#C07D0F;--fn-action:#7C3AED;--fn-http:#059669}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-primary);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;z-index:100}
+.toggle:hover{border-color:var(--brand)}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
+.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.hero-text h1{font-size:28px;font-weight:700}
+.hero-text p{color:var(--text-secondary);margin-top:4px}
+.hero-badge{margin-left:auto;background:rgba(245,166,35,.12);color:var(--brand-light);border:1px solid rgba(245,166,35,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
+.section{margin-bottom:56px}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.color-groups{display:flex;flex-direction:column;gap:20px}
+.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
+.color-row{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
+.swatch:hover .swatch-block{transform:scale(1.08)}
+.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.type-rows{display:flex;flex-direction:column;gap:12px}
+.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+
+/* Function Log */
+.fn-log{display:flex;flex-direction:column;gap:3px}
+.fn-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:5px;cursor:pointer;font-size:12px}
+.fn-row:hover{background:var(--elevated)}
+.fn-name{font-family:'JetBrains Mono',monospace;flex:1;color:var(--text-secondary)}
+.fn-badge{font-size:10px;font-weight:600;padding:1px 7px;border-radius:3px;flex-shrink:0}
+.fn-dur{font-family:'JetBrains Mono',monospace;color:var(--text-muted);font-size:11px}
+.fn-status{font-size:14px}
+
+/* Data Browser */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{text-align:left;padding:6px 8px;color:var(--text-muted);font-weight:500;border-bottom:1px solid var(--border);font-size:11px}
+.data-table td{padding:7px 8px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;color:var(--text-secondary)}
+.data-table tr:hover td{background:var(--elevated)}
+.data-table td:first-child{color:var(--brand-light)}
+.data-type{font-size:10px;padding:1px 5px;border-radius:3px;font-family:'Inter',sans-serif;font-weight:500}
+.reactive-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--brand);margin-left:4px;animation:pulse-amber 1.5s ease-in-out infinite}
+
+/* Document Viewer */
+.doc-viewer{background:var(--elevated);border:1px solid var(--border);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8}
+.doc-key{color:var(--text-secondary)}
+.doc-str{color:#4ADE80}
+.doc-num{color:var(--brand-light)}
+.doc-null{color:var(--text-muted)}
+.doc-id{color:var(--fn-query)}
+
+/* Deployment Card */
+.deploy-card{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px}
+.deploy-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.deploy-name{font-size:13px;font-weight:600;flex:1}
+.deploy-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.deploy-url{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-muted)}
+.deploy-meta{display:flex;gap:12px;margin-top:6px}
+.deploy-meta-item{font-size:11px;color:var(--text-muted)}
+.deploy-env{font-size:10px;font-weight:600;padding:1px 6px;border-radius:3px}
+
+/* Env var */
+.env-list{display:flex;flex-direction:column;gap:6px}
+.env-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--elevated);border:1px solid var(--border);border-radius:5px;font-size:12px}
+.env-key{font-family:'JetBrains Mono',monospace;color:var(--fn-query);flex:1}
+.env-val{font-family:'JetBrains Mono',monospace;color:var(--text-muted);letter-spacing:.1em}
+.env-action{font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 5px;border-radius:3px}
+.env-action:hover{background:var(--border);color:var(--text-primary)}
+
+.spacing-bars{display:flex;flex-direction:column;gap:10px}
+.spacing-row{display:flex;align-items:center;gap:12px}
+.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
+.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
+.spacing-val{font-size:11px;color:var(--text-secondary)}
+.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.guardrail-card.do{border-top:2px solid var(--success)}
+.guardrail-card.dont{border-top:2px solid var(--error)}
+.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
+.guardrail-card.do h4{color:var(--success)}
+.guardrail-card.dont h4{color:var(--error)}
+.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
+.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
+.guardrail-card.do ul li::before{background:var(--success)}
+.guardrail-card.dont ul li::before{background:var(--error)}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle theme</button>
+<div class="wrap">
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M18 6C11.373 6 6 11.373 6 18C6 24.627 11.373 30 18 30C24.627 30 30 24.627 30 18" stroke="#F5A623" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M30 18C30 14.686 28.314 11.765 25.75 10" stroke="#FFBE5C" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="18" cy="18" r="4" fill="#F5A623" opacity="0.3"/>
+        <circle cx="18" cy="18" r="2" fill="#F5A623"/>
+      </svg>
+    </div>
+    <div class="hero-text"><h1>Convex</h1><p>Reactive backend platform — database, functions, and storage</p></div>
+    <div class="hero-badge">BACKEND PLATFORM</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-groups">
+      <div><div class="color-group-label">Brand</div><div class="color-row">
+        <div class="swatch" onclick="navigator.clipboard.writeText('#F5A623')"><div class="swatch-block" style="background:#F5A623"></div><span>#F5A623</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#FFBE5C')"><div class="swatch-block" style="background:#FFBE5C"></div><span>#FFBE5C</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#C07D0F')"><div class="swatch-block" style="background:#C07D0F"></div><span>#C07D0F</span></div>
+      </div></div>
+      <div><div class="color-group-label">Function Types</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#60A5FA"></div><span>Query</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#F5A623"></div><span>Mutation</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#A78BFA"></div><span>Action</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#34D399"></div><span>HTTP</span></div>
+      </div></div>
+      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#0A0A0A;border:1px solid #2A2A2A"></div><span>#0A0A0A</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#111111"></div><span>#111111</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#1A1A1A"></div><span>#1A1A1A</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Reactive Backend</span></div>
+      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Function Logs</span></div>
+      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Build reactive full-stack apps without managing infrastructure</span></div>
+      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--fn-query)">api/messages:list · 12ms</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Function Logs <span class="reactive-dot"></span></h3>
+        <div class="fn-log">
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(96,165,250,.12);color:#60A5FA">query</span><span class="fn-name">api/messages:list</span><span class="fn-dur">12ms</span><span class="fn-status">✓</span></div>
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(245,166,35,.12);color:#FFBE5C">mutation</span><span class="fn-name">api/messages:send</span><span class="fn-dur">34ms</span><span class="fn-status">✓</span></div>
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(167,139,250,.12);color:#A78BFA">action</span><span class="fn-name">api/ai:generateReply</span><span class="fn-dur">1.2s</span><span class="fn-status">✓</span></div>
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(96,165,250,.12);color:#60A5FA">query</span><span class="fn-name">api/users:getProfile</span><span class="fn-dur">8ms</span><span class="fn-status">✓</span></div>
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(245,166,35,.12);color:#FFBE5C">mutation</span><span class="fn-name">api/users:updateStatus</span><span class="fn-dur">—</span><span class="fn-status" style="color:#EF4444">✕</span></div>
+          <div class="fn-row"><span class="fn-badge" style="background:rgba(52,211,153,.12);color:#34D399">http</span><span class="fn-name">api/webhooks:stripe</span><span class="fn-dur">56ms</span><span class="fn-status">✓</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Data Browser</h3>
+        <table class="data-table">
+          <thead><tr><th>_id</th><th>text</th><th>author</th><th>_ct</th></tr></thead>
+          <tbody>
+            <tr><td>jx7k2…</td><td>"Hello world"</td><td>"Ana"</td><td>2m</td></tr>
+            <tr><td>m3n9p…</td><td>"How's it going"</td><td>"Jake"</td><td>5m</td></tr>
+            <tr><td>q8r4s…</td><td>"Great thanks!"</td><td>"Ana"</td><td>6m</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="comp-card">
+        <h3>Document Viewer</h3>
+        <div class="doc-viewer">
+          {<br>
+          &nbsp;&nbsp;<span class="doc-key">"_id"</span>: <span class="doc-id">"jx7k2m9p4r"</span>,<br>
+          &nbsp;&nbsp;<span class="doc-key">"text"</span>: <span class="doc-str">"Hello world"</span>,<br>
+          &nbsp;&nbsp;<span class="doc-key">"author"</span>: <span class="doc-str">"Ana"</span>,<br>
+          &nbsp;&nbsp;<span class="doc-key">"likes"</span>: <span class="doc-num">42</span>,<br>
+          &nbsp;&nbsp;<span class="doc-key">"pinned"</span>: <span class="doc-null">null</span><br>
+          }
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Deployments</h3>
+        <div class="deploy-card">
+          <div class="deploy-header">
+            <div class="deploy-dot" style="background:#22C55E"></div>
+            <span class="deploy-name">my-app-prod</span>
+            <span class="deploy-env" style="background:rgba(34,197,94,.1);color:#4ADE80">Production</span>
+          </div>
+          <div class="deploy-url">myapp.convex.cloud</div>
+          <div class="deploy-meta"><span class="deploy-meta-item">24 functions</span><span class="deploy-meta-item">Deployed 2h ago</span></div>
+        </div>
+        <div class="deploy-card">
+          <div class="deploy-header">
+            <div class="deploy-dot" style="background:#F59E0B"></div>
+            <span class="deploy-name">my-app-staging</span>
+            <span class="deploy-env" style="background:rgba(245,158,11,.1);color:#FCD34D">Preview</span>
+          </div>
+          <div class="deploy-url">myapp-staging.convex.cloud</div>
+          <div class="deploy-meta"><span class="deploy-meta-item">24 functions</span><span class="deploy-meta-item">Deployed 4h ago</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Environment Variables</h3>
+        <div class="env-list">
+          <div class="env-row"><span class="env-key">OPENAI_API_KEY</span><span class="env-val">••••••••••••4a2f</span><span class="env-action">Copy</span></div>
+          <div class="env-row"><span class="env-key">STRIPE_SECRET</span><span class="env-val">••••••••••••9x1k</span><span class="env-action">Copy</span></div>
+          <div class="env-row"><span class="env-key">AUTH_SECRET</span><span class="env-val">••••••••••••m3pq</span><span class="env-action">Copy</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-bars">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrail-grid">
+      <div class="guardrail-card do"><h4>DO</h4><ul>
+        <li>Color-code function types consistently across all views</li>
+        <li>Show realtime reactivity — pulse on live data changes</li>
+        <li>Always mask env variable values by default</li>
+        <li>Use mono for all function names, IDs, and fields</li>
+        <li>Show duration on every function call</li>
+      </ul></div>
+      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
+        <li>Don't use amber for anything other than primary/Mutations</li>
+        <li>Don't show full document contents in list views</li>
+        <li>Don't hide error stack traces — show fully in log rows</li>
+        <li>Don't paginate realtime logs — stream them</li>
+        <li>Don't omit function type from any context</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+<style>@keyframes pulse-amber{0%,100%{opacity:1}50%{opacity:.3}}</style>
+</body>
+</html>

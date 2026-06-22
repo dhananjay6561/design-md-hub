@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weights & Biases Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"]{--bg:#0F0F0F;--surface:#181818;--elevated:#222222;--border:#333333;--brand:#FFCC00;--brand-dark:#CC9F00;--text-primary:#F0F0F0;--text-secondary:#A0A0A0;--text-muted:#666666;--text-on-brand:#0F0F0F;--success:#34D399;--error:#F87171;--c1:#FFCC00;--c2:#60A5FA;--c3:#34D399;--c4:#F87171;--c5:#A78BFA;--c6:#FB923C}
+:root[data-theme="light"]{--bg:#F5F5F0;--surface:#FFFFFF;--elevated:#F0F0EC;--border:#E0E0D8;--brand:#CC9F00;--brand-dark:#9A7800;--text-primary:#0F0F0F;--text-secondary:#525252;--text-muted:#A0A0A0;--text-on-brand:#0F0F0F;--success:#059669;--error:#DC2626;--c1:#CC9F00;--c2:#2563EB;--c3:#059669;--c4:#DC2626;--c5:#7C3AED;--c6:#C2410C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-primary);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;z-index:100}
+.toggle:hover{border-color:var(--brand)}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
+.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.hero-text h1{font-size:28px;font-weight:700}
+.hero-text p{color:var(--text-secondary);margin-top:4px}
+.hero-badge{margin-left:auto;background:rgba(255,204,0,.12);color:var(--brand);border:1px solid rgba(255,204,0,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
+.section{margin-bottom:56px}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.color-groups{display:flex;flex-direction:column;gap:20px}
+.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
+.color-row{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
+.swatch:hover .swatch-block{transform:scale(1.08)}
+.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.type-rows{display:flex;flex-direction:column;gap:12px}
+.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+
+/* Run Rows */
+.run-list{display:flex;flex-direction:column;gap:6px}
+.run-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:var(--elevated);border:1px solid var(--border);border-radius:6px}
+.run-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.run-name{font-size:13px;font-weight:500;flex:1}
+.run-metrics{font-size:11px;color:var(--text-secondary);font-family:'JetBrains Mono',monospace}
+.run-status{font-size:11px;font-weight:500;padding:2px 7px;border-radius:3px}
+.run-dur{font-size:11px;color:var(--text-muted)}
+
+/* Chart */
+.chart-wrap{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:14px;position:relative}
+.chart-title{font-size:12px;font-weight:600;margin-bottom:12px}
+.chart-area{height:120px;position:relative;overflow:hidden}
+.chart-grid{position:absolute;inset:0}
+.chart-svg{width:100%;height:100%}
+
+/* Config table */
+.config-table{width:100%;border-collapse:collapse;font-size:12px}
+.config-table td{padding:6px 8px;border-bottom:1px solid var(--border)}
+.config-table td:first-child{color:var(--text-secondary);width:40%}
+.config-table td:last-child{font-family:'JetBrains Mono',monospace;color:var(--text-primary)}
+
+/* Artifact */
+.artifact-list{display:flex;flex-direction:column;gap:8px}
+.artifact-card{background:var(--elevated);border:1px solid var(--border);border-radius:6px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.artifact-icon{font-size:20px}
+.artifact-info{flex:1}
+.artifact-name{font-size:13px;font-weight:500}
+.artifact-meta{font-size:11px;color:var(--text-muted);margin-top:2px}
+.artifact-tags{display:flex;gap:5px}
+.art-tag{font-size:10px;padding:1px 6px;border-radius:3px;border:1px solid var(--border);color:var(--text-muted)}
+.art-tag.latest{background:rgba(255,204,0,.12);color:var(--brand);border-color:rgba(255,204,0,.3)}
+
+/* Status badges */
+.badge-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500}
+
+.spacing-bars{display:flex;flex-direction:column;gap:10px}
+.spacing-row{display:flex;align-items:center;gap:12px}
+.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
+.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
+.spacing-val{font-size:11px;color:var(--text-secondary)}
+.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.guardrail-card.do{border-top:2px solid var(--success)}
+.guardrail-card.dont{border-top:2px solid var(--error)}
+.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
+.guardrail-card.do h4{color:var(--success)}
+.guardrail-card.dont h4{color:var(--error)}
+.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
+.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
+.guardrail-card.do ul li::before{background:var(--success)}
+.guardrail-card.dont ul li::before{background:var(--error)}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle theme</button>
+<div class="wrap">
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+        <rect x="4" y="4" width="6" height="6" rx="1" fill="#FFCC00"/>
+        <rect x="4" y="12" width="6" height="6" rx="1" fill="#FFCC00" opacity=".7"/>
+        <rect x="4" y="20" width="6" height="6" rx="1" fill="#FFCC00" opacity=".4"/>
+        <rect x="12" y="4" width="6" height="6" rx="1" fill="#FFCC00" opacity=".7"/>
+        <rect x="12" y="12" width="6" height="6" rx="1" fill="#FFCC00"/>
+        <rect x="12" y="20" width="6" height="6" rx="1" fill="#FFCC00" opacity=".4"/>
+        <rect x="20" y="4" width="6" height="6" rx="1" fill="#FFCC00" opacity=".4"/>
+        <rect x="20" y="12" width="6" height="6" rx="1" fill="#FFCC00" opacity=".7"/>
+        <rect x="20" y="20" width="6" height="6" rx="1" fill="#FFCC00"/>
+        <rect x="28" y="28" width="6" height="6" rx="1" fill="#FFCC00" opacity=".3"/>
+      </svg>
+    </div>
+    <div class="hero-text"><h1>Weights &amp; Biases</h1><p>ML experiment tracking and model management platform</p></div>
+    <div class="hero-badge">ML PLATFORM</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-groups">
+      <div><div class="color-group-label">Brand</div><div class="color-row">
+        <div class="swatch" onclick="navigator.clipboard.writeText('#FFCC00')"><div class="swatch-block" style="background:#FFCC00"></div><span>#FFCC00</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#FFE066')"><div class="swatch-block" style="background:#FFE066"></div><span>#FFE066</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#CC9F00')"><div class="swatch-block" style="background:#CC9F00"></div><span>#CC9F00</span></div>
+      </div></div>
+      <div><div class="color-group-label">Run Chart Colors</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#FFCC00"></div><span>Run 1</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#60A5FA"></div><span>Run 2</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#34D399"></div><span>Run 3</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#F87171"></div><span>Run 4</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#A78BFA"></div><span>Run 5</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#FB923C"></div><span>Run 6</span></div>
+      </div></div>
+      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#0F0F0F;border:1px solid #333"></div><span>#0F0F0F</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#181818"></div><span>#181818</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#222222"></div><span>#222222</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Experiment Tracking</span></div>
+      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Run Comparison</span></div>
+      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Track, visualize, and compare every ML experiment</span></div>
+      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--brand)">val_loss: 0.234 · acc: 94.2% · epoch: 42</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Loss Chart — Training Run Comparison</h3>
+        <div class="chart-wrap">
+          <div class="chart-title">val_loss</div>
+          <div class="chart-area">
+            <svg class="chart-svg" viewBox="0 0 600 120" preserveAspectRatio="none">
+              <!-- Grid -->
+              <line x1="0" y1="30" x2="600" y2="30" stroke="#2A2A2A" stroke-width="1"/>
+              <line x1="0" y1="60" x2="600" y2="60" stroke="#2A2A2A" stroke-width="1"/>
+              <line x1="0" y1="90" x2="600" y2="90" stroke="#2A2A2A" stroke-width="1"/>
+              <!-- Run 1 - gold -->
+              <polyline points="0,100 60,85 120,70 180,58 240,48 300,40 360,34 420,30 480,27 540,25 600,24" fill="none" stroke="#FFCC00" stroke-width="2"/>
+              <!-- Run 2 - blue -->
+              <polyline points="0,100 60,88 120,76 180,65 240,56 300,49 360,44 420,40 480,37 540,35 600,34" fill="none" stroke="#60A5FA" stroke-width="2"/>
+              <!-- Run 3 - green -->
+              <polyline points="0,100 60,90 120,80 180,72 240,63 300,57 360,52 420,48 480,46 540,44 600,43" fill="none" stroke="#34D399" stroke-width="2"/>
+              <!-- Axis labels -->
+              <text x="0" y="118" fill="#666" font-size="9" font-family="monospace">0</text>
+              <text x="290" y="118" fill="#666" font-size="9" font-family="monospace">step 500</text>
+              <text x="570" y="118" fill="#666" font-size="9" font-family="monospace">1000</text>
+              <text x="2" y="28" fill="#666" font-size="9" font-family="monospace">0.1</text>
+              <text x="2" y="58" fill="#666" font-size="9" font-family="monospace">0.5</text>
+              <text x="2" y="88" fill="#666" font-size="9" font-family="monospace">0.9</text>
+            </svg>
+          </div>
+          <div style="display:flex;gap:16px;margin-top:10px">
+            <span style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:16px;height:2px;background:#FFCC00;display:inline-block"></span>run-xk9p</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:16px;height:2px;background:#60A5FA;display:inline-block"></span>run-m3nq</span>
+            <span style="display:flex;align-items:center;gap:5px;font-size:11px"><span style="width:16px;height:2px;background:#34D399;display:inline-block"></span>run-p7r2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Run List</h3>
+        <div class="run-list">
+          <div class="run-row"><div class="run-dot" style="background:#FFCC00"></div><span class="run-name">run-xk9p2m</span><span class="run-metrics">0.234 · 94.2%</span><span class="run-status" style="background:rgba(255,204,0,.12);color:#FFCC00">Running</span></div>
+          <div class="run-row"><div class="run-dot" style="background:#60A5FA"></div><span class="run-name">run-m3nq8x</span><span class="run-metrics">0.312 · 91.8%</span><span class="run-status" style="background:rgba(52,211,153,.12);color:#34D399">Finished</span></div>
+          <div class="run-row"><div class="run-dot" style="background:#34D399"></div><span class="run-name">run-p7r2lk</span><span class="run-metrics">0.389 · 88.4%</span><span class="run-status" style="background:rgba(52,211,153,.12);color:#34D399">Finished</span></div>
+          <div class="run-row"><div class="run-dot" style="background:#F87171"></div><span class="run-name">run-j4v9bq</span><span class="run-metrics">NaN · —</span><span class="run-status" style="background:rgba(248,113,113,.12);color:#F87171">Crashed</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Config Summary</h3>
+        <table class="config-table">
+          <tr><td>learning_rate</td><td>3e-4</td></tr>
+          <tr><td>batch_size</td><td>128</td></tr>
+          <tr><td>epochs</td><td>100</td></tr>
+          <tr><td>optimizer</td><td>AdamW</td></tr>
+          <tr><td>architecture</td><td>ResNet-50</td></tr>
+          <tr><td>dataset</td><td>ImageNet-1k</td></tr>
+        </table>
+      </div>
+
+      <div class="comp-card">
+        <h3>Artifacts</h3>
+        <div class="artifact-list">
+          <div class="artifact-card"><span class="artifact-icon">📦</span><div class="artifact-info"><div class="artifact-name">resnet50-imagenet</div><div class="artifact-meta">model · 98 MB · v4</div></div><div class="artifact-tags"><span class="art-tag latest">:latest</span><span class="art-tag">:best</span></div></div>
+          <div class="artifact-card"><span class="artifact-icon">🗃️</span><div class="artifact-info"><div class="artifact-name">imagenet-train-split</div><div class="artifact-meta">dataset · 12 GB · v1</div></div><div class="artifact-tags"><span class="art-tag latest">:latest</span></div></div>
+          <div class="artifact-card"><span class="artifact-icon">📝</span><div class="artifact-info"><div class="artifact-name">train-script-v3</div><div class="artifact-meta">code · 4 KB · v3</div></div><div class="artifact-tags"><span class="art-tag">:v3</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-bars">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrail-grid">
+      <div class="guardrail-card do"><h4>DO</h4><ul>
+        <li>Use gold exclusively for primary actions and highlighted runs</li>
+        <li>Show step/epoch on chart x-axis — time is ambiguous</li>
+        <li>Use run colors consistently across all charts in a workspace</li>
+        <li>Display metric values with consistent decimal precision</li>
+        <li>Show system metrics alongside model metrics</li>
+      </ul></div>
+      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
+        <li>Don't smooth out NaN gaps — show breaks in the line</li>
+        <li>Don't default to showing all runs — top-5 by primary metric</li>
+        <li>Don't use gold for anything other than primary CTA</li>
+        <li>Don't hide crashed/failed runs — researchers need them</li>
+        <li>Don't use rounded corners > 8px on chart containers</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
