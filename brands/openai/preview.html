@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"]{--bg:#0D0D0D;--surface:#141414;--elevated:#1A1A1A;--border:#2A2A2A;--brand:#10A37F;--brand-light:#19C37D;--text-primary:#ECECEC;--text-secondary:#8E8EA0;--text-muted:#565869;--success:#10A37F;--warning:#F59E0B;--error:#EF4444;--info:#6B7280}
+:root[data-theme="light"]{--bg:#F7F7F8;--surface:#FFFFFF;--elevated:#F0F0F1;--border:#E5E5E6;--brand:#10A37F;--brand-light:#19C37D;--text-primary:#0D0D0D;--text-secondary:#565869;--text-muted:#AEAEC0;--success:#10A37F;--warning:#D68A00;--error:#C0393F;--info:#555}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-primary);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;z-index:100}
+.toggle:hover{border-color:var(--brand)}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
+.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.hero-text h1{font-size:28px;font-weight:700}
+.hero-text p{color:var(--text-secondary);margin-top:4px}
+.hero-badge{margin-left:auto;background:rgba(16,163,127,.12);color:var(--brand-light);border:1px solid rgba(16,163,127,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
+.section{margin-bottom:56px}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.color-groups{display:flex;flex-direction:column;gap:20px}
+.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
+.color-row{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
+.swatch:hover .swatch-block{transform:scale(1.08)}
+.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.type-rows{display:flex;flex-direction:column;gap:12px}
+.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+
+/* Playground messages */
+.messages{display:flex;flex-direction:column;gap:12px}
+.msg-system{background:rgba(255,255,255,.04);border:1px dashed var(--border);border-radius:6px;padding:10px 12px;font-size:12px;color:var(--text-muted)}
+.msg-system span{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:4px}
+.msg-user{align-self:flex-end;background:var(--elevated);border:1px solid var(--border);border-radius:12px 12px 2px 12px;padding:10px 14px;font-size:13px;max-width:80%}
+.msg-assistant{align-self:flex-start;background:var(--surface);border:1px solid var(--border);border-left:2px solid var(--brand);border-radius:2px 12px 12px 12px;padding:10px 14px;font-size:13px;max-width:90%}
+.msg-label{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.msg-user .msg-label{color:var(--text-muted);text-align:right}
+.msg-assistant .msg-label{color:var(--brand)}
+.cursor{display:inline-block;width:2px;height:13px;background:var(--brand);animation:blink 1s infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* Model selector */
+.model-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:6px;margin-bottom:6px;cursor:pointer}
+.model-option:hover,.model-option.active{border-color:var(--brand);background:rgba(16,163,127,.06)}
+.model-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.model-info{flex:1}
+.model-name{font-size:13px;font-weight:600}
+.model-tags{display:flex;gap:4px;margin-top:2px;flex-wrap:wrap}
+.model-tag{font-size:10px;background:var(--elevated);color:var(--text-muted);border-radius:3px;padding:1px 5px}
+.model-ctx{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+
+/* Token counter */
+.token-row{display:flex;gap:16px;margin-bottom:12px}
+.token-col{flex:1;background:var(--elevated);border-radius:6px;padding:10px;text-align:center}
+.token-col .token-num{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--brand)}
+.token-col .token-lbl{font-size:11px;color:var(--text-muted);margin-top:2px}
+.token-bar-wrap{background:var(--elevated);border-radius:4px;height:6px;overflow:hidden}
+.token-bar{height:100%;border-radius:4px;background:var(--brand);transition:width .3s}
+
+/* API key */
+.key-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--elevated);border:1px solid var(--border);border-radius:6px;margin-bottom:6px}
+.key-name{font-size:13px;font-weight:500;flex:1}
+.key-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted)}
+.key-date{font-size:11px;color:var(--text-muted);margin-left:auto}
+.key-del{font-size:11px;color:var(--error);cursor:pointer;padding:2px 6px;border-radius:3px}
+.key-del:hover{background:rgba(239,68,68,.1)}
+
+/* Usage mini chart */
+.usage-chart{display:flex;align-items:flex-end;gap:3px;height:48px;margin-bottom:8px}
+.usage-bar{flex:1;border-radius:2px 2px 0 0;min-width:8px;background:var(--brand);opacity:.6}
+.usage-bar:last-child{opacity:1}
+
+.spacing-bars{display:flex;flex-direction:column;gap:10px}
+.spacing-row{display:flex;align-items:center;gap:12px}
+.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
+.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
+.spacing-val{font-size:11px;color:var(--text-secondary)}
+.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.guardrail-card.do{border-top:2px solid var(--success)}
+.guardrail-card.dont{border-top:2px solid var(--error)}
+.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px}
+.guardrail-card.do h4{color:var(--success)}
+.guardrail-card.dont h4{color:var(--error)}
+.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
+.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
+.guardrail-card.do ul li::before{background:var(--success)}
+.guardrail-card.dont ul li::before{background:var(--error)}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle theme</button>
+<div class="wrap">
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M18 4C18 4 28 8 28 18C28 24 24 28 18 30C12 28 8 24 8 18C8 8 18 4 18 4Z" stroke="#10A37F" stroke-width="1.5" fill="rgba(16,163,127,0.1)"/>
+        <path d="M13 18L16 21L23 14" stroke="#10A37F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="hero-text"><h1>OpenAI</h1><p>AI research and deployment company</p></div>
+    <div class="hero-badge">AI PLATFORM</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-groups">
+      <div><div class="color-group-label">Brand</div><div class="color-row">
+        <div class="swatch" onclick="navigator.clipboard.writeText('#10A37F')"><div class="swatch-block" style="background:#10A37F"></div><span>#10A37F</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#19C37D')"><div class="swatch-block" style="background:#19C37D"></div><span>#19C37D</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#FFFFFF')"><div class="swatch-block" style="background:#FFFFFF"></div><span>#FFFFFF</span></div>
+      </div></div>
+      <div><div class="color-group-label">Model Colors</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#10A37F"></div><span>GPT-4o</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#AB68FF"></div><span>GPT-4</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#F59E0B"></div><span>DALL·E</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#60A5FA"></div><span>Whisper</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#FB923C"></div><span>TTS</span></div>
+      </div></div>
+      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#0D0D0D;border:1px solid #2A2A2A"></div><span>#0D0D0D</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#141414"></div><span>#141414</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#1A1A1A"></div><span>#1A1A1A</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Playground</span></div>
+      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Model selection</span></div>
+      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Explore the capabilities of our latest models</span></div>
+      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">sk-proj-...Af9R · 4,096 / 128,000 tokens</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Playground</h3>
+        <div class="messages">
+          <div class="msg-system"><span>System</span>You are a helpful assistant. Be concise, accurate, and honest.</div>
+          <div class="msg-user"><div class="msg-label">User</div>What is the capital of Japan, and what's the population?</div>
+          <div class="msg-assistant"><div class="msg-label">GPT-4o</div>The capital of Japan is <strong>Tokyo</strong>, which is also the world's most populous metropolitan area with approximately 37 million people in the greater metro area. The city proper has around 14 million residents.<span class="cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Model Selector</h3>
+        <div class="model-option active">
+          <div class="model-dot" style="background:#10A37F"></div>
+          <div class="model-info">
+            <div class="model-name">GPT-4o</div>
+            <div class="model-tags"><span class="model-tag">Vision</span><span class="model-tag">Functions</span><span class="model-tag">JSON</span></div>
+          </div>
+          <span class="model-ctx">128k ctx</span>
+        </div>
+        <div class="model-option">
+          <div class="model-dot" style="background:#AB68FF"></div>
+          <div class="model-info">
+            <div class="model-name">GPT-4 Turbo</div>
+            <div class="model-tags"><span class="model-tag">Vision</span><span class="model-tag">Functions</span></div>
+          </div>
+          <span class="model-ctx">128k ctx</span>
+        </div>
+        <div class="model-option">
+          <div class="model-dot" style="background:#19C37D"></div>
+          <div class="model-info">
+            <div class="model-name">GPT-3.5 Turbo</div>
+            <div class="model-tags"><span class="model-tag">Functions</span></div>
+          </div>
+          <span class="model-ctx">16k ctx</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Token Counter</h3>
+        <div class="token-row">
+          <div class="token-col"><div class="token-num">1,204</div><div class="token-lbl">Input</div></div>
+          <div class="token-col"><div class="token-num" style="color:#AB68FF">312</div><div class="token-lbl">Output</div></div>
+          <div class="token-col"><div class="token-num" style="color:var(--text-secondary)">1,516</div><div class="token-lbl">Total</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;display:flex;justify-content:space-between">
+          <span>Context used</span><span>1,516 / 128,000</span>
+        </div>
+        <div class="token-bar-wrap"><div class="token-bar" style="width:1.18%"></div></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:8px">Est. cost: $0.0038</div>
+      </div>
+
+      <div class="comp-card">
+        <h3>API Keys</h3>
+        <div class="key-row">
+          <div>
+            <div class="key-name">Production</div>
+            <div class="key-val">sk-proj-...Af9R</div>
+          </div>
+          <div class="key-date">Last used today</div>
+          <span class="key-del">Delete</span>
+        </div>
+        <div class="key-row">
+          <div>
+            <div class="key-name">Staging</div>
+            <div class="key-val">sk-proj-...Bx2M</div>
+          </div>
+          <div class="key-date">3 days ago</div>
+          <span class="key-del">Delete</span>
+        </div>
+        <div class="key-row" style="border-style:dashed;justify-content:center;cursor:pointer">
+          <span style="font-size:13px;color:var(--brand)">+ Create new secret key</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Usage (7 days)</h3>
+        <div class="usage-chart">
+          <div class="usage-bar" style="height:30%"></div>
+          <div class="usage-bar" style="height:45%"></div>
+          <div class="usage-bar" style="height:35%"></div>
+          <div class="usage-bar" style="height:60%"></div>
+          <div class="usage-bar" style="height:50%"></div>
+          <div class="usage-bar" style="height:75%"></div>
+          <div class="usage-bar" style="height:100%"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted)">
+          <span>Jun 16</span><span>Jun 22</span>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:16px">
+          <div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--brand)">3.2M</div><div style="font-size:11px;color:var(--text-muted)">Tokens this week</div></div>
+          <div><div style="font-size:18px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">$4.87</div><div style="font-size:11px;color:var(--text-muted)">Estimated cost</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-bars">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrail-grid">
+      <div class="guardrail-card do"><h4>DO</h4><ul>
+        <li>Use green exclusively for the brand accent and success states</li>
+        <li>Keep the UI minimal — the model output is the hero</li>
+        <li>Show token counts always — developers are cost-conscious</li>
+        <li>Use monospace for all prompts, completions, and code</li>
+        <li>Show model name and version on every completion context</li>
+      </ul></div>
+      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
+        <li>Don't use color for decoration — every color must carry meaning</li>
+        <li>Don't truncate streaming output — show it as it arrives</li>
+        <li>Don't omit finish_reason — it tells devs why the model stopped</li>
+        <li>Don't round token costs — show 4 decimal places minimum</li>
+        <li>Don't mix model colors in a single response thread</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

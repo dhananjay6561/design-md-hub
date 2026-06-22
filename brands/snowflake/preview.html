@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snowflake Design System</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root[data-theme="dark"]{--bg:#0A0F14;--surface:#111820;--elevated:#182030;--border:#263040;--brand:#29B5E8;--brand-light:#63CFF1;--text-primary:#E8F0FF;--text-secondary:#8098B8;--text-muted:#506080;--success:#22C55E;--warning:#F59E0B;--error:#EF4444;--info:#29B5E8}
+:root[data-theme="light"]{--bg:#EFF4FC;--surface:#FFFFFF;--elevated:#E8F0FB;--border:#CCDAEE;--brand:#1A8FC0;--brand-light:#29B5E8;--text-primary:#0A1020;--text-secondary:#405070;--text-muted:#7890AA;--success:#1A8C40;--warning:#B07408;--error:#B03020;--info:#1A8FC0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-primary);padding:6px 14px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;z-index:100}
+.toggle:hover{border-color:var(--brand)}
+.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
+.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.hero-text h1{font-size:28px;font-weight:700}
+.hero-text p{color:var(--text-secondary);margin-top:4px}
+.hero-badge{margin-left:auto;background:rgba(41,181,232,.12);color:var(--brand-light);border:1px solid rgba(41,181,232,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
+.section{margin-bottom:56px}
+.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
+.color-groups{display:flex;flex-direction:column;gap:20px}
+.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
+.color-row{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
+.swatch:hover .swatch-block{transform:scale(1.08)}
+.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
+.type-rows{display:flex;flex-direction:column;gap:12px}
+.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+
+/* SQL Editor */
+.sql-editor{background:var(--elevated);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.sql-toolbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border)}
+.sql-toolbar-left{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted)}
+.run-btn{background:var(--brand);color:white;border:none;padding:6px 16px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px}
+.sql-body{padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8}
+.ln{color:var(--text-muted);user-select:none;margin-right:12px;display:inline-block;width:16px;text-align:right}
+.kw{color:#29B5E8}
+.fn{color:#A78BFA}
+.str{color:#86EFAC}
+.num{color:#FCA5A5}
+.cmt{color:#506080}
+.col{color:#E8F0FF}
+
+/* Results grid */
+.results-grid{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.grid-header{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;background:var(--elevated);border-bottom:1px solid var(--border)}
+.grid-cell{padding:8px 12px;font-size:12px;font-weight:600;color:var(--text-secondary);font-family:'JetBrains Mono',monospace;border-right:1px solid var(--border)}
+.grid-cell:last-child{border-right:none}
+.grid-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-bottom:1px solid var(--border)}
+.grid-row:last-child{border-bottom:none}
+.grid-row:hover{background:rgba(41,181,232,.04)}
+.grid-val{padding:7px 12px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary);border-right:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grid-val:last-child{border-right:none}
+.grid-val.num-val{color:#FCA5A5;text-align:right}
+.grid-footer{padding:8px 12px;font-size:11px;color:var(--text-muted);background:var(--elevated);border-top:1px solid var(--border);display:flex;justify-content:space-between}
+
+/* Warehouse card */
+.wh-card{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:14px}
+.wh-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.wh-name{font-weight:600;font-size:14px}
+.wh-size{background:rgba(41,181,232,.15);color:var(--brand);font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace}
+.wh-status{font-size:12px;display:flex;align-items:center;gap:5px}
+.status-dot{width:6px;height:6px;border-radius:50%}
+.wh-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.wh-meta-item{font-size:12px;color:var(--text-muted)}
+.wh-meta-item span{display:block;font-size:13px;color:var(--text-secondary);font-family:'JetBrains Mono',monospace;margin-top:1px}
+.wh-actions{display:flex;gap:8px}
+.wh-btn{flex:1;padding:6px;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text-secondary);font-family:inherit;text-align:center}
+.wh-btn.primary{background:var(--brand);color:white;border-color:var(--brand)}
+
+/* Schema tree */
+.tree-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:4px;font-size:12px;cursor:pointer}
+.tree-item:hover{background:var(--elevated)}
+.tree-item.active{background:rgba(41,181,232,.08);color:var(--brand)}
+.tree-icon{font-size:13px;flex-shrink:0}
+.tree-name{flex:1;font-family:'JetBrains Mono',monospace}
+.tree-count{font-size:10px;color:var(--text-muted);background:var(--elevated);padding:1px 5px;border-radius:3px}
+
+/* Query history */
+.hist-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.hist-row:last-child{border-bottom:none}
+.hist-sql{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist-badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;flex-shrink:0}
+.hb-ok{background:rgba(34,197,94,.12);color:#22C55E}
+.hb-fail{background:rgba(239,68,68,.12);color:#EF4444}
+.hist-time{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+
+.spacing-bars{display:flex;flex-direction:column;gap:10px}
+.spacing-row{display:flex;align-items:center;gap:12px}
+.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
+.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
+.spacing-val{font-size:11px;color:var(--text-secondary)}
+.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.guardrail-card.do{border-top:2px solid var(--success)}
+.guardrail-card.dont{border-top:2px solid var(--error)}
+.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px}
+.guardrail-card.do h4{color:var(--success)}
+.guardrail-card.dont h4{color:var(--error)}
+.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
+.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
+.guardrail-card.do ul li::before{background:var(--success)}
+.guardrail-card.dont ul li::before{background:var(--error)}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Toggle theme</button>
+<div class="wrap">
+  <div class="hero">
+    <div class="logo-wrap">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="12" fill="rgba(41,181,232,0.1)"/>
+        <path d="M18 8 L18 28 M8 18 L28 18 M11.5 11.5 L24.5 24.5 M24.5 11.5 L11.5 24.5" stroke="#29B5E8" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="18" cy="18" r="3" fill="#29B5E8"/>
+      </svg>
+    </div>
+    <div class="hero-text"><h1>Snowflake</h1><p>The cloud data platform</p></div>
+    <div class="hero-badge">DATA PLATFORM</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Colors</div>
+    <div class="color-groups">
+      <div><div class="color-group-label">Brand</div><div class="color-row">
+        <div class="swatch" onclick="navigator.clipboard.writeText('#29B5E8')"><div class="swatch-block" style="background:#29B5E8"></div><span>#29B5E8</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#63CFF1')"><div class="swatch-block" style="background:#63CFF1"></div><span>#63CFF1</span></div>
+        <div class="swatch" onclick="navigator.clipboard.writeText('#1A8FC0')"><div class="swatch-block" style="background:#1A8FC0"></div><span>#1A8FC0</span></div>
+      </div></div>
+      <div><div class="color-group-label">SQL Syntax</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#29B5E8"></div><span>Keyword</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#A78BFA"></div><span>Function</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#86EFAC"></div><span>String</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#FCA5A5"></div><span>Number</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#506080"></div><span>Comment</span></div>
+      </div></div>
+      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
+        <div class="swatch"><div class="swatch-block" style="background:#0A0F14;border:1px solid #263040"></div><span>#0A0F14</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#111820"></div><span>#111820</span></div>
+        <div class="swatch"><div class="swatch-block" style="background:#182030"></div><span>#182030</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Worksheets</span></div>
+      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Query results</span></div>
+      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Run queries across your Snowflake databases in seconds</span></div>
+      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">SELECT * FROM sales.orders WHERE status = 'complete'</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>SQL Editor</h3>
+        <div class="sql-editor">
+          <div class="sql-toolbar">
+            <div class="sql-toolbar-left">
+              <span>COMPUTE_WH · XL</span>
+              <span>ANALYTICS_DB · PUBLIC</span>
+            </div>
+            <button class="run-btn">▶ Run</button>
+          </div>
+          <div class="sql-body">
+            <span class="ln">1</span><span class="kw">SELECT</span><br>
+            <span class="ln">2</span>&nbsp;&nbsp;<span class="col">u.user_id</span>,<br>
+            <span class="ln">3</span>&nbsp;&nbsp;<span class="col">u.name</span>,<br>
+            <span class="ln">4</span>&nbsp;&nbsp;<span class="fn">COUNT</span>(<span class="col">o.order_id</span>) <span class="kw">AS</span> <span class="col">total_orders</span>,<br>
+            <span class="ln">5</span>&nbsp;&nbsp;<span class="fn">SUM</span>(<span class="col">o.amount</span>) <span class="kw">AS</span> <span class="col">revenue</span><br>
+            <span class="ln">6</span><span class="kw">FROM</span> <span class="col">users</span> u<br>
+            <span class="ln">7</span><span class="kw">JOIN</span> <span class="col">orders</span> o <span class="kw">ON</span> u.user_id = o.user_id<br>
+            <span class="ln">8</span><span class="kw">WHERE</span> o.created_at &gt;= <span class="str">'2024-01-01'</span><br>
+            <span class="ln">9</span><span class="kw">GROUP BY</span> <span class="num">1</span>, <span class="num">2</span><br>
+            <span class="ln">10</span><span class="kw">ORDER BY</span> revenue <span class="kw">DESC</span><br>
+            <span class="ln">11</span><span class="kw">LIMIT</span> <span class="num">100</span><span class="cmt">; -- top 100 users by revenue</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Query Results</h3>
+        <div class="results-grid">
+          <div class="grid-header">
+            <div class="grid-cell">USER_ID</div>
+            <div class="grid-cell">NAME</div>
+            <div class="grid-cell">TOTAL_ORDERS</div>
+            <div class="grid-cell">REVENUE</div>
+          </div>
+          <div class="grid-row"><div class="grid-val">USR_0019</div><div class="grid-val">Priya Sharma</div><div class="grid-val num-val">142</div><div class="grid-val num-val">84,320.00</div></div>
+          <div class="grid-row"><div class="grid-val">USR_0047</div><div class="grid-val">Marcus Chen</div><div class="grid-val num-val">98</div><div class="grid-val num-val">71,540.50</div></div>
+          <div class="grid-row"><div class="grid-val">USR_0083</div><div class="grid-val">Sofia Ruiz</div><div class="grid-val num-val">87</div><div class="grid-val num-val">63,100.75</div></div>
+          <div class="grid-footer"><span>3 of 100 rows · 0.842s</span><span>Export CSV · JSON</span></div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Warehouse</h3>
+        <div class="wh-card">
+          <div class="wh-header">
+            <div class="wh-name">COMPUTE_WH</div>
+            <div class="wh-size">XL</div>
+          </div>
+          <div class="wh-status"><div class="status-dot" style="background:#22C55E"></div><span style="color:#22C55E;font-size:12px">Running</span></div>
+          <div class="wh-meta">
+            <div class="wh-meta-item">Credits/hr<span>16.0</span></div>
+            <div class="wh-meta-item">Est. cost<span>$3.20/hr</span></div>
+            <div class="wh-meta-item">Auto-suspend<span>5 min idle</span></div>
+            <div class="wh-meta-item">Uptime<span>2h 14m</span></div>
+          </div>
+          <div class="wh-actions">
+            <div class="wh-btn">Resize</div>
+            <div class="wh-btn primary">Suspend</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <h3>Schema Browser</h3>
+        <div class="tree-item active"><span class="tree-icon">🗄</span><span class="tree-name">ANALYTICS_DB</span></div>
+        <div class="tree-item" style="padding-left:20px"><span class="tree-icon">📁</span><span class="tree-name">PUBLIC</span></div>
+        <div class="tree-item" style="padding-left:36px"><span class="tree-icon">⊞</span><span class="tree-name">users</span><span class="tree-count">24.3k rows</span></div>
+        <div class="tree-item" style="padding-left:36px"><span class="tree-icon">⊞</span><span class="tree-name">orders</span><span class="tree-count">1.2M rows</span></div>
+        <div class="tree-item" style="padding-left:36px"><span class="tree-icon">⊞</span><span class="tree-name">events</span><span class="tree-count">8.4M rows</span></div>
+        <div class="tree-item" style="padding-left:36px"><span class="tree-icon">👁</span><span class="tree-name">revenue_summary</span></div>
+        <div class="tree-item" style="padding-left:20px"><span class="tree-icon">📁</span><span class="tree-name">RAW</span></div>
+      </div>
+
+      <div class="comp-card" style="grid-column:span 2">
+        <h3>Query History</h3>
+        <div class="hist-row"><span class="hist-sql">SELECT COUNT(*) FROM orders WHERE status = 'pending'</span><span class="hist-badge hb-ok">200ms</span><span class="hist-time">09:41</span></div>
+        <div class="hist-row"><span class="hist-sql">UPDATE users SET active = false WHERE last_login &lt; '2024-01-01'</span><span class="hist-badge hb-fail">Error</span><span class="hist-time">09:38</span></div>
+        <div class="hist-row"><span class="hist-sql">SELECT u.name, SUM(o.amount) FROM users u JOIN orders o ON...</span><span class="hist-badge hb-ok">842ms</span><span class="hist-time">09:33</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Spacing</div>
+    <div class="spacing-bars">
+      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
+      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
+      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
+      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
+      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Guardrails</div>
+    <div class="guardrail-grid">
+      <div class="guardrail-card do"><h4>DO</h4><ul>
+        <li>Use blue exclusively for primary actions and active states</li>
+        <li>Show warehouse status prominently — it affects cost directly</li>
+        <li>Use monospace for all SQL, column names, and row values</li>
+        <li>Show query duration on every result — performance is key</li>
+        <li>Color-code SQL syntax tokens consistently</li>
+      </ul></div>
+      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
+        <li>Don't hide credit consumption — it's the core billing signal</li>
+        <li>Don't auto-resume warehouses silently — always confirm</li>
+        <li>Don't truncate query results — paginate with explicit row count</li>
+        <li>Don't use sans-serif for SQL — mono only</li>
+        <li>Don't collapse the schema tree by default — context is critical</li>
+      </ul></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
