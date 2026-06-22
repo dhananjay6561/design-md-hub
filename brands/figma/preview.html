@@ -3,436 +3,350 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Figma Design System Preview</title>
+<title>Figma — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #FFFFFF;
-    --bg-secondary: #F5F5F5;
-    --bg-tertiary: #EBEBEB;
-    --text: #000000E5;
-    --text-secondary: #00000080;
-    --text-tertiary: #0000004D;
-    --text-brand: #007BE5;
-    --border: #E6E6E6;
-    --brand-blue: #0D99FF;
-    --hero-bg: #F5F5FF;
-  }
-  [data-theme="dark"] {
-    --bg: #2C2C2C;
-    --bg-secondary: #1E1E1E;
-    --bg-tertiary: #3C3C3C;
-    --text: #FFFFFFE5;
-    --text-secondary: #FFFFFF80;
-    --text-tertiary: #FFFFFF4D;
-    --text-brand: #4DB8FF;
-    --border: #3C3C3C;
-    --hero-bg: #252535;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    font-size: 16px;
-    transition: background 0.2s, color 0.2s;
-  }
-  /* Floating dark/light toggle */
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--border); }
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
-  section:last-child { border-bottom: none; }
-  .section-title {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--text-secondary);
-    margin-bottom: 32px;
-  }
-
-  /* HERO */
-  .hero { background: var(--hero-bg); padding: 96px 0; border-bottom: 1px solid var(--border); }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .hero-logo { margin-bottom: 28px; }
-  .hero h1 { font-size: 60px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 16px; }
-  .hero p { font-size: 20px; color: var(--text-secondary); max-width: 560px; }
-
-  /* COLORS */
-  .color-group { margin-bottom: 40px; }
-  .color-group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); margin-bottom: 12px; }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-  .swatch { border-radius: 8px; border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
-  .swatch:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-  .swatch-color { height: 80px; width: 100%; }
-  .swatch-info { padding: 10px 12px; background: var(--bg); }
-  .swatch-name { font-size: 11px; font-weight: 500; color: var(--text); }
-  .swatch-hex { font-size: 11px; color: var(--text-secondary); font-family: monospace; margin-top: 2px; }
-  .swatch-usage { font-size: 10px; color: var(--text-tertiary); margin-top: 2px; }
-
-  /* TYPOGRAPHY */
-  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); width: 120px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
-  .type-sample { flex: 1; color: var(--text); }
-  .type-specs { display: flex; gap: 8px; flex-shrink: 0; }
-  .spec-pill { background: var(--bg-tertiary); color: var(--text-secondary); font-size: 11px; padding: 2px 8px; border-radius: 9999px; white-space: nowrap; }
-
-  /* COMPONENTS */
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-  .comp-card-title { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
-
-  /* Buttons */
-  .btn { border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; border-radius: 6px; padding: 8px 16px; height: 32px; display: inline-flex; align-items: center; transition: all 0.15s; }
-  .btn-primary { background: #0D99FF; color: #fff; }
-  .btn-primary:hover { background: #0A80D9; }
-  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
-  .btn-secondary:hover { background: var(--bg-tertiary); }
-  .btn-ghost { background: transparent; color: #007BE5; }
-  .btn-ghost:hover { background: #E8F4FF; }
-  .btn-danger { background: #F24822; color: #fff; }
-
-  /* Inputs */
-  .inp { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; height: 32px; padding: 6px 8px; font-size: 12px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; width: 100%; transition: border 0.15s, box-shadow 0.15s; }
-  .inp:focus { border-color: #0D99FF; box-shadow: 0 0 0 3px rgba(13,153,255,0.4); }
-  .inp::placeholder { color: var(--text-tertiary); }
-
-  /* Badges */
-  .badge { display: inline-flex; align-items: center; height: 20px; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 500; }
-  .badge-default { background: var(--bg-tertiary); color: var(--text-secondary); }
-  .badge-brand { background: rgba(13,153,255,0.1); color: #007BE5; }
-  .badge-success { background: rgba(20,174,92,0.1); color: #0F8B49; }
-  .badge-warning { background: rgba(255,205,41,0.1); color: #B38600; }
-  .badge-danger { background: rgba(242,72,34,0.1); color: #C43518; }
-  .badge-purple { background: rgba(162,89,255,0.1); color: #7B44CC; }
-
-  /* Sample Card */
-  .sample-card { background: var(--bg); border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: box-shadow 0.15s; }
-  [data-theme="dark"] .sample-card { border-color: rgba(255,255,255,0.08); }
-  .sample-card:hover { box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06); }
-  .sample-card-title { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-  .sample-card-body { font-size: 14px; color: var(--text-secondary); }
-
-  /* SPACING */
-  .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
-  .spacing-bar { height: 24px; background: rgba(13,153,255,0.15); border-radius: 4px; }
-  .spacing-label { font-size: 12px; color: var(--text-secondary); width: 88px; flex-shrink: 0; font-family: monospace; }
-  .spacing-value { font-size: 12px; color: var(--text-tertiary); }
-
-  /* GUARDRAILS */
-  .guardrails { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrail-col h3 { font-size: 14px; font-weight: 600; margin-bottom: 16px; }
-  .guardrail-do h3 { color: #14AE5C; }
-  .guardrail-dont h3 { color: #F24822; }
-  .guardrail-item { padding: 12px 16px; margin-bottom: 8px; border-radius: 4px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-  .guardrail-do .guardrail-item {; background: rgba(20,174,92,0.05); }
-  .guardrail-dont .guardrail-item {; background: rgba(242,72,34,0.05); }
-
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: var(--bg); font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 9999px; transition: transform 0.2s ease; z-index: 9999; pointer-events: none; white-space: nowrap; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F5F5F5;--bg3:#EBEBEB;--bg-selected:#E8F4FF;
+  --border:#E6E6E6;--border-strong:#D4D4D4;
+  --text:rgba(0,0,0,.9);--text2:rgba(0,0,0,.55);--text3:rgba(0,0,0,.35);
+  --brand-blue:#0D99FF;--brand-link:#007BE5;
+}
+:root[data-theme="dark"]{
+  --bg:#1E1E1E;--bg2:#252525;--bg3:#333333;--bg-selected:#193147;
+  --border:#333333;--border-strong:#484848;
+  --text:#E5E5E5;--text2:#B3B3B3;--text3:#7A7A7A;
+  --brand-blue:#0D99FF;--brand-link:#4DB8FF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+/* Layout */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px}
+.brand-logo{display:block;margin:0 auto}
+.hero h1{font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:10px}
+.hero p{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
+.group-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:72px}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* Figma 5-color palette strip */
+.figma-palette{display:flex;height:48px;border-radius:8px;overflow:hidden;margin-bottom:28px;border:1px solid var(--border)}
+.figma-palette-slab{flex:1;cursor:pointer;transition:flex .2s}
+.figma-palette-slab:hover{flex:2}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:110px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 6px;border-radius:9999px;white-space:nowrap}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px}
+.comp-card.full{grid-column:span 2}
+.comp-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+
+/* Figma app chrome */
+.canvas-area{background:#1E1E1E;border-radius:4px;padding:20px;display:flex;align-items:center;justify-content:center;position:relative;min-height:120px}
+.frame{background:#FFFFFF;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.1),0 4px 16px rgba(0,0,0,.3);padding:16px;width:180px}
+.frame-label{font-size:9px;color:#9B9B9B;margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.frame-content{display:flex;flex-direction:column;gap:6px}
+.frame-rect{background:#F0F0F0;border-radius:3px;height:10px}
+.frame-rect.accent{background:#0D99FF;width:60%}
+.frame-rect.sm{height:6px;width:80%}
+.toolbar{display:flex;align-items:center;gap:2px;background:#2C2C2C;border-radius:4px;padding:4px 6px;position:absolute;top:8px;left:50%;transform:translateX(-50%)}
+.tb-btn{width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#B0B0B0;font-size:11px}
+.tb-btn.active{background:#444;color:#fff}
+.tb-sep{width:1px;height:16px;background:#3C3C3C;margin:0 3px}
+
+/* Layers panel */
+.layers-panel{border:1px solid var(--border);border-radius:4px;overflow:hidden;font-size:12px}
+.layers-header{background:var(--bg3);padding:6px 10px;font-size:11px;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)}
+.layer-row{display:flex;align-items:center;gap:6px;padding:5px 10px;cursor:pointer;color:var(--text2)}
+.layer-row:hover{background:var(--bg2)}
+.layer-row.selected{background:var(--bg-selected);color:var(--brand-link)}
+.layer-indent{padding-left:20px}
+.layer-icon{font-size:10px;flex-shrink:0}
+
+/* Component thumbnail */
+.component-thumb{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.component-thumb-canvas{background:#F5F5F5;height:80px;display:flex;align-items:center;justify-content:center}
+:root[data-theme="dark"] .component-thumb-canvas{background:#2C2C2C}
+.component-thumb-info{padding:8px 10px;border-top:1px solid var(--border)}
+.component-name{font-size:12px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:4px}
+.component-badge{font-size:10px;background:rgba(13,153,255,.1);color:var(--brand-blue);padding:1px 5px;border-radius:3px}
+.component-meta{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* Buttons */
+.btn{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;border-radius:6px;padding:0 12px;height:32px;border:none;cursor:pointer;display:inline-flex;align-items:center;transition:background .12s}
+.btn-primary{background:#0D99FF;color:#fff}
+.btn-primary:hover{background:#0A80D9}
+.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-danger{background:#F24822;color:#fff}
+.btn-ghost{background:transparent;color:var(--brand-link)}
+.btn-ghost:hover{background:var(--bg-selected)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:9999px;font-size:11px;font-weight:500}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Input */
+.figma-input{background:var(--bg);border:1px solid var(--border);border-radius:4px;height:32px;padding:0 8px;font-size:12px;font-family:'Inter',sans-serif;color:var(--text);outline:none;width:100%;transition:border .12s}
+.figma-input:focus{border-color:#0D99FF;box-shadow:0 0 0 3px rgba(13,153,255,.3)}
+.figma-input::placeholder{color:var(--text3)}
+
+/* Spacing */
+.sp-rows{display:flex;flex-direction:column;gap:10px}
+.sp-row{display:flex;align-items:center;gap:14px}
+.sp-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);width:70px}
+.sp-bar{height:5px;background:var(--border-strong);border-radius:2px}
+.sp-val{font-size:11px;color:var(--text3);width:30px}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#14AE5C}
+.gr-heading.dont{color:#F24822}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#14AE5C}
+.dont .gr-item::before{background:#F24822}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-
-<!-- 1. HERO -->
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-logo">
-      <!-- Figma official mark: 2×2 grid of rounded rectangles + overlapping circles forming the logo -->
-      <svg width="52" height="80" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Figma logo">
-        <!-- Row 1: Red (top-left) + Purple (top-right) -->
-        <rect x="0" y="0" width="100" height="100" rx="50" fill="#F24E1E"/>
-        <rect x="100" y="0" width="100" height="100" rx="50" fill="#A259FF"/>
-        <!-- Row 2: Orange overlap (center-left = union of red+blue) / Blue (center-right circle) -->
-        <rect x="0" y="100" width="100" height="100" rx="50" fill="#FF7262"/>
-        <circle cx="150" cy="150" r="50" fill="#1ABCFE"/>
-        <!-- Row 3: Green (bottom-left) -->
-        <rect x="0" y="200" width="100" height="100" rx="50" fill="#0ACF83"/>
+      <svg width="44" height="66" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Figma logo">
+        <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+        <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 0 1-19 0z" fill="#0ACF83"/>
+        <path d="M19 0v19h9.5a9.5 9.5 0 0 0 0-19H19z" fill="#FF7262"/>
+        <path d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5z" fill="#F24E1E"/>
+        <path d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v19H9.5A9.5 9.5 0 0 1 0 28.5z" fill="#A259FF"/>
       </svg>
     </div>
     <h1>Figma</h1>
-    <p>A collaborative interface design tool for wireframing, prototyping, handoff, and real-time collaboration — browser-native, canvas-first.</p>
+    <p>The collaborative design tool — canvas-first, browser-native, and built for real-time multi-user workflows.</p>
   </div>
 </div>
 
-<!-- 2. COLORS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Colors</div>
+<div class="wrap">
 
-    <div class="color-group">
-      <div class="color-group-label">Primary / Brand</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#A259FF', this)">
-          <div class="swatch-color" style="background:#A259FF"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-purple</div><div class="swatch-hex">#A259FF</div><div class="swatch-usage">CTA, selected state</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#0D99FF', this)">
-          <div class="swatch-color" style="background:#0D99FF"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-blue</div><div class="swatch-hex">#0D99FF</div><div class="swatch-usage">Brand accent</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#F24E1E', this)">
-          <div class="swatch-color" style="background:#F24E1E"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-red</div><div class="swatch-hex">#F24E1E</div><div class="swatch-usage">Logo, error</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#FF7262', this)">
-          <div class="swatch-color" style="background:#FF7262"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-orange</div><div class="swatch-hex">#FF7262</div><div class="swatch-usage">Accent, illustration</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#1ABCFE', this)">
-          <div class="swatch-color" style="background:#1ABCFE"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-blue-2</div><div class="swatch-hex">#1ABCFE</div><div class="swatch-usage">FigJam accent</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#0ACF83', this)">
-          <div class="swatch-color" style="background:#0ACF83"></div>
-          <div class="swatch-info"><div class="swatch-name">brand-green</div><div class="swatch-hex">#0ACF83</div><div class="swatch-usage">Success, positive</div></div>
-        </div>
-      </div>
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="figma-palette" title="Figma's 5-color brand palette">
+      <div class="figma-palette-slab" style="background:#F24E1E" onclick="copyHex('#F24E1E')" title="Figma Red"></div>
+      <div class="figma-palette-slab" style="background:#FF7262" onclick="copyHex('#FF7262')" title="Figma Orange"></div>
+      <div class="figma-palette-slab" style="background:#A259FF" onclick="copyHex('#A259FF')" title="Figma Purple"></div>
+      <div class="figma-palette-slab" style="background:#1ABCFE" onclick="copyHex('#1ABCFE')" title="Figma Blue"></div>
+      <div class="figma-palette-slab" style="background:#0ACF83" onclick="copyHex('#0ACF83')" title="Figma Green"></div>
     </div>
 
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)">
-          <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #eee;"></div>
-          <div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Primary panel surface</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#F5F5F5', this)">
-          <div class="swatch-color" style="background:#F5F5F5"></div>
-          <div class="swatch-info"><div class="swatch-name">bg-secondary</div><div class="swatch-hex">#F5F5F5</div><div class="swatch-usage">Secondary surfaces</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#EBEBEB', this)">
-          <div class="swatch-color" style="background:#EBEBEB"></div>
-          <div class="swatch-info"><div class="swatch-name">bg-tertiary</div><div class="swatch-hex">#EBEBEB</div><div class="swatch-usage">Tertiary fills</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#E8F4FF', this)">
-          <div class="swatch-color" style="background:#E8F4FF"></div>
-          <div class="swatch-info"><div class="swatch-name">bg-selected</div><div class="swatch-hex">#E8F4FF</div><div class="swatch-usage">Selected row bg</div></div>
-        </div>
-      </div>
+    <div class="group-label">UI Accent</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0D99FF')"><div class="swatch-color" style="background:#0D99FF"></div><div class="swatch-info"><span class="swatch-name">brand-blue</span><span class="swatch-hex">#0D99FF</span><span class="swatch-use">Interactive, selected</span></div></div>
+      <div class="swatch" onclick="copyHex('#A259FF')"><div class="swatch-color" style="background:#A259FF"></div><div class="swatch-info"><span class="swatch-name">brand-purple</span><span class="swatch-hex">#A259FF</span><span class="swatch-use">CTA accent</span></div></div>
     </div>
 
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#000000E5', this)">
-          <div class="swatch-color" style="background:rgba(0,0,0,0.9)"></div>
-          <div class="swatch-info"><div class="swatch-name">text</div><div class="swatch-hex">#000000E5</div><div class="swatch-usage">Primary text 90%</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#00000080', this)">
-          <div class="swatch-color" style="background:rgba(0,0,0,0.5)"></div>
-          <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#00000080</div><div class="swatch-usage">Secondary 50%</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#007BE5', this)">
-          <div class="swatch-color" style="background:#007BE5"></div>
-          <div class="swatch-info"><div class="swatch-name">text-brand</div><div class="swatch-hex">#007BE5</div><div class="swatch-usage">Links, brand text</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#E6E6E6', this)">
-          <div class="swatch-color" style="background:#E6E6E6"></div>
-          <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#E6E6E6</div><div class="swatch-usage">Default borders</div></div>
-        </div>
-      </div>
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E6E6E6"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Primary panel</span></div></div>
+      <div class="swatch" onclick="copyHex('#F5F5F5')"><div class="swatch-color" style="background:#F5F5F5"></div><div class="swatch-info"><span class="swatch-name">bg-secondary</span><span class="swatch-hex">#F5F5F5</span><span class="swatch-use">Secondary surface</span></div></div>
+      <div class="swatch" onclick="copyHex('#EBEBEB')"><div class="swatch-color" style="background:#EBEBEB"></div><div class="swatch-info"><span class="swatch-name">bg-tertiary</span><span class="swatch-hex">#EBEBEB</span><span class="swatch-use">Fills, hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#E6E6E6')"><div class="swatch-color" style="background:#E6E6E6"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E6E6E6</span><span class="swatch-use">Default borders</span></div></div>
     </div>
 
-    <div class="color-group">
-      <div class="color-group-label">Semantic</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#F24822', this)">
-          <div class="swatch-color" style="background:#F24822"></div>
-          <div class="swatch-info"><div class="swatch-name">danger</div><div class="swatch-hex">#F24822</div><div class="swatch-usage">Errors, destructive</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#FFCD29', this)">
-          <div class="swatch-color" style="background:#FFCD29"></div>
-          <div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#FFCD29</div><div class="swatch-usage">Warnings</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#14AE5C', this)">
-          <div class="swatch-color" style="background:#14AE5C"></div>
-          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#14AE5C</div><div class="swatch-usage">Confirmations</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#9747FF', this)">
-          <div class="swatch-color" style="background:#9747FF"></div>
-          <div class="swatch-info"><div class="swatch-name">figjam-brand</div><div class="swatch-hex">#9747FF</div><div class="swatch-usage">FigJam accent</div></div>
-        </div>
-      </div>
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F24822')"><div class="swatch-color" style="background:#F24822"></div><div class="swatch-info"><span class="swatch-name">danger</span><span class="swatch-hex">#F24822</span><span class="swatch-use">Errors, destructive</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFCD29')"><div class="swatch-color" style="background:#FFCD29"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#FFCD29</span><span class="swatch-use">Warnings</span></div></div>
+      <div class="swatch" onclick="copyHex('#14AE5C')"><div class="swatch-color" style="background:#14AE5C"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#14AE5C</span><span class="swatch-use">Confirmations</span></div></div>
     </div>
   </div>
-</section>
 
-<!-- 3. TYPOGRAPHY -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Typography</div>
-    <div class="type-row">
-      <span class="type-name">display-2xl</span>
-      <span class="type-sample" style="font-size:42px;font-weight:900;letter-spacing:-0.04em;line-height:1">Design tools</span>
-      <div class="type-specs"><span class="spec-pill">72px</span><span class="spec-pill">900</span><span class="spec-pill">−0.04em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">display-xl</span>
-      <span class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-0.03em;line-height:1.1">Collaborate in real time</span>
-      <div class="type-specs"><span class="spec-pill">60px</span><span class="spec-pill">700</span><span class="spec-pill">−0.03em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">display-lg</span>
-      <span class="type-sample" style="font-size:26px;font-weight:700;letter-spacing:-0.02em">The world's best design teams</span>
-      <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">700</span><span class="spec-pill">−0.02em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">display-md</span>
-      <span class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.01em">Design, prototype, collaborate</span>
-      <div class="type-specs"><span class="spec-pill">36px</span><span class="spec-pill">600</span><span class="spec-pill">−0.01em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">display-sm</span>
-      <span class="type-sample" style="font-size:18px;font-weight:600">Build your design system</span>
-      <div class="type-specs"><span class="spec-pill">30px</span><span class="spec-pill">600</span><span class="spec-pill">38px lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">text-xl</span>
-      <span class="type-sample" style="font-size:16px;font-weight:400">Everything you need to design at scale.</span>
-      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">400</span><span class="spec-pill">30px lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">text-md</span>
-      <span class="type-sample" style="font-size:14px;font-weight:400">Standard body text for Figma's marketing pages and app UI.</span>
-      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">24px lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">text-sm</span>
-      <span class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-secondary)">Secondary body, captions, and descriptive text</span>
-      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">20px lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">ui-mono</span>
-      <span class="type-sample" style="font-size:11px;font-weight:400;font-family:monospace;color:var(--text-secondary)">#0D99FF · X: 240 · Y: 160</span>
-      <div class="type-specs"><span class="spec-pill">11px</span><span class="spec-pill">Mono</span><span class="spec-pill">16px lh</span></div>
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-2xl</div><div class="type-spec">900 · −0.04em</div></div><div class="type-sample" style="font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1">Design tools</div><div class="spec-pills"><span class="spec-pill">72px</span><span class="spec-pill">900</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-xl</div><div class="type-spec">700 · −0.03em</div></div><div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:1.1">Collaborate in real time</div><div class="spec-pills"><span class="spec-pill">60px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">600 · −0.02em</div></div><div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-.02em">The world's best design teams</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-lg</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:16px">Everything you need to design at scale.</div><div class="spec-pills"><span class="spec-pill">20px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-md</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Standard body text and UI copy.</div><div class="spec-pills"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-mono</div><div class="type-spec">mono · 400</div></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text2)">#0D99FF · X: 240 · Y: 160 · W: 320 · H: 180</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
-</section>
 
-<!-- 4. COMPONENTS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <!-- Canvas view -->
+      <div class="comp-card">
+        <div class="comp-title">Canvas &amp; toolbar</div>
+        <div class="canvas-area">
+          <div class="toolbar">
+            <div class="tb-btn active">V</div>
+            <div class="tb-btn">F</div>
+            <div class="tb-sep"></div>
+            <div class="tb-btn">R</div>
+            <div class="tb-btn">O</div>
+            <div class="tb-btn">T</div>
+            <div class="tb-sep"></div>
+            <div class="tb-btn">P</div>
+          </div>
+          <div class="frame">
+            <div class="frame-label">Frame · 320 × 180</div>
+            <div class="frame-content">
+              <div class="frame-rect accent"></div>
+              <div class="frame-rect"></div>
+              <div class="frame-rect sm"></div>
+              <div class="frame-rect sm" style="width:50%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layers panel -->
+      <div class="comp-card">
+        <div class="comp-title">Layers panel</div>
+        <div class="layers-panel">
+          <div class="layers-header">Layers</div>
+          <div class="layer-row selected"><span class="layer-icon">▣</span>Hero Section</div>
+          <div class="layer-row layer-indent"><span class="layer-icon">⬚</span>Frame</div>
+          <div class="layer-row layer-indent" style="padding-left:32px"><span class="layer-icon">T</span>Heading</div>
+          <div class="layer-row layer-indent" style="padding-left:32px"><span class="layer-icon">⬚</span>Button / Primary</div>
+          <div class="layer-row"><span class="layer-icon">▣</span>Navigation</div>
+          <div class="layer-row"><span class="layer-icon">▣</span>Footer</div>
+        </div>
+      </div>
+
       <!-- Buttons -->
       <div class="comp-card">
-        <div class="comp-card-title">Buttons</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-primary">Primary</button>
-            <button class="btn btn-secondary">Secondary</button>
-          </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-ghost">Ghost</button>
-            <button class="btn btn-danger">Danger</button>
-          </div>
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Publish</button>
+          <button class="btn btn-secondary">Share</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost">Edit</button>
+          <button class="btn btn-danger">Delete</button>
         </div>
       </div>
-      <!-- Inputs -->
+
+      <!-- Badges & inputs -->
       <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <input class="inp" placeholder="Layer name...">
-          <input class="inp" placeholder="Search components...">
-          <input class="inp" value="240" style="font-family:monospace;">
+        <div class="comp-title">Inputs &amp; badges</div>
+        <input class="figma-input" placeholder="Search layers…" style="margin-bottom:10px">
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(13,153,255,.1);color:#007BE5">Component</span>
+          <span class="badge" style="background:rgba(162,89,255,.1);color:#7B44CC">Instance</span>
+          <span class="badge" style="background:rgba(20,174,92,.1);color:#0F8B49">Auto layout</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Draft</span>
         </div>
       </div>
-      <!-- Badges -->
-      <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span class="badge badge-default">Default</span>
-          <span class="badge badge-brand">Brand</span>
-          <span class="badge badge-success">Success</span>
-          <span class="badge badge-warning">Warning</span>
-          <span class="badge badge-danger">Danger</span>
-          <span class="badge badge-purple">Purple</span>
+    </div>
+
+    <!-- Component thumbnails -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div class="component-thumb"><div class="component-thumb-canvas"><button style="background:#0D99FF;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer">Button</button></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Button/Primary<span class="component-badge">4 variants</span></div><div class="component-meta">Interactive</div></div></div>
+      <div class="component-thumb"><div class="component-thumb-canvas"><input style="border:1px solid #E6E6E6;border-radius:4px;padding:4px 8px;font-size:12px;width:120px" placeholder="Input field"></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Input/Default<span class="component-badge">6 variants</span></div><div class="component-meta">Form element</div></div></div>
+      <div class="component-thumb"><div class="component-thumb-canvas"><span style="background:rgba(13,153,255,.1);color:#007BE5;font-size:12px;padding:2px 8px;border-radius:9999px;font-weight:500">Label</span></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Badge/Brand<span class="component-badge">8 variants</span></div><div class="component-meta">Status</div></div></div>
+      <div class="component-thumb"><div class="component-thumb-canvas" style="gap:4px;display:flex"><div style="width:28px;height:28px;border-radius:50%;background:#0D99FF;border:2px solid #fff"></div><div style="width:28px;height:28px;border-radius:50%;background:#A259FF;border:2px solid #fff;margin-left:-8px"></div><div style="width:28px;height:28px;border-radius:50%;background:#F24E1E;border:2px solid #fff;margin-left:-8px"></div></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Avatar/Stack<span class="component-badge">3 sizes</span></div><div class="component-meta">Collaboration</div></div></div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing</div>
+    <div class="sp-rows">
+      <div class="sp-row"><span class="sp-label">space-1</span><div class="sp-bar" style="width:4px"></div><span class="sp-val">4px</span></div>
+      <div class="sp-row"><span class="sp-label">space-2</span><div class="sp-bar" style="width:8px"></div><span class="sp-val">8px</span></div>
+      <div class="sp-row"><span class="sp-label">space-3</span><div class="sp-bar" style="width:12px"></div><span class="sp-val">12px</span></div>
+      <div class="sp-row"><span class="sp-label">space-4</span><div class="sp-bar" style="width:16px"></div><span class="sp-val">16px</span></div>
+      <div class="sp-row"><span class="sp-label">space-5</span><div class="sp-bar" style="width:20px"></div><span class="sp-val">20px</span></div>
+      <div class="sp-row"><span class="sp-label">space-6</span><div class="sp-bar" style="width:24px"></div><span class="sp-val">24px</span></div>
+      <div class="sp-row"><span class="sp-label">space-8</span><div class="sp-bar" style="width:32px"></div><span class="sp-val">32px</span></div>
+      <div class="sp-row"><span class="sp-label">space-12</span><div class="sp-bar" style="width:48px"></div><span class="sp-val">48px</span></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use purple (#A259FF) as brand accent — not for informational states (use blue for info)</div>
+          <div class="gr-item">Keep backgrounds neutral (#FFFFFF, #F5F5F5) and let illustrations carry color</div>
+          <div class="gr-item">Apply semantic tokens over raw hex values in plugin and product code</div>
+          <div class="gr-item">Show blue focus ring on all interactive elements for keyboard accessibility</div>
+          <div class="gr-item">Use #F24822 (Figma Red) consistently for all destructive and error states</div>
         </div>
       </div>
-      <!-- Sample Card -->
-      <div class="comp-card">
-        <div class="comp-card-title">Card</div>
-        <div class="sample-card">
-          <div class="sample-card-title">Auto Layout</div>
-          <div class="sample-card-body" style="margin-top:8px;">Control spacing, padding, and alignment with Figma's auto-layout engine.</div>
-          <div style="margin-top:16px;">
-            <button class="btn btn-primary" style="font-size:12px;height:28px;padding:4px 12px;">Learn more</button>
-          </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Use brand purple or blue as full-surface backgrounds — accents only</div>
+          <div class="gr-item">Use decorative shadows on flat app UI — reserve for floating surfaces and modals</div>
+          <div class="gr-item">Use full black #000000 for text — the system uses rgba(0,0,0,0.9)</div>
+          <div class="gr-item">Rely on color alone to communicate state — always pair with icon, label, or shape</div>
+          <div class="gr-item">Exceed 6 colors in a single component or layout section</div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- 5. SPACING -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Spacing</div>
-    <div id="spacing-bars"></div>
-  </div>
-</section>
-
-<!-- 6. GUARDRAILS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails">
-      <div class="guardrail-col guardrail-do">
-        <h3>DO</h3>
-        <div class="guardrail-item">Use purple (#A259FF) exclusively as a brand accent — not for informational states (use blue for info).</div>
-        <div class="guardrail-item">Keep backgrounds neutral (#FFFFFF, #F5F5F5) and let illustrations carry color.</div>
-        <div class="guardrail-item">Use semantic tokens over raw hex values in plugin and product code.</div>
-        <div class="guardrail-item">Ensure minimum 4.5:1 contrast ratio between text and background at all times.</div>
-        <div class="guardrail-item">Apply shadow-focus (blue ring) on interactive elements for keyboard accessibility.</div>
-        <div class="guardrail-item">Use #F24822 (Figma Red) consistently for all destructive and error states.</div>
-      </div>
-      <div class="guardrail-col guardrail-dont">
-        <h3>DON'T</h3>
-        <div class="guardrail-item">Don't use brand purple or blue as full-surface backgrounds on large areas — accents only.</div>
-        <div class="guardrail-item">Don't mix Figma Sans with other grotesque sans-serifs in the same composition.</div>
-        <div class="guardrail-item">Don't use decorative shadows on app UI components — reserve for floating surfaces.</div>
-        <div class="guardrail-item">Don't use full black #000000 for text — the system uses #000000E5 (90% opacity).</div>
-        <div class="guardrail-item">Don't rely on color alone to communicate state — pair with icon, label, or shape change.</div>
-        <div class="guardrail-item">Don't exceed 6 colors in a single component or layout section.</div>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <script>
-  
-
-  function copyHex(hex, el) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
-
-  const spacings = [
-    {token:'space-1', value:4},  {token:'space-2', value:8},
-    {token:'space-3', value:12}, {token:'space-4', value:16},
-    {token:'space-5', value:20}, {token:'space-6', value:24},
-    {token:'space-8', value:32}, {token:'space-10', value:40},
-    {token:'space-12', value:48},{token:'space-16', value:64},
-    {token:'space-20', value:80},{token:'space-24', value:96},
-  ];
-  const container = document.getElementById('spacing-bars');
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'spacing-row';
-    row.innerHTML = `<span class="spacing-label">${s.token}</span><div class="spacing-bar" style="width:${s.value * 2.2}px"></div><span class="spacing-value">${s.value}px</span>`;
-    container.appendChild(row);
-  });
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>

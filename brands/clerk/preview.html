@@ -3,432 +3,383 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clerk — Design System Preview</title>
+<title>Clerk — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #6C47FF;
-    --primary-hover: #5A38E8;
-    --background: #FFFFFF;
-    --surface: #FAFAFA;
-    --surface-secondary: #F4F4F5;
-    --text-primary: #09090B;
-    --text-secondary: #71717A;
-    --text-muted: #A1A1AA;
-    --border: #E4E4E7;
-    --border-strong: #D4D4D8;
-    --error: #EF4444;
-    --success: #22C55E;
-    --warning: #F59E0B;
-    --purple-dim: rgba(108,71,255,0.08);
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.10);
-  }
-  [data-theme="dark"] {
-    --background: #09090B;
-    --surface: #18181B;
-    --surface-secondary: #27272A;
-    --text-primary: #FAFAFA;
-    --text-secondary: #A1A1AA;
-    --text-muted: #71717A;
-    --border: #3F3F46;
-    --border-strong: #52525B;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.5);
-    --purple-dim: rgba(108,71,255,0.15);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    background: var(--background); color: var(--text-primary);
-    font-size: 14px; line-height: 1.5; transition: background 0.2s, color 0.2s;
-  }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-secondary); }
-
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
-
-  .hero {
-    background: linear-gradient(135deg, rgba(108,71,255,0.05) 0%, rgba(108,71,255,0.02) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 64px 0 56px; text-align: center;
-  }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
-  .hero-logo { display: flex; justify-content: center; margin-bottom: 24px; }
-  .hero h1 { font-size: 28px; font-weight: 700; line-height: 1.2; color: var(--text-primary); margin-bottom: 12px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
-
-  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
-  section:last-child { border-bottom: none; }
-  .section-title { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 32px; }
-  .section-subtitle { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 28px 0 14px; }
-
-  .swatches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 8px; }
-  .swatch {
-    border-radius: 12px; border: 1px solid var(--border);
-    overflow: hidden; cursor: pointer;
-    transition: box-shadow 0.15s, transform 0.15s; background: var(--surface);
-  }
-  .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .swatch-color { height: 80px; width: 100%; }
-  .swatch-info { padding: 10px 12px; }
-  .swatch-token { font-size: 12px; font-weight: 500; color: var(--text-primary); display: block; }
-  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-  .swatch-usage { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--text-primary); color: var(--background);
-    padding: 8px 18px; border-radius: 9999px;
-    font-size: 13px; font-weight: 500;
-    transition: transform 0.25s ease; z-index: 200; pointer-events: none;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  .type-table { width: 100%; border-collapse: collapse; }
-  .type-table tr { border-bottom: 1px solid var(--border); }
-  .type-table tr:last-child { border-bottom: none; }
-  .type-table td { padding: 14px 16px; vertical-align: middle; }
-  .type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 130px; }
-  .type-table td:nth-child(2) { min-width: 220px; color: var(--text-primary); }
-  .type-table td:last-child { display: flex; gap: 6px; flex-wrap: wrap; }
-  .spec-pill {
-    background: var(--surface-secondary); border: 1px solid var(--border);
-    border-radius: 4px; padding: 2px 8px; font-size: 11px;
-    font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); white-space: nowrap;
-  }
-
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: var(--shadow-sm); }
-  .comp-card-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 16px; }
-  .btn-group { display: flex; flex-direction: column; gap: 10px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: inherit; font-size: 14px; font-weight: 500;
-    border-radius: 8px; padding: 10px 18px; border: none;
-    cursor: pointer; transition: background 150ms ease;
-  }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); }
-  .btn-secondary:hover { background: var(--surface-secondary); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--surface-secondary); }
-  .btn-destructive { background: var(--error); color: #fff; }
-
-  .input-group { display: flex; flex-direction: column; gap: 10px; }
-  .input-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; display: block; }
-  .input-wrap { display: flex; flex-direction: column; gap: 4px; }
-  .input-field {
-    height: 40px; background: var(--background);
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 0 14px; font-family: inherit; font-size: 14px;
-    color: var(--text-primary); outline: none;
-    transition: border-color 150ms; width: 100%;
-  }
-  .input-field:focus { border-color: var(--primary); }
-  .input-field::placeholder { color: var(--text-muted); }
-  .input-error { border-color: var(--error) !important; }
-  .input-error-msg { font-size: 12px; color: var(--error); }
-
-  .badges-group { display: flex; gap: 8px; flex-wrap: wrap; }
-  .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
-  .badge-admin { background: var(--purple-dim); color: var(--primary); }
-  .badge-member { background: var(--surface-secondary); color: var(--text-secondary); }
-  .badge-success { background: rgba(34,197,94,0.12); color: var(--success); }
-  .badge-pending { background: rgba(245,158,11,0.12); color: var(--warning); }
-
-  /* Auth card */
-  .auth-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; padding: 32px;
-    box-shadow: var(--shadow-lg); max-width: 360px;
-  }
-  .auth-card-title { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-  .auth-card-subtitle { font-size: 13px; color: var(--text-secondary); margin-bottom: 24px; }
-  .oauth-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; padding: 10px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface);
-    color: var(--text-primary); font-family: inherit; font-size: 14px;
-    font-weight: 500; cursor: pointer; margin-bottom: 8px;
-    transition: background 150ms;
-  }
-  .oauth-btn:hover { background: var(--surface-secondary); }
-  .auth-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text-muted); font-size: 12px; }
-  .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .spacing-list { display: flex; flex-direction: column; gap: 12px; }
-  .spacing-row { display: flex; align-items: center; gap: 16px; }
-  .spacing-label { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar { height: 20px; background: var(--primary); border-radius: 4px; opacity: 0.7; transition: opacity 0.15s; }
-  .spacing-bar:hover { opacity: 1; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
-
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrail-col { display: flex; flex-direction: column; gap: 10px; }
-  .guardrail-col-title { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-  .do-title { color: var(--success); }
-  .dont-title { color: var(--error); }
-  .guardrail-item { padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
-  .do-item { ; background: rgba(34,197,94,0.05); }
-  .dont-item { ; background: rgba(239,68,68,0.05); }
-
-  @media (max-width: 600px) {
-    .guardrails-grid { grid-template-columns: 1fr; }
-    .wrapper { padding: 0 16px 60px; }
-    .hero-inner { padding: 0 16px; }
-  }
+:root[data-theme="light"] {
+  --bg: #FFFFFF;
+  --bg-surface: #FAFAFA;
+  --bg-hover: #F4F4F5;
+  --border: #E4E4E7;
+  --border-strong: #D4D4D8;
+  --text: #09090B;
+  --text2: #71717A;
+  --text3: #A1A1AA;
+  --primary: #6C47FF;
+  --primary-hover: #5A38E8;
+  --primary-dim: rgba(108,71,255,0.08);
+  --error: #EF4444;
+  --error-bg: #FEF2F2;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
+  --shadow-signin: 0 8px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
+}
+:root[data-theme="dark"] {
+  --bg: #09090B;
+  --bg-surface: #18181B;
+  --bg-hover: #27272A;
+  --border: #3F3F46;
+  --border-strong: #52525B;
+  --text: #FAFAFA;
+  --text2: #A1A1AA;
+  --text3: #71717A;
+  --primary: #7C5CFF;
+  --primary-hover: #9171FF;
+  --primary-dim: rgba(108,71,255,0.15);
+  --error: #F87171;
+  --error-bg: rgba(239,68,68,0.1);
+  --success: #4ADE80;
+  --warning: #FCD34D;
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+  --shadow-signin: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="dark"] .logo-invert{filter:invert(1) brightness(1.1)}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg-surface);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--text3)}
+
+/* Layout */
+.hero{padding:64px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 32px}
+.hero-logo{margin-bottom:20px}
+.brand-logo{display:block;margin:0 auto}
+.hero h1{font-size:26px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.hero p{font-size:14px;color:var(--text2);max-width:420px;margin:0 auto}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
+.subsection-label{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin:24px 0 12px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .15s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:72px}
+.swatch-info{padding:10px 12px;background:var(--bg-surface)}
+.swatch-name{font-size:12px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:1px}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:center;gap:20px;padding:13px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:11px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+
+/* Components grid */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-grid.single{grid-template-columns:1fr}
+.comp-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:10px;padding:20px}
+.comp-card.full{grid-column:span 2}
+.comp-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+
+/* Buttons */
+.btn{font-family:'Inter',sans-serif;font-size:14px;font-weight:500;padding:0 16px;height:36px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s}
+.btn-sm{height:30px;font-size:13px;padding:0 12px}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--bg-hover)}
+.btn-ghost{background:transparent;color:var(--text2)}
+.btn-ghost:hover{background:var(--bg-hover)}
+.btn-destructive{background:var(--error);color:#fff}
+.btn-row{display:flex;flex-direction:column;gap:8px}
+
+/* Inputs */
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.field:last-child{margin-bottom:0}
+.field-label{font-size:12px;font-weight:500;color:var(--text2)}
+.field-input{height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:var(--bg);outline:none;width:100%;transition:border-color .15s}
+.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-dim)}
+.field-input::placeholder{color:var(--text3)}
+.field-input.error{border-color:var(--error)}
+.field-error{font-size:12px;color:var(--error);display:flex;align-items:center;gap:4px}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:500;gap:4px}
+.badge-role{background:var(--primary-dim);color:var(--primary)}
+.badge-member{background:var(--bg-hover);color:var(--text2)}
+.badge-active{background:rgba(34,197,94,.1);color:var(--success)}
+.badge-pending{background:rgba(245,158,11,.1);color:var(--warning)}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Sign-in card — Clerk's flagship component */
+.signin-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:32px;box-shadow:var(--shadow-signin);max-width:360px}
+.signin-logo{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.signin-logo-mark{width:24px;height:24px;background:var(--primary);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.signin-logo-mark span{color:#fff;font-size:13px;font-weight:700;line-height:1}
+.signin-app{font-size:13px;font-weight:500;color:var(--text2)}
+.signin-title{font-size:20px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
+.signin-subtitle{font-size:13px;color:var(--text2);margin-bottom:20px}
+.social-btn{width:100%;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;margin-bottom:8px;transition:background .15s}
+.social-btn:hover{background:var(--bg-hover)}
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text3);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.signin-footer{margin-top:16px;font-size:12px;text-align:center;color:var(--text3)}
+.signin-footer a{color:var(--primary);text-decoration:none;font-weight:500}
+
+/* User button */
+.user-btn{display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border:1px solid var(--border);border-radius:9999px;background:var(--bg);cursor:pointer;transition:background .15s}
+.user-btn:hover{background:var(--bg-hover)}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.user-avatar span{font-size:12px;font-weight:600;color:#fff}
+.user-name{font-size:13px;font-weight:500;color:var(--text)}
+.user-chevron{color:var(--text3)}
+
+/* Org switcher */
+.org-switcher{display:inline-flex;align-items:center;gap:8px;padding:4px 10px 4px 6px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--text)}
+.org-switcher:hover{background:var(--bg-hover)}
+.org-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:11px}
+
+/* Spacing */
+.spacing-rows{display:flex;flex-direction:column;gap:10px}
+.sp-row{display:flex;align-items:center;gap:14px}
+.sp-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);width:56px}
+.sp-bar{height:6px;background:var(--border-strong);border-radius:2px}
+.sp-val{font-size:11px;color:var(--text3);width:30px}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-col{}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--success)}
+.gr-heading.dont{color:var(--error)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--success)}
+.dont .gr-item::before{background:var(--error)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:7px 16px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-logo">
-      <!-- Clerk: violet shield/C mark -->
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Clerk logo">
-        <!-- Shield shape -->
-        <path d="M40 8 L68 20 L68 44 C68 57 55 68 40 72 C25 68 12 57 12 44 L12 20 Z" fill="#6C47FF"/>
-        <!-- C letterform cutout -->
-        <path d="M52 30 C48 26 42 25 37 27 C30 30 27 37 29 44 C31 51 38 55 45 53 C48 52 51 50 53 47" stroke="white" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-      </svg>
+      <img src="https://cdn.simpleicons.org/clerk/6C47FF" width="48" height="48" class="brand-logo" alt="Clerk logo">
     </div>
     <h1>Clerk</h1>
-    <p>Auth that just works — a developer authentication platform with a polished, trust-first UI.</p>
+    <p>Authentication infrastructure for developers — drop-in components that handle the full user management lifecycle.</p>
   </div>
 </div>
 
-<div class="wrapper">
+<div class="wrap">
 
-  <section>
-    <h2 class="section-title">Colors</h2>
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
 
-    <p class="section-subtitle">Primary</p>
-    <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#6C47FF')">
-        <div class="swatch-color" style="background:#6C47FF"></div>
-        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#6C47FF</span><span class="swatch-usage">CTAs, active states, links</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#5A38E8')">
-        <div class="swatch-color" style="background:#5A38E8"></div>
-        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#5A38E8</span><span class="swatch-usage">Hover on primary</span></div>
-      </div>
+    <div class="subsection-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#6C47FF')"><div class="swatch-color" style="background:#6C47FF"></div><div class="swatch-info"><span class="swatch-name">primary</span><span class="swatch-hex">#6C47FF</span></div></div>
+      <div class="swatch" onclick="copyHex('#5A38E8')"><div class="swatch-color" style="background:#5A38E8"></div><div class="swatch-info"><span class="swatch-name">primary-hover</span><span class="swatch-hex">#5A38E8</span></div></div>
     </div>
 
-    <p class="section-subtitle">Surfaces</p>
-    <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#FFFFFF')">
-        <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #E4E4E7"></div>
-        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-usage">Page background</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#FAFAFA')">
-        <div class="swatch-color" style="background:#FAFAFA"></div>
-        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#FAFAFA</span><span class="swatch-usage">Cards, panels</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#F4F4F5')">
-        <div class="swatch-color" style="background:#F4F4F5"></div>
-        <div class="swatch-info"><span class="swatch-token">surface-secondary</span><span class="swatch-hex">#F4F4F5</span><span class="swatch-usage">Hover states, fills</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#E4E4E7')">
-        <div class="swatch-color" style="background:#E4E4E7"></div>
-        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#E4E4E7</span><span class="swatch-usage">Dividers, input borders</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#D4D4D8')">
-        <div class="swatch-color" style="background:#D4D4D8"></div>
-        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#D4D4D8</span><span class="swatch-usage">Emphasized borders</span></div>
-      </div>
+    <div class="subsection-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E4E4E7"></div><div class="swatch-info"><span class="swatch-name">background</span><span class="swatch-hex">#FFFFFF</span></div></div>
+      <div class="swatch" onclick="copyHex('#FAFAFA')"><div class="swatch-color" style="background:#FAFAFA"></div><div class="swatch-info"><span class="swatch-name">surface</span><span class="swatch-hex">#FAFAFA</span></div></div>
+      <div class="swatch" onclick="copyHex('#F4F4F5')"><div class="swatch-color" style="background:#F4F4F5"></div><div class="swatch-info"><span class="swatch-name">surface-secondary</span><span class="swatch-hex">#F4F4F5</span></div></div>
+      <div class="swatch" onclick="copyHex('#E4E4E7')"><div class="swatch-color" style="background:#E4E4E7"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E4E4E7</span></div></div>
     </div>
 
-    <p class="section-subtitle">Text</p>
-    <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#09090B')">
-        <div class="swatch-color" style="background:#09090B"></div>
-        <div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#09090B</span><span class="swatch-usage">Body text, headings</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#71717A')">
-        <div class="swatch-color" style="background:#71717A"></div>
-        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#71717A</span><span class="swatch-usage">Supporting text</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#A1A1AA')">
-        <div class="swatch-color" style="background:#A1A1AA"></div>
-        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#A1A1AA</span><span class="swatch-usage">Placeholders, disabled</span></div>
-      </div>
+    <div class="subsection-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#09090B')"><div class="swatch-color" style="background:#09090B"></div><div class="swatch-info"><span class="swatch-name">text-primary</span><span class="swatch-hex">#09090B</span></div></div>
+      <div class="swatch" onclick="copyHex('#71717A')"><div class="swatch-color" style="background:#71717A"></div><div class="swatch-info"><span class="swatch-name">text-secondary</span><span class="swatch-hex">#71717A</span></div></div>
+      <div class="swatch" onclick="copyHex('#A1A1AA')"><div class="swatch-color" style="background:#A1A1AA"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#A1A1AA</span></div></div>
     </div>
 
-    <p class="section-subtitle">Semantic</p>
-    <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#EF4444')">
-        <div class="swatch-color" style="background:#EF4444"></div>
-        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#EF4444</span><span class="swatch-usage">Error states</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#22C55E')">
-        <div class="swatch-color" style="background:#22C55E"></div>
-        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#22C55E</span><span class="swatch-usage">Success states</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#F59E0B')">
-        <div class="swatch-color" style="background:#F59E0B"></div>
-        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#F59E0B</span><span class="swatch-usage">Warnings</span></div>
-      </div>
+    <div class="subsection-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#EF4444')"><div class="swatch-color" style="background:#EF4444"></div><div class="swatch-info"><span class="swatch-name">error</span><span class="swatch-hex">#EF4444</span></div></div>
+      <div class="swatch" onclick="copyHex('#22C55E')"><div class="swatch-color" style="background:#22C55E"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#22C55E</span></div></div>
+      <div class="swatch" onclick="copyHex('#F59E0B')"><div class="swatch-color" style="background:#F59E0B"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#F59E0B</span></div></div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2 class="section-title">Typography</h2>
-    <table class="type-table">
-      <tbody>
-        <tr>
-          <td>heading-xl</td>
-          <td><span style="font-size:28px;font-weight:700;line-height:1.2">Sign in to Acme</span></td>
-          <td><span class="spec-pill">28px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.2</span></td>
-        </tr>
-        <tr>
-          <td>heading-lg</td>
-          <td><span style="font-size:22px;font-weight:600;line-height:1.3">User management</span></td>
-          <td><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
-        </tr>
-        <tr>
-          <td>heading-md</td>
-          <td><span style="font-size:16px;font-weight:600;line-height:1.4">Security settings</span></td>
-          <td><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
-        </tr>
-        <tr>
-          <td>body</td>
-          <td><span style="font-size:14px;font-weight:400;line-height:1.5">Standard body text for interface copy</span></td>
-          <td><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
-        </tr>
-        <tr>
-          <td>body-sm</td>
-          <td><span style="font-size:13px;font-weight:400;line-height:1.5">Small body for metadata and labels</span></td>
-          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
-        </tr>
-        <tr>
-          <td>label</td>
-          <td><span style="font-size:12px;font-weight:500;line-height:1.3">Email address</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></td>
-        </tr>
-        <tr>
-          <td>caption</td>
-          <td><span style="font-size:12px;font-weight:400;line-height:1.4">Caption and supporting text</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
-        </tr>
-        <tr>
-          <td>code</td>
-          <td><span style="font-size:13px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6">pk_live_abc123xyz</span></td>
-          <td><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-xl</div><div class="type-spec">28px · 700</div></div><div class="type-sample" style="font-size:28px;font-weight:700;letter-spacing:-.01em;line-height:1.2">Sign in to Acme</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">22px · 600</div></div><div class="type-sample" style="font-size:22px;font-weight:600;line-height:1.3">User management</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-md</div><div class="type-spec">16px · 600</div></div><div class="type-sample" style="font-size:16px;font-weight:600;line-height:1.4">Security settings</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">14px · 400</div></div><div class="type-sample" style="font-size:14px;line-height:1.5">Standard body text for interface copy and descriptions</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">13px · 400</div></div><div class="type-sample" style="font-size:13px;line-height:1.5;color:var(--text2)">Secondary information, metadata, timestamps</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">label</div><div class="type-spec">12px · 500</div></div><div class="type-sample" style="font-size:12px;font-weight:500">Email address</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">code</div><div class="type-spec">13px · mono</div></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;background:var(--bg-hover);padding:2px 6px;border-radius:4px;display:inline-block">pk_live_abc123xyz</div></div>
+    </div>
+  </div>
 
-  <section>
-    <h2 class="section-title">Components</h2>
-    <div class="components-grid">
-      <div class="comp-card">
-        <div class="comp-card-title">Buttons</div>
-        <div class="btn-group">
-          <button class="btn btn-primary">Continue</button>
-          <button class="btn btn-secondary">Secondary</button>
-          <button class="btn btn-ghost">Cancel</button>
-          <button class="btn btn-destructive">Delete account</button>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <div class="input-wrap">
-            <label class="input-label">Email address</label>
-            <input class="input-field" type="email" placeholder="you@example.com">
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid" style="margin-bottom:16px">
+
+      <!-- Sign-in card -->
+      <div class="comp-card" style="background:var(--bg)">
+        <div class="comp-title">&#60;SignIn /&#62; component</div>
+        <div class="signin-card">
+          <div class="signin-logo">
+            <div class="signin-logo-mark"><span>A</span></div>
+            <span class="signin-app">Acme Corp</span>
           </div>
-          <div class="input-wrap">
-            <label class="input-label">Password</label>
-            <input class="input-field input-error" type="password" value="pass">
-            <span class="input-error-msg">Password must be at least 8 characters</span>
-          </div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
-        <div class="badges-group">
-          <span class="badge badge-admin">Admin</span>
-          <span class="badge badge-member">Member</span>
-          <span class="badge badge-success">Active</span>
-          <span class="badge badge-pending">Pending</span>
-        </div>
-      </div>
-      <div class="comp-card" style="background:var(--background)">
-        <div class="comp-card-title">Auth Card</div>
-        <div class="auth-card">
-          <div class="auth-card-title">Sign in</div>
-          <div class="auth-card-subtitle">to continue to your app</div>
-          <button class="oauth-btn">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7.5" stroke="#4285F4"/><path d="M8 5v3l2.5 1.5" stroke="#4285F4" stroke-linecap="round"/></svg>
+          <div class="signin-title">Sign in</div>
+          <div class="signin-subtitle">to continue to Acme Corp</div>
+          <button class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
             Continue with Google
           </button>
-          <div class="auth-divider">or</div>
-          <input class="input-field" type="email" placeholder="Email address" style="margin-bottom:8px">
-          <button class="btn btn-primary" style="width:100%">Continue</button>
+          <button class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            Continue with GitHub
+          </button>
+          <div class="divider">or</div>
+          <div class="field"><label class="field-label">Email address</label><input class="field-input" type="email" placeholder="you@example.com"></div>
+          <button class="btn btn-primary" style="width:100%;height:36px">Continue</button>
+          <div class="signin-footer">Don't have an account? <a href="#">Sign up</a></div>
+        </div>
+      </div>
+
+      <!-- UI elements -->
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="comp-card">
+          <div class="comp-title">Buttons</div>
+          <div class="btn-row">
+            <button class="btn btn-primary">Continue</button>
+            <button class="btn btn-secondary">Manage account</button>
+            <button class="btn btn-ghost">Cancel</button>
+            <button class="btn btn-destructive">Delete account</button>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-title">User button</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="user-btn">
+              <div class="user-avatar"><span>JD</span></div>
+              <span class="user-name">Jane Doe</span>
+              <svg class="user-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="org-switcher">
+              <div class="org-icon" style="background:#EDE9FE;color:#6C47FF">A</div>
+              Acme Corp
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:2px;color:var(--text3)"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-card">
+          <div class="comp-title">Role badges</div>
+          <div class="badge-row">
+            <span class="badge badge-role">Admin</span>
+            <span class="badge badge-member">Member</span>
+            <span class="badge badge-active">Active</span>
+            <span class="badge badge-pending">Pending</span>
+          </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <section>
-    <h2 class="section-title">Spacing</h2>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-val">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-5</span><div class="spacing-bar" style="width:20px"></div><span class="spacing-val">20px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-10</span><div class="spacing-bar" style="width:40px"></div><span class="spacing-val">40px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">48px</span></div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="section-title">Guardrails</h2>
-    <div class="guardrails-grid">
-      <div class="guardrail-col">
-        <div class="guardrail-col-title do-title">DO</div>
-        <div class="guardrail-item do-item">Prioritize trust signals — use consistent borders, clean spacing, accessible contrast</div>
-        <div class="guardrail-item do-item">Use violet only for the primary action per view</div>
-        <div class="guardrail-item do-item">Keep auth components tight and focused — no distractions during sign-in flows</div>
-        <div class="guardrail-item do-item">Show clear error states with actionable messages</div>
-      </div>
-      <div class="guardrail-col">
-        <div class="guardrail-col-title dont-title">DON'T</div>
-        <div class="guardrail-item dont-item">Use more than one primary button per screen</div>
-        <div class="guardrail-item dont-item">Add decorative backgrounds to auth pages — plain white or subtle gray only</div>
-        <div class="guardrail-item dont-item">Show technical error codes to end users</div>
-        <div class="guardrail-item dont-item">Use animations that delay the form becoming interactive</div>
-        <div class="guardrail-item dont-item">Use all-caps labels or uppercase text</div>
+    <!-- Inputs full width -->
+    <div class="comp-card">
+      <div class="comp-title">Input states</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px">
+        <div class="field"><label class="field-label">Default</label><input class="field-input" type="text" placeholder="Enter value"></div>
+        <div class="field"><label class="field-label">Focused</label><input class="field-input" type="text" value="user@example.com" style="border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-dim)"></div>
+        <div class="field">
+          <label class="field-label">Error</label>
+          <input class="field-input error" type="password" value="short">
+          <span class="field-error">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Must be at least 8 characters
+          </span>
+        </div>
+        <div class="field"><label class="field-label">Disabled</label><input class="field-input" type="text" value="clerk_user_2abc" disabled style="opacity:.5;cursor:not-allowed"></div>
       </div>
     </div>
-  </section>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing</div>
+    <div class="spacing-rows">
+      <div class="sp-row"><span class="sp-label">space-1</span><div class="sp-bar" style="width:4px"></div><span class="sp-val">4px</span></div>
+      <div class="sp-row"><span class="sp-label">space-2</span><div class="sp-bar" style="width:8px"></div><span class="sp-val">8px</span></div>
+      <div class="sp-row"><span class="sp-label">space-3</span><div class="sp-bar" style="width:12px"></div><span class="sp-val">12px</span></div>
+      <div class="sp-row"><span class="sp-label">space-4</span><div class="sp-bar" style="width:16px"></div><span class="sp-val">16px</span></div>
+      <div class="sp-row"><span class="sp-label">space-6</span><div class="sp-bar" style="width:24px"></div><span class="sp-val">24px</span></div>
+      <div class="sp-row"><span class="sp-label">space-8</span><div class="sp-bar" style="width:32px"></div><span class="sp-val">32px</span></div>
+      <div class="sp-row"><span class="sp-label">space-10</span><div class="sp-bar" style="width:40px"></div><span class="sp-val">40px</span></div>
+      <div class="sp-row"><span class="sp-label">space-12</span><div class="sp-bar" style="width:48px"></div><span class="sp-val">48px</span></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="gr-col do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use violet only for the single primary action per view</div>
+          <div class="gr-item">Keep sign-in flows distraction-free — minimal chrome, no decorative backgrounds</div>
+          <div class="gr-item">Show accessible error messages with clear remediation steps</div>
+          <div class="gr-item">Use consistent 36–40px height for all interactive elements</div>
+          <div class="gr-item">Maintain 4.5:1 minimum contrast for all text</div>
+        </div>
+      </div>
+      <div class="gr-col dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Place more than one primary button on a screen</div>
+          <div class="gr-item">Show raw technical errors or stack traces to end users</div>
+          <div class="gr-item">Use animations that block the form from becoming interactive</div>
+          <div class="gr-item">Use uppercase labels or decorative font treatments</div>
+          <div class="gr-item">Add gradient backgrounds or heavy shadows to auth cards</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <div class="toast" id="toast">Copied!</div>
 
 <script>
-  function copyHex(hex) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>

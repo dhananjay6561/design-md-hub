@@ -39,6 +39,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 
 /* HERO */
 .hero{margin-bottom:80px;padding-bottom:64px;border-bottom:1px solid var(--border)}
+.hero-logo{margin-bottom:20px}
+.brand-logo{display:block}
+:root[data-theme="dark"] .logo-invert{filter:invert(1) brightness(1.1)}
 .hero-icon{width:60px;height:60px;background:var(--text);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px}
 .hero-icon span{font-size:32px;color:white;font-family:Georgia,serif;font-weight:700;line-height:1}
 .hero h1{font-size:42px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px;color:var(--text)}
@@ -142,7 +145,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 
   <!-- HERO -->
   <div class="hero">
-    <div class="hero-icon"><span>N</span></div>
+    <div class="hero-logo"><img src="https://cdn.simpleicons.org/notion/000000" width="48" height="48" class="brand-logo logo-invert" alt="Notion logo"></div>
     <h1>Notion</h1>
     <p>Warm minimalism — a calm, document-first workspace where structure lives in content, not decoration. Near-zero chrome, infinite depth.</p>
   </div>

@@ -61,15 +61,7 @@
 
   /* HERO */
   .hero {
-    background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%);
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 48px 40px; margin-bottom: 64px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: ''; position: absolute; top: -60px; right: -60px;
-    width: 200px; height: 200px; background: var(--purple-dim);
-    border-radius: 50%; filter: blur(40px);
+    padding: 48px 0; margin-bottom: 64px; border-bottom: 1px solid var(--border);
   }
   .hero-logo { margin-bottom: 20px; }
   .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
@@ -164,7 +156,7 @@
   .spacing-row { display: flex; align-items: center; gap: 12px; }
   .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
   .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
+  .spacing-bar { height: 8px; background: var(--border-strong); border-radius: 2px; }
   .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
 
   /* GUARDRAILS */
@@ -174,11 +166,14 @@
   .guardrails-heading.do { color: var(--success); }
   .guardrails-heading.dont { color: var(--error); }
   .guardrail-item {
-    font-size: 13px; color: var(--text-secondary); padding: 8px 12px;
-    border-radius: 6px; background: var(--surface);
+    font-size: 13px; color: var(--text-secondary); padding: 4px 0 4px 16px; position: relative;
   }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
+  .guardrail-item::before {
+    content: ''; position: absolute; left: 0; top: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+  }
+  .guardrail-item.do::before { background: var(--success); }
+  .guardrail-item.dont::before { background: var(--error); }
 
   @media (max-width: 600px) {
     .guardrails-grid { grid-template-columns: 1fr; }
@@ -187,6 +182,7 @@
   }
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="dark"] .logo-invert { filter: invert(1) brightness(1.1); }
 </style>
 </head>
 <body>
@@ -198,10 +194,7 @@
   <!-- HERO -->
   <div class="hero">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 10 L10 90 L30 90 L30 30 L90 30 L90 10 Z" fill="#5E6AD2"/>
-        <path d="M30 50 L30 90 L50 90 L50 50 Z" fill="#5E6AD2" opacity="0.65"/>
-      </svg>
+      <img src="https://cdn.simpleicons.org/linear/5E6AD2" width="56" height="56" class="brand-logo" alt="linear logo">
     </div>
     <h1>Linear</h1>
     <p>Fast, focused, and opinionated — a productivity tool that feels like it was built for people who hate slow software.</p>

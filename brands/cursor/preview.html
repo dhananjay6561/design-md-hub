@@ -3,427 +3,333 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cursor Design System Preview</title>
+<title>Cursor — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root[data-theme="dark"] {
-    --bg: #181818;
-    --bg-panel: #1d1d1d;
-    --border: #383838;
-    --text: #d6d6dd;
-    --text-muted: #a6a6a6;
-    --text-dim: #7a797a;
-    --accent: #228df2;
-    --accent-hover: #359dff;
-    --selection: #163761;
-    --hero-bg: #141414;
-  }
-  :root[data-theme="light"] {
-    --bg: #F7F7F4;
-    --bg-panel: #F7F7F4;
-    --border: #D9D5CF;
-    --text: #14120B;
-    --text-muted: #7A7974;
-    --text-dim: #B0AA9F;
-    --accent: #f54e00;
-    --accent-hover: #cc3d00;
-    --selection: #E6E5E0;
-    --hero-bg: #EEECe8;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    font-size: 14px;
-    -webkit-font-smoothing: antialiased;
-    transition: background 0.2s, color 0.2s;
-  }
-  /* Floating dark/light toggle */
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--border); }
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
-  section:last-child { border-bottom: none; }
-  .section-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; }
-
-  /* HERO */
-  .hero { background: var(--hero-bg); padding: 96px 0; border-bottom: 1px solid var(--border); }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .hero-logo { margin-bottom: 28px; }
-  .hero h1 { font-size: 60px; font-weight: 400; line-height: 1; color: var(--text); margin-bottom: 16px; font-family: 'Inter Tight', 'Geist', sans-serif; letter-spacing: -0.03em; }
-  .hero p { font-size: 18px; color: var(--text-muted); max-width: 520px; font-weight: 400; }
-
-  /* COLORS */
-  .color-group { margin-bottom: 40px; }
-  .color-group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-  .swatch { border-radius: 8px; border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
-  .swatch:hover { border-color: var(--accent); }
-  .swatch-color { height: 80px; }
-  .swatch-info { padding: 10px 12px; background: var(--bg-panel); }
-  .swatch-name { font-size: 11px; font-weight: 500; color: var(--text); }
-  .swatch-hex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .swatch-usage { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
-
-  /* TYPOGRAPHY */
-  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 11px; font-weight: 500; color: var(--text-muted); width: 120px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
-  .type-sample { flex: 1; color: var(--text); }
-  .type-specs { display: flex; gap: 8px; flex-shrink: 0; }
-  .spec-pill { background: var(--bg-panel); color: var(--text-muted); font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); white-space: nowrap; }
-
-  /* COMPONENTS */
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
-  .comp-card-title { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
-
-  /* Buttons — app UI (dark) */
-  .btn { border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 400; border-radius: 4px; transition: background 0.15s, color 0.15s; padding: 6px 14px; }
-  .btn-primary { background: #228df2; color: #e6e6ed; }
-  .btn-primary:hover { background: #359dff; }
-  .btn-secondary { background: #1d1d1d; color: #d6d6dd; border: 1px solid #383838; }
-  .btn-secondary:hover { background: #303030; }
-  /* Marketing buttons */
-  .btn-mkt { background: #26251E; color: #F7F7F4; border-radius: 9999px; padding: 10px 22px; font-family: 'Inter Tight', sans-serif; font-size: 14px; border: none; cursor: pointer; transition: all 0.15s; }
-  .btn-mkt:hover { color: #cf2d56; }
-  .btn-outline-mkt { background: transparent; color: #26251E; border: 1px solid #D9D5CF; border-radius: 9999px; padding: 10px 22px; font-size: 14px; cursor: pointer; transition: border-color 0.15s; }
-  .btn-outline-mkt:hover { border-color: #26251E; }
-
-  /* Inputs */
-  .inp { background: #1d1d1d; border: 1px solid #383838; border-radius: 4px; padding: 5px 10px; font-size: 13px; font-family: inherit; color: #d6d6dd; outline: none; width: 100%; transition: border 0.15s, box-shadow 0.15s; }
-  .inp:focus { border-color: #228df2; box-shadow: 0 0 0 2px rgba(34,141,242,0.2); }
-  .inp::placeholder { color: #7a797a; }
-  [data-theme="light"] .inp { background: #F7F7F4; border-color: #D9D5CF; color: #26251E; }
-  [data-theme="light"] .inp:focus { border-color: #14120B; }
-  [data-theme="light"] .inp::placeholder { color: #7A7974; }
-
-  /* Badges */
-  .badge { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: 9999px; font-size: 10px; font-weight: 500; }
-  .badge-blue { background: #228df2; color: #d6d6dd; }
-  .badge-success { background: rgba(21,172,145,0.15); color: #15ac91; }
-  .badge-error { background: rgba(241,76,76,0.15); color: #f14c4c; }
-  .badge-warning { background: rgba(234,118,32,0.15); color: #ea7620; }
-  .badge-outline { background: transparent; border: 1px solid #D9D5CF; color: #26251E; border-radius: 9999px; }
-  .badge-signal { background: transparent; border: 1px solid #4ADE80; color: #4ADE80; }
-
-  /* Sample Card */
-  .sample-card { background: #1d1d1d; border: 1px solid #383838; border-radius: 8px; padding: 16px; }
-  [data-theme="light"] .sample-card { background: #E6E5E0; border-color: #D9D5CF; }
-  .sample-card-title { font-size: 13px; font-weight: 400; color: #d6d6dd; margin-bottom: 8px; }
-  [data-theme="light"] .sample-card-title { color: #14120B; }
-  .sample-card-body { font-size: 13px; color: #a6a6a6; line-height: 1.5; }
-  [data-theme="light"] .sample-card-body { color: #7A7974; }
-
-  /* Code block */
-  .code-block { background: #141414; border: 1px solid #383838; border-radius: 4px; padding: 12px; font-family: 'Berkeley Mono', 'JetBrains Mono', 'IBM Plex Mono', monospace; font-size: 12px; color: #d6d6dd; line-height: 1.5; overflow-x: auto; }
-
-  /* SPACING */
-  .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
-  .spacing-bar { height: 20px; background: rgba(34,141,242,0.12); border-radius: 4px; ; }
-  [data-theme="light"] .spacing-bar { background: rgba(245,78,0,0.1); border-left-color: #f54e00; }
-  .spacing-label { font-size: 12px; color: var(--text-muted); width: 90px; flex-shrink: 0; font-family: monospace; }
-  .spacing-value { font-size: 12px; color: var(--text-dim); }
-
-  /* GUARDRAILS */
-  .guardrails { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrail-col h3 { font-size: 13px; font-weight: 600; margin-bottom: 16px; }
-  .guardrail-do h3 { color: #15ac91; }
-  .guardrail-dont h3 { color: #f14c4c; }
-  .guardrail-item { padding: 10px 14px; margin-bottom: 8px; border-radius: 4px; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-  .guardrail-do .guardrail-item {; background: rgba(21,172,145,0.05); }
-  .guardrail-dont .guardrail-item {; background: rgba(241,76,76,0.05); }
-
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg-panel); color: var(--text); font-size: 13px; padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); transition: transform 0.2s ease; z-index: 9999; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+:root[data-theme="dark"]{
+  --bg:#181818;--bg-panel:#1d1d1d;--bg-raised:#232323;
+  --border:#383838;--border-strong:#484848;
+  --text:#d6d6dd;--text2:#a6a6a6;--text3:#7a797a;
+  --accent:#228df2;--accent-hover:#359dff;--selection:#163761;
+}
+:root[data-theme="light"]{
+  --bg:#F7F7F4;--bg-panel:#EEECEA;--bg-raised:#E6E5E0;
+  --border:#D9D5CF;--border-strong:#C5C1BB;
+  --text:#14120B;--text2:#7A7974;--text3:#B0AA9F;
+  --accent:#f54e00;--accent-hover:#cc3d00;--selection:#E6E5E0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="dark"] .logo-invert{filter:invert(1) brightness(1.1)}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg-panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--text3)}
+
+/* Layout */
+.hero{background:var(--bg-panel);border-bottom:1px solid var(--border);padding:72px 0 60px;text-align:center}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px}
+.brand-logo{display:block;margin:0 auto}
+.hero h1{font-size:56px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'Inter Tight','Geist',sans-serif;margin-bottom:12px}
+.hero p{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
+.group-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:72px}
+.swatch-info{padding:9px 11px;background:var(--bg-panel)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:100px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;font-family:'JetBrains Mono',monospace;background:var(--bg-panel);border:1px solid var(--border);color:var(--text2);padding:2px 6px;border-radius:3px}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg-panel);border:1px solid var(--border);border-radius:6px;padding:18px}
+.comp-card.full{grid-column:span 2}
+.comp-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+
+/* Editor component */
+.editor-chrome{border:1px solid var(--border);border-radius:6px;overflow:hidden;font-family:'JetBrains Mono',monospace;font-size:12px}
+.editor-titlebar{background:#141414;border-bottom:1px solid var(--border);padding:6px 12px;display:flex;align-items:center;gap:8px}
+.editor-tab{font-size:11px;color:var(--text2);padding:2px 8px;border-radius:3px}
+.editor-tab.active{background:var(--bg-raised);color:var(--text)}
+.editor-body{background:#141414;padding:12px 0;line-height:1.7}
+.editor-line{display:flex;gap:0}
+.ln{width:36px;text-align:right;padding-right:16px;color:var(--text3);font-size:11px;flex-shrink:0;user-select:none}
+.code{font-size:12px;flex:1;padding-right:12px}
+.kw{color:#c792ea}.fn{color:#82aaff}.str{color:#c3e88d}.comment{color:#546e7a}.num{color:#f78c6c}
+.editor-line.selection .code{background:var(--selection)}
+.ghost-text{color:#5a5a6a;font-style:italic}
+.ai-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(34,141,242,.15);color:#228df2;font-size:10px;padding:1px 6px;border-radius:3px;margin-left:8px;vertical-align:middle}
+
+/* Chat panel */
+.chat-panel{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.chat-header{background:var(--bg-raised);border-bottom:1px solid var(--border);padding:8px 12px;font-size:12px;font-weight:500;color:var(--text2);display:flex;align-items:center;gap:6px}
+.chat-body{background:#141414;padding:12px}
+.chat-msg{margin-bottom:12px}
+.chat-msg-role{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:4px}
+.chat-msg-text{font-size:13px;color:var(--text2);line-height:1.5}
+.chat-code{background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);margin-top:6px;line-height:1.6}
+.chat-actions{display:flex;gap:6px;margin-top:8px}
+.chat-input{border-top:1px solid var(--border);padding:8px 12px;background:var(--bg-raised);display:flex;align-items:center;gap:8px}
+.chat-input input{flex:1;background:transparent;border:none;font-family:'Geist',sans-serif;font-size:13px;color:var(--text);outline:none}
+.chat-input input::placeholder{color:var(--text3)}
+
+/* App buttons */
+.btn{font-family:'Geist',sans-serif;font-size:13px;font-weight:400;border-radius:4px;border:none;cursor:pointer;padding:5px 12px;transition:background .12s}
+.btn-app-primary{background:var(--accent);color:#fff}
+.btn-app-primary:hover{background:var(--accent-hover)}
+.btn-app-secondary{background:var(--bg-raised);color:var(--text);border:1px solid var(--border)}
+.btn-app-secondary:hover{background:var(--border)}
+/* Marketing buttons */
+.btn-mkt{background:#26251E;color:#F7F7F4;border-radius:9999px;padding:9px 20px;font-family:'Inter Tight',sans-serif;font-size:14px;border:none;cursor:pointer}
+:root[data-theme="light"] .btn-mkt{background:#14120B;color:#F7F7F4}
+.btn-mkt-outline{background:transparent;color:#26251E;border:1px solid var(--border);border-radius:9999px;padding:9px 20px;font-size:14px;cursor:pointer}
+:root[data-theme="light"] .btn-mkt-outline{color:#14120B}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;padding:2px 6px;border-radius:9999px;font-size:10px;font-weight:500;gap:3px}
+.badge-blue{background:rgba(34,141,242,.15);color:#228df2}
+.badge-success{background:rgba(21,172,145,.15);color:#15ac91}
+.badge-error{background:rgba(241,76,76,.15);color:#f14c4c}
+.badge-warn{background:rgba(234,118,32,.15);color:#ea7620}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+
+/* Spacing */
+.sp-rows{display:flex;flex-direction:column;gap:10px}
+.sp-row{display:flex;align-items:center;gap:14px}
+.sp-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);width:72px}
+.sp-bar{height:5px;background:var(--border-strong);border-radius:2px}
+.sp-val{font-size:11px;color:var(--text3);width:30px}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#15ac91}
+.gr-heading.dont{color:#f14c4c}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#15ac91}
+.dont .gr-item::before{background:#f14c4c}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--bg-panel);border:1px solid var(--border);color:var(--text);padding:7px 16px;border-radius:6px;font-size:13px;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-
-<!-- 1. HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-logo">
-      <!-- Cursor: simple blue C-shaped mark -->
-      <svg width="68" height="80" viewBox="0 0 68 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Cursor logo">
-        <defs>
-          <linearGradient id="cur_g1" x1="0" y1="0" x2="68" y2="80" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#359dff"/>
-            <stop offset="100%" stop-color="#0f5fa8"/>
-          </linearGradient>
-        </defs>
-        <!-- C shape: outer arc minus inner arc cutout -->
-        <path d="
-          M58 10 C38 -4 8 6 4 40 C0 74 28 88 52 76
-          L44 60 C30 68 14 60 14 40 C14 20 30 12 44 20 Z
-        " fill="url(#cur_g1)"/>
-        <!-- Cursor blink line -->
-        <rect x="54" y="32" width="3" height="18" rx="1.5" fill="#228df2" opacity="0.7"/>
-      </svg>
-    </div>
+    <div class="hero-logo"><img src="https://cdn.simpleicons.org/cursor/000000" width="52" height="52" class="brand-logo logo-invert" alt="Cursor logo"></div>
     <h1>Cursor</h1>
-    <p>An AI-native code editor — technical precision through a warm, achromatic aesthetic with a single chromatic accent.</p>
+    <p>The AI code editor — technical precision through a warm, achromatic aesthetic with a single chromatic accent.</p>
   </div>
 </div>
 
-<!-- 2. COLORS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Colors</div>
+<div class="wrap">
 
-    <div class="color-group">
-      <div class="color-group-label">App UI — Dark (Anysphere Dark)</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#181818', this)">
-          <div class="swatch-color" style="background:#181818;border-bottom:1px solid #383838"></div>
-          <div class="swatch-info"><div class="swatch-name">editor.background</div><div class="swatch-hex">#181818</div><div class="swatch-usage">Editor canvas</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#1d1d1d', this)">
-          <div class="swatch-color" style="background:#1d1d1d;border-bottom:1px solid #383838"></div>
-          <div class="swatch-info"><div class="swatch-name">dropdown.background</div><div class="swatch-hex">#1d1d1d</div><div class="swatch-usage">Dropdowns, widgets</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#228df2', this)">
-          <div class="swatch-color" style="background:#228df2"></div>
-          <div class="swatch-info"><div class="swatch-name">accent-blue</div><div class="swatch-hex">#228df2</div><div class="swatch-usage">Caret, buttons, links</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#163761', this)">
-          <div class="swatch-color" style="background:#163761"></div>
-          <div class="swatch-info"><div class="swatch-name">editor.selection</div><div class="swatch-hex">#163761</div><div class="swatch-usage">Text selection</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#383838', this)">
-          <div class="swatch-color" style="background:#383838"></div>
-          <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#383838</div><div class="swatch-usage">Panel borders</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#d6d6dd', this)">
-          <div class="swatch-color" style="background:#d6d6dd"></div>
-          <div class="swatch-info"><div class="swatch-name">foreground</div><div class="swatch-hex">#d6d6dd</div><div class="swatch-usage">Default text, icons</div></div>
-        </div>
-      </div>
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">App UI — Anysphere Dark</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#181818')"><div class="swatch-color" style="background:#181818;border-bottom:1px solid #383838"></div><div class="swatch-info"><span class="swatch-name">editor.background</span><span class="swatch-hex">#181818</span><span class="swatch-use">Editor canvas</span></div></div>
+      <div class="swatch" onclick="copyHex('#1d1d1d')"><div class="swatch-color" style="background:#1d1d1d"></div><div class="swatch-info"><span class="swatch-name">dropdown.background</span><span class="swatch-hex">#1d1d1d</span><span class="swatch-use">Panels, widgets</span></div></div>
+      <div class="swatch" onclick="copyHex('#228df2')"><div class="swatch-color" style="background:#228df2"></div><div class="swatch-info"><span class="swatch-name">accent-blue</span><span class="swatch-hex">#228df2</span><span class="swatch-use">Caret, buttons, links</span></div></div>
+      <div class="swatch" onclick="copyHex('#163761')"><div class="swatch-color" style="background:#163761"></div><div class="swatch-info"><span class="swatch-name">editor.selection</span><span class="swatch-hex">#163761</span><span class="swatch-use">Text selection</span></div></div>
+      <div class="swatch" onclick="copyHex('#383838')"><div class="swatch-color" style="background:#383838"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#383838</span><span class="swatch-use">Panel borders</span></div></div>
+      <div class="swatch" onclick="copyHex('#d6d6dd')"><div class="swatch-color" style="background:#d6d6dd"></div><div class="swatch-info"><span class="swatch-name">foreground</span><span class="swatch-hex">#d6d6dd</span><span class="swatch-use">Default text, icons</span></div></div>
     </div>
 
-    <div class="color-group">
-      <div class="color-group-label">Marketing Site — Warm Parchment</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#F7F7F4', this)">
-          <div class="swatch-color" style="background:#F7F7F4;border-bottom:1px solid #D9D5CF"></div>
-          <div class="swatch-info"><div class="swatch-name">canvas-parchment</div><div class="swatch-hex">#F7F7F4</div><div class="swatch-usage">Page background</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#14120B', this)">
-          <div class="swatch-color" style="background:#14120B"></div>
-          <div class="swatch-info"><div class="swatch-name">inkwell</div><div class="swatch-hex">#14120B</div><div class="swatch-usage">Primary text, headings</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#26251E', this)">
-          <div class="swatch-color" style="background:#26251E"></div>
-          <div class="swatch-info"><div class="swatch-name">espresso</div><div class="swatch-hex">#26251E</div><div class="swatch-usage">Body text, buttons</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#E6E5E0', this)">
-          <div class="swatch-color" style="background:#E6E5E0;border-bottom:1px solid #D9D5CF"></div>
-          <div class="swatch-info"><div class="swatch-name">card-stone</div><div class="swatch-hex">#E6E5E0</div><div class="swatch-usage">Elevated cards</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#f54e00', this)">
-          <div class="swatch-color" style="background:#f54e00"></div>
-          <div class="swatch-info"><div class="swatch-name">ember-orange</div><div class="swatch-hex">#f54e00</div><div class="swatch-usage">Primary CTA, hovers</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#D9D5CF', this)">
-          <div class="swatch-color" style="background:#D9D5CF"></div>
-          <div class="swatch-info"><div class="swatch-name">border-sand</div><div class="swatch-hex">#D9D5CF</div><div class="swatch-usage">Dividers, borders</div></div>
-        </div>
-      </div>
+    <div class="group-label">Marketing — Warm Parchment</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F7F7F4')"><div class="swatch-color" style="background:#F7F7F4;border-bottom:1px solid #D9D5CF"></div><div class="swatch-info"><span class="swatch-name">canvas-parchment</span><span class="swatch-hex">#F7F7F4</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#14120B')"><div class="swatch-color" style="background:#14120B"></div><div class="swatch-info"><span class="swatch-name">inkwell</span><span class="swatch-hex">#14120B</span><span class="swatch-use">Primary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#E6E5E0')"><div class="swatch-color" style="background:#E6E5E0"></div><div class="swatch-info"><span class="swatch-name">card-stone</span><span class="swatch-hex">#E6E5E0</span><span class="swatch-use">Elevated cards</span></div></div>
+      <div class="swatch" onclick="copyHex('#f54e00')"><div class="swatch-color" style="background:#f54e00"></div><div class="swatch-info"><span class="swatch-name">ember-orange</span><span class="swatch-hex">#f54e00</span><span class="swatch-use">Marketing CTA only</span></div></div>
     </div>
 
-    <div class="color-group">
-      <div class="color-group-label">Semantic Status</div>
-      <div class="swatches">
-        <div class="swatch" onclick="copyHex('#f14c4c', this)">
-          <div class="swatch-color" style="background:#f14c4c"></div>
-          <div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#f14c4c</div><div class="swatch-usage">Errors, deleted git</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#ea7620', this)">
-          <div class="swatch-color" style="background:#ea7620"></div>
-          <div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#ea7620</div><div class="swatch-usage">Warnings, debug</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#15ac91', this)">
-          <div class="swatch-color" style="background:#15ac91"></div>
-          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#15ac91</div><div class="swatch-usage">Git added, progress</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#5b51ec', this)">
-          <div class="swatch-color" style="background:#5b51ec"></div>
-          <div class="swatch-info"><div class="swatch-name">remote-indicator</div><div class="swatch-hex">#5b51ec</div><div class="swatch-usage">Status bar remote</div></div>
-        </div>
-      </div>
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#f14c4c')"><div class="swatch-color" style="background:#f14c4c"></div><div class="swatch-info"><span class="swatch-name">error</span><span class="swatch-hex">#f14c4c</span><span class="swatch-use">Errors, deleted git</span></div></div>
+      <div class="swatch" onclick="copyHex('#ea7620')"><div class="swatch-color" style="background:#ea7620"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#ea7620</span><span class="swatch-use">Warnings, debug</span></div></div>
+      <div class="swatch" onclick="copyHex('#15ac91')"><div class="swatch-color" style="background:#15ac91"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#15ac91</span><span class="swatch-use">Git added, progress</span></div></div>
     </div>
   </div>
-</section>
 
-<!-- 3. TYPOGRAPHY -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Typography</div>
-    <div class="type-row">
-      <span class="type-name">display</span>
-      <span class="type-sample" style="font-size:36px;font-weight:400;letter-spacing:-0.03em;line-height:1;font-family:'Inter Tight',sans-serif">The AI Code Editor</span>
-      <div class="type-specs"><span class="spec-pill">72px</span><span class="spec-pill">400</span><span class="spec-pill">Cursor Gothic</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">heading-lg</span>
-      <span class="type-sample" style="font-size:26px;font-weight:400;letter-spacing:-0.02em;font-family:'Inter Tight',sans-serif">Built to make you extraordinary</span>
-      <div class="type-specs"><span class="spec-pill">36px</span><span class="spec-pill">400</span><span class="spec-pill">−0.02em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">heading</span>
-      <span class="type-sample" style="font-size:20px;font-weight:400;letter-spacing:-0.012em;font-family:'Inter Tight',sans-serif">Predictive Edits</span>
-      <div class="type-specs"><span class="spec-pill">26px</span><span class="spec-pill">400</span><span class="spec-pill">−0.012em</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">body-16</span>
-      <span class="type-sample" style="font-size:15px;font-weight:400">Cursor knows your codebase and writes code that fits your patterns.</span>
-      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">1.50 lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">body-14</span>
-      <span class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-muted)">Secondary body copy and UI labels throughout the app.</span>
-      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">1.50 lh</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">ui-label</span>
-      <span class="type-sample" style="font-size:11px;font-weight:400;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted)">EXPLORER / SEARCH / SOURCE CONTROL</span>
-      <div class="type-specs"><span class="spec-pill">11px</span><span class="spec-pill">400</span><span class="spec-pill">Uppercase</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">code</span>
-      <span class="type-sample" style="font-size:12px;font-family:'JetBrains Mono','IBM Plex Mono',monospace;color:#d6d6dd">const ai = new Cursor({ model: 'claude-sonnet' })</span>
-      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">Berkeley Mono</span></div>
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Inter Tight · 400</div></div><div class="type-sample" style="font-size:38px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'Inter Tight',sans-serif">The AI Code Editor</div><div class="spec-pills"><span class="spec-pill">72px</span><span class="spec-pill">−0.03em</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">Inter Tight · 400</div></div><div class="type-sample" style="font-size:26px;font-weight:400;letter-spacing:-.02em;font-family:'Inter Tight',sans-serif">Built to make you extraordinary</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">−0.02em</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-16</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:15px">Cursor knows your codebase and writes code that fits your patterns.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">lh 1.5</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-body</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">App chrome, panels, command palette labels</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">lh 1.5</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-label</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3)">EXPLORER · SEARCH · SOURCE CONTROL</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">uppercase</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">code</div><div class="type-spec">JetBrains Mono</div></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace"><span class="kw">const</span> <span class="fn">ai</span> = <span class="kw">new</span> <span class="fn">Cursor</span>({ <span class="str">model</span>: <span class="str">'claude-4'</span> })</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
-</section>
 
-<!-- 4. COMPONENTS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <!-- Buttons -->
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid" style="margin-bottom:16px">
+
+      <!-- Code editor with AI -->
       <div class="comp-card">
-        <div class="comp-card-title">Buttons</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="margin-bottom:4px;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">App UI</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-primary">Apply</button>
-            <button class="btn btn-secondary">Cancel</button>
+        <div class="comp-title">Editor — inline AI suggestion</div>
+        <div class="editor-chrome">
+          <div class="editor-titlebar">
+            <span class="editor-tab">index.ts</span>
+            <span class="editor-tab active">auth.ts</span>
           </div>
-          <div style="margin-top:8px;margin-bottom:4px;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;">Marketing</div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button class="btn-mkt">Try for free</button>
-            <button class="btn-outline-mkt">Learn more</button>
+          <div class="editor-body">
+            <div class="editor-line"><span class="ln">1</span><span class="code"><span class="kw">import</span> { <span class="fn">createClient</span> } <span class="kw">from</span> <span class="str">'@supabase/supabase-js'</span></span></div>
+            <div class="editor-line"><span class="ln">2</span><span class="code"></span></div>
+            <div class="editor-line"><span class="comment"><span class="ln">3</span><span class="code">// validate user session</span></span></div>
+            <div class="editor-line selection"><span class="ln">4</span><span class="code"><span class="kw">export async function</span> <span class="fn">getUser</span>(token: <span class="fn">string</span>) {</span></div>
+            <div class="editor-line"><span class="ln">5</span><span class="code" style="padding-left:16px"><span class="kw">const</span> { data, error } = <span class="kw">await</span> supabase</span></div>
+            <div class="editor-line"><span class="ln">6</span><span class="code" style="padding-left:32px">.auth.<span class="fn">getUser</span>(token)</span></div>
+            <div class="editor-line"><span class="ln">7</span><span class="code" style="padding-left:16px"><span class="ghost-text">if (error) throw new Error(error.message)</span><span class="ai-badge">Tab</span></span></div>
+            <div class="editor-line"><span class="ln">8</span><span class="code" style="padding-left:16px"><span class="kw">return</span> data.user</span></div>
+            <div class="editor-line"><span class="ln">9</span><span class="code">}</span></div>
           </div>
         </div>
       </div>
-      <!-- Inputs -->
+
+      <!-- AI Chat panel -->
       <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <input class="inp" placeholder="Search files...">
-          <input class="inp" placeholder="Ask AI anything...">
-          <div class="code-block">const count = items.filter(x => x.active).length</div>
+        <div class="comp-title">Chat panel</div>
+        <div class="chat-panel">
+          <div class="chat-header">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="12" r="10"/></svg>
+            Cursor AI
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg">
+              <div class="chat-msg-role">You</div>
+              <div class="chat-msg-text" style="color:var(--text)">Add error handling to <code style="background:var(--bg-raised);padding:1px 4px;border-radius:3px;font-size:11px">getUser</code></div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-msg-role">Cursor</div>
+              <div class="chat-msg-text">I'll add a try/catch with proper error propagation.</div>
+              <div class="chat-code"><span class="kw">try</span> {<br>&nbsp;&nbsp;<span class="kw">const</span> { data, error } = <span class="kw">await</span> supabase.auth.<span class="fn">getUser</span>(token)<br>&nbsp;&nbsp;<span class="kw">if</span> (error) <span class="kw">throw</span> error<br>&nbsp;&nbsp;<span class="kw">return</span> data.user<br>} <span class="kw">catch</span> (e) {<br>&nbsp;&nbsp;<span class="fn">console</span>.error(<span class="str">'Auth failed:'</span>, e)<br>&nbsp;&nbsp;<span class="kw">throw</span> e<br>}</div>
+              <div class="chat-actions">
+                <button class="btn btn-app-primary" style="font-size:12px;padding:4px 10px">Apply</button>
+                <button class="btn btn-app-secondary" style="font-size:12px;padding:4px 10px">Reject</button>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input">
+            <input placeholder="Ask Cursor anything…">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
         </div>
       </div>
-      <!-- Badges -->
+    </div>
+
+    <div class="comp-grid">
       <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+        <div class="comp-title">App buttons</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+          <button class="btn btn-app-primary">Apply</button>
+          <button class="btn btn-app-secondary">Cancel</button>
+        </div>
+        <div class="comp-title" style="margin-top:4px">Marketing</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-mkt">Try for free</button>
+          <button class="btn-mkt-outline">Learn more</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Status badges</div>
+        <div class="badge-row">
           <span class="badge badge-blue">AI</span>
           <span class="badge badge-success">Added</span>
           <span class="badge badge-error">Error</span>
-          <span class="badge badge-warning">Warning</span>
-          <span class="badge badge-outline">Tag</span>
-          <span class="badge badge-signal">Focus</span>
-        </div>
-      </div>
-      <!-- Sample Card -->
-      <div class="comp-card">
-        <div class="comp-card-title">Card</div>
-        <div class="sample-card">
-          <div class="sample-card-title">Chat Panel</div>
-          <div class="sample-card-body">AI responses render inline with #d6d6dd text — no fill bubble. Code blocks use Berkeley Mono on #141414 bg.</div>
-          <div style="margin-top:12px;display:flex;gap:8px;">
-            <button class="btn btn-primary" style="font-size:12px;padding:4px 10px;">Accept</button>
-            <button class="btn btn-secondary" style="font-size:12px;padding:4px 10px;">Reject</button>
-          </div>
+          <span class="badge badge-warn">Warning</span>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- 5. SPACING -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Spacing — 4px base unit</div>
-    <div id="spacing-bars"></div>
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing — 4px base unit</div>
+    <div class="sp-rows">
+      <div class="sp-row"><span class="sp-label">space-1</span><div class="sp-bar" style="width:4px"></div><span class="sp-val">4px</span></div>
+      <div class="sp-row"><span class="sp-label">space-2</span><div class="sp-bar" style="width:8px"></div><span class="sp-val">8px</span></div>
+      <div class="sp-row"><span class="sp-label">space-3</span><div class="sp-bar" style="width:12px"></div><span class="sp-val">12px</span></div>
+      <div class="sp-row"><span class="sp-label">space-4</span><div class="sp-bar" style="width:16px"></div><span class="sp-val">16px</span></div>
+      <div class="sp-row"><span class="sp-label">space-6</span><div class="sp-bar" style="width:24px"></div><span class="sp-val">24px</span></div>
+      <div class="sp-row"><span class="sp-label">space-8</span><div class="sp-bar" style="width:32px"></div><span class="sp-val">32px</span></div>
+      <div class="sp-row"><span class="sp-label">space-10</span><div class="sp-bar" style="width:40px"></div><span class="sp-val">40px</span></div>
+      <div class="sp-row"><span class="sp-label">section</span><div class="sp-bar" style="width:64px"></div><span class="sp-val">64px</span></div>
+    </div>
   </div>
-</section>
 
-<!-- 6. GUARDRAILS -->
-<section>
-  <div class="wrapper">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails">
-      <div class="guardrail-col guardrail-do">
-        <h3>DO</h3>
-        <div class="guardrail-item">Use #228df2 as the one and only chromatic colour in the app UI. All other colour is semantic status.</div>
-        <div class="guardrail-item">Keep all app surfaces within the #141414–#1d1d1d range. Never introduce mid-grey or coloured backgrounds.</div>
-        <div class="guardrail-item">Render all code in Berkeley Mono — in editor, chat bubbles, tooltips, and inline diffs.</div>
-        <div class="guardrail-item">Use Cursor Gothic (Inter Tight) exclusively for brand and marketing text — never inside the editor.</div>
-        <div class="guardrail-item">Maintain 95%+ achromatic coverage on any surface. Chromatic colours are states, not backgrounds.</div>
-        <div class="guardrail-item">Use pill (9999px) radius for marketing buttons and strict 4px/8px for IDE UI elements.</div>
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use #228df2 as the sole chromatic color in app UI — all other color is semantic status</div>
+          <div class="gr-item">Keep all app surfaces between #141414–#1d1d1d. No mid-grey or colored backgrounds</div>
+          <div class="gr-item">Render all code in Berkeley Mono — editor, chat, tooltips, inline diffs</div>
+          <div class="gr-item">Use Inter Tight for brand and marketing headlines only — never inside the IDE</div>
+          <div class="gr-item">Use pill radius for marketing CTAs; 4px/8px for IDE UI elements</div>
+        </div>
       </div>
-      <div class="guardrail-col guardrail-dont">
-        <h3>DON'T</h3>
-        <div class="guardrail-item">Don't use gradients, drop shadows, or coloured glows in the app UI. Depth is implied by background value alone.</div>
-        <div class="guardrail-item">Don't use orange (#f54e00) inside the IDE — that accent is marketing-only.</div>
-        <div class="guardrail-item">Don't mix light UI widgets into a dark theme context or vice versa.</div>
-        <div class="guardrail-item">Don't use #000000 pure black for any text — use warm near-black (#26251E) on marketing, #141414 for UI rails.</div>
-        <div class="guardrail-item">Don't place more than one chromatic accent per screen in the IDE. Blue is for primary action only.</div>
-        <div class="guardrail-item">Don't animate layout transitions in the editor. Micro-animations only in chat stream and diff application.</div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Use gradients, drop shadows, or colored glows in app UI — depth comes from bg value alone</div>
+          <div class="gr-item">Use orange (#f54e00) inside the IDE — that accent belongs to marketing only</div>
+          <div class="gr-item">Use pure black #000000 for text — use warm near-black #14120B on marketing surfaces</div>
+          <div class="gr-item">Place more than one chromatic accent per screen in the IDE</div>
+          <div class="gr-item">Animate layout transitions in the editor — micro-animations only in chat stream and diffs</div>
+        </div>
       </div>
     </div>
   </div>
-</section>
+
+</div>
 
 <script>
-  
-
-  function copyHex(hex, el) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
-
-  const spacings = [
-    {token:'space-1', value:4},  {token:'space-2', value:8},
-    {token:'space-3', value:12}, {token:'space-4', value:16},
-    {token:'space-5', value:20}, {token:'space-6', value:24},
-    {token:'space-8', value:32}, {token:'space-10', value:40},
-    {token:'space-12', value:48},{token:'section', value:64},
-  ];
-  const container = document.getElementById('spacing-bars');
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'spacing-row';
-    row.innerHTML = `<span class="spacing-label">${s.token}</span><div class="spacing-bar" style="width:${s.value * 2.5}px"></div><span class="spacing-value">${s.value}px</span>`;
-    container.appendChild(row);
-  });
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>

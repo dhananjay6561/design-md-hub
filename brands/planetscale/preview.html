@@ -93,7 +93,7 @@
   .comp-card-title { font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 16px; }
 
   /* Buttons */
-  .btn { cursor: pointer; font-family: var(--mono); font-weight: 600; font-size: 16px; border-radius: 4px; border: none; height: 40px; padding: 0 16px; display: inline-flex; align-items: center; gap: 4px; transition: all 150ms cubic-bezier(0.4,0,0.2,1); }
+  .btn { cursor: pointer; font-family: 'Space Grotesk', system-ui, sans-serif; font-weight: 600; font-size: 16px; border-radius: 4px; border: none; height: 40px; padding: 0 16px; display: inline-flex; align-items: center; gap: 4px; transition: all 150ms cubic-bezier(0.4,0,0.2,1); }
   .btn-primary { background: #f35815; color: #ffffff; }
   .btn-primary:hover { background: #fd812d; }
   .btn-primary:active { background: #b83a05; }
@@ -102,7 +102,7 @@
   .btn-sm { height: 32px; padding: 0 8px; font-size: 14px; }
 
   /* Inputs */
-  .inp { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; font-size: 16px; line-height: 1.5; font-family: var(--mono); color: var(--text-primary); outline: none; width: 100%; transition: border-color 150ms, box-shadow 150ms; }
+  .inp { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 4px; padding: 8px 12px; font-size: 16px; line-height: 1.5; font-family: 'Space Grotesk', system-ui, sans-serif; color: var(--text-primary); outline: none; width: 100%; transition: border-color 150ms, box-shadow 150ms; }
   .inp:focus { border-color: #1e9de7; box-shadow: 0 0 0 1px #1e9de7; }
   .inp::placeholder { color: var(--text-secondary); }
 
@@ -160,27 +160,7 @@
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-logo">
-      <!-- PlanetScale: branching/fork path mark — two branches diverging from a root -->
-      <svg width="54" height="80" viewBox="0 0 54 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="PlanetScale logo">
-        <!-- Main trunk -->
-        <line x1="27" y1="8" x2="27" y2="28" stroke="#f35815" stroke-width="4" stroke-linecap="round"/>
-        <!-- Left branch line -->
-        <line x1="27" y1="28" x2="9" y2="48" stroke="#f35815" stroke-width="4" stroke-linecap="round"/>
-        <!-- Right branch line -->
-        <line x1="27" y1="28" x2="45" y2="48" stroke="#f35815" stroke-width="4" stroke-linecap="round"/>
-        <!-- Left branch to endpoint -->
-        <line x1="9" y1="48" x2="9" y2="66" stroke="#f35815" stroke-width="4" stroke-linecap="round"/>
-        <!-- Right branch to endpoint -->
-        <line x1="45" y1="48" x2="45" y2="66" stroke="#f35815" stroke-width="4" stroke-linecap="round"/>
-        <!-- Root circle -->
-        <circle cx="27" cy="8" r="6" fill="#f35815"/>
-        <!-- Branch fork circle -->
-        <circle cx="27" cy="28" r="5" fill="#111111" stroke="#f35815" stroke-width="3"/>
-        <!-- Left endpoint circle -->
-        <circle cx="9" cy="68" r="6" fill="#f35815"/>
-        <!-- Right endpoint circle -->
-        <circle cx="45" cy="68" r="6" fill="#f35815"/>
-      </svg>
+      <img src="https://cdn.simpleicons.org/planetscale/000000" width="56" height="56" class="brand-logo logo-invert" alt="planetscale logo">
     </div>
     <h1>Planet<span class="hero-accent">Scale</span></h1>
     <p>MySQL-compatible serverless database platform — developer-first, monochrome-bold, with a single combustion-orange accent.</p>

@@ -194,6 +194,7 @@
   }
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+:root[data-theme="dark"] .logo-invert { filter: invert(1) brightness(1.1); }
 </style>
 </head>
 <body>
@@ -203,17 +204,7 @@
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-logo">
-      <!-- Neon: green glowing N mark on dark background -->
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Neon logo">
-        <rect width="80" height="80" rx="14" fill="#141414"/>
-        <defs>
-          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.5" result="blur"/>
-            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <path d="M20 18 L20 62 L44 26 L44 62 M44 62 L60 62 L60 18" stroke="#00E599" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon-glow)" fill="none"/>
-      </svg>
+      <img src="https://cdn.simpleicons.org/neon/00E599" width="56" height="56" class="brand-logo" alt="neon logo">
     </div>
     <h1>Neon</h1>
     <p>Serverless Postgres with a dark, developer-focused interface and a signature green glow.</p>
