@@ -40,7 +40,7 @@ WorkOS provides enterprise authentication infrastructure — SSO, SCIM, and audi
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Plus Jakarta Sans, system-ui, sans-serif`
 - Code/Keys: `JetBrains Mono, monospace`
 
 ### Scale

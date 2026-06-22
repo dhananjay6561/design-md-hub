@@ -37,7 +37,7 @@ Convex is the reactive backend platform — real-time database, functions, and f
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Code: `JetBrains Mono, monospace`
 
 ### Scale

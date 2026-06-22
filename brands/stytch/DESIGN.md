@@ -38,7 +38,7 @@ Stytch is the developer-first authentication platform — passwordless login, se
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Plus Jakarta Sans, system-ui, sans-serif`
 - Code/Tokens: `JetBrains Mono, monospace`
 
 ### Scale

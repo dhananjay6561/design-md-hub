@@ -45,7 +45,7 @@ New Relic is the observability platform — APM, infrastructure monitoring, logs
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `IBM Plex Sans, system-ui, sans-serif`
 - Code/Queries: `JetBrains Mono, monospace`
 
 ### Scale

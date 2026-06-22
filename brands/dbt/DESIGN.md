@@ -46,7 +46,7 @@ dbt (data build tool) is the transformation layer of the modern data stack — S
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `IBM Plex Sans, system-ui, sans-serif`
 - Code/SQL: `JetBrains Mono, monospace`
 
 ### Scale

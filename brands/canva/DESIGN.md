@@ -45,8 +45,8 @@ Canva is the visual communication platform — design tools for everyone. The vi
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
-- Brand wordmark: Display/custom weight
+- UI: `Canva Sans, system-ui, sans-serif` (proprietary — falls back to system-ui)
+- Brand wordmark: Canva Sans Display (heavy weight)
 
 ### Scale
 - xs: 11px / 1.5

@@ -38,7 +38,7 @@ Replicate is the cloud platform for running AI models via API. The visual identi
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Code/IDs: `JetBrains Mono, monospace`
 
 ### Scale

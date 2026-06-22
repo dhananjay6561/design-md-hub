@@ -40,7 +40,7 @@ Postman is the world's most popular API platform — used for building, testing,
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Code/Body: `JetBrains Mono, monospace`
 
 ### Scale

@@ -37,7 +37,7 @@ Contentful is the leading headless CMS platform. The visual identity is clean an
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Plus Jakarta Sans, system-ui, sans-serif`
 - Code: `JetBrains Mono, monospace`
 
 ### Scale

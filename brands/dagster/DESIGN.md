@@ -46,7 +46,7 @@ Dagster is the data orchestration platform for building data pipelines and softw
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Code: `JetBrains Mono, monospace`
 
 ### Scale

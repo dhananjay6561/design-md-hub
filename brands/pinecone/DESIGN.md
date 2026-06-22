@@ -36,7 +36,7 @@ Pinecone is the leading vector database for AI applications. The visual identity
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Numbers/IDs: `JetBrains Mono, monospace`
 
 ### Scale

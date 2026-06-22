@@ -39,7 +39,7 @@ Snowflake is the cloud data platform — data warehouse, data lake, and data sha
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `IBM Plex Sans, system-ui, sans-serif`
 - Code/SQL: `JetBrains Mono, monospace`
 
 ### Scale

@@ -38,7 +38,7 @@ Hasura is a GraphQL engine that gives instant, realtime APIs on databases. The v
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Space Grotesk, system-ui, sans-serif`
 - Code/Query: `JetBrains Mono, Fira Code, monospace`
 
 ### Scale

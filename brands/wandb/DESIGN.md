@@ -39,7 +39,7 @@ Weights & Biases (wandb) is the ML experiment tracking and model management plat
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `IBM Plex Sans, system-ui, sans-serif`
 - Code/Metrics: `JetBrains Mono, monospace`
 
 ### Scale

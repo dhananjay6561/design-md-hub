@@ -39,7 +39,7 @@ Liveblocks is the realtime collaboration infrastructure platform. The visual ide
 ## Typography
 
 ### Font Stack
-- UI: `Inter, system-ui, sans-serif`
+- UI: `Plus Jakarta Sans, system-ui, sans-serif`
 - Code: `JetBrains Mono, monospace`
 
 ### Scale
