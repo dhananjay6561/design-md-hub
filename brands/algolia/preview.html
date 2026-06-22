@@ -97,19 +97,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); colo
 .btn-ghost:hover { border-color: var(--primary-mid); }
 .spacing-list { display: flex; flex-direction: column; gap: 10px; }
 .spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary-mid); border-radius: 3px; opacity: 0.8; }
+.spacing-bar { height: 10px; background: var(--border); border-radius: 3px; }
 .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
 .spacing-value { font-size: 11px; color: var(--text-3); }
 .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
+.guardrail-card { padding: 0; }
 .guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
 .guardrail-card.do .guardrail-label { color: var(--success); }
 .guardrail-card.dont .guardrail-label { color: var(--danger); }
 .guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 16px; position: relative; }
+.guardrail-card li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; }
+.guardrail-card.do li::before { background: var(--success); }
+.guardrail-card.dont li::before { background: var(--danger); }
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 </style>

@@ -3,192 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raycast Design System Preview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>Raycast – Design System</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root[data-theme="dark"] {
-    --bg: #0D0D0D;
-    --surface: #181818;
-    --surface-elevated: #212121;
-    --surface-card: #282828;
-    --text: #EDEDED;
-    --text-body: #B3B3B3;
-    --text-muted: #7A7A7A;
-    --text-ash: #6D6D6D;
-    --hairline: #393939;
-    --brand: #FF6060;
-    --selection: #FF6363;
-    --t10: rgba(237,237,237,0.10);
-    --t20: rgba(237,237,237,0.20);
-    --t40: rgba(237,237,237,0.40);
-    --t60: rgba(237,237,237,0.60);
-    --hero-bg: #0D0D0D;
-    --window-bg: rgba(17,17,19,0.92);
-  }
-  :root[data-theme="light"] {
-    --bg: #F5F5F5;
-    --surface: #EFEFEF;
-    --surface-elevated: #E8E8E8;
-    --surface-card: #E0E0E0;
-    --text: #1F1F1F;
-    --text-body: #505050;
-    --text-muted: #707070;
-    --text-ash: #888888;
-    --hairline: #DDDDDD;
-    --brand: #FF6060;
-    --selection: #FF6363;
-    --t10: rgba(31,31,31,0.10);
-    --t20: rgba(31,31,31,0.20);
-    --t40: rgba(31,31,31,0.40);
-    --t60: rgba(31,31,31,0.60);
-    --hero-bg: #F0F0F0;
-    --window-bg: rgba(17,17,19,0.92);
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-    font-feature-settings: "calt","kern","liga","ss03";
-    -webkit-font-smoothing: antialiased;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    font-size: 16px;
-    transition: background 0.2s, color 0.2s;
-  }
-  /* Floating dark/light toggle */
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-card); }
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
-  section { padding: 64px 0; border-bottom: 1px solid var(--hairline); }
-  section:last-child { border-bottom: none; }
-  .section-title { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; }
+:root[data-theme="dark"] {
+  --bg: #0D0D0D;
+  --surface: #181818;
+  --surface-elevated: #212121;
+  --surface-card: #282828;
+  --text: #EDEDED;
+  --text-body: #B3B3B3;
+  --text-muted: #7A7A7A;
+  --text-ash: #6D6D6D;
+  --hairline: #393939;
+  --brand: #FF6060;
+  --t10: rgba(237,237,237,0.10);
+  --t20: rgba(237,237,237,0.20);
+  --t40: rgba(237,237,237,0.40);
+  --t60: rgba(237,237,237,0.60);
+  --window-bg: rgba(17,17,19,0.96);
+}
+:root[data-theme="light"] {
+  --bg: #F5F5F5;
+  --surface: #EFEFEF;
+  --surface-elevated: #E4E4E4;
+  --surface-card: #DCDCDC;
+  --text: #1F1F1F;
+  --text-body: #505050;
+  --text-muted: #707070;
+  --text-ash: #888888;
+  --hairline: #DDDDDD;
+  --brand: #FF6060;
+  --t10: rgba(31,31,31,0.10);
+  --t20: rgba(31,31,31,0.20);
+  --t40: rgba(31,31,31,0.40);
+  --t60: rgba(31,31,31,0.60);
+  --window-bg: rgba(17,17,19,0.96);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  font-size: 16px;
+  transition: background 0.2s, color 0.2s;
+}
+.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--hairline);color:var(--text-muted);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
+.toggle:hover { border-color: var(--brand); }
+.toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface-card);color:var(--text);font-size:13px;padding:10px 20px;border-radius:9999px;border:1px solid var(--hairline);transition:transform 0.2s ease;z-index:9999;pointer-events:none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* HERO */
-  .hero { background: var(--hero-bg); padding: 96px 0; border-bottom: 1px solid var(--hairline); }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .hero-logo { margin-bottom: 28px; }
-  .hero h1 { font-size: 64px; font-weight: 600; line-height: 1; margin-bottom: 16px; background: linear-gradient(135deg, #FF5757 0%, #FF6060 45%, #A1131A 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero p { font-size: 18px; color: var(--text-body); max-width: 520px; font-weight: 400; }
+.wrapper { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+section { padding: 64px 0; border-bottom: 1px solid var(--hairline); }
+section:last-child { border-bottom: none; }
+.section-title { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 32px; }
 
-  /* COLORS */
-  .color-group { margin-bottom: 40px; }
-  .color-group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
-  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-  .swatch { border-radius: 12px; border: 1px solid var(--hairline); overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
-  .swatch:hover { border-color: var(--t40); }
-  .swatch-color { height: 80px; }
-  .swatch-info { padding: 10px 12px; background: var(--surface); }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-  .swatch-hex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .swatch-usage { font-size: 10px; color: var(--text-ash); margin-top: 2px; }
+/* Hero */
+.hero { padding: 80px 0; border-bottom: 1px solid var(--hairline); }
+.hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 24px; }
+.hero h1 { font-size: 32px; font-weight: 700; }
+.hero p { font-size: 15px; color: var(--text-body); margin-top: 6px; }
 
-  /* TYPOGRAPHY */
-  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 11px; font-weight: 500; color: var(--text-muted); width: 120px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
-  .type-sample { flex: 1; color: var(--text); }
-  .type-specs { display: flex; gap: 8px; flex-shrink: 0; }
-  .spec-pill { background: var(--t10); color: var(--t60); font-size: 11px; padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
+/* Colors */
+.color-group { margin-bottom: 40px; }
+.color-group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 12px; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.swatch { border-radius: 12px; border: 1px solid var(--hairline); overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
+.swatch:hover { border-color: var(--t40); }
+.swatch-color { height: 80px; }
+.swatch-info { padding: 10px 12px; background: var(--surface); }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.swatch-usage { font-size: 10px; color: var(--text-ash); margin-top: 2px; }
 
-  /* COMPONENTS */
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px; }
-  .comp-card-title { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
+/* Typography */
+.type-row { display: flex; align-items: baseline; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--hairline); }
+.type-row:last-child { border-bottom: none; }
+.type-name { font-size: 11px; font-weight: 500; color: var(--text-muted); width: 120px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+.type-sample { flex: 1; color: var(--text); }
+.type-specs { display: flex; gap: 8px; flex-shrink: 0; }
+.spec-pill { background: var(--t10); color: var(--t60); font-size: 11px; padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
 
-  /* Buttons */
-  .btn { border: none; cursor: pointer; font-family: inherit; font-weight: 500; font-size: 14px; transition: background 0.15s; }
-  .btn-primary { background: #FFFFFF; color: #000000; padding: 8px 16px; border-radius: 9999px; }
-  .btn-primary:hover { background: #E8E8E8; }
-  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--hairline); padding: 8px 16px; border-radius: 9999px; }
-  .btn-tertiary { background: var(--surface-elevated); color: var(--text); padding: 6px 12px; border-radius: 8px; border: none; }
-  .btn-icon { background: var(--t10); color: var(--text); width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; border: none; font-size: 14px; cursor: pointer; }
+/* Components */
+.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--hairline); border-radius: 16px; padding: 24px; }
+.comp-card-title { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 16px; }
 
-  /* Search Input */
-  .search-field { background: transparent; border: none; height: 56px; padding: 0 16px; font-size: 16px; font-family: inherit; color: var(--text); outline: none; width: 100%; }
-  .search-field::placeholder { color: var(--t40); }
+/* Buttons */
+.btn { border: none; cursor: pointer; font-family: inherit; font-weight: 500; font-size: 14px; transition: background 0.15s; }
+.btn-primary { background: #FFFFFF; color: #000000; padding: 8px 16px; border-radius: 9999px; }
+.btn-primary:hover { background: #E8E8E8; }
+.btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--hairline); padding: 8px 16px; border-radius: 9999px; }
+.btn-tertiary { background: var(--surface-elevated); color: var(--text); padding: 6px 12px; border-radius: 8px; border: none; }
+.btn-icon { background: var(--t10); color: var(--text); width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; border: none; font-size: 14px; cursor: pointer; }
 
-  /* Badges */
-  .badge { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 8px; font-size: 12px; font-weight: 400; }
-  .badge-red { background: rgba(255,97,97,0.15); color: #FF6161; }
-  .badge-green { background: rgba(89,212,153,0.15); color: #59D499; }
-  .badge-blue { background: rgba(87,193,255,0.15); color: #57C1FF; }
-  .badge-orange { background: rgba(255,140,0,0.15); color: #FF8C00; }
-  .badge-yellow { background: rgba(255,197,51,0.15); color: #FFC533; }
-  .badge-purple { background: rgba(164,132,254,0.15); color: #A484FE; }
+/* Search input */
+.search-field { background: transparent; border: none; height: 56px; padding: 0 16px; font-size: 16px; font-family: inherit; color: #F2F2F2; outline: none; width: 100%; }
+.search-field::placeholder { color: rgba(242,242,242,0.35); }
 
-  /* Raycast window mock */
-  .window-mock { background: var(--window-bg); backdrop-filter: blur(20px); border-radius: 18px; box-shadow: inset 0 0 0 1px rgba(237,237,237,0.2); overflow: hidden; }
-  .window-header { height: 56px; padding: 0 16px; display: flex; align-items: center; border-bottom: 1px solid rgba(237,237,237,0.1); }
-  .list-item { height: 40px; padding: 0 8px; display: flex; align-items: center; gap: 12px; }
-  .list-item.selected { background: rgba(255,99,99,0.12); border-radius: 10px; margin: 0 4px; }
-  .list-icon { width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; }
-  .list-title { font-size: 14px; color: #F2F2F2; }
-  .list-sub { font-size: 13px; color: rgba(242,242,242,0.6); margin-left: auto; }
-  .window-footer { height: 40px; border-top: 1px solid rgba(237,237,237,0.1); display: flex; align-items: center; padding: 0 12px; gap: 12px; }
-  .kb-chip { background: rgba(237,237,237,0.1); color: rgba(242,242,242,0.9); font-size: 12px; padding: 0 5px; border-radius: 6px; height: 20px; display: inline-flex; align-items: center; }
-  .kb-label { font-size: 12px; font-weight: 600; color: rgba(242,242,242,0.6); }
+/* Badges */
+.badge { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 8px; font-size: 12px; font-weight: 400; }
+.badge-red    { background: rgba(255,97,97,0.15);   color: #FF6161; }
+.badge-green  { background: rgba(89,212,153,0.15);  color: #59D499; }
+.badge-blue   { background: rgba(87,193,255,0.15);  color: #57C1FF; }
+.badge-orange { background: rgba(255,140,0,0.15);   color: #FF8C00; }
+.badge-yellow { background: rgba(255,197,51,0.15);  color: #FFC533; }
+.badge-purple { background: rgba(164,132,254,0.15); color: #A484FE; }
 
-  /* SPACING */
-  .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
-  .spacing-bar { height: 20px; background: rgba(255,96,96,0.12); border-radius: 4px; ; }
-  .spacing-label { font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-value { font-size: 12px; color: var(--text-ash); }
+/* App window mock */
+.window-mock { background: var(--window-bg); border-radius: 18px; box-shadow: inset 0 0 0 1px rgba(237,237,237,0.15); overflow: hidden; }
+.window-header { height: 56px; padding: 0 16px; display: flex; align-items: center; border-bottom: 1px solid rgba(237,237,237,0.08); }
+.list-item { height: 40px; padding: 0 8px; display: flex; align-items: center; gap: 12px; }
+.list-item.selected { background: rgba(255,96,96,0.12); border-radius: 10px; margin: 0 4px; }
+.list-icon { width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+.list-title { font-size: 14px; color: #F2F2F2; }
+.list-sub { font-size: 13px; color: rgba(242,242,242,0.5); margin-left: auto; }
+.window-footer { height: 40px; border-top: 1px solid rgba(237,237,237,0.08); display: flex; align-items: center; padding: 0 12px; gap: 12px; }
+.kb-chip { background: rgba(237,237,237,0.1); color: rgba(242,242,242,0.9); font-size: 12px; padding: 0 5px; border-radius: 6px; height: 20px; display: inline-flex; align-items: center; }
+.kb-label { font-size: 12px; font-weight: 500; color: rgba(242,242,242,0.5); }
 
-  /* GUARDRAILS */
-  .guardrails { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrail-col h3 { font-size: 13px; font-weight: 600; margin-bottom: 16px; }
-  .guardrail-do h3 { color: #59D499; }
-  .guardrail-dont h3 { color: #FF6161; }
-  .guardrail-item { padding: 10px 14px; margin-bottom: 8px; border-radius: 8px; font-size: 13px; color: var(--text-body); line-height: 1.5; }
-  .guardrail-do .guardrail-item {; background: rgba(89,212,153,0.06); }
-  .guardrail-dont .guardrail-item {; background: rgba(255,97,97,0.06); }
+/* Spacing */
+.spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
+.spacing-bar { height: 10px; background: var(--hairline); border-radius: 4px; }
+.spacing-label { font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+.spacing-value { font-size: 12px; color: var(--text-ash); }
 
-  /* Toast */
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-card); color: var(--text); font-size: 13px; padding: 10px 20px; border-radius: 9999px; border: 1px solid var(--hairline); transition: transform 0.2s ease; z-index: 9999; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+/* Guardrails */
+.guardrails { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.guardrail-col h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; }
+.guardrail-do h3 { color: #59D499; }
+.guardrail-dont h3 { color: #FF6161; }
+.guardrail-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.guardrail-list li { font-size: 13px; color: var(--text-body); padding-left: 16px; position: relative; line-height: 1.5; }
+.guardrail-list li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 6px; border-radius: 50%; }
+.guardrail-do .guardrail-list li::before { background: #59D499; }
+.guardrail-dont .guardrail-list li::before { background: #FF6161; }
+
+/* Command Palette */
+.cmd-palette-wrap { max-width: 620px; margin: 0 auto; }
+.cmd-window { background: var(--window-bg); border-radius: 18px; box-shadow: inset 0 0 0 1px rgba(237,237,237,0.14), 0 40px 100px rgba(0,0,0,0.55); overflow: hidden; }
+.cmd-search-row { display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid rgba(237,237,237,0.08); }
+.cmd-search-icon { color: rgba(242,242,242,0.3); flex-shrink: 0; }
+.cmd-input { flex: 1; background: transparent; border: none; height: 52px; font-size: 16px; font-family: inherit; color: #F2F2F2; outline: none; }
+.cmd-input::placeholder { color: rgba(242,242,242,0.28); }
+.cmd-shortcut-hint { font-size: 12px; color: rgba(242,242,242,0.25); flex-shrink: 0; }
+.cmd-list { max-height: 340px; overflow-y: auto; padding: 6px 0; }
+.cmd-list::-webkit-scrollbar { width: 4px; } .cmd-list::-webkit-scrollbar-track { background: transparent; } .cmd-list::-webkit-scrollbar-thumb { background: rgba(237,237,237,0.12); border-radius: 2px; }
+.cmd-section-hdr { font-size: 11px; font-weight: 500; color: rgba(242,242,242,0.28); text-transform: uppercase; letter-spacing: 0.08em; padding: 10px 16px 4px; }
+.cmd-item { display: flex; align-items: center; gap: 10px; padding: 0 8px; height: 44px; cursor: pointer; border-radius: 10px; margin: 1px 6px; }
+.cmd-item.active { background: rgba(255,96,96,0.14); }
+.cmd-item-icon { width: 28px; height: 28px; border-radius: 7px; background: rgba(237,237,237,0.06); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.cmd-item-label { flex: 1; font-size: 14px; color: #EDEDED; }
+.cmd-item-sub { font-size: 12px; color: rgba(242,242,242,0.35); }
+.cmd-item-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: rgba(164,132,254,0.2); color: #A484FE; flex-shrink: 0; }
+.cmd-item-shortcut { display: flex; gap: 3px; flex-shrink: 0; }
+.cmd-item-kb { background: rgba(237,237,237,0.1); color: rgba(242,242,242,0.6); font-size: 11px; padding: 1px 5px; border-radius: 5px; line-height: 1.6; }
+.cmd-no-results { padding: 40px 16px; text-align: center; font-size: 14px; color: rgba(242,242,242,0.28); }
+.cmd-footer { height: 40px; border-top: 1px solid rgba(237,237,237,0.08); display: flex; align-items: center; padding: 0 14px; gap: 14px; }
+
+:root[data-theme="dark"] .icon-moon { display: none; }
+:root[data-theme="light"] .icon-sun { display: none; }
 </style>
 </head>
 <body>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
 <div class="toast" id="toast">Copied!</div>
 
-<!-- 1. HERO -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-logo">
-      <!-- Raycast angular R mark — red/orange gradient -->
-      <svg width="60" height="80" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Raycast logo">
-        <defs>
-          <linearGradient id="rc_g1" x1="0" y1="0" x2="120" y2="160" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stop-color="#FF5757"/>
-            <stop offset="100%" stop-color="#A1131A"/>
-          </linearGradient>
-        </defs>
-        <!-- Angular R shape: stem + bowl + leg -->
-        <path d="
-          M16 16 L16 144
-          L40 144 L40 100
-          L72 144 L100 144
-          L64 96
-          C88 88 104 72 104 48
-          C104 28 88 16 64 16 Z
-          M40 36 L62 36
-          C76 36 82 42 82 52
-          C82 64 74 72 60 72
-          L40 72 Z
-        " fill="url(#rc_g1)" fill-rule="evenodd"/>
-      </svg>
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Raycast logo">
+      <path d="M6.004 15.492v2.504L0 11.992l1.258-1.249Zm2.504 2.504H6.004L12.008 24l1.253-1.253zm14.24-4.747L24 11.997 12.003 0 10.75 1.251 15.491 6h-2.865L9.317 2.692 8.065 3.944l2.06 2.06H8.691v9.31H18v-1.432l2.06 2.06 1.252-1.252-3.312-3.32V8.506ZM6.63 5.372 5.38 6.625l1.342 1.343 1.251-1.253Zm10.655 10.655-1.247 1.251 1.342 1.343 1.253-1.251zM3.944 8.059 2.692 9.31l3.312 3.314v-2.506zm9.936 9.937h-2.504l3.314 3.312 1.25-1.252z" fill="#FF6060"/>
+    </svg>
+    <div>
+      <h1>Raycast</h1>
+      <p>A macOS productivity launcher built on dark chrome, vibrant accents, and keyboard-first interactions.</p>
     </div>
-    <h1>Raycast</h1>
-    <p>A macOS productivity launcher built on dark chrome, vibrant gradient accents, and instantaneous keyboard-first interactions.</p>
   </div>
 </div>
 
-<!-- 2. COLORS -->
+<!-- COLORS -->
 <section>
   <div class="wrapper">
     <div class="section-title">Colors</div>
@@ -196,27 +198,27 @@
     <div class="color-group">
       <div class="color-group-label">Brand / Canvas</div>
       <div class="swatches">
-        <div class="swatch" onclick="copyHex('#FF6060', this)">
-          <div class="swatch-color" style="background:linear-gradient(135deg,#FF5757,#A1131A)"></div>
+        <div class="swatch" onclick="copyHex('#FF6060')">
+          <div class="swatch-color" style="background:#FF6060"></div>
           <div class="swatch-info"><div class="swatch-name">brand</div><div class="swatch-hex">#FF6060</div><div class="swatch-usage">Primary CTA, logo mark</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#0D0D0D', this)">
+        <div class="swatch" onclick="copyHex('#0D0D0D')">
           <div class="swatch-color" style="background:#0D0D0D;border-bottom:1px solid #393939"></div>
           <div class="swatch-info"><div class="swatch-name">canvas</div><div class="swatch-hex">#0D0D0D</div><div class="swatch-usage">Page background</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#111113', this)">
-          <div class="swatch-color" style="background:#111113;border-bottom:1px solid #393939"></div>
-          <div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#111113</div><div class="swatch-usage">App window bg</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#181818', this)">
+        <div class="swatch" onclick="copyHex('#181818')">
           <div class="swatch-color" style="background:#181818;border-bottom:1px solid #393939"></div>
           <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#181818</div><div class="swatch-usage">Cards, panels</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#212121', this)">
+        <div class="swatch" onclick="copyHex('#212121')">
           <div class="swatch-color" style="background:#212121;border-bottom:1px solid #393939"></div>
           <div class="swatch-info"><div class="swatch-name">surface-elevated</div><div class="swatch-hex">#212121</div><div class="swatch-usage">Raised card surfaces</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#393939', this)">
+        <div class="swatch" onclick="copyHex('#282828')">
+          <div class="swatch-color" style="background:#282828;border-bottom:1px solid #393939"></div>
+          <div class="swatch-info"><div class="swatch-name">surface-card</div><div class="swatch-hex">#282828</div><div class="swatch-usage">Deepest surface layer</div></div>
+        </div>
+        <div class="swatch" onclick="copyHex('#393939')">
           <div class="swatch-color" style="background:#393939"></div>
           <div class="swatch-info"><div class="swatch-name">hairline</div><div class="swatch-hex">#393939</div><div class="swatch-usage">Dividers, card borders</div></div>
         </div>
@@ -226,21 +228,21 @@
     <div class="color-group">
       <div class="color-group-label">Text</div>
       <div class="swatches">
-        <div class="swatch" onclick="copyHex('#EDEDED', this)">
+        <div class="swatch" onclick="copyHex('#EDEDED')">
           <div class="swatch-color" style="background:#EDEDED"></div>
           <div class="swatch-info"><div class="swatch-name">ink</div><div class="swatch-hex">#EDEDED</div><div class="swatch-usage">Headings, high contrast</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#B3B3B3', this)">
+        <div class="swatch" onclick="copyHex('#B3B3B3')">
           <div class="swatch-color" style="background:#B3B3B3"></div>
           <div class="swatch-info"><div class="swatch-name">body</div><div class="swatch-hex">#B3B3B3</div><div class="swatch-usage">Body copy</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#7A7A7A', this)">
+        <div class="swatch" onclick="copyHex('#7A7A7A')">
           <div class="swatch-color" style="background:#7A7A7A"></div>
           <div class="swatch-info"><div class="swatch-name">muted</div><div class="swatch-hex">#7A7A7A</div><div class="swatch-usage">Secondary labels</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)">
+        <div class="swatch" onclick="copyHex('#FFFFFF')">
           <div class="swatch-color" style="background:#FFFFFF"></div>
-          <div class="swatch-info"><div class="swatch-name">cta-bg</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Primary download btn</div></div>
+          <div class="swatch-info"><div class="swatch-name">cta-bg</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Primary download button</div></div>
         </div>
       </div>
     </div>
@@ -248,27 +250,27 @@
     <div class="color-group">
       <div class="color-group-label">Semantic Accents</div>
       <div class="swatches">
-        <div class="swatch" onclick="copyHex('#FF6161', this)">
+        <div class="swatch" onclick="copyHex('#FF6161')">
           <div class="swatch-color" style="background:#FF6161"></div>
-          <div class="swatch-info"><div class="swatch-name">red</div><div class="swatch-hex">#FF6161</div><div class="swatch-usage">Error, destructive, default selection</div></div>
+          <div class="swatch-info"><div class="swatch-name">red</div><div class="swatch-hex">#FF6161</div><div class="swatch-usage">Error, destructive</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#FF8C00', this)">
+        <div class="swatch" onclick="copyHex('#FF8C00')">
           <div class="swatch-color" style="background:#FF8C00"></div>
-          <div class="swatch-info"><div class="swatch-name">orange</div><div class="swatch-hex">#FF8C00</div><div class="swatch-usage">Warning, secondary</div></div>
+          <div class="swatch-info"><div class="swatch-name">orange</div><div class="swatch-hex">#FF8C00</div><div class="swatch-usage">Warning</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#FFC533', this)">
+        <div class="swatch" onclick="copyHex('#FFC533')">
           <div class="swatch-color" style="background:#FFC533"></div>
           <div class="swatch-info"><div class="swatch-name">yellow</div><div class="swatch-hex">#FFC533</div><div class="swatch-usage">Caution, Pro tier</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#59D499', this)">
+        <div class="swatch" onclick="copyHex('#59D499')">
           <div class="swatch-color" style="background:#59D499"></div>
-          <div class="swatch-info"><div class="swatch-name">green</div><div class="swatch-hex">#59D499</div><div class="swatch-usage">Success, online status</div></div>
+          <div class="swatch-info"><div class="swatch-name">green</div><div class="swatch-hex">#59D499</div><div class="swatch-usage">Success, online</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#57C1FF', this)">
+        <div class="swatch" onclick="copyHex('#57C1FF')">
           <div class="swatch-color" style="background:#57C1FF"></div>
           <div class="swatch-info"><div class="swatch-name">blue</div><div class="swatch-hex">#57C1FF</div><div class="swatch-usage">Info, link tint</div></div>
         </div>
-        <div class="swatch" onclick="copyHex('#A484FE', this)">
+        <div class="swatch" onclick="copyHex('#A484FE')">
           <div class="swatch-color" style="background:#A484FE"></div>
           <div class="swatch-info"><div class="swatch-name">purple</div><div class="swatch-hex">#A484FE</div><div class="swatch-usage">Pro plan accent</div></div>
         </div>
@@ -277,10 +279,10 @@
   </div>
 </section>
 
-<!-- 3. TYPOGRAPHY -->
+<!-- TYPOGRAPHY -->
 <section>
   <div class="wrapper">
-    <div class="section-title">Typography — Inter with ss03 (marketing)</div>
+    <div class="section-title">Typography — DM Sans (marketing) · SF Pro (in-app)</div>
     <div class="type-row">
       <span class="type-name">display-xl</span>
       <span class="type-sample" style="font-size:36px;font-weight:600;line-height:1">Supercharge your Mac</span>
@@ -288,13 +290,8 @@
     </div>
     <div class="type-row">
       <span class="type-name">display-lg</span>
-      <span class="type-sample" style="font-size:30px;font-weight:500;line-height:1.1">Extensions for everything</span>
-      <div class="type-specs"><span class="spec-pill">56px</span><span class="spec-pill">500</span></div>
-    </div>
-    <div class="type-row">
-      <span class="type-name">display-md</span>
-      <span class="type-sample" style="font-size:22px;font-weight:500">AI-powered productivity</span>
-      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">500</span></div>
+      <span class="type-sample" style="font-size:28px;font-weight:500;line-height:1.1">Extensions for everything</span>
+      <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">500</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">heading</span>
@@ -318,17 +315,18 @@
     </div>
     <div class="type-row">
       <span class="type-name">section-hdr</span>
-      <span class="type-sample" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1px;color:var(--t60)">RECENT COMMANDS</span>
+      <span class="type-sample" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--t60)">RECENT COMMANDS</span>
       <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">500</span></div>
     </div>
   </div>
 </section>
 
-<!-- 4. COMPONENTS -->
+<!-- COMPONENTS -->
 <section>
   <div class="wrapper">
     <div class="section-title">Components</div>
     <div class="components-grid">
+
       <!-- Buttons -->
       <div class="comp-card">
         <div class="comp-card-title">Buttons</div>
@@ -345,14 +343,7 @@
           </div>
         </div>
       </div>
-      <!-- Inputs -->
-      <div class="comp-card">
-        <div class="comp-card-title">Search Input</div>
-        <div style="background:rgba(17,17,19,0.95);border-radius:12px;box-shadow:inset 0 0 0 1px rgba(237,237,237,0.2);overflow:hidden;">
-          <input class="search-field" placeholder="Search commands...">
-        </div>
-        <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">Full-width, no border, no bg — caret is accent color</div>
-      </div>
+
       <!-- Badges -->
       <div class="comp-card">
         <div class="comp-card-title">Badges</div>
@@ -365,27 +356,42 @@
           <span class="badge badge-purple">Premium</span>
         </div>
       </div>
-      <!-- Raycast App Window Mock -->
+
+      <!-- Search Input -->
+      <div class="comp-card">
+        <div class="comp-card-title">Search Input</div>
+        <div style="background:rgba(17,17,19,0.96);border-radius:12px;box-shadow:inset 0 0 0 1px rgba(237,237,237,0.15);overflow:hidden;">
+          <input class="search-field" placeholder="Search commands…">
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text-muted)">No border, no bg — transparent field on dark glass</div>
+      </div>
+
+      <!-- App Window Mock -->
       <div class="comp-card" style="padding:0;overflow:hidden;border-radius:16px;">
-        <div class="comp-card-title" style="padding:16px 20px 0;">App Window Mock</div>
-        <div style="padding:12px 12px 12px;">
+        <div class="comp-card-title" style="padding:16px 20px 12px;">App Window</div>
+        <div style="padding:0 12px 12px;">
           <div class="window-mock">
             <div class="window-header">
-              <input class="search-field" placeholder="Search commands..." style="height:auto;font-size:15px;">
+              <input class="search-field" placeholder="Search commands…" style="height:auto;padding:14px 8px;font-size:15px;">
             </div>
             <div style="padding:4px 0;">
               <div class="list-item selected">
-                <div class="list-icon" style="background:linear-gradient(135deg,#FF5757,#A1131A)">🚀</div>
-                <span class="list-title">Raycast</span>
+                <div class="list-icon" style="background:#FF6060">🚀</div>
+                <span class="list-title">Open Raycast</span>
                 <span class="list-sub">Core</span>
               </div>
               <div class="list-item">
-                <div class="list-icon" style="background:#1C1C1C">📂</div>
-                <span class="list-title" style="color:rgba(242,242,242,0.7)">Browse Files</span>
+                <div class="list-icon" style="background:#282828">📂</div>
+                <span class="list-title" style="color:rgba(242,242,242,0.6)">Browse Files</span>
               </div>
               <div class="list-item">
-                <div class="list-icon" style="background:#1C1C1C">⚡</div>
-                <span class="list-title" style="color:rgba(242,242,242,0.7)">Quick Links</span>
+                <div class="list-icon" style="background:#282828">⚡</div>
+                <span class="list-title" style="color:rgba(242,242,242,0.6)">Quick Links</span>
+              </div>
+              <div class="list-item">
+                <div class="list-icon" style="background:#282828">🤖</div>
+                <span class="list-title" style="color:rgba(242,242,242,0.6)">AI Commands</span>
+                <span class="list-sub" style="color:#A484FE">Pro</span>
               </div>
             </div>
             <div class="window-footer">
@@ -396,11 +402,35 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- 5. SPACING -->
+<!-- COMMAND PALETTE -->
+<section>
+  <div class="wrapper">
+    <div class="section-title">Command Palette — Interactive</div>
+    <div class="cmd-palette-wrap">
+      <div class="cmd-window">
+        <div class="cmd-search-row">
+          <svg class="cmd-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="cmd-input" id="cmdInput" placeholder="Search commands…" autocomplete="off" spellcheck="false">
+          <span class="cmd-shortcut-hint">⌘ Space</span>
+        </div>
+        <div class="cmd-list" id="cmdList"></div>
+        <div class="cmd-footer">
+          <span class="kb-chip">↵</span><span class="kb-label">Open</span>
+          <span class="kb-chip">⌘K</span><span class="kb-label">Actions</span>
+          <span class="kb-chip">↑↓</span><span class="kb-label">Navigate</span>
+          <span class="kb-chip">⎋</span><span class="kb-label">Close</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPACING -->
 <section>
   <div class="wrapper">
     <div class="section-title">Spacing — 4px base unit</div>
@@ -408,58 +438,130 @@
   </div>
 </section>
 
-<!-- 6. GUARDRAILS -->
+<!-- GUARDRAILS -->
 <section>
   <div class="wrapper">
     <div class="section-title">Guardrails</div>
     <div class="guardrails">
       <div class="guardrail-col guardrail-do">
-        <h3>DO</h3>
-        <div class="guardrail-item">Use the surface ladder (background → surface → elevated) instead of shadows for depth.</div>
-        <div class="guardrail-item">Keep saturated accent colors on data/status — never on navigation chrome.</div>
-        <div class="guardrail-item">Restrict gradients to the window background and one hero stripe per marketing page.</div>
-        <div class="guardrail-item">Maintain 40px row heights for keyboard-navigable lists.</div>
-        <div class="guardrail-item">Apply the selection color to both the loader bar and selected-row highlight for coherence.</div>
-        <div class="guardrail-item">Use inset border-shadow on floating containers instead of outlines.</div>
+        <h3>Do</h3>
+        <ul class="guardrail-list">
+          <li>Use the surface ladder (bg → surface → elevated) instead of shadows for depth</li>
+          <li>Keep saturated accent colors on data/status — never on navigation chrome</li>
+          <li>Restrict gradients to window backgrounds only</li>
+          <li>Maintain 40px row heights for keyboard-navigable lists</li>
+          <li>Apply the selection color consistently to loader bar and selected-row highlight</li>
+          <li>Use inset box-shadow on floating containers instead of outlines</li>
+        </ul>
       </div>
       <div class="guardrail-col guardrail-dont">
-        <h3>DON'T</h3>
-        <div class="guardrail-item">Don't add drop shadows to cards, panels, or popups — elevation is color, not shadow.</div>
-        <div class="guardrail-item">Don't use the red/orange brand gradient on interactive elements like buttons or tabs.</div>
-        <div class="guardrail-item">Don't mix multiple accent hues on a single screen's chrome elements.</div>
-        <div class="guardrail-item">Don't use font weights above 600 inside the app window (marketing display excepted).</div>
-        <div class="guardrail-item">Don't add hover backgrounds to list items unless keyboard-focused or selected.</div>
-        <div class="guardrail-item">Don't use more than one gradient direction per view — all window backgrounds top-to-bottom.</div>
+        <h3>Don't</h3>
+        <ul class="guardrail-list">
+          <li>Don't add drop shadows to cards, panels, or popups — elevation is color, not shadow</li>
+          <li>Don't use the red/orange brand color on interactive button elements</li>
+          <li>Don't mix multiple accent hues on a single screen's chrome elements</li>
+          <li>Don't use font weights above 600 inside the app window</li>
+          <li>Don't add hover backgrounds to list items unless keyboard-focused or selected</li>
+          <li>Don't use gradient text on headings or body copy</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 
-  function copyHex(hex, el) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
+// Command Palette
+const cmds = [
+  { group:'Recent',     icon:'📋', label:'Clipboard History',   sub:'',                    badge:'',    kb:['⌘','⇧','V'] },
+  { group:'Recent',     icon:'🪟', label:'Window Management',   sub:'',                    badge:'',    kb:[] },
+  { group:'Recent',     icon:'🔎', label:'File Search',          sub:'',                    badge:'',    kb:['⌘','⇧','F'] },
+  { group:'Built-in',   icon:'🧮', label:'Calculator',           sub:'',                    badge:'',    kb:[] },
+  { group:'Built-in',   icon:'📅', label:'Calendar',             sub:'com.apple.calendar',  badge:'',    kb:[] },
+  { group:'Built-in',   icon:'⚙️', label:'System Settings',      sub:'',                    badge:'',    kb:[] },
+  { group:'Built-in',   icon:'🔑', label:'Keychain Access',      sub:'',                    badge:'',    kb:[] },
+  { group:'Extensions', icon:'🤖', label:'AI Commands',          sub:'Raycast AI',           badge:'Pro', kb:[] },
+  { group:'Extensions', icon:'✂️', label:'Snippets',             sub:'',                    badge:'',    kb:[] },
+  { group:'Extensions', icon:'🎨', label:'Color Picker',         sub:'',                    badge:'',    kb:[] },
+  { group:'Extensions', icon:'🌐', label:'Browser Tabs',         sub:'Arc · Chrome · Safari',badge:'',   kb:[] },
+  { group:'Extensions', icon:'🚀', label:'Quick Links',          sub:'',                    badge:'',    kb:[] },
+];
 
-  const spacings = [
-    {token:'xxs', value:2},  {token:'xs', value:4},
-    {token:'sm', value:8},   {token:'md', value:12},
-    {token:'lg', value:16},  {token:'xl', value:24},
-    {token:'2xl', value:32}, {token:'3xl', value:48},
-    {token:'section', value:96},
-  ];
-  const container = document.getElementById('spacing-bars');
-  spacings.forEach(s => {
-    const row = document.createElement('div');
-    row.className = 'spacing-row';
-    row.innerHTML = `<span class="spacing-label">${s.token}</span><div class="spacing-bar" style="width:${Math.max(s.value * 2.5, 8)}px"></div><span class="spacing-value">${s.value}px</span>`;
-    container.appendChild(row);
+let activeIdx = 0;
+
+function getFiltered(q) {
+  if (!q) return cmds;
+  const lq = q.toLowerCase();
+  return cmds.filter(c => c.label.toLowerCase().includes(lq) || c.sub.toLowerCase().includes(lq));
+}
+
+function renderCmds(q) {
+  const filtered = getFiltered(q);
+  const list = document.getElementById('cmdList');
+  if (!filtered.length) { list.innerHTML = `<div class="cmd-no-results">No results for "<strong>${q}</strong>"</div>`; return; }
+  if (activeIdx >= filtered.length) activeIdx = 0;
+  let html = '';
+  let lastGroup = '';
+  filtered.forEach((c, i) => {
+    if (c.group !== lastGroup) {
+      html += `<div class="cmd-section-hdr">${c.group}</div>`;
+      lastGroup = c.group;
+    }
+    const kbHtml = c.kb.length ? `<div class="cmd-item-shortcut">${c.kb.map(k=>`<span class="cmd-item-kb">${k}</span>`).join('')}</div>` : '';
+    const badge = c.badge ? `<span class="cmd-item-badge">${c.badge}</span>` : '';
+    const sub = c.sub ? `<span class="cmd-item-sub">${c.sub}</span>` : '';
+    html += `<div class="cmd-item${i===activeIdx?' active':''}" data-idx="${i}">
+      <div class="cmd-item-icon">${c.icon}</div>
+      <span class="cmd-item-label">${c.label}</span>
+      ${sub}${badge}${kbHtml}
+    </div>`;
   });
+  list.innerHTML = html;
+  list.querySelectorAll('.cmd-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { activeIdx = +el.dataset.idx; renderCmds(document.getElementById('cmdInput').value); });
+    el.addEventListener('click', () => runCmd(filtered[+el.dataset.idx]));
+  });
+}
+
+function runCmd(c) {
+  const t = document.getElementById('toast');
+  t.textContent = '⚡ ' + c.label;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+const input = document.getElementById('cmdInput');
+input.addEventListener('input', e => { activeIdx = 0; renderCmds(e.target.value); });
+input.addEventListener('keydown', e => {
+  const filtered = getFiltered(e.target.value);
+  if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = (activeIdx + 1) % filtered.length; renderCmds(e.target.value); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = (activeIdx - 1 + filtered.length) % filtered.length; renderCmds(e.target.value); }
+  else if (e.key === 'Enter' && filtered[activeIdx]) runCmd(filtered[activeIdx]);
+  else if (e.key === 'Escape') { e.target.value = ''; activeIdx = 0; renderCmds(''); }
+});
+renderCmds('');
+
+const spacings = [
+  {token:'xxs', value:2},  {token:'xs', value:4},
+  {token:'sm', value:8},   {token:'md', value:12},
+  {token:'lg', value:16},  {token:'xl', value:24},
+  {token:'2xl', value:32}, {token:'3xl', value:48},
+  {token:'section', value:96},
+];
+const container = document.getElementById('spacing-bars');
+spacings.forEach(s => {
+  const row = document.createElement('div');
+  row.className = 'spacing-row';
+  row.innerHTML = `<span class="spacing-label">${s.token}</span><div class="spacing-bar" style="width:${Math.max(s.value * 2.5, 8)}px"></div><span class="spacing-value">${s.value}px</span>`;
+  container.appendChild(row);
+});
 </script>
 </body>
 </html>
