@@ -3,396 +3,444 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retool — Design System Preview</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<title>Retool — Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #3C5DD6;
-    --primary-hover: #3251C2;
-    --primary-light: #EEF1FC;
-    --background: #F7F8FA;
-    --surface: #FFFFFF;
-    --surface-secondary: #F2F3F5;
-    --text-primary: #1A1A2E;
-    --text-secondary: #5C5F7A;
-    --text-muted: #9699B3;
-    --border: #E0E2EA;
-    --border-strong: #C8CADB;
-    --error: #D93025;
-    --success: #1E8A4C;
-    --warning: #F59E0B;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
-    --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
-    --shadow-lg: 0 4px 16px rgba(0,0,0,0.10);
-  }
-  /* Retool is light-first — no dark mode per design spec */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    background: var(--background); color: var(--text-primary);
-    font-size: 13px; line-height: 1.5;
-  }
-  /* The toggle is fixed but Retool is strictly light-mode — toggle is shown disabled */
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+:root[data-theme="light"] {
+  --bg: #F7F8F4;
+  --surface: #FFFFFF;
+  --surface-secondary: #EDEDEA;
+  --border: #D8D5CC;
+  --border-strong: #C0BBB1;
+  --text: #151515;
+  --text-2: #59554E;
+  --text-3: #8B8780;
+  --primary: #518DD2;
+  --primary-hover: #4A7EC0;
+  --primary-light: #D8E6F3;
+  --orange: #E8765E;
+  --error: #D93025;
+  --success: #1E8A4C;
+  --warning: #F59E0B;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.08);
+}
+:root[data-theme="dark"] {
+  --bg: #151515;
+  --surface: #1F1E1C;
+  --surface-secondary: #282522;
+  --border: #333028;
+  --border-strong: #484440;
+  --text: #E9EBDF;
+  --text-2: #9B9890;
+  --text-3: #6B6862;
+  --primary: #518DD2;
+  --primary-hover: #6DA1E0;
+  --primary-light: #1B2E44;
+  --orange: #E8765E;
+  --error: #E05A50;
+  --success: #34A86A;
+  --warning: #F59E0B;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.3);
+}
 
-  .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', ui-sans-serif, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5; transition: background 0.2s, color 0.2s; }
 
-  .hero {
-    background: linear-gradient(135deg, rgba(60,93,214,0.05) 0%, rgba(60,93,214,0.02) 100%);
-    border-bottom: 1px solid var(--border);
-    padding: 48px 0 44px; text-align: center;
-  }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
-  .hero-logo { display: flex; justify-content: center; margin-bottom: 20px; }
-  .hero h1 { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 10px; }
-  .hero p { font-size: 13px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
+.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);padding:8px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
+.toggle:hover { border-color: var(--primary); }
+.toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--surface);padding:6px 14px;border-radius:4px;font-size:12px;font-weight:500;font-family:'JetBrains Mono',monospace;transition:transform 0.2s ease;z-index:200;pointer-events:none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
 
-  section { padding: 48px 0; border-bottom: 1px solid var(--border); }
-  section:last-child { border-bottom: none; }
-  .section-title { font-size: 18px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 28px; }
-  .section-subtitle { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin: 24px 0 12px; }
+.wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+section { padding: 48px 0; border-bottom: 1px solid var(--border); }
+section:last-child { border-bottom: none; }
+.section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 20px; }
+.section-sub { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin: 20px 0 10px; }
 
-  .swatches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 8px; }
-  .swatch {
-    border-radius: 6px; border: 1px solid var(--border);
-    overflow: hidden; cursor: pointer;
-    transition: box-shadow 0.1s, transform 0.1s; background: var(--surface);
-  }
-  .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-  .swatch-color { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-token { font-size: 11px; font-weight: 500; color: var(--text-primary); display: block; }
-  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-  .swatch-usage { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+/* Hero */
+.hero { border-bottom: 1px solid var(--border); padding: 48px 0 40px; }
+.hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; gap: 18px; }
+.hero h1 { font-size: 22px; font-weight: 600; }
+.hero p { font-size: 13px; color: var(--text-2); margin-top: 4px; }
 
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--text-primary); color: var(--surface);
-    padding: 6px 16px; border-radius: 4px;
-    font-size: 12px; font-weight: 500;
-    transition: transform 0.2s ease; z-index: 200; pointer-events: none;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+/* Colors */
+.swatches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 8px; margin-bottom: 4px; }
+.swatch { border-radius: 4px; border: 1px solid var(--border); overflow: hidden; cursor: pointer; transition: border-color 0.1s; background: var(--surface); }
+.swatch:hover { border-color: var(--border-strong); }
+.swatch-color { height: 72px; width: 100%; }
+.swatch-info { padding: 8px 10px; }
+.swatch-token { font-size: 11px; font-weight: 500; color: var(--text); display: block; }
+.swatch-hex { font-size: 11px; color: var(--text-3); font-family: 'JetBrains Mono', monospace; }
+.swatch-usage { font-size: 11px; color: var(--text-2); margin-top: 1px; }
 
-  .type-table { width: 100%; border-collapse: collapse; }
-  .type-table tr { border-bottom: 1px solid var(--border); }
-  .type-table tr:last-child { border-bottom: none; }
-  .type-table td { padding: 10px 12px; vertical-align: middle; }
-  .type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 120px; }
-  .type-table td:nth-child(2) { min-width: 200px; color: var(--text-primary); }
-  .type-table td:last-child { display: flex; gap: 4px; flex-wrap: wrap; }
-  .spec-pill {
-    background: var(--surface-secondary); border: 1px solid var(--border);
-    border-radius: 3px; padding: 1px 6px; font-size: 10px;
-    font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); white-space: nowrap;
-  }
+/* Typography */
+.type-table { width: 100%; border-collapse: collapse; }
+.type-table tr { border-bottom: 1px solid var(--border); }
+.type-table tr:last-child { border-bottom: none; }
+.type-table td { padding: 10px 12px; vertical-align: middle; }
+.type-table td:first-child { font-size: 11px; font-weight: 500; color: var(--text-3); font-family: 'JetBrains Mono', monospace; width: 120px; white-space: nowrap; }
+.type-table td:last-child { display: flex; gap: 4px; flex-wrap: wrap; }
+.spec-pill { background: var(--surface-secondary); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--text-2); white-space: nowrap; }
 
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; box-shadow: var(--shadow-sm); }
-  .comp-card-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 12px; }
-  .btn-group { display: flex; flex-direction: column; gap: 6px; }
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: inherit; font-size: 12px; font-weight: 500;
-    border-radius: 4px; padding: 6px 14px; border: none;
-    cursor: pointer; transition: background 100ms ease;
-  }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); }
-  .btn-secondary:hover { background: var(--surface-secondary); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--surface-secondary); }
-  .btn-danger { background: var(--error); color: #fff; }
+/* Components */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; box-shadow: var(--shadow-sm); }
+.comp-card-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 12px; }
 
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); margin-bottom: 3px; display: block; }
-  .input-wrap { display: flex; flex-direction: column; gap: 2px; }
-  .input-field {
-    height: 30px; background: var(--surface);
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 0 10px; font-family: inherit; font-size: 12px;
-    color: var(--text-primary); outline: none;
-    transition: border-color 100ms; width: 100%;
-  }
-  .input-field:focus { border-color: var(--primary); }
-  .input-field::placeholder { color: var(--text-muted); }
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-size: 12px; font-weight: 500; border-radius: 4px; padding: 6px 14px; border: none; cursor: pointer; transition: background 100ms; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+.btn-secondary:hover { background: var(--surface-secondary); }
+.btn-ghost { background: transparent; color: var(--text-2); }
+.btn-ghost:hover { background: var(--surface-secondary); }
+.btn-danger { background: var(--error); color: #fff; }
 
-  /* Data table preview */
-  .data-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .data-table th {
-    background: var(--surface-secondary); font-size: 11px; font-weight: 500;
-    color: var(--text-secondary); text-align: left;
-    padding: 0 12px; height: 32px; border-bottom: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    text-transform: uppercase; letter-spacing: 0.06em;
-  }
-  .data-table th:last-child { border-right: none; }
-  .data-table td {
-    font-size: 12px; color: var(--text-primary);
-    padding: 0 12px; height: 32px;
-    border-bottom: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
-  .data-table td:last-child { border-right: none; }
-  .data-table tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: var(--surface-secondary); }
-  .data-table tr.selected td { background: var(--primary-light); }
+/* Inputs */
+.input-label { font-size: 11px; font-weight: 500; color: var(--text-2); margin-bottom: 4px; display: block; }
+.input-field { height: 30px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0 10px; font-family: inherit; font-size: 12px; color: var(--text); outline: none; transition: border-color 100ms; width: 100%; }
+.input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(81,141,210,0.15); }
+.input-field::placeholder { color: var(--text-3); }
 
-  .badges-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .badge { padding: 1px 6px; border-radius: 3px; font-size: 11px; font-weight: 500; }
-  .badge-success { background: rgba(30,138,76,0.12); color: var(--success); }
-  .badge-error { background: rgba(217,48,37,0.12); color: var(--error); }
-  .badge-warn { background: rgba(245,158,11,0.12); color: var(--warning); }
-  .badge-neutral { background: var(--surface-secondary); color: var(--text-secondary); border: 1px solid var(--border); }
+/* Data table */
+.data-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.data-table th { background: var(--surface-secondary); font-size: 11px; font-weight: 500; color: var(--text-2); text-align: left; padding: 0 12px; height: 30px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); text-transform: uppercase; letter-spacing: 0.05em; }
+.data-table th:last-child { border-right: none; }
+.data-table td { font-size: 12px; color: var(--text); padding: 0 12px; height: 30px; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+.data-table td:last-child { border-right: none; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--surface-secondary); }
+.data-table tr.selected td { background: var(--primary-light); }
 
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 14px; }
-  .spacing-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar { height: 14px; background: var(--primary); border-radius: 3px; opacity: 0.65; transition: opacity 0.1s; }
-  .spacing-bar:hover { opacity: 1; }
-  .spacing-val { font-size: 11px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
+/* Badges */
+.badge { padding: 1px 7px; border-radius: 3px; font-size: 11px; font-weight: 500; }
+.badge-success { background: rgba(30,138,76,0.12); color: var(--success); }
+.badge-error   { background: rgba(217,48,37,0.12);  color: var(--error); }
+.badge-warn    { background: rgba(245,158,11,0.12); color: var(--warning); }
+.badge-neutral { background: var(--surface-secondary); color: var(--text-2); border: 1px solid var(--border); }
 
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .guardrail-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrail-col-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-  .do-title { color: var(--success); }
-  .dont-title { color: var(--error); }
-  .guardrail-item { padding: 10px 14px; border-radius: 4px; font-size: 12px; line-height: 1.5; color: var(--text-primary); }
-  .do-item { ; background: rgba(30,138,76,0.05); }
-  .dont-item { ; background: rgba(217,48,37,0.05); }
+/* Spacing */
+.spacing-list { display: flex; flex-direction: column; gap: 8px; }
+.spacing-row { display: flex; align-items: center; gap: 14px; }
+.spacing-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-3); width: 80px; flex-shrink: 0; }
+.spacing-bar { height: 12px; background: var(--border); border-radius: 2px; }
+.spacing-val { font-size: 11px; color: var(--text-2); font-family: 'JetBrains Mono', monospace; }
 
-  @media (max-width: 600px) {
-    .guardrails-grid { grid-template-columns: 1fr; }
-    .wrapper { padding: 0 16px 60px; }
-    .hero-inner { padding: 0 16px; }
-  }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+/* Guardrails */
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.guardrail-col-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.do-title { color: var(--success); }
+.dont-title { color: var(--error); }
+.guardrail-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.guardrail-list li { font-size: 12px; color: var(--text-2); padding-left: 16px; position: relative; line-height: 1.5; }
+.guardrail-list li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; }
+.guardrail-do   .guardrail-list li::before { background: var(--success); }
+.guardrail-dont .guardrail-list li::before { background: var(--error); }
+
+/* App Builder Canvas */
+.builder-shell { display: flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-md); min-height: 360px; }
+.builder-sidebar { width: 168px; flex-shrink: 0; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+.builder-sidebar-header { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); padding: 10px 12px 8px; border-bottom: 1px solid var(--border); }
+.comp-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 12px; color: var(--text-2); cursor: pointer; transition: background 0.1s; }
+.comp-item:hover { background: var(--surface-secondary); color: var(--text); }
+.comp-item.active { background: var(--primary-light); color: var(--primary); }
+.comp-item-icon { width: 18px; height: 18px; border-radius: 3px; background: var(--surface-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; }
+.comp-item.active .comp-item-icon { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.builder-canvas { flex: 1; background: #FFFFFF; padding: 20px; overflow: auto; }
+.canvas-header { font-size: 13px; font-weight: 600; color: #151515; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+.canvas-widget { border: 2px solid #518DD2; border-radius: 4px; }
+.canvas-widget-label { background: #518DD2; color: #fff; font-size: 10px; font-weight: 600; padding: 2px 8px; display: inline-block; margin-bottom: -1px; border-radius: 2px 2px 0 0; }
+.canvas-table { width: 100%; border-collapse: collapse; font-size: 12px; color: #151515; }
+.canvas-table th { background: #EDEDEA; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #59554E; padding: 6px 10px; text-align: left; border: 1px solid #D8D5CC; }
+.canvas-table td { padding: 7px 10px; border: 1px solid #D8D5CC; }
+.canvas-table tr.selected td { background: #D8E6F3; }
+.canvas-actions { display: flex; gap: 8px; margin-top: 10px; }
+.canvas-btn { height: 28px; padding: 0 12px; font-size: 11px; font-weight: 500; font-family: 'DM Sans', sans-serif; border-radius: 4px; border: none; cursor: pointer; }
+.canvas-btn-primary { background: #518DD2; color: #fff; }
+.canvas-btn-secondary { background: #fff; color: #151515; border: 1px solid #D8D5CC; }
+
+.builder-inspector { width: 210px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+.inspector-header { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); padding: 10px 12px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.inspector-component-name { font-size: 11px; font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 3px; }
+.inspector-row { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.inspector-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 5px; }
+.inspector-input { height: 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text); width: 100%; outline: none; }
+.inspector-input:focus { border-color: var(--primary); }
+.inspector-select { height: 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 0 6px; font-family: inherit; font-size: 11px; color: var(--text); width: 100%; outline: none; appearance: none; }
+.inspector-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
+.inspector-toggle { width: 28px; height: 16px; background: var(--primary); border-radius: 8px; position: relative; cursor: pointer; flex-shrink: 0; }
+.inspector-toggle::after { content:''; position:absolute; width:12px; height:12px; background:#fff; border-radius:50%; top:2px; right:2px; }
+.inspector-toggle.off { background: var(--border); }
+.inspector-toggle.off::after { right:auto; left:2px; }
+
+:root[data-theme="light"] .retool-logo path { fill: #151515; }
+:root[data-theme="dark"]  .retool-logo path { fill: #E9EBDF; }
+:root[data-theme="dark"] .icon-moon { display: none; }
+:root[data-theme="light"] .icon-sun { display: none; }
 </style>
 </head>
 <body>
 
-<!-- Retool is light-only per design spec -->
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
+<div class="toast" id="toast">Copied!</div>
 
+<!-- Hero -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-logo">
-      <!-- Retool: blue grid/tool mark -->
-      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Retool logo">
-        <rect width="80" height="80" rx="10" fill="#3C5DD6"/>
-        <!-- Grid of squares representing components/blocks -->
-        <rect x="16" y="16" width="20" height="20" rx="3" fill="white"/>
-        <rect x="44" y="16" width="20" height="20" rx="3" fill="white" opacity="0.7"/>
-        <rect x="16" y="44" width="20" height="20" rx="3" fill="white" opacity="0.7"/>
-        <rect x="44" y="44" width="20" height="20" rx="3" fill="white" opacity="0.5"/>
-        <!-- Tool/wrench accent line -->
-        <path d="M30 30 L50 50" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
-      </svg>
+    <svg width="40" height="40" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Retool logo" class="retool-logo">
+      <path d="M80.6416 15.6667C80.6416 12.9052 78.403 10.6666 75.6415 10.6666H18.974C16.2125 10.6666 13.9739 12.9052 13.9739 15.6667V39.0004C13.9739 41.7618 16.2125 44.0004 18.974 44.0004H75.6415C78.403 44.0004 80.6416 46.239 80.6416 49.0005V55.6673C80.6416 58.4287 78.403 60.6674 75.6415 60.6674H38.9743C36.2128 60.6674 33.9742 62.906 33.9742 65.6674V89.0011C33.9742 91.7626 36.2128 94.0012 38.9743 94.0012H75.6415C78.403 94.0012 80.6416 96.2398 80.6416 99.0013V112.335C80.6416 115.096 82.8802 117.335 85.6417 117.335H108.975C111.737 117.335 113.975 115.096 113.975 112.335V89.0011C113.975 86.2397 111.737 84.001 108.975 84.001H85.6417C82.8802 84.001 80.6416 81.7624 80.6416 79.001V72.3342C80.6416 69.5727 82.8802 67.3341 85.6417 67.3341H108.975C111.737 67.3341 113.975 65.0955 113.975 62.3341V39.0004C113.975 36.2389 111.737 34.0003 108.975 34.0003H85.6417C82.8802 34.0003 80.6416 31.7617 80.6416 29.0002V15.6667Z"/>
+    </svg>
+    <div>
+      <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:300;">Retool</h1>
+      <p>Build internal tools fast — dense, functional UI that prioritizes utility and information density over aesthetics.</p>
     </div>
-    <h1>Retool</h1>
-    <p>Build internal tools fast — a dense, functional UI builder that prioritizes utility over aesthetics.</p>
   </div>
 </div>
 
 <div class="wrapper">
 
+  <!-- Colors -->
   <section>
-    <h2 class="section-title">Colors</h2>
+    <div class="section-title">Colors</div>
 
-    <p class="section-subtitle">Primary</p>
+    <div class="section-sub">Brand</div>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#3C5DD6')">
-        <div class="swatch-color" style="background:#3C5DD6"></div>
-        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#3C5DD6</span><span class="swatch-usage">CTAs, active states, selected</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#3251C2')">
-        <div class="swatch-color" style="background:#3251C2"></div>
-        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#3251C2</span><span class="swatch-usage">Hover on primary</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#EEF1FC')">
-        <div class="swatch-color" style="background:#EEF1FC"></div>
-        <div class="swatch-info"><span class="swatch-token">primary-light</span><span class="swatch-hex">#EEF1FC</span><span class="swatch-usage">Selected backgrounds</span></div>
-      </div>
+      <div class="swatch" onclick="copyHex('#151515')"><div class="swatch-color" style="background:#151515"></div><div class="swatch-info"><span class="swatch-token">color-dark</span><span class="swatch-hex">#151515</span><span class="swatch-usage">Primary dark, text</span></div></div>
+      <div class="swatch" onclick="copyHex('#F7F8F4')"><div class="swatch-color" style="background:#F7F8F4;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">color-light</span><span class="swatch-hex">#F7F8F4</span><span class="swatch-usage">Primary light bg</span></div></div>
+      <div class="swatch" onclick="copyHex('#E9EBDF')"><div class="swatch-color" style="background:#E9EBDF;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">cream</span><span class="swatch-hex">#E9EBDF</span><span class="swatch-usage">Text on dark bg</span></div></div>
+      <div class="swatch" onclick="copyHex('#518DD2')"><div class="swatch-color" style="background:#518DD2"></div><div class="swatch-info"><span class="swatch-token">blue</span><span class="swatch-hex">#518DD2</span><span class="swatch-usage">CTAs, active, selected</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8765E')"><div class="swatch-color" style="background:#E8765E"></div><div class="swatch-info"><span class="swatch-token">orange</span><span class="swatch-hex">#E8765E</span><span class="swatch-usage">Accent, highlights</span></div></div>
     </div>
 
-    <p class="section-subtitle">Surfaces</p>
+    <div class="section-sub">Surfaces</div>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#F7F8FA')">
-        <div class="swatch-color" style="background:#F7F8FA"></div>
-        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#F7F8FA</span><span class="swatch-usage">App background</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#FFFFFF')">
-        <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid #E0E2EA"></div>
-        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-usage">Panels, cards, canvas</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#F2F3F5')">
-        <div class="swatch-color" style="background:#F2F3F5"></div>
-        <div class="swatch-info"><span class="swatch-token">surface-secondary</span><span class="swatch-hex">#F2F3F5</span><span class="swatch-usage">Hover states, fills</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#E0E2EA')">
-        <div class="swatch-color" style="background:#E0E2EA"></div>
-        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#E0E2EA</span><span class="swatch-usage">Dividers, input borders</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#C8CADB')">
-        <div class="swatch-color" style="background:#C8CADB"></div>
-        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#C8CADB</span><span class="swatch-usage">Emphasized borders</span></div>
-      </div>
+      <div class="swatch" onclick="copyHex('#F7F8F4')"><div class="swatch-color" style="background:#F7F8F4"></div><div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#F7F8F4</span><span class="swatch-usage">App background</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-usage">Panels, cards, canvas</span></div></div>
+      <div class="swatch" onclick="copyHex('#EDEDEA')"><div class="swatch-color" style="background:#EDEDEA"></div><div class="swatch-info"><span class="swatch-token">surface-secondary</span><span class="swatch-hex">#EDEDEA</span><span class="swatch-usage">Hover fills, headers</span></div></div>
+      <div class="swatch" onclick="copyHex('#D8D5CC')"><div class="swatch-color" style="background:#D8D5CC"></div><div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#D8D5CC</span><span class="swatch-usage">Dividers, inputs</span></div></div>
     </div>
 
-    <p class="section-subtitle">Text</p>
+    <div class="section-sub">Text</div>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#1A1A2E')">
-        <div class="swatch-color" style="background:#1A1A2E"></div>
-        <div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#1A1A2E</span><span class="swatch-usage">Body text, headings</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#5C5F7A')">
-        <div class="swatch-color" style="background:#5C5F7A"></div>
-        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#5C5F7A</span><span class="swatch-usage">Supporting text, labels</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#9699B3')">
-        <div class="swatch-color" style="background:#9699B3"></div>
-        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#9699B3</span><span class="swatch-usage">Placeholders, disabled</span></div>
-      </div>
+      <div class="swatch" onclick="copyHex('#151515')"><div class="swatch-color" style="background:#151515"></div><div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#151515</span><span class="swatch-usage">Body, headings</span></div></div>
+      <div class="swatch" onclick="copyHex('#59554E')"><div class="swatch-color" style="background:#59554E"></div><div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#59554E</span><span class="swatch-usage">Supporting, labels</span></div></div>
+      <div class="swatch" onclick="copyHex('#8B8780')"><div class="swatch-color" style="background:#8B8780"></div><div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#8B8780</span><span class="swatch-usage">Placeholders, disabled</span></div></div>
     </div>
 
-    <p class="section-subtitle">Semantic</p>
+    <div class="section-sub">Semantic</div>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#D93025')">
-        <div class="swatch-color" style="background:#D93025"></div>
-        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#D93025</span><span class="swatch-usage">Errors</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#1E8A4C')">
-        <div class="swatch-color" style="background:#1E8A4C"></div>
-        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#1E8A4C</span><span class="swatch-usage">Success states</span></div>
-      </div>
-      <div class="swatch" onclick="copyHex('#F59E0B')">
-        <div class="swatch-color" style="background:#F59E0B"></div>
-        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#F59E0B</span><span class="swatch-usage">Warnings</span></div>
-      </div>
+      <div class="swatch" onclick="copyHex('#D93025')"><div class="swatch-color" style="background:#D93025"></div><div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#D93025</span></div></div>
+      <div class="swatch" onclick="copyHex('#1E8A4C')"><div class="swatch-color" style="background:#1E8A4C"></div><div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#1E8A4C</span></div></div>
+      <div class="swatch" onclick="copyHex('#F59E0B')"><div class="swatch-color" style="background:#F59E0B"></div><div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#F59E0B</span></div></div>
     </div>
   </section>
 
+  <!-- Typography -->
   <section>
-    <h2 class="section-title">Typography</h2>
-    <table class="type-table">
+    <div class="section-title">Typography</div>
+    <div class="section-sub" style="margin-top:0;margin-bottom:14px;">saansFont (≈ Plus Jakarta Sans) — Display / Marketing</div>
+    <table class="type-table" style="margin-bottom:24px;">
       <tbody>
         <tr>
-          <td>heading-lg</td>
-          <td><span style="font-size:18px;font-weight:600;line-height:1.3">App builder</span></td>
-          <td><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
+          <td>hero</td>
+          <td><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:300;line-height:1.06">Build internal tools, fast.</span></td>
+          <td><span class="spec-pill">72px</span><span class="spec-pill">300</span><span class="spec-pill">lh 76px</span></td>
         </tr>
         <tr>
-          <td>heading-md</td>
-          <td><span style="font-size:15px;font-weight:600;line-height:1.4">Query editor</span></td>
-          <td><span class="spec-pill">15px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+          <td>display</td>
+          <td><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:300">The fastest way to build internal tools</span></td>
+          <td><span class="spec-pill">40px</span><span class="spec-pill">300</span></td>
         </tr>
-        <tr>
-          <td>heading-sm</td>
-          <td><span style="font-size:13px;font-weight:600;line-height:1.4">Component properties</span></td>
-          <td><span class="spec-pill">13px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
-        </tr>
-        <tr>
-          <td>body</td>
-          <td><span style="font-size:13px;font-weight:400;line-height:1.5">Standard body text for interface copy</span></td>
-          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
-        </tr>
-        <tr>
-          <td>body-sm</td>
-          <td><span style="font-size:12px;font-weight:400;line-height:1.5">Small body for metadata</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
-        </tr>
-        <tr>
-          <td>label</td>
-          <td><span style="font-size:11px;font-weight:500;line-height:1.3">Field label</span></td>
-          <td><span class="spec-pill">11px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></td>
-        </tr>
-        <tr>
-          <td>caption</td>
-          <td><span style="font-size:11px;font-weight:400;line-height:1.4">Caption text</span></td>
-          <td><span class="spec-pill">11px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
-        </tr>
-        <tr>
-          <td>code</td>
-          <td><span style="font-size:12px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6">SELECT id, name FROM users</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
-        </tr>
+      </tbody>
+    </table>
+    <div class="section-sub" style="margin-bottom:14px;">Px Grotesk (≈ DM Sans) — UI / Product</div>
+    <table class="type-table">
+      <tbody>
+        <tr><td>heading-lg</td><td><span style="font-size:18px;font-weight:600">App builder</span></td><td><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td></tr>
+        <tr><td>heading-md</td><td><span style="font-size:15px;font-weight:600">Query editor</span></td><td><span class="spec-pill">15px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td></tr>
+        <tr><td>heading-sm</td><td><span style="font-size:13px;font-weight:600">Component properties</span></td><td><span class="spec-pill">13px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td></tr>
+        <tr><td>body</td><td><span style="font-size:13px;font-weight:400;color:var(--text-2)">Standard body text for interface copy</span></td><td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td></tr>
+        <tr><td>label</td><td><span style="font-size:11px;font-weight:500;color:var(--text-2)">Field label</span></td><td><span class="spec-pill">11px</span><span class="spec-pill">500</span></td></tr>
+        <tr><td>caption</td><td><span style="font-size:11px;font-weight:400;color:var(--text-3)">Caption, metadata</span></td><td><span class="spec-pill">11px</span><span class="spec-pill">400</span></td></tr>
+        <tr><td>code</td><td><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary)">SELECT id, name FROM users WHERE active = true</span></td><td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td></tr>
       </tbody>
     </table>
   </section>
 
+  <!-- Components -->
   <section>
-    <h2 class="section-title">Components</h2>
-    <div class="components-grid">
+    <div class="section-title">Components</div>
+    <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-card-title">Buttons</div>
-        <div class="btn-group">
+        <div style="display:flex;flex-direction:column;gap:6px;">
           <button class="btn btn-primary">Save changes</button>
           <button class="btn btn-secondary">Cancel</button>
           <button class="btn btn-ghost">Discard</button>
-          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger">Delete record</button>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <div class="input-wrap">
-            <label class="input-label">Query name</label>
-            <input class="input-field" type="text" placeholder="getUsers">
-          </div>
-          <div class="input-wrap">
-            <label class="input-label">Resource</label>
-            <input class="input-field" type="text" placeholder="PostgreSQL DB">
-          </div>
+        <div class="comp-card-title">Form Inputs</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div><label class="input-label">Query name</label><input class="input-field" type="text" placeholder="getUsers"></div>
+          <div><label class="input-label">Resource</label><input class="input-field" type="text" placeholder="PostgreSQL DB"></div>
+          <div><label class="input-label">Transformer</label><input class="input-field" type="text" placeholder="data.map(r => r)" style="font-family:'JetBrains Mono',monospace;font-size:11px;"></div>
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Badges</div>
-        <div class="badges-group">
-          <span class="badge badge-success">Success</span>
-          <span class="badge badge-error">Error</span>
-          <span class="badge badge-warn">Warning</span>
-          <span class="badge badge-neutral">Neutral</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="badge badge-success">Active</span>
+          <span class="badge badge-error">Failed</span>
+          <span class="badge badge-warn">Pending</span>
+          <span class="badge badge-neutral">Draft</span>
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Data Table</div>
         <table class="data-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Status</th>
-            </tr>
-          </thead>
+          <thead><tr><th>ID</th><th>Name</th><th>Status</th></tr></thead>
           <tbody>
-            <tr class="selected">
-              <td>1</td>
-              <td>Alice</td>
-              <td><span class="badge badge-success">Active</span></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Bob</td>
-              <td><span class="badge badge-warn">Pending</span></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Carol</td>
-              <td><span class="badge badge-error">Error</span></td>
-            </tr>
+            <tr class="selected"><td>1</td><td>Alice Chen</td><td><span class="badge badge-success">Active</span></td></tr>
+            <tr><td>2</td><td>Bob Murai</td><td><span class="badge badge-warn">Pending</span></td></tr>
+            <tr><td>3</td><td>Carol Singh</td><td><span class="badge badge-error">Failed</span></td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
+  <!-- App Builder Canvas -->
   <section>
-    <h2 class="section-title">Spacing</h2>
+    <div class="section-title">App Builder — Signature Component</div>
+    <div class="builder-shell">
+
+      <!-- Component Panel -->
+      <div class="builder-sidebar">
+        <div class="builder-sidebar-header">Components</div>
+        <div class="comp-item active">
+          <div class="comp-item-icon">▦</div>Table
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">□</div>Button
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">≡</div>Text
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">⊟</div>Form
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">◱</div>Container
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">⌇</div>Chart
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">◳</div>Modal
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">☰</div>Select
+        </div>
+        <div class="comp-item">
+          <div class="comp-item-icon">⬚</div>Input
+        </div>
+      </div>
+
+      <!-- Canvas -->
+      <div class="builder-canvas">
+        <div class="canvas-header">
+          <span>Users Dashboard</span>
+          <div style="display:flex;gap:6px;">
+            <span style="font-size:11px;background:#D8E6F3;color:#518DD2;padding:2px 8px;border-radius:3px;font-weight:500;">Preview</span>
+            <span style="font-size:11px;background:#EDEDEA;color:#59554E;padding:2px 8px;border-radius:3px;font-weight:500;">Share</span>
+          </div>
+        </div>
+        <div class="canvas-widget">
+          <div class="canvas-widget-label">table1</div>
+          <table class="canvas-table">
+            <thead><tr>
+              <th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th>
+            </tr></thead>
+            <tbody>
+              <tr class="selected">
+                <td>1</td><td>Alice Chen</td><td>alice@co.io</td><td>Admin</td>
+                <td><span style="background:rgba(30,138,76,0.12);color:#1E8A4C;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:500;">Active</span></td>
+              </tr>
+              <tr>
+                <td>2</td><td>Bob Murai</td><td>bob@co.io</td><td>Editor</td>
+                <td><span style="background:rgba(245,158,11,0.12);color:#B45309;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:500;">Pending</span></td>
+              </tr>
+              <tr>
+                <td>3</td><td>Carol Singh</td><td>carol@co.io</td><td>Viewer</td>
+                <td><span style="background:rgba(217,48,37,0.12);color:#D93025;padding:1px 7px;border-radius:3px;font-size:11px;font-weight:500;">Disabled</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="canvas-actions">
+          <button class="canvas-btn canvas-btn-primary">+ Add User</button>
+          <button class="canvas-btn canvas-btn-secondary">Export CSV</button>
+          <button class="canvas-btn canvas-btn-secondary">Deactivate</button>
+        </div>
+      </div>
+
+      <!-- Inspector -->
+      <div class="builder-inspector">
+        <div class="inspector-header">
+          Inspect
+          <span class="inspector-component-name">table1</span>
+        </div>
+        <div class="inspector-row">
+          <div class="inspector-label">Data source</div>
+          <input class="inspector-input" value="{{ getUsers.data }}">
+        </div>
+        <div class="inspector-row">
+          <div class="inspector-label">Columns</div>
+          <select class="inspector-select"><option>Auto from data</option><option>Manual</option></select>
+        </div>
+        <div class="inspector-row">
+          <div class="inspector-label">Page size</div>
+          <input class="inspector-input" value="10">
+        </div>
+        <div class="inspector-row">
+          <div class="inspector-label">Row height</div>
+          <select class="inspector-select"><option>Compact (30px)</option><option>Default</option><option>Tall</option></select>
+        </div>
+        <div class="inspector-toggle-row">
+          <span>Multiselect</span>
+          <div class="inspector-toggle off"></div>
+        </div>
+        <div class="inspector-toggle-row">
+          <span>Download CSV</span>
+          <div class="inspector-toggle"></div>
+        </div>
+        <div class="inspector-toggle-row">
+          <span>Column resize</span>
+          <div class="inspector-toggle"></div>
+        </div>
+        <div class="inspector-row">
+          <div class="inspector-label">On row click</div>
+          <input class="inspector-input" value="setEditingUser(row)">
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Spacing -->
+  <section>
+    <div class="section-title">Spacing — 4px base</div>
     <div class="spacing-list">
       <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">4px</span></div>
       <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">8px</span></div>
@@ -400,42 +448,49 @@
       <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">16px</span></div>
       <div class="spacing-row"><span class="spacing-label">space-5</span><div class="spacing-bar" style="width:20px"></div><span class="spacing-val">20px</span></div>
       <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">24px</span></div>
+      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">32px</span></div>
     </div>
   </section>
 
+  <!-- Guardrails -->
   <section>
-    <h2 class="section-title">Guardrails</h2>
+    <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-col">
-        <div class="guardrail-col-title do-title">DO</div>
-        <div class="guardrail-item do-item">Maximize information density — small text and tight spacing are features</div>
-        <div class="guardrail-item do-item">Use the blue accent only for selection, focus, and the primary CTA</div>
-        <div class="guardrail-item do-item">Keep forms compact — Retool users are power users</div>
-        <div class="guardrail-item do-item">Use data tables as the default pattern for list data</div>
+      <div class="guardrail-do">
+        <div class="guardrail-col-title do-title">Do</div>
+        <ul class="guardrail-list">
+          <li>Maximize information density — small text and tight spacing are features, not bugs</li>
+          <li>Use the blue accent only for selection, focus, and primary CTA</li>
+          <li>Keep forms compact — Retool users are power users who read dense UIs</li>
+          <li>Use data tables as the default pattern for list data</li>
+          <li>Monospace for all query, formula, and transformer values</li>
+          <li>Keep border-radius at 4–6px — enterprise convention</li>
+        </ul>
       </div>
-      <div class="guardrail-col">
-        <div class="guardrail-col-title dont-title">DON'T</div>
-        <div class="guardrail-item dont-item">Add rounded corners above 6px — enterprise convention</div>
-        <div class="guardrail-item dont-item">Use decorative visuals, illustrations, or gradients</div>
-        <div class="guardrail-item dont-item">Animate canvas interactions — performance over delight</div>
-        <div class="guardrail-item dont-item">Use dark mode — Retool is light-first</div>
-        <div class="guardrail-item dont-item">Add whitespace that doesn't serve information hierarchy</div>
+      <div class="guardrail-dont">
+        <div class="guardrail-col-title dont-title">Don't</div>
+        <ul class="guardrail-list">
+          <li>Don't use decorative visuals, illustrations, hero gradients, or large white space</li>
+          <li>Don't animate canvas interactions — performance over delight</li>
+          <li>Don't use border-radius above 6px on any interactive element</li>
+          <li>Don't use more than one primary CTA per view</li>
+          <li>Don't show raw JS errors to the end user — wrap in readable messages</li>
+          <li>Don't override the canvas background — it's always white</li>
+        </ul>
       </div>
     </div>
   </section>
 
 </div>
 
-<div class="toast" id="toast">Copied!</div>
-
 <script>
-  function copyHex(hex) {
-    navigator.clipboard.writeText(hex).catch(() => {});
-    const toast = document.getElementById('toast');
-    toast.textContent = 'Copied ' + hex;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-  }
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
 </script>
 </body>
 </html>
