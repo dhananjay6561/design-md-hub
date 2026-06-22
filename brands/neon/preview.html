@@ -57,7 +57,6 @@
   .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
 
   .hero {
-    background: linear-gradient(135deg, rgba(0,229,153,0.05) 0%, transparent 60%);
     border-bottom: 1px solid var(--border);
     padding: 64px 0 56px; text-align: center;
   }
@@ -85,7 +84,7 @@
     transition: box-shadow 0.15s, transform 0.15s;
     background: var(--surface);
   }
-  .swatch:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--border-strong); }
+  .swatch:hover { border-color: var(--border-strong); }
   .swatch-color { height: 80px; width: 100%; }
   .swatch-info { padding: 10px 12px; }
   .swatch-token { font-size: 11px; font-weight: 500; color: var(--text-primary); display: block; font-family: 'JetBrains Mono', monospace; }
@@ -174,8 +173,7 @@
   .spacing-list { display: flex; flex-direction: column; gap: 10px; }
   .spacing-row { display: flex; align-items: center; gap: 16px; }
   .spacing-label { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar { height: 16px; background: var(--primary); border-radius: 3px; opacity: 0.6; transition: opacity 0.1s; }
-  .spacing-bar:hover { opacity: 1; }
+  .spacing-bar { height: 16px; background: var(--border-strong); border-radius: 3px; }
   .spacing-val { font-size: 11px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
 
   .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -183,9 +181,10 @@
   .guardrail-col-title { font-size: 11px; font-weight: 600; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.1em; }
   .do-title { color: var(--success); }
   .dont-title { color: var(--error); }
-  .guardrail-item { padding: 10px 14px; border-radius: 6px; font-size: 13px; line-height: 1.5; color: var(--text-primary); }
-  .do-item { ; background: rgba(0,229,153,0.06); }
-  .dont-item { ; background: rgba(240,71,71,0.06); }
+  .guardrail-item { font-size: 13px; line-height: 1.5; color: var(--text-secondary); padding: 4px 0 4px 16px; position: relative; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; }
+  .do-item::before { background: var(--success); }
+  .dont-item::before { background: var(--error); }
 
   @media (max-width: 600px) {
     .guardrails-grid { grid-template-columns: 1fr; }
@@ -195,6 +194,18 @@
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 :root[data-theme="dark"] .logo-invert { filter: invert(1) brightness(1.1); }
+.neon-tree { font-family:'JetBrains Mono',monospace; }
+.neon-tree-row { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(--border); }
+.neon-tree-row:last-child { border-bottom:none; }
+.neon-tree-gutter { font-size:13px; color:var(--border-strong); width:36px; flex-shrink:0; text-align:right; letter-spacing:-1px; }
+.neon-tree-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; border:2px solid; }
+.neon-tree-dot.active { background:var(--primary); border-color:var(--primary); }
+.neon-tree-dot.idle { background:transparent; border-color:var(--border-strong); }
+.neon-tree-name { font-size:13px; font-weight:500; color:var(--text-primary); flex:1; }
+.neon-tree-tag { font-size:10px; padding:1px 7px; border-radius:3px; flex-shrink:0; }
+.neon-tree-tag.active { background:var(--green-dim); color:var(--primary); }
+.neon-tree-tag.idle { background:var(--surface-raised); color:var(--text-muted); border:1px solid var(--border); }
+.neon-tree-stat { font-size:11px; color:var(--text-muted); }
 </style>
 </head>
 <body>
@@ -425,6 +436,39 @@
               <div class="stat-value">18ms</div>
               <div class="stat-label">latency</div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card" style="grid-column:span 2">
+        <div class="comp-card-title">Branch View</div>
+        <div class="neon-tree">
+          <div class="neon-tree-row">
+            <span class="neon-tree-gutter"></span>
+            <span class="neon-tree-dot active"></span>
+            <span class="neon-tree-name">main</span>
+            <span class="neon-tree-tag active">active</span>
+            <span class="neon-tree-stat">2.4 GB · 18ms · us-east-2</span>
+          </div>
+          <div class="neon-tree-row">
+            <span class="neon-tree-gutter">├─</span>
+            <span class="neon-tree-dot idle"></span>
+            <span class="neon-tree-name">dev</span>
+            <span class="neon-tree-tag idle">idle</span>
+            <span class="neon-tree-stat">512 MB · forked 2h ago</span>
+          </div>
+          <div class="neon-tree-row">
+            <span class="neon-tree-gutter">│ └─</span>
+            <span class="neon-tree-dot idle"></span>
+            <span class="neon-tree-name">feat/auth-rewrite</span>
+            <span class="neon-tree-tag idle">idle</span>
+            <span class="neon-tree-stat">256 MB · forked 4h ago</span>
+          </div>
+          <div class="neon-tree-row">
+            <span class="neon-tree-gutter">└─</span>
+            <span class="neon-tree-dot idle"></span>
+            <span class="neon-tree-name">shadow-test</span>
+            <span class="neon-tree-tag idle">idle</span>
+            <span class="neon-tree-stat">1.1 GB · forked 1d ago</span>
           </div>
         </div>
       </div>

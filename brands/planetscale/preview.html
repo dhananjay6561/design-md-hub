@@ -52,7 +52,7 @@
     transition: background 0.2s, color 0.2s;
   }
   /* Floating dark/light toggle */
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle { position:fixed;top:16px;right:16px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
   .toggle-btn:hover { background: var(--border); }
   .wrapper { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
   section { padding: 64px 0; border-bottom: 1px solid var(--border); }
@@ -127,7 +127,7 @@
 
   /* SPACING */
   .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 10px; }
-  .spacing-bar { height: 20px; background: rgba(243,88,21,0.12); border-radius: 0; ; }
+  .spacing-bar { height: 20px; background: var(--border); border-radius: 0; }
   .spacing-label { font-size: 12px; color: var(--text-secondary); width: 100px; flex-shrink: 0; }
   .spacing-value { font-size: 12px; color: var(--text-disabled); }
 
@@ -138,11 +138,10 @@
   .guardrail-dont h3 { color: #ff7082; }
   [data-theme="light"] .guardrail-do h3 { color: #13862e; }
   [data-theme="light"] .guardrail-dont h3 { color: #d92038; }
-  .guardrail-item { padding: 10px 14px; margin-bottom: 8px; border-radius: 4px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-  .guardrail-do .guardrail-item {; background: rgba(39,182,72,0.05); }
-  .guardrail-dont .guardrail-item {; background: rgba(255,112,130,0.05); }
-  [data-theme="light"] .guardrail-do .guardrail-item {; }
-  [data-theme="light"] .guardrail-dont .guardrail-item {; }
+  .guardrail-item { font-size: 13px; color: var(--text-secondary); line-height: 1.5; padding: 4px 0 4px 16px; position: relative; margin-bottom: 6px; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-do .guardrail-item::before { background: var(--green); }
+  .guardrail-dont .guardrail-item::before { background: var(--red); }
 
   /* Toast */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg-secondary); color: var(--text-primary); font-size: 13px; padding: 10px 20px; border-radius: 9999px; border: 1px solid var(--border); transition: transform 0.2s ease; z-index: 9999; pointer-events: none; }
