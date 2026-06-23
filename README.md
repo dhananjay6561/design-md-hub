@@ -36,61 +36,60 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 13 | [Stripe](brands/stripe/DESIGN.md) | Fintech | [preview](brands/stripe/preview.html) |
 | 14 | [Supabase](brands/supabase/DESIGN.md) | Developer Tools | [preview](brands/supabase/preview.html) |
 | 15 | [Vercel](brands/vercel/DESIGN.md) | Developer Tools | [preview](brands/vercel/preview.html) |
-| 16 | [Fly.io](brands/flyio/DESIGN.md) | Developer Tools | [preview](brands/flyio/preview.html) |
-| 17 | [Resend](brands/resend/DESIGN.md) | Developer Tools | [preview](brands/resend/preview.html) |
-| 18 | [Upstash](brands/upstash/DESIGN.md) | Developer Tools | [preview](brands/upstash/preview.html) |
-| 19 | [Infisical](brands/infisical/DESIGN.md) | Developer Tools | [preview](brands/infisical/preview.html) |
-| 20 | [Doppler](brands/doppler/DESIGN.md) | Developer Tools | [preview](brands/doppler/preview.html) |
-| 21 | [Sentry](brands/sentry/DESIGN.md) | Developer Tools | [preview](brands/sentry/preview.html) |
-| 22 | [PostHog](brands/posthog/DESIGN.md) | Developer Tools | [preview](brands/posthog/preview.html) |
-| 23 | [Cloudflare](brands/cloudflare/DESIGN.md) | Developer Tools | [preview](brands/cloudflare/preview.html) |
-| 24 | [Prisma](brands/prisma/DESIGN.md) | Developer Tools | [preview](brands/prisma/preview.html) |
-| 25 | [Lemon Squeezy](brands/lemonsqueezy/DESIGN.md) | Fintech | [preview](brands/lemonsqueezy/preview.html) |
-| 26 | [Datadog](brands/datadog/DESIGN.md) | Developer Tools | [preview](brands/datadog/preview.html) |
-| 27 | [Expo](brands/expo/DESIGN.md) | Developer Tools | [preview](brands/expo/preview.html) |
-| 28 | [Deno](brands/deno/DESIGN.md) | Developer Tools | [preview](brands/deno/preview.html) |
-| 29 | [Mintlify](brands/mintlify/DESIGN.md) | Developer Tools | [preview](brands/mintlify/preview.html) |
-| 30 | [Render](brands/render/DESIGN.md) | Developer Tools | [preview](brands/render/preview.html) |
-| 31 | [MongoDB](brands/mongodb/DESIGN.md) | Developer Tools | [preview](brands/mongodb/preview.html) |
-| 32 | [Docker](brands/docker/DESIGN.md) | Developer Tools | [preview](brands/docker/preview.html) |
-| 33 | [Firebase](brands/firebase/DESIGN.md) | Developer Tools | [preview](brands/firebase/preview.html) |
-| 34 | [Twilio](brands/twilio/DESIGN.md) | Developer Tools | [preview](brands/twilio/preview.html) |
-| 35 | [Auth0](brands/auth0/DESIGN.md) | Auth | [preview](brands/auth0/preview.html) |
-| 36 | [Netlify](brands/netlify/DESIGN.md) | Developer Tools | [preview](brands/netlify/preview.html) |
-| 37 | [Shopify](brands/shopify/DESIGN.md) | E-commerce | [preview](brands/shopify/preview.html) |
-| 38 | [Algolia](brands/algolia/DESIGN.md) | Developer Tools | [preview](brands/algolia/preview.html) |
-| 39 | [Segment](brands/segment/DESIGN.md) | Developer Tools | [preview](brands/segment/preview.html) |
-| 40 | [Amplitude](brands/amplitude/DESIGN.md) | Analytics | [preview](brands/amplitude/preview.html) |
-| 41 | [Jira](brands/jira/DESIGN.md) | Developer Tools | [preview](brands/jira/preview.html) |
-| 42 | [GitLab](brands/gitlab/DESIGN.md) | Developer Tools | [preview](brands/gitlab/preview.html) |
-| 43 | [Terraform](brands/terraform/DESIGN.md) | Developer Tools | [preview](brands/terraform/preview.html) |
-| 44 | [Airtable](brands/airtable/DESIGN.md) | Productivity | [preview](brands/airtable/preview.html) |
-| 45 | [Mixpanel](brands/mixpanel/DESIGN.md) | Analytics | [preview](brands/mixpanel/preview.html) |
-| 46 | [Intercom](brands/intercom/DESIGN.md) | Developer Tools | [preview](brands/intercom/preview.html) |
-| 47 | [PagerDuty](brands/pagerduty/DESIGN.md) | Developer Tools | [preview](brands/pagerduty/preview.html) |
-| 48 | [Webflow](brands/webflow/DESIGN.md) | Developer Tools | [preview](brands/webflow/preview.html) |
-| 49 | [DigitalOcean](brands/digitalocean/DESIGN.md) | Developer Tools | [preview](brands/digitalocean/preview.html) |
-| 50 | [CircleCI](brands/circleci/DESIGN.md) | Developer Tools | [preview](brands/circleci/preview.html) |
-| 51 | [LaunchDarkly](brands/launchdarkly/DESIGN.md) | Developer Tools | [preview](brands/launchdarkly/preview.html) |
-| 52 | [Sanity](brands/sanity/DESIGN.md) | Developer Tools | [preview](brands/sanity/preview.html) |
-| 53 | [Hasura](brands/hasura/DESIGN.md) | Developer Tools | [preview](brands/hasura/preview.html) |
-| 54 | [Contentful](brands/contentful/DESIGN.md) | Developer Tools | [preview](brands/contentful/preview.html) |
-| 55 | [Temporal](brands/temporal/DESIGN.md) | Developer Tools | [preview](brands/temporal/preview.html) |
-| 56 | [WorkOS](brands/workos/DESIGN.md) | Auth | [preview](brands/workos/preview.html) |
-| 57 | [Pinecone](brands/pinecone/DESIGN.md) | Developer Tools | [preview](brands/pinecone/preview.html) |
-| 58 | [Hugging Face](brands/huggingface/DESIGN.md) | AI/ML | [preview](brands/huggingface/preview.html) |
-| 59 | [Replicate](brands/replicate/DESIGN.md) | AI/ML | [preview](brands/replicate/preview.html) |
-| 60 | [Weights & Biases](brands/wandb/DESIGN.md) | AI/ML | [preview](brands/wandb/preview.html) |
-| 61 | [Dagster](brands/dagster/DESIGN.md) | Developer Tools | [preview](brands/dagster/preview.html) |
-| 62 | [Liveblocks](brands/liveblocks/DESIGN.md) | Developer Tools | [preview](brands/liveblocks/preview.html) |
-| 63 | [Convex](brands/convex/DESIGN.md) | Developer Tools | [preview](brands/convex/preview.html) |
-| 64 | [Stytch](brands/stytch/DESIGN.md) | Auth | [preview](brands/stytch/preview.html) |
-| 65 | [Claude](brands/claude/DESIGN.md) | AI/LLM | [preview](brands/claude/preview.html) |
-| 66 | [Postman](brands/postman/DESIGN.md) | Developer Tools | [preview](brands/postman/preview.html) |
-| 67 | [OpenAI](brands/openai/DESIGN.md) | AI/LLM | [preview](brands/openai/preview.html) |
-| 68 | [Snowflake](brands/snowflake/DESIGN.md) | Data Platform | [preview](brands/snowflake/preview.html) |
-| 69 | [dbt](brands/dbt/DESIGN.md) | Data Platform | [preview](brands/dbt/preview.html) |
-| 70 | [New Relic](brands/newrelic/DESIGN.md) | Observability | [preview](brands/newrelic/preview.html) |
+| 16 | [Resend](brands/resend/DESIGN.md) | Developer Tools | [preview](brands/resend/preview.html) |
+| 17 | [Upstash](brands/upstash/DESIGN.md) | Developer Tools | [preview](brands/upstash/preview.html) |
+| 18 | [Infisical](brands/infisical/DESIGN.md) | Developer Tools | [preview](brands/infisical/preview.html) |
+| 19 | [Doppler](brands/doppler/DESIGN.md) | Developer Tools | [preview](brands/doppler/preview.html) |
+| 20 | [Sentry](brands/sentry/DESIGN.md) | Developer Tools | [preview](brands/sentry/preview.html) |
+| 21 | [PostHog](brands/posthog/DESIGN.md) | Developer Tools | [preview](brands/posthog/preview.html) |
+| 22 | [Cloudflare](brands/cloudflare/DESIGN.md) | Developer Tools | [preview](brands/cloudflare/preview.html) |
+| 23 | [Prisma](brands/prisma/DESIGN.md) | Developer Tools | [preview](brands/prisma/preview.html) |
+| 24 | [Lemon Squeezy](brands/lemonsqueezy/DESIGN.md) | Fintech | [preview](brands/lemonsqueezy/preview.html) |
+| 25 | [Datadog](brands/datadog/DESIGN.md) | Developer Tools | [preview](brands/datadog/preview.html) |
+| 26 | [Expo](brands/expo/DESIGN.md) | Developer Tools | [preview](brands/expo/preview.html) |
+| 27 | [Deno](brands/deno/DESIGN.md) | Developer Tools | [preview](brands/deno/preview.html) |
+| 28 | [Mintlify](brands/mintlify/DESIGN.md) | Developer Tools | [preview](brands/mintlify/preview.html) |
+| 29 | [Render](brands/render/DESIGN.md) | Developer Tools | [preview](brands/render/preview.html) |
+| 30 | [MongoDB](brands/mongodb/DESIGN.md) | Developer Tools | [preview](brands/mongodb/preview.html) |
+| 31 | [Docker](brands/docker/DESIGN.md) | Developer Tools | [preview](brands/docker/preview.html) |
+| 32 | [Firebase](brands/firebase/DESIGN.md) | Developer Tools | [preview](brands/firebase/preview.html) |
+| 33 | [Twilio](brands/twilio/DESIGN.md) | Developer Tools | [preview](brands/twilio/preview.html) |
+| 34 | [Auth0](brands/auth0/DESIGN.md) | Auth | [preview](brands/auth0/preview.html) |
+| 35 | [Netlify](brands/netlify/DESIGN.md) | Developer Tools | [preview](brands/netlify/preview.html) |
+| 36 | [Shopify](brands/shopify/DESIGN.md) | E-commerce | [preview](brands/shopify/preview.html) |
+| 37 | [Algolia](brands/algolia/DESIGN.md) | Developer Tools | [preview](brands/algolia/preview.html) |
+| 38 | [Segment](brands/segment/DESIGN.md) | Developer Tools | [preview](brands/segment/preview.html) |
+| 39 | [Amplitude](brands/amplitude/DESIGN.md) | Analytics | [preview](brands/amplitude/preview.html) |
+| 40 | [Jira](brands/jira/DESIGN.md) | Developer Tools | [preview](brands/jira/preview.html) |
+| 41 | [GitLab](brands/gitlab/DESIGN.md) | Developer Tools | [preview](brands/gitlab/preview.html) |
+| 42 | [Terraform](brands/terraform/DESIGN.md) | Developer Tools | [preview](brands/terraform/preview.html) |
+| 43 | [Airtable](brands/airtable/DESIGN.md) | Productivity | [preview](brands/airtable/preview.html) |
+| 44 | [Mixpanel](brands/mixpanel/DESIGN.md) | Analytics | [preview](brands/mixpanel/preview.html) |
+| 45 | [Intercom](brands/intercom/DESIGN.md) | Developer Tools | [preview](brands/intercom/preview.html) |
+| 46 | [PagerDuty](brands/pagerduty/DESIGN.md) | Developer Tools | [preview](brands/pagerduty/preview.html) |
+| 47 | [Webflow](brands/webflow/DESIGN.md) | Developer Tools | [preview](brands/webflow/preview.html) |
+| 48 | [DigitalOcean](brands/digitalocean/DESIGN.md) | Developer Tools | [preview](brands/digitalocean/preview.html) |
+| 49 | [CircleCI](brands/circleci/DESIGN.md) | Developer Tools | [preview](brands/circleci/preview.html) |
+| 50 | [LaunchDarkly](brands/launchdarkly/DESIGN.md) | Developer Tools | [preview](brands/launchdarkly/preview.html) |
+| 51 | [Sanity](brands/sanity/DESIGN.md) | Developer Tools | [preview](brands/sanity/preview.html) |
+| 52 | [Hasura](brands/hasura/DESIGN.md) | Developer Tools | [preview](brands/hasura/preview.html) |
+| 53 | [Contentful](brands/contentful/DESIGN.md) | Developer Tools | [preview](brands/contentful/preview.html) |
+| 54 | [Temporal](brands/temporal/DESIGN.md) | Developer Tools | [preview](brands/temporal/preview.html) |
+| 55 | [WorkOS](brands/workos/DESIGN.md) | Auth | [preview](brands/workos/preview.html) |
+| 56 | [Pinecone](brands/pinecone/DESIGN.md) | Developer Tools | [preview](brands/pinecone/preview.html) |
+| 57 | [Hugging Face](brands/huggingface/DESIGN.md) | AI/ML | [preview](brands/huggingface/preview.html) |
+| 58 | [Replicate](brands/replicate/DESIGN.md) | AI/ML | [preview](brands/replicate/preview.html) |
+| 59 | [Weights & Biases](brands/wandb/DESIGN.md) | AI/ML | [preview](brands/wandb/preview.html) |
+| 60 | [Dagster](brands/dagster/DESIGN.md) | Developer Tools | [preview](brands/dagster/preview.html) |
+| 61 | [Liveblocks](brands/liveblocks/DESIGN.md) | Developer Tools | [preview](brands/liveblocks/preview.html) |
+| 62 | [Convex](brands/convex/DESIGN.md) | Developer Tools | [preview](brands/convex/preview.html) |
+| 63 | [Stytch](brands/stytch/DESIGN.md) | Auth | [preview](brands/stytch/preview.html) |
+| 64 | [Claude](brands/claude/DESIGN.md) | AI/LLM | [preview](brands/claude/preview.html) |
+| 65 | [Postman](brands/postman/DESIGN.md) | Developer Tools | [preview](brands/postman/preview.html) |
+| 66 | [OpenAI](brands/openai/DESIGN.md) | AI/LLM | [preview](brands/openai/preview.html) |
+| 67 | [Snowflake](brands/snowflake/DESIGN.md) | Data Platform | [preview](brands/snowflake/preview.html) |
+| 68 | [dbt](brands/dbt/DESIGN.md) | Data Platform | [preview](brands/dbt/preview.html) |
+| 69 | [New Relic](brands/newrelic/DESIGN.md) | Observability | [preview](brands/newrelic/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -4,259 +4,596 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Resend Design System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
+  @font-face { font-family:'ABC Favorit'; src:url("https://resend.com/_next/static/media/abc_favorit_book.p.0or15w12zowqm.woff2") format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'ABC Favorit'; src:url("https://resend.com/_next/static/media/abc_favorit_medium.p.07z90h2q5wq-8.woff2") format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Commit Mono'; src:url("https://resend.com/_next/static/media/commit_mono_regular.p.0a%7Ea27026uqvh.woff2") format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Commit Mono'; src:url("https://resend.com/_next/static/media/commit_mono_italic.p.0_9c8p15epbr_.woff2") format('woff2'); font-weight:400; font-style:italic; font-display:swap; }
+  @font-face { font-family:'Domaine Display'; src:url("https://resend.com/_next/static/media/domaine_regular.p.0e_gg6%7E4pmz90.woff2") format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Domaine Display'; src:url("https://resend.com/_next/static/media/domaine_medium.p.0q2xq1frl9er%7E.woff2") format('woff2'); font-weight:500; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Domaine Display'; src:url("https://resend.com/_next/static/media/domaine_bold.p.0vmrcg%7E.1eleq.woff2") format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Inter'; src:url("https://resend.com/_next/static/media/inter_variable.p.0r27kd5h06n72.woff2") format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+
   :root[data-theme="dark"] {
-    --bg: #08090A;
-    --surface: #111111;
-    --surface-raised: #1A1A1A;
-    --surface-overlay: #232323;
-    --text-primary: #EDEDED;
-    --text-secondary: #888888;
-    --text-muted: #555555;
-    --border: #1F1F1F;
-    --border-strong: #2E2E2E;
-    --primary: #FFFFFF;
-    --primary-hover: #E4E4E7;
-    --accent: #F97316;
-    --error: #EF4444;
-    --warning: #EAB308;
-    --success: #22C55E;
+    --bg: #000000;
+    --canvas: #141517;
+    --gray-2: #1b1b1b;
+    --gray-3: #2a2a2a;
+    --gray-4: #313131;
+    --gray-9: #6e7679;
+    --gray-10: #878d8f;
+    --gray-11: #a1a4a5;
+    --gray-12: #f0f0f0;
+    --green: #62FFB3;
+    --green-solid: #00c758;
+    --red: #fb2c36;
+    --amber: #f99c00;
+    --blue: #3080ff;
   }
   :root[data-theme="light"] {
-    --bg: #FFFFFF;
-    --surface: #FAFAFA;
-    --surface-raised: #F4F4F5;
-    --surface-overlay: #E4E4E7;
-    --text-primary: #09090B;
-    --text-secondary: #71717A;
-    --text-muted: #A1A1AA;
-    --border: #E4E4E7;
-    --border-strong: #D4D4D8;
-    --primary: #18181B;
-    --primary-hover: #27272A;
-    --accent: #EA6C0A;
-    --error: #EF4444;
-    --warning: #D97706;
-    --success: #16A34A;
+    --bg: #fdfdfd;
+    --canvas: #f3f4f6;
+    --gray-2: #e9eaec;
+    --gray-3: #d1d5dc;
+    --gray-4: #c4c8d0;
+    --gray-9: #6a7282;
+    --gray-10: #4a5565;
+    --gray-11: #333333;
+    --gray-12: #191919;
+    --green: #00c758;
+    --green-solid: #016630;
+    --red: #e40014;
+    --amber: #d97706;
+    --blue: #155dfc;
   }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.5; }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-overlay); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-  .section { margin-bottom: 64px; }
-  .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: rgba(249,115,22,0.08); border-radius: 50%; filter: blur(40px); }
-  .hero-logo { margin-bottom: 20px; }
-  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-  .colors-group { margin-bottom: 32px; }
-  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .swatch { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 120ms; }
-  .swatch:hover { border-color: var(--border-strong); }
-  .swatch-block { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-overlay); border: 1px solid var(--border-strong); color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px; transition: transform 200ms; z-index: 1000; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
-  .type-sample { color: var(--text-primary); }
-  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .spec-pill { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px; background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .comp-card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn { font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 120ms; }
-  .btn-primary { background: var(--primary); color: var(--bg); }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); }
-  .btn-secondary:hover { background: var(--surface-overlay); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-  .btn-danger { background: var(--error); color: #fff; }
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'Geist', sans-serif; font-size: 13px; color: var(--text-primary); height: 32px; transition: border-color 120ms; width: 100%; }
-  .input::placeholder { color: var(--text-muted); }
-  .input:focus { outline: none; border-color: var(--primary); }
-  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px; }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .sample-card-title { font-size: 13px; font-weight: 600; }
-  .sample-card-meta { font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 12px; }
-  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--accent); border-radius: 2px; opacity: 0.7; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
-  .guardrails-heading.do { color: var(--success); }
-  .guardrails-heading.dont { color: var(--error); }
-  .guardrail-item { font-size: 13px; color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; background: var(--surface); }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
-  @media (max-width: 600px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--gray-12); font-size: 14px; line-height: 1.5; }
+
+  /* Toggle */
+  .toggle { position:fixed;top:16px;right:16px;background:var(--canvas);border:1px solid var(--gray-3);color:var(--gray-11);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
+  .toggle:hover { border-color:var(--gray-11); }
+  :root[data-theme="dark"] .icon-moon { display:none; }
+  :root[data-theme="light"] .icon-sun { display:none; }
+
+  /* Layout */
+  .container { max-width:1100px;margin:0 auto;padding:48px 24px 80px; }
+  .section { margin-bottom:64px; }
+  .section-title { font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-9);margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid var(--gray-3); }
+
+  /* Hero */
+  .hero { border:1px solid var(--gray-3);border-radius:8px;padding:56px 48px;margin-bottom:64px;background:var(--bg); }
+  .hero-logo { margin-bottom:28px; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+  .hero h1 { font-family:'ABC Favorit',ui-sans-serif,sans-serif;font-size:56px;font-weight:400;letter-spacing:-.02em;line-height:1.05;color:var(--gray-12);margin-bottom:16px; }
+  .hero p { font-family:'Domaine Display',serif;font-size:18px;font-weight:400;color:var(--gray-11);max-width:520px;line-height:1.6; }
+  .hero-actions { display:flex;gap:8px;margin-top:28px; }
+
+  /* Colors */
+  .colors-group { margin-bottom:28px; }
+  .colors-group-title { font-size:11px;font-weight:500;color:var(--gray-9);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px; }
+  .colors-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px; }
+  .swatch { background:var(--canvas);border:1px solid var(--gray-3);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color 120ms; }
+  .swatch:hover { border-color:var(--gray-11); }
+  .swatch-block { height:64px; }
+  .swatch-info { padding:8px 10px; }
+  .swatch-name { font-size:11px;font-weight:500;color:var(--gray-12); }
+  .swatch-hex { font-family:'Commit Mono',monospace;font-size:10px;color:var(--gray-10);margin-top:2px; }
+  .swatch-usage { font-size:10px;color:var(--gray-9);margin-top:2px; }
+
+  /* Toast */
+  .toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--gray-12);color:var(--bg);font-size:12px;padding:7px 14px;border-radius:6px;transition:transform 200ms;z-index:1000;pointer-events:none;font-family:'Commit Mono',monospace; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  /* Typography */
+  .type-group-label { font-size:11px;font-weight:500;color:var(--gray-9);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;margin-top:20px; }
+  .type-row { display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--gray-3); }
+  .type-row:last-child { border-bottom:none; }
+  .type-name { font-size:11px;font-family:'Commit Mono',monospace;color:var(--gray-9); }
+  .type-sample { color:var(--gray-12);min-width:0; }
+  .type-specs { display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end; }
+  .spec-pill { font-size:10px;font-family:'Commit Mono',monospace;padding:2px 5px;border-radius:3px;background:var(--gray-2);border:1px solid var(--gray-3);color:var(--gray-10);white-space:nowrap; }
+
+  /* Components */
+  .comp-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px; }
+  .comp-card { background:var(--canvas);border:1px solid var(--gray-3);border-radius:8px;padding:18px; }
+  .comp-card-title { font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gray-9);margin-bottom:14px; }
+
+  /* Buttons */
+  .btn-group { display:flex;flex-wrap:wrap;gap:6px; }
+  .btn { font-family:'Inter',sans-serif;font-size:13px;font-weight:500;padding:7px 14px;border-radius:6px;border:none;cursor:pointer;transition:background 120ms,opacity 120ms;line-height:1.2; }
+  .btn-primary { background:var(--gray-12);color:var(--bg); }
+  .btn-primary:hover { opacity:.85; }
+  .btn-secondary { background:transparent;color:var(--gray-12);border:1px solid var(--gray-3); }
+  .btn-secondary:hover { background:var(--gray-2); }
+  .btn-ghost { background:transparent;color:var(--gray-11); }
+  .btn-ghost:hover { background:var(--gray-2);color:var(--gray-12); }
+  .btn-danger { background:var(--red);color:#fff; }
+
+  /* Inputs */
+  .input-col { display:flex;flex-direction:column;gap:6px; }
+  .input { background:var(--gray-2);border:1px solid var(--gray-3);border-radius:6px;padding:7px 10px;font-family:'Inter',sans-serif;font-size:13px;color:var(--gray-12);height:34px;transition:border-color 120ms,box-shadow 120ms;width:100%; }
+  .input::placeholder { color:var(--gray-9); }
+  .input:focus { outline:none;border-color:var(--gray-11);box-shadow:0 0 0 2px rgba(240,240,240,.1); }
+  .input-mono { font-family:'Commit Mono',monospace;font-size:12px; }
+
+  /* Badges */
+  .badge-group { display:flex;flex-wrap:wrap;gap:5px; }
+  .badge { font-size:11px;font-weight:500;padding:2px 8px;border-radius:9999px;display:inline-flex;align-items:center;gap:4px; }
+  .bdot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+
+  /* Metrics */
+  .metric-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px; }
+  .metric { background:var(--canvas);border:1px solid var(--gray-3);border-radius:8px;padding:16px 18px; }
+  .metric-num { font-family:'ABC Favorit',sans-serif;font-size:28px;font-weight:400;color:var(--gray-12);line-height:1.1;margin-bottom:4px; }
+  .metric-label { font-size:11px;color:var(--gray-10);margin-bottom:6px; }
+  .metric-delta { font-size:11px;font-family:'Commit Mono',monospace; }
+  .delta-up { color:var(--green-solid); }
+  .delta-down { color:var(--red); }
+
+  /* Spacing */
+  .spacing-list { display:flex;flex-direction:column;gap:8px; }
+  .sp-row { display:flex;align-items:center;gap:10px; }
+  .sp-label { font-family:'Commit Mono',monospace;font-size:11px;color:var(--gray-9);width:72px;flex-shrink:0; }
+  .sp-bar-wrap { flex:1; }
+  .sp-bar { height:6px;background:var(--gray-12);border-radius:2px;opacity:.2; }
+  .sp-val { font-family:'Commit Mono',monospace;font-size:11px;color:var(--gray-10);width:32px;text-align:right; }
+
+  /* Guardrails */
+  .gr-grid { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+  .gr-col { display:flex;flex-direction:column;gap:6px; }
+  .gr-heading { font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px; }
+  .gr-heading.do { color:var(--green-solid); }
+  .gr-heading.dont { color:var(--red); }
+  .gr-item { font-size:12px;color:var(--gray-10);padding:7px 10px;border-radius:5px;background:var(--canvas);border:1px solid var(--gray-3); }
+
+  /* Signature: Email Logs */
+  .email-shell { background:var(--bg);border:1px solid var(--gray-3);border-radius:8px;overflow:hidden; }
+  .email-topbar { display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--gray-3);background:var(--canvas);flex-wrap:wrap;gap:8px; }
+  .email-breadcrumb { display:flex;align-items:center;gap:6px; }
+  .email-org { font-size:12px;color:var(--gray-10);font-family:'Commit Mono',monospace; }
+  .email-sep { color:var(--gray-3);margin:0 2px; }
+  .email-page { font-size:13px;font-weight:500;color:var(--gray-12); }
+  .email-actions { display:flex;align-items:center;gap:6px; }
+  .email-search { background:var(--gray-2);border:1px solid var(--gray-3);border-radius:5px;padding:4px 8px;font-family:'Inter',sans-serif;font-size:12px;color:var(--gray-12);height:28px;width:180px;transition:border-color 120ms; }
+  .email-search::placeholder { color:var(--gray-9); }
+  .email-search:focus { outline:none;border-color:var(--gray-11); }
+  .send-btn { font-family:'ABC Favorit',sans-serif;font-size:12px;font-weight:500;padding:5px 12px;background:var(--gray-12);color:var(--bg);border:none;border-radius:5px;cursor:pointer;transition:opacity 120ms;white-space:nowrap; }
+  .send-btn:hover { opacity:.85; }
+  .send-btn:active { transform:scale(.97); }
+  .email-filters { display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--gray-3);background:var(--canvas); }
+  .filter-tab { font-size:12px;color:var(--gray-10);padding:9px 12px;border-bottom:2px solid transparent;cursor:pointer;transition:color 120ms,border-color 120ms;white-space:nowrap;user-select:none; }
+  .filter-tab:hover { color:var(--gray-12); }
+  .filter-tab.active { color:var(--gray-12);border-bottom-color:var(--gray-12); }
+  .tab-count { font-family:'Commit Mono',monospace;font-size:10px;background:var(--gray-3);color:var(--gray-10);padding:1px 5px;border-radius:9999px;margin-left:4px; }
+  .filter-tab.active .tab-count { background:var(--gray-4);color:var(--gray-12); }
+  .email-table { width:100%;border-collapse:collapse; }
+  .email-table th { font-size:10px;font-weight:600;color:var(--gray-9);letter-spacing:.07em;text-transform:uppercase;padding:8px 16px;text-align:left;border-bottom:1px solid var(--gray-3);background:var(--canvas); }
+  .email-table td { padding:11px 16px;border-bottom:1px solid var(--gray-3);vertical-align:middle; }
+  .email-table tr:last-child td { border-bottom:none; }
+  .email-table tbody tr { transition:background 80ms;cursor:default; }
+  .email-table tbody tr:hover td { background:var(--gray-2); }
+  .email-table tbody tr.hidden { display:none; }
+  .email-table tbody tr.new-row { animation:slideIn .22s ease; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+  .log-to { font-family:'Commit Mono',monospace;font-size:12px;color:var(--gray-12); }
+  .log-subject { font-size:13px;color:var(--gray-11); }
+  .log-time { font-family:'Commit Mono',monospace;font-size:11px;color:var(--gray-9);white-space:nowrap; }
+  .log-id { font-family:'Commit Mono',monospace;font-size:10px;color:var(--gray-9); }
+  .log-status { display:flex;align-items:center;gap:6px; }
+  .sdot { width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block; }
+  .s-delivered { background:var(--green-solid); }
+  .s-opened { background:var(--green);box-shadow:0 0 0 2px rgba(98,255,179,.2); }
+  .s-bounced { background:var(--red); }
+  .s-pending { background:var(--amber); }
+  .email-footer { display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--canvas);border-top:1px solid var(--gray-3); }
+  .footer-stat { font-family:'Commit Mono',monospace;font-size:11px;color:var(--gray-9); }
+  .footer-api { font-family:'Commit Mono',monospace;font-size:11px;color:var(--blue); }
+
+  @media (max-width:640px) {
+    .gr-grid { grid-template-columns:1fr; }
+    .type-row { grid-template-columns:90px 1fr; }
+    .type-specs { display:none; }
+    .hero { padding:32px 20px; }
+    .hero h1 { font-size:36px; }
+    .metric-grid { grid-template-columns:1fr 1fr; }
+    .email-search { width:120px; }
+  }
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
+
+<div class="toast" id="toast"></div>
 <div class="container">
 
+  <!-- Hero -->
   <div class="hero">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100" height="100" rx="20" fill="#111111"/>
-        <path d="M22 32 L22 68 L34 68 L34 56 L58 56 Q72 56 72 44 Q72 32 58 32 Z M34 32 L34 46 L56 46 Q60 46 60 44 Q60 42 56 42 L34 42" fill="#EDEDED"/>
-      </svg>
+      <svg role="img" aria-label="Resend" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 377 81" fill="none" width="120" style="color:var(--gray-12)"><path fill="currentColor" d="M103.704 22.537c17.023 0 29.411 11.829 28.532 33.327H90.781c1.548 5.975 5.684 11.109 13.963 11.109 4.635 0 8.871-1.279 12.068-5.275h14.306l-.241 1.279C128.4 73.926 115.932 80 104.744 80c-17.743 0-29.65-11.988-29.65-28.691 0-16.704 11.907-28.772 28.61-28.772Zm119.96 0c17.103 0 29.411 11.829 28.612 33.327H210.81c1.529 5.975 5.635 11.109 13.974 11.109 4.635 0 8.871-1.279 11.988-5.275h14.386l-.241 1.279C248.44 73.926 235.972 80 224.784 80c-17.743 0-29.651-11.988-29.651-28.691 0-16.704 11.908-28.772 28.531-28.772Zm-60.978-.32c12.627 0 23.736 4.556 26.933 15.745l.32 1.2h-15.744c-3.357-4.157-7.833-4.717-11.509-4.717-3.437 0-8.871.88-8.871 4.237 0 3.116 3.596 4.155 6.713 4.554l9.111.96c14.465 1.278 20.859 6.953 20.859 18.062 0 12.787-12.707 17.582-25.254 17.582-12.548 0-25.576-5.594-28.053-16.943l-.239-1.199h16.143c2.237 6.392 12.542 5.915 12.149 5.914 6.073 0 9.829-1.838 9.83-4.795 0-1.918-.64-4.156-6.873-4.955l-9.511-.959c-12.548-.879-20.14-7.512-20.14-17.422 0-12.148 11.509-17.263 24.136-17.263Zm214.185 56.184h-15.504l.799-7.752c-2.157 4.636-9.111 9.19-17.822 9.19-14.385 0-26.054-11.028-26.054-28.45 0-17.423 11.509-28.452 26.054-28.452 7.912 0 12.787 2.557 17.103 6.953V0h15.424v78.401ZM48.081 0c15.184 0 24.215 9.03 24.215 21.019 0 11.988-9.03 21.019-24.216 21.02h-7.672L78.53 78.4H51.597L22.587 50.83c-2.079-1.918-3.038-4.156-3.038-6.074 0-2.717 1.918-5.114 5.594-6.153l14.945-3.996c5.674-1.519 9.59-5.915 9.591-11.669 0-7.032-5.754-11.109-12.867-11.109H.128V0H48.08Zm241.677 22.617c13.587 0 23.098 9.91 23.098 24.056V78.4h-15.505v-29.09c0-7.992-4.236-12.788-11.748-12.788-7.513 0-12.388 4.955-12.388 12.787v29.091h-15.184V23.736h15.423l-.718 8.711c2.238-4.395 9.19-9.83 17.022-9.83Zm58.262 13.906c-9.35 0-14.306 6.954-14.306 14.866 0 8.471 5.595 14.945 14.306 14.945 8.391 0 13.826-6.554 13.826-14.945 0-8.392-5.275-14.866-13.826-14.866Zm-244.316-1.598c-7.554 0-11.871 4.512-13.21 10.55h26.148a24.052 24.052 0 0 0-.63-2.239c-1.918-5.434-6.394-8.311-12.308-8.311Zm119.96 0c-7.489 0-11.793 4.512-13.13 10.55h26.148a24.052 24.052 0 0 0-.63-2.239c-1.918-5.434-6.394-8.311-12.388-8.311Z"/></svg>
     </div>
-    <h1>Resend</h1>
-    <p>Email for developers — a clean, minimal email API platform with an elegant dark-first dashboard.</p>
+    <h1>Email for<br>developers</h1>
+    <p>The best way to reach humans instead of spam folders. Deliver transactional and marketing emails at scale.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary">Get started</button>
+      <button class="btn btn-secondary">Documentation</button>
+    </div>
   </div>
 
+  <!-- Colors -->
   <div class="section">
     <div class="section-title">Colors</div>
     <div class="colors-group">
-      <div class="colors-group-title">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-block" style="background:#FFFFFF;border:1px solid #2E2E2E"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">CTAs, active states</div></div></div>
-        <div class="swatch" onclick="copyHex('#F97316', this)"><div class="swatch-block" style="background:#F97316"></div><div class="swatch-info"><div class="swatch-name">accent</div><div class="swatch-hex">#F97316</div><div class="swatch-usage">Email metrics, highlights</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
       <div class="colors-group-title">Surfaces</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#08090A', this)"><div class="swatch-block" style="background:#08090A;border:1px solid #1F1F1F"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#08090A</div><div class="swatch-usage">App background</div></div></div>
-        <div class="swatch" onclick="copyHex('#111111', this)"><div class="swatch-block" style="background:#111111"></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#111111</div><div class="swatch-usage">Cards, panels</div></div></div>
-        <div class="swatch" onclick="copyHex('#1A1A1A', this)"><div class="swatch-block" style="background:#1A1A1A"></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#1A1A1A</div><div class="swatch-usage">Elevated surfaces</div></div></div>
-        <div class="swatch" onclick="copyHex('#232323', this)"><div class="swatch-block" style="background:#232323"></div><div class="swatch-info"><div class="swatch-name">surface-overlay</div><div class="swatch-hex">#232323</div><div class="swatch-usage">Modals, tooltips</div></div></div>
+        <div class="swatch" onclick="copyHex('#000000')"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#000000</div><div class="swatch-usage">Page bg (dark-first)</div></div></div>
+        <div class="swatch" onclick="copyHex('#141517')"><div class="swatch-block" style="background:#141517"></div><div class="swatch-info"><div class="swatch-name">canvas</div><div class="swatch-hex">#141517</div><div class="swatch-usage">Cards, panels</div></div></div>
+        <div class="swatch" onclick="copyHex('#1b1b1b')"><div class="swatch-block" style="background:#1b1b1b"></div><div class="swatch-info"><div class="swatch-name">gray-2</div><div class="swatch-hex">#1b1b1b</div><div class="swatch-usage">Input bg, hover fills</div></div></div>
+        <div class="swatch" onclick="copyHex('#2a2a2a')"><div class="swatch-block" style="background:#2a2a2a"></div><div class="swatch-info"><div class="swatch-name">gray-3</div><div class="swatch-hex">#2a2a2a</div><div class="swatch-usage">Borders, dividers</div></div></div>
       </div>
     </div>
     <div class="colors-group">
       <div class="colors-group-title">Text</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#EDEDED', this)"><div class="swatch-block" style="background:#EDEDED"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#EDEDED</div><div class="swatch-usage">Primary text</div></div></div>
-        <div class="swatch" onclick="copyHex('#888888', this)"><div class="swatch-block" style="background:#888888"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#888888</div><div class="swatch-usage">Supporting text</div></div></div>
-        <div class="swatch" onclick="copyHex('#555555', this)"><div class="swatch-block" style="background:#555555"></div><div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#555555</div><div class="swatch-usage">Placeholders</div></div></div>
+        <div class="swatch" onclick="copyHex('#f0f0f0')"><div class="swatch-block" style="background:#f0f0f0"></div><div class="swatch-info"><div class="swatch-name">gray-12</div><div class="swatch-hex">#f0f0f0</div><div class="swatch-usage">Primary text</div></div></div>
+        <div class="swatch" onclick="copyHex('#a1a4a5')"><div class="swatch-block" style="background:#a1a4a5"></div><div class="swatch-info"><div class="swatch-name">gray-11</div><div class="swatch-hex">#a1a4a5</div><div class="swatch-usage">Secondary text</div></div></div>
+        <div class="swatch" onclick="copyHex('#878d8f')"><div class="swatch-block" style="background:#878d8f"></div><div class="swatch-info"><div class="swatch-name">gray-10</div><div class="swatch-hex">#878d8f</div><div class="swatch-usage">Muted text</div></div></div>
+        <div class="swatch" onclick="copyHex('#6e7679')"><div class="swatch-block" style="background:#6e7679"></div><div class="swatch-info"><div class="swatch-name">gray-9</div><div class="swatch-hex">#6e7679</div><div class="swatch-usage">Placeholders, labels</div></div></div>
       </div>
     </div>
     <div class="colors-group">
-      <div class="colors-group-title">Semantic</div>
+      <div class="colors-group-title">Status &amp; Accent</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#EF4444', this)"><div class="swatch-block" style="background:#EF4444"></div><div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#EF4444</div><div class="swatch-usage">Bounced, errors</div></div></div>
-        <div class="swatch" onclick="copyHex('#EAB308', this)"><div class="swatch-block" style="background:#EAB308"></div><div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#EAB308</div><div class="swatch-usage">Warnings</div></div></div>
-        <div class="swatch" onclick="copyHex('#22C55E', this)"><div class="swatch-block" style="background:#22C55E"></div><div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#22C55E</div><div class="swatch-usage">Delivered</div></div></div>
+        <div class="swatch" onclick="copyHex('#62FFB3')"><div class="swatch-block" style="background:#62FFB3"></div><div class="swatch-info"><div class="swatch-name">green-bright</div><div class="swatch-hex">#62FFB3</div><div class="swatch-usage">Brand green, opened</div></div></div>
+        <div class="swatch" onclick="copyHex('#00c758')"><div class="swatch-block" style="background:#00c758"></div><div class="swatch-info"><div class="swatch-name">green-solid</div><div class="swatch-hex">#00c758</div><div class="swatch-usage">Delivered, success</div></div></div>
+        <div class="swatch" onclick="copyHex('#fb2c36')"><div class="swatch-block" style="background:#fb2c36"></div><div class="swatch-info"><div class="swatch-name">red</div><div class="swatch-hex">#fb2c36</div><div class="swatch-usage">Bounced, errors</div></div></div>
+        <div class="swatch" onclick="copyHex('#f99c00')"><div class="swatch-block" style="background:#f99c00"></div><div class="swatch-info"><div class="swatch-name">amber</div><div class="swatch-hex">#f99c00</div><div class="swatch-usage">Pending, warning</div></div></div>
+        <div class="swatch" onclick="copyHex('#3080ff')"><div class="swatch-block" style="background:#3080ff"></div><div class="swatch-info"><div class="swatch-name">blue</div><div class="swatch-hex">#3080ff</div><div class="swatch-usage">Links, info</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- Typography -->
   <div class="section">
     <div class="section-title">Typography</div>
-    <div class="type-row"><div class="type-name">heading-lg</div><div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-0.02em;">Email infrastructure</div><div class="type-specs"><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div></div>
-    <div class="type-row"><div class="type-name">heading-md</div><div class="type-sample" style="font-size:16px;font-weight:600;letter-spacing:-0.02em;">Recent deliveries</div><div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">body</div><div class="type-sample" style="font-size:14px;font-weight:400;">Send transactional and marketing emails with a simple API</div><div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">body-sm</div><div class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary);">12,847 emails sent in the last 24 hours</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">caption</div><div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-muted);">2 minutes ago</div><div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">code</div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--accent);">re_123abc · hello@example.com</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div></div>
+
+    <div class="type-group-label">ABC Favorit — Display</div>
+    <div class="type-row">
+      <div class="type-name">display</div>
+      <div class="type-sample" style="font-family:'ABC Favorit',sans-serif;font-size:56px;font-weight:400;letter-spacing:-.02em;line-height:1.05;">Email for developers</div>
+      <div class="type-specs"><span class="spec-pill">56px</span><span class="spec-pill">400</span><span class="spec-pill">Favorit</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-lg</div>
+      <div class="type-sample" style="font-family:'ABC Favorit',sans-serif;font-size:32px;font-weight:400;letter-spacing:-.01em;">Reach humans, not spam folders</div>
+      <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">400</span><span class="spec-pill">Favorit</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-md</div>
+      <div class="type-sample" style="font-family:'ABC Favorit',sans-serif;font-size:20px;font-weight:500;">First-class developer experience</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">500</span><span class="spec-pill">Favorit</span></div>
+    </div>
+
+    <div class="type-group-label" style="margin-top:24px;">Domaine Display — Editorial</div>
+    <div class="type-row">
+      <div class="type-name">editorial</div>
+      <div class="type-sample" style="font-family:'Domaine Display',serif;font-size:24px;font-weight:400;line-height:1.5;color:var(--gray-11);">We are a team of engineers who love building tools for other engineers. Our goal is to create the email platform we've always wished we had — one that just works.</div>
+      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">400</span><span class="spec-pill">Domaine</span></div>
+    </div>
+
+    <div class="type-group-label" style="margin-top:24px;">Inter — UI</div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400;">A simple, elegant interface so you can start sending emails in minutes. It fits right into your code with SDKs for your favorite programming languages.</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">caption</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--gray-10);">Receive real-time notifications directly to your server.</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+
+    <div class="type-group-label" style="margin-top:24px;">Commit Mono — Code</div>
+    <div class="type-row">
+      <div class="type-name">code</div>
+      <div class="type-sample" style="font-family:'Commit Mono',monospace;font-size:13px;color:var(--green);">re_BvXc8K2mP5nNqLwT_9fJhRdYsEoGaUiZ3</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">code-italic</div>
+      <div class="type-sample" style="font-family:'Commit Mono',monospace;font-size:13px;font-style:italic;color:var(--gray-10);">// powered by react-email — open source</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">italic</span><span class="spec-pill">mono</span></div>
+    </div>
   </div>
 
+  <!-- Components -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="components-grid">
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-num">12,847</div>
+        <div class="metric-label">Emails sent</div>
+        <div class="metric-delta delta-up">↑ 8.3% vs yesterday</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">99.4%</div>
+        <div class="metric-label">Delivery rate</div>
+        <div class="metric-delta delta-up">↑ 0.2%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">43.1%</div>
+        <div class="metric-label">Open rate</div>
+        <div class="metric-delta delta-down">↓ 1.4%</div>
+      </div>
+    </div>
+
+    <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-card-title">Buttons</div>
         <div class="btn-group">
-          <button class="btn btn-primary">Send Email</button>
-          <button class="btn btn-secondary">Settings</button>
+          <button class="btn btn-primary">Get started</button>
+          <button class="btn btn-secondary">Contact us</button>
           <button class="btn btn-ghost">Cancel</button>
-          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger">Revoke key</button>
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <input class="input" type="text" placeholder="from@example.com">
-          <input class="input" type="text" placeholder="Subject line" style="border-color:var(--primary);">
+        <div class="input-col">
+          <input class="input" type="text" placeholder="you@yourcompany.com">
+          <input class="input input-mono" type="text" value="re_BvXc8K2mP5nN..." placeholder="re_...">
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
+        <div class="comp-card-title">Status Badges</div>
         <div class="badge-group">
-          <span class="badge" style="background:rgba(34,197,94,0.15);color:#22C55E;"><span class="badge-dot" style="background:#22C55E"></span>Delivered</span>
-          <span class="badge" style="background:rgba(239,68,68,0.15);color:#EF4444;"><span class="badge-dot" style="background:#EF4444"></span>Bounced</span>
-          <span class="badge" style="background:rgba(234,179,8,0.15);color:#EAB308;"><span class="badge-dot" style="background:#EAB308"></span>Pending</span>
-          <span class="badge" style="background:rgba(249,115,22,0.15);color:#F97316;"><span class="badge-dot" style="background:#F97316"></span>Opened</span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Email Log</div>
-        <div class="sample-card">
-          <div class="sample-card-header">
-            <div class="sample-card-title">Welcome to Acme</div>
-            <span class="badge" style="background:rgba(34,197,94,0.15);color:#22C55E;font-size:11px;">Delivered</span>
-          </div>
-          <div class="sample-card-meta">to: user@example.com · 3m ago</div>
+          <span class="badge" style="background:rgba(0,199,88,.12);color:#00c758;"><span class="bdot" style="background:#00c758"></span>Delivered</span>
+          <span class="badge" style="background:rgba(98,255,179,.12);color:#62FFB3;"><span class="bdot s-opened"></span>Opened</span>
+          <span class="badge" style="background:rgba(251,44,54,.12);color:#fb2c36;"><span class="bdot" style="background:#fb2c36"></span>Bounced</span>
+          <span class="badge" style="background:rgba(249,156,0,.12);color:#f99c00;"><span class="bdot" style="background:#f99c00"></span>Pending</span>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Spacing -->
   <div class="section">
     <div class="section-title">Spacing</div>
     <div class="spacing-list">
-      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/32*100%)"></div></div><div class="spacing-val">4px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/32*100%)"></div></div><div class="spacing-val">8px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/32*100%)"></div></div><div class="spacing-val">12px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/32*100%)"></div></div><div class="spacing-val">16px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/32*100%)"></div></div><div class="spacing-val">20px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/32*100%)"></div></div><div class="spacing-val">24px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">32px</div></div>
+      <div class="sp-row"><div class="sp-label">space-1</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:12.5%"></div></div><div class="sp-val">4px</div></div>
+      <div class="sp-row"><div class="sp-label">space-2</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:25%"></div></div><div class="sp-val">8px</div></div>
+      <div class="sp-row"><div class="sp-label">space-3</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:37.5%"></div></div><div class="sp-val">12px</div></div>
+      <div class="sp-row"><div class="sp-label">space-4</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:50%"></div></div><div class="sp-val">16px</div></div>
+      <div class="sp-row"><div class="sp-label">space-5</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:62.5%"></div></div><div class="sp-val">20px</div></div>
+      <div class="sp-row"><div class="sp-label">space-6</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:75%"></div></div><div class="sp-val">24px</div></div>
+      <div class="sp-row"><div class="sp-label">space-8</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:100%"></div></div><div class="sp-val">32px</div></div>
     </div>
   </div>
 
+  <!-- Signature: Interactive Email Logs -->
+  <div class="section">
+    <div class="section-title">Signature — Email Logs</div>
+    <div class="email-shell">
+
+      <div class="email-topbar">
+        <div class="email-breadcrumb">
+          <span class="email-org">acme-corp</span>
+          <span class="email-sep">/</span>
+          <span class="email-page">Emails</span>
+        </div>
+        <div class="email-actions">
+          <input class="email-search" type="text" placeholder="Search emails..." oninput="filterSearch(this.value)">
+          <button class="send-btn" onclick="sendTestEmail()">+ Send test</button>
+        </div>
+      </div>
+
+      <div class="email-filters">
+        <div class="filter-tab active" onclick="filterStatus('all',this)">All <span class="tab-count" id="count-all">7</span></div>
+        <div class="filter-tab" onclick="filterStatus('delivered',this)">Delivered <span class="tab-count" id="count-delivered">3</span></div>
+        <div class="filter-tab" onclick="filterStatus('opened',this)">Opened <span class="tab-count" id="count-opened">2</span></div>
+        <div class="filter-tab" onclick="filterStatus('bounced',this)">Bounced <span class="tab-count" id="count-bounced">1</span></div>
+        <div class="filter-tab" onclick="filterStatus('pending',this)">Pending <span class="tab-count" id="count-pending">1</span></div>
+      </div>
+
+      <table class="email-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>To</th>
+            <th>Subject</th>
+            <th>Email ID</th>
+            <th>Sent</th>
+          </tr>
+        </thead>
+        <tbody id="email-log">
+          <tr data-status="opened">
+            <td><div class="log-status"><span class="sdot s-opened"></span><span class="badge" style="background:rgba(98,255,179,.1);color:#62FFB3;font-size:10px;">Opened</span></div></td>
+            <td><span class="log-to">founders@ycombinator.com</span></td>
+            <td><span class="log-subject">Welcome to Resend — get started in 5 min</span></td>
+            <td><span class="log-id">email_01jx9k2p</span></td>
+            <td><span class="log-time">2s ago</span></td>
+          </tr>
+          <tr data-status="delivered">
+            <td><div class="log-status"><span class="sdot s-delivered"></span><span class="badge" style="background:rgba(0,199,88,.1);color:#00c758;font-size:10px;">Delivered</span></div></td>
+            <td><span class="log-to">zeno@planetscale.com</span></td>
+            <td><span class="log-subject">Your weekly digest is ready</span></td>
+            <td><span class="log-id">email_01jx8m7n</span></td>
+            <td><span class="log-time">1 min ago</span></td>
+          </tr>
+          <tr data-status="delivered">
+            <td><div class="log-status"><span class="sdot s-delivered"></span><span class="badge" style="background:rgba(0,199,88,.1);color:#00c758;font-size:10px;">Delivered</span></div></td>
+            <td><span class="log-to">team@vercel.com</span></td>
+            <td><span class="log-subject">Deploy succeeded — production</span></td>
+            <td><span class="log-id">email_01jx7q4r</span></td>
+            <td><span class="log-time">4 min ago</span></td>
+          </tr>
+          <tr data-status="bounced">
+            <td><div class="log-status"><span class="sdot s-bounced"></span><span class="badge" style="background:rgba(251,44,54,.1);color:#fb2c36;font-size:10px;">Bounced</span></div></td>
+            <td><span class="log-to">noreply@invalid-domain.xyz</span></td>
+            <td><span class="log-subject">Password reset request</span></td>
+            <td><span class="log-id">email_01jx6h3m</span></td>
+            <td><span class="log-time">12 min ago</span></td>
+          </tr>
+          <tr data-status="opened">
+            <td><div class="log-status"><span class="sdot s-opened"></span><span class="badge" style="background:rgba(98,255,179,.1);color:#62FFB3;font-size:10px;">Opened</span></div></td>
+            <td><span class="log-to">ali@linear.app</span></td>
+            <td><span class="log-subject">Issue assigned to you: ENG-4821</span></td>
+            <td><span class="log-id">email_01jx5b9w</span></td>
+            <td><span class="log-time">18 min ago</span></td>
+          </tr>
+          <tr data-status="pending">
+            <td><div class="log-status"><span class="sdot s-pending"></span><span class="badge" style="background:rgba(249,156,0,.1);color:#f99c00;font-size:10px;">Pending</span></div></td>
+            <td><span class="log-to">billing@stripe.com</span></td>
+            <td><span class="log-subject">Invoice #INV-2847 — $49.00 due</span></td>
+            <td><span class="log-id">email_01jx4z2k</span></td>
+            <td><span class="log-time">34 min ago</span></td>
+          </tr>
+          <tr data-status="delivered">
+            <td><div class="log-status"><span class="sdot s-delivered"></span><span class="badge" style="background:rgba(0,199,88,.1);color:#00c758;font-size:10px;">Delivered</span></div></td>
+            <td><span class="log-to">hello@liveblocks.io</span></td>
+            <td><span class="log-subject">New comment on "API design doc"</span></td>
+            <td><span class="log-id">email_01jx3n8p</span></td>
+            <td><span class="log-time">51 min ago</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="email-footer">
+        <span class="footer-stat" id="footer-stat">7 emails</span>
+        <span class="footer-api">resend.emails.list({ limit: 50 })</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guardrails -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrails-col">
-        <div class="guardrails-heading do">DO</div>
-        <div class="guardrail-item do">Keep the UI near-monochrome — color only for status</div>
-        <div class="guardrail-item do">Use orange accent for engagement metrics (opens, clicks)</div>
-        <div class="guardrail-item do">Use monospace for all email addresses, IDs, API keys</div>
-        <div class="guardrail-item do">Prioritize delivery status visibility</div>
+    <div class="gr-grid">
+      <div class="gr-col">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-item">Keep UI near-monochrome — color serves status signals only</div>
+        <div class="gr-item">Use Commit Mono for all email addresses, API keys, IDs, and webhook endpoints</div>
+        <div class="gr-item">Use ABC Favorit for headings; Domaine Display for editorial prose moments</div>
+        <div class="gr-item">Prioritize delivery status visibility — it's the core product metric</div>
       </div>
-      <div class="guardrails-col">
-        <div class="guardrails-heading dont">DON'T</div>
-        <div class="guardrail-item dont">Add decorative gradients or illustrations</div>
-        <div class="guardrail-item dont">Use more than 3 colors on a single screen</div>
-        <div class="guardrail-item dont">Use light mode as default — dark is primary</div>
-        <div class="guardrail-item dont">Round corners above 8px</div>
+      <div class="gr-col">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-item">Add decorative gradients or illustrations — the product is the hero</div>
+        <div class="gr-item">Use orange/warm accents — Resend's only brand color is #62FFB3 green</div>
+        <div class="gr-item">Default to light mode — dark (#000) is the primary Resend experience</div>
+        <div class="gr-item">Expose raw bounce codes — translate to plain-language delivery messages</div>
       </div>
     </div>
   </div>
 
 </div>
+
 <script>
+var currentFilter = 'all';
+var searchQuery = '';
+var testIdx = 0;
+
+var testPool = [
+  { to: 'test@example.com',    subject: 'Test email from Resend API',    status: 'delivered' },
+  { to: 'user@company.io',     subject: 'Confirm your email address',    status: 'pending'   },
+  { to: 'dev@startup.co',      subject: 'Your API key is ready',         status: 'opened'    },
+  { to: 'admin@domain.com',    subject: 'New team member joined',        status: 'delivered' },
+  { to: 'contact@agency.dev',  subject: 'Monthly report attached',       status: 'bounced'   },
+];
+
+var statusCfg = {
+  delivered: { cls:'s-delivered', color:'#00c758', bg:'rgba(0,199,88,.1)',   label:'Delivered' },
+  opened:    { cls:'s-opened',    color:'#62FFB3', bg:'rgba(98,255,179,.1)', label:'Opened'    },
+  pending:   { cls:'s-pending',   color:'#f99c00', bg:'rgba(249,156,0,.1)',  label:'Pending'   },
+  bounced:   { cls:'s-bounced',   color:'#fb2c36', bg:'rgba(251,44,54,.1)',  label:'Bounced'   },
+};
+
+function genId() {
+  return 'email_01' + Math.random().toString(36).slice(2, 10);
+}
+
+function sendTestEmail() {
+  var tbody = document.getElementById('email-log');
+  var rows = tbody.querySelectorAll('tr');
+  if (rows.length >= 20) {
+    showToast('Log limit reached (20 max)');
+    return;
+  }
+  var tpl = testPool[testIdx % testPool.length];
+  testIdx++;
+  var s = statusCfg[tpl.status];
+  var tr = document.createElement('tr');
+  tr.dataset.status = tpl.status;
+  tr.className = 'new-row';
+  tr.innerHTML =
+    '<td><div class="log-status"><span class="sdot ' + s.cls + '"></span>' +
+    '<span class="badge" style="background:' + s.bg + ';color:' + s.color + ';font-size:10px;">' + s.label + '</span></div></td>' +
+    '<td><span class="log-to">' + tpl.to + '</span></td>' +
+    '<td><span class="log-subject">' + tpl.subject + '</span></td>' +
+    '<td><span class="log-id">' + genId() + '</span></td>' +
+    '<td><span class="log-time">just now</span></td>';
+  tbody.insertBefore(tr, tbody.firstChild);
+  applyFilter();
+  updateCounts();
+  showToast('Queued → ' + tpl.to);
+}
+
+function filterStatus(status, tab) {
+  currentFilter = status;
+  document.querySelectorAll('.filter-tab').forEach(function(t) { t.classList.remove('active'); });
+  tab.classList.add('active');
+  applyFilter();
+}
+
+function filterSearch(val) {
+  searchQuery = val.toLowerCase();
+  applyFilter();
+}
+
+function applyFilter() {
+  var rows = document.querySelectorAll('#email-log tr');
+  var visible = 0;
+  rows.forEach(function(row) {
+    var matchStatus = currentFilter === 'all' || row.dataset.status === currentFilter;
+    var matchSearch = !searchQuery || row.textContent.toLowerCase().indexOf(searchQuery) !== -1;
+    var show = matchStatus && matchSearch;
+    row.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('footer-stat').textContent = visible + ' email' + (visible !== 1 ? 's' : '');
+}
+
+function updateCounts() {
+  var rows = document.querySelectorAll('#email-log tr');
+  var counts = { all: 0, delivered: 0, opened: 0, bounced: 0, pending: 0 };
+  rows.forEach(function(r) {
+    counts.all++;
+    if (counts[r.dataset.status] !== undefined) counts[r.dataset.status]++;
+  });
+  Object.keys(counts).forEach(function(k) {
+    var el = document.getElementById('count-' + k);
+    if (el) el.textContent = counts[k];
+  });
+}
+
 function copyHex(hex) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = 'Copied ' + hex;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  navigator.clipboard.writeText(hex).catch(function() {});
+  showToast('Copied ' + hex);
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, 2000);
 }
 </script>
 </body>
