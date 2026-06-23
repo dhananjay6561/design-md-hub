@@ -1,6 +1,6 @@
 # Notion Design System
 
-**Notion** — a calm, newspaper-like productivity workspace where structured content always takes center stage.
+**Notion** — the AI workspace where content always takes center stage.
 
 ---
 
@@ -132,7 +132,7 @@ Notion uses its own distribution of **Inter** (called *Notion Inter*) as the exc
 |---|---|
 | Default | `"Notion Inter", Inter, -apple-system, BlinkMacSystemFont, sans-serif` |
 | Serif | `"Notion Serif", Georgia, "Times New Roman", serif` |
-| Mono | `"Notion Mono", "SFMono-Regular", Consolas, "Liberation Mono", Courier, monospace` |
+| Mono | `"Notion Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace` |
 
 ### Type Scale
 
