@@ -1,263 +1,725 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-v2-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Infisical Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root[data-theme="dark"] {
-    --bg: #0D0D0F;
-    --surface: #18181B;
-    --surface-raised: #232326;
-    --surface-overlay: #2C2C30;
-    --text-primary: #F4F4F5;
-    --text-secondary: #A1A1AA;
-    --text-muted: #71717A;
-    --border: #27272A;
-    --border-strong: #3F3F46;
-    --primary: #FFDE00;
-    --primary-hover: #F5D000;
-    --primary-dim: rgba(255,222,0,0.10);
-    --error: #F87171;
-    --warning: #FB923C;
-    --success: #4ADE80;
-  }
-  :root[data-theme="light"] {
-    --bg: #FFFFFF;
-    --surface: #FAFAFA;
-    --surface-raised: #F4F4F5;
-    --surface-overlay: #E4E4E7;
-    --text-primary: #09090B;
-    --text-secondary: #71717A;
-    --text-muted: #A1A1AA;
-    --border: #E4E4E7;
-    --border-strong: #D4D4D8;
-    --primary: #D4B800;
-    --primary-hover: #C4A800;
-    --primary-dim: rgba(212,184,0,0.10);
-    --error: #EF4444;
-    --warning: #F97316;
-    --success: #22C55E;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.5; }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-overlay); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-  .section { margin-bottom: 64px; }
-  .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: var(--primary-dim); border-radius: 50%; filter: blur(40px); }
-  .hero-logo { margin-bottom: 20px; }
-  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-  .colors-group { margin-bottom: 32px; }
-  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .swatch { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 120ms; }
-  .swatch:hover { border-color: var(--border-strong); }
-  .swatch-block { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-overlay); border: 1px solid var(--border-strong); color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px; transition: transform 200ms; z-index: 1000; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
-  .type-sample { color: var(--text-primary); }
-  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .spec-pill { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px; background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .comp-card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 120ms; }
-  .btn-primary { background: var(--primary); color: #0D0D0F; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); font-weight: 500; }
-  .btn-secondary:hover { background: var(--surface-overlay); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); font-weight: 500; }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-  .btn-danger { background: var(--error); color: #fff; }
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-primary); height: 32px; transition: border-color 120ms; width: 100%; }
-  .input::placeholder { color: var(--text-muted); font-family: 'Space Grotesk', sans-serif; }
-  .input:focus { outline: none; border-color: var(--primary); }
-  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .sample-card-title { font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
-  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 12px; }
-  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
-  .guardrails-heading.do { color: var(--success); }
-  .guardrails-heading.dont { color: var(--error); }
-  .guardrail-item { font-size: 13px; color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; background: var(--surface); }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
-  @media (max-width: 600px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+@font-face {
+  font-family: 'AllianceNo2';
+  src: url('https://infisical.com/_next/static/media/1ffe07d363e628e4-s.p.otf') format('opentype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root[data-v2-theme="light"] {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --border: #eaeaea;
+  --frame: #d1d1d1;
+  --text: #000000;
+  --text-muted: rgba(38,38,38,0.45);
+  --text-subtle: #737373;
+  --volt: #f5f841;
+  --volt-dim: rgba(245,248,65,.18);
+  --void: #000000;
+  --accent-green: #56a600;
+  --accent-green-dim: rgba(86,166,0,.12);
+  --tint: #c3c3c3;
+  --input-bg: #ffffff;
+  --toggle-icon: '☀️';
+  --logo-fill: #0D0F12;
+}
+:root[data-v2-theme="dark"] {
+  --bg: #0e0e11;
+  --surface: #131316;
+  --border: #1d1d22;
+  --frame: #2a2a30;
+  --text: #e4e4e7;
+  --text-muted: rgba(228,228,231,0.5);
+  --text-subtle: #a1a1aa;
+  --volt: #c2d72a;
+  --volt-dim: rgba(194,215,42,.14);
+  --void: #000000;
+  --accent-green: #6dbc00;
+  --accent-green-dim: rgba(109,188,0,.14);
+  --tint: #2a2a30;
+  --input-bg: #1a1a1f;
+  --toggle-icon: '🌙';
+  --logo-fill: #e4e4e7;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'AllianceNo2', ui-sans-serif, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  transition: background .15s, color .15s;
+}
+
+/* Toggle */
+.toggle {
+  position: fixed; top: 16px; right: 16px;
+  background: var(--surface); border: 1px solid var(--frame);
+  color: var(--text-subtle); padding: 8px 12px; border-radius: 6px;
+  cursor: pointer; font-size: 12px; font-weight: 500; z-index: 100;
+  transition: border-color .15s; font-family: inherit;
+}
+.toggle:hover { border-color: var(--void); color: var(--text); }
+
+/* Layout */
+.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+.section { margin-bottom: 64px; }
+.section-title {
+  font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-subtle); margin-bottom: 24px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Logo theming */
+.logo-wordmark { fill: var(--logo-fill); transition: fill .15s; }
+
+/* Hero */
+.hero {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 36px 40px; margin-bottom: 64px;
+  display: flex; flex-direction: column; gap: 0;
+}
+
+/* Buttons */
+.btn {
+  font-family: 'AllianceNo2', sans-serif;
+  font-size: 14px; font-weight: 600; padding: 9px 18px;
+  border-radius: 6px; border: none; cursor: pointer;
+  transition: all 120ms; line-height: 1.2; display: inline-flex; align-items: center; gap: 6px;
+}
+.btn-primary { background: #000000; color: var(--volt); }
+.btn-primary:hover { opacity: .88; }
+.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--frame); }
+.btn-secondary:hover { border-color: var(--text); }
+.btn-ghost { background: transparent; color: var(--text-subtle); }
+.btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-volt { background: var(--volt); color: #0e0e11; }
+.btn-volt:hover { opacity: .9; }
+.btn-sm { font-size: 12px; padding: 5px 10px; }
+/* Dark mode: black CTA blends into bg — switch to volt fill */
+:root[data-v2-theme="dark"] .btn-primary { background: var(--volt); color: #0e0e11; }
+
+/* Colors */
+.colors-group { margin-bottom: 24px; }
+.colors-group-title {
+  font-size: 11px; font-weight: 500; color: var(--text-subtle);
+  letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px;
+}
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.swatch {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden; cursor: pointer; transition: border-color 120ms;
+}
+.swatch:hover { border-color: var(--void); }
+.swatch-block { height: 60px; }
+.swatch-info { padding: 8px 10px; }
+.swatch-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-subtle); margin-top: 2px; }
+.swatch-usage { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: #000000; color: #f5f841; font-size: 12px; font-weight: 600;
+  padding: 7px 14px; border-radius: 6px; transition: transform 200ms; z-index: 1000;
+  pointer-events: none; font-family: 'JetBrains Mono', monospace;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Typography */
+.type-row {
+  display: grid; grid-template-columns: 100px 1fr auto;
+  align-items: center; gap: 16px; padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.type-row:last-child { border-bottom: none; }
+.type-name { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text-subtle); }
+.type-sample { min-width: 0; }
+.type-specs { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.spec-pill {
+  font-size: 10px; font-family: 'JetBrains Mono', monospace; padding: 2px 5px;
+  border-radius: 3px; background: var(--bg); border: 1px solid var(--border);
+  color: var(--text-subtle); white-space: nowrap;
+}
+
+/* Components grid */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.comp-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 18px;
+}
+.comp-card-title {
+  font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--text-subtle); margin-bottom: 14px;
+}
+.btn-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.input-col { display: flex; flex-direction: column; gap: 6px; }
+.input {
+  background: var(--input-bg); border: 1px solid var(--frame);
+  border-radius: 6px; padding: 7px 10px; font-family: inherit; font-size: 14px;
+  color: var(--text); height: 36px; transition: border-color 120ms; width: 100%;
+}
+.input::placeholder { color: var(--tint); }
+.input:focus { outline: none; border-color: var(--text); box-shadow: 0 0 0 2px rgba(128,128,128,.12); }
+.input-mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+.badge-group { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge {
+  font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 9999px;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.badge-green { background: var(--accent-green-dim); color: var(--accent-green); }
+.badge-volt { background: var(--volt-dim); color: var(--text); border: 1px solid var(--volt); }
+.badge-red { background: rgba(220,38,38,.1); color: #dc2626; }
+.badge-amber { background: rgba(161,98,7,.1); color: #a16207; }
+
+/* Spacing */
+.spacing-list { display: flex; flex-direction: column; gap: 8px; }
+.sp-row { display: flex; align-items: center; gap: 10px; }
+.sp-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-subtle); width: 72px; flex-shrink: 0; }
+.sp-bar-wrap { flex: 1; }
+.sp-bar { height: 6px; background: var(--text); border-radius: 2px; opacity: .25; }
+.sp-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-subtle); width: 32px; text-align: right; }
+
+/* Guardrails */
+.gr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.gr-col { display: flex; flex-direction: column; gap: 6px; }
+.gr-heading { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.gr-heading.do { color: var(--accent-green); }
+.gr-heading.dont { color: #dc2626; }
+.gr-item {
+  font-size: 12px; color: var(--text-subtle); padding: 7px 10px;
+  border-radius: 6px; background: var(--bg); border: 1px solid var(--border);
+}
+
+/* =================== Signature: Secrets Manager =================== */
+.secrets-shell {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+}
+.secrets-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  background: var(--bg); gap: 8px; flex-wrap: wrap;
+}
+.secrets-breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-subtle);
+}
+.secrets-breadcrumb .crumb { color: var(--text); font-weight: 500; }
+.secrets-breadcrumb .sep { color: var(--tint); }
+
+/* Env tabs */
+.env-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--surface); }
+.env-tab {
+  padding: 9px 16px; font-size: 13px; font-weight: 500; color: var(--text-subtle);
+  cursor: pointer; border-bottom: 2px solid transparent; transition: all 120ms;
+  font-family: inherit; background: transparent; border-top: none; border-left: none; border-right: none;
+  margin-bottom: -1px;
+}
+.env-tab:hover { color: var(--text); }
+.env-tab.active { color: var(--text); border-bottom-color: var(--text); font-weight: 600; }
+
+/* Toolbar */
+.secrets-toolbar {
+  display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+  border-bottom: 1px solid var(--border); background: var(--surface);
+}
+.search-wrap { flex: 1; position: relative; }
+.search-icon {
+  position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+  color: var(--tint); font-size: 13px; pointer-events: none;
+}
+.search-input {
+  width: 100%; height: 32px; padding: 0 10px 0 30px;
+  font-family: inherit; font-size: 13px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; outline: none; transition: border-color 120ms;
+}
+.search-input::placeholder { color: var(--tint); }
+.search-input:focus { border-color: var(--text); }
+
+/* Secret table */
+.secrets-table { width: 100%; border-collapse: collapse; }
+.secrets-table th {
+  text-align: left; font-size: 11px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--text-subtle); padding: 8px 16px;
+  border-bottom: 1px solid var(--border); background: var(--bg);
+}
+.secret-row { border-bottom: 1px solid var(--border); transition: background 80ms; }
+.secret-row:last-child { border-bottom: none; }
+.secret-row:hover { background: var(--bg); }
+.secret-row td { padding: 10px 16px; vertical-align: middle; }
+.secret-key {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  color: var(--text); font-weight: 500;
+}
+.secret-val {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: var(--text-subtle); letter-spacing: .06em;
+}
+.secret-val.revealed { color: var(--text); letter-spacing: 0; }
+.secret-actions { display: flex; align-items: center; gap: 4px; justify-content: flex-end; }
+.icon-btn {
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; border: none; background: transparent; cursor: pointer;
+  color: var(--text-subtle); font-size: 13px; transition: all 100ms; font-family: inherit;
+}
+.icon-btn:hover { background: var(--border); color: var(--text); }
+.secret-tag {
+  display: inline-flex; font-size: 10px; font-weight: 500; padding: 1px 6px;
+  border-radius: 3px; background: var(--accent-green-dim); color: var(--accent-green);
+}
+.secrets-footer {
+  padding: 10px 16px; border-top: 1px solid var(--border);
+  background: var(--bg); display: flex; align-items: center; justify-content: space-between;
+}
+.secrets-count { font-size: 12px; color: var(--text-subtle); }
+
+/* Add secret form (inline) */
+.add-row { background: var(--volt-dim) !important; }
+.add-row td { padding: 8px 16px; }
+.add-key-input {
+  height: 28px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: var(--text); background: var(--surface); border: 1px solid var(--frame);
+  border-radius: 4px; outline: none; width: 100%;
+}
+.add-key-input:focus { border-color: var(--void); }
+.add-val-input {
+  height: 28px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: var(--text); background: var(--surface); border: 1px solid var(--frame);
+  border-radius: 4px; outline: none; width: 100%;
+}
+.add-val-input:focus { border-color: var(--void); }
+
+@media (max-width: 640px) {
+  .gr-grid { grid-template-columns: 1fr; }
+  .hero { padding: 36px 24px; }
+  .type-row { grid-template-columns: 90px 1fr; }
+  .type-specs { display: none; }
+  .secrets-table th:nth-child(3),
+  .secret-row td:nth-child(3) { display: none; }
+}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.v2Theme=d.dataset.v2Theme==='dark'?'light':'dark'">
+  <span id="toggle-label">Dark</span>
+</button>
+<script>document.querySelector('.toggle').addEventListener('click', function() {
+  document.getElementById('toggle-label').textContent = document.documentElement.dataset.v2Theme === 'dark' ? 'Light' : 'Dark';
+});</script>
+
+<div class="toast" id="toast"></div>
 <div class="container">
 
+  <!-- Hero -->
   <div class="hero">
-    <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100" height="100" rx="16" fill="#18181B"/>
-        <path d="M50 15 L80 32 L80 68 L50 85 L20 68 L20 32 Z" fill="none" stroke="#FFDE00" stroke-width="5"/>
-        <circle cx="50" cy="50" r="12" fill="#FFDE00"/>
-        <line x1="50" y1="38" x2="50" y2="32" stroke="#FFDE00" stroke-width="4" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <h1>Infisical</h1>
-    <p>Open-source secrets management — a security-first platform with a dark UI and a distinctive yellow accent.</p>
+    <svg preserveAspectRatio="none" width="160" height="26" viewBox="0 0 196.223 31.2864" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="logo-wordmark" fill-rule="evenodd" clip-rule="evenodd" d="M126.699 8.30547C131.995 8.30547 135.36 11.02 135.48 15.1996H130.435C130.392 13.1515 128.957 12.0686 126.661 12.0686C124.365 12.0686 123.089 13.0732 123.089 14.744C123.089 16.1209 124.114 16.9981 126.165 17.2921L130.146 18.0025C134.127 18.6297 136.097 20.7171 136.097 24.1863C136.097 28.655 132.524 31.2864 126.945 31.2864C121.077 31.2864 117.63 28.361 117.63 24.0198H122.636V24.0146C122.68 26.1853 124.316 27.4792 126.945 27.4792C129.405 27.4792 130.845 26.4353 130.845 24.637C130.845 23.2993 130.026 22.4663 128.341 22.1723L124.114 21.3784C120.051 20.6679 118 18.6199 118 15.2389C118 10.8976 121.404 8.30549 126.699 8.30547ZM177.594 8.31506C181.04 8.31506 183.544 9.48626 184.733 11.1963C185.922 12.9064 186.375 14.5379 186.375 16.248V27.1896H189.249V30.8647H185.065C182.769 30.8647 181.907 30.0317 181.618 28.3167L181.575 27.4003H181.286C180.343 29.7377 177.594 31.2862 174.267 31.2862C170.002 31.2862 167.291 28.6548 167.291 24.4751C167.291 20.2955 170.329 17.625 175.211 17.6249H181.286V16.1648C181.286 13.6168 179.972 12.3674 177.348 12.3674C174.725 12.3674 173.367 13.4944 173.165 15.7092H168.158C168.529 10.9905 172.057 8.31508 177.594 8.31506ZM156.7 8.31036C162.116 8.31036 165.89 11.5297 166.549 16.4149H161.504C161.013 13.9111 159.126 12.5732 156.541 12.5732C153.301 12.5733 151.245 14.8275 151.245 18.1692V21.7216C151.245 25.0633 153.378 27.0233 156.541 27.0233C159.208 27.0233 161.095 25.4748 161.547 22.9709H166.588C165.972 28.1943 162.154 31.2816 156.575 31.2816C150.008 31.2816 146.07 26.896 146.07 19.835C146.07 16.2042 147.014 13.4014 148.944 11.3582C150.874 9.30998 153.46 8.31038 156.7 8.31036ZM37.7583 6.37505C41.2043 6.37505 44.4422 7.67224 46.88 10.0168C49.3175 12.3658 50.6588 15.4859 50.6588 18.8066C50.6588 22.1273 49.3175 25.2476 46.88 27.5966C44.4422 29.9457 41.2043 31.2381 37.7583 31.2381C33.956 31.2381 30.8061 29.9813 28.1324 27.4049C27.1751 26.4821 26.2731 25.3901 25.3296 23.9994C24.386 25.3901 23.4838 26.4821 22.5264 27.4049C19.8528 29.9857 16.7028 31.2381 12.9006 31.2381C9.45459 31.2381 6.21664 29.941 3.77897 27.5966C1.34134 25.2476 0 22.1273 0 18.8066C8.22433e-07 15.4859 1.34136 12.3658 3.77897 10.0168C6.21664 7.6678 9.45459 6.37505 12.9006 6.37505C16.7028 6.37505 19.8528 7.63219 22.5264 10.2085C23.4838 11.1312 24.386 12.2231 25.3296 13.6138C26.2731 12.2231 27.1751 11.1312 28.1324 10.2085C30.8061 7.62773 33.956 6.37505 37.7583 6.37505ZM66.4498 30.8649H61.1158V0.416494H66.4498V30.8649ZM83.7268 8.30547C88.6084 8.30553 91.2368 11.8139 91.2368 17.4537V30.8599H86.1096V17.9977C86.1096 14.4452 84.6318 12.6958 81.6373 12.6958C78.3157 12.6958 76.1781 15.3271 76.1781 19.2127V30.8649H71.0898V8.72686H75.562L76.1781 12.8183H76.5055C77.8582 9.93715 80.4869 8.30547 83.7268 8.30547ZM106.878 4.13544H101.337V8.73174H115.207V30.8649H110.118V12.9456H101.337V30.8649H96.2486V12.9456H92.1037V8.72686H96.2486V4.46887C96.2486 3.3419 96.3739 2.58719 96.8647 1.58761C97.3991 0.58313 98.7134 1.61281e-05 100.639 0H106.878V4.13544ZM143.567 30.8649H138.522V8.72686H143.567V30.8649ZM196.223 30.8649H191.178V0H196.223V30.8649ZM176.039 20.9275C173.742 20.9275 172.428 22.0154 172.428 23.5589V24.5632L172.423 24.5586C172.424 26.352 173.776 27.2728 175.913 27.2728C179.197 27.2728 181.291 25.1023 181.291 21.8879V20.9275H176.039ZM37.7536 11.6437C35.4131 11.6437 33.6323 12.3479 31.9856 13.9347C30.7274 15.1471 29.6913 16.7072 28.4515 18.8111C29.6913 20.9149 30.7274 22.4751 31.9856 23.6874C33.6323 25.2699 35.4085 25.9785 37.7536 25.9785C38.7341 25.9785 39.6917 25.7912 40.6029 25.4302C41.5095 25.0737 42.3237 24.5476 43.0175 23.8789C43.7113 23.206 44.2525 22.4261 44.6272 21.5523C45.0065 20.6743 45.196 19.7515 45.196 18.8066L45.1916 18.8111C45.1916 17.8661 44.9973 16.9434 44.6226 16.0698C44.2479 15.1962 43.7067 14.4118 43.0129 13.7432C42.3191 13.0746 41.5049 12.5487 40.5985 12.1876C39.6919 11.8266 38.7341 11.6437 37.7536 11.6437ZM12.9006 11.6392C10.944 11.6392 9.02897 12.4059 7.64131 13.7387C6.23518 15.0892 5.4628 16.8944 5.4628 18.8066C5.4628 20.7187 6.23516 22.5196 7.64131 23.8747C9.04284 25.2296 10.9116 25.9739 12.9006 25.9739C15.2411 25.9739 17.0221 25.2699 18.6688 23.683C19.9269 22.4705 20.9629 20.9105 22.2025 18.8066C20.9629 16.7027 19.9269 15.1426 18.6688 13.9302C17.0267 12.3479 15.2458 11.6392 12.9006 11.6392ZM115.207 5.59562H110.118V0H115.207V5.59562ZM143.567 5.59562H138.522V0H143.567V5.59562Z"/>
+    </svg>
+    <div style="margin-top:12px;font-size:13px;color:var(--text-subtle);font-family:'AllianceNo2',sans-serif;">The modern security platform for developers and agents</div>
   </div>
 
+  <!-- Colors -->
   <div class="section">
     <div class="section-title">Colors</div>
     <div class="colors-group">
-      <div class="colors-group-title">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FFDE00', this)"><div class="swatch-block" style="background:#FFDE00"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#FFDE00</div><div class="swatch-usage">CTAs, brand accent</div></div></div>
-        <div class="swatch" onclick="copyHex('#F5D000', this)"><div class="swatch-block" style="background:#F5D000"></div><div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#F5D000</div><div class="swatch-usage">Hover on primary</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
       <div class="colors-group-title">Surfaces</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0D0D0F', this)"><div class="swatch-block" style="background:#0D0D0F;border:1px solid #27272A"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#0D0D0F</div><div class="swatch-usage">App background</div></div></div>
-        <div class="swatch" onclick="copyHex('#18181B', this)"><div class="swatch-block" style="background:#18181B"></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#18181B</div><div class="swatch-usage">Cards, panels</div></div></div>
-        <div class="swatch" onclick="copyHex('#232326', this)"><div class="swatch-block" style="background:#232326"></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#232326</div><div class="swatch-usage">Elevated surfaces</div></div></div>
-        <div class="swatch" onclick="copyHex('#2C2C30', this)"><div class="swatch-block" style="background:#2C2C30"></div><div class="swatch-info"><div class="swatch-name">surface-overlay</div><div class="swatch-hex">#2C2C30</div><div class="swatch-usage">Modals, tooltips</div></div></div>
+        <div class="swatch" onclick="copyHex('#f3f4f6')"><div class="swatch-block" style="background:#f3f4f6;border:1px solid #eaeaea"></div><div class="swatch-info"><div class="swatch-name">bg-page</div><div class="swatch-hex">#f3f4f6</div><div class="swatch-usage">Page background</div></div></div>
+        <div class="swatch" onclick="copyHex('#ffffff')"><div class="swatch-block" style="background:#ffffff;border:1px solid #eaeaea"></div><div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-hex">#ffffff</div><div class="swatch-usage">Cards, surfaces</div></div></div>
+        <div class="swatch" onclick="copyHex('#eaeaea')"><div class="swatch-block" style="background:#eaeaea"></div><div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#eaeaea</div><div class="swatch-usage">Dividers, borders</div></div></div>
+        <div class="swatch" onclick="copyHex('#d1d1d1')"><div class="swatch-block" style="background:#d1d1d1"></div><div class="swatch-info"><div class="swatch-name">frame</div><div class="swatch-hex">#d1d1d1</div><div class="swatch-usage">Input borders, strong dividers</div></div></div>
       </div>
     </div>
     <div class="colors-group">
-      <div class="colors-group-title">Text</div>
+      <div class="colors-group-title">Brand</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F4F4F5', this)"><div class="swatch-block" style="background:#F4F4F5"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#F4F4F5</div><div class="swatch-usage">Primary text</div></div></div>
-        <div class="swatch" onclick="copyHex('#A1A1AA', this)"><div class="swatch-block" style="background:#A1A1AA"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#A1A1AA</div><div class="swatch-usage">Supporting text</div></div></div>
-        <div class="swatch" onclick="copyHex('#71717A', this)"><div class="swatch-block" style="background:#71717A"></div><div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#71717A</div><div class="swatch-usage">Placeholders</div></div></div>
+        <div class="swatch" onclick="copyHex('#f5f841')"><div class="swatch-block" style="background:#f5f841"></div><div class="swatch-info"><div class="swatch-name">volt</div><div class="swatch-hex">#f5f841</div><div class="swatch-usage">H1 highlight, primary CTA text</div></div></div>
+        <div class="swatch" onclick="copyHex('#000000')"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><div class="swatch-name">void</div><div class="swatch-hex">#000000</div><div class="swatch-usage">CTA bg, primary text</div></div></div>
+        <div class="swatch" onclick="copyHex('#c2d72a')"><div class="swatch-block" style="background:#c2d72a"></div><div class="swatch-info"><div class="swatch-name">volt-dark</div><div class="swatch-hex">#c2d72a</div><div class="swatch-usage">Volt in dark mode</div></div></div>
       </div>
     </div>
     <div class="colors-group">
-      <div class="colors-group-title">Semantic</div>
+      <div class="colors-group-title">Products</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F87171', this)"><div class="swatch-block" style="background:#F87171"></div><div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#F87171</div><div class="swatch-usage">Errors, critical</div></div></div>
-        <div class="swatch" onclick="copyHex('#4ADE80', this)"><div class="swatch-block" style="background:#4ADE80"></div><div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#4ADE80</div><div class="swatch-usage">Synced, success</div></div></div>
+        <div class="swatch" onclick="copyHex('#56a600')"><div class="swatch-block" style="background:#56a600"></div><div class="swatch-info"><div class="swatch-name">secrets-ink</div><div class="swatch-hex">#56a600</div><div class="swatch-usage">Secrets Management</div></div></div>
+        <div class="swatch" onclick="copyHex('#a16207')"><div class="swatch-block" style="background:#a16207"></div><div class="swatch-info"><div class="swatch-name">pki-ink</div><div class="swatch-hex">#a16207</div><div class="swatch-usage">Certificate Management</div></div></div>
+        <div class="swatch" onclick="copyHex('#dc2626')"><div class="swatch-block" style="background:#dc2626"></div><div class="swatch-info"><div class="swatch-name">pam-ink</div><div class="swatch-hex">#dc2626</div><div class="swatch-usage">PAM</div></div></div>
+        <div class="swatch" onclick="copyHex('#dbf530')"><div class="swatch-block" style="background:#dbf530"></div><div class="swatch-info"><div class="swatch-name">accent-lime</div><div class="swatch-hex">#dbf530</div><div class="swatch-usage">Lime accent variant</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- Typography -->
   <div class="section">
     <div class="section-title">Typography</div>
-    <div class="type-row"><div class="type-name">heading-lg</div><div class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.02em;">Secrets management</div><div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div></div>
-    <div class="type-row"><div class="type-name">heading-md</div><div class="type-sample" style="font-size:16px;font-weight:600;">Production secrets</div><div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">body</div><div class="type-sample" style="font-size:14px;font-weight:400;">Store and sync environment variables across your team</div><div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">body-sm</div><div class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary);">Last synced 2 minutes ago · 24 secrets</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">caption</div><div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-muted);">Production · 3 services connected</div><div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">code</div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">DATABASE_URL=••••••••</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div></div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample" style="font-size:40px;font-weight:700;letter-spacing:-.02em;line-height:1.1;">Secure <span style="background:#f5f841;color:#000;padding:0 .1em">Secrets</span></div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">700</span><span class="spec-pill">AllianceNo2</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample" style="font-size:28px;font-weight:700;letter-spacing:-.01em;line-height:1.1;">Everyone has secrets. We secure 10 Billion every day.</div>
+      <div class="type-specs"><span class="spec-pill">28px</span><span class="spec-pill">700</span><span class="spec-pill">AllianceNo2</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample" style="font-size:18px;font-weight:600;">Granular Access Controls</div>
+      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">AllianceNo2</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body-lg</div>
+      <div class="type-sample" style="font-size:18px;color:var(--text-subtle);">Sync, rotate, and audit application credentials across every environment and workload.</div>
+      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">400</span><span class="spec-pill">AllianceNo2</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body-sm</div>
+      <div class="type-sample" style="font-size:14px;color:var(--text-subtle);">Scope access to secrets by environment, path, and identity with fine-grained RBAC.</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">AllianceNo2</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">code</div>
+      <div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);">DATABASE_URL=postgresql://user:••••••@db.prod.acme.com:5432/app</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">JetBrains Mono</span></div>
+    </div>
   </div>
 
+  <!-- Components -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="components-grid">
+    <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-card-title">Buttons</div>
         <div class="btn-group">
-          <button class="btn btn-primary">Add Secret</button>
-          <button class="btn btn-secondary">Sync</button>
+          <button class="btn btn-primary">Get started for free</button>
+          <button class="btn btn-volt">Start for free</button>
+          <button class="btn btn-secondary">Request a demo</button>
           <button class="btn btn-ghost">Cancel</button>
-          <button class="btn btn-danger">Revoke</button>
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <input class="input" type="text" placeholder="SECRET_KEY">
-          <input class="input" type="password" placeholder="••••••••••••" style="border-color:var(--primary);">
+        <div class="input-col">
+          <input class="input" placeholder="Search secrets...">
+          <input class="input input-mono" placeholder="SECRET_KEY" value="STRIPE_SECRET_KEY">
+          <input class="input input-mono" type="password" placeholder="•••••••••••••" value="sk_live_abc123">
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Badges</div>
         <div class="badge-group">
-          <span class="badge" style="background:rgba(74,222,128,0.12);color:#4ADE80;"><span class="badge-dot" style="background:#4ADE80"></span>Synced</span>
-          <span class="badge" style="background:rgba(255,222,0,0.12);color:#FFDE00;"><span class="badge-dot" style="background:#FFDE00"></span>Out of sync</span>
-          <span class="badge" style="background:rgba(248,113,113,0.12);color:#F87171;"><span class="badge-dot" style="background:#F87171"></span>Error</span>
+          <span class="badge badge-green">● Synced</span>
+          <span class="badge badge-green">● Active</span>
+          <span class="badge badge-volt">◑ Pending</span>
+          <span class="badge badge-red">✕ Expired</span>
+          <span class="badge badge-amber">⚠ Expiring Soon</span>
+          <span class="badge badge-red">✕ Out of Sync</span>
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-card-title">Secret Row</div>
-        <div class="sample-card">
-          <div class="sample-card-header">
-            <div class="sample-card-title">DATABASE_URL</div>
-            <span class="badge" style="background:rgba(74,222,128,0.12);color:#4ADE80;font-size:11px;">Synced</span>
-          </div>
-          <div class="sample-card-meta">Production · Updated 5m ago</div>
+        <div class="comp-card-title">Spacing</div>
+        <div class="spacing-list">
+          <div class="sp-row"><div class="sp-label">space-1</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px"></div></div><div class="sp-val">4px</div></div>
+          <div class="sp-row"><div class="sp-label">space-2</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px"></div></div><div class="sp-val">8px</div></div>
+          <div class="sp-row"><div class="sp-label">space-3</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:12px"></div></div><div class="sp-val">12px</div></div>
+          <div class="sp-row"><div class="sp-label">space-4</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px"></div></div><div class="sp-val">16px</div></div>
+          <div class="sp-row"><div class="sp-label">space-6</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px"></div></div><div class="sp-val">24px</div></div>
+          <div class="sp-row"><div class="sp-label">space-8</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:32px"></div></div><div class="sp-val">32px</div></div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Signature: Secrets Manager -->
   <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/32*100%)"></div></div><div class="spacing-val">4px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/32*100%)"></div></div><div class="spacing-val">8px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/32*100%)"></div></div><div class="spacing-val">12px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/32*100%)"></div></div><div class="spacing-val">16px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/32*100%)"></div></div><div class="spacing-val">20px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/32*100%)"></div></div><div class="spacing-val">24px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">32px</div></div>
+    <div class="section-title">Signature — Secrets Manager</div>
+    <div class="secrets-shell">
+      <!-- Topbar -->
+      <div class="secrets-topbar">
+        <div class="secrets-breadcrumb">
+          <span>my-app</span>
+          <span class="sep">/</span>
+          <span class="crumb">backend</span>
+          <span class="sep">/</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-subtle);">/secrets</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="font-size:11px;color:var(--text-subtle);" id="secret-count">7 secrets</span>
+          <button class="btn btn-primary btn-sm" onclick="showAddRow()">+ Add Secret</button>
+        </div>
+      </div>
+
+      <!-- Env Tabs -->
+      <div class="env-tabs">
+        <button class="env-tab active" onclick="switchEnv(this,'development')">Development</button>
+        <button class="env-tab" onclick="switchEnv(this,'staging')">Staging</button>
+        <button class="env-tab" onclick="switchEnv(this,'production')">Production</button>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="secrets-toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" placeholder="Search secrets..." oninput="filterSecrets(this.value)">
+        </div>
+        <button class="btn btn-secondary btn-sm">Filter</button>
+        <button class="btn btn-secondary btn-sm">Generate</button>
+      </div>
+
+      <!-- Table -->
+      <table class="secrets-table">
+        <thead>
+          <tr>
+            <th style="width:36%">Key</th>
+            <th style="width:38%">Value</th>
+            <th style="width:12%">Updated</th>
+            <th style="width:14%"></th>
+          </tr>
+        </thead>
+        <tbody id="secrets-tbody">
+        </tbody>
+      </table>
+
+      <!-- Footer -->
+      <div class="secrets-footer">
+        <span class="secrets-count" id="footer-count">7 of 7 secrets</span>
+        <span style="font-size:11px;color:var(--text-subtle);">Last synced: just now</span>
+      </div>
     </div>
   </div>
 
+  <!-- Guardrails -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrails-col">
-        <div class="guardrails-heading do">DO</div>
-        <div class="guardrail-item do">Yellow accent is the brand — use it confidently for CTAs</div>
-        <div class="guardrail-item do">Mask all secret values by default</div>
-        <div class="guardrail-item do">Use monospace for all secret keys and values</div>
-        <div class="guardrail-item do">Show environment context always — Dev/Staging/Prod unambiguous</div>
+    <div class="gr-grid">
+      <div class="gr-col">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-item">Use volt (#f5f841) as the H1 highlight marker — words in a box, not gradient text</div>
+        <div class="gr-item">Use void (#000000) as CTA background with volt text</div>
+        <div class="gr-item">Use JetBrains Mono for all secret keys, values, paths, and IDs</div>
+        <div class="gr-item">Mask all secret values by default — reveal is an explicit user action</div>
+        <div class="gr-item">Default to light mode — #f3f4f6 page bg, white surfaces</div>
+        <div class="gr-item">Use AllianceNo2 for all marketing and UI text</div>
       </div>
-      <div class="guardrails-col">
-        <div class="guardrails-heading dont">DON'T</div>
-        <div class="guardrail-item dont">Show unmasked secrets in logs or error messages</div>
-        <div class="guardrail-item dont">Use yellow for warning states — it's a brand color</div>
-        <div class="guardrail-item dont">Use decorative animations near secret operations</div>
-        <div class="guardrail-item dont">Use light mode as default</div>
+      <div class="gr-col">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-item">Don't use volt for warning/error states — it's a brand color, not a semantic one</div>
+        <div class="gr-item">Don't use Inter or any other font — AllianceNo2 is the brand font</div>
+        <div class="gr-item">Don't show unmasked secrets in list views, logs, or error messages</div>
+        <div class="gr-item">Don't default to dark mode — the primary experience is light</div>
+        <div class="gr-item">Don't round corners above 8px on cards; use 6px on buttons</div>
+        <div class="gr-item">Don't add more than 20 secret rows in interactive tables</div>
       </div>
     </div>
   </div>
 
 </div>
+
 <script>
-function copyHex(hex) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = 'Copied ' + hex;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+var currentEnv = 'development';
+var revealed = {};
+
+var secretData = {
+  development: [
+    { key: 'DATABASE_URL', val: 'postgresql://devuser:devpass@localhost:5432/myapp_dev', tag: 'Core', updated: '2h ago' },
+    { key: 'REDIS_URL', val: 'redis://localhost:6379', tag: 'Core', updated: '2h ago' },
+    { key: 'STRIPE_SECRET_KEY', val: 'sk_test_4eC39HqLyjWDarjtT1zdp7dc', tag: 'Payments', updated: '1d ago' },
+    { key: 'AWS_ACCESS_KEY_ID', val: 'AKIAIOSFODNN7EXAMPLE', tag: 'Cloud', updated: '3d ago' },
+    { key: 'AWS_SECRET_ACCESS_KEY', val: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY', tag: 'Cloud', updated: '3d ago' },
+    { key: 'JWT_SECRET', val: 'dev_jwt_secret_not_for_production_use_only', tag: 'Auth', updated: '5d ago' },
+    { key: 'SENDGRID_API_KEY', val: 'SG.test.0123456789abcdef', tag: 'Email', updated: '1w ago' },
+  ],
+  staging: [
+    { key: 'DATABASE_URL', val: 'postgresql://stguser:••••••@db.staging.acme.com:5432/myapp_stg', tag: 'Core', updated: '6h ago' },
+    { key: 'REDIS_URL', val: 'redis://cache.staging.acme.com:6379', tag: 'Core', updated: '6h ago' },
+    { key: 'STRIPE_SECRET_KEY', val: 'sk_test_staging_4eC39HqLyjWD', tag: 'Payments', updated: '2d ago' },
+    { key: 'AWS_ACCESS_KEY_ID', val: 'AKIAIOSFODNN7STAGING', tag: 'Cloud', updated: '4d ago' },
+    { key: 'JWT_SECRET', val: 'staging_jwt_secret_32char_minimum_required_here', tag: 'Auth', updated: '1w ago' },
+  ],
+  production: [
+    { key: 'DATABASE_URL', val: 'postgresql://produser:••••••@db.prod.acme.com:5432/myapp', tag: 'Core', updated: '1d ago' },
+    { key: 'REDIS_URL', val: 'rediss://cache.prod.acme.com:6380', tag: 'Core', updated: '1d ago' },
+    { key: 'STRIPE_SECRET_KEY', val: 'sk_live_4eC39HqLyjWDarjtT1zdp7dc', tag: 'Payments', updated: '3d ago' },
+    { key: 'AWS_ACCESS_KEY_ID', val: 'AKIAIOSFODNN7PROD', tag: 'Cloud', updated: '1w ago' },
+    { key: 'AWS_SECRET_ACCESS_KEY', val: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYPRODKEY0001', tag: 'Cloud', updated: '1w ago' },
+    { key: 'JWT_SECRET', val: 'prod_jwt_secret_64char_cryptographically_secure_random_string_here', tag: 'Auth', updated: '2w ago' },
+    { key: 'DATADOG_API_KEY', val: 'dd_api_key_1234567890abcdef', tag: 'Observability', updated: '2w ago' },
+  ]
+};
+
+var currentFilter = '';
+
+function mask(val) {
+  return '•'.repeat(Math.min(val.length, 24));
 }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderSecrets(env, filter) {
+  var data = secretData[env] || [];
+  var filtered = filter ? data.filter(function(s) {
+    return s.key.toLowerCase().includes(filter.toLowerCase());
+  }) : data;
+
+  var tbody = document.getElementById('secrets-tbody');
+  revealed = {};
+  tbody.innerHTML = '';
+
+  filtered.forEach(function(s, i) {
+    var row = document.createElement('tr');
+    row.className = 'secret-row';
+    row.dataset.idx = i;
+    row.innerHTML = buildRow(s, i, false);
+    tbody.appendChild(row);
+  });
+
+  var count = filtered.length + ' of ' + data.length + ' secrets';
+  document.getElementById('footer-count').textContent = count;
+  document.getElementById('secret-count').textContent = data.length + ' secrets';
+}
+
+function buildRow(s, i, isRevealed) {
+  return '<td><span class="secret-key">' + escHtml(s.key) + '</span></td>' +
+    '<td><span class="secret-val' + (isRevealed ? ' revealed' : '') + '" id="val-' + i + '">' + escHtml(isRevealed ? s.val : mask(s.val)) + '</span></td>' +
+    '<td style="font-size:11px;color:var(--text-subtle);">' + escHtml(s.updated) + '</td>' +
+    '<td><div class="secret-actions">' +
+      '<button class="icon-btn" title="Copy" onclick="copySecret(' + i + ')">⎘</button>' +
+      '<button class="icon-btn" title="' + (isRevealed ? 'Hide' : 'Reveal') + '" id="eye-' + i + '" onclick="toggleReveal(' + i + ')">' + (isRevealed ? '◎' : '◉') + '</button>' +
+      '<button class="icon-btn" title="Delete" onclick="deleteSecret(' + i + ')">✕</button>' +
+    '</div></td>';
+}
+
+function toggleReveal(i) {
+  var data = secretData[currentEnv];
+  var filter = currentFilter;
+  var filtered = filter ? data.filter(function(s) { return s.key.toLowerCase().includes(filter.toLowerCase()); }) : data;
+  var s = filtered[i];
+  if (!s) return;
+  var isNow = !revealed[i];
+  revealed[i] = isNow;
+  var valEl = document.getElementById('val-' + i);
+  var eyeEl = document.getElementById('eye-' + i);
+  if (valEl) {
+    valEl.textContent = isNow ? s.val : mask(s.val);
+    valEl.classList.toggle('revealed', isNow);
+  }
+  if (eyeEl) eyeEl.textContent = isNow ? '◎' : '◉';
+  if (isNow) {
+    setTimeout(function() {
+      if (revealed[i]) {
+        revealed[i] = false;
+        if (valEl) { valEl.textContent = mask(s.val); valEl.classList.remove('revealed'); }
+        if (eyeEl) eyeEl.textContent = '◉';
+      }
+    }, 5000);
+  }
+}
+
+function copySecret(i) {
+  var data = secretData[currentEnv];
+  var filter = currentFilter;
+  var filtered = filter ? data.filter(function(s) { return s.key.toLowerCase().includes(filter.toLowerCase()); }) : data;
+  var s = filtered[i];
+  if (!s) return;
+  navigator.clipboard.writeText(s.val).catch(function() {});
+  showToast('Copied ' + s.key);
+}
+
+function deleteSecret(i) {
+  var data = secretData[currentEnv];
+  var filter = currentFilter;
+  var filtered = filter ? data.filter(function(s) { return s.key.toLowerCase().includes(filter.toLowerCase()); }) : data;
+  var s = filtered[i];
+  if (!s) return;
+  var realIdx = data.indexOf(s);
+  if (realIdx > -1) data.splice(realIdx, 1);
+  renderSecrets(currentEnv, currentFilter);
+  showToast('Deleted ' + s.key);
+}
+
+function switchEnv(el, env) {
+  document.querySelectorAll('.env-tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  currentEnv = env;
+  revealed = {};
+  renderSecrets(env, currentFilter);
+}
+
+function filterSecrets(val) {
+  currentFilter = val;
+  renderSecrets(currentEnv, val);
+}
+
+function showAddRow() {
+  var tbody = document.getElementById('secrets-tbody');
+  var data = secretData[currentEnv];
+  if (data.length >= 20) { showToast('Secret limit reached (20 max)'); return; }
+  var existing = tbody.querySelector('.add-row');
+  if (existing) { existing.querySelector('.add-key-input').focus(); return; }
+
+  var row = document.createElement('tr');
+  row.className = 'secret-row add-row';
+  row.innerHTML = '<td><input class="add-key-input" placeholder="SECRET_KEY" id="new-key" onkeydown="handleAddKey(event)"></td>' +
+    '<td><input class="add-val-input" placeholder="secret value..." id="new-val" onkeydown="handleAddKey(event)"></td>' +
+    '<td></td>' +
+    '<td><div class="secret-actions">' +
+      '<button class="btn btn-primary btn-sm" onclick="commitAdd()">Save</button>' +
+      '<button class="icon-btn" onclick="cancelAdd()">✕</button>' +
+    '</div></td>';
+  tbody.insertBefore(row, tbody.firstChild);
+  document.getElementById('new-key').focus();
+}
+
+function handleAddKey(e) {
+  if (e.key === 'Enter') commitAdd();
+  if (e.key === 'Escape') cancelAdd();
+}
+
+function commitAdd() {
+  var k = (document.getElementById('new-key') || {}).value || '';
+  var v = (document.getElementById('new-val') || {}).value || '';
+  if (!k.trim()) { showToast('Key is required'); return; }
+  var data = secretData[currentEnv];
+  data.unshift({ key: k.trim().toUpperCase().replace(/\s+/g, '_'), val: v, tag: '', updated: 'just now' });
+  renderSecrets(currentEnv, currentFilter);
+  showToast('Secret added');
+}
+
+function cancelAdd() {
+  var row = document.querySelector('.add-row');
+  if (row) row.remove();
+}
+
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(function() {});
+  showToast('Copied ' + hex);
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, 2000);
+}
+
+renderSecrets('development', '');
 </script>
 </body>
 </html>
