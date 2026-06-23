@@ -11,13 +11,13 @@
   --bg:#FFFFFF;--bg2:#F5F5F5;--bg3:#EBEBEB;--bg-selected:#E8F4FF;
   --border:#E6E6E6;--border-strong:#D4D4D4;
   --text:rgba(0,0,0,.9);--text2:rgba(0,0,0,.55);--text3:rgba(0,0,0,.35);
-  --brand-blue:#0D99FF;--brand-link:#007BE5;
+  --brand-blue:#0D99FF;--brand-link:#007BE5;--brand-primary:#4D49FC;
 }
 :root[data-theme="dark"]{
   --bg:#1E1E1E;--bg2:#252525;--bg3:#333333;--bg-selected:#193147;
   --border:#333333;--border-strong:#484848;
   --text:#E5E5E5;--text2:#B3B3B3;--text3:#7A7A7A;
-  --brand-blue:#0D99FF;--brand-link:#4DB8FF;
+  --brand-blue:#0D99FF;--brand-link:#4DB8FF;--brand-primary:#4D49FC;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -182,8 +182,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 
     <div class="group-label">UI Accent</div>
     <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#4D49FC')"><div class="swatch-color" style="background:#4D49FC"></div><div class="swatch-info"><span class="swatch-name">brand-primary</span><span class="swatch-hex">#4D49FC</span><span class="swatch-use">Current brand primary</span></div></div>
       <div class="swatch" onclick="copyHex('#0D99FF')"><div class="swatch-color" style="background:#0D99FF"></div><div class="swatch-info"><span class="swatch-name">brand-blue</span><span class="swatch-hex">#0D99FF</span><span class="swatch-use">Interactive, selected</span></div></div>
-      <div class="swatch" onclick="copyHex('#A259FF')"><div class="swatch-color" style="background:#A259FF"></div><div class="swatch-info"><span class="swatch-name">brand-purple</span><span class="swatch-hex">#A259FF</span><span class="swatch-use">CTA accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#A259FF')"><div class="swatch-color" style="background:#A259FF"></div><div class="swatch-info"><span class="swatch-name">brand-purple</span><span class="swatch-hex">#A259FF</span><span class="swatch-use">Logo mark</span></div></div>
     </div>
 
     <div class="group-label">Surfaces</div>

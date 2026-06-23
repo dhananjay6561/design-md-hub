@@ -15,10 +15,14 @@
   --text: #151515;
   --text-2: #59554E;
   --text-3: #8B8780;
-  --primary: #518DD2;
-  --primary-hover: #4A7EC0;
-  --primary-light: #D8E6F3;
+  --btn-bg: #151515;
+  --btn-text: #E9EBDF;
+  --btn-hover: #2E2F2D;
+  --blue: #518DD2;
+  --blue-light: #D8E6F3;
+  --blue-hover: #B0CCEA;
   --orange: #E8765E;
+  --green: #4D9987;
   --error: #D93025;
   --success: #1E8A4C;
   --warning: #F59E0B;
@@ -34,10 +38,14 @@
   --text: #E9EBDF;
   --text-2: #9B9890;
   --text-3: #6B6862;
-  --primary: #518DD2;
-  --primary-hover: #6DA1E0;
-  --primary-light: #1B2E44;
+  --btn-bg: #E9EBDF;
+  --btn-text: #151515;
+  --btn-hover: #FFFFFF;
+  --blue: #518DD2;
+  --blue-light: #1B2E44;
+  --blue-hover: #B0CCEA;
   --orange: #E8765E;
+  --green: #4D9987;
   --error: #E05A50;
   --success: #34A86A;
   --warning: #F59E0B;
@@ -49,7 +57,7 @@
 body { font-family: 'DM Sans', ui-sans-serif, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; line-height: 1.5; transition: background 0.2s, color 0.2s; }
 
 .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);padding:8px;border-radius:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
-.toggle:hover { border-color: var(--primary); }
+.toggle:hover { border-color: var(--border-strong); }
 .toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--text);color:var(--surface);padding:6px 14px;border-radius:4px;font-size:12px;font-weight:500;font-family:'JetBrains Mono',monospace;transition:transform 0.2s ease;z-index:200;pointer-events:none; }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
@@ -91,10 +99,12 @@ section:last-child { border-bottom: none; }
 
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; font-family: inherit; font-size: 12px; font-weight: 500; border-radius: 4px; padding: 6px 14px; border: none; cursor: pointer; transition: background 100ms; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+.btn-primary { background: var(--btn-bg); color: var(--btn-text); }
+.btn-primary:hover { background: var(--btn-hover); }
+.btn-secondary { background: transparent; border: 1px solid var(--border-strong); color: var(--text); }
 .btn-secondary:hover { background: var(--surface-secondary); }
+.btn-blue { background: transparent; border: 1px solid var(--blue); color: var(--blue); }
+.btn-blue:hover { border-color: var(--blue-hover); color: var(--blue-hover); }
 .btn-ghost { background: transparent; color: var(--text-2); }
 .btn-ghost:hover { background: var(--surface-secondary); }
 .btn-danger { background: var(--error); color: #fff; }
@@ -102,7 +112,7 @@ section:last-child { border-bottom: none; }
 /* Inputs */
 .input-label { font-size: 11px; font-weight: 500; color: var(--text-2); margin-bottom: 4px; display: block; }
 .input-field { height: 30px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0 10px; font-family: inherit; font-size: 12px; color: var(--text); outline: none; transition: border-color 100ms; width: 100%; }
-.input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(81,141,210,0.15); }
+.input-field:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(81,141,210,0.15); }
 .input-field::placeholder { color: var(--text-3); }
 
 /* Data table */
@@ -113,7 +123,7 @@ section:last-child { border-bottom: none; }
 .data-table td:last-child { border-right: none; }
 .data-table tr:last-child td { border-bottom: none; }
 .data-table tr:hover td { background: var(--surface-secondary); }
-.data-table tr.selected td { background: var(--primary-light); }
+.data-table tr.selected td { background: var(--blue-light); }
 
 /* Badges */
 .badge { padding: 1px 7px; border-radius: 3px; font-size: 11px; font-weight: 500; }
@@ -146,9 +156,9 @@ section:last-child { border-bottom: none; }
 .builder-sidebar-header { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); padding: 10px 12px 8px; border-bottom: 1px solid var(--border); }
 .comp-item { display: flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 12px; color: var(--text-2); cursor: pointer; transition: background 0.1s; }
 .comp-item:hover { background: var(--surface-secondary); color: var(--text); }
-.comp-item.active { background: var(--primary-light); color: var(--primary); }
+.comp-item.active { background: var(--blue-light); color: var(--blue); }
 .comp-item-icon { width: 18px; height: 18px; border-radius: 3px; background: var(--surface-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 10px; }
-.comp-item.active .comp-item-icon { background: var(--primary); border-color: var(--primary); color: #fff; }
+.comp-item.active .comp-item-icon { background: var(--blue); border-color: var(--blue); color: #fff; }
 
 .builder-canvas { flex: 1; background: #FFFFFF; padding: 20px; overflow: auto; }
 .canvas-header { font-size: 13px; font-weight: 600; color: #151515; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
@@ -160,19 +170,19 @@ section:last-child { border-bottom: none; }
 .canvas-table tr.selected td { background: #D8E6F3; }
 .canvas-actions { display: flex; gap: 8px; margin-top: 10px; }
 .canvas-btn { height: 28px; padding: 0 12px; font-size: 11px; font-weight: 500; font-family: 'DM Sans', sans-serif; border-radius: 4px; border: none; cursor: pointer; }
-.canvas-btn-primary { background: #518DD2; color: #fff; }
+.canvas-btn-primary { background: #151515; color: #E9EBDF; }
 .canvas-btn-secondary { background: #fff; color: #151515; border: 1px solid #D8D5CC; }
 
 .builder-inspector { width: 210px; flex-shrink: 0; background: var(--surface); border-left: 1px solid var(--border); display: flex; flex-direction: column; }
 .inspector-header { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); padding: 10px 12px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.inspector-component-name { font-size: 11px; font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 3px; }
+.inspector-component-name { font-size: 11px; font-weight: 600; color: var(--blue); background: var(--blue-light); padding: 2px 8px; border-radius: 3px; }
 .inspector-row { padding: 8px 12px; border-bottom: 1px solid var(--border); }
 .inspector-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-bottom: 5px; }
 .inspector-input { height: 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 0 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text); width: 100%; outline: none; }
-.inspector-input:focus { border-color: var(--primary); }
+.inspector-input:focus { border-color: var(--blue); }
 .inspector-select { height: 26px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; padding: 0 6px; font-family: inherit; font-size: 11px; color: var(--text); width: 100%; outline: none; appearance: none; }
 .inspector-toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
-.inspector-toggle { width: 28px; height: 16px; background: var(--primary); border-radius: 8px; position: relative; cursor: pointer; flex-shrink: 0; }
+.inspector-toggle { width: 28px; height: 16px; background: var(--blue); border-radius: 8px; position: relative; cursor: pointer; flex-shrink: 0; }
 .inspector-toggle::after { content:''; position:absolute; width:12px; height:12px; background:#fff; border-radius:50%; top:2px; right:2px; }
 .inspector-toggle.off { background: var(--border); }
 .inspector-toggle.off::after { right:auto; left:2px; }
@@ -214,11 +224,12 @@ section:last-child { border-bottom: none; }
 
     <div class="section-sub">Brand</div>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#151515')"><div class="swatch-color" style="background:#151515"></div><div class="swatch-info"><span class="swatch-token">color-dark</span><span class="swatch-hex">#151515</span><span class="swatch-usage">Primary dark, text</span></div></div>
-      <div class="swatch" onclick="copyHex('#F7F8F4')"><div class="swatch-color" style="background:#F7F8F4;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">color-light</span><span class="swatch-hex">#F7F8F4</span><span class="swatch-usage">Primary light bg</span></div></div>
-      <div class="swatch" onclick="copyHex('#E9EBDF')"><div class="swatch-color" style="background:#E9EBDF;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">cream</span><span class="swatch-hex">#E9EBDF</span><span class="swatch-usage">Text on dark bg</span></div></div>
-      <div class="swatch" onclick="copyHex('#518DD2')"><div class="swatch-color" style="background:#518DD2"></div><div class="swatch-info"><span class="swatch-token">blue</span><span class="swatch-hex">#518DD2</span><span class="swatch-usage">CTAs, active, selected</span></div></div>
-      <div class="swatch" onclick="copyHex('#E8765E')"><div class="swatch-color" style="background:#E8765E"></div><div class="swatch-info"><span class="swatch-token">orange</span><span class="swatch-hex">#E8765E</span><span class="swatch-usage">Accent, highlights</span></div></div>
+      <div class="swatch" onclick="copyHex('#151515')"><div class="swatch-color" style="background:#151515"></div><div class="swatch-info"><span class="swatch-token">color-dark</span><span class="swatch-hex">#151515</span><span class="swatch-usage">Primary btn (light), bg (dark)</span></div></div>
+      <div class="swatch" onclick="copyHex('#F7F8F4')"><div class="swatch-color" style="background:#F7F8F4;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">color-light</span><span class="swatch-hex">#F7F8F4</span><span class="swatch-usage">App background (light)</span></div></div>
+      <div class="swatch" onclick="copyHex('#E9EBDF')"><div class="swatch-color" style="background:#E9EBDF;border-bottom:1px solid #D8D5CC"></div><div class="swatch-info"><span class="swatch-token">cream</span><span class="swatch-hex">#E9EBDF</span><span class="swatch-usage">Primary btn (dark), text on dark</span></div></div>
+      <div class="swatch" onclick="copyHex('#518DD2')"><div class="swatch-color" style="background:#518DD2"></div><div class="swatch-info"><span class="swatch-token">blue</span><span class="swatch-hex">#518DD2</span><span class="swatch-usage">Secondary outline, focus, selection</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8765E')"><div class="swatch-color" style="background:#E8765E"></div><div class="swatch-info"><span class="swatch-token">orange</span><span class="swatch-hex">#E8765E</span><span class="swatch-usage">Accent highlights</span></div></div>
+      <div class="swatch" onclick="copyHex('#4D9987')"><div class="swatch-color" style="background:#4D9987"></div><div class="swatch-info"><span class="swatch-token">green</span><span class="swatch-hex">#4D9987</span><span class="swatch-usage">Success, confirmation</span></div></div>
     </div>
 
     <div class="section-sub">Surfaces</div>
@@ -271,7 +282,7 @@ section:last-child { border-bottom: none; }
         <tr><td>body</td><td><span style="font-size:13px;font-weight:400;color:var(--text-2)">Standard body text for interface copy</span></td><td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td></tr>
         <tr><td>label</td><td><span style="font-size:11px;font-weight:500;color:var(--text-2)">Field label</span></td><td><span class="spec-pill">11px</span><span class="spec-pill">500</span></td></tr>
         <tr><td>caption</td><td><span style="font-size:11px;font-weight:400;color:var(--text-3)">Caption, metadata</span></td><td><span class="spec-pill">11px</span><span class="spec-pill">400</span></td></tr>
-        <tr><td>code</td><td><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary)">SELECT id, name FROM users WHERE active = true</span></td><td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td></tr>
+        <tr><td>code</td><td><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--blue)">SELECT id, name FROM users WHERE active = true</span></td><td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td></tr>
       </tbody>
     </table>
   </section>
@@ -285,6 +296,7 @@ section:last-child { border-bottom: none; }
         <div style="display:flex;flex-direction:column;gap:6px;">
           <button class="btn btn-primary">Save changes</button>
           <button class="btn btn-secondary">Cancel</button>
+          <button class="btn btn-blue">Connect database</button>
           <button class="btn btn-ghost">Discard</button>
           <button class="btn btn-danger">Delete record</button>
         </div>
@@ -460,7 +472,7 @@ section:last-child { border-bottom: none; }
         <div class="guardrail-col-title do-title">Do</div>
         <ul class="guardrail-list">
           <li>Maximize information density — small text and tight spacing are features, not bugs</li>
-          <li>Use the blue accent only for selection, focus, and primary CTA</li>
+          <li>Use blue only for selection, focus rings, and secondary outlined actions — never as the primary CTA fill</li>
           <li>Keep forms compact — Retool users are power users who read dense UIs</li>
           <li>Use data tables as the default pattern for list data</li>
           <li>Monospace for all query, formula, and transformer values</li>
