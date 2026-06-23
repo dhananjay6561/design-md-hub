@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raycast – Design System</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root[data-theme="dark"] {
   --bg: #0D0D0D;
@@ -42,7 +42,8 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "calt","kern","liga","ss03";
   -webkit-font-smoothing: antialiased;
   background: var(--bg);
   color: var(--text);
@@ -63,8 +64,8 @@ section:last-child { border-bottom: none; }
 /* Hero */
 .hero { padding: 80px 0; border-bottom: 1px solid var(--hairline); }
 .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 24px; }
-.hero h1 { font-size: 32px; font-weight: 700; }
-.hero p { font-size: 15px; color: var(--text-body); margin-top: 6px; }
+.hero h1 { font-size: 48px; font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; }
+.hero p { font-size: 18px; color: var(--text-body); margin-top: 10px; line-height: 1.5; max-width: 520px; }
 
 /* Colors */
 .color-group { margin-bottom: 40px; }
@@ -185,7 +186,7 @@ section:last-child { border-bottom: none; }
     </svg>
     <div>
       <h1>Raycast</h1>
-      <p>A macOS productivity launcher built on dark chrome, vibrant accents, and keyboard-first interactions.</p>
+      <p>A collection of powerful productivity tools all within an extendable launcher for macOS.</p>
     </div>
   </div>
 </div>
@@ -282,41 +283,61 @@ section:last-child { border-bottom: none; }
 <!-- TYPOGRAPHY -->
 <section>
   <div class="wrapper">
-    <div class="section-title">Typography — DM Sans (marketing) · SF Pro (in-app)</div>
+    <div class="section-title">Typography — Inter (marketing · ss03) · SF Pro (in-app)</div>
     <div class="type-row">
       <span class="type-name">display-xl</span>
-      <span class="type-sample" style="font-size:36px;font-weight:600;line-height:1">Supercharge your Mac</span>
-      <div class="type-specs"><span class="spec-pill">64px</span><span class="spec-pill">600</span></div>
+      <span class="type-sample" style="font-size:56px;font-weight:600;line-height:1;letter-spacing:-0.03em">Your shortcut to everything.</span>
+      <div class="type-specs"><span class="spec-pill">64px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.0</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">display-lg</span>
-      <span class="type-sample" style="font-size:28px;font-weight:500;line-height:1.1">Extensions for everything</span>
-      <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">500</span></div>
+      <span class="type-sample" style="font-size:48px;font-weight:500;line-height:1.1;letter-spacing:-0.02em">There's an extension for that.</span>
+      <div class="type-specs"><span class="spec-pill">56px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.1</span></div>
+    </div>
+    <div class="type-row">
+      <span class="type-name">display-md</span>
+      <span class="type-sample" style="font-size:40px;font-weight:500;line-height:1.15;letter-spacing:-0.02em">Built for professionals like you.</span>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.15</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">heading</span>
-      <span class="type-sample" style="font-size:18px;font-weight:600">Quick Links &amp; Snippets</span>
-      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div>
+      <span class="type-sample" style="font-size:24px;font-weight:600;line-height:1.3">Quick Links &amp; Snippets</span>
+      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">body-lg</span>
-      <span class="type-sample" style="font-size:16px;font-weight:400;color:var(--text-body)">Launch apps, search files, and run scripts from anywhere on your Mac instantly.</span>
-      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">400</span></div>
+      <span class="type-sample" style="font-size:18px;font-weight:400;line-height:1.6;color:var(--text-body)">Launch apps, search files, and run scripts from anywhere on your Mac instantly.</span>
+      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">body-md</span>
-      <span class="type-sample" style="font-size:14px;font-weight:400;color:var(--text-body)">Default body copy for marketing and app descriptions.</span>
-      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span></div>
+      <span class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5;color:var(--text-body)">Default body copy for marketing and app descriptions.</span>
+      <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <span class="type-name">body-sm</span>
+      <span class="type-sample" style="font-size:14px;font-weight:400;line-height:1.5;color:var(--text-body)">Secondary descriptions, supporting content.</span>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">list-title</span>
-      <span class="type-sample" style="font-size:13px;font-weight:400">Open Raycast Settings</span>
+      <span class="type-sample" style="font-size:14px;font-weight:400">Open Raycast Settings</span>
       <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">SF Pro</span></div>
     </div>
     <div class="type-row">
+      <span class="type-name">list-subtitle</span>
+      <span class="type-sample" style="font-size:13px;font-weight:400;color:var(--t60)">Preferences &amp; settings</span>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">SF Pro</span></div>
+    </div>
+    <div class="type-row">
       <span class="type-name">section-hdr</span>
-      <span class="type-sample" style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;color:var(--t60)">RECENT COMMANDS</span>
-      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">500</span></div>
+      <span class="type-sample" style="font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--t60)">RECENT COMMANDS</span>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">500</span><span class="spec-pill">ALL CAPS</span></div>
+    </div>
+    <div class="type-row">
+      <span class="type-name">label / btn</span>
+      <span class="type-sample" style="font-size:14px;font-weight:500">Download for Mac</span>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">500</span></div>
     </div>
   </div>
 </section>

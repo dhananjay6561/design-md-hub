@@ -1,6 +1,6 @@
 # Raycast DESIGN.md
 
-> A macOS productivity launcher built on dark chrome, vibrant gradient accents, and the principle that every interaction should feel instantaneous.
+> Your shortcut to everything — a macOS productivity launcher built on dark chrome, vibrant gradient accents, and the principle that every interaction should feel instantaneous.
 
 ## Overview
 
@@ -96,8 +96,15 @@ Letter spacing: default (SF Pro tracks automatically). Icon size paired with `li
 
 ### Marketing Site (raycast.com / ray.so)
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Feature settings**: `"calt", "kern", "liga", "ss03"` enabled globally
+**Font variables (from live CSS):**
+- `--main-font`: `var(--font-inter), sans-serif`
+- `--font-inter`: `"Inter", "Inter Fallback"` (variable weight 100–900, loaded via `next/font`)
+- `--monospace-font`: `var(--font-jetbrains-mono), Menlo, Monaco, Courier, monospace`
+- `--font-jetbrains-mono`: `"JetBrains Mono", "JetBrains Mono Fallback"`
+- `--font-geist-mono`: `"GeistMono", ui-monospace, SFMono-Regular, Roboto Mono, Menlo, monospace`
+
+**Global settings:**
+- **Font feature settings**: `"calt", "kern", "liga", "ss03"` enabled globally
 - **Anti-aliasing**: `-webkit-font-smoothing: antialiased`
 
 | Scale | Size | Weight | Usage |
@@ -115,19 +122,26 @@ Letter spacing: default (SF Pro tracks automatically). Icon size paired with `li
 
 ## Spacing
 
-Base unit: **4 px**
+Base unit: **8 px** (half-step at 4px via `--spacing-0-5`)
+
+Sourced from live `--spacing-*` CSS tokens on raycast.com:
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `xxs` | 2 px | Hairline gaps, icon inner padding |
-| `xs` | 4 px | Icon-to-label gap, tight row padding |
-| `sm` | 8 px | Intra-component spacing, badge padding (`px-2`) |
-| `md` | 12 px | Standard component gap |
-| `lg` | 16 px | Card inner padding (store cards), section gap |
-| `xl` | 24 px | Feature card padding, group spacing |
-| `2xl` | 32 px | Section top/bottom spacing |
-| `3xl` | 48 px | Large layout gaps |
-| `section` | 96 px | Major page section vertical rhythm |
+| `--spacing-0-5` | 4 px | Hairline gaps, icon inner padding |
+| `--spacing-1` | 8 px | Icon-to-label gap, badge padding |
+| `--spacing-1-5` | 12 px | Standard component gap |
+| `--spacing-2` | 16 px | Card inner padding, section gap |
+| `--spacing-2-5` | 20 px | Medium component spacing |
+| `--spacing-3` | 24 px | Feature card padding, group spacing |
+| `--spacing-4` | 32 px | Section top/bottom spacing |
+| `--spacing-5` | 40 px | Larger component padding |
+| `--spacing-6` | 48 px | Large layout gaps |
+| `--spacing-7` | 56 px | Header/search bar height |
+| `--spacing-8` | 64 px | Section vertical spacing |
+| `--spacing-9` | 80 px | Hero top padding |
+| `--spacing-10` | 96 px | Major section vertical rhythm |
+| `--spacing-12` | 168 px | Large section spacing |
 
 App-specific layout measurements:
 - Window: `750 × 475 px`
@@ -139,17 +153,20 @@ App-specific layout measurements:
 
 ## Border Radius
 
+Sourced from live `--rounding-*` CSS tokens on raycast.com:
+
 | Token | Value | Usage |
 |-------|-------|-------|
-| `none` | 0 px | Flat edges (none used in default UI) |
-| `sm` | 6 px | Small tags, compact chips |
-| `md` | 8 px | Badge/tag components (`rounded-md`) |
-| `lg` | 10 px | List item selected state (`rounded-[10px]`) |
-| `icon-btn` | 6–8 px | Icon button containers (`rounded-md` at 24 × 24 px) |
-| `keyboard-key` | 6 px | Keyboard shortcut chips (`rounded-md`, 20–24 px tall) |
-| `card` | 12–16 px | Feature cards on marketing site |
-| `window` | 18 px | Main Raycast floating window (`rounded-[18px]`) |
-| `full` | 9999 px | Pill buttons, CTA download button |
+| `--rounding-none` | 0 px | Flat edges |
+| `--rounding-xs` | 4 px | Micro elements |
+| `--rounding-sm` | 6 px | Tags, chips, keyboard keys |
+| `--rounding-normal` | 8 px | Badge/tag components, list item selected state |
+| `--rounding-md` | 12 px | Cards, component containers |
+| `--rounding-lg` | 16 px | Larger cards, panels |
+| `--rounding-xl` | 20 px | Section cards on marketing site |
+| `--rounding-xxl` | 24 px | Hero cards, large feature blocks |
+| `window` | 18 px | Main Raycast floating window (custom, not in scale) |
+| `--rounding-full` | 100% | Pill buttons, CTA download button |
 
 ## Shadows
 
