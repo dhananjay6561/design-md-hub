@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <style>@font-face{font-family:'Mona Sans';src:url('https://github.githubassets.com/assets/MonaSansVF-wdth-wght-opsz-902d64c7ad02.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}</style>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GitHub Design System — Primer</title>
 <style>
@@ -19,7 +18,7 @@
     --success: #1A7F37;
     --success-bg: #DAFBE1;
     --success-border: #ACEEBB;
-    --danger: #CF222E;
+    --danger: #D1242F;
     --danger-bg: #FFEBE9;
     --danger-border: #FFCECB;
     --attention: #9A6700;
@@ -36,23 +35,23 @@
   :root[data-theme="dark"] {
     --bg: #0D1117;
     --bg-muted: #151B23;
-    --fg: #E6EDF3;
+    --fg: #F0F6FC;
     --fg-muted: #9198A1;
     --fg-disabled: #656C76;
     --border: #3D444D;
     --accent: #4493F8;
     --accent-bg: rgba(56,139,253,0.10);
     --success: #3FB950;
-    --success-bg: rgba(175,245,180,0.10);
+    --success-bg: rgba(46,160,67,0.15);
     --success-border: #238636;
     --danger: #F85149;
-    --danger-bg: rgba(255,113,113,0.10);
+    --danger-bg: rgba(248,81,73,0.10);
     --danger-border: #DA3633;
     --attention: #D29922;
-    --attention-bg: rgba(248,227,161,0.10);
+    --attention-bg: rgba(187,128,9,0.15);
     --attention-border: #9E6A03;
     --done: #AB7DF8;
-    --done-bg: rgba(210,168,255,0.10);
+    --done-bg: rgba(171,125,248,0.15);
     --done-border: #8957E5;
     --btn-default-bg: #21262D;
     --btn-primary-bg: #238636;
@@ -149,6 +148,7 @@
   }
   .input::placeholder { color: var(--fg-muted); }
   .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(9,105,218,0.40); }
+  :root[data-theme="dark"] .input:focus { box-shadow: 0 0 0 3px rgba(68,147,248,0.40); }
 
   .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
   .badge {
@@ -208,7 +208,7 @@
       <img src="https://cdn.simpleicons.org/github/181717" width="56" height="56" class="brand-logo logo-invert" alt="github logo">
     </div>
     <h1>GitHub</h1>
-    <p>The world's home for code — functional density and open-source culture shape every decision in the Primer design system.</p>
+    <p>The complete developer platform — functional density and open-source culture shape every decision in the Primer design system.</p>
   </div>
 
   <!-- COLORS -->
@@ -354,7 +354,7 @@
           <span class="badge" style="background:#DAFBE1;color:#1A7F37;border-color:#ACEEBB;">Open</span>
           <span class="badge" style="background:#FBEFFF;color:#8250DF;border-color:#ECD8FF;">Merged</span>
           <span class="badge" style="background:#FFEBE9;color:#CF222E;border-color:#FFCECB;">Closed</span>
-          <span class="badge" style="background:#FFF8C5;color:#9A6700;border-color:#FAE17D;">Draft</span>
+          <span class="badge" style="background:#EFF2F5;color:#59636E;border-color:#D1D9E0;">Draft</span>
           <span class="badge" style="background:#DDF4FF;color:#0969DA;border-color:#B6E3FF;">Approved</span>
           <span class="badge" style="background:#EFF2F5;color:#454C54;border-color:#D1D9E0;">Neutral</span>
         </div>

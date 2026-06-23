@@ -1,6 +1,6 @@
 # Linear DESIGN.md
 
-> Fast, focused, and opinionated — a productivity tool that feels like it was built for people who hate slow software.
+> The product development system for teams and agents.
 
 ## Overview
 
@@ -12,10 +12,10 @@ Linear's design is dark-first, dense, and precise. It prioritizes information de
 |-------|-----|-------|
 | `primary` | `#5E6AD2` | Active states, CTAs, links |
 | `primary-hover` | `#4F5BBF` | Hover on primary |
-| `background` | `#0F0F10` | App background |
-| `surface` | `#1A1A1C` | Panels, sidebars |
-| `surface-raised` | `#242427` | Cards, dropdowns |
-| `surface-overlay` | `#2E2E32` | Modals, popovers |
+| `background` | `#08090A` | App background |
+| `surface` | `#191D20` | Panels, sidebars |
+| `surface-raised` | `#222529` | Cards, dropdowns |
+| `surface-overlay` | `#2E3033` | Modals, popovers |
 | `text-primary` | `#F2F2F3` | Primary text |
 | `text-secondary` | `#8A8A9A` | Supporting text, metadata |
 | `text-muted` | `#5A5A6A` | Placeholders, disabled |
@@ -28,7 +28,7 @@ Linear's design is dark-first, dense, and precise. It prioritizes information de
 
 ## Typography
 
-- **Font family**: `Plus Jakarta Sans`, `system-ui`, `sans-serif`
+- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
 - **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
 
 | Scale | Size | Weight | Line Height |
@@ -106,7 +106,7 @@ Linear avoids decorative shadows. Elevation is communicated through background c
 
 ### Sidebar / Navigation
 
-- Background: `surface` (`#1A1A1C`)
+- Background: `surface` (`#191D20`)
 - Width: `220px`, collapsible
 - Section headers: `label` scale, `text-muted`, uppercase, `space-2` padding
 - Nav item: `32px` height, `space-2 space-3` padding, `body-sm`

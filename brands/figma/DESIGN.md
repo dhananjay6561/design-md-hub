@@ -8,7 +8,7 @@
 
 Figma's visual identity is built on three interlocking ideas: **clarity**, **energy**, and **craft**. The UI itself is a demonstration of the product: pixel-precise, densely information-rich yet uncluttered, and capable of fading into the background while creative work happens on the canvas. The marketing surface (figma.com) and the app UI share the same underlying philosophy but use different design modes — the website is expressive and bold; the app is disciplined and utilitarian.
 
-The 2024 brand refresh introduced a custom type family (Figma Sans) and expanded the palette from the legacy five-color logo set to a broader system of bold primaries, electric neons, and muted earthy tones. The signature purple accent persists as the through-line between old and new.
+The 2023 rebrand (Config 2023) introduced a custom type family (Figma Sans) and expanded the palette from the legacy five-color logo set to a broader system of bold primaries, electric neons, and muted earthy tones. The signature purple accent persists as the through-line between old and new.
 
 **Core principles:**
 - **Canvas-first:** chrome is minimal so work fills the screen.
@@ -26,11 +26,12 @@ The 2024 brand refresh introduced a custom type family (Figma Sans) and expanded
 |---|---|---|---|
 | `brand-red` | `#F24E1E` | Figma Red | Logo mark, error, destructive |
 | `brand-orange` | `#FF7262` | Figma Orange | Accent, illustration |
-| `brand-purple` | `#A259FF` | Figma Purple | Primary CTA, selected state, brand accent |
+| `brand-purple` | `#A259FF` | Figma Purple | Logo mark, brand accent |
+| `brand-primary` | `#4D49FC` | Figma Indigo | Current UI primary CTA, nav active state (2024+) |
 | `brand-blue` | `#1ABCFE` | Figma Blue | Information, FigJam accent |
 | `brand-green` | `#0ACF83` | Figma Green | Success, positive states |
 
-**Note:** The legacy logo also renders with `#874FFF` (Electric Violet) as a variant purple. The refreshed brand uses `#A259FF` as canonical purple.
+**Note:** The 2024+ brand uses `#4D49FC` (indigo) as the primary interactive color. `#A259FF` remains the canonical purple for the logo mark.
 
 ### 2.2 App UI — Light Mode (Figma Design)
 
@@ -102,7 +103,9 @@ FigJam uses purple where Figma Design uses blue as its brand color:
 | **Figma Sans Mono** | Code snippets, developer handoff panels, token values |
 | **Inter** | Fallback / legacy; still used in plugin UIs and community files |
 
-Figma Sans is a variable typeface developed with Grilli Type. It supports 7 weight stops and an optical-size axis that opens letter-spacing at smaller scales and tightens it at display scale.
+All Figma Sans variants are proprietary — developed in-house by Figma's own type team, not publicly available. Preview fallback: `Inter` (Google Fonts) — the closest widely-available grotesque sans-serif in proportions and optical sizing behavior; also Figma's own legacy fallback. Preview mono fallback: `JetBrains Mono` (Google Fonts) — similar proportions to Figma Sans Mono for code contexts.
+
+Figma Sans is a variable typeface. It supports 7 weight stops and an optical-size axis that opens letter-spacing at smaller scales and tightens it at display scale.
 
 ### 3.2 Type Scale (Marketing / figma.com)
 
@@ -129,18 +132,6 @@ Figma Sans is a variable typeface developed with Grilli Type. It supports 7 weig
 | `ui-sm` | 11 px | 16 px | Regular 400 | Tooltip text, secondary labels |
 | `ui-xs` | 10 px | 14 px | Regular 400 | Badges, keyboard shortcut hints |
 | `ui-mono` | 11 px | 16 px | Regular 400 | Hex fields, coordinate inputs |
-
-### 3.4 Font Weight Reference
-
-| Weight | Value | Figma Sans Name |
-|---|---|---|
-| Light | 300 | Light |
-| Regular | 400 | Regular |
-| Medium | 500 | Medium |
-| SemiBold | 600 | Bold |
-| Bold | 700 | Heavy |
-| ExtraBold | 800 | Black |
-| Black | 900 | Black (max) |
 
 ---
 

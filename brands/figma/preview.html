@@ -10,17 +10,17 @@
 :root[data-theme="light"]{
   --bg:#FFFFFF;--bg2:#F5F5F5;--bg3:#EBEBEB;--bg-selected:#E8F4FF;
   --border:#E6E6E6;--border-strong:#D4D4D4;
-  --text:rgba(0,0,0,.9);--text2:rgba(0,0,0,.55);--text3:rgba(0,0,0,.35);
+  --text:rgba(0,0,0,.9);--text2:rgba(0,0,0,.50);--text3:rgba(0,0,0,.30);
   --brand-blue:#0D99FF;--brand-link:#007BE5;--brand-primary:#4D49FC;
 }
 :root[data-theme="dark"]{
-  --bg:#1E1E1E;--bg2:#252525;--bg3:#333333;--bg-selected:#193147;
-  --border:#333333;--border-strong:#484848;
-  --text:#E5E5E5;--text2:#B3B3B3;--text3:#7A7A7A;
-  --brand-blue:#0D99FF;--brand-link:#4DB8FF;--brand-primary:#4D49FC;
+  --bg:#2C2C2C;--bg2:#1E1E1E;--bg3:#3C3C3C;--bg-selected:rgba(13,153,255,0.15);
+  --border:#3C3C3C;--border-strong:#484848;
+  --text:#FFFFFFE5;--text2:#FFFFFF80;--text3:#FFFFFF4D;
+  --brand-blue:#0D99FF;--brand-link:#0D99FF;--brand-primary:#4D49FC;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:'figmaSans','Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 .toggle{position:fixed;top:16px;right:16px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
@@ -80,7 +80,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .frame-rect{background:#F0F0F0;border-radius:3px;height:10px}
 .frame-rect.accent{background:#0D99FF;width:60%}
 .frame-rect.sm{height:6px;width:80%}
-.toolbar{display:flex;align-items:center;gap:2px;background:#2C2C2C;border-radius:4px;padding:4px 6px;position:absolute;top:8px;left:50%;transform:translateX(-50%)}
+.toolbar{display:flex;align-items:center;gap:2px;background:#2C2C2C;border:1px solid #3C3C3C;border-radius:9999px;padding:4px 8px;position:absolute;bottom:10px;left:50%;transform:translateX(-50%);box-shadow:0 4px 12px rgba(0,0,0,.5)}
 .tb-btn{width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#B0B0B0;font-size:11px}
 .tb-btn.active{background:#444;color:#fff}
 .tb-sep{width:1px;height:16px;background:#3C3C3C;margin:0 3px}
@@ -104,7 +104,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .component-meta{font-size:11px;color:var(--text3);margin-top:2px}
 
 /* Buttons */
-.btn{font-family:'Inter',sans-serif;font-weight:500;font-size:13px;border-radius:6px;padding:0 12px;height:32px;border:none;cursor:pointer;display:inline-flex;align-items:center;transition:background .12s}
+.btn{font-family:'figmaSans','Inter',system-ui,sans-serif;font-weight:500;font-size:13px;border-radius:6px;padding:0 12px;height:32px;border:none;cursor:pointer;display:inline-flex;align-items:center;transition:background .12s}
 .btn-primary{background:#0D99FF;color:#fff}
 .btn-primary:hover{background:#0A80D9}
 .btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text)}
@@ -119,7 +119,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .badge-row{display:flex;gap:6px;flex-wrap:wrap}
 
 /* Input */
-.figma-input{background:var(--bg);border:1px solid var(--border);border-radius:4px;height:32px;padding:0 8px;font-size:12px;font-family:'Inter',sans-serif;color:var(--text);outline:none;width:100%;transition:border .12s}
+.figma-input{background:var(--bg);border:1px solid var(--border);border-radius:4px;height:32px;padding:0 8px;font-size:12px;font-family:'figmaSans','Inter',system-ui,sans-serif;color:var(--text);outline:none;width:100%;transition:border .12s}
 .figma-input:focus{border-color:#0D99FF;box-shadow:0 0 0 3px rgba(13,153,255,.3)}
 .figma-input::placeholder{color:var(--text3)}
 
@@ -209,9 +209,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     <div class="type-rows">
       <div class="type-row"><div class="type-meta"><div class="type-name">display-2xl</div><div class="type-spec">900 · −0.04em</div></div><div class="type-sample" style="font-size:42px;font-weight:900;letter-spacing:-.04em;line-height:1">Design tools</div><div class="spec-pills"><span class="spec-pill">72px</span><span class="spec-pill">900</span></div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">display-xl</div><div class="type-spec">700 · −0.03em</div></div><div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.03em;line-height:1.1">Collaborate in real time</div><div class="spec-pills"><span class="spec-pill">60px</span><span class="spec-pill">700</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">600 · −0.02em</div></div><div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-.02em">The world's best design teams</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">600</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">text-lg</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:16px">Everything you need to design at scale.</div><div class="spec-pills"><span class="spec-pill">20px</span><span class="spec-pill">400</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">text-md</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Standard body text and UI copy.</div><div class="spec-pills"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-md</div><div class="type-spec">600 · −0.01em</div></div><div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-.01em">The world's best design teams</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-xl</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:16px">Everything you need to design at scale.</div><div class="spec-pills"><span class="spec-pill">20px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-sm</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Standard body text and UI copy.</div><div class="spec-pills"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">ui-mono</div><div class="type-spec">mono · 400</div></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text2)">#0D99FF · X: 240 · Y: 160 · W: 320 · H: 180</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
@@ -226,14 +226,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
         <div class="comp-title">Canvas &amp; toolbar</div>
         <div class="canvas-area">
           <div class="toolbar">
-            <div class="tb-btn active">V</div>
-            <div class="tb-btn">F</div>
+            <div class="tb-btn active" title="Move">&#x2B1C;</div>
+            <div class="tb-btn" title="Frame">&#x2795;</div>
             <div class="tb-sep"></div>
-            <div class="tb-btn">R</div>
-            <div class="tb-btn">O</div>
-            <div class="tb-btn">T</div>
+            <div class="tb-btn" title="Rectangle">&#x25A1;</div>
+            <div class="tb-btn" title="Ellipse">&#x25CB;</div>
+            <div class="tb-btn" title="Text">T</div>
             <div class="tb-sep"></div>
-            <div class="tb-btn">P</div>
+            <div class="tb-btn" title="Pen">&#x270E;</div>
           </div>
           <div class="frame">
             <div class="frame-label">Frame · 320 × 180</div>
@@ -289,7 +289,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 
     <!-- Component thumbnails -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
-      <div class="component-thumb"><div class="component-thumb-canvas"><button style="background:#0D99FF;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer">Button</button></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Button/Primary<span class="component-badge">4 variants</span></div><div class="component-meta">Interactive</div></div></div>
+      <div class="component-thumb"><div class="component-thumb-canvas"><button style="background:#0D99FF;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-family:'figmaSans','Inter',system-ui,sans-serif;font-size:13px;font-weight:500;cursor:pointer">Button</button></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Button/Primary<span class="component-badge">4 variants</span></div><div class="component-meta">Interactive</div></div></div>
       <div class="component-thumb"><div class="component-thumb-canvas"><input style="border:1px solid #E6E6E6;border-radius:4px;padding:4px 8px;font-size:12px;width:120px" placeholder="Input field"></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Input/Default<span class="component-badge">6 variants</span></div><div class="component-meta">Form element</div></div></div>
       <div class="component-thumb"><div class="component-thumb-canvas"><span style="background:rgba(13,153,255,.1);color:#007BE5;font-size:12px;padding:2px 8px;border-radius:9999px;font-weight:500">Label</span></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Badge/Brand<span class="component-badge">8 variants</span></div><div class="component-meta">Status</div></div></div>
       <div class="component-thumb"><div class="component-thumb-canvas" style="gap:4px;display:flex"><div style="width:28px;height:28px;border-radius:50%;background:#0D99FF;border:2px solid #fff"></div><div style="width:28px;height:28px;border-radius:50%;background:#A259FF;border:2px solid #fff;margin-left:-8px"></div><div style="width:28px;height:28px;border-radius:50%;background:#F24E1E;border:2px solid #fff;margin-left:-8px"></div></div><div class="component-thumb-info"><div class="component-name"><span>◆</span>Avatar/Stack<span class="component-badge">3 sizes</span></div><div class="component-meta">Collaboration</div></div></div>

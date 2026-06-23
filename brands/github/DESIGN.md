@@ -60,7 +60,7 @@ Core principles:
 | `--bgColor-default` | `#0D1117` | Page background |
 | `--bgColor-muted` | `#151B23` | Secondary surfaces, code block backgrounds |
 | `--bgColor-emphasis` | `#3D444D` | High-contrast backgrounds, tooltips |
-| `--fgColor-default` | `#E6EDF3` | Primary text (maps to neutral.12 in dark palette) |
+| `--fgColor-default` | `#F0F6FC` | Primary text (maps to neutral.12 in dark palette) |
 | `--fgColor-muted` | `#9198A1` | Secondary text, metadata |
 | `--fgColor-disabled` | `#656C76` | Disabled states |
 | `--borderColor-default` | `#3D444D` | Standard borders |
@@ -68,15 +68,15 @@ Core principles:
 | `--fgColor-accent` | `#4493F8` | Links, interactive elements |
 | `--bgColor-accent-muted` | `#388BFD1A` | Accent tint backgrounds |
 | `--fgColor-success` | `#3FB950` | Success / open state text |
-| `--bgColor-success-muted` | `#AFF5B41A` | Success tint |
+| `--bgColor-success-muted` | `#2EA04326` | Success tint |
 | `--bgColor-success-emphasis` | `#238636` | Success filled |
 | `--fgColor-danger` | `#F85149` | Danger / error text |
-| `--bgColor-danger-muted` | `#FF71711A` | Danger tint |
+| `--bgColor-danger-muted` | `#F851491A` | Danger tint |
 | `--bgColor-danger-emphasis` | `#DA3633` | Danger filled |
 | `--fgColor-attention` | `#D29922` | Warning text |
-| `--bgColor-attention-muted` | `#F8E3A11A` | Warning tint |
+| `--bgColor-attention-muted` | `#BB800926` | Warning tint |
 | `--fgColor-done` | `#AB7DF8` | Merged/done text |
-| `--bgColor-done-muted` | `#D2A8FF1A` | Done tint |
+| `--bgColor-done-muted` | `#AB7DF826` | Done tint |
 
 ### Base Color Scales (Light)
 
@@ -119,7 +119,7 @@ These are the raw palette values underlying the semantic tokens above.
 
 | Token | Stack | Usage |
 |-------|-------|-------|
-| `--fontStack-sansSerif` | `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'` | All UI text, body, labels, headings |
+| `--fontStack-sansSerif` | `'Mona Sans VF', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'` | All UI text, body, labels, headings. Mona Sans VF leads the stack as GitHub's primary brand font. |
 | `--fontStack-monospace` | `ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace` | Code blocks, inline code, terminal output, commit SHAs |
 
 The primary font family uses OS-native system fonts. GitHub ships **Mona Sans** (a variable sans-serif) as an enhanced brand-level override (`'Mona Sans VF'`) when available, falling back to the system stack seamlessly.

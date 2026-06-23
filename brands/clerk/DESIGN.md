@@ -21,25 +21,31 @@ Clerk's design is clean, professional, and conversion-optimized. The dashboard i
 | `border` | `#E4E4E7` | Dividers, input borders |
 | `border-strong` | `#D4D4D8` | Emphasized borders |
 | `error` | `#EF4444` | Error states |
-| `success` | `#22C55E` | Success states |
-| `warning` | `#F59E0B` | Warnings |
+| `success` | `#22C543` | Success states |
+| `warning` | `#F36B16` | Warnings |
 | `purple-dim` | `rgba(108,71,255,0.08)` | Subtle primary fills |
+| `cyan` | `#5DE3FF` | Secondary accent, highlights |
+| `cyan-dim` | `rgba(93,227,255,0.12)` | Subtle cyan backgrounds |
 
 ### Dark Mode
 
 | Token | Hex |
 |-------|-----|
-| `background` | `#09090B` |
-| `surface` | `#18181B` |
-| `surface-secondary` | `#27272A` |
+| `background` | `#131316` |
+| `surface` | `#212126` |
+| `surface-secondary` | `#2F3037` |
 | `text-primary` | `#FAFAFA` |
 | `text-secondary` | `#A1A1AA` |
 | `border` | `#3F3F46` |
+| `border-strong` | `#52525B` |
+| `primary` | `#7C5CFF` |
+| `primary-hover` | `#9171FF` |
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
+- **Font family**: `Suisse Intl` — proprietary (Schick Toikka foundry, not publicly available). Preview fallback: `Geist` (Vercel / Google Fonts) — Clerk's own fallback in production; closest match in proportions and weight range.
+- **Mono font**: System monospace stack (`ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace`) — Clerk components use the system stack, not a custom mono font. Preview uses `JetBrains Mono` as a visible stand-in.
+- **Numbers**: `Geist` (numerals only) — available via Vercel / Google Fonts.
 
 | Scale | Size | Weight | Line Height |
 |-------|------|--------|-------------|

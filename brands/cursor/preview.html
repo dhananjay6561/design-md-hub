@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cursor — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root[data-theme="dark"]{
-  --bg:#14120B;--bg-panel:#1B1913;--bg-raised:#201E18;
-  --border:#302E27;--border-strong:#42403A;
-  --text:#EDECEC;--text2:#a6a6a6;--text3:#7a797a;
+  --bg:#181818;--bg-panel:#1d1d1d;--bg-raised:#1d1d1d;
+  --border:#383838;--border-strong:#292929;
+  --text:#d6d6dd;--text2:#a6a6a6;--text3:#7a797a;
   --accent:#228df2;--accent-hover:#359dff;--selection:#163761;
 }
 :root[data-theme="light"]{
   --bg:#F7F7F4;--bg-panel:#F2F1ED;--bg-raised:#EBEAE5;
   --border:#D9D5CF;--border-strong:#C5C1BB;
   --text:#26251E;--text2:#7A7974;--text3:#B0AA9F;
-  --accent:#f54e00;--accent-hover:#cc3d00;--selection:#E6E5E0;
+  --accent:#0066bf;--accent-hover:#0052a3;--selection:#E6E5E0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:'CursorGothic','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 :root[data-theme="dark"] .logo-invert{filter:invert(1) brightness(1.1)}
@@ -32,7 +32,7 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 .hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
 .hero-logo{margin-bottom:24px}
 .brand-logo{display:block;margin:0 auto}
-.hero h1{font-size:56px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'Inter Tight','Geist',sans-serif;margin-bottom:12px}
+.hero h1{font-size:56px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'CursorGothic','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;;margin-bottom:12px}
 .hero p{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto}
 
 .wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
@@ -92,17 +92,17 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 .chat-code{background:var(--bg-raised);border:1px solid var(--border);border-radius:4px;padding:8px 10px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);margin-top:6px;line-height:1.6}
 .chat-actions{display:flex;gap:6px;margin-top:8px}
 .chat-input{border-top:1px solid var(--border);padding:8px 12px;background:var(--bg-raised);display:flex;align-items:center;gap:8px}
-.chat-input input{flex:1;background:transparent;border:none;font-family:'Geist',sans-serif;font-size:13px;color:var(--text);outline:none}
+.chat-input input{flex:1;background:transparent;border:none;font-family:'CursorGothic','Helvetica Neue',system-ui,sans-serif;font-size:13px;color:var(--text);outline:none}
 .chat-input input::placeholder{color:var(--text3)}
 
 /* App buttons */
-.btn{font-family:'Geist',sans-serif;font-size:13px;font-weight:400;border-radius:4px;border:none;cursor:pointer;padding:5px 12px;transition:background .12s}
+.btn{font-family:'CursorGothic','Helvetica Neue',system-ui,sans-serif;font-size:13px;font-weight:400;border-radius:4px;border:none;cursor:pointer;padding:5px 12px;transition:background .12s}
 .btn-app-primary{background:var(--accent);color:#fff}
 .btn-app-primary:hover{background:var(--accent-hover)}
 .btn-app-secondary{background:var(--bg-raised);color:var(--text);border:1px solid var(--border)}
 .btn-app-secondary:hover{background:var(--border)}
 /* Marketing buttons */
-.btn-mkt{background:#26251E;color:#F7F7F4;border-radius:9999px;padding:9px 20px;font-family:'Inter Tight',sans-serif;font-size:14px;border:none;cursor:pointer}
+.btn-mkt{background:#26251E;color:#F7F7F4;border-radius:9999px;padding:10px 22px;font-family:'CursorGothic','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;font-size:14px;border:none;cursor:pointer}
 :root[data-theme="light"] .btn-mkt{background:#14120B;color:#F7F7F4}
 .btn-mkt-outline{background:transparent;color:#26251E;border:1px solid var(--border);border-radius:9999px;padding:9px 20px;font-size:14px;cursor:pointer}
 :root[data-theme="light"] .btn-mkt-outline{color:#14120B}
@@ -158,12 +158,12 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 
     <div class="group-label">App UI — Anysphere Dark</div>
     <div class="swatch-grid">
-      <div class="swatch" onclick="copyHex('#14120B')"><div class="swatch-color" style="background:#14120B;border-bottom:1px solid #302E27"></div><div class="swatch-info"><span class="swatch-name">editor.background</span><span class="swatch-hex">#14120B</span><span class="swatch-use">Editor canvas</span></div></div>
-      <div class="swatch" onclick="copyHex('#1B1913')"><div class="swatch-color" style="background:#1B1913"></div><div class="swatch-info"><span class="swatch-name">dropdown.background</span><span class="swatch-hex">#1B1913</span><span class="swatch-use">Panels, widgets</span></div></div>
+      <div class="swatch" onclick="copyHex('#181818')"><div class="swatch-color" style="background:#181818;border-bottom:1px solid #383838"></div><div class="swatch-info"><span class="swatch-name">editor.background</span><span class="swatch-hex">#181818</span><span class="swatch-use">Editor canvas</span></div></div>
+      <div class="swatch" onclick="copyHex('#1d1d1d')"><div class="swatch-color" style="background:#1d1d1d"></div><div class="swatch-info"><span class="swatch-name">dropdown.background</span><span class="swatch-hex">#1d1d1d</span><span class="swatch-use">Panels, widgets</span></div></div>
       <div class="swatch" onclick="copyHex('#228df2')"><div class="swatch-color" style="background:#228df2"></div><div class="swatch-info"><span class="swatch-name">accent-blue</span><span class="swatch-hex">#228df2</span><span class="swatch-use">Caret, buttons, links</span></div></div>
       <div class="swatch" onclick="copyHex('#163761')"><div class="swatch-color" style="background:#163761"></div><div class="swatch-info"><span class="swatch-name">editor.selection</span><span class="swatch-hex">#163761</span><span class="swatch-use">Text selection</span></div></div>
       <div class="swatch" onclick="copyHex('#383838')"><div class="swatch-color" style="background:#383838"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#383838</span><span class="swatch-use">Panel borders</span></div></div>
-      <div class="swatch" onclick="copyHex('#EDECEC')"><div class="swatch-color" style="background:#EDECEC"></div><div class="swatch-info"><span class="swatch-name">foreground</span><span class="swatch-hex">#EDECEC</span><span class="swatch-use">Default text, icons</span></div></div>
+      <div class="swatch" onclick="copyHex('#d6d6dd')"><div class="swatch-color" style="background:#d6d6dd"></div><div class="swatch-info"><span class="swatch-name">foreground</span><span class="swatch-hex">#d6d6dd</span><span class="swatch-use">Default text, icons</span></div></div>
     </div>
 
     <div class="group-label">Marketing — Warm Parchment</div>
@@ -186,11 +186,11 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
   <div class="section">
     <div class="section-label">Typography</div>
     <div class="type-rows">
-      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Inter Tight · 400</div></div><div class="type-sample" style="font-size:38px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'Inter Tight',sans-serif">The AI Code Editor</div><div class="spec-pills"><span class="spec-pill">72px</span><span class="spec-pill">−0.03em</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">Inter Tight · 400</div></div><div class="type-sample" style="font-size:26px;font-weight:400;letter-spacing:-.02em;font-family:'Inter Tight',sans-serif">Built to make you extraordinary</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">−0.02em</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">body-16</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:15px">Cursor knows your codebase and writes code that fits your patterns.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">lh 1.5</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">ui-body</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">App chrome, panels, command palette labels</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">lh 1.5</span></div></div>
-      <div class="type-row"><div class="type-meta"><div class="type-name">ui-label</div><div class="type-spec">Geist · 400</div></div><div class="type-sample" style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3)">EXPLORER · SEARCH · SOURCE CONTROL</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">uppercase</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">CursorGothic · 400</div></div><div class="type-sample" style="font-size:38px;font-weight:400;letter-spacing:-.03em;line-height:1;font-family:'CursorGothic','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif">Your coding agent</div><div class="spec-pills"><span class="spec-pill">72px</span><span class="spec-pill">−0.03em</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading-lg</div><div class="type-spec">CursorGothic · 400</div></div><div class="type-sample" style="font-size:26px;font-weight:400;letter-spacing:-.02em;font-family:'CursorGothic','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif">Built to make you extraordinary</div><div class="spec-pills"><span class="spec-pill">36px</span><span class="spec-pill">−0.02em</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-16</div><div class="type-spec">CursorGothic · 400</div></div><div class="type-sample" style="font-size:15px">Cursor knows your codebase and writes code that fits your patterns.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">lh 1.5</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-body</div><div class="type-spec">CursorGothic · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">App chrome, panels, command palette labels</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">lh 1.5</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-label</div><div class="type-spec">CursorGothic · 400</div></div><div class="type-sample" style="font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3)">EXPLORER · SEARCH · SOURCE CONTROL</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">uppercase</span></div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">code</div><div class="type-spec">JetBrains Mono</div></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace"><span class="kw">const</span> <span class="fn">ai</span> = <span class="kw">new</span> <span class="fn">Cursor</span>({ <span class="str">model</span>: <span class="str">'claude-4'</span> })</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
@@ -228,7 +228,7 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
         <div class="chat-panel">
           <div class="chat-header">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--accent)"><circle cx="12" cy="12" r="10"/></svg>
-            Cursor AI
+            Cursor
           </div>
           <div class="chat-body">
             <div class="chat-msg">
@@ -301,9 +301,9 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
         <div class="gr-heading do">DO</div>
         <div class="gr-list">
           <div class="gr-item">Use #228df2 as the sole chromatic color in app UI — all other color is semantic status</div>
-          <div class="gr-item">Keep all app surfaces between #14120B–#201E18. No mid-grey or warm-tinted accents inside the IDE</div>
+          <div class="gr-item">Keep all app surfaces within the #141414–#1d1d1d range. No mid-grey or coloured backgrounds</div>
           <div class="gr-item">Render all code in Berkeley Mono — editor, chat, tooltips, inline diffs</div>
-          <div class="gr-item">Use Inter Tight for brand and marketing headlines only — never inside the IDE</div>
+          <div class="gr-item">Use Cursor Gothic exclusively for brand and marketing text — never inside the IDE</div>
           <div class="gr-item">Use pill radius for marketing CTAs; 4px/8px for IDE UI elements</div>
         </div>
       </div>

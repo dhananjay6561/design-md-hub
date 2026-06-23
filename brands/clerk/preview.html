@@ -6,7 +6,7 @@
 <title>Clerk — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root[data-theme="light"] {
   --bg: #FFFFFF;
@@ -24,8 +24,8 @@
   --cyan-dim: rgba(93,227,255,0.12);
   --error: #EF4444;
   --error-bg: #FEF2F2;
-  --success: #22C55E;
-  --warning: #F59E0B;
+  --success: #22C543;
+  --warning: #F36B16;
   --shadow-card: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04);
   --shadow-signin: 0 8px 32px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
 }
@@ -46,12 +46,12 @@
   --error: #F87171;
   --error-bg: rgba(239,68,68,0.1);
   --success: #4ADE80;
-  --warning: #FCD34D;
+  --warning: #FDBA74;
   --shadow-card: 0 2px 8px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
   --shadow-signin: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:'Suisse Intl','DM Sans',ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 :root[data-theme="dark"] .logo-invert{filter:invert(1) brightness(1.1)}
@@ -98,7 +98,7 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 .comp-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
 
 /* Buttons */
-.btn{font-family:'Geist',sans-serif;font-size:14px;font-weight:500;padding:0 16px;height:36px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s}
+.btn{font-family:'Suisse Intl','DM Sans',sans-serif;font-size:14px;font-weight:500;padding:0 18px;height:36px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background .15s}
 .btn-sm{height:30px;font-size:13px;padding:0 12px}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-primary:hover{background:var(--primary-hover)}
@@ -113,7 +113,7 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 .field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .field:last-child{margin-bottom:0}
 .field-label{font-size:12px;font-weight:500;color:var(--text2)}
-.field-input{height:36px;border:1px solid var(--border);border-radius:6px;padding:0 12px;font-family:'Geist',sans-serif;font-size:14px;color:var(--text);background:var(--bg);outline:none;width:100%;transition:border-color .15s}
+.field-input{height:40px;border:1px solid var(--border);border-radius:6px;padding:0 14px;font-family:'Suisse Intl','DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--bg);outline:none;width:100%;transition:border-color .15s}
 .field-input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary-dim)}
 .field-input::placeholder{color:var(--text3)}
 .field-input.error{border-color:var(--error)}
@@ -128,14 +128,14 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
 .badge-row{display:flex;gap:8px;flex-wrap:wrap}
 
 /* Sign-in card — Clerk's flagship component */
-.signin-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:32px;box-shadow:var(--shadow-signin);max-width:360px}
+.signin-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:var(--shadow-signin);max-width:360px}
 .signin-logo{display:flex;align-items:center;gap:8px;margin-bottom:20px}
 .signin-logo-mark{width:24px;height:24px;background:var(--primary);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .signin-logo-mark span{color:#fff;font-size:13px;font-weight:700;line-height:1}
 .signin-app{font-size:13px;font-weight:500;color:var(--text2)}
 .signin-title{font-size:20px;font-weight:600;letter-spacing:-.01em;margin-bottom:4px}
 .signin-subtitle{font-size:13px;color:var(--text2);margin-bottom:20px}
-.social-btn{width:100%;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:'Geist',sans-serif;font-size:14px;font-weight:500;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;margin-bottom:8px;transition:background .15s}
+.social-btn{width:100%;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg);font-family:'Suisse Intl','DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;margin-bottom:8px;transition:background .15s}
 .social-btn:hover{background:var(--bg-hover)}
 .divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:var(--text3);font-size:12px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
@@ -224,8 +224,8 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
     <div class="subsection-label">Semantic</div>
     <div class="swatch-grid">
       <div class="swatch" onclick="copyHex('#EF4444')"><div class="swatch-color" style="background:#EF4444"></div><div class="swatch-info"><span class="swatch-name">error</span><span class="swatch-hex">#EF4444</span></div></div>
-      <div class="swatch" onclick="copyHex('#22C55E')"><div class="swatch-color" style="background:#22C55E"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#22C55E</span></div></div>
-      <div class="swatch" onclick="copyHex('#F59E0B')"><div class="swatch-color" style="background:#F59E0B"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#F59E0B</span></div></div>
+      <div class="swatch" onclick="copyHex('#22C543')"><div class="swatch-color" style="background:#22C543"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#22C543</span></div></div>
+      <div class="swatch" onclick="copyHex('#F36B16')"><div class="swatch-color" style="background:#F36B16"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#F36B16</span></div></div>
     </div>
   </div>
 
@@ -238,6 +238,7 @@ body{font-family:'Geist',ui-sans-serif,system-ui,sans-serif;background:var(--bg)
       <div class="type-row"><div class="type-meta"><div class="type-name">heading-md</div><div class="type-spec">16px · 600</div></div><div class="type-sample" style="font-size:16px;font-weight:600;line-height:1.4">Security settings</div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">14px · 400</div></div><div class="type-sample" style="font-size:14px;line-height:1.5">Standard body text for interface copy and descriptions</div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">13px · 400</div></div><div class="type-sample" style="font-size:13px;line-height:1.5;color:var(--text2)">Secondary information, metadata, timestamps</div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">caption</div><div class="type-spec">12px · 400</div></div><div class="type-sample" style="font-size:12px;color:var(--text3)">Timestamps, helper text, supporting copy</div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">label</div><div class="type-spec">12px · 500</div></div><div class="type-sample" style="font-size:12px;font-weight:500">Email address</div></div>
       <div class="type-row"><div class="type-meta"><div class="type-name">code</div><div class="type-spec">13px · mono</div></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;background:var(--bg-hover);padding:2px 6px;border-radius:4px;display:inline-block">pk_live_abc123xyz</div></div>
     </div>
