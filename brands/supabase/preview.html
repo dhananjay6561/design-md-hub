@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Supabase Design System Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root[data-theme="dark"] {
     --bg: #171717;
@@ -43,7 +43,7 @@
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text-primary);
     line-height: 1.5;
@@ -63,7 +63,7 @@
   .hero { background: var(--hero-bg); padding: 96px 0; border-bottom: 1px solid var(--border); }
   .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
   .hero-logo { margin-bottom: 28px; }
-  .hero h1 { font-size: 60px; font-weight: 400; letter-spacing: -0.02em; line-height: 1; color: var(--text-primary); margin-bottom: 16px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .hero h1 { font-size: 56px; font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; color: var(--text-primary); margin-bottom: 16px; font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; }
   .hero p { font-size: 18px; color: var(--text-secondary); max-width: 560px; font-weight: 400; }
 
   /* COLORS */
@@ -167,8 +167,8 @@
         </defs>
       </svg>
     </div>
-    <h1>Supabase</h1>
-    <p>Open-source Firebase alternative — a developer-first backend platform built around a signature emerald green.</p>
+    <h1>Build in a weekend.<br>Scale to millions.</h1>
+    <p>Your full-stack backend — Postgres database, Auth, Storage, Edge Functions, and Realtime, all in one open source platform.</p>
   </div>
 </div>
 
@@ -270,40 +270,40 @@
 <!-- 3. TYPOGRAPHY -->
 <section>
   <div class="wrapper">
-    <div class="section-title">Typography</div>
+    <div class="section-title">Typography — Circular (custom · ≈ DM Sans)</div>
     <div class="type-row">
       <span class="type-name">display</span>
-      <span class="type-sample" style="font-size:38px;font-weight:400;line-height:1;font-family:'Helvetica Neue',Arial,sans-serif">Build in a weekend</span>
+      <span class="type-sample" style="font-size:72px;font-weight:400;line-height:1;font-family:'DM Sans',sans-serif">Build in a weekend.</span>
       <div class="type-specs"><span class="spec-pill">72px</span><span class="spec-pill">400</span><span class="spec-pill">1.00 lh</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">heading-xl</span>
-      <span class="type-sample" style="font-size:28px;font-weight:400;letter-spacing:-0.02em;font-family:'Helvetica Neue',Arial,sans-serif">Scale to billions</span>
+      <span class="type-sample" style="font-size:48px;font-weight:400;letter-spacing:-0.02em;font-family:'DM Sans',sans-serif">Scale to millions.</span>
       <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">400</span><span class="spec-pill">−0.02em</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">heading-lg</span>
-      <span class="type-sample" style="font-size:22px;font-weight:400;font-family:'Helvetica Neue',Arial,sans-serif">Authentication &amp; Storage</span>
+      <span class="type-sample" style="font-size:36px;font-weight:400;font-family:'DM Sans',sans-serif">Every project. Full Postgres.</span>
       <div class="type-specs"><span class="spec-pill">36px</span><span class="spec-pill">400</span><span class="spec-pill">1.25 lh</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">heading-md</span>
-      <span class="type-sample" style="font-size:17px;font-weight:400;letter-spacing:-0.01em;font-family:'Helvetica Neue',Arial,sans-serif">Realtime subscriptions</span>
+      <span class="type-sample" style="font-size:24px;font-weight:400;letter-spacing:-0.01em;font-family:'DM Sans',sans-serif">Realtime subscriptions, Auth, Storage.</span>
       <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">400</span><span class="spec-pill">1.33 lh</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">body-lg</span>
-      <span class="type-sample" style="font-size:14px;font-weight:400">Open source Firebase alternative with a dedicated Postgres database for every project.</span>
+      <span class="type-sample" style="font-size:16px;font-weight:400">Open source Firebase alternative with a dedicated Postgres database for every project.</span>
       <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">1.50 lh</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">body</span>
-      <span class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary)">Default UI text, form labels, navigation items.</span>
+      <span class="type-sample" style="font-size:14px;font-weight:400;color:var(--text-secondary)">Default UI text, form labels, navigation items.</span>
       <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">1.57 lh</span></div>
     </div>
     <div class="type-row">
       <span class="type-name">code-label</span>
-      <span class="type-sample" style="font-size:11px;font-weight:400;letter-spacing:0.075em;text-transform:uppercase;color:var(--text-muted)">SELECT * FROM users WHERE active = true</span>
+      <span class="type-sample" style="font-size:12px;font-weight:400;letter-spacing:0.075em;text-transform:uppercase;color:var(--text-muted);font-family:'Source Code Pro',monospace">SELECT * FROM users WHERE active = true</span>
       <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">Mono</span><span class="spec-pill">0.075em</span></div>
     </div>
   </div>

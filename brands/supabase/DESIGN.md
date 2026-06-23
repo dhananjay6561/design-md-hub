@@ -1,6 +1,6 @@
 # Supabase DESIGN.md
 
-> Open-source Firebase alternative — a developer-first backend platform with a dark-native dashboard built around a signature emerald green.
+> Build in a weekend. Scale to millions. — open source Firebase alternative with Postgres, Auth, Storage, Edge Functions, and Realtime in one platform.
 
 ## Overview
 
@@ -66,10 +66,11 @@ Dark mode is the primary experience. Light mode exists but is secondary.
 
 ## Typography
 
-Supabase uses **Circular** as its primary typeface — a geometric sans-serif with rounded terminals that softens the technical edge without sacrificing density. **Source Code Pro** (with fallback to **Office Code Pro**, **Menlo**) serves all monospace contexts.
+Supabase uses **Circular** as its primary typeface (served as `custom-font` from their CDN) — a geometric sans-serif with rounded terminals that softens the technical edge without sacrificing density. **Source Code Pro** serves all monospace contexts.
 
-- **Primary stack**: `"Circular", "Helvetica Neue", Helvetica, Arial, sans-serif`
-- **Mono stack**: `"Source Code Pro", "Office Code Pro", Menlo, monospace`
+- **Primary stack**: `var(--font-custom, Circular, custom-font, "Helvetica Neue", Helvetica, Arial, sans-serif)`
+- **Mono stack**: `var(--font-source-code-pro, "Source Code Pro", "Office Code Pro", Menlo, monospace)`
+- **Approximation for prototyping**: DM Sans is the closest Google Fonts match to Circular
 
 | Scale | Size | Weight | Line Height | Letter Spacing | Usage |
 |-------|------|--------|-------------|----------------|-------|

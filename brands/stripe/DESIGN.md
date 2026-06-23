@@ -1,6 +1,6 @@
 # Stripe DESIGN.md
 
-> Financial infrastructure for the internet — polished, precise, and built to make complexity feel effortless.
+> Financial infrastructure to grow your revenue — accept payments, offer financial services, and implement custom revenue models from your first transaction.
 
 ## Overview
 
