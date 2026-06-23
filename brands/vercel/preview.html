@@ -200,7 +200,7 @@
       </svg>
     </div>
     <h1>Vercel</h1>
-    <p>A stark, developer-first deployment platform defined by pure contrast, zero ornamentation, and ruthless typographic precision.</p>
+    <p>Agentic infrastructure for the modern web. Deploy AI workloads, ship edge-native products, and run the next generation of software — at global scale.</p>
   </div>
 
   <!-- COLORS -->
@@ -289,12 +289,12 @@
     <div class="section-title">Typography</div>
     <div class="type-row">
       <div class="type-name">heading-48</div>
-      <div class="type-sample" style="font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-0.04em;">Deploy.</div>
+      <div class="type-sample" style="font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-0.04em;">Agentic Infrastructure.</div>
       <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">600</span><span class="spec-pill">-0.04em</span></div>
     </div>
     <div class="type-row">
       <div class="type-name">heading-32</div>
-      <div class="type-sample" style="font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-0.03em;">Ship faster</div>
+      <div class="type-sample" style="font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-0.03em;">Build agents. Ship software.</div>
       <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">600</span><span class="spec-pill">-0.03em</span></div>
     </div>
     <div class="type-row">
@@ -309,7 +309,7 @@
     </div>
     <div class="type-row">
       <div class="type-name">copy-16</div>
-      <div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5;">Default body copy for prose and descriptions.</div>
+      <div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.5;">Run AI workloads, stream responses, and deploy to the edge — all from a single git push.</div>
       <div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
     </div>
     <div class="type-row">
@@ -324,7 +324,7 @@
     </div>
     <div class="type-row">
       <div class="type-name">mono</div>
-      <div class="type-sample" style="font-size:14px;font-family:'Geist Mono',monospace;font-weight:400;color:var(--accent);">npx create-next-app@latest</div>
+      <div class="type-sample" style="font-size:14px;font-family:'Geist Mono',monospace;font-weight:400;color:var(--accent);">vercel deploy --prod</div>
       <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">mono</span><span class="spec-pill">400</span></div>
     </div>
   </div>
@@ -373,6 +373,97 @@
       </div>
     </div>
   </div>
+
+  <!-- SIGNATURE: VERCEL DASHBOARD — DEPLOYMENT LIST -->
+  <div class="section">
+    <div class="section-title">Signature — Vercel Dashboard · Deployments</div>
+    <div style="box-shadow:0 0 0 1px var(--border),0 2px 8px rgba(0,0,0,0.04);border-radius:8px;overflow:hidden;background:var(--bg);">
+      <!-- Dashboard topbar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:48px;border-bottom:1px solid var(--gray200);background:var(--bg);">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <svg width="18" height="16" viewBox="0 0 116 100" fill="none"><path d="M57.5 0L115 100H0L57.5 0Z" fill="currentColor"/></svg>
+          <span style="font-size:14px;font-weight:500;color:var(--text);">my-next-app</span>
+          <div style="display:flex;align-items:center;gap:0;border:1px solid var(--gray200);border-radius:6px;overflow:hidden;">
+            <span style="font-size:12px;font-weight:500;padding:4px 10px;background:var(--bg);color:var(--text);">Deployments</span>
+            <span style="font-size:12px;padding:4px 10px;color:var(--text3);border-left:1px solid var(--gray200);">Settings</span>
+            <span style="font-size:12px;padding:4px 10px;color:var(--text3);border-left:1px solid var(--gray200);">Analytics</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="height:32px;font-size:12px;padding:0 12px;">+ New Deployment</button>
+      </div>
+      <!-- Deployments table header -->
+      <div style="display:grid;grid-template-columns:1fr 120px 140px 100px;padding:0 20px;height:36px;align-items:center;background:var(--gray100);border-bottom:1px solid var(--gray200);">
+        <span style="font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);">Deployment</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);">Status</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);">Branch</span>
+        <span style="font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);text-align:right;">Duration</span>
+      </div>
+      <!-- Row 1 — Ready / Production -->
+      <div style="display:grid;grid-template-columns:1fr 120px 140px 100px;padding:14px 20px;align-items:center;border-bottom:1px solid var(--gray200);gap:0;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:13px;font-weight:500;color:var(--text);font-family:'Geist Mono',monospace;">my-next-app.vercel.app</span>
+            <span class="badge" style="background:#dcfce7;color:#15803d;font-size:10px;height:18px;padding:0 6px;">Production</span>
+          </div>
+          <div style="font-size:12px;color:var(--text3);">Triggered by <span style="color:var(--text2);">dhananjay6561</span> · 2 min ago</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;"></span>
+          <span style="font-size:13px;color:var(--text);">Ready</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-family:'Geist Mono',monospace;">main</div>
+        <div style="font-size:12px;color:var(--text3);text-align:right;font-family:'Geist Mono',monospace;">1m 24s</div>
+      </div>
+      <!-- Row 2 — Building / Preview -->
+      <div style="display:grid;grid-template-columns:1fr 120px 140px 100px;padding:14px 20px;align-items:center;border-bottom:1px solid var(--gray200);gap:0;background:rgba(0,112,243,0.02);">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:13px;font-weight:500;color:var(--text);font-family:'Geist Mono',monospace;">my-next-app-git-feat-agents.vercel.app</span>
+          </div>
+          <div style="font-size:12px;color:var(--text3);">Triggered by <span style="color:var(--text2);">dhananjay6561</span> · just now</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#0070f3;display:inline-block;animation:pulse 1.4s ease-in-out infinite;"></span>
+          <span style="font-size:13px;color:var(--accent);">Building</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-family:'Geist Mono',monospace;">feat/agents</div>
+        <div style="font-size:12px;color:var(--text3);text-align:right;font-family:'Geist Mono',monospace;">—</div>
+      </div>
+      <!-- Row 3 — Ready / Preview -->
+      <div style="display:grid;grid-template-columns:1fr 120px 140px 100px;padding:14px 20px;align-items:center;border-bottom:1px solid var(--gray200);gap:0;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:13px;font-weight:500;color:var(--text);font-family:'Geist Mono',monospace;">my-next-app-git-fix-layout.vercel.app</span>
+          </div>
+          <div style="font-size:12px;color:var(--text3);">Triggered by <span style="color:var(--text2);">dhananjay6561</span> · 38 min ago</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;"></span>
+          <span style="font-size:13px;color:var(--text);">Ready</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-family:'Geist Mono',monospace;">fix/layout</div>
+        <div style="font-size:12px;color:var(--text3);text-align:right;font-family:'Geist Mono',monospace;">52s</div>
+      </div>
+      <!-- Row 4 — Error -->
+      <div style="display:grid;grid-template-columns:1fr 120px 140px 100px;padding:14px 20px;align-items:center;gap:0;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+            <span style="font-size:13px;font-weight:500;color:var(--text);font-family:'Geist Mono',monospace;">my-next-app-git-feat-api.vercel.app</span>
+          </div>
+          <div style="font-size:12px;color:var(--text3);">Triggered by <span style="color:var(--text2);">dhananjay6561</span> · 2 hrs ago</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#dc2626;display:inline-block;"></span>
+          <span style="font-size:13px;color:var(--error);">Error</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-family:'Geist Mono',monospace;">feat/api</div>
+        <div style="font-size:12px;color:var(--text3);text-align:right;font-family:'Geist Mono',monospace;">28s</div>
+      </div>
+    </div>
+  </div>
+  <style>
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  </style>
 
   <!-- SPACING -->
   <div class="section">

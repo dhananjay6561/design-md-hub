@@ -1,12 +1,12 @@
 # Vercel Design System
 
-**A stark, developer-first deployment platform defined by pure contrast, zero ornamentation, and ruthless typographic precision.**
+**Agentic infrastructure for the modern web — a stark, developer-first platform built for AI-native products, edge deployments, and teams that ship at scale.**
 
 ---
 
 ## 1. Overview
 
-Vercel's visual language is built around aggressive reduction. Every decorative element that cannot justify its presence is removed. The result is an interface that communicates speed, reliability, and engineering authority through what it omits rather than what it adds.
+Vercel has evolved from a deployment platform into the infrastructure layer for agentic software — AI workloads, streaming UIs, and always-on edge functions that power the next generation of products. Its visual language reflects this shift: maximum capability expressed through minimum ornamentation.
 
 The system — called **Geist** — is named after the Bauhaus concept of a unified aesthetic spirit. It ships as both a typeface family (Geist Sans, Geist Mono) and a full component/token system used across vercel.com and the Vercel dashboard.
 
