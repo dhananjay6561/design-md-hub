@@ -1,269 +1,1232 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doppler Design System</title>
+<title>Doppler — Design System Showcase</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root[data-theme="light"] {
-    --bg: #FFFFFF;
-    --surface: #F9FAFB;
-    --surface-raised: #F3F4F6;
-    --surface-overlay: #E5E7EB;
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --text-muted: #9CA3AF;
-    --border: #E5E7EB;
-    --border-strong: #D1D5DB;
-    --primary: #4F46E5;
-    --primary-hover: #4338CA;
-    --primary-dim: rgba(79,70,229,0.08);
-    --error: #EF4444;
-    --warning: #F59E0B;
-    --success: #10B981;
-  }
-  :root[data-theme="dark"] {
-    --bg: #111827;
-    --surface: #1F2937;
-    --surface-raised: #374151;
-    --surface-overlay: #4B5563;
-    --text-primary: #F9FAFB;
-    --text-secondary: #9CA3AF;
-    --text-muted: #6B7280;
-    --border: #374151;
-    --border-strong: #4B5563;
-    --primary: #6366F1;
-    --primary-hover: #4F46E5;
-    --primary-dim: rgba(99,102,241,0.12);
-    --error: #F87171;
-    --warning: #FCD34D;
-    --success: #34D399;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.5; }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-overlay); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-  .section { margin-bottom: 64px; }
-  .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: var(--primary-dim); border-radius: 50%; filter: blur(40px); }
-  .hero-logo { margin-bottom: 20px; }
-  .hero h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-  .colors-group { margin-bottom: 32px; }
-  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .swatch { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 150ms; }
-  .swatch:hover { border-color: var(--border-strong); }
-  .swatch-block { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-overlay); border: 1px solid var(--border-strong); color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px; transition: transform 200ms; z-index: 1000; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
-  .type-sample { color: var(--text-primary); }
-  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .spec-pill { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px; background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .comp-card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 150ms; }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); }
-  .btn-secondary:hover { background: var(--surface-raised); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-  .btn-danger { background: var(--error); color: #fff; }
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-primary); height: 36px; transition: border-color 150ms; width: 100%; }
-  .input::placeholder { color: var(--text-muted); }
-  .input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-dim); }
-  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px; }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .sample-card-title { font-size: 13px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
-  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 12px; }
-  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.6; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
-  .guardrails-heading.do { color: var(--success); }
-  .guardrails-heading.dont { color: var(--error); }
-  .guardrail-item { font-size: 13px; color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; background: var(--surface); }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
-  @media (max-width: 600px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+/* ─── TOKENS ─── */
+:root {
+  --purple-brand: #6B13F5;
+  --orange-brand: #F55C15;
+  --pink-brand:   #FF9EFA;
+  --green-brand:  #00F575;
+  --green-dark:   #00BF5B;
+
+  --global-ease: cubic-bezier(0.9, 0.1, 0.1, 0.9);
+  --global-transition: 350ms var(--global-ease);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] {
+  --bg:              #1C1624;
+  --surface:         #2D2734;
+  --surface-raised:  #302C37;
+  --surface-subtle:  #241E2C;
+  --text-primary:    #F1F0EC;
+  --text-secondary:  #8B877D;
+  --text-muted:      #6B6766;
+  --border:          #4A4558;
+  --border-subtle:   #3E384B;
+  --purple-light:    #B997FF;
+  --badge-dev-text:  #B997FF;
+  --badge-prod-text: #00F575;
+  --badge-prod-bg:   rgba(0,245,117,0.12);
+  --badge-prod-bdr:  rgba(0,245,117,0.3);
+}
+
+[data-theme="light"] {
+  --bg:              #FCFAF6;
+  --surface:         #F1F0EC;
+  --surface-raised:  #FFFFFF;
+  --surface-subtle:  #E8E6E0;
+  --text-primary:    #0C0404;
+  --text-secondary:  #44443C;
+  --text-muted:      #84847C;
+  --border:          #BCBCBC;
+  --border-subtle:   #D4CCC4;
+  --purple-light:    #5A0FD4;
+  --badge-dev-text:  #5A0FD4;
+  --badge-prod-text: #007A35;
+  --badge-prod-bg:   rgba(0,122,53,0.10);
+  --badge-prod-bdr:  rgba(0,122,53,0.3);
+}
+
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  transition: background var(--global-transition), color var(--global-transition);
+  min-height: 100vh;
+}
+
+/* ─── FONT FACES: DopplerRepro loaded from Doppler's own CDN ─── */
+@font-face {
+  font-family: 'DopplerRepro';
+  src: url('https://doppler.com/_next/static/media/388e4c79d0132a65-s.p.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DopplerRepro';
+  src: url('https://doppler.com/_next/static/media/8ac115113654612c-s.p.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DopplerReproMono';
+  src: url('https://doppler.com/_next/static/media/266e0ed39bf10870-s.p.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-brand { font-family: 'DopplerRepro', Arial, sans-serif; }
+.font-mono  { font-family: 'DopplerReproMono', 'Courier New', monospace; }
+.font-ui    { font-family: 'Inter', system-ui, sans-serif; }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+section {
+  padding: 64px 0;
+  border-bottom: 1px solid var(--border);
+}
+section:last-child { border-bottom: none; }
+
+/* ─── TOGGLE BUTTON ─── */
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  transition: background var(--global-transition), border-color var(--global-transition), color var(--global-transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#theme-toggle:hover { background: var(--surface-raised); border-color: var(--purple-brand); }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 80px 0 64px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.hero-logo svg { height: 32px; width: auto; color: var(--text-primary); }
+
+.hero h1 {
+  font-family: 'DopplerRepro', Arial, sans-serif;
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background var(--global-transition), color var(--global-transition), border-color var(--global-transition), transform 120ms ease;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: var(--purple-brand);
+  color: #F1F0EC;
+  border-color: var(--purple-brand);
+}
+.btn-primary:hover { background: #5A0FD4; border-color: #5A0FD4; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: var(--surface); border-color: var(--purple-brand); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--purple-light);
+  border-color: transparent;
+  padding-left: 0;
+}
+.btn-ghost:hover { color: var(--text-primary); }
+
+/* ─── SECTION LABELS ─── */
+.section-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'DopplerRepro', Arial, sans-serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.section-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 520px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ─── GRADIENT BAR ─── */
+.gradient-bar {
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #FF9EFA 0%, #F55C15 42%, #6B13F5 100%);
+  margin-bottom: 28px;
+}
+
+/* ─── COLOR SWATCHES ─── */
+.swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.swatch {
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+.swatch:hover { transform: translateY(-2px); border-color: var(--purple-brand); }
+
+.swatch-color { height: 72px; }
+.swatch-info  { padding: 8px 10px; background: var(--surface); }
+.swatch-name  { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; font-family: 'Inter', sans-serif; }
+.swatch-hex   { font-family: 'DopplerReproMono', 'Courier New', monospace; font-size: 12px; color: var(--text-primary); }
+
+.sub-label { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin: 24px 0 10px; }
+
+/* ─── COPY TOAST ─── */
+.copy-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: 2000;
+}
+.copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── TYPOGRAPHY ─── */
+.type-specimens { display: flex; flex-direction: column; gap: 32px; }
+.type-row {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 24px;
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.type-row:last-child { border-bottom: none; }
+.type-meta-label { font-size: 11px; color: var(--text-muted); font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+.type-meta-value { font-size: 11px; color: var(--text-secondary); font-family: 'DopplerReproMono', monospace; margin-top: 4px; line-height: 1.6; }
+
+/* ─── COMPONENTS GRID ─── */
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.component-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.component-card-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 16px;
+}
+
+/* Input */
+.input-field {
+  width: 100%;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'DopplerReproMono', monospace;
+  font-size: 13px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color var(--global-transition);
+}
+.input-field:focus { border-color: var(--purple-brand); }
+.input-label { font-size: 12px; color: var(--text-secondary); font-family: 'Inter', sans-serif; margin-bottom: 6px; display: block; }
+
+/* Badges */
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.badge-dev  { background: rgba(107,19,245,0.15); color: var(--badge-dev-text); border: 1px solid rgba(107,19,245,0.35); }
+.badge-stag { background: rgba(245,92,21,0.15); color: #FFA06B; border: 1px solid rgba(245,92,21,0.35); }
+.badge-prod { background: var(--badge-prod-bg); color: var(--badge-prod-text); border: 1px solid var(--badge-prod-bdr); }
+
+/* ─── SECRETS BROWSER ─── */
+.secrets-browser {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface);
+  min-height: 520px;
+  box-shadow: var(--shadow-md);
+}
+
+.secrets-sidebar {
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 16px 14px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-project-name {
+  font-family: 'DopplerRepro', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+.sidebar-project-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  margin-top: 2px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  padding: 14px 14px 6px;
+}
+
+.env-list { flex: 1; overflow-y: auto; }
+
+.env-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-secondary);
+  transition: background 120ms ease, color 120ms ease;
+  border-left: 2px solid transparent;
+}
+.env-item:hover { background: var(--surface); color: var(--text-primary); }
+.env-item.active { background: var(--surface); color: var(--text-primary); border-left-color: var(--purple-brand); }
+.env-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.secrets-main { display: flex; flex-direction: column; overflow: hidden; }
+
+.secrets-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.secrets-search {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 7px 10px 7px 30px;
+  outline: none;
+  transition: border-color 150ms ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%238B877D' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 9px center;
+}
+.secrets-search:focus { border-color: var(--purple-brand); }
+
+.btn-add-secret {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--purple-brand);
+  color: #F1F0EC;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 7px 12px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 150ms ease;
+}
+.btn-add-secret:hover { background: #5A0FD4; }
+
+.secrets-env-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+}
+.secrets-count { margin-left: auto; font-size: 11px; color: var(--text-muted); }
+
+.secrets-table-wrapper { flex: 1; overflow-y: auto; }
+
+.secrets-table { width: 100%; border-collapse: collapse; }
+
+.secrets-table thead th {
+  text-align: left;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: 'Inter', sans-serif;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.secrets-table tbody tr {
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background 100ms ease;
+}
+.secrets-table tbody tr:hover { background: var(--surface-raised); }
+
+.secrets-table td { padding: 9px 14px; font-size: 13px; vertical-align: middle; }
+
+.secret-key { font-family: 'DopplerReproMono', 'Courier New', monospace; color: var(--purple-light); font-size: 12px; white-space: nowrap; }
+
+.secret-value-cell { display: flex; align-items: center; gap: 8px; }
+
+.secret-masked  { font-family: 'DopplerReproMono', monospace; color: var(--text-muted); letter-spacing: 2px; font-size: 12px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.secret-revealed { font-family: 'DopplerReproMono', monospace; color: var(--text-primary); font-size: 12px; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.secret-actions { display: flex; gap: 4px; opacity: 0; transition: opacity 120ms ease; }
+tr:hover .secret-actions { opacity: 1; }
+
+.icon-btn {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 3px 6px;
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+.icon-btn:hover { background: var(--surface); border-color: var(--border); color: var(--text-primary); }
+.icon-btn.danger:hover { background: rgba(191,63,63,0.1); border-color: rgba(191,63,63,0.4); color: #DD9B9B; }
+
+/* Add secret form */
+.add-secret-form {
+  display: none;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-subtle);
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.add-secret-form.visible { display: flex; }
+.add-secret-form input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 12px;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 150ms;
+}
+.add-secret-form input.key-input { width: 180px; font-family: 'DopplerReproMono', monospace; }
+.add-secret-form input.val-input { flex: 1; min-width: 120px; font-family: 'DopplerReproMono', monospace; }
+.add-secret-form input:focus { border-color: var(--purple-brand); }
+.form-btns { display: flex; gap: 6px; }
+.btn-save { background: var(--purple-brand); color: #F1F0EC; border: none; border-radius: var(--radius-sm); padding: 6px 12px; font-size: 12px; font-family: 'Inter', sans-serif; cursor: pointer; }
+.btn-save:hover { background: #5A0FD4; }
+.btn-cancel-sm { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12px; font-family: 'Inter', sans-serif; cursor: pointer; }
+
+/* ─── GUARDRAILS ─── */
+.guardrails-list { list-style: none; display: grid; gap: 10px; }
+.guardrail-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+.guardrail-number { font-family: 'DopplerReproMono', monospace; font-size: 12px; color: var(--text-muted); flex-shrink: 0; padding-top: 1px; min-width: 22px; }
+.guardrail-item strong { color: var(--text-primary); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 680px) {
+  .secrets-browser { grid-template-columns: 1fr; }
+  .secrets-sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 180px; }
+  .env-list { display: flex; gap: 4px; padding: 8px 14px; overflow-x: auto; }
+  .env-item { border-left: none; padding: 6px 10px; white-space: nowrap; border-radius: var(--radius-sm); border-bottom: 2px solid transparent; }
+  .env-item.active { border-left-color: transparent; border-bottom-color: var(--purple-brand); }
+  .type-row { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
 
-  <div class="hero">
+<!-- Theme Toggle -->
+<button id="theme-toggle" aria-label="Toggle theme">
+  <span id="toggle-icon">☀</span>
+  <span id="toggle-label">Light</span>
+</button>
+
+<!-- Copy Toast -->
+<div class="copy-toast" id="copy-toast">Copied to clipboard</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="container">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100" height="100" rx="16" fill="#4F46E5"/>
-        <circle cx="50" cy="50" r="22" fill="none" stroke="white" stroke-width="6"/>
-        <circle cx="50" cy="50" r="10" fill="white"/>
-        <line x1="50" y1="28" x2="50" y2="20" stroke="white" stroke-width="5" stroke-linecap="round"/>
-        <line x1="50" y1="72" x2="50" y2="80" stroke="white" stroke-width="5" stroke-linecap="round"/>
-        <line x1="28" y1="50" x2="20" y2="50" stroke="white" stroke-width="5" stroke-linecap="round"/>
-        <line x1="72" y1="50" x2="80" y2="50" stroke="white" stroke-width="5" stroke-linecap="round"/>
+      <!-- Real Doppler logo SVG from cdn.sanity.io/images/q3zajrd2/production/ca504eb965b366981679016924e0d709deb6768f-563x108.svg -->
+      <svg height="30" viewBox="0 0 563 108" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Doppler">
+        <path d="M64.3092 0.259394C60.1163 -0.864113 55.8423 1.77302 54.9657 6.02449L50.9884 25.3158C48.3904 37.9168 38.5465 47.7653 25.9467 50.3692L7.02287 54.2801C2.77187 55.1586 0.13598 59.4329 1.25947 63.6258C2.38309 67.8192 6.8038 70.2029 10.9248 68.8373L29.3407 62.7351C41.5851 58.6779 55.0695 62.291 63.6448 71.9269L76.5434 86.4207C79.4289 89.6631 84.4482 89.8092 87.5174 86.74C90.5871 83.6703 90.4404 78.6501 87.1969 75.7648L72.609 62.7885C62.9468 54.1936 59.3239 40.6746 63.3932 28.3998L69.5188 9.92278C70.8847 5.80285 68.5018 1.38278 64.3092 0.259394Z" fill="url(#hg0)"/>
+        <path d="M14.1852 24.3911C10.7562 21.2887 10.6228 15.9476 13.8926 12.6779C17.1623 9.40812 22.5033 9.54156 25.6057 12.9705L35.3591 23.7506C37.99 26.6584 37.8785 31.1183 35.1058 33.8911C32.333 36.6639 27.873 36.7753 24.9653 34.1444L14.1852 24.3911Z" fill="url(#hg0)"/>
+        <path d="M90.0279 30.3514C94.4292 28.933 99.1214 31.488 100.318 35.9545C101.515 40.4211 98.7289 44.9798 94.2081 45.9521L79.9957 49.0088C76.162 49.8333 72.3553 47.5068 71.3404 43.7191C70.3255 39.9314 72.459 36.0133 76.1912 34.8105L90.0279 30.3514Z" fill="url(#hg0)"/>
+        <path d="M46.5794 93.3443C45.6071 97.8651 41.0484 100.651 36.5818 99.4544C32.1152 98.2575 29.5603 93.5654 30.9786 89.1641L35.4378 75.3274C36.6405 71.5952 40.5587 69.4617 44.3464 70.4766C48.134 71.4915 50.4605 75.2982 49.636 79.1318L46.5794 93.3443Z" fill="url(#hg0)"/>
+        <path d="M126 8H157.2C166.038 8 173.848 9.6 180.629 12.8C187.486 16 192.819 20.6476 196.629 26.7429C200.514 32.8381 202.457 39.9619 202.457 48.1143C202.457 56.4191 200.59 63.6191 196.857 69.7143C193.2 75.8095 187.981 80.4952 181.2 83.7714C174.419 86.9714 166.495 88.5714 157.429 88.5714H126V8ZM156.514 70.7429C161.162 70.7429 165.2 69.9048 168.629 68.2286C172.057 66.5524 174.724 64.0381 176.629 60.6857C178.533 57.3333 179.486 53.219 179.486 48.3429C179.486 43.3143 178.533 39.1238 176.629 35.7714C174.724 32.4191 172.057 29.9429 168.629 28.3429C165.2 26.6667 161.2 25.8286 156.629 25.8286H148.057V70.7429H156.514Z" fill="currentColor"/>
+        <path d="M239.53 90.2857C232.902 90.2857 226.997 89.0286 221.816 86.5143C216.711 84 212.711 80.4191 209.816 75.7714C206.921 71.1238 205.473 65.7524 205.473 59.6571C205.473 53.6381 206.921 48.3429 209.816 43.7714C212.711 39.1238 216.711 35.581 221.816 33.1429C226.997 30.6286 232.902 29.3714 239.53 29.3714C246.235 29.3714 252.14 30.6286 257.245 33.1429C262.426 35.581 266.464 39.1238 269.359 43.7714C272.254 48.3429 273.702 53.6381 273.702 59.6571C273.702 65.7524 272.254 71.1238 269.359 75.7714C266.464 80.4191 262.426 84 257.245 86.5143C252.14 89.0286 246.235 90.2857 239.53 90.2857ZM239.53 74.7429C242.121 74.7429 244.368 74.1333 246.273 72.9143C248.178 71.6191 249.664 69.8286 250.73 67.5429C251.797 65.2572 252.33 62.6286 252.33 59.6571C252.33 56.6857 251.797 54.0952 250.73 51.8857C249.74 49.6 248.292 47.8476 246.387 46.6286C244.483 45.4095 242.235 44.8 239.645 44.8C237.054 44.8 234.768 45.4095 232.787 46.6286C230.883 47.8476 229.397 49.6 228.33 51.8857C227.34 54.0952 226.845 56.6857 226.845 59.6571C226.845 62.6286 227.378 65.2952 228.445 67.6571C229.511 69.9429 230.997 71.6952 232.902 72.9143C234.807 74.1333 237.016 74.7429 239.53 74.7429Z" fill="currentColor"/>
+        <path d="M279.431 31.0857H299.774V38.5143C301.526 36.1524 304.003 34.0952 307.203 32.3429C310.479 30.5905 314.365 29.7143 318.86 29.7143C324.269 29.7143 329.031 30.9714 333.146 33.4857C337.336 35.9238 340.536 39.4286 342.746 44C345.031 48.4952 346.174 53.8286 346.174 60C346.174 65.8667 345.031 71.1238 342.746 75.7714C340.46 80.3429 337.222 83.8857 333.031 86.4C328.841 88.9143 324.003 90.1714 318.517 90.1714C315.698 90.1714 313.146 89.8286 310.86 89.1429C308.574 88.5333 306.555 87.6571 304.803 86.5143C303.126 85.3714 301.717 84.1143 300.574 82.7429V108H279.431V31.0857ZM312.003 74.7429C314.593 74.7429 316.803 74.1714 318.631 73.0286C320.536 71.8095 322.022 70.0952 323.088 67.8857C324.155 65.6 324.688 62.8952 324.688 59.7714C324.688 56.6476 324.155 53.981 323.088 51.7714C322.098 49.4857 320.65 47.7714 318.746 46.6286C316.841 45.4095 314.593 44.8 312.003 44.8C309.488 44.8 307.279 45.4095 305.374 46.6286C303.469 47.7714 301.946 49.4857 300.803 51.7714C299.736 53.981 299.203 56.6476 299.203 59.7714C299.203 62.8191 299.736 65.4857 300.803 67.7714C301.869 70.0572 303.355 71.8095 305.26 73.0286C307.241 74.1714 309.488 74.7429 312.003 74.7429Z" fill="currentColor"/>
+        <path d="M351.98 31.0857H372.323V38.5143C374.076 36.1524 376.552 34.0952 379.752 32.3429C383.028 30.5905 386.914 29.7143 391.409 29.7143C396.818 29.7143 401.58 30.9714 405.695 33.4857C409.885 35.9238 413.085 39.4286 415.295 44C417.58 48.4952 418.723 53.8286 418.723 60C418.723 65.8667 417.58 71.1238 415.295 75.7714C413.009 80.3429 409.771 83.8857 405.58 86.4C401.39 88.9143 396.552 90.1714 391.066 90.1714C388.247 90.1714 385.695 89.8286 383.409 89.1429C381.123 88.5333 379.104 87.6571 377.352 86.5143C375.676 85.3714 374.266 84.1143 373.123 82.7429V108H351.98V31.0857ZM384.552 74.7429C387.142 74.7429 389.352 74.1714 391.18 73.0286C393.085 71.8095 394.571 70.0952 395.638 67.8857C396.704 65.6 397.237 62.8952 397.237 59.7714C397.237 56.6476 396.704 53.981 395.638 51.7714C394.647 49.4857 393.199 47.7714 391.295 46.6286C389.39 45.4095 387.142 44.8 384.552 44.8C382.038 44.8 379.828 45.4095 377.923 46.6286C376.018 47.7714 374.495 49.4857 373.352 51.7714C372.285 53.981 371.752 56.6476 371.752 59.7714C371.752 62.8191 372.285 65.4857 373.352 67.7714C374.418 70.0572 375.904 71.8095 377.809 73.0286C379.79 74.1714 382.038 74.7429 384.552 74.7429Z" fill="currentColor"/>
+        <path d="M424.529 8H445.672V88.5714H424.529V8Z" fill="currentColor"/>
+        <path d="M483.476 90.2857C476.771 90.2857 471.019 89.0286 466.219 86.5143C461.419 83.9238 457.724 80.3429 455.133 75.7714C452.619 71.1238 451.362 65.7143 451.362 59.5429C451.362 53.5238 452.657 48.2667 455.247 43.7714C457.914 39.2 461.647 35.6571 466.447 33.1429C471.324 30.6286 476.962 29.3714 483.362 29.3714C490.6 29.3714 496.695 30.8571 501.647 33.8286C506.676 36.8 510.295 40.9143 512.504 46.1714C514.79 51.4286 515.628 57.4095 515.019 64.1143H471.704C471.704 66.781 472.162 69.0667 473.076 70.9714C474.066 72.8762 475.4 74.3619 477.076 75.4286C478.828 76.419 480.885 76.9143 483.247 76.9143C486.219 76.9143 488.581 76.3048 490.333 75.0857C492.162 73.8667 493.533 72.1524 494.447 69.9429H514.104C513.343 73.6762 511.704 77.0667 509.19 80.1143C506.676 83.1619 503.247 85.6381 498.904 87.5429C494.562 89.3714 489.419 90.2857 483.476 90.2857ZM494.676 53.3714C494.523 51.0095 493.952 49.0286 492.962 47.4286C492.047 45.7524 490.752 44.4952 489.076 43.6572C487.4 42.8191 485.495 42.4 483.362 42.4C480.085 42.4 477.457 43.3905 475.476 45.3714C473.495 47.2762 472.314 49.9429 471.933 53.3714H494.676Z" fill="currentColor"/>
+        <path d="M520.967 31.0857H541.31V42.7429C542.986 39.2381 545.424 36.2667 548.624 33.8286C551.824 31.3143 556.205 30.0571 561.767 30.0571H562.796V49.4857H557.653C553.691 49.4857 550.567 50.0952 548.281 51.3143C545.996 52.4571 544.396 54.2095 543.481 56.5714C542.567 58.8571 542.11 61.9048 542.11 65.7143V88.5714H520.967V31.0857Z" fill="currentColor"/>
+        <defs>
+          <linearGradient id="hg0" x1="7.23" y1="62.33" x2="48.12" y2="30.17" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF9EFA"/>
+            <stop offset="0.42" stop-color="#F55C15" stop-opacity="0.84"/>
+            <stop offset="1" stop-color="#6B13F5"/>
+          </linearGradient>
+        </defs>
       </svg>
     </div>
-    <h1>Doppler</h1>
-    <p>Secrets management for teams — a polished, light-first platform that makes environment variables feel organized.</p>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="colors-group">
-      <div class="colors-group-title">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#4F46E5', this)"><div class="swatch-block" style="background:#4F46E5"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#4F46E5</div><div class="swatch-usage">CTAs, active states</div></div></div>
-        <div class="swatch" onclick="copyHex('#4338CA', this)"><div class="swatch-block" style="background:#4338CA"></div><div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#4338CA</div><div class="swatch-usage">Hover on primary</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-block" style="background:#FFFFFF;border:1px solid #E5E7EB"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Page background</div></div></div>
-        <div class="swatch" onclick="copyHex('#F9FAFB', this)"><div class="swatch-block" style="background:#F9FAFB"></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#F9FAFB</div><div class="swatch-usage">Cards, panels</div></div></div>
-        <div class="swatch" onclick="copyHex('#F3F4F6', this)"><div class="swatch-block" style="background:#F3F4F6"></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#F3F4F6</div><div class="swatch-usage">Hover states</div></div></div>
-        <div class="swatch" onclick="copyHex('#E5E7EB', this)"><div class="swatch-block" style="background:#E5E7EB"></div><div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#E5E7EB</div><div class="swatch-usage">Dividers, borders</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#111827', this)"><div class="swatch-block" style="background:#111827"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#111827</div><div class="swatch-usage">Body text</div></div></div>
-        <div class="swatch" onclick="copyHex('#6B7280', this)"><div class="swatch-block" style="background:#6B7280"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#6B7280</div><div class="swatch-usage">Supporting text</div></div></div>
-        <div class="swatch" onclick="copyHex('#9CA3AF', this)"><div class="swatch-block" style="background:#9CA3AF"></div><div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#9CA3AF</div><div class="swatch-usage">Placeholders</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Semantic</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#EF4444', this)"><div class="swatch-block" style="background:#EF4444"></div><div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#EF4444</div><div class="swatch-usage">Errors</div></div></div>
-        <div class="swatch" onclick="copyHex('#F59E0B', this)"><div class="swatch-block" style="background:#F59E0B"></div><div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#F59E0B</div><div class="swatch-usage">Staging env</div></div></div>
-        <div class="swatch" onclick="copyHex('#10B981', this)"><div class="swatch-block" style="background:#10B981"></div><div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#10B981</div><div class="swatch-usage">Synced, success</div></div></div>
-      </div>
+    <h1 class="font-brand">Secure secrets.<br>Prevent breaches.</h1>
+    <p class="hero-sub">
+      For every engineer on your team, there are now dozens of AI agents and automated workflows that need secrets too. Doppler manages them all.
+    </p>
+    <div class="hero-ctas">
+      <a href="#" class="btn btn-primary">Start for Free</a>
+      <a href="#" class="btn btn-secondary">Get Demo</a>
+      <a href="#" class="btn btn-ghost">Documentation ›</a>
     </div>
   </div>
+</section>
 
-  <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-row"><div class="type-name">heading-lg</div><div class="type-sample" style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">Secrets management</div><div class="type-specs"><span class="spec-pill">22px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.3</span></div></div>
-    <div class="type-row"><div class="type-name">heading-md</div><div class="type-sample" style="font-size:16px;font-weight:600;">Production config</div><div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">body</div><div class="type-sample" style="font-size:14px;font-weight:400;">Sync secrets across all environments and services</div><div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">body-sm</div><div class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary);">42 secrets · Last synced 1m ago</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">label</div><div class="type-sample" style="font-size:12px;font-weight:500;color:var(--text-secondary);">ENVIRONMENT · SERVICE NAME</div><div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></div></div>
-    <div class="type-row"><div class="type-name">code</div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">API_KEY=••••••••••••</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div></div>
+<!-- ─── COLORS ─── -->
+<section>
+  <div class="container">
+    <div class="section-label">Design Tokens</div>
+    <h2 class="section-title">Colors</h2>
+    <p class="section-sub">Click any swatch to copy the hex. Colors extracted from the live doppler.com CSS bundle and HTML inline styles.</p>
+
+    <div class="gradient-bar"></div>
+
+    <div class="sub-label">Brand palette</div>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#6B13F5')">
+        <div class="swatch-color" style="background:#6B13F5"></div>
+        <div class="swatch-info"><div class="swatch-name">purple-brand</div><div class="swatch-hex">#6B13F5</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#B997FF')">
+        <div class="swatch-color" style="background:#B997FF"></div>
+        <div class="swatch-info"><div class="swatch-name">purple-light</div><div class="swatch-hex">#B997FF</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#F55C15')">
+        <div class="swatch-color" style="background:#F55C15"></div>
+        <div class="swatch-info"><div class="swatch-name">orange-brand</div><div class="swatch-hex">#F55C15</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#FF9EFA')">
+        <div class="swatch-color" style="background:#FF9EFA"></div>
+        <div class="swatch-info"><div class="swatch-name">pink-brand</div><div class="swatch-hex">#FF9EFA</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#00F575')">
+        <div class="swatch-color" style="background:#00F575"></div>
+        <div class="swatch-info"><div class="swatch-name">green-brand</div><div class="swatch-hex">#00F575</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#00BF5B')">
+        <div class="swatch-color" style="background:#00BF5B"></div>
+        <div class="swatch-info"><div class="swatch-name">green-dark</div><div class="swatch-hex">#00BF5B</div></div>
+      </div>
+    </div>
+
+    <div class="sub-label">Dark mode</div>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#1C1624')">
+        <div class="swatch-color" style="background:#1C1624;border:1px solid #3E384B"></div>
+        <div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-hex">#1C1624</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#2D2734')">
+        <div class="swatch-color" style="background:#2D2734"></div>
+        <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#2D2734</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#302C37')">
+        <div class="swatch-color" style="background:#302C37"></div>
+        <div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#302C37</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#F1F0EC')">
+        <div class="swatch-color" style="background:#F1F0EC"></div>
+        <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#F1F0EC</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#8B877D')">
+        <div class="swatch-color" style="background:#8B877D"></div>
+        <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#8B877D</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#44443C')">
+        <div class="swatch-color" style="background:#44443C"></div>
+        <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#44443C</div></div>
+      </div>
+    </div>
+
+    <div class="sub-label">Light mode</div>
+    <div class="swatches-grid">
+      <div class="swatch" onclick="copyHex('#FCFAF6')">
+        <div class="swatch-color" style="background:#FCFAF6;border:1px solid #D4CCC4"></div>
+        <div class="swatch-info"><div class="swatch-name">bg (warm cream)</div><div class="swatch-hex">#FCFAF6</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#F1F0EC')">
+        <div class="swatch-color" style="background:#F1F0EC;border:1px solid #D4CCC4"></div>
+        <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#F1F0EC</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#0C0404')">
+        <div class="swatch-color" style="background:#0C0404"></div>
+        <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#0C0404</div></div>
+      </div>
+      <div class="swatch" onclick="copyHex('#BCBCBC')">
+        <div class="swatch-color" style="background:#BCBCBC"></div>
+        <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#BCBCBC</div></div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="section">
-    <div class="section-title">Components</div>
+<!-- ─── TYPOGRAPHY ─── -->
+<section>
+  <div class="container">
+    <div class="section-label">Design Tokens</div>
+    <h2 class="section-title">Typography</h2>
+    <p class="section-sub">DopplerRepro is Doppler's custom proprietary typeface. Regular weight (400) is used even at display sizes. All secret keys and values use DopplerReproMono.</p>
+
+    <div class="type-specimens">
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Display</div>
+          <div class="type-meta-value">64px · 400<br>DopplerRepro</div>
+        </div>
+        <div class="font-brand" style="font-size:clamp(36px,5vw,64px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;color:var(--text-primary)">
+          Secure secrets.
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Heading XL</div>
+          <div class="type-meta-value">40px · 400<br>DopplerRepro</div>
+        </div>
+        <div class="font-brand" style="font-size:clamp(24px,3.5vw,40px);font-weight:400;line-height:1.15;letter-spacing:-0.015em;color:var(--text-primary)">
+          Enter the new era of secrets management
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Heading LG</div>
+          <div class="type-meta-value">28px · 400<br>DopplerRepro</div>
+        </div>
+        <div class="font-brand" style="font-size:28px;font-weight:400;line-height:1.2;color:var(--text-primary)">
+          Your central hub for secure integrations
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Body</div>
+          <div class="type-meta-value">16px · 400<br>Inter</div>
+        </div>
+        <div class="font-ui" style="font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:580px">
+          Built for how modern teams actually work. Where humans, pipelines, and AI agents all need secrets to operate. User-based pricing with no extra costs for non-human identities.
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Body SM</div>
+          <div class="type-meta-value">14px · 400<br>Inter</div>
+        </div>
+        <div class="font-ui" style="font-size:14px;line-height:1.5;color:var(--text-secondary)">
+          SOC 2 and ISO compliant. Secure and audit-ready secrets management for teams of any size.
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Mono</div>
+          <div class="type-meta-value">13px · 400<br>DopplerReproMono</div>
+        </div>
+        <div class="font-mono" style="font-size:13px;color:var(--purple-light)">
+          DATABASE_URL=postgres://user:••••••••@db.prod.example.com:5432/app
+        </div>
+      </div>
+
+      <div class="type-row">
+        <div>
+          <div class="type-meta-label">Label</div>
+          <div class="type-meta-value">11px · 600<br>Inter uppercase</div>
+        </div>
+        <div class="font-ui" style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)">
+          Environments · Secrets · Activity Log · Config
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPONENTS ─── -->
+<section>
+  <div class="container">
+    <div class="section-label">Design Tokens</div>
+    <h2 class="section-title">Components</h2>
+    <p class="section-sub">Core UI primitives from the Doppler product.</p>
+
     <div class="components-grid">
-      <div class="comp-card">
-        <div class="comp-card-title">Buttons</div>
-        <div class="btn-group">
-          <button class="btn btn-primary">Add Secret</button>
-          <button class="btn btn-secondary">Export</button>
-          <button class="btn btn-ghost">Cancel</button>
-          <button class="btn btn-danger">Delete</button>
+
+      <div class="component-card">
+        <div class="component-card-title">Buttons</div>
+        <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+          <button class="btn btn-primary">Start for Free</button>
+          <button class="btn btn-secondary">Get Demo</button>
+          <button class="btn btn-ghost">Documentation ›</button>
+          <button class="btn btn-primary" style="opacity:0.4;cursor:not-allowed" disabled>Saving…</button>
         </div>
       </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <input class="input" type="text" placeholder="SECRET_NAME">
-          <input class="input" type="password" placeholder="••••••••••••" style="border-color:var(--primary);">
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
-        <div class="badge-group">
-          <span class="badge" style="background:rgba(16,185,129,0.10);color:#10B981;"><span class="badge-dot" style="background:#10B981"></span>Synced</span>
-          <span class="badge" style="background:rgba(79,70,229,0.10);color:#4F46E5;"><span class="badge-dot" style="background:#4F46E5"></span>Development</span>
-          <span class="badge" style="background:rgba(239,68,68,0.10);color:#EF4444;"><span class="badge-dot" style="background:#EF4444"></span>Production</span>
-          <span class="badge" style="background:rgba(245,158,11,0.10);color:#F59E0B;"><span class="badge-dot" style="background:#F59E0B"></span>Staging</span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Secret Row</div>
-        <div class="sample-card">
-          <div class="sample-card-header">
-            <div class="sample-card-title">DATABASE_URL</div>
-            <span class="badge" style="background:rgba(16,185,129,0.10);color:#10B981;font-size:11px;">Synced</span>
+
+      <div class="component-card">
+        <div class="component-card-title">Inputs</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div>
+            <label class="input-label">Secret key</label>
+            <input class="input-field" type="text" value="DATABASE_URL" readonly>
           </div>
-          <div class="sample-card-meta">Production · Updated 3m ago</div>
+          <div>
+            <label class="input-label">Secret value</label>
+            <input class="input-field" type="password" value="postgres://user:p4ssw0rd@db.example.com/prod" readonly>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/40*100%)"></div></div><div class="spacing-val">4px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/40*100%)"></div></div><div class="spacing-val">8px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/40*100%)"></div></div><div class="spacing-val">12px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/40*100%)"></div></div><div class="spacing-val">16px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/40*100%)"></div></div><div class="spacing-val">20px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/40*100%)"></div></div><div class="spacing-val">24px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(32/40*100%)"></div></div><div class="spacing-val">32px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-10</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">40px</div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrails-col">
-        <div class="guardrails-heading do">DO</div>
-        <div class="guardrail-item do">Light mode first — Doppler serves whole teams, not just engineers</div>
-        <div class="guardrail-item do">Use indigo accent for selection, focus, and primary CTA</div>
-        <div class="guardrail-item do">Mask all secret values by default</div>
-        <div class="guardrail-item do">Use environment color-coding consistently throughout</div>
+      <div class="component-card">
+        <div class="component-card-title">Environment Badges</div>
+        <div class="badge-row">
+          <span class="badge badge-dev">dev</span>
+          <span class="badge badge-stag">staging</span>
+          <span class="badge badge-prod">production</span>
+        </div>
+        <div style="margin-top:14px;font-size:12px;color:var(--text-secondary);font-family:'Inter',sans-serif;line-height:1.5">
+          Production always uses green — never red. Red is reserved for errors only.
+        </div>
       </div>
-      <div class="guardrails-col">
-        <div class="guardrails-heading dont">DON'T</div>
-        <div class="guardrail-item dont">Use more than one primary button per view</div>
-        <div class="guardrail-item dont">Show unmasked values in audit logs or notifications</div>
-        <div class="guardrail-item dont">Use yellow/orange for anything other than staging</div>
-        <div class="guardrail-item dont">Add heavy shadows — keep the UI light and airy</div>
+
+      <div class="component-card">
+        <div class="component-card-title">Brand Gradient (mark only)</div>
+        <div style="height:72px;border-radius:var(--radius-md);background:linear-gradient(135deg,#FF9EFA 0%,#F55C15 42%,#6B13F5 100%);margin-bottom:10px"></div>
+        <div class="font-mono" style="font-size:11px;color:var(--text-muted)">#FF9EFA → #F55C15 → #6B13F5</div>
       </div>
+
+      <div class="component-card">
+        <div class="component-card-title">Easing</div>
+        <div class="font-mono" style="font-size:12px;color:var(--text-primary);margin-bottom:8px">cubic-bezier(0.9, 0.1, 0.1, 0.9)</div>
+        <div style="font-size:13px;color:var(--text-secondary);font-family:'Inter',sans-serif;margin-bottom:12px">350ms. Fast-in, fast-out — assertive and deliberate.</div>
+        <button class="btn btn-secondary" style="font-size:12px" onclick="this.style.transition='transform 350ms cubic-bezier(0.9,0.1,0.1,0.9)';this.style.transform='scale(0.95)';setTimeout(()=>this.style.transform='scale(1)',200)">Feel the easing →</button>
+      </div>
+
+      <div class="component-card">
+        <div class="component-card-title">Trust Signal</div>
+        <div class="font-brand" style="font-size:17px;font-weight:400;color:var(--text-primary);margin-bottom:12px;line-height:1.3">
+          Trusted by the world's best DevOps and security teams
+        </div>
+        <div class="badge-row">
+          <span class="badge badge-prod">SOC 2</span>
+          <span class="badge badge-dev">ISO 27001</span>
+          <span class="badge badge-stag">GDPR</span>
+        </div>
+      </div>
+
     </div>
   </div>
+</section>
 
-</div>
+<!-- ─── SIGNATURE COMPONENT ─── -->
+<section>
+  <div class="container">
+    <div class="section-label">Signature Component</div>
+    <h2 class="section-title">Secrets Browser</h2>
+    <p class="section-sub">Doppler's iconic project → environment → secrets interface. Switch environments, search, reveal values, add and delete secrets.</p>
+
+    <div class="secrets-browser">
+
+      <div class="secrets-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-project-name">my-saas-app</div>
+          <div class="sidebar-project-meta">6 environments · 20 secrets</div>
+        </div>
+        <div class="sidebar-section-label">Environments</div>
+        <div class="env-list" id="env-list">
+          <div class="env-item active" data-env="development" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#6B13F5"></span>development
+          </div>
+          <div class="env-item" data-env="staging" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#F55C15"></span>staging
+          </div>
+          <div class="env-item" data-env="production" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#00F575"></span>production
+          </div>
+          <div class="env-item" data-env="ci" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#8B877D"></span>ci
+          </div>
+          <div class="env-item" data-env="preview" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#FF9EFA"></span>preview
+          </div>
+          <div class="env-item" data-env="testing" onclick="switchEnv(this)">
+            <span class="env-dot" style="background:#B997FF"></span>testing
+          </div>
+        </div>
+      </div>
+
+      <div class="secrets-main">
+        <div class="secrets-toolbar">
+          <input class="secrets-search" type="text" placeholder="Search secrets…" oninput="filterSecrets(this.value)" id="secrets-search">
+          <button class="btn-add-secret" onclick="toggleAddForm()">+ Add Secret</button>
+        </div>
+
+        <div class="secrets-env-bar">
+          <span>Environment:</span>
+          <span id="current-env-badge" class="badge badge-dev">development</span>
+          <span class="secrets-count" id="secrets-count">20 secrets</span>
+        </div>
+
+        <div class="secrets-table-wrapper">
+          <table class="secrets-table">
+            <thead>
+              <tr>
+                <th style="width:38%">Key</th>
+                <th style="width:44%">Value</th>
+                <th style="width:18%">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="secrets-tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="add-secret-form" id="add-secret-form">
+          <input class="key-input" type="text" placeholder="SECRET_KEY" id="new-key">
+          <input class="val-input" type="text" placeholder="value" id="new-val">
+          <div class="form-btns">
+            <button class="btn-save" onclick="addSecret()">Save</button>
+            <button class="btn-cancel-sm" onclick="toggleAddForm()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── GUARDRAILS ─── -->
+<section>
+  <div class="container">
+    <div class="section-label">Design System</div>
+    <h2 class="section-title">Guardrails</h2>
+    <p class="section-sub">Rules from Doppler's live design patterns — what to always do, and what to never do.</p>
+
+    <ul class="guardrails-list">
+      <li class="guardrail-item">
+        <span class="guardrail-number">01</span>
+        <span><strong>DopplerRepro only for display text.</strong> Never substitute Inter or system fonts at display sizes. DopplerRepro's proportions are part of the brand identity.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">02</span>
+        <span><strong>Dark mode background is #1C1624.</strong> Never use pure black or generic dark grays. The deep purple-near-black is canonical.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">03</span>
+        <span><strong>Cream, not white.</strong> Light mode background is #FCFAF6 (warm cream). Pure white reads as cold and off-brand.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">04</span>
+        <span><strong>Gradient belongs only to the mark.</strong> The pink→orange→purple gradient is the logo icon only. Never apply it to buttons, text, or UI chrome.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">05</span>
+        <span><strong>Regular weight headings.</strong> DopplerRepro at 400 weight reads as visually strong. Setting headings to 700 becomes heavy and off-brand.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">06</span>
+        <span><strong>Production is green, never red.</strong> Green (#00F575) signals the production environment. Red is reserved exclusively for errors and destructive actions.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">07</span>
+        <span><strong>Secret values are masked by default.</strong> Never render secret values as plaintext on initial load. Reveal only on explicit user interaction.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">08</span>
+        <span><strong>#6B13F5 is the only valid CTA color.</strong> Do not substitute indigo (#4F46E5), violet (#7C3AED), or any other purple. The exact brand purple is non-negotiable.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">09</span>
+        <span><strong>Mono font for all secrets.</strong> Every secret key and value must render in DopplerReproMono. Proportional fonts break the security-first visual contract.</span>
+      </li>
+      <li class="guardrail-item">
+        <span class="guardrail-number">10</span>
+        <span><strong>Use the full 3-stop gradient.</strong> Single-stop purple or orange alone reads as generic. The gradient is always pink→orange→purple, all three stops.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
 <script>
+// ─── THEME TOGGLE ───
+document.getElementById('theme-toggle').addEventListener('click', function() {
+  var html = document.documentElement;
+  var isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('toggle-icon').textContent = isDark ? '☾' : '☀';
+  document.getElementById('toggle-label').textContent = isDark ? 'Dark' : 'Light';
+});
+
+// ─── COPY HEX ───
 function copyHex(hex) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
+  navigator.clipboard.writeText(hex).catch(function(){});
+  var toast = document.getElementById('copy-toast');
   toast.textContent = 'Copied ' + hex;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  setTimeout(function(){ toast.classList.remove('show'); }, 1800);
 }
+
+// ─── SECRETS DATA (max 20 per env) ───
+var secretsData = {
+  development: [
+    { key: 'DATABASE_URL',          value: 'postgres://dev:dev_pass@localhost:5432/myapp_dev' },
+    { key: 'REDIS_URL',             value: 'redis://localhost:6379' },
+    { key: 'SECRET_KEY_BASE',       value: 'dev_1a2b3c4d5e6f7g8h9i0j_not_for_prod' },
+    { key: 'AWS_ACCESS_KEY_ID',     value: 'AKIAIOSFODNN7EXAMPLE' },
+    { key: 'AWS_SECRET_ACCESS_KEY', value: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY' },
+    { key: 'STRIPE_API_KEY',        value: 'sk_test_4eC39HqLyjWDarjtT1zdp7dc' },
+    { key: 'SENDGRID_API_KEY',      value: 'SG.ngeVfQFYQlKU0ufo8ns9RA.dev_key' },
+    { key: 'JWT_SECRET',            value: 'dev-jwt-secret-change-in-production' },
+    { key: 'OPENAI_API_KEY',        value: 'sk-dev-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' },
+    { key: 'GITHUB_TOKEN',          value: 'ghp_devTokenExampleXXXXXXXXXXXXXXXX' },
+    { key: 'SENTRY_DSN',            value: 'https://abc123@sentry.io/1234567' },
+    { key: 'MIXPANEL_TOKEN',        value: 'dev_abc123_mixpanel' },
+    { key: 'TWILIO_ACCOUNT_SID',    value: 'ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' },
+    { key: 'TWILIO_AUTH_TOKEN',     value: 'dev_twilio_auth_token' },
+    { key: 'ELASTICSEARCH_URL',     value: 'http://localhost:9200' },
+    { key: 'ALGOLIA_APP_ID',        value: 'YourAlgoliaAppIdDev' },
+    { key: 'ALGOLIA_API_KEY',       value: 'dev_algolia_api_key_placeholder' },
+    { key: 'DATADOG_API_KEY',       value: 'dev_datadog_api_key' },
+    { key: 'PORT',                  value: '3000' },
+    { key: 'NODE_ENV',              value: 'development' }
+  ],
+  staging: [
+    { key: 'DATABASE_URL',          value: 'postgres://stg_user:stg_pass@db.staging.example.com:5432/myapp_stg' },
+    { key: 'REDIS_URL',             value: 'redis://staging-redis.example.com:6379' },
+    { key: 'SECRET_KEY_BASE',       value: 'stg_9z8y7x6w5v4u3t2s1r0q_staging_only' },
+    { key: 'AWS_ACCESS_KEY_ID',     value: 'AKIASTGIOSFODNN7EXAMPLE' },
+    { key: 'STRIPE_API_KEY',        value: 'sk_test_staging_4eC39HqLyjWDarjtT1' },
+    { key: 'SENDGRID_API_KEY',      value: 'SG.staging_key_example' },
+    { key: 'JWT_SECRET',            value: 'staging-jwt-secret-random-256-bit' },
+    { key: 'OPENAI_API_KEY',        value: 'sk-staging-xxxxxxxxxxxxxxxxxxxxxxxx' },
+    { key: 'SENTRY_DSN',            value: 'https://def456@sentry.io/7654321' },
+    { key: 'NODE_ENV',              value: 'staging' },
+    { key: 'PORT',                  value: '8080' },
+    { key: 'DATADOG_API_KEY',       value: 'stg_datadog_api_key' }
+  ],
+  production: [
+    { key: 'DATABASE_URL',          value: 'postgres://prod_user:REDACTED@db.prod.example.com:5432/myapp' },
+    { key: 'REDIS_URL',             value: 'rediss://prod-redis.example.com:6380' },
+    { key: 'SECRET_KEY_BASE',       value: 'REDACTED_256_BIT_PRODUCTION_SECRET' },
+    { key: 'AWS_ACCESS_KEY_ID',     value: 'AKIAPRODIOSFODNN7EXAMPLE' },
+    { key: 'AWS_SECRET_ACCESS_KEY', value: 'REDACTED_PRODUCTION_AWS_SECRET' },
+    { key: 'STRIPE_API_KEY',        value: 'sk_live_REDACTED_PRODUCTION_STRIPE' },
+    { key: 'SENDGRID_API_KEY',      value: 'SG.REDACTED_PRODUCTION_SENDGRID' },
+    { key: 'JWT_SECRET',            value: 'REDACTED_PRODUCTION_JWT_SECRET_512' },
+    { key: 'OPENAI_API_KEY',        value: 'sk-prod-REDACTED_PRODUCTION_KEY' },
+    { key: 'SENTRY_DSN',            value: 'https://ghi789@sentry.io/prod1234' },
+    { key: 'NODE_ENV',              value: 'production' },
+    { key: 'PORT',                  value: '443' },
+    { key: 'DATADOG_API_KEY',       value: 'REDACTED_PROD_DATADOG_API_KEY' },
+    { key: 'ALGOLIA_APP_ID',        value: 'ProdAlgoliaAppId' },
+    { key: 'ALGOLIA_API_KEY',       value: 'REDACTED_PROD_ALGOLIA_KEY' }
+  ],
+  ci: [
+    { key: 'DATABASE_URL',      value: 'postgres://ci_user:ci_pass@localhost:5432/myapp_test' },
+    { key: 'NODE_ENV',          value: 'test' },
+    { key: 'JWT_SECRET',        value: 'ci-test-jwt-secret-not-sensitive' },
+    { key: 'STRIPE_API_KEY',    value: 'sk_test_ci_placeholder_key' },
+    { key: 'CI',                value: 'true' },
+    { key: 'COVERAGE_THRESHOLD', value: '80' }
+  ],
+  preview: [
+    { key: 'DATABASE_URL',  value: 'postgres://preview:prv_pass@db.preview.example.com/myapp_prv' },
+    { key: 'NODE_ENV',      value: 'preview' },
+    { key: 'FEATURE_FLAGS', value: '{"newDashboard":true,"betaSearch":true}' },
+    { key: 'STRIPE_API_KEY', value: 'sk_test_preview_placeholder' }
+  ],
+  testing: [
+    { key: 'DATABASE_URL',  value: 'postgres://test:test@localhost:5432/myapp_test' },
+    { key: 'NODE_ENV',      value: 'test' },
+    { key: 'MOCK_SERVICES', value: 'true' },
+    { key: 'LOG_LEVEL',     value: 'silent' }
+  ]
+};
+
+var currentEnv = 'development';
+var revealedKeys = {};
+var filterQuery = '';
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function renderSecrets() {
+  var tbody = document.getElementById('secrets-tbody');
+  var secrets = secretsData[currentEnv] || [];
+  var q = filterQuery.toLowerCase();
+  var filtered = q
+    ? secrets.filter(function(s){ return s.key.toLowerCase().indexOf(q) >= 0 || s.value.toLowerCase().indexOf(q) >= 0; })
+    : secrets.slice();
+
+  var countEl = document.getElementById('secrets-count');
+  countEl.textContent = filtered.length === secrets.length
+    ? secrets.length + ' secrets'
+    : filtered.length + ' / ' + secrets.length + ' secrets';
+
+  tbody.innerHTML = filtered.map(function(s) {
+    var id = currentEnv + '|' + s.key;
+    var revealed = !!revealedKeys[id];
+    var valHtml = revealed
+      ? '<span class="secret-revealed">' + esc(s.value) + '</span>'
+      : '<span class="secret-masked">&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;</span>';
+    var eyeLabel = revealed ? 'Hide' : 'Reveal';
+    var eyeIcon  = revealed ? '&#x1F648;' : '&#x1F441;';
+    var escapedKey = esc(s.key);
+    var escapedVal = esc(s.value).replace(/&#39;/g, "\\'");
+
+    return '<tr>'
+      + '<td><span class="secret-key">' + escapedKey + '</span></td>'
+      + '<td><div class="secret-value-cell">' + valHtml + '</div></td>'
+      + '<td><div class="secret-actions">'
+      +   '<button class="icon-btn" title="' + eyeLabel + '" onclick="toggleReveal(\'' + escapedKey + '\')">' + eyeIcon + '</button>'
+      +   '<button class="icon-btn" title="Copy value" onclick="copySecretVal(\'' + escapedVal + '\')">&#x29C9;</button>'
+      +   '<button class="icon-btn danger" title="Delete" onclick="deleteSecret(\'' + escapedKey + '\')">&#x2715;</button>'
+      + '</div></td>'
+      + '</tr>';
+  }).join('');
+}
+
+function toggleReveal(key) {
+  var id = currentEnv + '|' + key;
+  revealedKeys[id] = !revealedKeys[id];
+  renderSecrets();
+}
+
+function copySecretVal(val) {
+  navigator.clipboard.writeText(val).catch(function(){});
+  var toast = document.getElementById('copy-toast');
+  toast.textContent = 'Secret value copied';
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+}
+
+function deleteSecret(key) {
+  if (!confirm('Delete ' + key + ' from ' + currentEnv + '?')) return;
+  secretsData[currentEnv] = secretsData[currentEnv].filter(function(s){ return s.key !== key; });
+  delete revealedKeys[currentEnv + '|' + key];
+  renderSecrets();
+}
+
+function switchEnv(el) {
+  document.querySelectorAll('.env-item').forEach(function(e){ e.classList.remove('active'); });
+  el.classList.add('active');
+  currentEnv = el.getAttribute('data-env');
+  revealedKeys = {};
+  filterQuery = '';
+  document.getElementById('secrets-search').value = '';
+
+  var badge = document.getElementById('current-env-badge');
+  badge.textContent = currentEnv;
+  badge.className = 'badge';
+  if (currentEnv === 'production') badge.classList.add('badge-prod');
+  else if (currentEnv === 'staging' || currentEnv === 'preview') badge.classList.add('badge-stag');
+  else badge.classList.add('badge-dev');
+
+  renderSecrets();
+}
+
+function filterSecrets(q) {
+  filterQuery = q;
+  renderSecrets();
+}
+
+function toggleAddForm() {
+  var form = document.getElementById('add-secret-form');
+  var visible = form.classList.contains('visible');
+  form.classList.toggle('visible', !visible);
+  if (!visible) {
+    document.getElementById('new-key').value = '';
+    document.getElementById('new-val').value = '';
+    document.getElementById('new-key').focus();
+  }
+}
+
+function addSecret() {
+  var key = document.getElementById('new-key').value.trim().toUpperCase().replace(/\s+/g,'_');
+  var val = document.getElementById('new-val').value.trim();
+  if (!key) { document.getElementById('new-key').focus(); return; }
+  if (secretsData[currentEnv].some(function(s){ return s.key === key; })) {
+    alert(key + ' already exists in ' + currentEnv);
+    return;
+  }
+  secretsData[currentEnv].unshift({ key: key, value: val });
+  toggleAddForm();
+  renderSecrets();
+}
+
+renderSecrets();
 </script>
 </body>
 </html>

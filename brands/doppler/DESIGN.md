@@ -1,60 +1,84 @@
 # Doppler DESIGN.md
 
-> Secrets management for teams — a polished, light-first platform that makes environment variables feel organized and secure.
+> Secrets management platform — a dark-first, high-contrast design system built around security, trust, and developer experience. Typographically distinct with a custom proprietary typeface and a vivid purple-to-orange-to-pink gradient identity.
 
 ## Overview
 
-Doppler's design is clean, professional, and more polished than most dev tool dashboards. It's light-first (unusual in the secrets space), uses a distinctive royal blue accent, and prioritizes clarity for team workflows. The aesthetic is modern SaaS — structured, accessible, and trustworthy — designed for both developers and non-technical team members.
+Doppler's design is dark-first (deep purple-near-black backgrounds), uses a proprietary custom typeface (DopplerRepro), and leans into a vivid brand gradient — purple `#6B13F5` to orange `#F55C15` to pink `#FF9EFA`. The aesthetic is authoritative and modern, positioned for both security-conscious enterprises and developer teams. Light mode inverts to warm cream (`#F1F0EC`) on near-white, maintaining the same typographic weight and structure.
 
 ## Colors
 
+All colors extracted from live doppler.com HTML and CSS bundle (`ec074c50093238e3.css`).
+
+### Core Palette
+
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | `#4F46E5` | CTAs, active states, links |
-| `primary-hover` | `#4338CA` | Hover on primary |
-| `background` | `#FFFFFF` | Page background |
-| `surface` | `#F9FAFB` | Cards, panels |
-| `surface-secondary` | `#F3F4F6` | Hover states, subtle fills |
-| `text-primary` | `#111827` | Body text, headings |
-| `text-secondary` | `#6B7280` | Supporting text |
-| `text-muted` | `#9CA3AF` | Placeholders, disabled |
-| `border` | `#E5E7EB` | Dividers, input borders |
-| `border-strong` | `#D1D5DB` | Emphasized borders |
-| `error` | `#EF4444` | Errors |
-| `success` | `#10B981` | Success, synced |
-| `warning` | `#F59E0B` | Warnings |
-| `indigo-dim` | `rgba(79,70,229,0.08)` | Subtle primary backgrounds |
+| `purple-brand` | `#6B13F5` | Primary brand, CTAs, active states |
+| `purple-light` | `#B997FF` | Hover, secondary purple |
+| `orange-brand` | `#F55C15` | Gradient accent, warnings |
+| `pink-brand` | `#FF9EFA` | Gradient accent, highlights |
+| `green-brand` | `#00F575` | Success, synced states |
+| `green-dark` | `#00BF5B` | Success hover |
 
-### Dark Mode
+### Dark Mode (default)
 
-| Token | Hex |
-|-------|-----|
-| `background` | `#111827` |
-| `surface` | `#1F2937` |
-| `surface-secondary` | `#374151` |
-| `text-primary` | `#F9FAFB` |
-| `text-secondary` | `#9CA3AF` |
-| `border` | `#374151` |
-| `primary` | `#6366F1` |
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `bg` | `#1C1624` | Page background |
+| `surface` | `#2D2734` | Cards, panels |
+| `surface-raised` | `#302C37` | Elevated surfaces |
+| `surface-subtle` | `#241E2C` | Inset areas |
+| `text-primary` | `#F1F0EC` | Body text, headings |
+| `text-secondary` | `#8B877D` | Supporting text |
+| `text-muted` | `#45403D` | Placeholders, disabled |
+| `border` | `#44443C` | Dividers, input borders |
+| `border-subtle` | `#3E384B` | Subtle dividers |
+
+### Light Mode
+
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `bg` | `#FCFAF6` | Page background (warm cream) |
+| `surface` | `#F1F0EC` | Cards, panels |
+| `surface-raised` | `#FFFFFF` | Elevated, modals |
+| `text-primary` | `#0C0404` | Body text, headings |
+| `text-secondary` | `#44443C` | Supporting text |
+| `text-muted` | `#84847C` | Placeholders |
+| `border` | `#BCBCBC` | Dividers |
+
+### Brand Gradient
+
+The Doppler mark uses a layered gradient sequence:
+
+```
+Primary: linear-gradient(from #FF9EFA → #F55C15@42% → #6B13F5)
+Overlay 1: radial from #F55C15 fading to transparent
+Overlay 2: radial from #FF9EFA fading to transparent
+```
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
+- **Primary font**: `DopplerRepro` — custom proprietary variable typeface loaded from `/_next/static/media/*.woff2`. Fallback: `Arial`, `sans-serif`
+- **Mono font**: `DopplerReproMono` — custom mono variant. Fallback: `Arial`, `monospace`
+- **Secondary font**: `Inter` — used for UI elements and body prose
 
-| Scale | Size | Weight | Line Height |
-|-------|------|--------|-------------|
-| `heading-lg` | 22px | 700 | 1.3 |
-| `heading-md` | 16px | 600 | 1.4 |
-| `body` | 14px | 400 | 1.5 |
-| `body-sm` | 13px | 400 | 1.5 |
-| `caption` | 12px | 400 | 1.4 |
-| `label` | 12px | 500 | 1.3 |
-| `code` | 13px | 400 | 1.6 |
+| Scale | Size | Weight | Usage |
+|-------|------|--------|-------|
+| `display` | 56–72px | 400 (regular) | Hero H1 |
+| `heading-xl` | 40px | 400 | Section headers |
+| `heading-lg` | 28px | 400 | Card titles |
+| `heading-md` | 20px | 400 | Sub-section titles |
+| `body` | 16px | 400 | Body text |
+| `body-sm` | 14px | 400 | Supporting text |
+| `label` | 12px | 400 | Labels, captions |
+| `mono` | 13px | 400 | Secret keys, code |
+
+**Note**: DopplerRepro is used at regular weight (400) for most headings — the brand deliberately avoids heavy bold weights. Type appears slightly condensed and geometric.
 
 ## Spacing
 
-Base unit: `4px`
+Base unit: `8px`
 
 | Token | Value |
 |-------|-------|
@@ -62,91 +86,87 @@ Base unit: `4px`
 | `space-2` | 8px |
 | `space-3` | 12px |
 | `space-4` | 16px |
-| `space-5` | 20px |
 | `space-6` | 24px |
 | `space-8` | 32px |
-| `space-10` | 40px |
+| `space-12` | 48px |
+| `space-16` | 64px |
+| `space-32` | 128px |
 
 ## Border Radius
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `radius-sm` | 4px | Tags, badges |
-| `radius-md` | 6px | Buttons, inputs |
-| `radius-lg` | 8px | Cards, modals |
+| `radius-sm` | 4px | Inputs, small badges |
+| `radius-md` | 8px | Cards, dropdowns |
+| `radius-lg` | 12px | Panels, modals |
+| `radius-xl` | 16px | Large cards |
 | `radius-full` | 9999px | Pills, avatars |
 
 ## Shadows
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | Subtle |
-| `shadow-md` | `0 4px 12px rgba(0,0,0,0.08)` | Cards, dropdowns |
-| `shadow-lg` | `0 8px 24px rgba(0,0,0,0.10)` | Modals |
+| `shadow-sm` | `0 1px 2px rgba(0,0,0,0.3)` | Subtle card lift |
+| `shadow-md` | `0 4px 16px rgba(0,0,0,0.4)` | Panels, dropdowns |
+| `shadow-lg` | `0 8px 32px rgba(0,0,0,0.5)` | Modals, toasts |
+
+## Animation
+
+```css
+--global-ease: cubic-bezier(0.9, 0.1, 0.1, 0.9);
+--global-transition: 350ms var(--global-ease);
+```
+
+A sharp, fast-in / fast-out easing curve — confident and snappy.
 
 ## Components
 
-### Button
+### Button — Primary
+- Background: `#6B13F5`
+- Text: `#F1F0EC`
+- Border-radius: 6px
+- Padding: `10px 20px`
+- Hover: `#B997FF` text on `#6B13F5`, slight scale up
+- No shadow by default — flat and confident
 
-- **Primary**: `primary` background, white text, `6px` radius, `8px 16px` padding, 500 weight
-- **Secondary**: `surface` background, `border` border, `text-primary`
-- **Ghost**: transparent, `text-secondary`, hover fills `surface-secondary`
-- **Danger**: `error` background, white text
-- All: `14px`, `150ms ease`
+### Button — Secondary / Ghost
+- Border: `1px solid #44443C`
+- Text: `#F1F0EC`
+- Background: transparent
+- Hover: `surface` background fill
+
+### Input / Secret Field
+- Background: `#2D2734`
+- Border: `1px solid #44443C`
+- Text: `DopplerReproMono`, `#F1F0EC`
+- Focus ring: `#6B13F5` with 2px offset
 
 ### Secret Row
+- Layout: grid with `key | value | environment` columns
+- Key: mono font, `#B997FF`
+- Value: mono font, masked by default (dots), reveal on hover/click
+- Row hover: `surface-raised` background
 
-- Height: `44px`
-- Layout: checkbox + key name (monospace) + masked value + environment badge + sync status + actions
-- Reveal: eye icon on hover, `text-muted` default
-- Copy: clipboard icon on hover
-- Selected: `indigo-dim` background + `primary` left border
-- Border-bottom: `1px solid border`
+### Environment Badge
+- Pill shape, `radius-full`
+- `dev`: `#6B13F5` bg, light text
+- `staging`: orange tint
+- `production`: green `#00F575` tint (high-visibility)
 
-### Config / Project Card
+### Project Sidebar
+- Dark left rail, `bg` color
+- Active item: `surface` highlight + left `#6B13F5` border
+- Icon + label layout
 
-- Background: `surface`
-- Border: `1px solid border`
-- Radius: `radius-lg`
-- Padding: `space-5 space-6`
-- Shadow: `shadow-sm`
-- Hover: `shadow-md`
+## Guardrails
 
-### Input
-
-- Background: `background`
-- Border: `1px solid border` → `primary` on focus with `0 0 0 3px rgba(79,70,229,0.12)` ring
-- Radius: `radius-md`, height: `38px`
-- Secret value: monospace font, masked by default
-
-### Badge / Environment Tag
-
-- Padding: `2px 8px`
-- Radius: `radius-full`
-- Font: `label`
-- Development: indigo-dim; Production: red-dim; Staging: yellow-dim; Synced: green-dim
-
-## Layout
-
-- **Sidebar**: `240px` fixed — workspace + project tree
-- **Main**: fills remaining, max `1000px`
-- **Secrets table**: full-width with sticky header
-- **Header**: `56px`, project name + env switcher + actions
-
-## Responsive
-
-- Sidebar collapses on mobile
-- Secrets table horizontally scrollable on small screens
-- Light mode default suits non-technical team members
-
-## Tone & Guardrails
-
-- DO: Light mode first — Doppler serves whole teams, not just engineers
-- DO: Use indigo accent for selection, focus, and primary CTA
-- DO: Mask all secret values by default
-- DO: Use environment color-coding consistently throughout
-- DON'T: Use more than one primary button per view
-- DON'T: Show unmasked values in audit logs or notifications
-- DON'T: Use yellow/orange for anything other than staging environment
-- DON'T: Add heavy shadows — keep the UI light and airy
-- DON'T: Use monospace for non-technical UI text
+1. **Never use Inter for display/hero text** — DopplerRepro only at display sizes
+2. **Never use white `#FFFFFF` as the primary background** in dark mode — `#1C1624` is canonical
+3. **Cream, not white**: light mode background is `#FCFAF6` (warm), not pure white
+4. **The brand gradient** (purple→orange→pink) is only for the logo mark — do not apply it to buttons or UI chrome
+5. **Regular weight headings** — DopplerRepro reads as strong at 400 weight; do not bold headings
+6. **Production environment** always uses green emphasis — never red (red = error only)
+7. **Secret values** must be masked by default; never display plaintext on load
+8. **`#6B13F5` purple** is the only valid primary CTA color — do not substitute indigo or violet
+9. **Mono font for all secret keys and values** — never display secrets in a proportional font
+10. **Gradient must be the layered 3-stop sequence** — single-stop purple or orange alone reads as off-brand
