@@ -1,6 +1,6 @@
 # PlanetScale DESIGN.md
 
-> MySQL-compatible serverless database platform — developer-first, monochrome-bold, with a single combustion-orange accent that earns every pixel.
+> The world's fastest and most scalable cloud databases.
 
 ## Overview
 

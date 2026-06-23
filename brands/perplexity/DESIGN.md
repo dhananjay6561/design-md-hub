@@ -10,8 +10,8 @@ Perplexity's design is minimal and editorial. It prioritizes the answer above ev
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | `#20808D` | CTAs, links, active states |
-| `primary-hover` | `#1A6B77` | Hover on primary |
+| `primary` | `#1FB8CD` | CTAs, links, active states |
+| `primary-hover` | `#1A9FB0` | Hover on primary |
 | `background` | `#FFFFFF` | Page background |
 | `surface` | `#F9F9F9` | Cards, input backgrounds |
 | `surface-secondary` | `#F2F2F2` | Hover states, subtle fills |
@@ -33,7 +33,7 @@ Perplexity's design is minimal and editorial. It prioritizes the answer above ev
 | `text-primary` | `#F0F0F0` |
 | `text-secondary` | `#A0A0A0` |
 | `border` | `#2E2E2E` |
-| `primary` | `#24919F` |
+| `primary` | `#1FB8CD` |
 
 ## Typography
 
