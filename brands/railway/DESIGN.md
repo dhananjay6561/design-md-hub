@@ -1,46 +1,81 @@
 # Railway DESIGN.md
 
-> Deploy in seconds — a deployment platform that makes infrastructure feel effortless and almost playful.
+> Ship software peacefully — the all-in-one intelligent cloud provider for deploying apps, databases, and everything in between.
 
 ## Overview
 
-Railway's design stands out in the dev tools space by being warm and approachable rather than cold and technical. It uses a deep dark background with a distinctive violet/purple accent, smooth animations, and a layout that feels more like a creative tool than an ops dashboard. The brand balances developer seriousness with a sense of delight.
+Railway's design stands out in the dev tools space by being warm and approachable rather than cold and technical. It uses a deep dark background with a distinctive violet/purple accent, smooth animations, and a layout that feels more like a creative tool than an ops dashboard. The hero uses IBM Plex Serif with tight negative tracking for an editorial, premium feel. The brand balances developer seriousness with a sense of delight.
 
 ## Colors
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | `#7B61FF` | CTAs, active states, links |
-| `primary-hover` | `#6B50EF` | Hover on primary |
-| `background` | `#0B0D0E` | App background |
-| `surface` | `#161819` | Cards, panels |
-| `surface-raised` | `#1E2022` | Elevated surfaces |
-| `surface-overlay` | `#26292B` | Dropdowns, modals |
+| `primary` | `#853bce` | Purple accent, glow effects, active states (`--pink-500`) |
+| `primary-hover` | `#6D31A9` | Hover on primary — darker, not lighter (`--pink-600`) |
+| `background` | `#13111C` | App background (dark oatmeal) |
+| `background-light` | `#F9F3E9` | Light mode background (oatmeal) |
+| `surface` | `#181622` | Cards, panels |
+| `surface-raised` | `#1F1C2B` | Elevated surfaces |
+| `surface-overlay` | `#27243A` | Dropdowns, modals |
 | `text-primary` | `#F1F0EF` | Primary text |
-| `text-secondary` | `#8A8886` | Supporting text |
-| `text-muted` | `#555250` | Placeholders, disabled |
-| `border` | `#2A2D30` | Dividers, borders |
-| `border-strong` | `#383B3E` | Inputs, emphasis |
-| `error` | `#FF4444` | Errors, destructive |
-| `warning` | `#FFB224` | Warnings |
-| `success` | `#23C45E` | Success, deployed |
-| `purple-dim` | `rgba(123,97,255,0.12)` | Subtle primary backgrounds |
-| `purple-glow` | `rgba(123,97,255,0.20)` | Hover glow on cards |
+| `text-secondary` | `#868593` | Supporting text |
+| `text-muted` | `#59497A` | Placeholders, disabled |
+| `border` | `#2C2A3E` | Dividers, borders |
+| `border-strong` | `#3D3A55` | Inputs, emphasis |
+| `error` | `#D85B59` | Errors, destructive (`--red-600: hsl(1, 62%, 60%)`) |
+| `warning` | `#DFAE2A` | Warnings, building (`--yellow-500: hsl(44, 74%, 52%)`) |
+| `success` | `#72BF9B` | Success, deployed (`--green-600: hsl(152, 38%, 60%)`) |
+| `purple-dim` | `rgba(133,59,206,0.12)` | Subtle primary backgrounds |
+| `purple-glow` | `rgba(133,59,206,0.20)` | Hover glow on cards |
+| `hero-gradient` | `linear-gradient(327deg, rgba(33,0,75,0.24), transparent), linear-gradient(246deg, rgba(209,21,111,0.16), transparent), #13111C` | Landing page hero background |
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
+**Font variables (declared in `<style>` on every page):**
+- `--font-inter`: `'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`
+- `--font-inter-tight`: `'Inter Tight', var(--font-inter)` — condensed, used for UI headings
+- `--font-jetbrains-mono`: `'JetBrains Mono', ui-monospace, SFMono-Regular, monospace`
+- `--font-ibm-plex-serif`: `'IBM Plex Serif', Georgia, Cambria, 'Times New Roman', serif` — editorial display only
 
-| Scale | Size | Weight | Line Height |
-|-------|------|--------|-------------|
-| `heading-lg` | 22px | 600 | 1.3 |
-| `heading-md` | 16px | 600 | 1.4 |
-| `heading-sm` | 14px | 600 | 1.4 |
-| `body` | 14px | 400 | 1.5 |
-| `body-sm` | 13px | 400 | 1.5 |
-| `caption` | 12px | 400 | 1.4 |
-| `code` | 12px | 400 | 1.6 |
+**Font usage:**
+- **App body**: `--font-inter` (default `<body>` font)
+- **App headings**: `--font-inter-tight` (tighter letterspacing)
+- **Marketing display headings**: `--font-ibm-plex-serif` (landing page only)
+- **Code / logs / env vars**: `--font-jetbrains-mono`
+
+### Landing page type scale
+
+Railway uses responsive fluid type (`clamp()`) on the marketing site. All display sizes use IBM Plex Serif.
+
+| Class | Size | Line Height | Usage |
+|-------|------|-------------|-------|
+| `text-huge` | `clamp(48px, 6vw, 64px)` | 1.25 | Largest display hero |
+| `text-jumbo` | `clamp(40px, 5vw, 48px)` | 1.25 | Hero subheadings |
+| `text-large` | `clamp(32px, 4vw, 40px)` | 1.25 | Section intro headings |
+| `text-h1` | `clamp(28px, 2.5vw, 32px)` | 1.375 | Page headings |
+| `text-h2` | `clamp(24px, 3vw, 28px)` | 1.375 | Section headings |
+| `text-h3` | `clamp(22px, 2.5vw, 24px)` | 1.375 | Card/panel headings |
+| `text-h4` | `20px` | 1.375 | Minor headings |
+| `text-base` | `16px` | 1.5 | Body copy |
+| `text-sm` | `14px` | 1.5 | Labels, metadata |
+| `text-xs` | `12px` | 1.4 | Captions |
+
+**Hero headline** — IBM Plex Serif, `40px`, `font-weight: 500`, `letter-spacing: -1.96px`, `line-height: 1.12`
+
+**Section headings** — IBM Plex Serif, `36px`, `font-weight: 400`, `letter-spacing: -0.72px`, `line-height: 48px`
+
+### App type scale
+
+| Scale | Font | Size | Weight | Line Height |
+|-------|------|------|--------|-------------|
+| `heading-display` | IBM Plex Serif | 36px | 400 | 48px |
+| `heading-lg` | Inter Tight | 22px | 600 | 1.3 |
+| `heading-md` | Inter Tight | 16px | 600 | 1.4 |
+| `heading-sm` | Inter | 14px | 600 | 1.4 |
+| `body` | Inter | 14px | 400 | 1.5 |
+| `body-sm` | Inter | 13px | 400 | 1.5 |
+| `caption` | Inter | 12px | 400 | 1.4 |
+| `code` | JetBrains Mono | 12px | 400 | 1.6 |
 
 ## Spacing
 
@@ -98,7 +133,7 @@ Base unit: `4px`
 
 ### Deploy Log
 
-- Background: `#0B0D0E` (same as background)
+- Background: `#13111C` (same as background)
 - Font: monospace, `12px`
 - Color-coded: green for success lines, red for errors, muted for info
 - Scrollable panel, fixed height

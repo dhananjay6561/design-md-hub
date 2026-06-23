@@ -5,46 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Railway — Design System Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --primary: #7B61FF;
-    --primary-hover: #6B50EF;
-    --background: #0B0D0E;
-    --surface: #161819;
-    --surface-raised: #1E2022;
-    --surface-overlay: #26292B;
+    --primary: #853bce;
+    --primary-hover: #6D31A9;
+    --background: #13111C;
+    --surface: #181622;
+    --surface-raised: #1F1C2B;
+    --surface-overlay: #27243A;
     --text-primary: #F1F0EF;
-    --text-secondary: #8A8886;
-    --text-muted: #555250;
-    --border: #2A2D30;
-    --border-strong: #383B3E;
-    --error: #FF4444;
-    --warning: #FFB224;
-    --success: #23C45E;
-    --purple-dim: rgba(123,97,255,0.12);
-    --purple-glow: rgba(123,97,255,0.20);
+    --text-secondary: #868593;
+    --text-muted: #59497A;
+    --border: #2C2A3E;
+    --border-strong: #3D3A55;
+    --error: #D85B59;
+    --warning: #DFAE2A;
+    --success: #72BF9B;
+    --purple-dim: rgba(133,59,206,0.12);
+    --purple-glow: rgba(133,59,206,0.20);
     --shadow-sm: 0 1px 4px rgba(0,0,0,0.5);
     --shadow-md: 0 4px 20px rgba(0,0,0,0.6);
-    --glow-purple: 0 0 20px rgba(123,97,255,0.25);
+    --glow-purple: 0 0 24px rgba(133,59,206,0.35);
+  }
+  [data-theme="light"] .hero {
+    background: linear-gradient(327.21deg, rgba(79,0,179,0.05) 3.65%, rgba(60,0,136,0) 40.32%), linear-gradient(245.93deg, rgba(26,167,255,0.08) 0%, rgba(21,199,209,0) 36.63%), #F9F3E9;
   }
   [data-theme="light"] {
-    --background: #F5F5F5;
+    --background: #F9F3E9;
     --surface: #FFFFFF;
-    --surface-raised: #EFEFEF;
-    --surface-overlay: #E4E4E4;
-    --text-primary: #0B0D0E;
-    --text-secondary: #5A5A5A;
-    --text-muted: #999999;
-    --border: #DCDCDC;
-    --border-strong: #C8C8C8;
+    --surface-raised: #F0EAE0;
+    --surface-overlay: #E7E0D5;
+    --text-primary: #13111C;
+    --text-secondary: #5A5760;
+    --text-muted: #9B98A8;
+    --border: #DDD8CE;
+    --border-strong: #C8C3B8;
     --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
     --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
-    --glow-purple: 0 0 16px rgba(123,97,255,0.15);
+    --glow-purple: 0 0 16px rgba(133,59,206,0.12);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
     background: var(--background); color: var(--text-primary);
     font-size: 14px; line-height: 1.5; transition: background 0.2s, color 0.2s;
   }
@@ -56,11 +59,12 @@
   .hero {
     border-bottom: 1px solid var(--border);
     padding: 64px 0 56px; text-align: center;
+    background: linear-gradient(327.21deg, rgba(33,0,75,0.24) 3.65%, rgba(60,0,136,0) 40.32%), linear-gradient(245.93deg, rgba(209,21,111,0.16) 0%, rgba(209,25,80,0) 36.63%), linear-gradient(147.6deg, rgba(58,19,255,0) 29.79%, rgba(98,19,255,0.01) 85.72%), var(--background);
   }
   .hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
   .hero-logo { display: flex; justify-content: center; margin-bottom: 24px; }
-  .hero h1 { font-size: 22px; font-weight: 600; line-height: 1.3; color: var(--text-primary); margin-bottom: 12px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; margin: 0 auto; }
+  .hero h1 { font-size: 40px; font-weight: 500; line-height: 1.12; letter-spacing: -1.96px; color: var(--text-primary); margin-bottom: 12px; font-family: 'IBM Plex Serif', Georgia, Cambria, 'Times New Roman', serif; }
+  .hero p { font-size: 18px; color: var(--text-secondary); max-width: 560px; margin: 0 auto; line-height: 1.55; }
 
   section { padding: 56px 0; border-bottom: 1px solid var(--border); }
   section:last-child { border-bottom: none; }
@@ -134,9 +138,9 @@
 
   .badges-group { display: flex; gap: 6px; flex-wrap: wrap; }
   .badge { padding: 3px 8px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
-  .badge-deployed { background: rgba(35,196,94,0.15); color: var(--success); }
-  .badge-building { background: rgba(255,178,36,0.15); color: var(--warning); }
-  .badge-failed { background: rgba(255,68,68,0.15); color: var(--error); }
+  .badge-deployed { background: rgba(114,191,155,0.15); color: var(--success); }
+  .badge-building { background: rgba(223,174,42,0.15); color: var(--warning); }
+  .badge-failed { background: rgba(216,91,89,0.15); color: var(--error); }
   .badge-sleeping { background: var(--surface-raised); color: var(--text-muted); border: 1px solid var(--border); }
 
   .sample-card {
@@ -191,10 +195,10 @@
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-logo">
-      <img src="https://cdn.simpleicons.org/railway/0B0D0E" width="56" height="56" class="brand-logo logo-invert" alt="railway logo">
+      <img src="https://cdn.simpleicons.org/railway/13111C" width="56" height="56" class="brand-logo logo-invert" alt="railway logo">
     </div>
     <h1>Railway</h1>
-    <p>Deploy in seconds — a deployment platform that makes infrastructure feel effortless and almost playful.</p>
+    <p>The all-in-one intelligent cloud provider for deploying apps, databases, volumes, functions, and background jobs.</p>
   </div>
 </div>
 
@@ -205,41 +209,41 @@
 
     <p class="section-subtitle">Primary</p>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#7B61FF')">
-        <div class="swatch-color" style="background:#7B61FF"></div>
-        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#7B61FF</span><span class="swatch-usage">CTAs, active states, links</span></div>
+      <div class="swatch" onclick="copyHex('#853bce')">
+        <div class="swatch-color" style="background:#853bce"></div>
+        <div class="swatch-info"><span class="swatch-token">primary</span><span class="swatch-hex">#853bce</span><span class="swatch-usage">Purple accent, glow, active states</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#6B50EF')">
-        <div class="swatch-color" style="background:#6B50EF"></div>
-        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#6B50EF</span><span class="swatch-usage">Hover on primary</span></div>
+      <div class="swatch" onclick="copyHex('#6D31A9')">
+        <div class="swatch-color" style="background:#6D31A9"></div>
+        <div class="swatch-info"><span class="swatch-token">primary-hover</span><span class="swatch-hex">#6D31A9</span><span class="swatch-usage">Hover on primary (pink-600, darker)</span></div>
       </div>
     </div>
 
     <p class="section-subtitle">Surfaces</p>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#0B0D0E')">
-        <div class="swatch-color" style="background:#0B0D0E; border-bottom:1px solid #2A2D30"></div>
-        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#0B0D0E</span><span class="swatch-usage">App background</span></div>
+      <div class="swatch" onclick="copyHex('#13111C')">
+        <div class="swatch-color" style="background:#13111C; border-bottom:1px solid #2C2A3E"></div>
+        <div class="swatch-info"><span class="swatch-token">background</span><span class="swatch-hex">#13111C</span><span class="swatch-usage">App background (dark oatmeal)</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#161819')">
-        <div class="swatch-color" style="background:#161819"></div>
-        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#161819</span><span class="swatch-usage">Cards, panels</span></div>
+      <div class="swatch" onclick="copyHex('#181622')">
+        <div class="swatch-color" style="background:#181622"></div>
+        <div class="swatch-info"><span class="swatch-token">surface</span><span class="swatch-hex">#181622</span><span class="swatch-usage">Cards, panels</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#1E2022')">
-        <div class="swatch-color" style="background:#1E2022"></div>
-        <div class="swatch-info"><span class="swatch-token">surface-raised</span><span class="swatch-hex">#1E2022</span><span class="swatch-usage">Elevated surfaces</span></div>
+      <div class="swatch" onclick="copyHex('#1F1C2B')">
+        <div class="swatch-color" style="background:#1F1C2B"></div>
+        <div class="swatch-info"><span class="swatch-token">surface-raised</span><span class="swatch-hex">#1F1C2B</span><span class="swatch-usage">Elevated surfaces</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#26292B')">
-        <div class="swatch-color" style="background:#26292B"></div>
-        <div class="swatch-info"><span class="swatch-token">surface-overlay</span><span class="swatch-hex">#26292B</span><span class="swatch-usage">Dropdowns, modals</span></div>
+      <div class="swatch" onclick="copyHex('#27243A')">
+        <div class="swatch-color" style="background:#27243A"></div>
+        <div class="swatch-info"><span class="swatch-token">surface-overlay</span><span class="swatch-hex">#27243A</span><span class="swatch-usage">Dropdowns, modals</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#2A2D30')">
-        <div class="swatch-color" style="background:#2A2D30"></div>
-        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#2A2D30</span><span class="swatch-usage">Dividers, borders</span></div>
+      <div class="swatch" onclick="copyHex('#2C2A3E')">
+        <div class="swatch-color" style="background:#2C2A3E"></div>
+        <div class="swatch-info"><span class="swatch-token">border</span><span class="swatch-hex">#2C2A3E</span><span class="swatch-usage">Dividers, borders</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#383B3E')">
-        <div class="swatch-color" style="background:#383B3E"></div>
-        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#383B3E</span><span class="swatch-usage">Inputs, emphasis</span></div>
+      <div class="swatch" onclick="copyHex('#3D3A55')">
+        <div class="swatch-color" style="background:#3D3A55"></div>
+        <div class="swatch-info"><span class="swatch-token">border-strong</span><span class="swatch-hex">#3D3A55</span><span class="swatch-usage">Inputs, emphasis</span></div>
       </div>
     </div>
 
@@ -249,71 +253,114 @@
         <div class="swatch-color" style="background:#F1F0EF"></div>
         <div class="swatch-info"><span class="swatch-token">text-primary</span><span class="swatch-hex">#F1F0EF</span><span class="swatch-usage">Primary text</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#8A8886')">
-        <div class="swatch-color" style="background:#8A8886"></div>
-        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#8A8886</span><span class="swatch-usage">Supporting text</span></div>
+      <div class="swatch" onclick="copyHex('#868593')">
+        <div class="swatch-color" style="background:#868593"></div>
+        <div class="swatch-info"><span class="swatch-token">text-secondary</span><span class="swatch-hex">#868593</span><span class="swatch-usage">Supporting text</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#555250')">
-        <div class="swatch-color" style="background:#555250"></div>
-        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#555250</span><span class="swatch-usage">Placeholders, disabled</span></div>
+      <div class="swatch" onclick="copyHex('#59497A')">
+        <div class="swatch-color" style="background:#59497A"></div>
+        <div class="swatch-info"><span class="swatch-token">text-muted</span><span class="swatch-hex">#59497A</span><span class="swatch-usage">Placeholders, disabled</span></div>
       </div>
     </div>
 
     <p class="section-subtitle">Semantic</p>
     <div class="swatches-grid">
-      <div class="swatch" onclick="copyHex('#23C45E')">
-        <div class="swatch-color" style="background:#23C45E"></div>
-        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#23C45E</span><span class="swatch-usage">Success, deployed</span></div>
+      <div class="swatch" onclick="copyHex('#72BF9B')">
+        <div class="swatch-color" style="background:#72BF9B"></div>
+        <div class="swatch-info"><span class="swatch-token">success</span><span class="swatch-hex">#72BF9B</span><span class="swatch-usage">Success, deployed (green-600)</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#FFB224')">
-        <div class="swatch-color" style="background:#FFB224"></div>
-        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#FFB224</span><span class="swatch-usage">Building, warnings</span></div>
+      <div class="swatch" onclick="copyHex('#DFAE2A')">
+        <div class="swatch-color" style="background:#DFAE2A"></div>
+        <div class="swatch-info"><span class="swatch-token">warning</span><span class="swatch-hex">#DFAE2A</span><span class="swatch-usage">Building, warnings (yellow-500)</span></div>
       </div>
-      <div class="swatch" onclick="copyHex('#FF4444')">
-        <div class="swatch-color" style="background:#FF4444"></div>
-        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#FF4444</span><span class="swatch-usage">Errors, destructive</span></div>
+      <div class="swatch" onclick="copyHex('#D85B59')">
+        <div class="swatch-color" style="background:#D85B59"></div>
+        <div class="swatch-info"><span class="swatch-token">error</span><span class="swatch-hex">#D85B59</span><span class="swatch-usage">Errors, destructive (red-600)</span></div>
       </div>
     </div>
   </section>
 
   <section>
     <h2 class="section-title">Typography</h2>
+
+    <p class="section-subtitle">Landing page scale (fluid, IBM Plex Serif display)</p>
+    <table class="type-table">
+      <tbody>
+        <tr>
+          <td>hero</td>
+          <td><span style="font-size:40px;font-weight:500;line-height:1.12;letter-spacing:-1.96px;font-family:'IBM Plex Serif',Georgia,serif">Ship software peacefully</span></td>
+          <td><span class="spec-pill">IBM Plex Serif</span><span class="spec-pill">40px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.12</span><span class="spec-pill">-1.96px</span></td>
+        </tr>
+        <tr>
+          <td>section-h</td>
+          <td><span style="font-size:36px;font-weight:400;line-height:48px;letter-spacing:-0.72px;font-family:'IBM Plex Serif',Georgia,serif">Deploy anything without complexity</span></td>
+          <td><span class="spec-pill">IBM Plex Serif</span><span class="spec-pill">36px</span><span class="spec-pill">400</span><span class="spec-pill">lh 48px</span><span class="spec-pill">-0.72px</span></td>
+        </tr>
+        <tr>
+          <td>text-large</td>
+          <td><span style="font-size:40px;font-weight:600;line-height:1.25;font-family:'Inter Tight','Inter',sans-serif">See your infrastructure</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">clamp(32px,4vw,40px)</span><span class="spec-pill">lh 1.25</span></td>
+        </tr>
+        <tr>
+          <td>text-h1</td>
+          <td><span style="font-size:32px;font-weight:600;line-height:1.375;font-family:'Inter Tight','Inter',sans-serif">Active services</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">clamp(28px,2.5vw,32px)</span><span class="spec-pill">lh 1.375</span></td>
+        </tr>
+        <tr>
+          <td>text-h2</td>
+          <td><span style="font-size:28px;font-weight:600;line-height:1.375;font-family:'Inter Tight','Inter',sans-serif">Network and connect</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">clamp(24px,3vw,28px)</span><span class="spec-pill">lh 1.375</span></td>
+        </tr>
+        <tr>
+          <td>text-h3</td>
+          <td><span style="font-size:24px;font-weight:600;line-height:1.375;font-family:'Inter Tight','Inter',sans-serif">Private, fast connections</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">clamp(22px,2.5vw,24px)</span><span class="spec-pill">lh 1.375</span></td>
+        </tr>
+        <tr>
+          <td>text-base</td>
+          <td><span style="font-size:16px;font-weight:400;line-height:1.5">Connect your repo, Railway handles the rest.</span></td>
+          <td><span class="spec-pill">16px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="section-subtitle">App UI scale</p>
     <table class="type-table">
       <tbody>
         <tr>
           <td>heading-lg</td>
-          <td><span style="font-size:22px;font-weight:600;line-height:1.3">Deploy in seconds</span></td>
-          <td><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
+          <td><span style="font-size:22px;font-weight:600;line-height:1.3;font-family:'Inter Tight','Inter',sans-serif">Active deployments</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></td>
         </tr>
         <tr>
           <td>heading-md</td>
-          <td><span style="font-size:16px;font-weight:600;line-height:1.4">Service management</span></td>
-          <td><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+          <td><span style="font-size:16px;font-weight:600;line-height:1.4;font-family:'Inter Tight','Inter',sans-serif">Service management</span></td>
+          <td><span class="spec-pill">Inter Tight</span><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
         </tr>
         <tr>
           <td>heading-sm</td>
           <td><span style="font-size:14px;font-weight:600;line-height:1.4">Environment variables</span></td>
-          <td><span class="spec-pill">14px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
+          <td><span class="spec-pill">Inter</span><span class="spec-pill">14px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></td>
         </tr>
         <tr>
           <td>body</td>
           <td><span style="font-size:14px;font-weight:400;line-height:1.5">Standard body text for interface</span></td>
-          <td><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+          <td><span class="spec-pill">Inter</span><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
         </tr>
         <tr>
           <td>body-sm</td>
           <td><span style="font-size:13px;font-weight:400;line-height:1.5">Small body for metadata and labels</span></td>
-          <td><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
+          <td><span class="spec-pill">Inter</span><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></td>
         </tr>
         <tr>
           <td>caption</td>
           <td><span style="font-size:12px;font-weight:400;line-height:1.4">Caption and supporting text</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
+          <td><span class="spec-pill">Inter</span><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></td>
         </tr>
         <tr>
           <td>code</td>
-          <td><span style="font-size:12px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6;color:#7B61FF">railway up --detach</span></td>
-          <td><span class="spec-pill">12px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></td>
+          <td><span style="font-size:12px;font-weight:400;font-family:'JetBrains Mono',monospace;line-height:1.6;color:#853bce">railway up --detach</span></td>
+          <td><span class="spec-pill">JetBrains Mono</span><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></td>
         </tr>
       </tbody>
     </table>
@@ -351,7 +398,7 @@
         <div class="comp-card-title">Service Card</div>
         <div class="sample-card">
           <div class="sample-card-header">
-            <div class="status-dot" style="background:#23C45E"></div>
+            <div class="status-dot" style="background:var(--success)"></div>
             <span class="sample-card-title">web-api</span>
             <span class="badge badge-deployed">Deployed</span>
           </div>
