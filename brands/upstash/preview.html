@@ -5,255 +5,616 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Upstash Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Inter+Tight:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
 <style>
   :root[data-theme="dark"] {
-    --bg: #0A0A0A;
-    --surface: #141414;
-    --surface-raised: #1C1C1C;
-    --surface-overlay: #242424;
-    --text-primary: #F5F5F5;
-    --text-secondary: #888888;
-    --text-muted: #555555;
-    --border: #202020;
-    --border-strong: #2E2E2E;
-    --primary: #00E9A3;
-    --primary-hover: #00CC8E;
-    --primary-dim: rgba(0,233,163,0.10);
-    --error: #F87171;
-    --warning: #FBBF24;
-    --success: #00E9A3;
+    --bg: #09090b;
+    --canvas: rgba(236,253,245,.04);
+    --border: rgba(236,253,245,.08);
+    --border-strong: rgba(236,253,245,.14);
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --primary-text: #34d399;
+    --text: #ecfdf5;
+    --text-mute: #a1a1aa;
+    --text-dim: #71717a;
+    --input-bg: rgba(236,253,245,.04);
+    --shadow-glow: 0 0 24px rgba(16,185,129,.15);
   }
   :root[data-theme="light"] {
-    --bg: #FFFFFF;
-    --surface: #F9FAFB;
-    --surface-raised: #F3F4F6;
-    --surface-overlay: #E5E7EB;
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --text-muted: #9CA3AF;
-    --border: #E5E7EB;
-    --border-strong: #D1D5DB;
-    --primary: #00A372;
-    --primary-hover: #008C62;
-    --primary-dim: rgba(0,163,114,0.08);
-    --error: #EF4444;
-    --warning: #F59E0B;
-    --success: #00A372;
+    --bg: #f7f7f7;
+    --canvas: rgba(4,120,87,.05);
+    --border: rgba(0,0,0,.1);
+    --border-strong: rgba(0,0,0,.16);
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --primary-text: #047857;
+    --text: #022c22;
+    --text-mute: #71717a;
+    --text-dim: #a1a1aa;
+    --input-bg: rgba(0,0,0,.04);
+    --shadow-glow: 0 0 24px rgba(16,185,129,.2);
   }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.5; }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-overlay); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-  .section { margin-bottom: 64px; }
-  .section-title { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .hero { background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%); border: 1px solid var(--border); border-radius: 8px; padding: 48px 40px; margin-bottom: 64px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: var(--primary-dim); border-radius: 50%; filter: blur(40px); }
-  .hero-logo { margin-bottom: 20px; }
-  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-  .colors-group { margin-bottom: 32px; }
-  .colors-group-title { font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
-  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .swatch { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 120ms; }
-  .swatch:hover { border-color: var(--border-strong); }
-  .swatch-block { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--surface-overlay); border: 1px solid var(--border-strong); color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px; transition: transform 200ms; z-index: 1000; pointer-events: none; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-muted); }
-  .type-sample { color: var(--text-primary); }
-  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .spec-pill { font-size: 11px; font-family: 'JetBrains Mono', monospace; padding: 2px 6px; border-radius: 3px; background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap; }
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .comp-card-title { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 120ms; }
-  .btn-primary { background: var(--primary); color: #0A0A0A; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: var(--surface-raised); border: 1px solid var(--border-strong); color: var(--text-primary); font-weight: 500; }
-  .btn-secondary:hover { background: var(--surface-overlay); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); font-weight: 500; }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: var(--text-primary); height: 32px; transition: border-color 120ms; width: 100%; }
-  .input::placeholder { color: var(--text-muted); }
-  .input:focus { outline: none; border-color: var(--primary); }
-  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge { font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 4px; }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .sample-card-title { font-size: 13px; font-weight: 600; }
-  .sample-card-meta { font-size: 12px; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 12px; }
-  .spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
-  .guardrails-heading.do { color: var(--success); }
-  .guardrails-heading.dont { color: var(--error); }
-  .guardrail-item { font-size: 13px; color: var(--text-secondary); padding: 8px 12px; border-radius: 6px; background: var(--surface); }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
-  @media (max-width: 600px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  body { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; transition: background .15s, color .15s; }
+
+  /* Toggle */
+  .toggle { position:fixed;top:16px;right:16px;background:var(--canvas);border:1px solid var(--border-strong);color:var(--text-mute);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
+  .toggle:hover { border-color:var(--primary);color:var(--primary); }
+  :root[data-theme="dark"] .icon-moon { display:none; }
+  :root[data-theme="light"] .icon-sun { display:none; }
+
+  /* Layout */
+  .container { max-width:1100px;margin:0 auto;padding:48px 24px 80px; }
+  .section { margin-bottom:64px; }
+  .section-title { font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid var(--border); }
+
+  /* Logo fills via CSS */
+  .logo-arc-outer { fill: #34d399; }
+  .logo-arc-inner  { fill: #6ee7b7; }
+  .logo-text       { fill: #ecfdf5; }
+  :root[data-theme="light"] .logo-arc-outer { fill: #10b981; }
+  :root[data-theme="light"] .logo-arc-inner  { fill: #34d399; }
+  :root[data-theme="light"] .logo-text       { fill: #022c22; }
+
+  /* Hero */
+  .hero { border:1px solid var(--border);border-radius:12px;padding:56px 48px;margin-bottom:64px;background:var(--canvas);position:relative;overflow:hidden; }
+  .hero::before { content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:200px;background:var(--primary);opacity:.06;border-radius:50%;filter:blur(60px);pointer-events:none; }
+  .hero-logo { margin-bottom:32px; }
+  .hero h1 { font-family:'Inter Tight',ui-sans-serif,sans-serif;font-size:64px;font-weight:700;line-height:1.05;letter-spacing:-.03em;margin-bottom:16px;background:linear-gradient(to right, var(--primary), var(--primary-text));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text; }
+  .hero p { font-family:'Inter',sans-serif;font-size:18px;font-weight:400;color:var(--text-mute);max-width:500px;line-height:1.6; }
+  .hero-actions { display:flex;gap:8px;margin-top:28px; }
+  .hero-stats { display:flex;gap:32px;margin-top:36px;flex-wrap:wrap; }
+  .hero-stat-num { font-family:'Inter Tight',sans-serif;font-size:24px;font-weight:700;color:var(--primary-text); }
+  .hero-stat-label { font-size:12px;color:var(--text-dim);margin-top:2px; }
+
+  /* Colors */
+  .colors-group { margin-bottom:24px; }
+  .colors-group-title { font-size:11px;font-weight:500;color:var(--text-dim);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px; }
+  .colors-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:6px; }
+  .swatch { background:var(--canvas);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color 120ms; }
+  .swatch:hover { border-color:var(--primary); }
+  .swatch-block { height:64px; }
+  .swatch-info { padding:8px 10px; }
+  .swatch-name { font-size:11px;font-weight:500;color:var(--text); }
+  .swatch-hex { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-mute);margin-top:2px; }
+  .swatch-usage { font-size:10px;color:var(--text-dim);margin-top:2px; }
+
+  /* Toast */
+  .toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#09090b;font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;transition:transform 200ms;z-index:1000;pointer-events:none;font-family:'JetBrains Mono',monospace; }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  /* Product badges */
+  .product-grid { display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px; }
+  .product-badge { display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--canvas);font-size:13px;font-weight:500;color:var(--text); }
+  .product-icon { width:20px;height:20px;border-radius:4px;flex-shrink:0; }
+
+  /* Typography */
+  .type-group-label { font-size:11px;font-weight:500;color:var(--text-dim);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;margin-top:20px; }
+  .type-row { display:grid;grid-template-columns:110px 1fr auto;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border); }
+  .type-row:last-child { border-bottom:none; }
+  .type-name { font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text-dim); }
+  .type-sample { min-width:0; }
+  .type-specs { display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end; }
+  .spec-pill { font-size:10px;font-family:'JetBrains Mono',monospace;padding:2px 5px;border-radius:3px;background:var(--canvas);border:1px solid var(--border);color:var(--text-mute);white-space:nowrap; }
+
+  /* Components */
+  .comp-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px; }
+  .comp-card { background:var(--canvas);border:1px solid var(--border);border-radius:12px;padding:18px; }
+  .comp-card-title { font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px; }
+
+  /* Buttons */
+  .btn-group { display:flex;flex-wrap:wrap;gap:6px; }
+  .btn { font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:7px 16px;border-radius:8px;border:none;cursor:pointer;transition:all 120ms;line-height:1.2; }
+  .btn-primary { background:var(--primary);color:#09090b; }
+  .btn-primary:hover { background:var(--primary-hover);box-shadow:var(--shadow-glow); }
+  .btn-secondary { background:var(--canvas);color:var(--text);border:1px solid var(--border-strong); }
+  .btn-secondary:hover { border-color:var(--primary);color:var(--primary-text); }
+  .btn-ghost { background:transparent;color:var(--text-mute); }
+  .btn-ghost:hover { background:var(--canvas);color:var(--text); }
+
+  /* Inputs */
+  .input-col { display:flex;flex-direction:column;gap:6px; }
+  .input { background:var(--input-bg);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);height:36px;transition:border-color 120ms;width:100%; }
+  .input::placeholder { color:var(--text-dim); }
+  .input:focus { outline:none;border-color:var(--primary);box-shadow:0 0 0 2px rgba(16,185,129,.15); }
+  .input-mono { font-family:'JetBrains Mono',monospace;font-size:12px; }
+
+  /* Badges */
+  .badge-group { display:flex;flex-wrap:wrap;gap:5px; }
+  .badge { font-size:11px;font-weight:500;padding:2px 8px;border-radius:9999px;display:inline-flex;align-items:center;gap:4px; }
+  .bdot { width:6px;height:6px;border-radius:50%;flex-shrink:0; }
+  .bdot-pulse { animation:bpulse 2s ease infinite; }
+  @keyframes bpulse { 0%,100%{opacity:1}50%{opacity:.4} }
+
+  /* Stats */
+  .stats-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px; }
+  .stat-card { background:var(--canvas);border:1px solid var(--border);border-radius:12px;padding:20px; }
+  .stat-num { font-family:'Inter Tight',sans-serif;font-size:32px;font-weight:700;color:var(--primary-text);line-height:1;margin-bottom:6px; }
+  .stat-label { font-size:12px;color:var(--text-mute); }
+
+  /* Spacing */
+  .spacing-list { display:flex;flex-direction:column;gap:8px; }
+  .sp-row { display:flex;align-items:center;gap:10px; }
+  .sp-label { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);width:72px;flex-shrink:0; }
+  .sp-bar-wrap { flex:1; }
+  .sp-bar { height:6px;background:var(--primary);border-radius:2px;opacity:.35; }
+  .sp-val { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-mute);width:32px;text-align:right; }
+
+  /* Guardrails */
+  .gr-grid { display:grid;grid-template-columns:1fr 1fr;gap:20px; }
+  .gr-col { display:flex;flex-direction:column;gap:6px; }
+  .gr-heading { font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px; }
+  .gr-heading.do { color:var(--primary); }
+  .gr-heading.dont { color:#f87171; }
+  .gr-item { font-size:12px;color:var(--text-mute);padding:7px 10px;border-radius:6px;background:var(--canvas);border:1px solid var(--border); }
+
+  /* Signature: Redis Console */
+  .console-shell { background:var(--bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-family:'JetBrains Mono',monospace; }
+  .console-topbar { display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--canvas);flex-wrap:wrap;gap:8px; }
+  .console-breadcrumb { display:flex;align-items:center;gap:8px; }
+  .console-db { display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--text); }
+  .console-region { font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-mute);background:var(--canvas);border:1px solid var(--border);padding:2px 6px;border-radius:4px; }
+  .console-live { display:flex;align-items:center;gap:5px;font-size:11px;color:var(--primary); }
+  .console-dot { width:6px;height:6px;border-radius:50%;background:var(--primary);animation:bpulse 2s ease infinite; }
+  .console-actions { display:flex;align-items:center;gap:6px; }
+  .console-meta { font-size:11px;color:var(--text-dim); }
+
+  .console-quick { display:flex;align-items:center;gap:6px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--canvas);flex-wrap:wrap; }
+  .console-quick-label { font-size:11px;color:var(--text-dim);margin-right:2px; }
+  .quick-cmd { font-size:11px;padding:3px 8px;border-radius:4px;border:1px solid var(--border);color:var(--text-mute);background:transparent;cursor:pointer;transition:all 100ms;font-family:'JetBrains Mono',monospace; }
+  .quick-cmd:hover { border-color:var(--primary);color:var(--primary-text);background:rgba(16,185,129,.08); }
+
+  .console-history { padding:16px;min-height:220px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px; }
+  .cmd-block { display:flex;flex-direction:column;gap:4px; }
+  .cmd-line { display:flex;align-items:flex-start;gap:8px; }
+  .cmd-prompt { color:var(--primary);flex-shrink:0;line-height:1.6; }
+  .cmd-text { font-size:13px;color:var(--text);line-height:1.6; }
+  .cmd-response { font-size:13px;line-height:1.6;padding-left:20px; }
+  .resp-ok { color:var(--primary); }
+  .resp-val { color:var(--primary-text); }
+  .resp-num { color:#f0e68c; }
+  .resp-nil { color:var(--text-dim); }
+  .resp-err { color:#f87171; }
+  .cmd-block.new-cmd { animation:fadeIn .18s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)} }
+
+  .console-input-row { display:flex;align-items:center;gap:0;border-top:1px solid var(--border);background:var(--canvas); }
+  .console-prompt-label { font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--primary);padding:10px 0 10px 16px;flex-shrink:0;line-height:1.6; }
+  .console-input { flex:1;background:transparent;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);padding:10px 16px;line-height:1.6; }
+  .console-input::placeholder { color:var(--text-dim); }
+  .console-run { font-family:'Inter',sans-serif;font-size:12px;font-weight:600;background:var(--primary);color:#09090b;border:none;padding:6px 14px;margin:6px 10px;border-radius:6px;cursor:pointer;transition:all 120ms;white-space:nowrap; }
+  .console-run:hover { background:var(--primary-hover); }
+
+  .console-footer { display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:var(--canvas);border-top:1px solid var(--border); }
+  .console-endpoint { font-size:11px;color:var(--text-dim); }
+  .console-endpoint span { color:var(--primary-text); }
+  .console-latency { font-size:11px;color:var(--primary);display:flex;align-items:center;gap:4px; }
+
+  @media (max-width:640px) {
+    .gr-grid { grid-template-columns:1fr; }
+    .stats-grid { grid-template-columns:1fr 1fr; }
+    .type-row { grid-template-columns:90px 1fr; }
+    .type-specs { display:none; }
+    .hero { padding:32px 20px; }
+    .hero h1 { font-size:40px; }
+    .console-history { min-height:160px; }
+  }
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
+
+<div class="toast" id="toast"></div>
 <div class="container">
 
+  <!-- Hero -->
   <div class="hero">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="100" height="100" rx="16" fill="#141414"/>
-        <path d="M20 50 Q20 20 50 20 Q80 20 80 50 Q80 72 64 80 L56 72 Q68 66 68 50 Q68 32 50 32 Q32 32 32 50 Q32 66 44 72 L36 80 Q20 72 20 50Z" fill="#00E9A3"/>
-        <circle cx="50" cy="50" r="10" fill="#00E9A3" opacity="0.4"/>
+      <!-- Real Upstash wordmark SVG extracted from upstash.com -->
+      <svg role="img" height="28" viewBox="0 0 1631 472" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="logo-arc-outer" d="M0.421875 412.975C78.5269 491.079 205.16 491.079 283.265 412.975C361.369 334.87 361.369 208.237 283.265 130.132L247.909 165.487C306.488 224.066 306.488 319.041 247.909 377.619C189.331 436.198 94.3559 436.198 35.7769 377.619L0.421875 412.975Z"/>
+        <path class="logo-arc-outer" d="M71.1328 342.264C110.185 381.316 173.501 381.316 212.554 342.264C251.606 303.212 251.606 239.895 212.554 200.843L177.199 236.198C196.725 255.724 196.725 287.382 177.199 306.909C157.672 326.435 126.014 326.435 106.488 306.909L71.1328 342.264Z"/>
+        <path class="logo-arc-inner" d="M353.974 59.421C275.869 -18.6835 149.236 -18.6835 71.1315 59.421C-6.97352 137.526 -6.97352 264.159 71.1315 342.264L106.486 306.909C47.9085 248.33 47.9085 153.355 106.486 94.777C165.065 36.198 260.04 36.198 318.618 94.777L353.974 59.421Z"/>
+        <path class="logo-arc-inner" d="M283.264 130.132C244.212 91.08 180.894 91.08 141.842 130.132C102.789 169.185 102.789 232.501 141.842 271.553L177.197 236.198C157.671 216.672 157.671 185.014 177.197 165.487C196.723 145.961 228.381 145.961 247.908 165.487L283.264 130.132Z"/>
+        <path class="logo-text" d="M588.112 264.179C588.112 289.108 570.321 301.466 553.276 301.466C534.739 301.466 522.381 288.362 522.381 267.588V169.364H483.815V273.554C483.815 312.865 506.188 335.131 538.361 335.131C562.864 335.131 580.122 322.24 587.58 303.916H589.284V333H626.678V169.364H588.112V264.179ZM660.335 394.364H698.9V307.219H700.498C706.571 319.151 719.248 335.876 747.373 335.876C785.939 335.876 814.809 305.301 814.809 251.395C814.809 196.849 785.086 167.233 747.267 167.233C718.396 167.233 706.358 184.598 700.498 196.423H698.261V169.364H660.335V394.364ZM698.154 251.182C698.154 219.435 711.791 198.874 736.613 198.874C762.288 198.874 775.498 220.713 775.498 251.182C775.498 281.864 762.075 304.236 736.613 304.236C712.004 304.236 698.154 282.929 698.154 251.182ZM971.167 212.616C965.841 184.918 943.681 167.233 905.329 167.233C865.912 167.233 839.065 186.622 839.172 216.878C839.065 240.741 853.767 256.509 885.194 263.007L913.106 268.866C928.127 272.169 935.159 278.241 935.159 287.51C935.159 298.696 923.014 307.112 904.69 307.112C887.005 307.112 875.5 299.442 872.197 284.74L834.591 288.362C839.385 318.405 864.633 336.196 904.797 336.196C945.706 336.196 974.576 314.996 974.683 283.994C974.576 260.663 959.555 246.388 928.66 239.676L900.748 233.71C884.129 229.982 877.524 224.229 877.63 214.747C877.524 203.668 889.775 195.997 905.862 195.997C923.653 195.997 933.028 205.692 936.011 216.452L971.167 212.616ZM1082.19 169.364H1049.92V130.159H1011.35V169.364H988.125V199.193H1011.35V290.173C1011.14 320.962 1033.51 336.089 1062.49 335.237C1073.46 334.918 1081.02 332.787 1085.18 331.402L1078.68 301.253C1076.55 301.786 1072.18 302.744 1067.39 302.744C1057.69 302.744 1049.92 299.335 1049.92 283.781V199.193H1082.19V169.364ZM1155.54 336.303C1181.21 336.303 1196.55 324.264 1203.58 310.521H1204.86V333H1241.94V223.483C1241.94 180.23 1206.67 167.233 1175.46 167.233C1141.05 167.233 1114.63 182.574 1106.1 212.403L1142.11 217.517C1145.95 206.331 1156.81 196.743 1175.67 196.743C1193.57 196.743 1203.37 205.905 1203.37 221.991V222.631C1203.37 233.71 1191.76 234.243 1162.89 237.332C1131.14 240.741 1100.78 250.223 1100.78 287.084C1100.78 319.257 1124.32 336.303 1155.54 336.303ZM1165.55 307.964C1149.46 307.964 1137.96 300.614 1137.96 286.445C1137.96 271.636 1150.85 265.457 1168.11 263.007C1178.23 261.622 1198.47 259.065 1203.48 255.017V274.3C1203.48 292.517 1188.77 307.964 1165.55 307.964ZM1404.05 212.616C1398.72 184.918 1376.56 167.233 1338.21 167.233C1298.79 167.233 1271.94 186.622 1272.05 216.878C1271.94 240.741 1286.65 256.509 1318.07 263.007L1345.99 268.866C1361.01 272.169 1368.04 278.241 1368.04 287.51C1368.04 298.696 1355.89 307.112 1337.57 307.112C1319.88 307.112 1308.38 299.442 1305.08 284.74L1267.47 288.362C1272.26 318.405 1297.51 336.196 1337.68 336.196C1378.58 336.196 1407.46 314.996 1407.56 283.994C1407.46 260.663 1392.43 246.388 1361.54 239.676L1333.63 233.71C1317.01 229.982 1310.4 224.229 1310.51 214.747C1310.4 203.668 1322.65 195.997 1338.74 195.997C1356.53 195.997 1365.91 205.692 1368.89 216.452L1404.05 212.616ZM1471.93 237.119C1471.93 213.469 1486.63 199.832 1507.3 199.832C1527.54 199.832 1539.47 212.723 1539.47 234.776V333H1578.04V228.81C1578.04 189.286 1555.66 167.233 1521.68 167.233C1496.54 167.233 1480.56 178.632 1472.99 197.169H1471.08V114.818H1433.36V333H1471.93V237.119Z"/>
       </svg>
     </div>
-    <h1>Upstash</h1>
-    <p>Serverless data for the edge — a Redis and Kafka platform with a clean dark UI and a signature green accent.</p>
+    <h1>Serverless<br>Data Platform</h1>
+    <p>The single platform for all your data needs.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary">Start for Free</button>
+      <button class="btn btn-secondary">Documentation</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">160B</div>
+        <div class="hero-stat-label">Redis Commands</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">210M</div>
+        <div class="hero-stat-label">QStash Messages</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">15M</div>
+        <div class="hero-stat-label">Workflow Runs</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">&gt;99.99%</div>
+        <div class="hero-stat-label">Uptime (weekly avg)</div>
+      </div>
+    </div>
   </div>
 
+  <!-- Products -->
+  <div class="section">
+    <div class="section-title">Products</div>
+    <div class="product-grid">
+      <div class="product-badge">
+        <svg class="product-icon" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="7" fill="#DC2626"/><path d="M21.698 4.483C22.028 3.839 22.95 3.839 23.28 4.483L27.248 12.224C27.55 12.815 27.121 13.518 26.457 13.518H18.521C17.857 13.518 17.427 12.815 17.73 12.224L21.698 4.483Z" fill="white"/><circle cx="8.844" cy="8.851" r="4.844" fill="white"/><rect x="4.356" y="17.963" width="8.889" height="8.978" rx="1.778" fill="white"/><path d="M21.733 17.829C22.18 17.488 22.799 17.488 23.245 17.829L27.249 20.832V27.111H17.729V20.832L21.733 17.829Z" fill="white"/></svg>
+        Redis
+      </div>
+      <div class="product-badge">
+        <svg class="product-icon" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="7" fill="#F97316"/><circle cx="23" cy="23" r="4" fill="white"/><circle cx="9" cy="23" r="4" fill="white"/><circle cx="9" cy="9" r="4" fill="white"/><circle cx="23" cy="9" r="4" fill="white"/><path d="M9 23L23 9M9 23H23M9 23V9" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Vector
+      </div>
+      <div class="product-badge">
+        <svg class="product-icon" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="7" fill="#2563EB"/><path d="M16 16H26M16 16V6M16 16H6M16 16V26M16 16L22.364 9.636M16 16L22.364 22.364M16 16L9.636 9.636M16 16L9.636 22.364" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        QStash
+      </div>
+      <div class="product-badge">
+        <svg class="product-icon" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="7" fill="#9333EA"/><path d="M16 6v20M6 16h20M9 9l14 14M23 9L9 23" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+        Workflow
+      </div>
+    </div>
+  </div>
+
+  <!-- Colors -->
   <div class="section">
     <div class="section-title">Colors</div>
     <div class="colors-group">
-      <div class="colors-group-title">Primary</div>
+      <div class="colors-group-title">Dark — Surfaces</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#00E9A3', this)"><div class="swatch-block" style="background:#00E9A3"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#00E9A3</div><div class="swatch-usage">CTAs, active states</div></div></div>
-        <div class="swatch" onclick="copyHex('#00CC8E', this)"><div class="swatch-block" style="background:#00CC8E"></div><div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#00CC8E</div><div class="swatch-usage">Hover on primary</div></div></div>
+        <div class="swatch" onclick="copyHex('#09090b')"><div class="swatch-block" style="background:#09090b;border:1px solid rgba(236,253,245,.08)"></div><div class="swatch-info"><div class="swatch-name">bg</div><div class="swatch-hex">#09090b</div><div class="swatch-usage">Page background</div></div></div>
+        <div class="swatch" onclick="copyHex('rgba(236,253,245,.06)')"><div class="swatch-block" style="background:rgba(236,253,245,.06)"></div><div class="swatch-info"><div class="swatch-name">bg-mute</div><div class="swatch-hex">rgba(236,253,245,.06)</div><div class="swatch-usage">Cards, hover fills</div></div></div>
+        <div class="swatch" onclick="copyHex('rgba(236,253,245,.08)')"><div class="swatch-block" style="background:rgba(236,253,245,.08);height:64px"></div><div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">rgba(236,253,245,.08)</div><div class="swatch-usage">Borders, dividers</div></div></div>
       </div>
     </div>
     <div class="colors-group">
-      <div class="colors-group-title">Surfaces</div>
+      <div class="colors-group-title">Brand</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0A0A0A', this)"><div class="swatch-block" style="background:#0A0A0A;border:1px solid #202020"></div><div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#0A0A0A</div><div class="swatch-usage">App background</div></div></div>
-        <div class="swatch" onclick="copyHex('#141414', this)"><div class="swatch-block" style="background:#141414"></div><div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#141414</div><div class="swatch-usage">Cards, panels</div></div></div>
-        <div class="swatch" onclick="copyHex('#1C1C1C', this)"><div class="swatch-block" style="background:#1C1C1C"></div><div class="swatch-info"><div class="swatch-name">surface-raised</div><div class="swatch-hex">#1C1C1C</div><div class="swatch-usage">Elevated surfaces</div></div></div>
-        <div class="swatch" onclick="copyHex('#242424', this)"><div class="swatch-block" style="background:#242424"></div><div class="swatch-info"><div class="swatch-name">surface-overlay</div><div class="swatch-hex">#242424</div><div class="swatch-usage">Modals, tooltips</div></div></div>
+        <div class="swatch" onclick="copyHex('#10b981')"><div class="swatch-block" style="background:#10b981"></div><div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#10b981</div><div class="swatch-usage">CTAs, logo, active state</div></div></div>
+        <div class="swatch" onclick="copyHex('#34d399')"><div class="swatch-block" style="background:#34d399"></div><div class="swatch-info"><div class="swatch-name">primary-text</div><div class="swatch-hex">#34d399</div><div class="swatch-usage">Headings on dark bg</div></div></div>
+        <div class="swatch" onclick="copyHex('#6ee7b7')"><div class="swatch-block" style="background:#6ee7b7"></div><div class="swatch-info"><div class="swatch-name">emerald-300</div><div class="swatch-hex">#6ee7b7</div><div class="swatch-usage">Logo inner arcs</div></div></div>
+        <div class="swatch" onclick="copyHex('#059669')"><div class="swatch-block" style="background:#059669"></div><div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#059669</div><div class="swatch-usage">Hover on primary CTA</div></div></div>
       </div>
     </div>
     <div class="colors-group">
       <div class="colors-group-title">Text</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F5F5F5', this)"><div class="swatch-block" style="background:#F5F5F5"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#F5F5F5</div><div class="swatch-usage">Primary text</div></div></div>
-        <div class="swatch" onclick="copyHex('#888888', this)"><div class="swatch-block" style="background:#888888"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#888888</div><div class="swatch-usage">Supporting text</div></div></div>
-        <div class="swatch" onclick="copyHex('#555555', this)"><div class="swatch-block" style="background:#555555"></div><div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#555555</div><div class="swatch-usage">Placeholders</div></div></div>
-      </div>
-    </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Semantic</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F87171', this)"><div class="swatch-block" style="background:#F87171"></div><div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#F87171</div><div class="swatch-usage">Errors</div></div></div>
-        <div class="swatch" onclick="copyHex('#FBBF24', this)"><div class="swatch-block" style="background:#FBBF24"></div><div class="swatch-info"><div class="swatch-name">warning</div><div class="swatch-hex">#FBBF24</div><div class="swatch-usage">Warnings</div></div></div>
+        <div class="swatch" onclick="copyHex('#ecfdf5')"><div class="swatch-block" style="background:#ecfdf5"></div><div class="swatch-info"><div class="swatch-name">text</div><div class="swatch-hex">#ecfdf5</div><div class="swatch-usage">Primary text (emerald-50)</div></div></div>
+        <div class="swatch" onclick="copyHex('#a1a1aa')"><div class="swatch-block" style="background:#a1a1aa"></div><div class="swatch-info"><div class="swatch-name">text-mute</div><div class="swatch-hex">#a1a1aa</div><div class="swatch-usage">Secondary text (zinc-400)</div></div></div>
+        <div class="swatch" onclick="copyHex('#71717a')"><div class="swatch-block" style="background:#71717a"></div><div class="swatch-info"><div class="swatch-name">text-dim</div><div class="swatch-hex">#71717a</div><div class="swatch-usage">Placeholders, labels</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- Typography -->
   <div class="section">
     <div class="section-title">Typography</div>
-    <div class="type-row"><div class="type-name">heading-lg</div><div class="type-sample" style="font-size:20px;font-weight:600;letter-spacing:-0.02em;">Serverless data platform</div><div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div></div>
-    <div class="type-row"><div class="type-name">heading-md</div><div class="type-sample" style="font-size:16px;font-weight:600;letter-spacing:-0.02em;">Redis databases</div><div class="type-specs"><span class="spec-pill">16px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">body</div><div class="type-sample" style="font-size:14px;font-weight:400;">Pay-per-request pricing with zero server management</div><div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">body-sm</div><div class="type-sample" style="font-size:13px;font-weight:400;color:var(--text-secondary);">1.2M commands today · 0.8ms avg latency</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div></div>
-    <div class="type-row"><div class="type-name">caption</div><div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-muted);">us-east-1 · Free tier</div><div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div></div>
-    <div class="type-row"><div class="type-name">code</div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">redis://default:xxx@us1.upstash.io</div><div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div></div>
+
+    <div class="type-group-label">Inter Tight — Display</div>
+    <div class="type-row">
+      <div class="type-name">display</div>
+      <div class="type-sample" style="font-family:'Inter Tight',sans-serif;font-size:64px;font-weight:700;letter-spacing:-.03em;line-height:1.05;background:linear-gradient(to right,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Serverless Data Platform</div>
+      <div class="type-specs"><span class="spec-pill">64px</span><span class="spec-pill">700</span><span class="spec-pill">Tight</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-lg</div>
+      <div class="type-sample" style="font-family:'Inter Tight',sans-serif;font-size:32px;font-weight:700;letter-spacing:-.02em;color:var(--primary-text);">Low-latency, serverless key-value store</div>
+      <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">700</span><span class="spec-pill">Tight</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">heading-md</div>
+      <div class="type-sample" style="font-family:'Inter Tight',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.01em;">Price scales to zero</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">Tight</span></div>
+    </div>
+
+    <div class="type-group-label" style="margin-top:24px;">Inter — UI</div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:14px;font-weight:400;">HTTP/REST API access for serverless and edge functions. No persistent connections required.</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">caption</div>
+      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-mute);">Data replicated across 8+ regions. Add or remove regions without downtime.</div>
+      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+
+    <div class="type-group-label" style="margin-top:24px;">JetBrains Mono — Code</div>
+    <div class="type-row">
+      <div class="type-name">code</div>
+      <div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--primary-text);">rediss://default:AXxx@us1-measured-doe-12345.upstash.io:6379</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">command</div>
+      <div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);"><span style="color:var(--primary)">></span> SET session:user:8291 '{"plan":"pro","region":"us-east-1"}'</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">cmd</span></div>
+    </div>
   </div>
 
+  <!-- Components -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="components-grid">
+
+    <div class="stats-grid" style="margin-bottom:12px;">
+      <div class="stat-card">
+        <div class="stat-num">2.1ms</div>
+        <div class="stat-label">p99 latency</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4.8M</div>
+        <div class="stat-label">Commands / day</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">512MB</div>
+        <div class="stat-label">Memory used</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$0.00</div>
+        <div class="stat-label">Cost today</div>
+      </div>
+    </div>
+
+    <div class="comp-grid">
       <div class="comp-card">
         <div class="comp-card-title">Buttons</div>
         <div class="btn-group">
-          <button class="btn btn-primary">Create Database</button>
-          <button class="btn btn-secondary">Details</button>
-          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-primary">Start for Free</button>
+          <button class="btn btn-secondary">Create Database</button>
+          <button class="btn btn-ghost">Learn more</button>
         </div>
       </div>
       <div class="comp-card">
         <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <input class="input" type="text" placeholder="Database name...">
-          <input class="input" type="text" placeholder="Region" style="border-color:var(--primary);">
+        <div class="input-col">
+          <input class="input" type="text" placeholder="Database name">
+          <input class="input input-mono" type="text" value="rediss://default:AXxx@..." placeholder="Connection string">
         </div>
       </div>
       <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
+        <div class="comp-card-title">Status Badges</div>
         <div class="badge-group">
-          <span class="badge" style="background:rgba(0,233,163,0.12);color:#00E9A3;"><span class="badge-dot" style="background:#00E9A3"></span>Active</span>
-          <span class="badge" style="background:rgba(248,113,113,0.12);color:#F87171;"><span class="badge-dot" style="background:#F87171"></span>Error</span>
-          <span class="badge" style="background:rgba(88,88,88,0.2);color:#888888;"><span class="badge-dot" style="background:#888888"></span>Paused</span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Database Card</div>
-        <div class="sample-card">
-          <div class="sample-card-header">
-            <div class="sample-card-title">prod-cache</div>
-            <span class="badge" style="background:rgba(0,233,163,0.12);color:#00E9A3;font-size:11px;"><span class="badge-dot" style="background:#00E9A3"></span>Active</span>
-          </div>
-          <div class="sample-card-meta">us-east-1 · 1.2M cmds/day</div>
+          <span class="badge" style="background:rgba(16,185,129,.15);color:#34d399;"><span class="bdot bdot-pulse" style="background:#10b981"></span>Active</span>
+          <span class="badge" style="background:rgba(161,161,170,.15);color:#a1a1aa;"><span class="bdot" style="background:#a1a1aa"></span>Paused</span>
+          <span class="badge" style="background:rgba(248,113,113,.15);color:#f87171;"><span class="bdot" style="background:#f87171"></span>Error</span>
+          <span class="badge" style="background:rgba(249,115,22,.15);color:#fb923c;"><span class="bdot" style="background:#fb923c"></span>Scaling</span>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Spacing -->
   <div class="section">
     <div class="section-title">Spacing</div>
     <div class="spacing-list">
-      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/32*100%)"></div></div><div class="spacing-val">4px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/32*100%)"></div></div><div class="spacing-val">8px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/32*100%)"></div></div><div class="spacing-val">12px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/32*100%)"></div></div><div class="spacing-val">16px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/32*100%)"></div></div><div class="spacing-val">20px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/32*100%)"></div></div><div class="spacing-val">24px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">32px</div></div>
+      <div class="sp-row"><div class="sp-label">space-1</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:12.5%"></div></div><div class="sp-val">4px</div></div>
+      <div class="sp-row"><div class="sp-label">space-2</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:25%"></div></div><div class="sp-val">8px</div></div>
+      <div class="sp-row"><div class="sp-label">space-3</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:37.5%"></div></div><div class="sp-val">12px</div></div>
+      <div class="sp-row"><div class="sp-label">space-4</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:50%"></div></div><div class="sp-val">16px</div></div>
+      <div class="sp-row"><div class="sp-label">space-5</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:62.5%"></div></div><div class="sp-val">20px</div></div>
+      <div class="sp-row"><div class="sp-label">space-6</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:75%"></div></div><div class="sp-val">24px</div></div>
+      <div class="sp-row"><div class="sp-label">space-8</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:100%"></div></div><div class="sp-val">32px</div></div>
     </div>
   </div>
 
+  <!-- Signature: Redis Console -->
+  <div class="section">
+    <div class="section-title">Signature — Redis Console</div>
+    <div class="console-shell">
+
+      <div class="console-topbar">
+        <div class="console-breadcrumb">
+          <div class="console-db">
+            <svg width="16" height="16" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="7" fill="#DC2626"/><path d="M21.698 4.483C22.028 3.839 22.95 3.839 23.28 4.483L27.248 12.224C27.55 12.815 27.121 13.518 26.457 13.518H18.521C17.857 13.518 17.427 12.815 17.73 12.224L21.698 4.483Z" fill="white"/><circle cx="8.844" cy="8.851" r="4.844" fill="white"/><rect x="4.356" y="17.963" width="8.889" height="8.978" rx="1.778" fill="white"/><path d="M21.733 17.829C22.18 17.488 22.799 17.488 23.245 17.829L27.249 20.832V27.111H17.729V20.832L21.733 17.829Z" fill="white"/></svg>
+            production-db
+          </div>
+          <span class="console-region">us-east-1</span>
+        </div>
+        <div class="console-actions">
+          <span class="console-live"><span class="console-dot"></span>Connected</span>
+          <span class="console-meta" style="margin-left:12px;">512 MB · 4.8M cmd/day</span>
+        </div>
+      </div>
+
+      <div class="console-quick">
+        <span class="console-quick-label">Quick:</span>
+        <button class="quick-cmd" onclick="runQuick('PING')">PING</button>
+        <button class="quick-cmd" onclick="runQuick('DBSIZE')">DBSIZE</button>
+        <button class="quick-cmd" onclick="runQuick('SET counter 0')">SET counter 0</button>
+        <button class="quick-cmd" onclick="runQuick('INCR counter')">INCR counter</button>
+        <button class="quick-cmd" onclick="runQuick('GET counter')">GET counter</button>
+        <button class="quick-cmd" onclick="runQuick('TTL session:user:8291')">TTL session:user:8291</button>
+        <button class="quick-cmd" onclick="runQuick('DEL counter')">DEL counter</button>
+      </div>
+
+      <div class="console-history" id="console-history">
+        <div class="cmd-block">
+          <div class="cmd-line"><span class="cmd-prompt">></span><span class="cmd-text">SET session:user:8291 '{"plan":"pro","region":"us-east-1"}' EX 3600</span></div>
+          <div class="cmd-response resp-ok">OK</div>
+        </div>
+        <div class="cmd-block">
+          <div class="cmd-line"><span class="cmd-prompt">></span><span class="cmd-text">INCR pageviews:2024-06-24</span></div>
+          <div class="cmd-response resp-num">(integer) 14829</div>
+        </div>
+        <div class="cmd-block">
+          <div class="cmd-line"><span class="cmd-prompt">></span><span class="cmd-text">GET session:user:8291</span></div>
+          <div class="cmd-response resp-val">"{\"plan\":\"pro\",\"region\":\"us-east-1\"}"</div>
+        </div>
+      </div>
+
+      <div class="console-input-row">
+        <span class="console-prompt-label">></span>
+        <input class="console-input" id="console-input" type="text" placeholder="Type a Redis command..." onkeydown="handleKey(event)">
+        <button class="console-run" onclick="runCmd()">Run</button>
+      </div>
+
+      <div class="console-footer">
+        <span class="console-endpoint">REST: <span>https://us1-measured-doe-12345.upstash.io</span></span>
+        <span class="console-latency">● 1.4ms avg</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guardrails -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrails-col">
-        <div class="guardrails-heading do">DO</div>
-        <div class="guardrail-item do">Use green accent only for live status and primary CTAs</div>
-        <div class="guardrail-item do">Use monospace for connection strings, keys, and metrics</div>
-        <div class="guardrail-item do">Show latency and request counts prominently</div>
-        <div class="guardrail-item do">Keep the UI data-dense but uncluttered</div>
+    <div class="gr-grid">
+      <div class="gr-col">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-item">Use emerald only for CTAs and live/active indicators — never decoratively</div>
+        <div class="gr-item">Use JetBrains Mono for all connection strings, keys, commands, and metrics</div>
+        <div class="gr-item">Use Inter Tight for display headings and large stat numbers</div>
+        <div class="gr-item">Show latency and throughput prominently — they are the product promise</div>
       </div>
-      <div class="guardrails-col">
-        <div class="guardrails-heading dont">DON'T</div>
-        <div class="guardrail-item dont">Use decorative gradients or animations</div>
-        <div class="guardrail-item dont">Use light mode as default</div>
-        <div class="guardrail-item dont">Round corners above 8px</div>
-        <div class="guardrail-item dont">Hide connection details behind extra clicks</div>
+      <div class="gr-col">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-item">Use pure white #fff for text — Upstash text is emerald-50 (#ecfdf5)</div>
+        <div class="gr-item">Use placeholder connection strings — show realistic redis:// or REST URLs</div>
+        <div class="gr-item">Use light mode as default — dark (#09090b) is the primary experience</div>
+        <div class="gr-item">Apply gradients to surfaces — gradients appear only on the H1 text</div>
       </div>
     </div>
   </div>
 
 </div>
+
 <script>
+var counter = 0;
+var dbsize = 2847;
+var history = document.getElementById('console-history');
+
+var responses = {
+  'PING': function() { return { text: 'PONG', cls: 'resp-ok' }; },
+  'DBSIZE': function() { return { text: '(integer) ' + dbsize, cls: 'resp-num' }; },
+  'FLUSHALL': function() { dbsize = 0; counter = 0; return { text: 'OK', cls: 'resp-ok' }; },
+};
+
+function parseCmd(raw) {
+  var parts = raw.trim().split(/\s+/);
+  var cmd = (parts[0] || '').toUpperCase();
+  var args = parts.slice(1);
+  return { cmd: cmd, args: args, raw: parts.join(' ') };
+}
+
+function evalCmd(input) {
+  var p = parseCmd(input);
+  if (!p.cmd) return null;
+
+  if (p.cmd === 'PING') return { text: 'PONG', cls: 'resp-ok' };
+  if (p.cmd === 'DBSIZE') return { text: '(integer) ' + dbsize, cls: 'resp-num' };
+  if (p.cmd === 'FLUSHALL') { dbsize = 0; counter = 0; return { text: 'OK', cls: 'resp-ok' }; }
+
+  if (p.cmd === 'SET') {
+    if (!p.args[0]) return { text: '(error) ERR wrong number of arguments for SET', cls: 'resp-err' };
+    dbsize++;
+    return { text: 'OK', cls: 'resp-ok' };
+  }
+  if (p.cmd === 'GET') {
+    if (!p.args[0]) return { text: '(error) ERR wrong number of arguments for GET', cls: 'resp-err' };
+    if (p.args[0] === 'counter') return { text: '"' + counter + '"', cls: 'resp-val' };
+    if (p.args[0].startsWith('session:')) return { text: '"{\\"plan\\":\\"pro\\",\\"region\\":\\"us-east-1\\"}"', cls: 'resp-val' };
+    return { text: '(nil)', cls: 'resp-nil' };
+  }
+  if (p.cmd === 'INCR') {
+    if (!p.args[0]) return { text: '(error) ERR wrong number of arguments for INCR', cls: 'resp-err' };
+    counter++;
+    return { text: '(integer) ' + (14829 + counter), cls: 'resp-num' };
+  }
+  if (p.cmd === 'DEL') {
+    if (!p.args[0]) return { text: '(error) ERR wrong number of arguments for DEL', cls: 'resp-err' };
+    dbsize = Math.max(0, dbsize - 1);
+    return { text: '(integer) 1', cls: 'resp-num' };
+  }
+  if (p.cmd === 'TTL') {
+    if (!p.args[0]) return { text: '(error) ERR wrong number of arguments for TTL', cls: 'resp-err' };
+    return { text: '(integer) ' + (Math.floor(Math.random() * 3400) + 200), cls: 'resp-num' };
+  }
+  if (p.cmd === 'EXPIRE') {
+    return { text: '(integer) 1', cls: 'resp-num' };
+  }
+  if (p.cmd === 'KEYS') {
+    return { text: '1) "session:user:8291"\n2) "pageviews:2024-06-24"\n3) "ratelimit:ip:203.0.113.42"', cls: 'resp-val' };
+  }
+  if (p.cmd === 'INFO') {
+    return { text: '# Server\nredis_version:7.2.4\nuptime_in_seconds:8294012\n# Keyspace\ndb0:keys=' + dbsize + ',expires=841', cls: 'resp-val' };
+  }
+
+  return { text: '(error) ERR unknown command `' + p.cmd + '`', cls: 'resp-err' };
+}
+
+function addBlock(cmdText, resp) {
+  var rows = history.querySelectorAll('.cmd-block');
+  if (rows.length >= 20) rows[0].remove();
+
+  var block = document.createElement('div');
+  block.className = 'cmd-block new-cmd';
+
+  var lines = resp.text.split('\n');
+  var respHtml = lines.map(function(l) {
+    return '<div class="cmd-response ' + resp.cls + '">' + escHtml(l) + '</div>';
+  }).join('');
+
+  block.innerHTML =
+    '<div class="cmd-line"><span class="cmd-prompt">></span><span class="cmd-text">' + escHtml(cmdText) + '</span></div>' +
+    respHtml;
+  history.appendChild(block);
+  history.scrollTop = history.scrollHeight;
+}
+
+function runCmd() {
+  var input = document.getElementById('console-input');
+  var val = input.value.trim();
+  if (!val) return;
+  var resp = evalCmd(val);
+  if (resp) addBlock(val, resp);
+  input.value = '';
+}
+
+function runQuick(cmd) {
+  var resp = evalCmd(cmd);
+  if (resp) addBlock(cmd, resp);
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter') runCmd();
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function copyHex(hex) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = 'Copied ' + hex;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+  navigator.clipboard.writeText(hex).catch(function() {});
+  showToast('Copied ' + hex);
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, 2000);
 }
 </script>
 </body>
