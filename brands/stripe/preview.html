@@ -87,8 +87,8 @@
   }
   .hero-logo { margin-bottom: 24px; }
   .hero h1 {
-    font-size: 48px; font-weight: 300; line-height: 1.03; letter-spacing: -0.030em;
-    color: var(--text); margin-bottom: 16px;
+    font-size: 40px; font-weight: 300; line-height: 1.08; letter-spacing: -0.028em;
+    color: var(--text); margin-bottom: 16px; max-width: 620px;
   }
   .hero p { font-size: 18px; font-weight: 300; line-height: 1.6; color: var(--text2); max-width: 560px; }
 
@@ -320,7 +320,7 @@
     <div class="section-title">Typography — Söhne (custom · ≈ Plus Jakarta Sans)</div>
     <div class="type-row">
       <div class="type-name">display</div>
-      <div class="type-sample" style="font-size:48px;font-weight:300;line-height:1.03;letter-spacing:-0.030em;color:var(--text);">Financial infrastructure to grow your revenue.</div>
+      <div class="type-sample" style="font-size:48px;font-weight:300;line-height:1.03;letter-spacing:-0.030em;color:var(--text);">Financial infrastructure.</div>
       <div class="type-specs"><span class="spec-pill">48px</span><span class="spec-pill">300</span><span class="spec-pill">-0.030em</span></div>
     </div>
     <div class="type-row">
@@ -401,6 +401,105 @@
           <div class="sample-card-body" style="font-variant-numeric:tabular-nums;">$1,249.00 USD · Visa ending 4242</div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT — SIGNATURE COMPONENT -->
+  <div class="section">
+    <div class="section-title">Signature Component — Stripe Checkout</div>
+    <div style="display:flex;justify-content:center;align-items:flex-start;gap:48px;flex-wrap:wrap;">
+
+      <!-- Checkout card -->
+      <div style="background:var(--bg);border:1px solid var(--border-quiet);border-radius:12px;padding:40px 36px;width:100%;max-width:420px;box-shadow:0 20px 40px rgba(10,37,64,0.12),0 4px 16px rgba(10,37,64,0.08);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+          <div>
+            <div style="font-size:13px;color:var(--text3);margin-bottom:4px;">Acme Corp</div>
+            <div style="font-size:30px;font-weight:300;letter-spacing:-0.025em;color:var(--text);">$49.00</div>
+          </div>
+          <div style="background:var(--bg-offset);border:1px solid var(--border-quiet);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text3);">Pro Plan · /mo</div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="font-size:13px;color:var(--text-body);margin-bottom:6px;font-weight:400;">Card information</div>
+          <div style="border:1px solid var(--border-neutral);border-radius:4px;overflow:hidden;transition:border-color 150ms;">
+            <div style="display:flex;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border-quiet);gap:8px;">
+              <svg width="32" height="20" viewBox="0 0 32 20" fill="none"><rect width="32" height="20" rx="3" fill="#1A1F71"/><rect y="6" width="32" height="6" fill="#F7B731"/></svg>
+              <span style="font-size:14px;color:var(--text);font-family:'Source Code Pro',monospace;letter-spacing:0.05em;">4242 4242 4242 4242</span>
+            </div>
+            <div style="display:flex;">
+              <div style="flex:1;padding:10px 12px;border-right:1px solid var(--border-quiet);font-size:14px;color:var(--text);font-family:'Source Code Pro',monospace;">12 / 28</div>
+              <div style="flex:1;padding:10px 12px;font-size:14px;color:var(--text3);">CVC</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px;">
+          <div style="font-size:13px;color:var(--text-body);margin-bottom:6px;font-weight:400;">Cardholder name</div>
+          <div style="border:1px solid var(--border-accent);border-radius:4px;padding:10px 12px;font-size:14px;color:var(--text);box-shadow:0 0 0 3px rgba(99,91,255,0.10);">Sarah Johnson</div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div style="font-size:13px;color:var(--text-body);margin-bottom:6px;font-weight:400;">Country</div>
+          <div style="border:1px solid var(--border-neutral);border-radius:4px;padding:10px 12px;font-size:14px;color:var(--text);display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+            <span>United States</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+
+        <button style="width:100%;background:#635BFF;color:#fff;border:none;border-radius:4px;padding:12px 20px;font-size:16px;font-weight:400;cursor:pointer;font-family:inherit;letter-spacing:-0.005em;transition:background 150ms;" onmouseover="this.style.background='#533AFD'" onmouseout="this.style.background='#635BFF'">Pay $49.00</button>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:16px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#64748D"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span style="font-size:12px;color:var(--text3);">Secured by <span style="color:var(--primary);font-weight:400;">Stripe</span></span>
+        </div>
+      </div>
+
+      <!-- Dashboard payments table -->
+      <div style="flex:1;min-width:300px;max-width:560px;">
+        <div style="background:var(--bg);border:1px solid var(--border-quiet);border-radius:8px;overflow:hidden;box-shadow:0 2px 5px rgba(10,37,64,0.08);">
+          <div style="padding:14px 16px;border-bottom:1px solid var(--border-quiet);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:14px;font-weight:400;color:var(--text);">Recent payments</div>
+            <span style="font-size:12px;color:var(--primary);cursor:pointer;">View all →</span>
+          </div>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:var(--bg-offset);">
+                <th style="text-align:left;padding:9px 16px;font-size:11px;font-weight:400;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--border-quiet);">Amount</th>
+                <th style="text-align:left;padding:9px 16px;font-size:11px;font-weight:400;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--border-quiet);">Customer</th>
+                <th style="text-align:left;padding:9px 16px;font-size:11px;font-weight:400;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--border-quiet);">Status</th>
+                <th style="text-align:right;padding:9px 16px;font-size:11px;font-weight:400;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;border-bottom:1px solid var(--border-quiet);">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border-quiet);" onmouseover="this.style.background='#F6F9FC'" onmouseout="this.style.background=''">
+                <td style="padding:13px 16px;font-size:14px;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;">$1,249.00</td>
+                <td style="padding:13px 16px;font-size:14px;color:var(--text2);">sarah@acme.com</td>
+                <td style="padding:13px 16px;"><span style="background:#EEFAE9;color:#3EAE20;border:1px solid #BFEDAA;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:400;letter-spacing:0.03em;text-transform:uppercase;">Paid</span></td>
+                <td style="padding:13px 16px;font-size:13px;color:var(--text3);text-align:right;">Dec 14, 2024</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-quiet);" onmouseover="this.style.background='#F6F9FC'" onmouseout="this.style.background=''">
+                <td style="padding:13px 16px;font-size:14px;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;">$89.00</td>
+                <td style="padding:13px 16px;font-size:14px;color:var(--text2);">bob@startup.io</td>
+                <td style="padding:13px 16px;"><span style="background:#FFF3E0;color:#F27400;border:1px solid #FFCB7A;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:400;letter-spacing:0.03em;text-transform:uppercase;">Pending</span></td>
+                <td style="padding:13px 16px;font-size:13px;color:var(--text3);text-align:right;">Dec 13, 2024</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-quiet);" onmouseover="this.style.background='#F6F9FC'" onmouseout="this.style.background=''">
+                <td style="padding:13px 16px;font-size:14px;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;">$3,200.00</td>
+                <td style="padding:13px 16px;font-size:14px;color:var(--text2);">carol@company.co</td>
+                <td style="padding:13px 16px;"><span style="background:#EEFAE9;color:#3EAE20;border:1px solid #BFEDAA;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:400;letter-spacing:0.03em;text-transform:uppercase;">Paid</span></td>
+                <td style="padding:13px 16px;font-size:13px;color:var(--text3);text-align:right;">Dec 12, 2024</td>
+              </tr>
+              <tr onmouseover="this.style.background='#F6F9FC'" onmouseout="this.style.background=''">
+                <td style="padding:13px 16px;font-size:14px;font-weight:400;color:var(--text);font-variant-numeric:tabular-nums;">$199.00</td>
+                <td style="padding:13px 16px;font-size:14px;color:var(--text2);">dan@enterprise.com</td>
+                <td style="padding:13px 16px;"><span style="background:#FDE8ED;color:#DF1B41;border:1px solid #F9ADBF;padding:2px 8px;border-radius:9999px;font-size:11px;font-weight:400;letter-spacing:0.03em;text-transform:uppercase;">Failed</span></td>
+                <td style="padding:13px 16px;font-size:13px;color:var(--text3);text-align:right;">Dec 11, 2024</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
