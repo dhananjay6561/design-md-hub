@@ -1,10 +1,10 @@
 # Neon DESIGN.md
 
-> Serverless Postgres with a dark, developer-focused interface and a signature green glow.
+> The Postgres backend designed for apps and agents.
 
 ## Overview
 
-Neon's design is dark-first, minimal, and technical. It signals modern infrastructure — the deep dark backgrounds, subtle green accent, and monospace-heavy UI communicate that this is a tool built for engineers. The aesthetic references terminal culture without being retro — clean, precise, and fast-feeling.
+Neon's design is dark-first, minimal, and technical. It signals modern infrastructure — deep dark backgrounds, a signature green accent, and monospace-heavy UI communicate that this is a tool built for engineers. The aesthetic references terminal culture without being retro — clean, precise, and fast-feeling.
 
 ## Colors
 
@@ -29,8 +29,9 @@ Neon's design is dark-first, minimal, and technical. It signals modern infrastru
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Mono font**: `JetBrains Mono`, `ui-monospace`, `Menlo`, `monospace`
+- **Body font**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`, `Apple Color Emoji`, `Segoe UI Emoji`, `Segoe UI Symbol`, `Noto Color Emoji`. Loaded via `next/font/google` as `--font-inter`; Next.js auto-generates an `Inter Fallback` metric font to prevent layout shift.
+- **Display font**: `ESBuild` (proprietary, Medium/500 only). Used for large headings and hero text. Loaded as `--font-esbuild` via a local woff2. Cannot be used outside Neon — preview falls back to Inter.
+- **Mono font**: `Geist Mono` (Variable), `ui-monospace`, `Menlo`, `monospace`. Loaded as `--font-geist-mono`.
 
 | Scale | Size | Weight | Line Height |
 |-------|------|--------|-------------|
