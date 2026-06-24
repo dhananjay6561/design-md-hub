@@ -1,169 +1,146 @@
-# Expo Design System
+# Expo — Design System
 
-## Overview
-Expo is an open-source platform for building universal React Native apps. The design language is modern, developer-focused, and approachable — it signals that mobile development can be fast and enjoyable. The deep indigo/blue anchors a clean dark aesthetic.
-
-**Brand personality:** Approachable, modern, cross-platform, developer-first.
+Everything you need to build apps. Expo is a full-stack React Native framework with powerful cloud services — EAS Build, EAS Submit, EAS Update — helping teams move faster from code to production on iOS and Android.
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--expo-blue` | `#4630EB` | Primary brand, CTAs, links |
-| `--expo-blue-light` | `#6B5CE7` | Hover states |
-| `--expo-white` | `#FFFFFF` | High-contrast text on dark |
-| `--expo-teal` | `#00B4D8` | Secondary accent, highlights |
+### App Icon Palette
 
-### Surface Palette (Dark)
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--bg-primary` | `#0E0E14` | Main background |
-| `--bg-surface` | `#161622` | Cards, panels |
-| `--bg-elevated` | `#20202E` | Dropdowns, modals |
-| `--border` | `#2E2E44` | Dividers, borders |
+Expo's product uses a rainbow gradient of platform category colors. All confirmed from `--expo-color-app-*` CSS custom properties in production.
 
-### Text
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#FFFFFF` | Headings, primary content |
-| `--text-secondary` | `#9898B0` | Labels, descriptions |
-| `--text-muted` | `#5C5C78` | Placeholders, disabled |
+| Token | Hex | Role |
+|---|---|---|
+| app-cyan | `#07C0CB` | App icon teal |
+| app-light-blue | `#1E92C4` | SDK / APIs |
+| app-dark-blue | `#0B67AF` | Navigation |
+| app-indigo | `#4B50B2` | Build / EAS |
+| app-purple | `#8945A3` | Auth |
+| app-pink | `#C04891` | Notifications |
+| app-orange | `#E96D3C` | Camera / Media |
+| app-gold | `#F38F2F` | Payments |
+| app-yellow | `#EEBC01` | Maps |
+| app-lime | `#AABD04` | Analytics |
+| app-light-green | `#6AA72A` | Storage |
+| app-dark-green | `#3A8E39` | CLI / Dev tools |
 
-### Semantic
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--success` | `#22C55E` | Build passed, published |
-| `--warning` | `#F59E0B` | Deprecation, slow build |
-| `--danger` | `#EF4444` | Build failed, crash |
-| `--info` | `#4630EB` | SDK updates, info |
+### Surfaces — Light Mode (Radix Slate, confirmed)
+
+| Slate step | Hex | Token |
+|---|---|---|
+| slate-1 | `#FCFCFD` | bg / screen |
+| slate-2 | `#F9F9FB` | subtle bg |
+| slate-3 | `#F0F0F3` | element bg |
+| slate-4 | `#E8E8EC` | hover bg |
+| slate-5 | `#E0E1E6` | selected |
+| slate-6 | `#D9D9E0` | border-2 |
+| slate-7 | `#CDCED6` | border |
+| slate-8 | `#B9BBC6` | text muted |
+| slate-9 | `#8B8D98` | placeholder |
+| slate-10 | `#80838D` | text-3 |
+| slate-11 | `#60646C` | text-2 |
+| slate-12 | `#1C2024` | text |
+
+### Surfaces — Dark Mode (Radix Slate dark + Expo override, confirmed)
+
+| Slate step | Hex | Token |
+|---|---|---|
+| screen | `#0C0D0E` | bg / screen (Expo override of slate-1) |
+| slate-2 | `#18191B` | subtle bg / surface |
+| slate-3 | `#212225` | element bg / cards |
+| slate-4 | `#272A2D` | hover bg |
+| slate-5 | `#2E3135` | selected |
+| slate-6 | `#363A3F` | border-2 |
+| slate-7 | `#43484E` | border |
+| slate-8 | `#5A6169` | text muted |
+| slate-9 | `#696E77` | placeholder |
+| slate-10 | `#777B84` | text-3 |
+| slate-11 | `#B0B4BA` | text-2 |
+| slate-12 | `#EDEEF0` | text |
+
+### Semantic Colors (Radix scales, confirmed)
+
+| Role | Light step-9 | Light text (step-11) | Dark step-9 | Dark text (step-11) |
+|---|---|---|---|---|
+| Success | `#30A46C` | `#218358` | `#30A46C` | `#3DD68C` |
+| Warning | `#FFC53D` | `#AB6400` | `#FFC53D` | `#FFCA16` |
+| Error | `#E5484D` | `#CE2C31` | `#E5484D` | `#FF9592` |
+| Info | `#0090FF` | `#0D74CE` | `#0090FF` | `#70B8FF` |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+### Font Families
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 36px | 700 | Hero, marketing |
-| Heading 1 | 28px | 600 | Page titles |
-| Heading 2 | 20px | 600 | Section headers |
-| Body | 15px | 400 | Default content |
-| Small | 13px | 400 | Labels, metadata |
-| Mono | 13px | 400 | CLI output, config |
+| Role | Family | Weights | Source |
+|---|---|---|---|
+| UI / Body / Display | Inter | 100–900 (variable) | `static.expo.dev/static/fonts/inter-latin.woff2` |
+| Code / Terminal | JetBrains Mono | 100–800 (variable) | `static.expo.dev/static/fonts/jetbrains-mono-latin.woff2` |
 
----
+### Type Scale
 
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Tight padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
+| Level | Size | Weight | Line Height | Font |
+|---|---|---|---|---|
+| h1 | 48px | 700 | 1.1 | Inter |
+| h2 | 32px | 700 | 1.2 | Inter |
+| h3 | 20px | 600 | 1.3 | Inter |
+| body-lg | 16px | 400 | 1.6 | Inter |
+| body | 14px | 400 | 1.5 | Inter |
+| label | 11px | 600 | 1 | Inter |
+| code | 13px | 400 | 1.6 | JetBrains Mono |
 
 ---
 
-## Border Radius
+## Spacing & Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `6px` | Badges, tags |
-| `--radius-md` | `8px` | Buttons, inputs |
-| `--radius-lg` | `12px` | Cards |
-| `--radius-xl` | `16px` | Modals |
-| `--radius-full` | `9999px` | Pills |
+Base unit: 4px
 
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 4px rgba(0,0,0,0.5);
---shadow-md: 0 4px 16px rgba(0,0,0,0.6);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.7);
---shadow-blue: 0 0 0 3px rgba(70,48,235,0.3);
-```
+| Token | Value |
+|---|---|
+| radius-sm | 4px |
+| radius-md | 6px |
+| radius-lg | 8px |
+| radius-xl | 12px |
+| radius-2xl | 16px |
+| radius-full | 9999px |
 
 ---
 
 ## Components
 
-### Buttons
-```
-Primary:  bg #4630EB, text white, hover #6B5CE7, radius 8px, height 40px
-Ghost:    bg transparent, border #2E2E44, text #9898B0, hover border #4630EB
-Height:   40px, font-weight 600
-```
+### Buttons (confirmed from `--expo-theme-button-*` tokens)
 
-### Inputs
-```
-Background: #161622
-Border:     #2E2E44 default, #4630EB focused
-Text:       #FFFFFF
-Placeholder: #5C5C78
-Radius:     8px, height: 40px
-Font:       JetBrains Mono for SDK version/config fields
-```
+| Variant | Background | Text | Border |
+|---|---|---|---|
+| Primary | `#000` | `#FFF` | — |
+| Secondary | `var(--slate-3)` | `var(--slate-12)` | — |
+| Tertiary | transparent | `var(--slate-12)` | `1px var(--slate-7)` |
 
 ### Build Status Badges
-```
-Success: bg rgba(34,197,94,0.12), text #22C55E
-Warning: bg rgba(245,158,11,0.12), text #F59E0B
-Error:   bg rgba(239,68,68,0.12), text #EF4444
-Running: bg rgba(70,48,235,0.12), text #4630EB
-```
 
-### Platform Pill
-```
-iOS:     bg rgba(70,48,235,0.15), text #6B5CE7, border rgba(70,48,235,0.3)
-Android: bg rgba(34,197,94,0.12), text #22C55E, border rgba(34,197,94,0.3)
-Web:     bg rgba(0,180,216,0.12), text #00B4D8, border rgba(0,180,216,0.3)
-```
+| Status | Background | Text |
+|---|---|---|
+| Finished | `var(--green-3)` | `var(--green-11)` |
+| Failed | `var(--red-3)` | `var(--red-11)` |
+| In Queue | `var(--amber-3)` | `var(--amber-11)` |
+| Cancelled | `var(--slate-3)` | `var(--slate-11)` |
 
 ---
 
-## Layout
+## Guardrails
 
-- Docs max-width: 1200px
-- Sidebar: 260px
-- Content area: 720px
-- Code block ratio in docs: ~35%
+**DO**
+- Use Radix Slate tokens for all surface colors — never hardcode surface hex values directly
+- Use Inter for all UI text; JetBrains Mono for terminal output, logs, and build IDs
+- Keep primary buttons black — Expo's brand is intentionally B&W for primary actions
+- Use the app icon palette as decorative category indicators only, never as status or interactive colors
+- Dark screen bg is `#0C0D0E`, not slate-1 `#111113` — Expo explicitly overrides it
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1024px |
-| Desktop | > 1024px |
-
----
-
-## Tone & Guardrails
-
-### DO
-- Use platform pills (iOS/Android/Web) to indicate cross-platform compatibility
-- Lead code examples with `npx create-expo-app` — onboarding matters
-- Use monospace for all CLI commands, SDK versions, and config snippets
-- Keep the blue accent on primary actions only — it must always feel tappable
-- Show build logs in monospace with proper status color-coding
-
-### DON'T
-- Don't use the teal accent as a primary CTA — it's a secondary highlight
-- Don't forget mobile context — Expo users think in terms of devices, not browsers
-- Don't use thin font weights — they disappear against dark backgrounds
-- Don't use rounded corners below 8px — Expo's aesthetic is friendly, not corporate
-- Don't mix platform colors in a single non-platform-specific context
+**DON'T**
+- Don't use the rainbow app colors for buttons, alerts, or status — they're platform/category identifiers
+- Don't use Inter below 11px or JetBrains Mono below 12px
+- Don't deviate from Radix semantic color steps — green-9 for filled badges, green-11 for text
+- Don't add border-radius beyond 16px in product UI — keep it clean and tight
+- Don't use `#000` as a surface color — only as a button background
