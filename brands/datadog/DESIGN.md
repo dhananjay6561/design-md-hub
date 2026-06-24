@@ -1,170 +1,161 @@
-# Datadog Design System
+# Datadog — Design System
 
-## Overview
-Datadog is a monitoring and analytics platform for cloud-scale infrastructure. The design language is data-dense, professional, and dark — built for engineers who live in dashboards. The purple brand anchors a UI that needs to surface massive amounts of telemetry data clearly.
-
-**Brand personality:** Powerful, data-dense, always-on, engineering-focused.
+AI-powered observability and security. Datadog is the monitoring platform for cloud-scale infrastructure — surfacing metrics, traces, logs, and alerts in one unified interface for engineers who live in dashboards.
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--dd-purple` | `#632CA6` | Primary brand, CTAs, links |
-| `--dd-purple-light` | `#8B5CF6` | Hover states, highlights |
-| `--dd-pink` | `#D000E5` | Secondary accent, graphs |
-| `--dd-dog` | `#774AA4` | Mid-tone purple fills |
+### Brand
 
-### Surface Palette (Dark)
 | Token | Hex | Usage |
-|-------|-----|-------|
-| `--bg-primary` | `#13111A` | Main background |
-| `--bg-surface` | `#1C1829` | Cards, panels |
-| `--bg-elevated` | `#26213A` | Dropdowns, modals |
-| `--border` | `#352F4D` | Dividers, borders |
+|---|---|---|
+| brand-purple | `#632CA6` | Primary brand, logo mark, CTAs, nav active state |
+| neon-purple | `#8000FF` | Marketing gradient start, accent highlights |
+| hot-pink | `#FF0080` | Marketing gradient end, graph accent |
+| lemon | `#FFCF00` | Warning monitors, alert indicators |
+| mint | `#00CF72` | OK status, success indicators |
 
-### Text
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#EEE9FF` | Headings, body |
-| `--text-secondary` | `#A899CC` | Labels, captions |
-| `--text-muted` | `#6B5F94` | Placeholders, disabled |
+### Purple Scale
+
+| Step | Hex |
+|---|---|
+| 50 | `#EFE0FF` |
+| 100 | `#CCADFF` |
+| 200 | `#BEAAFF` |
+| 400 | `#8000FF` |
+| 600 | `#632CA6` |
+| 800 | `#4B01AD` |
+| 900 | `#34005E` |
+
+### Surfaces
+
+> **Confirmed sources:** `#F9F8F8` (light bg — CSS, 10 occurrences), `#F0EAF7` (elevated light — Tailwind utility class), `#110617` (darkest confirmed dark — CSS var `--callout-bg-gradient`). Dark product surface values below are **estimated** — app.datadoghq.com requires login and has no public CSS tokens. Derived by stepping lightness up from `#110617` with the brand's purple-navy hue.
+
+| Token | Dark | Light | Dark confirmed? |
+|---|---|---|---|
+| bg | `#1A1E2C` | `#F9F8F8` | estimated |
+| surface | `#232838` | `#FFFFFF` | estimated |
+| elevated | `#2C3347` | `#F0EAF7` | estimated / light confirmed |
+| border | `#3A4258` | `#DDD5EC` | estimated |
+| text | `#FFFFFF` | `#110617` | confirmed (light text = confirmed hero dark) |
+| text-2 | `#AAB1C1` | `#4A4A6A` | estimated |
+| text-3 | `#6B7A97` | `#7A6A9A` | estimated |
 
 ### Semantic
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--success` | `#1AAB79` | OK status, resolved |
-| `--warning` | `#F5A623` | Alert, degraded |
-| `--danger` | `#E84040` | Critical alert, error |
-| `--info` | `#3B82F6` | Informational |
+
+| Role | Dark bg | Dark text | Light bg | Light text |
+|---|---|---|---|---|
+| OK / Success | `rgba(0,207,114,.12)` | `#00CF72` | `rgba(0,207,114,.10)` | `#007A43` |
+| Warning | `rgba(255,207,0,.12)` | `#FFCF00` | `rgba(255,207,0,.12)` | `#8A6E00` |
+| Critical / Error | `rgba(255,58,68,.12)` | `#FF3A44` | `rgba(255,58,68,.10)` | `#C0000A` |
+| Info | `rgba(0,96,255,.12)` | `#0060FF` | `rgba(0,96,255,.10)` | `#0050CC` |
+| No Data | `rgba(107,122,151,.12)` | `#6B7A97` | `rgba(107,122,151,.10)` | `#4A5568` |
+
+### Marketing Gradients
+
+| Name | Value |
+|---|---|
+| CTA gradient | `linear-gradient(90deg, #8000FF 0%, #FF0080 100%)` |
+| Hero callout | `linear-gradient(360deg, #8904FF, #110617)` |
+| Blog accent | `linear-gradient(90deg, #6A00FF 0%, #FFC8F9 100%)` |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+### Font Families
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 32px | 700 | Page titles |
-| Heading 1 | 24px | 600 | Section headers |
-| Heading 2 | 18px | 600 | Card titles |
-| Body | 14px | 400 | Default content |
-| Small | 12px | 400 | Metadata, table rows |
-| Mono | 13px | 400 | Metrics, queries, logs |
+| Role | Family | Weights | Source |
+|---|---|---|---|
+| Display / UI | NationalWeb | 300 / 400 / 600 / 700 | `datadoghq.com/fonts/web-fonts/` |
+| Code / Metrics / Queries | Roboto Mono | 400 / 700 | `datadoghq.com/fonts/web-fonts/` |
 
----
+### Type Scale
 
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Icon gaps |
-| `--space-2` | `8px` | Compact row padding |
-| `--space-3` | `12px` | Inline padding |
-| `--space-4` | `16px` | Standard component gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gaps |
-| `--space-12` | `48px` | Page sections |
+| Level | Size | Weight | Line Height | Font |
+|---|---|---|---|---|
+| h1 | 40px | 600 | 1.15 | NationalWeb |
+| h2 | 28px | 600 | 1.2 | NationalWeb |
+| h3 | 20px | 600 | 1.3 | NationalWeb |
+| body-lg | 16px | 400 | 1.6 | NationalWeb |
+| body | 14px | 400 | 1.5 | NationalWeb |
+| label | 11px | 600 | 1 | NationalWeb |
+| metric | 28px | 600 | 1 | Roboto Mono |
+| code | 13px | 400 | 1.6 | Roboto Mono |
 
 ---
 
-## Border Radius
+## Spacing & Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `3px` | Tags, small badges |
-| `--radius-md` | `6px` | Buttons, inputs |
-| `--radius-lg` | `8px` | Cards, panels |
-| `--radius-xl` | `12px` | Modals |
+Base unit: 4px
 
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
---shadow-md: 0 4px 16px rgba(0,0,0,0.6);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.7);
---shadow-purple: 0 0 0 3px rgba(99,44,166,0.35);
-```
+| Token | Value |
+|---|---|
+| radius-sm | 3px |
+| radius-md | 4px |
+| radius-lg | 6px |
+| radius-xl | 8px |
 
 ---
 
 ## Components
 
 ### Buttons
-```
-Primary:  bg #632CA6, text white, hover #7B3DC8, radius 6px, height 36px
-Ghost:    bg transparent, border #352F4D, text #A899CC, hover border #632CA6
-Danger:   bg #E84040, text white
-```
 
-### Inputs
-```
-Background: #1C1829
-Border:     #352F4D default, #632CA6 focused
-Text:       #EEE9FF
-Placeholder: #6B5F94
-Radius:     6px, height: 36px
-```
+| Variant | Background | Text | Border |
+|---|---|---|---|
+| Primary | `linear-gradient(90deg, #8000FF, #FF0080)` | `#FFF` | — |
+| Purple | `#632CA6` | `#FFF` | — |
+| Ghost | transparent | `#AAB1C1` | `1px #3A4860` |
+| Danger | `#FF3A44` | `#FFF` | — |
 
 ### Monitor Status Badges
-```
-OK:        bg rgba(26,171,121,0.15), text #1AAB79
-Warning:   bg rgba(245,166,35,0.15), text #F5A623
-Critical:  bg rgba(232,64,64,0.15), text #E84040
-No Data:   bg rgba(107,95,148,0.15), text #A899CC
-```
+
+| Status | Dark bg | Dark text |
+|---|---|---|
+| OK | `rgba(0,207,114,.12)` | `#00CF72` |
+| Warn | `rgba(255,207,0,.12)` | `#FFCF00` |
+| Alert / Critical | `rgba(255,58,68,.12)` | `#FF3A44` |
+| No Data | `rgba(107,122,151,.12)` | `#6B7A97` |
+| Ignored | `rgba(107,122,151,.08)` | `#6B7A97` |
 
 ### Metric Widget
+
 ```
-Background: #1C1829
-Value:      28px 700 --text-primary, monospace
-Unit:       14px --text-secondary
-Sparkline:  1px solid --dd-purple-light
-Border:     1px solid --border
-Radius:     8px
+bg: var(--surface)
+border: 1px solid var(--border)
+radius: 6px
+value: 28px 600 Roboto Mono var(--text)
+unit: 12px NationalWeb var(--text-3)
+label: 11px 600 NationalWeb var(--text-2)
+```
+
+### Tags / Service Labels
+
+```
+bg: rgba(99,44,166,.15)
+text: #BEAAFF
+border: rgba(99,44,166,.30)
+font: 11px 600 NationalWeb
+radius: 3px
+padding: 2px 6px
 ```
 
 ---
 
-## Layout
+## Guardrails
 
-- Dashboard max-width: unconstrained (fills viewport)
-- Sidebar: 220px fixed
-- Widget grid: configurable columns, 8px gap
-- Content padding: 16px
+**DO**
+- Use Roboto Mono for all metric values, log lines, query results, and trace IDs
+- Use `#632CA6` purple as the single interactive/CTA color in product UI
+- Use the neon/pink gradient for marketing CTAs only — never in the product
+- Keep dark mode as the default — engineers run Datadog during incidents, light mode strains eyes
+- Color-code monitor status consistently: green OK, yellow Warn, red Alert — always
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1280px |
-| Desktop | > 1280px |
-
----
-
-## Tone & Guardrails
-
-### DO
-- Use monospace for all metrics, query results, and log lines
-- Color-code monitor status consistently (OK/Warn/Critical/No Data)
-- Show relative time ("5 minutes ago") with absolute on hover
-- Keep widget backgrounds slightly lighter than the page — depth matters for dashboards
-- Use the purple sparingly — reserve it for primary actions and navigation
-
-### DON'T
-- Don't use a light theme for monitoring dashboards — dark reduces eye strain during incidents
-- Don't use more than 3 colors per chart — clarity beats completeness
-- Don't animate metric values on every update — flickering is distracting during incidents
-- Don't round corners beyond 8px — Datadog is enterprise, not consumer
-- Don't use the pink accent on alerts — it's for graphs, not status indicators
+**DON'T**
+- Don't use IBM Plex, Inter, or any Google Font — NationalWeb is the brand font
+- Don't use pure `#000000` or `#FFFFFF` as backgrounds — the brand dark is `#1C222D`
+- Don't use the neon purple `#8000FF` for interactive states in the product — `#632CA6` owns that role
+- Don't round corners beyond 8px — enterprise products stay sharp
+- Don't use hot pink `#FF0080` for alert or error states — that color is graph/marketing only

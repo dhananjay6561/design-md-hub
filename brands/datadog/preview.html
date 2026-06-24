@@ -1,287 +1,496 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Datadog – Design System</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Datadog – Design System Preview</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face{font-family:'NationalWeb';src:url('https://www.datadoghq.com/fonts/web-fonts/NationalWeb-Light.woff2')format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'NationalWeb';src:url('https://www.datadoghq.com/fonts/web-fonts/NationalWeb-Regular.woff2')format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'NationalWeb';src:url('https://www.datadoghq.com/fonts/web-fonts/NationalWeb-Semibold.woff2')format('woff2');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:'NationalWeb';src:url('https://www.datadoghq.com/fonts/web-fonts/NationalWeb-Bold.woff2')format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'RobotoMono';src:url('https://www.datadoghq.com/fonts/web-fonts/RobotoMono-Regular.woff')format('woff');font-weight:400;font-style:normal;font-display:swap}
 
-:root[data-theme="dark"] {
-  --bg: #13111A;
-  --surface: #1C1829;
-  --elevated: #26213A;
-  --border: #352F4D;
-  --primary: #632CA6;
-  --primary-hover: #7B3DC8;
-  --success: #1AAB79;
-  --warning: #F5A623;
-  --danger: #E84040;
-  --text: #EEE9FF;
-  --text-2: #A899CC;
-  --text-3: #6B5F94;
-  --toggle-bg: #26213A;
-  --toggle-text: #EEE9FF;
-  --toggle-border: #352F4D;
+:root{
+  --brand-purple:#632CA6;
+  --neon:#8000FF;
+  --pink:#FF0080;
+  --mint:#00CF72;
+  --lemon:#FFCF00;
+  --red:#FF3A44;
+  --blue:#0060FF;
+  --purple-100:#CCADFF;
+  --purple-200:#BEAAFF;
+  --purple-800:#4B01AD;
 }
-:root[data-theme="light"] {
-  --bg: #F5F3FF;
-  --surface: #FFFFFF;
-  --elevated: #EDE9FF;
-  --border: #C8BEE8;
-  --primary: #632CA6;
-  --primary-hover: #7B3DC8;
-  --success: #0F7A50;
-  --warning: #B87000;
-  --danger: #C02020;
-  --text: #13111A;
-  --text-2: #4B3E7A;
-  --text-3: #8A7AAA;
-  --toggle-bg: #EDE9FF;
-  --toggle-text: #13111A;
-  --toggle-border: #C8BEE8;
+:root[data-theme="dark"]{
+  --bg:#1A1E2C;
+  --surface:#232838;
+  --elevated:#2C3347;
+  --border:#3A4258;
+  --text:#FFFFFF;
+  --text-2:#AAB1C1;
+  --text-3:#6B7A97;
+  --primary:#632CA6;
+  --primary-h:#7B3EC8;
+  --tag-bg:rgba(99,44,166,.15);
+  --tag-text:#BEAAFF;
+  --tag-bdr:rgba(99,44,166,.30);
+  --ok-bg:rgba(0,207,114,.12);
+  --ok-text:#00CF72;
+  --warn-bg:rgba(255,207,0,.12);
+  --warn-text:#FFCF00;
+  --alert-bg:rgba(255,58,68,.12);
+  --alert-text:#FF3A44;
+  --nodata-bg:rgba(107,122,151,.12);
+  --nodata-text:#6B7A97;
+  --sw-off:#3A4258;
+}
+:root[data-theme="light"]{
+  --bg:#F9F8F8;
+  --surface:#FFFFFF;
+  --elevated:#F0EAF7;
+  --border:#DDD5EC;
+  --text:#110617;
+  --text-2:#4A4A6A;
+  --text-3:#7A6A9A;
+  --primary:#632CA6;
+  --primary-h:#4B01AD;
+  --tag-bg:rgba(99,44,166,.08);
+  --tag-text:#632CA6;
+  --tag-bdr:rgba(99,44,166,.20);
+  --ok-bg:rgba(0,207,114,.10);
+  --ok-text:#007A43;
+  --warn-bg:rgba(255,207,0,.12);
+  --warn-text:#8A6E00;
+  --alert-bg:rgba(255,58,68,.10);
+  --alert-text:#C0000A;
+  --nodata-bg:rgba(107,122,151,.10);
+  --nodata-text:#4A5568;
+  --sw-off:#C8C8D8;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'NationalWeb',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
 
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.wrap{max-width:960px;margin:0 auto;padding:0 32px}
 
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* TOGGLE */
+.toggle-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 32px;display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.toggle-label{font-size:12px;color:var(--text-2)}
+.sw{position:relative;display:inline-block;width:36px;height:20px;cursor:pointer;flex-shrink:0;vertical-align:middle}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw-track{position:absolute;inset:0;border-radius:10px;background:var(--sw-off);transition:background .2s}
+.sw-thumb{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.sw input:checked~.sw-track{background:var(--brand-purple)}
+.sw input:checked~.sw-thumb{transform:translateX(16px)}
 
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+/* HERO */
+.hero{padding:72px 0 64px;text-align:center;background:linear-gradient(180deg,#110617 0%,var(--bg) 100%)}
+.hero-logo{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:24px}
+.hero h1{font-size:48px;font-weight:700;line-height:1.1;color:#fff;letter-spacing:-.5px;margin-bottom:8px}
+.hero p{font-size:18px;font-weight:300;color:#AAB1C1;max-width:520px;margin:0 auto}
 
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+/* COLORS */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.swatch{border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.swatch-color{height:80px}
+.swatch-info{padding:8px 10px;background:var(--surface)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
+.swatch-hex{font-size:11px;font-family:'RobotoMono',monospace;color:var(--text-3)}
+.swatch-use{font-size:10px;color:var(--text-3);margin-top:2px;display:block}
+.section-title{font-size:20px;font-weight:600;margin-bottom:8px;color:var(--text)}
+.section-sub{font-size:14px;color:var(--text-2);margin-bottom:28px}
+.subsection{margin-bottom:40px}
+.subsection-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.gradient-strip{height:80px;border-radius:6px;border:1px solid var(--border);margin-bottom:8px}
+.gradient-info{font-size:11px;font-family:'RobotoMono',monospace;color:var(--text-3)}
 
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 3px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
-.type-sample { flex: 1; }
+/* TYPOGRAPHY */
+.type-table{width:100%;border-collapse:collapse}
+.type-table tr{border-bottom:1px solid var(--border)}
+.type-table td{padding:14px 0;vertical-align:middle}
+.type-table td:first-child{width:100px;font-size:11px;color:var(--text-3);font-weight:600}
+.type-table td:last-child{width:80px;text-align:right;font-size:11px;font-family:'RobotoMono',monospace;color:var(--text-3)}
 
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+/* COMPONENTS */
+.comp-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0 16px;height:36px;border-radius:4px;font-family:'NationalWeb',sans-serif;font-size:14px;font-weight:600;border:none;cursor:pointer;text-decoration:none;letter-spacing:.01em}
+.btn-primary{background:linear-gradient(90deg,#8000FF,#FF0080);color:#fff}
+.btn-purple{background:var(--brand-purple);color:#fff}
+.btn-purple:hover{background:var(--primary-h)}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--border)}
+.btn-danger{background:var(--red);color:#fff}
 
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
+.badge{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:.02em}
+.badge-ok{background:var(--ok-bg);color:var(--ok-text)}
+.badge-warn{background:var(--warn-bg);color:var(--warn-text)}
+.badge-alert{background:var(--alert-bg);color:var(--alert-text)}
+.badge-nodata{background:var(--nodata-bg);color:var(--nodata-text)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0}
 
-.input-demo { width: 100%; height: 36px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
-.input-demo:focus { border-color: var(--primary); }
+.tag{display:inline-block;padding:2px 6px;border-radius:3px;font-size:11px;font-weight:600;background:var(--tag-bg);color:var(--tag-text);border:1px solid var(--tag-bdr)}
 
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 3px; border: 1px solid; }
-.badge-ok { background: rgba(26,171,121,0.12); color: #1AAB79; border-color: rgba(26,171,121,0.3); }
-.badge-warn { background: rgba(245,166,35,0.12); color: #F5A623; border-color: rgba(245,166,35,0.3); }
-.badge-crit { background: rgba(232,64,64,0.12); color: #E84040; border-color: rgba(232,64,64,0.3); }
-.badge-nodata { background: rgba(107,95,148,0.12); color: #A899CC; border-color: rgba(107,95,148,0.3); }
+/* METRIC WIDGETS */
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.metric-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px 20px 16px}
+.metric-label{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.metric-val{font-family:'RobotoMono',monospace;font-size:32px;font-weight:600;color:var(--text);line-height:1;margin-bottom:4px}
+.metric-change{font-size:12px;color:var(--text-3)}
+.metric-change.up{color:var(--ok-text)}
+.metric-change.down{color:var(--alert-text)}
 
-.metric-widget { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.metric-val { font-size: 28px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-.metric-unit { font-size: 13px; color: var(--text-2); margin-left: 4px; }
-.metric-label { font-size: 12px; color: var(--text-3); margin-top: 4px; }
-.sparkline { height: 32px; margin-top: 12px; display: flex; align-items: flex-end; gap: 2px; }
-.spark-bar { flex: 1; background: var(--primary); border-radius: 2px 2px 0 0; opacity: 0.6; }
+/* CHART */
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:20px;margin-bottom:12px}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.chart-title{font-size:13px;font-weight:600;color:var(--text)}
+.chart-meta{font-size:11px;color:var(--text-3);font-family:'RobotoMono',monospace}
+.chart-svg{width:100%;height:120px;display:block}
 
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+/* MONITORS TABLE */
+.monitors-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.monitors-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.monitors-title{font-size:14px;font-weight:600;color:var(--text)}
+.monitors-actions{display:flex;gap:8px;align-items:center}
+.search-box{background:var(--elevated);border:1px solid var(--border);border-radius:4px;padding:6px 10px;font-family:'NationalWeb',sans-serif;font-size:13px;color:var(--text);outline:none;width:200px}
+.search-box::placeholder{color:var(--text-3)}
+table.monitor-table{width:100%;border-collapse:collapse}
+.monitor-table th{text-align:left;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;padding:10px 20px;border-bottom:1px solid var(--border)}
+.monitor-table td{padding:12px 20px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-2)}
+.monitor-table tr:last-child td{border-bottom:none}
+.monitor-table tr:hover td{background:var(--elevated)}
+.mon-name{color:var(--text);font-weight:500;cursor:pointer}
+.mon-name:hover{color:var(--purple-200)}
+.mon-service{display:flex;gap:6px;flex-wrap:wrap}
+.mon-time{font-family:'RobotoMono',monospace;font-size:11px;color:var(--text-3)}
+.filter-row{display:flex;gap:8px;padding:12px 20px;border-bottom:1px solid var(--border)}
+.filter-btn{padding:4px 12px;border-radius:3px;font-size:12px;font-weight:600;background:transparent;color:var(--text-2);border:1px solid var(--border);cursor:pointer;font-family:'NationalWeb',sans-serif}
+.filter-btn.active{background:rgba(99,44,166,.15);color:var(--purple-200);border-color:rgba(99,44,166,.30)}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
 
-  <div class="hero">
-    <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#13111A"/>
-        <!-- Datadog simplified dog shape -->
-        <circle cx="36" cy="34" r="16" fill="#632CA6" opacity="0.9"/>
-        <!-- ears -->
-        <ellipse cx="24" cy="22" rx="5" ry="7" fill="#774AA4" transform="rotate(-20 24 22)"/>
-        <ellipse cx="48" cy="22" rx="5" ry="7" fill="#774AA4" transform="rotate(20 48 22)"/>
-        <!-- eyes -->
-        <circle cx="30" cy="32" r="3" fill="#EEE9FF"/>
-        <circle cx="42" cy="32" r="3" fill="#EEE9FF"/>
-        <circle cx="31" cy="31" r="1.5" fill="#13111A"/>
-        <circle cx="43" cy="31" r="1.5" fill="#13111A"/>
-        <!-- nose -->
-        <ellipse cx="36" cy="38" rx="3" ry="2" fill="#EEE9FF"/>
-        <!-- dog tag -->
-        <circle cx="36" cy="52" r="5" fill="#D000E5" opacity="0.8"/>
-        <text x="36" y="55" font-size="6" fill="white" text-anchor="middle" font-family="Inter">DD</text>
+<div class="toggle-bar">
+  <span class="toggle-label">Light</span>
+  <label class="sw">
+    <input type="checkbox" id="themeToggle" checked onchange="document.documentElement.setAttribute('data-theme',this.checked?'dark':'light')"/>
+    <span class="sw-track"></span>
+    <span class="sw-thumb"></span>
+  </label>
+  <span class="toggle-label">Dark</span>
+</div>
+
+<div class="hero">
+  <div class="hero-logo">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 256 274" width="48" height="48"><path fill="#632CA6" fill-rule="evenodd" d="M214.4 194.5l-22.8-15-19 31.7-22.1-6.4-19.5 29.7 1 9.3 105.8-19.5-6.1-66-17.3 36.2zM115.7 166l17-2.3c2.7 1.2 4.6 1.7 8 2.5a25 25 0 0019.8-1.8c2-1 6.3-5 8-7.1l69.6-12.7 7 86-119 21.4-10.4-86zm129.2-31l-6.9 1.4L224.8 0 .1 26l27.7 225 26.2-4c-2.1-3-5.4-6.6-11-11.2-7.7-6.5-5-17.4-.4-24.3 6-11.7 37.2-26.5 35.4-45.2-.6-6.7-1.7-15.6-8-21.6-.2 2.5.2 5 .2 5s-2.6-3.4-3.9-7.9c-1.2-1.7-2.2-2.2-3.6-4.5-1 2.6-.8 5.7-.8 5.7s-2.2-5-2.5-9.2a14.7 14.7 0 00-1.6 5.5s-2.7-8-2-12.1c-1.3-3.7-5-11-4-27.7 6.9 4.8 22 3.7 27.8-5 2-2.9 3.3-10.7-1-26.2-2.7-9.9-9.5-24.6-12.1-30.2l-.3.2a428 428 0 015.3 18.5C75 70.8 76 75.6 74.3 82c-1.3 5.6-4.5 9.2-12.6 13.3-8.1 4-18.9-5.9-19.6-6.4a43.3 43.3 0 01-14.6-21.5c-.7-5.5 3.1-8.7 5-13.2a50 50 0 00-5.8 2.2s3.7-3.8 8.2-7c2-1.3 3-2.1 5-3.8h-5.2s4.8-2.5 9.8-4.4c-3.7-.2-7.2 0-7.2 0s10.7-4.8 19.2-8.3c5.8-2.4 11.5-1.7 14.7 2.9 4.1 6 8.5 9.3 17.9 11.3 5.7-2.5 7.4-3.8 14.6-5.8 6.3-7 11.3-7.8 11.3-7.8s-2.5 2.2-3.1 5.8c3.6-2.8 7.5-5.2 7.5-5.2s-1.5 1.9-3 4.9l.4.5a79 79 0 019.1-4.5l-3 4c3.1 0 9.5.2 12 .5 14.7.3 17.7-15.7 23.3-17.7 7-2.5 10.2-4 22.2 7.8 10.3 10 18.4 28.2 14.4 32.3-3.4 3.3-10-1.3-17.3-10.5a39.5 39.5 0 01-8.2-17.8c-1.1-6.1-5.6-9.7-5.6-9.7s2.6 5.8 2.6 11c0 2.8.3 13.2 4.8 19.1-.4.9-.6 4.3-1.1 5-5.2-6.4-16.5-11-18.3-12.2 6.2 5 20.4 16.7 26 27.9 5.1 10.6 2 20.3 4.7 22.8.7.7 11.1 13.6 13.1 20.2 3.5 11.3.2 23.2-4.4 30.6l-12.7 2c-1.9-.5-3.1-.8-4.8-1.8a32 32 0 002.8-6.5l-.7-1.3a54.4 54.4 0 01-16.2 14.2 27.2 27.2 0 01-21 1.8 117.4 117.4 0 01-33.4-17.9s0 2.2.6 2.7c3.8 4.4 12.7 12.3 21.3 17.8l-18.3 2 8.7 67.4c-3.9.6-4.5.9-8.7 1.5a45.1 45.1 0 00-18.5-26.6A35 35 0 0065 200l-.5.6c6.2-.6 13.6.3 21.2 5.1 7.5 4.7 13.5 17 15.7 24.2 2.9 9.4 4.8 19.4-2.8 30-5.4 7.6-21.3 11.8-34 2.8 3.3 5.5 8 10 14.2 10.8 9.2 1.3 18-.3 24-6.5 5.2-5.3 7.9-16.4 7.2-28l8.1-1.2 3 20.9 135-16.3L245 135.1zm-82-56.8c-.5.9-1 1.4-.2 4.2v.2l.2.4.4.8c1.6 3.3 3.4 6.4 6.3 8 .8-.2 1.5-.3 2.4-.3 2.7-.1 4.5.3 5.6.9v-2.6c-.2-4.1.8-11.2-7.1-14.9-3-1.4-7.3-1-8.7.8l.7.2c2.1.7.7 1.4.3 2.3zm22.3 38.7a45.6 45.6 0 00-24.6 4.3c-2.8 2.2-1.5 6 .6 7.5 5.8 4.4 11 7.3 16.3 6.6 3.3-.4 6.2-5.7 8.3-10.4 1.4-3.3 1.4-6.8-.7-8zm-58-33.5c1.9-1.8-9.2-4.1-17.7 1.7-6.3 4.3-6.5 13.6-.5 18.8l1.6 1.2a51.7 51.7 0 0115.9-4.7c1.3-1.4 2.8-4 2.4-8.5-.5-6.2-5.2-5.2-1.7-8.5z" clip-rule="evenodd"/></svg>
+    <span style="font-size:28px;font-weight:700;color:#fff;letter-spacing:-.5px">Datadog</span>
+  </div>
+  <h1>AI-Powered Observability<br>and Security</h1>
+  <p>Monitor every layer of your stack — infrastructure, apps, logs, traces, and security — unified in one platform.</p>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <h2 class="section-title">Colors</h2>
+    <p class="section-sub">Brand palette sourced from datadoghq.com production CSS. Marketing uses neon gradient; product UI uses brand purple.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">Brand</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background:#632CA6"></div><div class="swatch-info"><span class="swatch-name">Brand Purple</span><span class="swatch-hex">#632CA6</span><span class="swatch-use">CTAs · nav active</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#8000FF"></div><div class="swatch-info"><span class="swatch-name">Neon Purple</span><span class="swatch-hex">#8000FF</span><span class="swatch-use">Marketing gradient</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FF0080"></div><div class="swatch-info"><span class="swatch-name">Hot Pink</span><span class="swatch-hex">#FF0080</span><span class="swatch-use">Gradient end · graphs</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#00CF72"></div><div class="swatch-info"><span class="swatch-name">Mint</span><span class="swatch-hex">#00CF72</span><span class="swatch-use">OK status · success</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFCF00"></div><div class="swatch-info"><span class="swatch-name">Lemon</span><span class="swatch-hex">#FFCF00</span><span class="swatch-use">Warning monitors</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FF3A44"></div><div class="swatch-info"><span class="swatch-name">Red</span><span class="swatch-hex">#FF3A44</span><span class="swatch-use">Alert · critical</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#0060FF"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#0060FF</span><span class="swatch-use">Info · links</span></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Purple Scale</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background:#EFE0FF"></div><div class="swatch-info"><span class="swatch-name">Purple 50</span><span class="swatch-hex">#EFE0FF</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#CCADFF"></div><div class="swatch-info"><span class="swatch-name">Purple 100</span><span class="swatch-hex">#CCADFF</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#BEAAFF"></div><div class="swatch-info"><span class="swatch-name">Purple 200</span><span class="swatch-hex">#BEAAFF</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#8000FF"></div><div class="swatch-info"><span class="swatch-name">Purple 400</span><span class="swatch-hex">#8000FF</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#632CA6"></div><div class="swatch-info"><span class="swatch-name">Purple 600</span><span class="swatch-hex">#632CA6</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#4B01AD"></div><div class="swatch-info"><span class="swatch-name">Purple 800</span><span class="swatch-hex">#4B01AD</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#34005E"></div><div class="swatch-info"><span class="swatch-name">Purple 900</span><span class="swatch-hex">#34005E</span></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Surfaces — Dark Mode</div>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background:#1A1E2C"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#1A1E2C <span style="font-size:9px;color:#6B7A97">(est)</span></span><span class="swatch-use">Page background</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#232838"></div><div class="swatch-info"><span class="swatch-name">surface</span><span class="swatch-hex">#232838 <span style="font-size:9px;color:#6B7A97">(est)</span></span><span class="swatch-use">Cards · panels</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2C3347"></div><div class="swatch-info"><span class="swatch-name">elevated</span><span class="swatch-hex">#2C3347 <span style="font-size:9px;color:#6B7A97">(est)</span></span><span class="swatch-use">Dropdowns · hover</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#3A4258;height:80px"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#3A4258 <span style="font-size:9px;color:#6B7A97">(est)</span></span><span class="swatch-use">Dividers</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#AAB1C1"></div><div class="swatch-info"><span class="swatch-name">text-2</span><span class="swatch-hex">#AAB1C1</span><span class="swatch-use">Labels · captions</span></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#6B7A97"></div><div class="swatch-info"><span class="swatch-name">text-3</span><span class="swatch-hex">#6B7A97</span><span class="swatch-use">Muted · placeholders</span></div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Marketing Gradients</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div>
+          <div class="gradient-strip" style="background:linear-gradient(90deg,#8000FF,#FF0080)"></div>
+          <div class="gradient-info">CTA gradient</div>
+        </div>
+        <div>
+          <div class="gradient-strip" style="background:linear-gradient(360deg,#8904FF,#110617)"></div>
+          <div class="gradient-info">Hero callout</div>
+        </div>
+        <div>
+          <div class="gradient-strip" style="background:linear-gradient(90deg,#6A00FF,#FFC8F9)"></div>
+          <div class="gradient-info">Blog accent</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <h2 class="section-title">Typography</h2>
+    <p class="section-sub">NationalWeb (Datadog's proprietary font) for all UI text. Roboto Mono for metrics, queries, and log lines.</p>
+    <table class="type-table">
+      <tr>
+        <td>h1</td>
+        <td><span style="font-size:40px;font-weight:700;line-height:1.1">Infrastructure Overview</span></td>
+        <td>40px / 700</td>
+      </tr>
+      <tr>
+        <td>h2</td>
+        <td><span style="font-size:28px;font-weight:600;line-height:1.2">Service Map</span></td>
+        <td>28px / 600</td>
+      </tr>
+      <tr>
+        <td>h3</td>
+        <td><span style="font-size:20px;font-weight:600">Monitor Summary</span></td>
+        <td>20px / 600</td>
+      </tr>
+      <tr>
+        <td>body-lg</td>
+        <td><span style="font-size:16px">Set up monitoring for your entire stack in minutes.</span></td>
+        <td>16px / 400</td>
+      </tr>
+      <tr>
+        <td>body</td>
+        <td><span style="font-size:14px">14 monitors firing across production services</span></td>
+        <td>14px / 400</td>
+      </tr>
+      <tr>
+        <td>label</td>
+        <td><span style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Last Triggered</span></td>
+        <td>11px / 600</td>
+      </tr>
+      <tr>
+        <td>metric</td>
+        <td><span style="font-size:28px;font-weight:600;font-family:'RobotoMono',monospace">99.97%</span></td>
+        <td>28px / 600 Mono</td>
+      </tr>
+      <tr>
+        <td>code</td>
+        <td><span style="font-size:13px;font-family:'RobotoMono',monospace">avg:system.cpu.user{*} by {host}</span></td>
+        <td>13px / 400 Mono</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <h2 class="section-title">Components</h2>
+    <p class="section-sub">Buttons, badges, and tags used across the monitoring dashboard.</p>
+
+    <div class="subsection">
+      <div class="subsection-title">Buttons</div>
+      <div class="comp-row">
+        <button class="btn btn-primary">Get Started Free</button>
+        <button class="btn btn-purple">New Monitor</button>
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-danger">Delete Monitor</button>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Monitor Status Badges</div>
+      <div class="comp-row">
+        <span class="badge badge-ok"><span class="badge-dot"></span>OK</span>
+        <span class="badge badge-warn"><span class="badge-dot"></span>Warn</span>
+        <span class="badge badge-alert"><span class="badge-dot"></span>Alert</span>
+        <span class="badge badge-nodata"><span class="badge-dot"></span>No Data</span>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Service Tags</div>
+      <div class="comp-row">
+        <span class="tag">env:prod</span>
+        <span class="tag">service:api</span>
+        <span class="tag">team:platform</span>
+        <span class="tag">region:us-east-1</span>
+        <span class="tag">version:3.12.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <h2 class="section-title">Monitors Dashboard</h2>
+    <p class="section-sub">Infrastructure monitors list — the signature Datadog UI pattern.</p>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Monitors</div>
+        <div class="metric-val">247</div>
+        <div class="metric-change">across 18 services</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Currently Firing</div>
+        <div class="metric-val" style="color:var(--alert-text)">14</div>
+        <div class="metric-change down">↑ 3 from 1h ago</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg Uptime (7d)</div>
+        <div class="metric-val" style="color:var(--ok-text)">99.7%</div>
+        <div class="metric-change up">↑ 0.2%</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <span class="chart-title">system.cpu.user — production hosts</span>
+        <span class="chart-meta">avg last 1h · by host</span>
+      </div>
+      <svg class="chart-svg" viewBox="0 0 900 120" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="cpuFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#632CA6" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#632CA6" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="warnFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FFCF00" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#FFCF00" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="40" x2="900" y2="40" stroke="#FFCF00" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+        <text x="4" y="37" fill="#FFCF00" font-size="10" font-family="monospace" opacity="0.7">warn 75%</text>
+        <path d="M0,90 C50,85 80,78 130,72 C180,66 210,60 260,55 C310,50 340,62 390,58 C440,54 470,42 520,38 C570,34 600,30 640,36 C680,42 710,48 750,44 C790,40 840,38 900,36 L900,120 L0,120 Z" fill="url(#cpuFill)"/>
+        <path d="M0,90 C50,85 80,78 130,72 C180,66 210,60 260,55 C310,50 340,62 390,58 C440,54 470,42 520,38 C570,34 600,30 640,36 C680,42 710,48 750,44 C790,40 840,38 900,36" fill="none" stroke="#632CA6" stroke-width="2"/>
+        <path d="M0,100 C60,98 100,95 150,90 C200,85 230,80 280,82 C330,84 360,88 400,85 C440,82 480,78 530,72 C580,66 620,68 660,70 C700,72 740,75 790,73 C830,71 870,68 900,65 L900,120 L0,120 Z" fill="url(#warnFill)"/>
+        <path d="M0,100 C60,98 100,95 150,90 C200,85 230,80 280,82 C330,84 360,88 400,85 C440,82 480,78 530,72 C580,66 620,68 660,70 C700,72 740,75 790,73 C830,71 870,68 900,65" fill="none" stroke="#FFCF00" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <circle cx="520" cy="38" r="4" fill="#FF3A44"/>
+        <text x="525" y="32" fill="#FF3A44" font-size="10" font-family="monospace">92% peak</text>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>Datadog</h1>
-      <p>Monitoring, APM &amp; security for cloud-scale infrastructure</p>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#632CA6', this)"><div class="swatch-dot" style="background:#632CA6"></div><div class="swatch-info"><span class="swatch-name">Purple</span><span class="swatch-hex">#632CA6</span></div></div>
-        <div class="swatch" onclick="copyHex('#8B5CF6', this)"><div class="swatch-dot" style="background:#8B5CF6"></div><div class="swatch-info"><span class="swatch-name">Purple Light</span><span class="swatch-hex">#8B5CF6</span></div></div>
-        <div class="swatch" onclick="copyHex('#D000E5', this)"><div class="swatch-dot" style="background:#D000E5"></div><div class="swatch-info"><span class="swatch-name">Pink</span><span class="swatch-hex">#D000E5</span></div></div>
-        <div class="swatch" onclick="copyHex('#1AAB79', this)"><div class="swatch-dot" style="background:#1AAB79"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#1AAB79</span></div></div>
-      </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#13111A', this)"><div class="swatch-dot" style="background:#13111A;border:1px solid #352F4D"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#13111A</span></div></div>
-        <div class="swatch" onclick="copyHex('#1C1829', this)"><div class="swatch-dot" style="background:#1C1829;border:1px solid #352F4D"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#1C1829</span></div></div>
-        <div class="swatch" onclick="copyHex('#26213A', this)"><div class="swatch-dot" style="background:#26213A;border:1px solid #352F4D"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#26213A</span></div></div>
-        <div class="swatch" onclick="copyHex('#352F4D', this)"><div class="swatch-dot" style="background:#352F4D"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#352F4D</span></div></div>
-      </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#EEE9FF', this)"><div class="swatch-dot" style="background:#EEE9FF"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#EEE9FF</span></div></div>
-        <div class="swatch" onclick="copyHex('#A899CC', this)"><div class="swatch-dot" style="background:#A899CC"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#A899CC</span></div></div>
-        <div class="swatch" onclick="copyHex('#6B5F94', this)"><div class="swatch-dot" style="background:#6B5F94"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#6B5F94</span></div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Dashboard Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">18px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:18px;font-weight:600;">Widget Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body text — default content and descriptions</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, table rows, timestamps</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">avg:system.cpu.user{host:web-01}</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Buttons</h3>
-        <div class="btn-row">
-          <button class="btn btn-primary">New Dashboard</button>
-          <button class="btn btn-danger">Mute</button>
-          <button class="btn btn-ghost">Export</button>
+    <div class="monitors-card">
+      <div class="monitors-header">
+        <span class="monitors-title">Monitors</span>
+        <div class="monitors-actions">
+          <input class="search-box" type="text" placeholder="Search monitors..." value="env:prod"/>
+          <button class="btn btn-purple" style="height:32px;font-size:13px;padding:0 12px">New Monitor</button>
         </div>
       </div>
-      <div class="comp-card">
-        <h3>Input</h3>
-        <input class="input-demo" type="text" placeholder="Search metrics..." />
-        <input class="input-demo" type="text" placeholder="avg:system.cpu.user{*}" />
+      <div class="filter-row">
+        <button class="filter-btn active">All (247)</button>
+        <button class="filter-btn">Alert (14)</button>
+        <button class="filter-btn">Warn (8)</button>
+        <button class="filter-btn">OK (209)</button>
+        <button class="filter-btn">No Data (16)</button>
       </div>
-      <div class="comp-card">
-        <h3>Monitor Status</h3>
-        <div class="badge-row">
-          <span class="badge badge-ok">OK</span>
-          <span class="badge badge-warn">Warning</span>
-          <span class="badge badge-crit">Critical</span>
-          <span class="badge badge-nodata">No Data</span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Metric Widget</h3>
-        <div class="metric-widget">
-          <div><span class="metric-val">98.4</span><span class="metric-unit">%</span></div>
-          <div class="metric-label">system.cpu.idle · last 1h</div>
-          <div class="sparkline">
-            <div class="spark-bar" style="height:40%"></div><div class="spark-bar" style="height:55%"></div><div class="spark-bar" style="height:45%"></div><div class="spark-bar" style="height:70%"></div><div class="spark-bar" style="height:60%"></div><div class="spark-bar" style="height:80%"></div><div class="spark-bar" style="height:75%"></div><div class="spark-bar" style="height:90%"></div><div class="spark-bar" style="height:85%"></div><div class="spark-bar" style="height:100%"></div>
-          </div>
-        </div>
-      </div>
+      <table class="monitor-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Monitor</th>
+            <th>Service</th>
+            <th>Last Triggered</th>
+          </tr>
+        </thead>
+        <tbody id="monitorTbody">
+          <tr>
+            <td><span class="badge badge-alert"><span class="badge-dot"></span>Alert</span></td>
+            <td class="mon-name">CPU usage &gt; 90% on production hosts</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:compute</span></td>
+            <td class="mon-time">3 min ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-alert"><span class="badge-dot"></span>Alert</span></td>
+            <td class="mon-name">API error rate &gt; 5% on /v2/checkout</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:api</span></td>
+            <td class="mon-time">7 min ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-warn"><span class="badge-dot"></span>Warn</span></td>
+            <td class="mon-name">Memory utilization approaching limit</td>
+            <td class="mon-service"><span class="tag">service:worker</span><span class="tag">region:us-east-1</span></td>
+            <td class="mon-time">12 min ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-alert"><span class="badge-dot"></span>Alert</span></td>
+            <td class="mon-name">Database connection pool exhausted</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:postgres</span></td>
+            <td class="mon-time">18 min ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-warn"><span class="badge-dot"></span>Warn</span></td>
+            <td class="mon-name">P99 latency &gt; 800ms on /api/search</td>
+            <td class="mon-service"><span class="tag">service:search</span><span class="tag">team:platform</span></td>
+            <td class="mon-time">24 min ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-ok"><span class="badge-dot"></span>OK</span></td>
+            <td class="mon-name">Deployment heartbeat — prod-web-01</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:web</span></td>
+            <td class="mon-time">1 hr ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-ok"><span class="badge-dot"></span>OK</span></td>
+            <td class="mon-name">SSL certificate expiry check</td>
+            <td class="mon-service"><span class="tag">service:infra</span><span class="tag">team:sre</span></td>
+            <td class="mon-time">2 hr ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-nodata"><span class="badge-dot"></span>No Data</span></td>
+            <td class="mon-name">Kafka consumer lag — payments topic</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:kafka</span></td>
+            <td class="mon-time">6 hr ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-ok"><span class="badge-dot"></span>OK</span></td>
+            <td class="mon-name">Disk usage &lt; 80% on all hosts</td>
+            <td class="mon-service"><span class="tag">env:prod</span><span class="tag">service:storage</span></td>
+            <td class="mon-time">8 hr ago</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-alert"><span class="badge-dot"></span>Alert</span></td>
+            <td class="mon-name">Redis eviction rate spike</td>
+            <td class="mon-service"><span class="tag">service:cache</span><span class="tag">region:us-west-2</span></td>
+            <td class="mon-time">9 min ago</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use monospace for all metrics, queries, and log lines</li>
-          <li>Color-code monitor status (OK/Warn/Critical/No Data)</li>
-          <li>Show relative time with absolute on hover</li>
-          <li>Widget backgrounds slightly lighter than the page</li>
-          <li>Use purple sparingly — reserve for primary actions</li>
-        </ul>
-      </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use a light theme for monitoring dashboards</li>
-          <li>Don't use more than 3 colors per chart</li>
-          <li>Don't animate metric values on every update</li>
-          <li>Don't round corners beyond 8px</li>
-          <li>Don't use the pink accent on status indicators</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
-}
+<script>
+(function(){
+  const filters = document.querySelectorAll('.filter-btn');
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+})();
 </script>
 </body>
 </html>
