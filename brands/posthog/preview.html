@@ -1,379 +1,399 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PostHog – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PostHog — Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root[data-theme="dark"] {
-  --bg: #151515;
-  --surface: #1D1D1D;
-  --elevated: #282828;
-  --border: #3A3A3A;
-  --primary: #1D4AFF;
-  --primary-hover: #1038E0;
-  --accent: #F9BD2B;
-  --danger: #F54E00;
-  --success: #36AE7C;
-  --text: #FFFFFFDE;
-  --text-2: #FFFFFF99;
-  --text-3: #FFFFFF60;
-  --toggle-bg: #282828;
-  --toggle-text: #FFFFFFDE;
-  --toggle-border: #3A3A3A;
+@font-face{font-family:'Squeak';src:url('https://posthog.com/fonts/squeak-bold-webfont.woff2') format('woff2'),url('https://posthog.com/fonts/squeak-bold-webfont.woff') format('woff');font-weight:700;font-style:normal;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#F54E00;
+  --yellow:#F7A501;
+  --teal:#29DBBB;
+  --blue:#2F80FA;
+  --lilac:#8567FF;
+  --purple:#B62AD9;
+  --pink:#E34C6F;
+  --salmon:#F35454;
+  --gold:#FFBA53;
+  --lime:#96E5B6;
+  --tan:#EEEFE9;
+  --green:#6AA84F;
+  --radius-lg:20px;
+  --radius-sm:4px;
 }
-:root[data-theme="light"] {
-  --bg: #F5F5F5;
-  --surface: #FFFFFF;
-  --elevated: #EBEBEB;
-  --border: #D0D0D0;
-  --primary: #1D4AFF;
-  --primary-hover: #1038E0;
-  --accent: #D4A000;
-  --danger: #D43E00;
-  --success: #1F8C60;
-  --text: #111111;
-  --text-2: #555555;
-  --text-3: #888888;
-  --toggle-bg: #EBEBEB;
-  --toggle-text: #111111;
-  --toggle-border: #D0D0D0;
+:root[data-theme="dark"]{
+  --bg:#131316;
+  --surface:#232429;
+  --elevated:#252830;
+  --border:#2F3037;
+  --text:#EAECF6;
+  --text-2:#A8ABB8;
+  --text-3:#56596A;
+  --primary:#F54E00;
+  --primary-h:#FF6B1A;
+  --input-bg:#17171C;
+  --input-bdr:#2F3037;
+  --success-txt:#B8F7CF;
+  --warn-txt:#F7A501;
+  --error-txt:#F35454;
+  --info-txt:#BDDAFF;
+  --success-bg:#142C1E;
+  --success-bdr:#1E4229;
+  --warn-bg:#2C1F05;
+  --warn-bdr:#3D2B06;
+  --error-bg:#2C1010;
+  --error-bdr:#3D1515;
+  --info-bg:#163CB7;
+  --info-bdr:#1E4FCC;
+  --pill-bg:rgba(245,78,0,0.18);
+  --pill-txt:#FF8040;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Poppins', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  transition: background 0.2s, color 0.2s;
+:root[data-theme="light"]{
+  --bg:#F5F5F0;
+  --surface:#EEEFE9;
+  --elevated:#E3E4DE;
+  --border:#D4D5CF;
+  --text:#0D0E12;
+  --text-2:#3E4051;
+  --text-3:#767885;
+  --primary:#F54E00;
+  --primary-h:#C23D00;
+  --input-bg:#EEEFE9;
+  --input-bdr:#D4D5CF;
+  --success-txt:#016630;
+  --warn-txt:#884A00;
+  --error-txt:#B82020;
+  --info-txt:#1557C0;
+  --success-bg:#CDF7D9;
+  --success-bdr:#A3EDB9;
+  --warn-bg:#FEF3C6;
+  --warn-bdr:#FDE68A;
+  --error-bg:#FDDEDE;
+  --error-bdr:#FBB8B8;
+  --info-bg:#BDDAFF;
+  --info-bdr:#90C0FF;
+  --pill-bg:rgba(245,78,0,0.10);
+  --pill-txt:#C23D00;
 }
-
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--primary);
-  color: #fff;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  z-index: 1000;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-logo { flex-shrink: 0; }
-.hero-text h1 { font-size: 32px; font-weight: 800; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-
-.section { margin-bottom: 56px; }
-.section-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 20px;
-}
-
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  margin-bottom: 6px;
-}
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill {
-  font-size: 10px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: var(--elevated);
-  color: var(--text-2);
-  white-space: nowrap;
-}
-.type-sample { flex: 1; }
-
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-}
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  height: 38px;
-  padding: 0 18px;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.15s;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-yellow { background: #F9BD2B; color: #151515; }
-.btn-yellow:hover { background: #E0AA20; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-
-.input-demo {
-  width: 100%;
-  height: 38px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0 12px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s;
-  margin-bottom: 10px;
-}
-.input-demo:focus { border-color: var(--primary); }
-
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 9999px;
-  border: 1px solid;
-}
-.badge-capture { background: rgba(29,74,255,0.12); color: #1D4AFF; border-color: rgba(29,74,255,0.3); }
-.badge-warn { background: rgba(249,189,43,0.12); color: #F9BD2B; border-color: rgba(249,189,43,0.3); }
-.badge-error { background: rgba(245,78,0,0.12); color: #F54E00; border-color: rgba(245,78,0,0.3); }
-.badge-success { background: rgba(54,174,124,0.12); color: #36AE7C; border-color: rgba(54,174,124,0.3); }
-
-.metric-card {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-}
-.metric-value { font-size: 32px; font-weight: 700; }
-.metric-label { font-size: 12px; color: var(--text-2); margin-top: 4px; }
-.metric-change { display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; margin-top: 8px; background: rgba(54,174,124,0.15); color: #36AE7C; }
-
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-3);padding:8px;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s,color .15s}
+.toggle:hover{border-color:var(--primary);color:var(--primary)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#fff;padding:8px 20px;border-radius:9999px;font-size:13px;font-weight:500;opacity:0;transition:all .25s;pointer-events:none;z-index:1000}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.hero{padding:56px 0;border-bottom:1px solid var(--border)}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:20px}
+.hero-logo svg{display:block;height:40px;width:auto}
+.hero h1{font-family:'Squeak','IBM Plex Sans',system-ui,sans-serif;font-weight:700;font-size:48px;letter-spacing:-0.02em;line-height:1.05;color:var(--text);margin-bottom:10px}
+.hero p{font-size:16px;color:var(--text-2);max-width:560px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.10em;text-transform:uppercase;color:var(--text-3);margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-3);margin:28px 0 10px}
+.group-label:first-child{margin-top:0}
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:border-color .12s,transform .1s;background:var(--surface)}
+.swatch:hover{border-color:var(--primary);transform:translateY(-2px)}
+.swatch-color{height:72px}
+.swatch-info{padding:9px 12px}
+.swatch-name{font-size:12px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text-3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text-3);margin-top:1px;display:block}
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:100px 1fr auto;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text-3)}
+.type-sample{color:var(--text)}
+.type-specs{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.spec-pill{font-size:10px;padding:2px 6px;border-radius:3px;background:var(--elevated);border:1px solid var(--border);color:var(--text-3);white-space:nowrap;font-family:'IBM Plex Mono',monospace}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.btn-row:last-child{margin-bottom:0}
+.lbtn{font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:13px;font-weight:600;height:34px;padding:0 14px;border-radius:var(--radius-sm);border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;white-space:nowrap;transition:all .12s}
+.lbtn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.lbtn-primary:hover{background:var(--primary-h);border-color:var(--primary-h)}
+.lbtn-secondary{background:transparent;color:var(--text);border-color:var(--border)}
+.lbtn-secondary:hover{border-color:var(--primary);color:var(--primary)}
+.lbtn-danger{background:var(--error-bg);color:var(--error-txt);border-color:var(--error-bdr)}
+.lbtn-danger:hover{filter:brightness(1.08)}
+.linput{width:100%;height:34px;background:var(--input-bg);border:1px solid var(--input-bdr);border-radius:var(--radius-sm);padding:0 12px;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .12s,box-shadow .12s}
+.linput:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(245,78,0,0.18)}
+.linput::placeholder{color:var(--text-3)}
+.tag{display:inline-flex;align-items:center;background:var(--elevated);border:1px solid var(--border);border-radius:3px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 7px;color:var(--text-2)}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:3px;border:1px solid}
+.badge-success{background:var(--success-bg);color:var(--success-txt);border-color:var(--success-bdr)}
+.badge-warn{background:var(--warn-bg);color:var(--warn-txt);border-color:var(--warn-bdr)}
+.badge-error{background:var(--error-bg);color:var(--error-txt);border-color:var(--error-bdr)}
+.badge-info{background:var(--info-bg);color:var(--info-txt);border-color:var(--info-bdr)}
+.tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.badges-row{display:flex;flex-wrap:wrap;gap:6px}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.metric-card{background:var(--elevated);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.metric-label{font-size:11px;color:var(--text-3);font-weight:500;margin-bottom:4px}
+.metric-value{font-size:22px;font-weight:700;color:var(--text);line-height:1.1}
+.metric-delta{font-size:11px;font-family:'IBM Plex Mono',monospace;margin-top:4px}
+.delta-up{color:var(--success-txt)}
+.delta-dn{color:var(--error-txt)}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.panel-toolbar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--elevated)}
+.panel-toolbar-title{font-size:14px;font-weight:600;flex:1;color:var(--text)}
+.tab-row{display:flex;gap:2px}
+.tab{height:28px;padding:0 12px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--text-3);font-family:'IBM Plex Sans',system-ui,sans-serif;transition:all .12s}
+.tab.active{background:var(--primary);color:#fff}
+.tab:not(.active):hover{background:var(--border);color:var(--text)}
+.panel-pane{display:none}
+.panel-pane.active{display:block}
+.evt-table{width:100%;border-collapse:collapse}
+.evt-table thead tr{background:var(--elevated);border-bottom:1px solid var(--border)}
+.evt-table th{padding:8px 12px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);white-space:nowrap}
+.evt-table td{padding:8px 12px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.evt-table tbody tr:last-child td{border-bottom:none}
+.evt-table tbody tr{cursor:pointer;transition:background .1s}
+.evt-table tbody tr:hover{background:var(--elevated)}
+.evt-pill{display:inline-flex;align-items:center;background:var(--pill-bg);color:var(--pill-txt);border-radius:3px;padding:2px 7px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;white-space:nowrap}
+.person-chip{display:inline-flex;align-items:center;gap:5px;background:var(--elevated);border:1px solid var(--border);border-radius:9999px;padding:2px 8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-2);white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
+.avatar{width:16px;height:16px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff;font-family:'IBM Plex Sans',sans-serif}
+.ts{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3)}
+.url-cell{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.funnel-pane{padding:20px}
+.funnel-step{margin-bottom:18px}
+.funnel-step:last-child{margin-bottom:0}
+.funnel-row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.funnel-name{font-size:13px;font-weight:500;color:var(--text)}
+.funnel-stat{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text-3)}
+.funnel-track{height:30px;border-radius:var(--radius-sm);overflow:hidden;background:var(--elevated)}
+.funnel-fill{height:100%;border-radius:var(--radius-sm);background:var(--primary);display:flex;align-items:center;padding-left:10px;transition:width .6s cubic-bezier(.16,1,.3,1)}
+.funnel-fill-pct{font-size:12px;font-weight:600;color:#fff}
+.funnel-dropoff{font-size:11px;color:var(--error-txt);margin-top:3px}
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-col{display:flex;flex-direction:column;gap:8px}
+.gr-heading{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+.gr-heading.do{color:var(--success-txt)}
+.gr-heading.dont{color:var(--error-txt)}
+.gr-item{font-size:13px;color:var(--text-2);padding:4px 0 4px 16px;position:relative;line-height:1.5}
+.gr-item::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%}
+.gr-item.do::before{background:var(--success-txt)}
+.gr-item.dont::before{background:var(--error-txt)}
+@media(max-width:640px){.gr-cols{grid-template-columns:1fr}.type-row{grid-template-columns:80px 1fr}.type-specs{display:none}.metrics-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
+<div class="toast" id="toast"></div>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-
-<div class="container">
-
-  <!-- Hero -->
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#1D1D1D"/>
-        <circle cx="36" cy="28" r="14" fill="#1D4AFF"/>
-        <ellipse cx="36" cy="28" rx="6" ry="8" fill="#F9BD2B"/>
-        <circle cx="36" cy="26" r="3" fill="#1D1D1D"/>
-        <!-- hedgehog spikes -->
-        <path d="M22 22 L18 16 M24 19 L21 13 M28 17 L27 11 M32 16 L32 10 M36 16 L37 10 M40 17 L42 11" stroke="#1D4AFF" stroke-width="2" stroke-linecap="round"/>
-        <path d="M36 42 Q36 52 36 54" stroke="#F9BD2B" stroke-width="3" stroke-linecap="round"/>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 148 31" aria-label="PostHog logo">
+        <path fill="#FF5A00" d="M.086.64h29.622v30H.086v-30ZM82.92 6.577c.254 0 .318.319.318.574.063 1.021.127 1.979.127 3 .063.958.063 1.915.063 2.873.57-.447 1.078-.894 1.713-1.086 1.014-.446 2.22-.446 3.234.064 1.079.575 1.777 1.596 2.157 2.681a9.91 9.91 0 0 1 .38 3.32c-.126 1.34-.443 2.616-1.204 3.701-.444.639-1.015 1.15-1.776 1.405-1.206.446-2.474.255-3.553-.383-.317-.192-.634-.511-.888-.766-.126.383-.19.766-.317 1.149-.57 0-1.078.063-1.649-.064.19-.894.19-1.851.254-2.745.063-3.255 0-6.51 0-9.702-.064-1.277 0-2.553-.19-3.766.38-.128.887-.255 1.332-.255Zm4.187 6.702a3.798 3.798 0 0 0-1.459-.064c-.888.128-1.586.766-2.157 1.404v5.809c0 .191.127.319.254.383.888.83 2.157 1.212 3.298.957a1.983 1.983 0 0 0 1.332-1.021c.445-.702.571-1.532.635-2.362.063-.638.127-1.276.063-1.85 0-.703-.19-1.469-.57-2.107-.318-.639-.825-1.022-1.396-1.15ZM94.4 7.023c.318-.127.762-.127 1.079.064.317.192.57.51.698.83.19.766-.381 1.596-1.142 1.66-.571.063-1.205-.256-1.396-.894-.253-.574.127-1.404.761-1.66Zm-52.457 1.34c.825-.574 1.84-1.02 2.854-1.02 1.079 0 2.157.063 3.108.51.381.192.762.383 1.142.639-.254.446-.57.766-.888 1.148-.38-.191-.761-.446-1.205-.638-1.015-.383-2.22-.447-3.235 0-.888.32-1.586 1.021-2.03 1.851-.254.639-.507 1.277-.634 1.915-.127.638-.127 1.277-.19 1.915 0 .83-.064 1.723 0 2.553.126 1.213.57 2.362 1.332 3.256.697.83 1.712 1.276 2.79 1.404.572 0 1.079 0 1.65-.128.634-.128 1.205-.51 1.84-.766.316.32.634.766.95 1.15-.443.254-.887.51-1.395.701-1.268.51-2.727.575-4.06.383-1.014-.191-1.902-.702-2.663-1.34-.888-.766-1.523-1.787-1.903-2.873a9.806 9.806 0 0 1-.444-2.297c0-.575-.127-1.15 0-1.788 0-1.085.19-2.234.634-3.255.444-1.277 1.205-2.49 2.347-3.32Z"/>
+        <path fill="#FFFEFE" d="M8.844 8.108c.127 0 .253-.064.38-.064.635 0 1.269 0 1.903.064.127 0 .127.064.19.128.952 1.978 1.903 4.021 2.918 6.064.19.446.381.83.635 1.212.19-.319.38-.638.57-1.02 1.079-2.171 2.157-4.278 3.236-6.448.697 0 1.395-.064 2.156.064-.127.447-.38.766-.57 1.149-1.396 2.745-2.855 5.49-4.314 8.234-.063.128-.063.192-.063.32v5.872H13.79v-5.745c0-.192 0-.447-.127-.638-1.332-2.49-2.6-4.98-3.932-7.532-.254-.511-.571-1.085-.888-1.66Z"/>
+        <path fill="#FF5A00" d="M123.265 9.002c.571-.192 1.142-.32 1.776-.447a28.265 28.265 0 0 0-.19 3.32c.888 0 1.839 0 2.727.063-.127.447-.317.83-.507 1.213h-2.347v3.064c0 .766.063 1.596 0 2.425 0 .894 0 1.851.063 2.745 0 .383.381.638.698.766.571.128 1.142.064 1.713-.064.127.32.19.702.19 1.021-.507.256-1.078.32-1.649.383-.761 0-1.649-.127-2.22-.702-.444-.447-.444-1.149-.508-1.723-.063-1.277 0-2.617-.063-3.894v-3.957h-1.459v-1.277h1.459c.19-1.021.19-2.042.317-2.936Zm-67.237 2.553c.444 0 .951 0 1.395.128 1.015.319 1.903 1.085 2.41 1.979.445.83.762 1.723.825 2.68.064 1.277.127 2.554-.317 3.766-.38 1.15-1.142 2.17-2.22 2.745-1.078.574-2.347.638-3.489.32-1.014-.256-1.903-.958-2.537-1.852-.634-.957-.888-2.106-.888-3.319 0-1.085-.063-2.234.317-3.32a4.983 4.983 0 0 1 1.967-2.616c.444-.256.888-.51 1.395-.575.38.064.761.064 1.142.064Zm-.888 1.468c-.571.128-1.142.51-1.46 1.021-.443.766-.57 1.66-.57 2.554-.063.638 0 1.276.063 1.915.127.766.254 1.595.635 2.297.38.767 1.205 1.086 2.03 1.15.76.063 1.585-.128 2.156-.767.444-.51.698-1.085.761-1.787.127-.83.127-1.66.064-2.425 0-.83-.127-1.724-.444-2.554-.19-.51-.571-.893-1.015-1.148-.698-.383-1.459-.447-2.22-.256Zm8.627-1.085a6.406 6.406 0 0 1 1.585-.383c.19.51.317 1.021.38 1.596.381-.192.635-.51 1.016-.702a4.463 4.463 0 0 1 2.664-.894c.19 0 .444.064.634.192.317.191.634.319.952.574.253.255.444.638.634.958.444-.192.761-.575 1.142-.83.634-.447 1.395-.83 2.283-.894a2.798 2.798 0 0 1 2.093.702c.254.256.508.51.635.83.127.32.19.638.19 1.021.127 1.788.064 3.639.127 5.426v3.638h-1.776v-5.425c0-1.15 0-2.298-.064-3.511a1.514 1.514 0 0 0-.57-.957c-.318-.192-.762-.192-1.206-.192-.697.064-1.268.51-1.84.957-.253.192-.507.447-.76.639-.064.064-.064.191-.064.255v8.17h-1.776v-7.915c0-.51 0-1.085-.19-1.531-.38-.511-1.078-.639-1.65-.447-.887.191-1.649.766-2.346 1.404-.127.064-.127.191-.127.32v8.233H64.21c-.063-2.808 0-5.617-.126-8.425 0-.639 0-1.277-.127-1.915-.064-.32-.19-.639-.19-.894Zm30.256-.064c.571-.064 1.142-.191 1.713-.319.063 1.596.063 3.192.063 4.724v6.83h-1.776v-9.767c0-.446-.063-1.02 0-1.468Zm22.772-.255c1.205.191 2.22 1.34 2.283 2.617.064 1.851 0 3.766 0 5.617v.574c0 .384 0 .767.127 1.086.064.383.444.574.698.766-.254.319-.444.765-.761 1.02-.19.192-.444 0-.571-.127-.444-.319-.698-.766-.951-1.276-.381.191-.635.574-1.079.766-.634.446-1.395.638-2.22.638-.698 0-1.395-.128-2.03-.447-1.015-.574-1.585-1.723-1.522-2.872 0-1.085.571-2.17 1.395-2.809 1.015-.766 2.347-1.021 3.616-1.149.571-.064 1.142-.064 1.776-.064 0-.574 0-1.149-.127-1.723-.063-.447-.317-.957-.761-1.213-.507-.255-1.142-.319-1.713-.191-1.078.127-2.093.574-2.981 1.212-.254-.319-.507-.638-.698-1.02-.126-.192.064-.32.191-.384 1.205-.638 2.474-1.213 3.869-1.213h.571c.317.128.571.128.888.192Zm-.761 5.68c-.571.065-1.079.065-1.649.192-.635.192-1.206.575-1.586 1.15-.191.318-.191.701-.191 1.084 0 .383-.063.83.127 1.213.127.383.444.766.825.894.444.191.951.191 1.459.191.571-.064 1.078-.383 1.522-.766.381-.319.761-.702.761-1.213.064-.893.064-1.85.064-2.744-.444.064-.888-.064-1.332 0Zm19.283-5.616c1.015.255 1.903.893 2.537 1.723a5.22 5.22 0 0 1 .952 2.298c.126.766.19 1.596.126 2.426 0 1.34-.444 2.617-1.205 3.638-.634.83-1.649 1.34-2.6 1.532-1.206.191-2.538 0-3.616-.766-.888-.638-1.459-1.66-1.776-2.745-.19-.574-.19-1.085-.254-1.66 0-.957 0-1.85.127-2.808.254-1.021.761-2.042 1.522-2.808.571-.575 1.332-.894 2.094-1.022.761 0 1.459.064 2.093.192Zm-1.903 1.34c-.825.128-1.522.766-1.776 1.532-.317.83-.317 1.724-.317 2.553 0 .83 0 1.66.19 2.426.127.574.254 1.085.634 1.532.317.447.888.702 1.396.766.19.064.444.064.634.064h.381a3.811 3.811 0 0 0 1.205-.383c.444-.256.761-.703.951-1.213.191-.575.254-1.213.318-1.787 0-.703.063-1.405 0-2.17-.064-.767-.127-1.533-.508-2.17a2.938 2.938 0 0 0-1.332-1.15 4.165 4.165 0 0 0-1.776 0Zm8.563-1.021c.571-.128 1.078-.32 1.586-.447.317.575.317 1.213.381 1.787.253-.191.507-.446.761-.702.761-.766 1.903-1.213 2.981-1.021v.128c-.254.51-.381 1.085-.634 1.66 0 .127-.191.063-.254.063-.444 0-1.015 0-1.396.255-.444.256-.761.575-1.078.958-.317.383-.254.893-.254 1.34 0 .639-.063 1.277 0 1.915v5.234h-1.776v-5.808c0-1.34 0-2.617-.063-3.958-.064-.51-.19-.957-.254-1.404Zm-42.752 0c.507-.192 1.078-.383 1.585-.383.191.51.317 1.085.381 1.596.444-.32.888-.702 1.332-.958.951-.574 2.093-.957 3.108-.574.634.191 1.205.574 1.586 1.149.317.383.38.957.444 1.404.127 1.787.063 3.51.063 5.298v3.51h-1.776c0-1.914-.063-3.893-.063-5.808 0-1.085 0-2.17-.127-3.255-.19-.51-.634-.958-1.205-.958-.381 0-.825 0-1.205.128-.825.32-1.586.83-2.284 1.404v8.49h-1.522c0-1.596-.064-3.192-.064-4.852 0-1.66 0-3.319-.127-4.978.127-.32 0-.766-.126-1.213Z"/>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>PostHog</h1>
-      <p>Open-source product analytics, feature flags &amp; session replay</p>
+    <h1>PostHog</h1>
+    <p>The single platform for all your product analytics, session replay, feature flags, A/B testing, and surveys.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F54E00')"><div class="swatch-color" style="background:#F54E00"></div><div class="swatch-info"><span class="swatch-name">red</span><span class="swatch-hex">#F54E00</span><span class="swatch-use">Primary brand</span></div></div>
+      <div class="swatch" onclick="copyHex('#F7A501')"><div class="swatch-color" style="background:#F7A501"></div><div class="swatch-info"><span class="swatch-name">yellow</span><span class="swatch-hex">#F7A501</span><span class="swatch-use">Highlight, warn</span></div></div>
+      <div class="swatch" onclick="copyHex('#29DBBB')"><div class="swatch-color" style="background:#29DBBB"></div><div class="swatch-info"><span class="swatch-name">teal</span><span class="swatch-hex">#29DBBB</span><span class="swatch-use">Data series 3</span></div></div>
+      <div class="swatch" onclick="copyHex('#8567FF')"><div class="swatch-color" style="background:#8567FF"></div><div class="swatch-info"><span class="swatch-name">lilac</span><span class="swatch-hex">#8567FF</span><span class="swatch-use">Data series 5</span></div></div>
+      <div class="swatch" onclick="copyHex('#B62AD9')"><div class="swatch-color" style="background:#B62AD9"></div><div class="swatch-info"><span class="swatch-name">purple</span><span class="swatch-hex">#B62AD9</span><span class="swatch-use">Data series 6</span></div></div>
+    </div>
+
+    <div class="group-label">Data Palette</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#6AA84F')"><div class="swatch-color" style="background:#6AA84F"></div><div class="swatch-info"><span class="swatch-name">green</span><span class="swatch-hex">#6AA84F</span><span class="swatch-use">Success, series 1</span></div></div>
+      <div class="swatch" onclick="copyHex('#2F80FA')"><div class="swatch-color" style="background:#2F80FA"></div><div class="swatch-info"><span class="swatch-name">blue</span><span class="swatch-hex">#2F80FA</span><span class="swatch-use">Info, series 4</span></div></div>
+      <div class="swatch" onclick="copyHex('#E34C6F')"><div class="swatch-color" style="background:#E34C6F"></div><div class="swatch-info"><span class="swatch-name">pink</span><span class="swatch-hex">#E34C6F</span><span class="swatch-use">Error, series 7</span></div></div>
+      <div class="swatch" onclick="copyHex('#F35454')"><div class="swatch-color" style="background:#F35454"></div><div class="swatch-info"><span class="swatch-name">salmon</span><span class="swatch-hex">#F35454</span><span class="swatch-use">Danger state</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFBA53')"><div class="swatch-color" style="background:#FFBA53"></div><div class="swatch-info"><span class="swatch-name">gold</span><span class="swatch-hex">#FFBA53</span><span class="swatch-use">Series 2 alt</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces — Dark</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#131316')"><div class="swatch-color" style="background:#131316"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#131316</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#232429')"><div class="swatch-color" style="background:#232429"></div><div class="swatch-info"><span class="swatch-name">surface</span><span class="swatch-hex">#232429</span><span class="swatch-use">Cards, panels</span></div></div>
+      <div class="swatch" onclick="copyHex('#2F3037')"><div class="swatch-color" style="background:#2F3037"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#2F3037</span><span class="swatch-use">Dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#EAECF6')"><div class="swatch-color" style="background:#EAECF6"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#EAECF6</span><span class="swatch-use">Primary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#A8ABB8')"><div class="swatch-color" style="background:#A8ABB8"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#A8ABB8</span><span class="swatch-use">Secondary text</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces — Light</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F5F5F0')"><div class="swatch-color" style="background:#F5F5F0;outline:1px solid #D4D5CF"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#F5F5F0</span><span class="swatch-use">Warm off-white page</span></div></div>
+      <div class="swatch" onclick="copyHex('#EEEFE9')"><div class="swatch-color" style="background:#EEEFE9"></div><div class="swatch-info"><span class="swatch-name">surface (tan)</span><span class="swatch-hex">#EEEFE9</span><span class="swatch-use">Cards are tan</span></div></div>
+      <div class="swatch" onclick="copyHex('#D4D5CF')"><div class="swatch-color" style="background:#D4D5CF"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#D4D5CF</span><span class="swatch-use">Dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#0D0E12')"><div class="swatch-color" style="background:#0D0E12"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#0D0E12</span><span class="swatch-use">Primary text</span></div></div>
     </div>
   </div>
 
-  <!-- Colors -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1D4AFF', this)"><div class="swatch-dot" style="background:#1D4AFF"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#1D4AFF</span></div></div>
-        <div class="swatch" onclick="copyHex('#F9BD2B', this)"><div class="swatch-dot" style="background:#F9BD2B"></div><div class="swatch-info"><span class="swatch-name">Yellow</span><span class="swatch-hex">#F9BD2B</span></div></div>
-        <div class="swatch" onclick="copyHex('#F54E00', this)"><div class="swatch-dot" style="background:#F54E00"></div><div class="swatch-info"><span class="swatch-name">Red</span><span class="swatch-hex">#F54E00</span></div></div>
-        <div class="swatch" onclick="copyHex('#36AE7C', this)"><div class="swatch-dot" style="background:#36AE7C"></div><div class="swatch-info"><span class="swatch-name">Green</span><span class="swatch-hex">#36AE7C</span></div></div>
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div class="type-name">display</div>
+        <div class="type-sample" style="font-family:'Squeak','IBM Plex Sans',system-ui,sans-serif;font-weight:700;font-size:48px;line-height:1.05;letter-spacing:-0.02em">Product OS</div>
+        <div class="type-specs"><span class="spec-pill">Squeak</span><span class="spec-pill">700</span><span class="spec-pill">48px</span></div>
       </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#151515', this)"><div class="swatch-dot" style="background:#151515;border:1px solid #3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#151515</span></div></div>
-        <div class="swatch" onclick="copyHex('#1D1D1D', this)"><div class="swatch-dot" style="background:#1D1D1D;border:1px solid #3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#1D1D1D</span></div></div>
-        <div class="swatch" onclick="copyHex('#282828', this)"><div class="swatch-dot" style="background:#282828;border:1px solid #3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#282828</span></div></div>
-        <div class="swatch" onclick="copyHex('#3A3A3A', this)"><div class="swatch-dot" style="background:#3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#3A3A3A</span></div></div>
+      <div class="type-row">
+        <div class="type-name">heading</div>
+        <div class="type-sample" style="font-size:24px;font-weight:600;line-height:1.2">All your developer tools in one place.</div>
+        <div class="type-specs"><span class="spec-pill">IBM Plex Sans</span><span class="spec-pill">600</span><span class="spec-pill">24px</span></div>
       </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FFFFFFDE', this)"><div class="swatch-dot" style="background:#FFFFFFDE"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#FFF ·87%</span></div></div>
-        <div class="swatch" onclick="copyHex('#FFFFFF99', this)"><div class="swatch-dot" style="background:#FFFFFF99;border:1px solid #3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#FFF ·60%</span></div></div>
-        <div class="swatch" onclick="copyHex('#FFFFFF60', this)"><div class="swatch-dot" style="background:#FFFFFF60;border:1px solid #3A3A3A"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#FFF ·38%</span></div></div>
+      <div class="type-row">
+        <div class="type-name">body-lg</div>
+        <div class="type-sample" style="font-size:16px;color:var(--text-2)">PostHog gives engineers everything to build, test, measure, and ship successful products faster.</div>
+        <div class="type-specs"><span class="spec-pill">IBM Plex Sans</span><span class="spec-pill">400</span><span class="spec-pill">16px</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">body</div>
+        <div class="type-sample" style="font-size:14px;color:var(--text-2)">Product Analytics · Session Replay · Feature Flags · A/B Testing · Surveys</div>
+        <div class="type-specs"><span class="spec-pill">IBM Plex Sans</span><span class="spec-pill">400</span><span class="spec-pill">14px</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">mono</div>
+        <div class="type-sample" style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--pill-txt)">pageview · $identify · user_signed_up · feature_flag_called</div>
+        <div class="type-specs"><span class="spec-pill">IBM Plex Mono</span><span class="spec-pill">400</span><span class="spec-pill">12px</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Typography -->
   <div class="section">
-    <div class="section-title">Typography — Inter</div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">800</span></div>
-      <div class="type-sample" style="font-size:36px;font-weight:800;">Display Heading</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">28px</span><span class="spec-pill">700</span></div>
-      <div class="type-sample" style="font-size:28px;font-weight:700;">Page Title</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div>
-      <div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:15px;">Body text — default content, descriptions, and all UI prose</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — labels, captions, table cells</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div>
-      <div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">posthog.capture('user_signed_up', { plan: 'free' })</div>
-    </div>
-  </div>
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
 
-  <!-- Components -->
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
       <div class="comp-card">
-        <h3>Buttons</h3>
+        <div class="comp-title">LemonButton</div>
         <div class="btn-row">
-          <button class="btn btn-primary">Analyze</button>
-          <button class="btn btn-yellow">Upgrade</button>
-          <button class="btn btn-ghost">Export</button>
+          <button class="lbtn lbtn-primary">Get started – free</button>
+        </div>
+        <div class="btn-row">
+          <button class="lbtn lbtn-secondary">Talk to a human</button>
+        </div>
+        <div class="btn-row">
+          <button class="lbtn lbtn-danger">Delete insight</button>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Input</h3>
-        <input class="input-demo" type="text" placeholder="Search events..." />
-        <input class="input-demo" type="text" placeholder="Filter by property..." />
+        <div class="comp-title">LemonInput</div>
+        <input class="linput" type="text" placeholder="Search events…" style="margin-bottom:8px">
       </div>
+
       <div class="comp-card">
-        <h3>Event Badges</h3>
-        <div class="badge-row">
-          <span class="badge badge-capture">$pageview</span>
-          <span class="badge badge-success">$identify</span>
-          <span class="badge badge-warn">$autocapture</span>
-          <span class="badge badge-error">$exception</span>
+        <div class="comp-title">LemonTag &amp; Badges</div>
+        <div class="tags-row">
+          <span class="tag">Product Analytics</span>
+          <span class="tag">Feature Flags</span>
+        </div>
+        <div class="badges-row">
+          <span class="badge badge-success">Activated</span>
+          <span class="badge badge-warn">Degraded</span>
+          <span class="badge badge-error">Error</span>
+          <span class="badge badge-info">Beta</span>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Metric Card</h3>
-        <div class="metric-card">
-          <div class="metric-value">24,891</div>
-          <div class="metric-label">Monthly Active Users</div>
-          <div class="metric-change">↑ 12.4% vs last month</div>
+        <div class="comp-title">Metric Cards</div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Unique users</div>
+            <div class="metric-value">24,183</div>
+            <div class="metric-delta delta-up">↑ 12.4%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Events today</div>
+            <div class="metric-value">1.2M</div>
+            <div class="metric-delta delta-up">↑ 8.1%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Conversion</div>
+            <div class="metric-value">3.7%</div>
+            <div class="metric-delta delta-dn">↓ 0.4%</div>
+          </div>
         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Signature Component — Product Analytics</div>
+    <div class="panel">
+      <div class="panel-toolbar">
+        <span class="panel-toolbar-title">Insights</span>
+        <div class="tab-row">
+          <button class="tab active" id="tab-events" onclick="switchTab('events')">Events</button>
+          <button class="tab" id="tab-funnel" onclick="switchTab('funnel')">Funnel</button>
+        </div>
+        <button class="lbtn lbtn-secondary" style="height:28px;padding:0 10px;font-size:12px;margin-left:8px">New insight</button>
+      </div>
+
+      <div class="panel-pane active" id="pane-events">
+        <table class="evt-table" id="events-table">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Person</th>
+              <th>URL / Screen</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="events-body"></tbody>
+        </table>
+      </div>
+
+      <div class="panel-pane" id="pane-funnel">
+        <div class="funnel-pane" id="funnel-steps"></div>
       </div>
     </div>
   </div>
 
-  <!-- Spacing -->
   <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use bold font weights (700-800) for headings and CTAs</li>
-          <li>Use yellow for hover states and interactive highlights</li>
-          <li>Show absolute numbers alongside percentages</li>
-          <li>Keep dark backgrounds — low glare for developers</li>
-          <li>Use the hedgehog mascot for empty states</li>
-        </ul>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="gr-col">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-item do">Use Squeak only for hero and display headings — never body copy or sub-headings</div>
+        <div class="gr-item do">Use #F54E00 as the single primary CTA per view — PostHog's brand orange-red</div>
+        <div class="gr-item do">Apply radius-lg (20px) to cards, panels, and modals — PostHog's signature shape</div>
+        <div class="gr-item do">Use tan (#EEEFE9) card backgrounds on the warm off-white (#F5F5F0) page in light mode — the depth is intentional</div>
+        <div class="gr-item do">Use IBM Plex Mono for event names, user IDs, and all identifiers in data tables</div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use yellow on large background fills</li>
-          <li>Don't tone down colors — the boldness is intentional</li>
-          <li>Don't use thin font weights (300, 200) on dark bg</li>
-          <li>Don't use pie charts in analytics views</li>
-          <li>Don't add heavy shadows to chart elements</li>
-        </ul>
+      <div class="gr-col">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-item dont">Use #F54E00 for error states — use salmon (#F35454) or pink (#E34C6F) instead</div>
+        <div class="gr-item dont">Use pure black or cool gray for dark backgrounds — dark bg is #131316, a near-black with warm undertone</div>
+        <div class="gr-item dont">Apply radius-lg to small buttons or inputs — those use radius-sm (4px)</div>
+        <div class="gr-item dont">Mix Squeak and IBM Plex Sans at the same heading level — Squeak is display-only</div>
+        <div class="gr-item dont">Swap tan cards for white cards in light mode — white on white collapses surface hierarchy</div>
       </div>
     </div>
   </div>
@@ -381,14 +401,112 @@ body {
 </div>
 
 <script>
-
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(function(){});
+  var t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
+
+function switchTab(tab) {
+  document.getElementById('pane-events').classList.toggle('active', tab === 'events');
+  document.getElementById('pane-funnel').classList.toggle('active', tab === 'funnel');
+  document.getElementById('tab-events').classList.toggle('active', tab === 'events');
+  document.getElementById('tab-funnel').classList.toggle('active', tab === 'funnel');
+}
+
+var AVATAR_COLORS = ['#F54E00','#6AA84F','#2F80FA','#B62AD9','#29DBBB','#F7A501','#E34C6F'];
+
+var SEED_EVENTS = [
+  { event: 'user_signed_up',      person: 'sarah.chen',   url: '/signup',             time: '0s ago' },
+  { event: 'pageview',            person: 'anon_3f8a2c',  url: '/pricing',            time: '2s ago' },
+  { event: '$identify',           person: 'james.r',      url: '/dashboard',          time: '5s ago' },
+  { event: 'feature_flag_called', person: 'priya.n',      url: '/product-analytics',  time: '8s ago' },
+  { event: 'pageview',            person: 'anon_9d1e4f',  url: '/docs/sdks/node',     time: '11s ago' },
+  { event: 'session_started',     person: 'miguel.t',     url: '/onboarding',         time: '14s ago' },
+  { event: 'button_clicked',      person: 'sarah.chen',   url: '/signup',             time: '17s ago' },
+  { event: 'pageview',            person: 'anon_7b3c1a',  url: '/customers',          time: '21s ago' },
+  { event: 'survey_shown',        person: 'james.r',      url: '/dashboard',          time: '25s ago' },
+  { event: '$autocapture',        person: 'priya.n',      url: '/product-analytics',  time: '28s ago' },
+  { event: 'recording_started',   person: 'anon_3f8a2c',  url: '/pricing',            time: '31s ago' },
+  { event: 'user_signed_up',      person: 'tomas.w',      url: '/signup',             time: '34s ago' },
+  { event: 'pageview',            person: 'anon_2e9b5d',  url: '/',                   time: '38s ago' },
+  { event: 'experiment_viewed',   person: 'sarah.chen',   url: '/onboarding',         time: '42s ago' },
+  { event: '$identify',           person: 'tomas.w',      url: '/dashboard',          time: '45s ago' }
+];
+
+var LIVE_EVENTS = [
+  { event: 'pageview',            person: 'anon_6c4d2f',  url: '/product-analytics',  time: 'just now' },
+  { event: 'button_clicked',      person: 'alex.m',       url: '/pricing',             time: 'just now' },
+  { event: 'user_signed_up',      person: 'nina.k',       url: '/signup',              time: 'just now' },
+  { event: 'feature_flag_called', person: 'anon_1a8f3e',  url: '/onboarding',          time: 'just now' },
+  { event: '$autocapture',        person: 'james.r',      url: '/dashboard',           time: 'just now' }
+];
+
+function makeRow(e, idx) {
+  var color = AVATAR_COLORS[idx % AVATAR_COLORS.length];
+  var initials = e.person.startsWith('anon') ? '?' : e.person.split('.').map(function(p){ return p[0].toUpperCase(); }).join('');
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td><span class="evt-pill">' + e.event + '</span></td>' +
+    '<td><span class="person-chip"><span class="avatar" style="background:' + color + '">' + initials + '</span>' + e.person + '</span></td>' +
+    '<td class="url-cell">' + e.url + '</td>' +
+    '<td class="ts">' + e.time + '</td>';
+  return tr;
+}
+
+function renderSeeds() {
+  var tbody = document.getElementById('events-body');
+  tbody.innerHTML = '';
+  SEED_EVENTS.forEach(function(e, i){ tbody.appendChild(makeRow(e, i)); });
+}
+
+renderSeeds();
+
+var tickIdx = 0;
+setInterval(function() {
+  var tbody = document.getElementById('events-body');
+  if (!tbody || !document.getElementById('pane-events').classList.contains('active')) return;
+  var e = LIVE_EVENTS[tickIdx % LIVE_EVENTS.length];
+  var color = AVATAR_COLORS[tickIdx % AVATAR_COLORS.length];
+  tickIdx++;
+  var rows = tbody.querySelectorAll('tr');
+  if (rows.length >= 20) rows[rows.length - 1].remove();
+  var tr = makeRow(e, tickIdx);
+  tr.style.background = 'rgba(245,78,0,0.07)';
+  tbody.insertBefore(tr, tbody.firstChild);
+  setTimeout(function(){ tr.style.background = ''; }, 800);
+}, 2400);
+
+var FUNNEL_STEPS = [
+  { label: 'Visited /signup',        users: 12480, pct: 100  },
+  { label: 'Clicked "Get started"',  users: 7820,  pct: 62.7 },
+  { label: 'Completed onboarding',   users: 4310,  pct: 34.5 },
+  { label: 'Sent first event',       users: 2890,  pct: 23.2 },
+  { label: 'Invited a team member',  users: 1140,  pct: 9.1  }
+];
+
+(function renderFunnel() {
+  var container = document.getElementById('funnel-steps');
+  FUNNEL_STEPS.forEach(function(step, i) {
+    var dropOff = i > 0 ? (FUNNEL_STEPS[i-1].users - step.users).toLocaleString() : null;
+    var el = document.createElement('div');
+    el.className = 'funnel-step';
+    el.innerHTML =
+      '<div class="funnel-row">' +
+        '<span class="funnel-name">' + (i+1) + '. ' + step.label + '</span>' +
+        '<span class="funnel-stat">' + step.users.toLocaleString() + ' users · ' + step.pct + '%</span>' +
+      '</div>' +
+      '<div class="funnel-track">' +
+        '<div class="funnel-fill" style="width:' + step.pct + '%">' +
+          '<span class="funnel-fill-pct">' + step.pct + '%</span>' +
+        '</div>' +
+      '</div>' +
+      (dropOff ? '<div class="funnel-dropoff">↓ ' + dropOff + ' dropped off</div>' : '');
+    container.appendChild(el);
+  });
+})();
 </script>
 </body>
 </html>
