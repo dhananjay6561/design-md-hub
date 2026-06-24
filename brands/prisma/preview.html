@@ -1,383 +1,445 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Prisma – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prisma — Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root[data-theme="dark"] {
-  --bg: #0F1117;
-  --surface: #161B27;
-  --elevated: #1E2533;
-  --border: #2A3141;
-  --primary: #16A394;
-  --primary-hover: #12907F;
-  --indigo: #5A67D8;
-  --warning: #F59E0B;
-  --danger: #EF4444;
-  --text: #F8F9FC;
-  --text-2: #9BA3BF;
-  --text-3: #5C677D;
-  --text-code: #7DD3C8;
-  --code-bg: #0D1117;
-  --toggle-bg: #1E2533;
-  --toggle-text: #F8F9FC;
-  --toggle-border: #2A3141;
+@font-face{font-family:'Mona Sans';src:url('https://github.githubassets.com/assets/MonaSansVF-wdth-wght-opsz-902d64c7ad02.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal-400:#00d3bd;
+  --green-500:#00c758;
+  --green-400:#05df72;
+  --indigo-400:#7d87ff;
+  --indigo-300:#a4b3ff;
+  --blue-500:#3080ff;
+  --red-500:#fb2c36;
+  --amber-400:#fcbb00;
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-display:'Mona Sans','Inter',system-ui,sans-serif;
+  --font-mono:ui-monospace,'Cascadia Code','Source Code Pro',Menlo,Consolas,monospace;
+  --radius-md:6px;
+  --radius-lg:12px;
 }
-:root[data-theme="light"] {
-  --bg: #F7F8FC;
-  --surface: #FFFFFF;
-  --elevated: #EEF0F8;
-  --border: #D6DAE8;
-  --primary: #16A394;
-  --primary-hover: #12907F;
-  --indigo: #4F5BD5;
-  --warning: #D48C00;
-  --danger: #DC2626;
-  --text: #0F1117;
-  --text-2: #4B5470;
-  --text-3: #8A92AA;
-  --text-code: #0D7A70;
-  --code-bg: #F0F2F8;
-  --toggle-bg: #EEF0F8;
-  --toggle-text: #0F1117;
-  --toggle-border: #D6DAE8;
+:root[data-theme="dark"]{
+  --bg:#131420;
+  --bg2:#1d242f;
+  --surface:#1a202c;
+  --elevated:#1f2937;
+  --border:#1d242f;
+  --text:#f7fafc;
+  --text-2:#e2e8f0;
+  --text-3:#9ca3af;
+  --text-4:#6b7280;
+  --primary:#16a394;
+  --primary-h:#2dd4bf;
+  --ppg-btn:#14b8a6;
+  --ppg-btn-h:#2dd4bf;
+  --ppg-text:#2dd4bf;
+  --ppg-bg:rgba(20,184,166,0.12);
+  --ppg-border:rgba(20,184,166,0.35);
+  --orm-btn:#6366f1;
+  --orm-btn-h:#818cf8;
+  --orm-text:#818cf8;
+  --orm-bg:rgba(99,102,241,0.12);
+  --orm-border:rgba(99,102,241,0.35);
+  --err-bg:rgba(251,44,54,0.15);
+  --err-text:#fb2c36;
+  --err-border:rgba(251,44,54,0.4);
+  --warn-bg:rgba(252,187,0,0.12);
+  --warn-text:#fcbb00;
+  --warn-border:rgba(252,187,0,0.35);
+  --ok-bg:rgba(20,184,166,0.12);
+  --ok-text:#2dd4bf;
+  --ok-border:rgba(20,184,166,0.35);
+  --neutral-bg:rgba(156,163,175,0.1);
+  --neutral-text:#9ca3af;
+  --neutral-border:rgba(156,163,175,0.3);
+  --code-bg:#0d1117;
+  --ring:rgba(22,163,148,0.3);
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Space Grotesk', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  transition: background 0.2s, color 0.2s;
+:root[data-theme="light"]{
+  --bg:#ffffff;
+  --bg2:#f7fafc;
+  --surface:#ffffff;
+  --elevated:#f3f4f6;
+  --border:#e2e8f0;
+  --text:#1d242f;
+  --text-2:#374151;
+  --text-3:#6b7280;
+  --text-4:#9ca3af;
+  --primary:#16a394;
+  --primary-h:#0d9488;
+  --ppg-btn:#14b8a6;
+  --ppg-btn-h:#0d9488;
+  --ppg-text:#0d9488;
+  --ppg-bg:#f0fdfa;
+  --ppg-border:#99f6e4;
+  --orm-btn:#6366f1;
+  --orm-btn-h:#4f46e5;
+  --orm-text:#4f46e5;
+  --orm-bg:#eef2ff;
+  --orm-border:#c7d2fe;
+  --err-bg:rgba(251,44,54,0.08);
+  --err-text:#dc2626;
+  --err-border:#fca5a5;
+  --warn-bg:#fffbeb;
+  --warn-text:#d97706;
+  --warn-border:#fcd34d;
+  --ok-bg:#f0fdfa;
+  --ok-text:#0d9488;
+  --ok-border:#99f6e4;
+  --neutral-bg:#f3f4f6;
+  --neutral-text:#6b7280;
+  --neutral-border:#e5e7eb;
+  --code-bg:#f8fafc;
+  --ring:rgba(22,163,148,0.25);
 }
-
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--primary);
-  color: #fff;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  z-index: 1000;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-logo { flex-shrink: 0; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-
-.section { margin-bottom: 56px; }
-.section-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 20px;
-}
-
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  margin-bottom: 6px;
-}
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill {
-  font-size: 10px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 4px;
-  background: var(--elevated);
-  color: var(--text-2);
-  white-space: nowrap;
-}
-.type-sample { flex: 1; }
-
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 20px;
-}
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  height: 38px;
-  padding: 0 18px;
-  border-radius: 6px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.15s;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-secondary:hover { border-color: var(--primary); }
-
-.input-demo {
-  width: 100%;
-  height: 38px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s;
-  margin-bottom: 10px;
-}
-.input-demo:focus { border-color: var(--primary); }
-
-/* Code block */
-.code-block {
-  background: var(--code-bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 14px 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  line-height: 1.7;
-  overflow-x: auto;
-}
-.kw { color: #F472B6; }
-.ty { color: #7DD3C8; }
-.str { color: #86EFAC; }
-.cm { color: var(--text-3); }
-
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 4px;
-  border: 1px solid;
-}
-.badge-success { background: rgba(22,163,148,0.12); color: #16A394; border-color: rgba(22,163,148,0.3); }
-.badge-warning { background: rgba(245,158,11,0.12); color: #F59E0B; border-color: rgba(245,158,11,0.3); }
-.badge-danger { background: rgba(239,68,68,0.12); color: #EF4444; border-color: rgba(239,68,68,0.3); }
-.badge-indigo { background: rgba(90,103,216,0.12); color: #5A67D8; border-color: rgba(90,103,216,0.3); }
-
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--primary); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--primary); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-3);padding:8px;border-radius:var(--radius-md);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--primary)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--elevated);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:500;padding:8px 18px;border-radius:var(--radius-md);transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.hero{padding:64px 0 56px;border-bottom:1px solid var(--border)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px 80px}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:20px;color:var(--text)}
+.hero h1{font-family:var(--font-display);font-size:40px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;color:var(--text)}
+.hero p{font-size:16px;color:var(--text-3);max-width:540px;line-height:1.6}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-4);margin-bottom:28px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-4);margin:28px 0 12px}
+.group-label:first-of-type{margin-top:0}
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--primary)}
+.swatch-color{height:80px}
+.swatch-info{padding:9px 11px;background:var(--surface)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-family:var(--font-mono);font-size:11px;color:var(--text-4);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text-4);margin-top:2px;display:block}
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:100px 1fr auto;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-family:var(--font-mono);font-size:11px;color:var(--text-4)}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.spec-pill{font-size:10px;font-family:var(--font-mono);background:var(--elevated);border:1px solid var(--border);color:var(--text-4);padding:2px 7px;border-radius:4px;white-space:nowrap}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.comp-card.full{grid-column:span 2}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-4);margin-bottom:16px}
+.btn{font-family:var(--font-sans);font-size:14px;font-weight:600;height:36px;padding:0 16px;border-radius:var(--radius-md);border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-ppg{background:var(--ppg-btn);color:#fff;border-color:transparent}
+.btn-ppg:hover{background:var(--ppg-btn-h)}
+.btn-orm{background:var(--orm-btn);color:#fff;border-color:transparent}
+.btn-orm:hover{background:var(--orm-btn-h)}
+.btn-ghost{background:transparent;color:var(--text-3);border-color:var(--border)}
+.btn-ghost:hover{border-color:var(--primary);color:var(--text)}
+.btn-danger{background:var(--err-bg);color:var(--err-text);border-color:var(--err-border)}
+.btn-danger:hover{background:var(--err-text);color:#fff}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.btn-row:last-child{margin-bottom:0}
+.input-block{display:flex;flex-direction:column;gap:8px}
+.prisma-input{background:var(--elevated);border:1px solid var(--border);border-radius:var(--radius-md);height:36px;padding:0 12px;font-size:13px;font-family:var(--font-sans);color:var(--text);outline:none;width:100%;transition:border-color .12s,box-shadow .12s}
+.prisma-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--ring)}
+.prisma-input::placeholder{color:var(--text-4)}
+.prisma-input-mono{font-family:var(--font-mono);font-size:12px}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:600;height:22px;padding:0 9px;border-radius:4px;border:1px solid transparent;letter-spacing:0.02em}
+.badge-ppg{background:var(--ppg-bg);color:var(--ppg-text);border-color:var(--ppg-border)}
+.badge-orm{background:var(--orm-bg);color:var(--orm-text);border-color:var(--orm-border)}
+.badge-neutral{background:var(--neutral-bg);color:var(--neutral-text);border-color:var(--neutral-border)}
+.badge-err{background:var(--err-bg);color:var(--err-text);border-color:var(--err-border)}
+.badge-warn{background:var(--warn-bg);color:var(--warn-text);border-color:var(--warn-border)}
+.schema-block{background:var(--code-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 20px;font-family:var(--font-mono);font-size:13px;line-height:1.8;overflow-x:auto}
+.kw-model{color:var(--teal-400)}
+.kw-type{color:var(--indigo-400)}
+.kw-optional{color:var(--text-4)}
+.kw-directive{color:var(--text-3)}
+.kw-relation{color:var(--indigo-300)}
+.studio-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.studio-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--elevated);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.studio-bar-title{font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--ppg-text);flex:1;min-width:60px}
+.studio-select{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-md);height:30px;padding:0 10px;font-family:var(--font-mono);font-size:12px;cursor:pointer;outline:none;transition:border-color .12s}
+.studio-select:focus{border-color:var(--primary)}
+.studio-search{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-md);height:30px;padding:0 10px;font-family:var(--font-mono);font-size:12px;outline:none;transition:border-color .12s;width:160px}
+.studio-search:focus{border-color:var(--primary)}
+.studio-search::placeholder{color:var(--text-4)}
+.studio-add{background:var(--ppg-btn);color:#fff;border:none;border-radius:var(--radius-md);height:30px;padding:0 14px;font-size:12px;font-weight:600;font-family:var(--font-sans);cursor:pointer;transition:background .12s}
+.studio-add:hover{background:var(--ppg-btn-h)}
+.studio-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:12px}
+.studio-table thead{background:var(--elevated)}
+.studio-table th{padding:8px 12px;text-align:left;font-weight:600;color:var(--text-3);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+.col-name{color:var(--text)}
+.col-type{font-size:10px;font-weight:500;color:var(--ppg-text);background:var(--ppg-bg);border:1px solid var(--ppg-border);border-radius:3px;padding:1px 5px;margin-left:6px;vertical-align:middle;display:inline-block}
+.col-type.orm{color:var(--orm-text);background:var(--orm-bg);border-color:var(--orm-border)}
+.studio-table td{padding:7px 12px;border-bottom:1px solid var(--border);color:var(--text-2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.studio-table tr:last-child td{border-bottom:none}
+.studio-table tr{cursor:pointer;transition:background .08s}
+.studio-table tr:hover td{background:var(--elevated)}
+.studio-table tr.sel td{background:rgba(20,184,166,0.07)}
+.studio-cb{width:14px;height:14px;accent-color:var(--primary);cursor:pointer}
+.null-val{color:var(--text-4);font-style:italic}
+.bool-t{color:var(--ok-text)}
+.bool-f{color:var(--err-text)}
+.id-val{color:var(--text-4)}
+.rel-chip{display:inline-flex;align-items:center;gap:3px;background:var(--orm-bg);color:var(--orm-text);border:1px solid var(--orm-border);border-radius:3px;padding:1px 7px;font-size:11px;font-weight:500}
+.studio-status{display:flex;align-items:center;gap:10px;padding:6px 14px;background:var(--elevated);border-top:1px solid var(--border);font-family:var(--font-mono);font-size:11px;color:var(--text-4)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--ok-text);flex-shrink:0}
+.status-query{margin-left:auto}
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px}
+.gr-heading.do{color:var(--ok-text)}
+.gr-heading.dont{color:var(--err-text)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text-3);line-height:1.55;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--ok-text)}
+.dont .gr-item::before{background:var(--err-text)}
+@media(max-width:640px){
+  .comp-grid{grid-template-columns:1fr}
+  .comp-card.full{grid-column:span 1}
+  .gr-cols{grid-template-columns:1fr}
+  .type-row{grid-template-columns:80px 1fr}
+  .spec-pills{display:none}
+}
 </style>
 </head>
 <body>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
+    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
+  </svg>
+</button>
+<div class="toast" id="toast"></div>
 
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-
-<div class="container">
-
-  <!-- Hero -->
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#0F1117"/>
-        <!-- Prisma triangle logo -->
-        <path d="M36 14L16 54H56L36 14Z" fill="none" stroke="#16A394" stroke-width="2.5"/>
-        <path d="M36 14L16 54L36 44L36 14Z" fill="#16A394" opacity="0.8"/>
-        <path d="M36 44L16 54H56L36 44Z" fill="#16A394" opacity="0.4"/>
-        <circle cx="36" cy="14" r="3" fill="#16A394"/>
-        <circle cx="16" cy="54" r="3" fill="#16A394"/>
-        <circle cx="56" cy="54" r="3" fill="#16A394"/>
+      <svg width="120" height="37" viewBox="0 0 90 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Prisma logo">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.209637 19.0073C-0.0659575 18.5726 -0.070121 18.0189 0.198904 17.58L10.3282 1.05707C10.8916 0.138071 12.252 0.218426 12.7033 1.19735L21.9569 21.2706C22.3002 22.0154 21.905 22.8917 21.1194 23.1274L6.72474 27.4458C6.14558 27.6195 5.52155 27.3867 5.19781 26.876L0.209637 19.0073ZM11.4969 5.88824C11.5945 5.40217 12.2605 5.33208 12.4572 5.78717L18.8402 20.5571C18.9603 20.8352 18.8108 21.1559 18.5205 21.2425L8.57492 24.2114C8.20935 24.3205 7.85916 24.0011 7.93428 23.627L11.4969 5.88824ZM48.4948 21.1371H51.3226V10.772H48.4948V21.1371ZM48.3744 8.09277C48.3744 7.17221 48.8878 6.7116 49.9137 6.7116C50.9394 6.7116 51.4527 7.17221 51.4527 8.09277C51.4527 8.53176 51.3244 8.87321 51.068 9.11743C50.8114 9.36165 50.4267 9.48343 49.9137 9.48343C48.8878 9.48343 48.3744 9.01987 48.3744 8.09277ZM87.1709 16.335L86.0768 16.372C85.2548 16.3969 84.6429 16.5455 84.2412 16.8172C83.8392 17.0893 83.6386 17.5031 83.6386 18.0596C83.6386 18.8567 84.0959 19.2555 85.0106 19.2555C85.6656 19.2555 86.1897 19.0672 86.5819 18.6898C86.9744 18.313 87.1709 17.8124 87.1709 17.1878V16.335ZM88.0053 21.1375L87.4583 19.7282H87.384C86.908 20.3279 86.4182 20.7437 85.9144 20.9755C85.4109 21.2072 84.7542 21.3228 83.9446 21.3228C82.9491 21.3228 82.1661 21.0386 81.5941 20.47C81.0226 19.9017 80.7368 19.0918 80.7368 18.0409C80.7368 16.941 81.1214 16.1298 81.8907 15.6073C82.6607 15.0851 83.8209 14.7961 85.3723 14.7404L87.1709 14.6848V14.2304C87.1709 13.1799 86.633 12.6544 85.5576 12.6544C84.7293 12.6544 83.7558 12.9045 82.6371 13.4054L81.7009 11.4955C82.8938 10.8716 84.2167 10.559 85.6689 10.559C87.0596 10.559 88.1258 10.8621 88.8676 11.4677C89.6091 12.0734 89.98 12.9946 89.98 14.2304V21.1375H88.0053ZM72.4802 21.1375H69.6524V15.0834C69.6524 14.3357 69.527 13.775 69.2772 13.4008C69.0265 13.0269 68.6326 12.8397 68.0948 12.8397C67.3719 12.8397 66.8465 13.1058 66.5188 13.6371C66.1911 14.1688 66.0275 15.0435 66.0275 16.261V21.1375H63.1996V10.7723H65.3599L65.74 12.0982H65.8978C66.1757 11.6225 66.5778 11.25 67.1029 10.9812C67.6283 10.7121 68.231 10.5776 68.9109 10.5776C70.4623 10.5776 71.5128 11.0846 72.0631 12.0982H72.3132C72.5915 11.616 73.001 11.2421 73.5419 10.9763C74.0827 10.7105 74.6929 10.5776 75.3728 10.5776C76.5471 10.5776 77.4359 10.8791 78.0382 11.4817C78.6409 12.0844 78.9421 13.0502 78.9421 14.3786V21.1375H76.1051V15.0834C76.1051 14.3357 75.9798 13.775 75.73 13.4008C75.4792 13.0269 75.0854 12.8397 74.5475 12.8397C73.8555 12.8397 73.3379 13.0872 72.9945 13.5815C72.6517 14.0761 72.4802 14.8608 72.4802 15.9362V21.1375ZM60.17 20.4885C60.9088 19.9323 61.2781 19.1227 61.2781 18.0594C61.2781 17.5468 61.1887 17.1045 61.0093 16.7336C60.8299 16.3627 60.5517 16.0353 60.1749 15.7508C59.7981 15.4667 59.2046 15.1609 58.3946 14.8332C57.4862 14.4685 56.8976 14.1932 56.6285 14.0079C56.3601 13.8226 56.2252 13.6033 56.2252 13.3496C56.2252 12.8985 56.6426 12.6729 57.477 12.6729C57.9465 12.6729 58.4071 12.7443 58.8582 12.886C59.3093 13.0284 59.7948 13.2104 60.314 13.4331L61.1668 11.3936C59.9863 10.8498 58.7718 10.5778 57.5232 10.5778C56.2127 10.5778 55.2009 10.8295 54.4872 11.3333C53.7729 11.8371 53.416 12.5495 53.416 13.4701C53.416 14.0079 53.5012 14.461 53.6714 14.8286C53.841 15.1963 54.113 15.5223 54.4872 15.8065C54.8607 16.091 55.4467 16.4 56.2438 16.7336C56.8 16.9686 57.2453 17.1742 57.5788 17.3503C57.9128 17.5265 58.1475 17.6843 58.2837 17.8231C58.4195 17.9622 58.4876 18.1429 58.4876 18.3655C58.4876 18.9587 57.9743 19.2553 56.9483 19.2553C56.4478 19.2553 55.8684 19.1718 55.2103 19.0052C54.5517 18.8382 53.9601 18.6313 53.4347 18.3838V20.7203C53.8983 20.918 54.3959 21.0679 54.9275 21.1701C55.4591 21.2719 56.1014 21.3229 56.8557 21.3229C58.3266 21.3229 59.4314 21.0447 60.17 20.4885ZM46.9948 10.661C46.7414 10.6054 46.4232 10.5776 46.0398 10.5776C45.3969 10.5776 44.8021 10.7553 44.2554 11.1108C43.708 11.4664 43.2739 11.9345 42.9524 12.5152H42.8136L42.3962 10.7723H40.2546V21.1375H43.0824V15.8622C43.0824 15.0278 43.3341 14.3786 43.8376 13.9151C44.3418 13.4515 45.0446 13.2197 45.9472 13.2197C46.2749 13.2197 46.5528 13.2508 46.7817 13.3124L46.9948 10.661ZM31.9317 13.9614H32.8774C33.7613 13.9614 34.4223 13.7869 34.8613 13.4376C35.3003 13.0886 35.5196 12.5799 35.5196 11.9124C35.5196 11.239 35.3356 10.7414 34.968 10.4199C34.6 10.0984 34.0239 9.93766 33.2388 9.93766H31.9317V13.9614ZM38.4214 11.8106C38.4214 13.2694 37.9657 14.385 37.0537 15.1573C36.1423 15.9302 34.8459 16.3162 33.1649 16.3162H31.9317V21.1373H29.0577V7.58296H33.3872C35.0315 7.58296 36.2814 7.93684 37.1375 8.64461C37.9936 9.35238 38.4214 10.4079 38.4214 11.8106Z" fill="currentColor"/>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>Prisma</h1>
-      <p>Next-generation ORM for Node.js &amp; TypeScript</p>
+    <h1>Prisma</h1>
+    <p>The complete TypeScript ORM — type-safe database access, automated migrations, and a visual data browser.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Prisma Postgres (PPG)</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00d3bd')"><div class="swatch-color" style="background:#00d3bd"></div><div class="swatch-info"><span class="swatch-name">teal-400</span><span class="swatch-hex">#00d3bd</span><span class="swatch-use">PPG brand teal</span></div></div>
+      <div class="swatch" onclick="copyHex('#00c758')"><div class="swatch-color" style="background:#00c758"></div><div class="swatch-info"><span class="swatch-name">green-500</span><span class="swatch-hex">#00c758</span><span class="swatch-use">PPG success green</span></div></div>
+      <div class="swatch" onclick="copyHex('#05df72')"><div class="swatch-color" style="background:#05df72"></div><div class="swatch-info"><span class="swatch-name">green-400</span><span class="swatch-hex">#05df72</span><span class="swatch-use">PPG highlight green</span></div></div>
+    </div>
+
+    <div class="group-label">Prisma ORM</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#7d87ff')"><div class="swatch-color" style="background:#7d87ff"></div><div class="swatch-info"><span class="swatch-name">indigo-400</span><span class="swatch-hex">#7d87ff</span><span class="swatch-use">ORM brand indigo</span></div></div>
+      <div class="swatch" onclick="copyHex('#a4b3ff')"><div class="swatch-color" style="background:#a4b3ff"></div><div class="swatch-info"><span class="swatch-name">indigo-300</span><span class="swatch-hex">#a4b3ff</span><span class="swatch-use">ORM light accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#3080ff')"><div class="swatch-color" style="background:#3080ff"></div><div class="swatch-info"><span class="swatch-name">blue-500</span><span class="swatch-hex">#3080ff</span><span class="swatch-use">ORM informational</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces — Dark</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#131420')"><div class="swatch-color" style="background:#131420"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#131420</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#1a202c')"><div class="swatch-color" style="background:#1a202c"></div><div class="swatch-info"><span class="swatch-name">surface</span><span class="swatch-hex">#1a202c</span><span class="swatch-use">Card surface</span></div></div>
+      <div class="swatch" onclick="copyHex('#1d242f')"><div class="swatch-color" style="background:#1d242f"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#1d242f</span><span class="swatch-use">Borders, dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#f7fafc')"><div class="swatch-color" style="background:#f7fafc"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#f7fafc</span><span class="swatch-use">Primary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#9ca3af')"><div class="swatch-color" style="background:#9ca3af"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#9ca3af</span><span class="swatch-use">Secondary text</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces — Light</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#ffffff')"><div class="swatch-color" style="background:#ffffff;outline:1px solid #e2e8f0"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#ffffff</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#ffffff')"><div class="swatch-color" style="background:#ffffff;outline:1px solid #e2e8f0"></div><div class="swatch-info"><span class="swatch-name">surface</span><span class="swatch-hex">#ffffff</span><span class="swatch-use">Card surface</span></div></div>
+      <div class="swatch" onclick="copyHex('#e2e8f0')"><div class="swatch-color" style="background:#e2e8f0"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#e2e8f0</span><span class="swatch-use">Borders, dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#1d242f')"><div class="swatch-color" style="background:#1d242f"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#1d242f</span><span class="swatch-use">Primary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#6b7280')"><div class="swatch-color" style="background:#6b7280"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#6b7280</span><span class="swatch-use">Secondary text</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#fb2c36')"><div class="swatch-color" style="background:#fb2c36"></div><div class="swatch-info"><span class="swatch-name">red-500</span><span class="swatch-hex">#fb2c36</span><span class="swatch-use">Error, destructive</span></div></div>
+      <div class="swatch" onclick="copyHex('#fcbb00')"><div class="swatch-color" style="background:#fcbb00"></div><div class="swatch-info"><span class="swatch-name">amber-400</span><span class="swatch-hex">#fcbb00</span><span class="swatch-use">Warning, caution</span></div></div>
     </div>
   </div>
 
-  <!-- Colors -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#16A394', this)"><div class="swatch-dot" style="background:#16A394"></div><div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#16A394</span></div></div>
-        <div class="swatch" onclick="copyHex('#5A67D8', this)"><div class="swatch-dot" style="background:#5A67D8"></div><div class="swatch-info"><span class="swatch-name">Indigo</span><span class="swatch-hex">#5A67D8</span></div></div>
-        <div class="swatch" onclick="copyHex('#7DD3C8', this)"><div class="swatch-dot" style="background:#7DD3C8"></div><div class="swatch-info"><span class="swatch-name">Teal Light</span><span class="swatch-hex">#7DD3C8</span></div></div>
-        <div class="swatch" onclick="copyHex('#F59E0B', this)"><div class="swatch-dot" style="background:#F59E0B"></div><div class="swatch-info"><span class="swatch-name">Warning</span><span class="swatch-hex">#F59E0B</span></div></div>
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div class="type-name">display-xl</div>
+        <div class="type-sample" style="font-family:var(--font-display);font-size:40px;font-weight:700;letter-spacing:-0.03em;line-height:1.1">Agent Infrastructure for TypeScript</div>
+        <div class="spec-pills"><span class="spec-pill">Mona Sans</span><span class="spec-pill">40px</span><span class="spec-pill">700</span></div>
       </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0F1117', this)"><div class="swatch-dot" style="background:#0F1117;border:1px solid #2A3141"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0F1117</span></div></div>
-        <div class="swatch" onclick="copyHex('#161B27', this)"><div class="swatch-dot" style="background:#161B27;border:1px solid #2A3141"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161B27</span></div></div>
-        <div class="swatch" onclick="copyHex('#1E2533', this)"><div class="swatch-dot" style="background:#1E2533;border:1px solid #2A3141"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1E2533</span></div></div>
-        <div class="swatch" onclick="copyHex('#0D1117', this)"><div class="swatch-dot" style="background:#0D1117;border:1px solid #2A3141"></div><div class="swatch-info"><span class="swatch-name">Code BG</span><span class="swatch-hex">#0D1117</span></div></div>
+      <div class="type-row">
+        <div class="type-name">display-lg</div>
+        <div class="type-sample" style="font-family:var(--font-display);font-size:28px;font-weight:600;letter-spacing:-0.02em;line-height:1.2">One platform for the full TypeScript path.</div>
+        <div class="spec-pills"><span class="spec-pill">Mona Sans</span><span class="spec-pill">28px</span><span class="spec-pill">600</span></div>
       </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F8F9FC', this)"><div class="swatch-dot" style="background:#F8F9FC"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#F8F9FC</span></div></div>
-        <div class="swatch" onclick="copyHex('#9BA3BF', this)"><div class="swatch-dot" style="background:#9BA3BF"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#9BA3BF</span></div></div>
-        <div class="swatch" onclick="copyHex('#5C677D', this)"><div class="swatch-dot" style="background:#5C677D"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#5C677D</span></div></div>
+      <div class="type-row">
+        <div class="type-name">display-md</div>
+        <div class="type-sample" style="font-family:var(--font-display);font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.3">Type-safe database access with auto-completion</div>
+        <div class="spec-pills"><span class="spec-pill">Mona Sans</span><span class="spec-pill">20px</span><span class="spec-pill">600</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">body-lg</div>
+        <div class="type-sample" style="font-size:16px;font-weight:400;line-height:1.6;color:var(--text-3)">Prisma speeds up development and reduces errors with a schema-first approach to database management.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span><span class="spec-pill">16px</span><span class="spec-pill">400</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">body-sm</div>
+        <div class="type-sample" style="font-size:14px;font-weight:400;line-height:1.5;color:var(--text-3)">Prisma ORM · Prisma Postgres · Prisma Accelerate · Prisma Pulse</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span><span class="spec-pill">14px</span><span class="spec-pill">400</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">mono</div>
+        <div class="type-sample" style="font-family:var(--font-mono);font-size:13px;line-height:1.6;color:var(--teal-400)">model User { id Int @id @default(autoincrement()) email String @unique }</div>
+        <div class="spec-pills"><span class="spec-pill">mono</span><span class="spec-pill">13px</span><span class="spec-pill">400</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Typography -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">40px</span><span class="spec-pill">700</span></div>
-      <div class="type-sample" style="font-size:40px;font-weight:700;">Display</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">30px</span><span class="spec-pill">600</span></div>
-      <div class="type-sample" style="font-size:30px;font-weight:600;">Page Title</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div>
-      <div class="type-sample" style="font-size:22px;font-weight:600;">Section Header</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:15px;">Body text — documentation content, descriptions, and prose</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — captions, metadata, table values</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div>
-      <div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-code);">model User { id Int @id }</div>
-    </div>
-  </div>
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
 
-  <!-- Components -->
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
       <div class="comp-card">
-        <h3>Buttons</h3>
+        <div class="comp-title">Buttons</div>
         <div class="btn-row">
-          <button class="btn btn-primary">Run Migration</button>
-          <button class="btn btn-secondary">View Schema</button>
+          <button class="btn btn-ppg">Try Prisma Postgres</button>
+          <button class="btn btn-orm">Get started with ORM</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost">View docs</button>
+          <button class="btn btn-danger">Delete record</button>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Schema Input</h3>
-        <input class="input-demo" type="text" placeholder="model User { ... }" />
-        <input class="input-demo" type="text" placeholder="prisma migrate dev" />
+        <div class="comp-title">Inputs</div>
+        <div class="input-block">
+          <input class="prisma-input" type="text" placeholder="Search models…">
+          <input class="prisma-input prisma-input-mono" type="text" value="prisma.user.findMany({ where: { active: true } })">
+        </div>
       </div>
+
       <div class="comp-card">
-        <h3>Prisma Schema</h3>
-        <div class="code-block"><span class="kw">model</span> <span class="ty">User</span> {<br>  id    <span class="ty">Int</span>    <span class="kw">@id</span> <span class="kw">@default</span>(<span class="str">autoincrement</span>())<br>  email <span class="ty">String</span> <span class="kw">@unique</span><br>  name  <span class="ty">String</span>?<br>  <span class="cm">// @@map("users")</span><br>}</div>
-      </div>
-      <div class="comp-card">
-        <h3>Migration Badges</h3>
+        <div class="comp-title">Badges</div>
         <div class="badge-row">
-          <span class="badge badge-success">Applied</span>
-          <span class="badge badge-indigo">Pending</span>
-          <span class="badge badge-warning">Breaking</span>
-          <span class="badge badge-danger">Failed</span>
+          <span class="badge badge-ppg">Prisma Postgres</span>
+          <span class="badge badge-orm">Prisma ORM</span>
+          <span class="badge badge-neutral">Beta</span>
+          <span class="badge badge-err">Error</span>
+          <span class="badge badge-warn">Warning</span>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Spacing -->
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Lead with code examples — users learn by reading schemas</li>
-          <li>Use teal for syntax highlighting on types and field names</li>
-          <li>Keep line lengths short in prose (70–80 chars)</li>
-          <li>Use JetBrains Mono for all schema, query, terminal content</li>
-          <li>Show before/after comparisons for migration guides</li>
-        </ul>
+      <div class="comp-card">
+        <div class="comp-title">Schema</div>
+        <div class="schema-block"><span class="kw-model">model</span> <span style="color:var(--text)">User</span> {
+  id        <span class="kw-type">Int</span>      <span class="kw-directive">@id @default(autoincrement())</span>
+  email     <span class="kw-type">String</span>   <span class="kw-directive">@unique</span>
+  name      <span class="kw-type">String</span><span class="kw-optional">?</span>
+  posts     <span class="kw-relation">Post[]</span>
+  createdAt <span class="kw-type">DateTime</span> <span class="kw-directive">@default(now())</span>
+}</div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use indigo as the primary CTA — it's secondary</li>
-          <li>Don't use colorful backgrounds on large areas</li>
-          <li>Don't clutter the layout — whitespace signals precision</li>
-          <li>Don't use emoji in error messages or console output</li>
-          <li>Don't mix teal and indigo in the same component</li>
-        </ul>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Signature Component — Prisma Studio</div>
+    <div class="studio-wrap">
+      <div class="studio-bar">
+        <span class="studio-bar-title">Studio</span>
+        <select class="studio-select" id="model-select" onchange="switchModel(this.value)">
+          <option value="User">User</option>
+          <option value="Post">Post</option>
+        </select>
+        <input class="studio-search" id="filter-input" type="text" placeholder="Filter records…" oninput="applyFilter()">
+        <button class="studio-add" onclick="addRow()">+ Add record</button>
+      </div>
+
+      <div id="user-table">
+        <table class="studio-table">
+          <thead>
+            <tr>
+              <th style="width:32px"></th>
+              <th><span class="col-name">id</span><span class="col-type">Int</span></th>
+              <th><span class="col-name">email</span><span class="col-type">String</span></th>
+              <th><span class="col-name">name</span><span class="col-type">String?</span></th>
+              <th><span class="col-name">role</span><span class="col-type">String</span></th>
+              <th><span class="col-name">createdAt</span><span class="col-type">DateTime</span></th>
+              <th><span class="col-name">posts</span><span class="col-type orm">Post[]</span></th>
+            </tr>
+          </thead>
+          <tbody id="user-tbody"></tbody>
+        </table>
+      </div>
+
+      <div id="post-table" style="display:none">
+        <table class="studio-table">
+          <thead>
+            <tr>
+              <th style="width:32px"></th>
+              <th><span class="col-name">id</span><span class="col-type">Int</span></th>
+              <th><span class="col-name">title</span><span class="col-type">String</span></th>
+              <th><span class="col-name">published</span><span class="col-type">Boolean</span></th>
+              <th><span class="col-name">authorId</span><span class="col-type">Int</span></th>
+              <th><span class="col-name">author</span><span class="col-type orm">User</span></th>
+            </tr>
+          </thead>
+          <tbody id="post-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="studio-status">
+        <span class="status-dot"></span>
+        <span id="studio-count"></span>
+        <span class="status-query" id="studio-query">prisma.user.findMany()</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use teal for PPG features and indigo for ORM features — never swap them</div>
+          <div class="gr-item">Always use Mona Sans for display headings and primary CTAs</div>
+          <div class="gr-item">Show schema types in monospace with keyword coloring (model, @id, @default)</div>
+          <div class="gr-item">Include @default and @relation decorators in all schema examples</div>
+          <div class="gr-item">Default to dark theme — Prisma is dark-first across all surfaces</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Mix PPG teal and ORM indigo colors in a single component</div>
+          <div class="gr-item">Use generic sans-serif for schema code blocks or Prisma Client calls</div>
+          <div class="gr-item">Round corners above 12px on data panels, tables, or code blocks</div>
+          <div class="gr-item">Show untyped JavaScript where TypeScript is expected in examples</div>
+          <div class="gr-item">Use teal as a generic brand accent outside of Postgres contexts</div>
+        </div>
       </div>
     </div>
   </div>
@@ -385,14 +447,123 @@ body {
 </div>
 
 <script>
-
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(function(){});
+  var t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
+
+var users = [
+  { id:1,  email:'alice@vercel.com',     name:'Alice Chen',      role:'admin',  createdAt:'2024-01-15T09:23:00Z', posts:4 },
+  { id:2,  email:'bob@prisma.io',        name:'Bob Weinstein',   role:'user',   createdAt:'2024-02-03T14:41:00Z', posts:7 },
+  { id:3,  email:'carol@stripe.com',     name:'Carol Nguyen',    role:'user',   createdAt:'2024-02-18T08:05:00Z', posts:2 },
+  { id:4,  email:'david@neon.tech',      name:'David Park',      role:'admin',  createdAt:'2024-03-01T17:30:00Z', posts:9 },
+  { id:5,  email:'emma@railway.app',     name:'Emma Torres',     role:'user',   createdAt:'2024-03-12T11:15:00Z', posts:0 },
+  { id:6,  email:'felix@planetscale.com',name:'Felix Andersen',  role:'user',   createdAt:'2024-04-07T09:00:00Z', posts:3 },
+  { id:7,  email:'grace@supabase.io',    name:'Grace Okeke',     role:'editor', createdAt:'2024-04-22T15:55:00Z', posts:11 },
+  { id:8,  email:'henry@turso.tech',     name:null,              role:'user',   createdAt:'2024-05-10T07:20:00Z', posts:1 },
+];
+
+var posts = [
+  { id:1,  title:'Getting started with Prisma ORM',         published:true,  authorId:2 },
+  { id:2,  title:'Prisma Postgres: managed DB for Next.js', published:true,  authorId:1 },
+  { id:3,  title:'Type-safe queries with Prisma Client',    published:true,  authorId:4 },
+  { id:4,  title:'Prisma Studio: visual database browser',  published:true,  authorId:7 },
+  { id:5,  title:'Schema migrations with prisma migrate',   published:false, authorId:2 },
+  { id:6,  title:'Deploying Prisma on Vercel',              published:true,  authorId:1 },
+];
+
+var currentModel = 'User';
+var nextUserId = users.length + 1;
+var nextPostId = posts.length + 1;
+
+function fmtDate(iso){ return iso.replace('T',' ').slice(0,16); }
+
+function renderUsers(data){
+  var tbody = document.getElementById('user-tbody');
+  tbody.innerHTML = '';
+  data.forEach(function(u){
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input type="checkbox" class="studio-cb"></td>' +
+      '<td class="id-val">' + u.id + '</td>' +
+      '<td>' + u.email + '</td>' +
+      '<td>' + (u.name === null ? '<span class="null-val">null</span>' : u.name) + '</td>' +
+      '<td>' + u.role + '</td>' +
+      '<td style="color:var(--text-4)">' + fmtDate(u.createdAt) + '</td>' +
+      '<td>' + (u.posts > 0 ? '<span class="rel-chip">' + u.posts + ' Post' + (u.posts > 1 ? 's' : '') + '</span>' : '<span class="null-val">—</span>') + '</td>';
+    tr.onclick = function(){ this.classList.toggle('sel'); };
+    tbody.appendChild(tr);
+  });
+  document.getElementById('studio-count').textContent = data.length + ' record' + (data.length !== 1 ? 's' : '') + ' — User';
+  document.getElementById('studio-query').textContent = "prisma.user.findMany()";
+}
+
+function renderPosts(data){
+  var tbody = document.getElementById('post-tbody');
+  tbody.innerHTML = '';
+  data.forEach(function(p){
+    var authorName = (users.find(function(u){ return u.id === p.authorId; }) || {}).name || '—';
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td><input type="checkbox" class="studio-cb"></td>' +
+      '<td class="id-val">' + p.id + '</td>' +
+      '<td style="max-width:260px">' + p.title + '</td>' +
+      '<td>' + (p.published ? '<span class="bool-t">true</span>' : '<span class="bool-f">false</span>') + '</td>' +
+      '<td class="id-val">' + p.authorId + '</td>' +
+      '<td><span class="rel-chip">' + authorName + '</span></td>';
+    tr.onclick = function(){ this.classList.toggle('sel'); };
+    tbody.appendChild(tr);
+  });
+  document.getElementById('studio-count').textContent = data.length + ' record' + (data.length !== 1 ? 's' : '') + ' — Post';
+  document.getElementById('studio-query').textContent = "prisma.post.findMany({ include: { author: true } })";
+}
+
+function applyFilter(){
+  var term = document.getElementById('filter-input').value.toLowerCase();
+  if(currentModel === 'User'){
+    renderUsers(users.filter(function(u){
+      return u.email.toLowerCase().includes(term) || (u.name && u.name.toLowerCase().includes(term));
+    }));
+  } else {
+    renderPosts(posts.filter(function(p){ return p.title.toLowerCase().includes(term); }));
+  }
+}
+
+function switchModel(model){
+  currentModel = model;
+  document.getElementById('filter-input').value = '';
+  if(model === 'User'){
+    document.getElementById('user-table').style.display = '';
+    document.getElementById('post-table').style.display = 'none';
+    renderUsers(users);
+  } else {
+    document.getElementById('user-table').style.display = 'none';
+    document.getElementById('post-table').style.display = '';
+    renderPosts(posts);
+  }
+}
+
+function addRow(){
+  if(currentModel === 'User'){
+    var tbody = document.getElementById('user-tbody');
+    var rows = tbody.querySelectorAll('tr');
+    if(rows.length >= 20) rows[0].remove();
+    var now = new Date().toISOString();
+    users.push({ id:nextUserId++, email:'user'+(nextUserId-1)+'@example.com', name:null, role:'user', createdAt:now, posts:0 });
+    renderUsers(users);
+  } else {
+    var tbody = document.getElementById('post-tbody');
+    var rows = tbody.querySelectorAll('tr');
+    if(rows.length >= 20) rows[0].remove();
+    posts.push({ id:nextPostId++, title:'New post #'+(nextPostId-1), published:false, authorId:1 });
+    renderPosts(posts);
+  }
+}
+
+renderUsers(users);
 </script>
 </body>
 </html>
