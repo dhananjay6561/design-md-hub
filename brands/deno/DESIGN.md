@@ -1,178 +1,143 @@
-# Deno Design System
+# Deno — Design System
 
-## Overview
-Deno is a secure JavaScript/TypeScript runtime. The design language is stark, minimal, and confident — black and white with a single teal/mint accent. It communicates precision and security without unnecessary decoration. The dinosaur mascot (Deno) is friendly but the UI around it is serious.
-
-**Brand personality:** Minimal, secure, precise, opinionated, modern.
+Uncomplicate JavaScript. Deno is a modern JavaScript/TypeScript runtime with a secure-by-default architecture, built-in tooling, and native TypeScript support. Deno Deploy brings serverless JavaScript to the edge.
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--deno-teal` | `#70FFAF` | Primary accent, links, highlights |
-| `--deno-black` | `#000000` | Primary background, hero |
-| `--deno-white` | `#FFFFFF` | Primary text on dark |
-| `--deno-teal-dim` | `#3DD68C` | Hover on teal elements |
+### Brand
 
-### Surface Palette (Dark)
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--bg-primary` | `#0A0A0A` | App background |
-| `--bg-surface` | `#141414` | Cards, panels |
-| `--bg-elevated` | `#1E1E1E` | Dropdowns, modals |
-| `--border` | `#2E2E2E` | Dividers, borders |
+All confirmed from `--color-*` CSS custom properties in production (`deno.com/styles/app.css`).
 
-### Text
 | Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#FFFFFF` | Headings, body |
-| `--text-secondary` | `#888888` | Labels, captions |
-| `--text-muted` | `#555555` | Placeholders, disabled |
-| `--text-teal` | `#70FFAF` | Links, accent text |
+|---|---|---|
+| black | `#0B0D11` | Primary black — body text, solid backgrounds |
+| offblack | `#121417` | Near-black — dark surface alternative |
+| default | `#12124B` | Deep navy/indigo — brand anchor color |
+| runtime | `#70FFAF` | Neon green — Deno runtime accent |
+| runtime-dark | `#172723` | Dark green surface for runtime sections |
+| deploy | `#01C2FF` | Bright cyan — Deno Deploy primary |
+| deploy-dark | `#0C212A` | Dark cyan surface for Deploy sections |
+| fresh | `#FFDB1E` | Yellow — Fresh framework accent |
+| fresh-dark | `#401C00` | Dark warm bg for Fresh sections |
 
-### Semantic
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--success` | `#70FFAF` | Tests passing, deploy OK |
-| `--warning` | `#F5A623` | Deprecated API, slow |
-| `--danger` | `#FF4444` | Runtime error, failed |
-| `--info` | `#60A5FA` | Informational notes |
+### Deploy Color Scale (confirmed)
+
+| Step | Hex |
+|---|---|
+| 50 | `#F0F7FF` |
+| 100 | `#E0F0FF` |
+| 200 | `#B3E0FF` |
+| 300 | `#66C2FF` |
+| 400 | `#1A9FFF` |
+| 500 | `#007ACC` |
+| 700 | `#004166` |
+| 800 | `#002633` |
+| 950 | `#000A0D` |
+
+### Deploy Neutral Scale (confirmed)
+
+| Step | Hex | Usage |
+|---|---|---|
+| 50 | `#F8F9FC` | Light bg |
+| 100 | `#F1F3F9` | Subtle bg |
+| 200 | `#EAEDF5` | Element bg |
+| 350 | `#CBD1E1` | Border secondary |
+| 400 | `#A8B2C8` | Border / muted |
+| 500 | `#64708B` | Text-3 / placeholder |
+| 600 | `#475269` | Text-2 |
+| 700 | `#242D3E` | Dark surface |
+| 800 | `#171C2B` | Darker surface |
+| 900 | `#0A0E1C` | Dark bg |
+| 950 | `#020617` | Darkest bg |
+
+### Syntax Highlight Colors (confirmed)
+
+| Token | Hex |
+|---|---|
+| code-1 / blue | `#01C2FF` |
+| code-3 / purple | `#AE01FF` |
+| code-5 / yellow | `#FFD601` |
+| code-6 / green | `#01FF67` |
+| code-7 / magenta | `#DB01FF` |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+### Font Families
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 48px | 800 | Hero only |
-| Heading 1 | 32px | 700 | Page titles |
-| Heading 2 | 22px | 600 | Section headers |
-| Body | 15px | 400 | Default prose |
-| Small | 13px | 400 | Captions, metadata |
-| Mono | 14px | 400 | All code |
+| Role | Family | Weights | Source |
+|---|---|---|---|
+| UI / Body | Inter | 400 / 700 | `deno.com/fonts/inter/Inter-Regular.woff2` |
+| Deploy display | Moranga | 400 / 700 | `deno.com/fonts/deploy/Moranga-Regular.woff2` |
+| Deploy UI / Mono | Recursive | 300–1000 (variable) | `deno.com/fonts/deploy/Recursive_Variable.woff2` |
 
-Deno documentation uses generous line-heights (1.7) and short line lengths for readability.
+CSS variable: `--font-deploy-sans: Recursive, Inter, ui-sans-serif` and `--font-deploy-mono: Recursive, ui-monospace`. Recursive is activated for mono output with `font-variation-settings: "MONO" 1, "CASL" 0, "CRSV" 0, "slnt" 0`.
 
----
+### Type Scale
 
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-16` | `64px` | Page sections |
+| Level | Size | Weight | Font |
+|---|---|---|---|
+| h1 | 48px | 700 | Inter |
+| h2 | 32px | 700 | Inter |
+| h3 | 20px | 600 | Inter |
+| body-lg | 16px | 400 | Inter |
+| body | 14px | 400 | Inter |
+| label | 11px | 600 | Inter |
+| mono / terminal | 13px | 400 | Recursive (MONO=1) |
 
 ---
 
-## Border Radius
+## Spacing & Radius
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Badges, chips |
-| `--radius-md` | `6px` | Buttons, inputs |
-| `--radius-lg` | `8px` | Cards |
-| `--radius-xl` | `12px` | Modals |
+Base unit: 4px
 
-Deno uses sharp corners — this is a runtime for engineers, not a consumer app.
-
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 3px rgba(0,0,0,0.6);
---shadow-md: 0 4px 16px rgba(0,0,0,0.8);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.9);
---shadow-teal: 0 0 0 2px rgba(112,255,175,0.4);
-```
+| Token | Value |
+|---|---|
+| radius-sm | 4px |
+| radius-md | 6px |
+| radius-lg | 8px |
+| radius-xl | 12px |
+| radius-full | 9999px |
 
 ---
 
 ## Components
 
 ### Buttons
-```
-Primary:  bg #70FFAF, text #000000, hover bg #3DD68C, radius 6px, height 38px, font-weight 700
-Ghost:    bg transparent, border #2E2E2E, text #888888, hover border #70FFAF, hover text #70FFAF
-Height:   38px, padding 0 18px
-```
 
-### Inputs
-```
-Background: #141414
-Border:     #2E2E2E default, #70FFAF focused
-Text:       #FFFFFF
-Placeholder: #555555
-Radius:     6px, height: 38px
-Font:       JetBrains Mono
-```
+| Variant | Background | Text | Border |
+|---|---|---|---|
+| Primary | `#0B0D11` | `#FFF` | — |
+| Secondary | `#EAEDF5` | `#0B0D11` | — |
+| Outline | transparent | `#0B0D11` | `1px #CBD1E1` |
+| Deploy CTA | `#01C2FF` | `#0B0D11` | — |
 
-### Code Block
-```
-Background: #0A0A0A (same as page — flush)
-Border:     1px solid #2E2E2E
-Radius:     6px
-Padding:    16px
-Font:       JetBrains Mono 14px
-Keyword:    #70FFAF
-String:     #F5A623
-Type:       #60A5FA
-Comment:    #555555
-```
+### Deployment Status Badges
 
-### Badges
-```
-Success: bg rgba(112,255,175,0.1), text #70FFAF, border rgba(112,255,175,0.3)
-Warning: bg rgba(245,166,35,0.1), text #F5A623, border rgba(245,166,35,0.3)
-Error:   bg rgba(255,68,68,0.1), text #FF4444, border rgba(255,68,68,0.3)
-```
+| Status | Background | Text |
+|---|---|---|
+| Success | `rgba(112,255,175,.12)` | `#70FFAF` |
+| Failed | `rgba(239,68,68,.12)` | `#FF6B6B` |
+| In Progress | `rgba(1,194,255,.12)` | `#01C2FF` |
+| Cancelled | `rgba(100,112,139,.12)` | `#A8B2C8` |
 
 ---
 
-## Layout
+## Guardrails
 
-- Docs max-width: 1200px
-- Sidebar: 240px
-- Content prose width: 680px
-- No sidebar on marketing pages
+**DO**
+- Use `#70FFAF` neon green exclusively as the Deno runtime brand accent — never for success status
+- Use `#01C2FF` cyan for Deno Deploy CTAs and interactive states on dark backgrounds
+- Use Recursive with `"MONO" 1` for all terminal output, logs, and code blocks
+- Keep dark surfaces on the deploy neutral scale: 700 → 800 → 900 → 950 for depth
+- Primary CTA on the marketing site is black (#0B0D11) — clean, confident, minimal
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1024px |
-| Desktop | > 1024px |
-
----
-
-## Tone & Guardrails
-
-### DO
-- Use the teal only as an accent — it should feel like a highlight, not a fill
-- Black text on teal buttons — never white; the contrast ratio demands it
-- Use `JetBrains Mono` for all code, imports, and CLI commands
-- Let whitespace breathe — Deno's minimalism is a feature, not laziness
-- Show security context (permissions, `--allow-net`) in a distinct visual style
-
-### DON'T
-- Don't add color variety — one teal accent is the entire palette
-- Don't use gradients — Deno is flat and binary (black/white/teal)
-- Don't round corners more than 8px — sharp edges signal precision
-- Don't use animation on documentation content — distraction is the enemy of focus
-- Don't use the teal for error or warning states — semantic colors must remain separate
+**DON'T**
+- Don't use `#70FFAF` (runtime green) for success badges — it's a brand color, not a semantic one
+- Don't use `#FFDB1E` (fresh yellow) in Deploy or Runtime contexts — each product color is scoped
+- Don't mix Moranga with Inter in the same context — Moranga is Deploy display only
+- Don't use pure `#000` — Deno's black is `#0B0D11` (slight blue-black tint)
+- Don't apply the deploy neutral scale to non-Deploy pages — use Tailwind gray for the main site

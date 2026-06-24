@@ -1,277 +1,365 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Deno – Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('https://deno.com/fonts/inter/Inter-Regular.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
+@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('https://deno.com/fonts/inter/Inter-SemiBold.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
+@font-face{font-family:'Moranga';font-style:normal;font-weight:400;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Regular.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
+@font-face{font-family:'Moranga';font-style:normal;font-weight:700;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Medium.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
+@font-face{font-family:'Recursive';font-style:normal;font-weight:300 1000;font-display:swap;src:url('https://deno.com/fonts/deploy/Recursive_Variable.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
 
-:root[data-theme="dark"] {
-  --bg: #0A0A0A;
-  --surface: #141414;
-  --elevated: #1E1E1E;
-  --border: #2E2E2E;
-  --primary: #70FFAF;
-  --primary-hover: #3DD68C;
-  --primary-text: #000000;
-  --warning: #F5A623;
-  --danger: #FF4444;
-  --text: #FFFFFF;
-  --text-2: #888888;
-  --text-3: #555555;
-  --text-teal: #70FFAF;
-  --toggle-bg: #1E1E1E;
-  --toggle-text: #FFFFFF;
-  --toggle-border: #2E2E2E;
+:root{
+--color-black:#0b0d11;
+--color-offblack:#121417;
+--color-default:#12124b;
+--color-runtime:#70ffaf;
+--color-deploy:#01c2ff;
+--color-fresh:#ffdb1e;
+--dn-50:#f8f9fc;
+--dn-100:#f1f3f9;
+--dn-200:#eaedf5;
+--dn-350:#cbd1e1;
+--dn-400:#a8b2c8;
+--dn-500:#64708b;
+--dn-600:#475269;
+--dn-700:#242d3e;
+--dn-800:#171c2b;
+--dn-900:#0a0e1c;
+--dn-950:#020617;
+--dc-50:#f0f7ff;
+--dc-300:#66c2ff;
+--dc-400:#1a9fff;
+--dc-500:#007acc;
+--dc-700:#004166;
 }
-:root[data-theme="light"] {
-  --bg: #FFFFFF;
-  --surface: #F5F5F5;
-  --elevated: #EBEBEB;
-  --border: #D8D8D8;
-  --primary: #0D9954;
-  --primary-hover: #097A43;
-  --primary-text: #FFFFFF;
-  --warning: #C07000;
-  --danger: #CC0000;
-  --text: #000000;
-  --text-2: #555555;
-  --text-3: #888888;
-  --text-teal: #0D9954;
-  --toggle-bg: #EBEBEB;
-  --toggle-text: #000000;
-  --toggle-border: #D8D8D8;
+:root[data-theme="light"]{
+--bg:var(--dn-50);
+--surface:#fff;
+--elevated:var(--dn-100);
+--border:var(--dn-350);
+--border2:var(--dn-200);
+--text:var(--color-black);
+--text-2:var(--dn-600);
+--text-3:var(--dn-500);
+--text-4:var(--dn-400);
+--deploy-accent:var(--dc-500);
+--deploy-accent-bg:var(--dc-50);
+--tog-knob:#fff;
+--tog-track:var(--dn-350);
+}
+:root[data-theme="dark"]{
+--bg:var(--dn-900);
+--surface:var(--dn-800);
+--elevated:var(--dn-700);
+--border:var(--dn-700);
+--border2:var(--dn-800);
+--text:#f1f5f9;
+--text-2:var(--dn-400);
+--text-3:var(--dn-500);
+--text-4:var(--dn-600);
+--deploy-accent:var(--color-deploy);
+--deploy-accent-bg:#0c212a;
+--tog-knob:var(--dn-800);
+--tog-track:var(--dn-600);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter','Recursive',ui-sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:14px;font-variation-settings:"MONO" 0,"CASL" 0,"CRSV" 0,"slnt" 0}
+.mono{font-family:'Recursive',ui-monospace;font-variation-settings:"MONO" 1,"CASL" 0,"CRSV" 0,"slnt" 0}
 
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
+.tog-wrap{position:fixed;top:16px;right:20px;z-index:100;display:flex;align-items:center;gap:8px}
+.tog-label{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
+#t{display:none}
+.sw{display:inline-block;width:36px;height:20px;background:var(--tog-track);border-radius:9999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--tog-knob);transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+#t:checked~.sw{background:var(--color-deploy)}
+#t:checked~.sw::after{transform:translateX(16px)}
 
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: var(--primary-text); padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.wrap{max-width:1080px;margin:0 auto;padding:56px 24px 80px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:24px}
 
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 800; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
+.hero{display:flex;align-items:center;gap:20px;padding-bottom:56px;border-bottom:1px solid var(--border)}
+.hero-text h1{font-family:'Moranga',Georgia,serif;font-size:40px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.hero-text p{font-size:15px;color:var(--text-2);margin-top:6px}
 
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 2px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
+.sw-tall{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:box-shadow .15s}
+.sw-tall:hover{box-shadow:0 0 0 2px var(--color-deploy)}
+.sw-tall-color{height:80px}
+.sw-tall-info{padding:10px 12px}
+.sw-tall-name{font-size:12px;font-weight:600;color:var(--text)}
+.sw-tall-hex{font-size:11px;color:var(--text-3);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1}
+.sw-tall-usage{font-size:10px;color:var(--text-4);margin-top:2px}
 
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 2px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
-.type-sample { flex: 1; }
+.scale-row{display:flex;gap:4px;margin-bottom:8px}
+.scale-chip{flex:1;height:36px;border-radius:4px;cursor:pointer;transition:transform .1s}
+.scale-chip:hover{transform:scaleY(1.1)}
 
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
+.type-grid{display:flex;flex-direction:column;gap:0}
+.type-row{display:grid;grid-template-columns:220px 1fr;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--border2)}
+.type-row:last-child{border-bottom:none}
+.type-meta{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:3px;background:var(--elevated);color:var(--text-2)}
 
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: var(--primary-text); }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.sig-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sig-title{font-size:16px;font-weight:700}
+.sig-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.sig-tab{font-size:12px;font-weight:500;padding:6px 16px;background:transparent;color:var(--text-2);border:none;cursor:pointer;border-right:1px solid var(--border)}
+.sig-tab:last-child{border-right:none}
+.sig-tab.active{background:var(--deploy-accent-bg);color:var(--deploy-accent);font-weight:600}
 
-.input-demo { width: 100%; height: 38px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
-.input-demo:focus { border-color: var(--primary); }
+.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px}
+.stat-card-label{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.stat-card-value{font-size:24px;font-weight:700;font-family:'Moranga',Georgia,serif;letter-spacing:-.02em}
+.stat-card-sub{font-size:11px;color:var(--text-3);margin-top:4px}
 
-.code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; }
-.kw { color: #70FFAF; }
-.str { color: #F5A623; }
-.ty { color: #60A5FA; }
-.cm { color: var(--text-3); }
+.deployments-table{width:100%;border-collapse:collapse}
+.deployments-table th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
+.deployments-table td{padding:12px;border-bottom:1px solid var(--border2);font-size:13px;vertical-align:middle}
+.deployments-table tr:last-child td{border-bottom:none}
+.deployments-table tr:hover td{background:var(--elevated)}
 
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; }
-.badge-ok { background: rgba(112,255,175,0.08); color: #70FFAF; border-color: rgba(112,255,175,0.3); }
-.badge-warn { background: rgba(245,166,35,0.08); color: #F5A623; border-color: rgba(245,166,35,0.3); }
-.badge-err { background: rgba(255,68,68,0.08); color: #FF4444; border-color: rgba(255,68,68,0.3); }
-.badge-info { background: rgba(96,165,250,0.08); color: #60A5FA; border-color: rgba(96,165,250,0.3); }
+.dep-id{font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;font-size:12px;color:var(--deploy-accent);font-weight:600}
+.dep-branch{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--text-2);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1}
+.dep-commit{font-size:11px;color:var(--text-3);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;margin-top:2px}
+.dep-msg{font-size:12px;color:var(--text)}
+.region-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:3px;background:var(--elevated);color:var(--text-2)}
+.dep-time{font-size:11px;color:var(--text-3)}
 
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:3px}
+.badge-ok{background:rgba(112,255,175,.12);color:#3ddb8c}
+:root[data-theme="dark"] .badge-ok{color:#70ffaf}
+.badge-fail{background:rgba(239,68,68,.12);color:#ef4444}
+.badge-progress{background:rgba(1,194,255,.12);color:var(--color-deploy)}
+.badge-cancel{background:rgba(100,112,139,.12);color:var(--dn-500)}
 
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--primary); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--primary); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-ok .badge-dot{background:#3ddb8c}
+:root[data-theme="dark"] .badge-ok .badge-dot{background:#70ffaf}
+.badge-fail .badge-dot{background:#ef4444}
+.badge-progress .badge-dot{background:var(--color-deploy)}
+.badge-cancel .badge-dot{background:var(--dn-500)}
+
+.log-block{background:var(--color-offblack);border-radius:8px;padding:16px 20px;margin-top:20px;font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;font-size:12px;line-height:1.8;color:#a8b2c8}
+.log-ok{color:#70ffaf}
+.log-deploy{color:#01c2ff}
+.log-warn{color:#ffdb1e}
+.log-dim{color:#475269}
+.log-line{display:flex;gap:12px}
+.log-ts{color:#475269;flex-shrink:0}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
+
+<div class="tog-wrap">
+  <span class="tog-label">Light</span>
+  <input type="checkbox" id="t" onchange="document.documentElement.dataset.theme=this.checked?'dark':'light'">
+  <label class="sw" for="t"></label>
+  <span class="tog-label">Dark</span>
+</div>
+
+<div class="wrap">
 
   <div class="hero">
-    <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#000000"/>
-        <!-- Deno dinosaur simplified -->
-        <circle cx="36" cy="34" r="18" fill="#FFFFFF"/>
-        <!-- eye -->
-        <circle cx="42" cy="28" r="4" fill="#000000"/>
-        <circle cx="43" cy="27" r="1.5" fill="#FFFFFF"/>
-        <!-- teal accent ring -->
-        <circle cx="36" cy="34" r="18" fill="none" stroke="#70FFAF" stroke-width="2" opacity="0.4"/>
-        <!-- body spots -->
-        <circle cx="30" cy="36" r="3" fill="#E8E8E8"/>
-        <circle cx="38" cy="40" r="2" fill="#E8E8E8"/>
-        <circle cx="28" cy="42" r="2" fill="#E8E8E8"/>
-        <!-- tail -->
-        <path d="M18 46 C14 42 12 36 16 34" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none"/>
-      </svg>
-    </div>
+    <svg width="52" height="52" viewBox="0 0 401 401" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M200.5 395C307.546 395 394.5 308.046 394.5 201C394.5 93.954 307.546 7 200.5 7C93.454 7 6.5 93.954 6.5 201C6.5 308.046 93.454 395 200.5 395ZM200.5 401C310.875 401 400.5 311.375 400.5 201C400.5 90.625 310.875 1 200.5 1C90.125 1 0.5 90.625 0.5 201C0.5 311.375 90.125 401 200.5 401Z" fill="var(--text)"/>
+      <path d="M135 270C135 270 140 195 175 175C210 155 255 155 270 175C285 195 280 230 265 245C250 260 225 265 200 260C175 255 155 245 135 270Z" fill="var(--text)"/>
+      <circle cx="238" cy="170" r="12" fill="var(--bg)"/>
+      <circle cx="241" cy="168" r="5" fill="var(--text)"/>
+      <path d="M200 260C200 260 195 290 210 295C225 300 235 290 240 280" stroke="var(--text)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    </svg>
     <div class="hero-text">
-      <h1>Deno</h1>
-      <p>Secure JavaScript &amp; TypeScript runtime built on V8</p>
+      <h1>Deno Deploy</h1>
+      <p>Uncomplicate JavaScript — serverless at the edge</p>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#70FFAF', this)"><div class="swatch-dot" style="background:#70FFAF"></div><div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#70FFAF</span></div></div>
-        <div class="swatch" onclick="copyHex('#3DD68C', this)"><div class="swatch-dot" style="background:#3DD68C"></div><div class="swatch-info"><span class="swatch-name">Teal Hover</span><span class="swatch-hex">#3DD68C</span></div></div>
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-dot" style="background:#FFFFFF;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">White</span><span class="swatch-hex">#FFFFFF</span></div></div>
-        <div class="swatch" onclick="copyHex('#000000', this)"><div class="swatch-dot" style="background:#000000;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Black</span><span class="swatch-hex">#000000</span></div></div>
-      </div>
+    <div class="sec-label">Brand Colors</div>
+    <div class="swatches">
+      <div class="sw-tall" onclick="copy('#0b0d11')"><div class="sw-tall-color" style="background:#0b0d11"></div><div class="sw-tall-info"><div class="sw-tall-name">black</div><div class="sw-tall-hex">#0B0D11</div><div class="sw-tall-usage">body text · buttons</div></div></div>
+      <div class="sw-tall" onclick="copy('#12124b')"><div class="sw-tall-color" style="background:#12124b"></div><div class="sw-tall-info"><div class="sw-tall-name">default</div><div class="sw-tall-hex">#12124B</div><div class="sw-tall-usage">brand anchor</div></div></div>
+      <div class="sw-tall" onclick="copy('#70ffaf')"><div class="sw-tall-color" style="background:#70ffaf"></div><div class="sw-tall-info"><div class="sw-tall-name">runtime</div><div class="sw-tall-hex">#70FFAF</div><div class="sw-tall-usage">runtime accent</div></div></div>
+      <div class="sw-tall" onclick="copy('#01c2ff')"><div class="sw-tall-color" style="background:#01c2ff"></div><div class="sw-tall-info"><div class="sw-tall-name">deploy</div><div class="sw-tall-hex">#01C2FF</div><div class="sw-tall-usage">Deploy primary</div></div></div>
+      <div class="sw-tall" onclick="copy('#ffdb1e')"><div class="sw-tall-color" style="background:#ffdb1e"></div><div class="sw-tall-info"><div class="sw-tall-name">fresh</div><div class="sw-tall-hex">#FFDB1E</div><div class="sw-tall-usage">Fresh framework</div></div></div>
+      <div class="sw-tall" onclick="copy('#172723')"><div class="sw-tall-color" style="background:#172723"></div><div class="sw-tall-info"><div class="sw-tall-name">runtime-dark</div><div class="sw-tall-hex">#172723</div><div class="sw-tall-usage">runtime dark surface</div></div></div>
+      <div class="sw-tall" onclick="copy('#0c212a')"><div class="sw-tall-color" style="background:#0c212a"></div><div class="sw-tall-info"><div class="sw-tall-name">deploy-dark</div><div class="sw-tall-hex">#0C212A</div><div class="sw-tall-usage">deploy dark surface</div></div></div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0A0A0A', this)"><div class="swatch-dot" style="background:#0A0A0A;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0A0A0A</span></div></div>
-        <div class="swatch" onclick="copyHex('#141414', this)"><div class="swatch-dot" style="background:#141414;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#141414</span></div></div>
-        <div class="swatch" onclick="copyHex('#1E1E1E', this)"><div class="swatch-dot" style="background:#1E1E1E;border:1px solid #2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1E1E1E</span></div></div>
-        <div class="swatch" onclick="copyHex('#2E2E2E', this)"><div class="swatch-dot" style="background:#2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2E2E2E</span></div></div>
-      </div>
+
+    <div class="sec-label" style="margin-top:32px">Deploy Neutral Scale</div>
+    <div class="scale-row">
+      <div class="scale-chip" style="background:#f8f9fc" title="#F8F9FC · neutral-50" onclick="copy('#f8f9fc')"></div>
+      <div class="scale-chip" style="background:#f1f3f9" title="#F1F3F9 · neutral-100" onclick="copy('#f1f3f9')"></div>
+      <div class="scale-chip" style="background:#eaedf5" title="#EAEDF5 · neutral-200" onclick="copy('#eaedf5')"></div>
+      <div class="scale-chip" style="background:#cbd1e1" title="#CBD1E1 · neutral-350" onclick="copy('#cbd1e1')"></div>
+      <div class="scale-chip" style="background:#a8b2c8" title="#A8B2C8 · neutral-400" onclick="copy('#a8b2c8')"></div>
+      <div class="scale-chip" style="background:#64708b" title="#64708B · neutral-500" onclick="copy('#64708b')"></div>
+      <div class="scale-chip" style="background:#475269" title="#475269 · neutral-600" onclick="copy('#475269')"></div>
+      <div class="scale-chip" style="background:#242d3e" title="#242D3E · neutral-700" onclick="copy('#242d3e')"></div>
+      <div class="scale-chip" style="background:#171c2b" title="#171C2B · neutral-800" onclick="copy('#171c2b')"></div>
+      <div class="scale-chip" style="background:#0a0e1c" title="#0A0E1C · neutral-900" onclick="copy('#0a0e1c')"></div>
+      <div class="scale-chip" style="background:#020617" title="#020617 · neutral-950" onclick="copy('#020617')"></div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-dot" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#FFFFFF</span></div></div>
-        <div class="swatch" onclick="copyHex('#888888', this)"><div class="swatch-dot" style="background:#888888"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#888888</span></div></div>
-        <div class="swatch" onclick="copyHex('#555555', this)"><div class="swatch-dot" style="background:#555555"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#555555</span></div></div>
-      </div>
+
+    <div class="sec-label" style="margin-top:24px">Deploy Blue Scale</div>
+    <div class="scale-row">
+      <div class="scale-chip" style="background:#f0f7ff" title="#F0F7FF · deploy-50" onclick="copy('#f0f7ff')"></div>
+      <div class="scale-chip" style="background:#e0f0ff" title="#E0F0FF · deploy-100" onclick="copy('#e0f0ff')"></div>
+      <div class="scale-chip" style="background:#b3e0ff" title="#B3E0FF · deploy-200" onclick="copy('#b3e0ff')"></div>
+      <div class="scale-chip" style="background:#66c2ff" title="#66C2FF · deploy-300" onclick="copy('#66c2ff')"></div>
+      <div class="scale-chip" style="background:#1a9fff" title="#1A9FFF · deploy-400" onclick="copy('#1a9fff')"></div>
+      <div class="scale-chip" style="background:#007acc" title="#007ACC · deploy-500" onclick="copy('#007acc')"></div>
+      <div class="scale-chip" style="background:#01c2ff" title="#01C2FF · deploy" onclick="copy('#01c2ff')"></div>
+      <div class="scale-chip" style="background:#004166" title="#004166 · deploy-700" onclick="copy('#004166')"></div>
+      <div class="scale-chip" style="background:#002633" title="#002633 · deploy-800" onclick="copy('#002633')"></div>
+      <div class="scale-chip" style="background:#000a0d" title="#000A0D · deploy-950" onclick="copy('#000a0d')"></div>
     </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">48px</span><span class="spec-pill">800</span></div><div class="type-sample" style="font-size:48px;font-weight:800;">Hero</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:22px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:15px;">Body text — documentation prose with generous line height</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — captions, metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:14px;font-family:'JetBrains Mono',monospace;color:var(--text-teal);">deno run --allow-net server.ts</div></div>
+    <div class="sec-label">Typography — Inter · Moranga · Recursive</div>
+    <div class="type-grid">
+      <div class="type-row"><div class="type-meta"><span class="pill">Moranga</span><span class="pill">40px</span><span class="pill">700</span></div><div style="font-family:'Moranga',Georgia,serif;font-size:40px;font-weight:700;letter-spacing:-.02em">Uncomplicate</div></div>
+      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">32px</span><span class="pill">700</span></div><div style="font-size:32px;font-weight:700;letter-spacing:-.01em">Deploy in seconds</div></div>
+      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">20px</span><span class="pill">600</span></div><div style="font-size:20px;font-weight:600">Edge Functions · KV · Queues</div></div>
+      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">16px</span><span class="pill">400</span></div><div style="font-size:16px;color:var(--text-2)">Push to GitHub, deploy globally in under 10 seconds — no config required.</div></div>
+      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">14px</span><span class="pill">400</span></div><div style="font-size:14px;color:var(--text-2)">Body text — project metadata, deployment logs, user settings</div></div>
+      <div class="type-row"><div class="type-meta"><span class="pill">Recursive</span><span class="pill">MONO 1</span><span class="pill">13px</span></div><div class="mono" style="font-size:13px;color:var(--deploy-accent)">$ deno deploy --project=my-app main.ts</div></div>
+    </div>
   </div>
 
   <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Buttons</h3>
-        <div class="btn-row">
-          <button class="btn btn-primary">Get Started</button>
-          <button class="btn btn-ghost">View Source</button>
+    <div class="sec-label">Deno Deploy — Project Dashboard</div>
+
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-card-label">Deployments</div>
+        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">247</div>
+        <div class="stat-card-sub">↑ 12 this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Requests / day</div>
+        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">1.4M</div>
+        <div class="stat-card-sub">p99 latency 18ms</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Regions</div>
+        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">35</div>
+        <div class="stat-card-sub">edge PoPs active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">KV Operations</div>
+        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">82K</div>
+        <div class="stat-card-sub">reads · writes · lists</div>
+      </div>
+    </div>
+
+    <div class="sig-header">
+      <span class="sig-title">Deployments</span>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="sig-tabs">
+          <button class="sig-tab active">All</button>
+          <button class="sig-tab">Production</button>
+          <button class="sig-tab">Preview</button>
         </div>
-      </div>
-      <div class="comp-card">
-        <h3>Input</h3>
-        <input class="input-demo" type="text" placeholder="deno run main.ts" />
-        <input class="input-demo" type="text" placeholder="import { serve } from ..." />
-      </div>
-      <div class="comp-card">
-        <h3>Code Block</h3>
-        <div class="code-block"><span class="kw">import</span> { serve } <span class="kw">from</span> <span class="str">"https://deno.land/std/http/server.ts"</span>;<br><span class="cm">// --allow-net required</span><br><span class="kw">const</span> handler = (<span class="ty">req</span>: Request) => <span class="kw">new</span> Response(<span class="str">"Hello"</span>);<br>serve(handler, { port: <span class="str">8080</span> });</div>
-      </div>
-      <div class="comp-card">
-        <h3>Status Badges</h3>
-        <div class="badge-row">
-          <span class="badge badge-ok">Passing</span>
-          <span class="badge badge-warn">Deprecated</span>
-          <span class="badge badge-err">Error</span>
-          <span class="badge badge-info">Stable</span>
-        </div>
+        <button style="font-size:12px;font-weight:600;padding:6px 14px;background:var(--color-black);color:#fff;border:none;border-radius:6px;cursor:pointer">Deploy now</button>
       </div>
     </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-16</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-value">64px</span></div>
-    </div>
-  </div>
+    <table class="deployments-table">
+      <thead>
+        <tr>
+          <th>Status</th>
+          <th>Deployment</th>
+          <th>Branch / Commit</th>
+          <th>Regions</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-ok"><span class="badge-dot"></span>Success</span></td>
+          <td><span class="dep-id">deploy_3kzQ9v</span></td>
+          <td>
+            <div class="dep-branch">⎇ main</div>
+            <div class="dep-commit">a1b2c3d · fix: improve KV read latency</div>
+          </td>
+          <td><span class="region-pill">us-east</span> <span class="region-pill">eu-west</span> <span class="region-pill">ap-southeast</span></td>
+          <td><span class="dep-time">2 min ago</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-ok"><span class="badge-dot"></span>Success</span></td>
+          <td><span class="dep-id">deploy_2mxP7n</span></td>
+          <td>
+            <div class="dep-branch">⎇ main</div>
+            <div class="dep-commit">9f8e7d6 · feat: add queue consumer endpoint</div>
+          </td>
+          <td><span class="region-pill">us-east</span> <span class="region-pill">eu-west</span> <span class="region-pill">ap-southeast</span></td>
+          <td><span class="dep-time">1 hr ago</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-progress"><span class="badge-dot"></span>Building</span></td>
+          <td><span class="dep-id">deploy_4rtH2w</span></td>
+          <td>
+            <div class="dep-branch">⎇ feat/auth-refresh</div>
+            <div class="dep-commit">d4e5f6a · refactor: session token rotation</div>
+          </td>
+          <td><span class="region-pill" style="color:var(--text-3)">pending</span></td>
+          <td><span class="dep-time">just now</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-fail"><span class="badge-dot"></span>Failed</span></td>
+          <td><span class="dep-id">deploy_1vbN5c</span></td>
+          <td>
+            <div class="dep-branch">⎇ fix/edge-cache</div>
+            <div class="dep-commit">b3c4d5e · chore: update cache headers</div>
+          </td>
+          <td><span class="region-pill" style="color:var(--text-3)">—</span></td>
+          <td><span class="dep-time">3 hr ago</span></td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-cancel"><span class="badge-dot"></span>Cancelled</span></td>
+          <td><span class="dep-id">deploy_0hkM8b</span></td>
+          <td>
+            <div class="dep-branch">⎇ chore/deps</div>
+            <div class="dep-commit">7a8b9c0 · chore: bump deno std to 0.208</div>
+          </td>
+          <td><span class="region-pill" style="color:var(--text-3)">—</span></td>
+          <td><span class="dep-time">6 hr ago</span></td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use teal only as an accent — highlight, not fill</li>
-          <li>Black text on teal buttons — contrast demands it</li>
-          <li>Use JetBrains Mono for all code, imports, CLI</li>
-          <li>Let whitespace breathe — minimalism is a feature</li>
-          <li>Show permission flags (--allow-net) distinctly</li>
-        </ul>
-      </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't add color variety — one teal is the whole palette</li>
-          <li>Don't use gradients — Deno is flat: black/white/teal</li>
-          <li>Don't round corners beyond 8px</li>
-          <li>Don't animate documentation content</li>
-          <li>Don't use teal for error or warning states</li>
-        </ul>
-      </div>
+    <div class="log-block">
+      <div class="log-line"><span class="log-ts">10:42:01</span><span class="log-ok">✓</span><span>Uploading 23 modules to isolate worker</span></div>
+      <div class="log-line"><span class="log-ts">10:42:01</span><span class="log-deploy">→</span><span>Entry point: <span class="log-deploy">main.ts</span></span></div>
+      <div class="log-line"><span class="log-ts">10:42:02</span><span>Building TypeScript — tsc 5.3.2</span></div>
+      <div class="log-line"><span class="log-ts">10:42:03</span><span class="log-ok">✓</span><span>Type check passed — 0 errors</span></div>
+      <div class="log-line"><span class="log-ts">10:42:03</span><span class="log-deploy">→</span><span>Deploying to <span class="log-deploy">35 regions</span> via Anycast</span></div>
+      <div class="log-line"><span class="log-ts">10:42:04</span><span class="log-ok">✓</span><span class="log-ok">Deployment live — deploy_3kzQ9v.deno.dev</span></div>
+      <div class="log-line"><span class="log-ts">10:42:04</span><span class="log-dim">Build time: 3.1s · Cold start: 4ms · Bundle: 142 kB</span></div>
     </div>
   </div>
 
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--color-black);color:#fff;padding:10px 22px;border-radius:9999px;font-size:12px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:1000"></div>
+
+<script>
+function copy(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  var t=document.getElementById('toast');
+  t.textContent='Copied '+hex;
+  t.style.opacity='1';
+  t.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(t._tid);
+  t._tid=setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(-50%) translateY(80px)';},1800);
 }
 </script>
 </body>
