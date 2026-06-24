@@ -1,377 +1,448 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cloudflare – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudflare — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap');
-
-:root[data-theme="dark"] {
-  --bg: #111111;
-  --surface: #1A1A1A;
-  --elevated: #242424;
-  --border: #333333;
-  --primary: #F38020;
-  --primary-hover: #FBAD41;
-  --primary-text-hover: #111111;
-  --danger: #D60000;
-  --success: #00B050;
-  --warning: #FBAD41;
-  --text: #F2F2F2;
-  --text-2: #AAAAAA;
-  --text-3: #666666;
-  --toggle-bg: #242424;
-  --toggle-text: #F2F2F2;
-  --toggle-border: #333333;
+:root {
+  --tangerine: #F6821F;
+  --ruby:      #FF6633;
+  --mango:     #FBAD41;
+  --lemon:     #FFD43C;
+  --blueberry: #3E74FF;
+  --raspberry: #CE2F55;
 }
 :root[data-theme="light"] {
-  --bg: #F9F9F9;
-  --surface: #FFFFFF;
-  --elevated: #EEEEEE;
-  --border: #DDDDDD;
-  --primary: #F38020;
-  --primary-hover: #E07010;
-  --primary-text-hover: #FFFFFF;
-  --danger: #D60000;
-  --success: #007A38;
-  --warning: #C07000;
-  --text: #111111;
-  --text-2: #555555;
-  --text-3: #888888;
-  --toggle-bg: #EEEEEE;
-  --toggle-text: #111111;
-  --toggle-border: #DDDDDD;
+  --bg:       #FFFFFF;
+  --bg2:      #F2F2F2;
+  --surface:  #FFFFFF;
+  --elevated: #F2F2F2;
+  --border:   #E5E5E5;
+  --border2:  #D0D0D0;
+  --text:     #000000;
+  --text-2:   #1A1A1A;
+  --text-3:   #555555;
+  --text-4:   #888888;
+  --accent:   #F6821F;
+  --accent-h: #E07019;
+  --ok-txt:   #16a34a;
+  --ok-bg:    rgba(34,197,94,0.10);
+  --ok-bdr:   rgba(34,197,94,0.30);
+  --warn-txt: #92400e;
+  --warn-bg:  rgba(251,173,65,0.12);
+  --warn-bdr: rgba(251,173,65,0.35);
+  --err-txt:  #9f1239;
+  --err-bg:   rgba(206,47,85,0.10);
+  --err-bdr:  rgba(206,47,85,0.28);
+  --info-txt: #1e40af;
+  --info-bg:  rgba(62,116,255,0.10);
+  --info-bdr: rgba(62,116,255,0.28);
+  --code-bg:  #F5F5F5;
+  --toggle-on: #F6821F;
+  --sw-off:   #B2BAC4;
 }
-
+:root[data-theme="dark"] {
+  --bg:       #111111;
+  --bg2:      #181818;
+  --surface:  #1E1E1E;
+  --elevated: #282828;
+  --border:   #333333;
+  --border2:  #444444;
+  --text:     #FFFFFF;
+  --text-2:   #E8E8E8;
+  --text-3:   #999999;
+  --text-4:   #666666;
+  --accent:   #F6821F;
+  --accent-h: #FF9A35;
+  --ok-txt:   #4ade80;
+  --ok-bg:    rgba(34,197,94,0.12);
+  --ok-bdr:   rgba(34,197,94,0.30);
+  --warn-txt: #FBAD41;
+  --warn-bg:  rgba(251,173,65,0.12);
+  --warn-bdr: rgba(251,173,65,0.30);
+  --err-txt:  #fb7185;
+  --err-bg:   rgba(206,47,85,0.12);
+  --err-bdr:  rgba(206,47,85,0.30);
+  --info-txt: #93c5fd;
+  --info-bg:  rgba(62,116,255,0.12);
+  --info-bdr: rgba(62,116,255,0.28);
+  --code-bg:  #141414;
+  --toggle-on: #F6821F;
+  --sw-off:   #5A6272;
+}
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-  transition: background 0.2s, color 0.2s;
-}
-
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--primary);
-  color: #fff;
-  padding: 10px 22px;
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-  opacity: 0;
-  transition: all 0.3s;
-  pointer-events: none;
-  z-index: 1000;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-logo { flex-shrink: 0; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-
-.section { margin-bottom: 56px; }
-.section-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-3);
-  margin-bottom: 20px;
-}
-
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  margin-bottom: 6px;
-}
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'Source Code Pro', monospace; font-size: 11px; color: var(--text-2); }
-
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+:root[data-theme="dark"] .icon-moon { display: none; }
+:root[data-theme="light"] .icon-sun { display: none; }
+.toggle { position: fixed; top: 16px; right: 16px; background: var(--surface); border: 1px solid var(--border); color: var(--text-3); padding: 8px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 100; line-height: 0; transition: border-color .15s; }
+.toggle:hover { border-color: var(--accent); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--text); color: var(--bg); font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 6px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.hero { padding: 64px 0 56px; border-bottom: 1px solid var(--border); }
+.hero-inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+.hero-logo { margin-bottom: 20px; }
+.hero h1 { font-size: 40px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 10px; }
+.hero p { font-size: 16px; color: var(--text-3); max-width: 540px; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 40px 80px; }
+.section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-title { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-4); margin-bottom: 28px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--text-4); margin: 24px 0 10px; }
+.group-label:first-child { margin-top: 0; }
+.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 8px; margin-bottom: 4px; }
+.swatch { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color .12s; }
+.swatch:hover { border-color: var(--accent); }
+.swatch-block { height: 80px; }
+.swatch-info { padding: 9px 11px; background: var(--bg2); }
+.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); display: block; }
+.swatch-hex { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; color: var(--text-4); margin-top: 2px; display: block; }
+.swatch-use { font-size: 10px; color: var(--text-4); margin-top: 1px; display: block; }
+.type-rows { display: flex; flex-direction: column; }
+.type-row { display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
 .type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill {
-  font-size: 10px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: var(--elevated);
-  color: var(--text-2);
-  white-space: nowrap;
-}
-.type-sample { flex: 1; }
-
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-}
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn {
-  display: inline-flex;
-  align-items: center;
-  height: 36px;
-  padding: 0 16px;
-  border-radius: 6px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.15s;
-}
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); color: var(--primary-text-hover); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-
-.input-demo {
-  width: 100%;
-  height: 36px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.15s;
-  margin-bottom: 10px;
-}
-.input-demo:focus { border-color: var(--primary); }
-
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge {
-  font-size: 11px;
-  font-weight: 500;
-  padding: 3px 10px;
-  border-radius: 3px;
-  border: 1px solid;
-}
-.badge-active { background: rgba(0,176,80,0.12); color: #00B050; border-color: rgba(0,176,80,0.3); }
-.badge-warning { background: rgba(251,173,65,0.12); color: #FBAD41; border-color: rgba(251,173,65,0.3); }
-.badge-blocked { background: rgba(214,0,0,0.12); color: #D60000; border-color: rgba(214,0,0,0.3); }
-.badge-inactive { background: rgba(102,102,102,0.12); color: #AAAAAA; border-color: rgba(102,102,102,0.3); }
-
-/* Data table */
-.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.data-table th { background: var(--elevated); color: var(--text-3); text-transform: uppercase; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; padding: 8px 12px; text-align: left; }
-.data-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); font-family: 'Source Code Pro', monospace; color: var(--text-2); }
-.data-table tr:hover td { background: var(--elevated); }
-
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
-.spacing-label { font-family: 'Source Code Pro', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+.type-name { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; color: var(--text-4); }
+.type-sample { color: var(--text); }
+.type-specs { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+.spec-pill { font-size: 10px; font-family: ui-monospace, monospace; padding: 2px 6px; border-radius: 4px; background: var(--elevated); border: 1px solid var(--border); color: var(--text-3); white-space: nowrap; }
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+.comp-card-title { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-4); margin-bottom: 16px; }
+.btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn { font-family: 'Inter', system-ui, sans-serif; font-size: 13px; font-weight: 500; height: 34px; padding: 0 16px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; display: inline-flex; align-items: center; transition: background .12s, border-color .12s; white-space: nowrap; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-h); border-color: var(--accent-h); }
+.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border2); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--text); }
+.btn-danger { background: var(--err-bg); color: var(--err-txt); border-color: var(--err-bdr); }
+.btn-danger:hover { filter: brightness(1.08); }
+.input-field { width: 100%; height: 34px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'Inter', system-ui, sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color .15s, box-shadow .15s; margin-bottom: 8px; }
+.input-field:last-child { margin-bottom: 0; }
+.input-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(246,130,31,.15); }
+.input-field::placeholder { color: var(--text-4); }
+.badge { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; border: 1px solid; }
+.badge-allow     { background: var(--ok-bg);   color: var(--ok-txt);   border-color: var(--ok-bdr); }
+.badge-block     { background: var(--err-bg);  color: var(--err-txt);  border-color: var(--err-bdr); }
+.badge-challenge { background: var(--warn-bg); color: var(--warn-txt); border-color: var(--warn-bdr); }
+.badge-skip      { background: var(--info-bg); color: var(--info-txt); border-color: var(--info-bdr); }
+.badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.toggle-wrap { display: flex; align-items: center; gap: 10px; }
+.sw { position: relative; display: inline-block; width: 36px; height: 20px; cursor: pointer; flex-shrink: 0; vertical-align: middle; }
+.sw input { opacity: 0; width: 0; height: 0; position: absolute; }
+.sw-track { position: absolute; inset: 0; border-radius: 10px; background: var(--sw-off); transition: background .2s; }
+.sw-track::before { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; left: 3px; top: 3px; background: #fff; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.sw input:checked + .sw-track { background: var(--toggle-on); }
+.sw input:checked + .sw-track::before { transform: translateX(16px); }
+.fw-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.fw-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.fw-zone-row { display: flex; align-items: center; gap: 10px; }
+.fw-zone-icon { width: 32px; height: 32px; border-radius: 6px; background: linear-gradient(135deg, #FF6633, #F6821F, #FBAD41); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.fw-zone-name { font-size: 15px; font-weight: 600; color: var(--text); }
+.fw-zone-sub { font-size: 12px; color: var(--text-4); }
+.fw-tabs { display: flex; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 20px; overflow-x: auto; }
+.fw-tab { padding: 10px 14px; font-size: 13px; font-weight: 500; color: var(--text-3); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color .12s, border-color .12s; }
+.fw-tab:hover { color: var(--text); }
+.fw-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.fw-toolbar { padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+.fw-toolbar-title { font-size: 14px; font-weight: 600; color: var(--text); flex: 1; }
+.fw-search { height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-family: 'Inter', system-ui, sans-serif; font-size: 12px; color: var(--text); outline: none; width: 200px; transition: border-color .15s; }
+.fw-search:focus { border-color: var(--accent); }
+.fw-search::placeholder { color: var(--text-4); }
+.fw-table { width: 100%; border-collapse: collapse; }
+.fw-table th { padding: 8px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text-4); background: var(--bg2); border-bottom: 1px solid var(--border); }
+.fw-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
+.fw-table tr:last-child td { border-bottom: none; }
+.fw-table tbody tr:hover td { background: var(--elevated); }
+.fw-rule-name { font-weight: 500; color: var(--text); }
+.fw-expr { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; color: var(--text-3); background: var(--code-bg); padding: 2px 6px; border-radius: 4px; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+.fw-hits { font-family: ui-monospace, 'SF Mono', monospace; font-size: 12px; color: var(--text-4); text-align: right; }
+.fw-action-btn { height: 26px; padding: 0 8px; border-radius: 4px; font-size: 11px; font-weight: 500; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-3); transition: all .12s; font-family: 'Inter', system-ui, sans-serif; }
+.fw-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.fw-action-btn.delete:hover { border-color: var(--err-txt); color: var(--err-txt); }
+.fw-empty { padding: 48px 20px; text-align: center; display: none; }
+.fw-empty.visible { display: block; }
+.fw-empty-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.fw-empty-sub { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.fw-add-form { padding: 16px 20px; border-top: 1px solid var(--border); background: var(--bg2); display: none; flex-direction: column; gap: 10px; }
+.fw-add-form.visible { display: flex; }
+.fw-add-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+.fw-field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 140px; }
+.fw-label { font-size: 11px; font-weight: 500; color: var(--text-3); }
+.fw-input { height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-family: 'Inter', system-ui, sans-serif; font-size: 12px; color: var(--text); outline: none; transition: border-color .15s; }
+.fw-input:focus { border-color: var(--accent); }
+.fw-select { height: 30px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 10px; font-family: 'Inter', system-ui, sans-serif; font-size: 12px; color: var(--text); outline: none; }
+.fw-footer { padding: 12px 20px; border-top: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; justify-content: space-between; }
+.fw-footer-count { font-size: 12px; color: var(--text-3); }
+.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.guardrails-col { display: flex; flex-direction: column; gap: 6px; }
+.guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 6px; }
+.guardrails-heading.do { color: var(--ok-txt); }
+.guardrails-heading.dont { color: var(--err-txt); }
+.guardrail-item { font-size: 13px; color: var(--text-3); padding: 4px 0 4px 16px; position: relative; line-height: 1.5; }
+.guardrail-item::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; }
+.guardrail-item.do::before { background: var(--ok-txt); }
+.guardrail-item.dont::before { background: var(--err-txt); }
+@media (max-width: 640px) { .guardrails-grid { grid-template-columns: 1fr; } .type-row { grid-template-columns: 80px 1fr; } .type-specs { display: none; } }
 </style>
 </head>
 <body>
-
 <button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 <div class="toast" id="toast">Copied!</div>
 
-<div class="container">
-
-  <!-- Hero -->
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#111111"/>
-        <!-- Cloudflare cloud logo -->
-        <path d="M46 38.5c0-4.7-3.8-8.5-8.5-8.5-3.3 0-6.1 1.9-7.5 4.6-0.7-0.3-1.4-0.5-2.2-0.5-3.1 0-5.6 2.5-5.6 5.6 0 0.1 0 0.2 0 0.3H44.5C45.4 39.7 46 39.1 46 38.5z" fill="#F38020" opacity="0.9"/>
-        <path d="M49 41.5H23c-1.1 0-2 0.9-2 2v1c0 1.1 0.9 2 2 2h26c1.1 0 2-0.9 2-2v-1c0-1.1-0.9-2-2-2z" fill="#FBAD41" opacity="0.6"/>
-        <path d="M44 37.5c0-4-3.2-7.3-7.2-7.3-2.8 0-5.2 1.6-6.4 4-0.6-0.3-1.2-0.4-1.9-0.4-2.6 0-4.8 2.1-4.8 4.8 0 0.1 0 0.2 0 0.3H42.3C43.3 38.6 44 38.1 44 37.5z" fill="#F38020"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="37" viewBox="0 0 341 156" fill="none" aria-label="Cloudflare logo">
+        <path d="M275.125 68.25C311.507 68.25 341 97.9335 341 134.55C341 141.077 340.063 147.385 338.317 153.343C337.848 154.943 336.363 156 334.706 156H243.056C241.697 156 240.76 154.628 241.247 153.351L242.999 148.76C248.595 134.03 264.56 121.963 279.331 121.256L307.33 119.813C308.826 119.736 310 118.492 310 116.985C310 115.485 308.838 114.245 307.351 114.157L281.059 112.601C266.924 111.877 260.018 99.2932 263.82 86.179L268.195 71.0866C268.64 69.5514 269.971 68.4343 271.557 68.3476C272.738 68.2831 273.928 68.25 275.125 68.25Z" fill="#FF9910"/>
+        <path d="M184.062 0C222 0 253.868 26.1297 262.882 61.4824C263.26 62.967 263.142 64.5333 262.601 65.9662L255.383 85.0897C249.787 99.8196 235.406 112.593 219.134 112.593L93.7928 114.043C92.2801 114.061 91.063 115.3 91.0625 116.823C91.0625 118.344 92.2776 119.585 93.789 119.605L217.365 121.248C231.531 121.248 238.406 134.556 234.606 147.671L233.011 153.189C232.53 154.855 231.014 156 229.291 156H3.90889C1.98075 156 0.330745 154.574 0.17634 152.64C0.0594555 151.175 0 149.695 0 148.2C0 119.723 21.6617 96.3403 49.306 93.8266C48.7387 91.2419 48.4375 88.5564 48.4375 85.8C48.4375 65.3379 64.919 48.75 85.25 48.75C93.3413 48.75 100.822 51.3789 106.897 55.8321C117.716 23.3806 148.176 0 184.062 0Z" fill="#FF5F08"/>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>Cloudflare</h1>
-      <p>The connectivity cloud — CDN, security, DNS &amp; edge compute</p>
-    </div>
+    <h1>Cloudflare</h1>
+    <p>Build for the agent era — one platform for your apps, agents, and workforce.</p>
   </div>
+</div>
 
-  <!-- Colors -->
+<div class="wrap">
+
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F38020', this)"><div class="swatch-dot" style="background:#F38020"></div><div class="swatch-info"><span class="swatch-name">Orange</span><span class="swatch-hex">#F38020</span></div></div>
-        <div class="swatch" onclick="copyHex('#FBAD41', this)"><div class="swatch-dot" style="background:#FBAD41"></div><div class="swatch-info"><span class="swatch-name">Orange Light</span><span class="swatch-hex">#FBAD41</span></div></div>
-        <div class="swatch" onclick="copyHex('#00B050', this)"><div class="swatch-dot" style="background:#00B050"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#00B050</span></div></div>
-        <div class="swatch" onclick="copyHex('#D60000', this)"><div class="swatch-dot" style="background:#D60000"></div><div class="swatch-info"><span class="swatch-name">Danger</span><span class="swatch-hex">#D60000</span></div></div>
-      </div>
+
+    <div class="group-label">Brand primary</div>
+    <div class="colors-grid">
+      <div class="swatch" onclick="copyHex('#F6821F')"><div class="swatch-block" style="background:#F6821F"></div><div class="swatch-info"><span class="swatch-name">Tangerine</span><span class="swatch-hex">#F6821F</span><span class="swatch-use">Primary brand, CTAs, accents</span></div></div>
+      <div class="swatch" onclick="copyHex('#FF6633')"><div class="swatch-block" style="background:#FF6633"></div><div class="swatch-info"><span class="swatch-name">Ruby</span><span class="swatch-hex">#FF6633</span><span class="swatch-use">Dawn gradient start</span></div></div>
+      <div class="swatch" onclick="copyHex('#FBAD41')"><div class="swatch-block" style="background:#FBAD41"></div><div class="swatch-info"><span class="swatch-name">Mango</span><span class="swatch-hex">#FBAD41</span><span class="swatch-use">Dawn gradient end</span></div></div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#111111', this)"><div class="swatch-dot" style="background:#111111;border:1px solid #333"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#111111</span></div></div>
-        <div class="swatch" onclick="copyHex('#1A1A1A', this)"><div class="swatch-dot" style="background:#1A1A1A;border:1px solid #333"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#1A1A1A</span></div></div>
-        <div class="swatch" onclick="copyHex('#242424', this)"><div class="swatch-dot" style="background:#242424;border:1px solid #333"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#242424</span></div></div>
-        <div class="swatch" onclick="copyHex('#333333', this)"><div class="swatch-dot" style="background:#333333"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#333333</span></div></div>
-      </div>
+
+    <div class="group-label">Secondary — diagrams &amp; illustrations only</div>
+    <div class="colors-grid">
+      <div class="swatch" onclick="copyHex('#FFD43C')"><div class="swatch-block" style="background:#FFD43C"></div><div class="swatch-info"><span class="swatch-name">Lemon</span><span class="swatch-hex">#FFD43C</span><span class="swatch-use">Diagrams only</span></div></div>
+      <div class="swatch" onclick="copyHex('#3E74FF')"><div class="swatch-block" style="background:#3E74FF"></div><div class="swatch-info"><span class="swatch-name">Blueberry</span><span class="swatch-hex">#3E74FF</span><span class="swatch-use">Diagrams only</span></div></div>
+      <div class="swatch" onclick="copyHex('#CE2F55')"><div class="swatch-block" style="background:#CE2F55"></div><div class="swatch-info"><span class="swatch-name">Raspberry</span><span class="swatch-hex">#CE2F55</span><span class="swatch-use">Diagrams only</span></div></div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#F2F2F2', this)"><div class="swatch-dot" style="background:#F2F2F2"></div><div class="swatch-info"><span class="swatch-name">Primary</span><span class="swatch-hex">#F2F2F2</span></div></div>
-        <div class="swatch" onclick="copyHex('#AAAAAA', this)"><div class="swatch-dot" style="background:#AAAAAA"></div><div class="swatch-info"><span class="swatch-name">Secondary</span><span class="swatch-hex">#AAAAAA</span></div></div>
-        <div class="swatch" onclick="copyHex('#666666', this)"><div class="swatch-dot" style="background:#666666"></div><div class="swatch-info"><span class="swatch-name">Muted</span><span class="swatch-hex">#666666</span></div></div>
-      </div>
+
+    <div class="group-label">Logomark</div>
+    <div class="colors-grid">
+      <div class="swatch" onclick="copyHex('#FF5F08')"><div class="swatch-block" style="background:#FF5F08"></div><div class="swatch-info"><span class="swatch-name">Cloud body</span><span class="swatch-hex">#FF5F08</span><span class="swatch-use">Main cloud shape</span></div></div>
+      <div class="swatch" onclick="copyHex('#FF9910')"><div class="swatch-block" style="background:#FF9910"></div><div class="swatch-info"><span class="swatch-name">Cloud puff</span><span class="swatch-hex">#FF9910</span><span class="swatch-use">Upper puff shape</span></div></div>
+    </div>
+
+    <div class="group-label">Firewall action colors</div>
+    <div class="colors-grid">
+      <div class="swatch" onclick="copyHex('#16a34a')"><div class="swatch-block" style="background:rgba(34,197,94,0.10);border-bottom:1px solid rgba(34,197,94,0.30)"></div><div class="swatch-info"><span class="swatch-name">Allow</span><span class="swatch-hex">#16a34a</span><span class="swatch-use">Permitted traffic</span></div></div>
+      <div class="swatch" onclick="copyHex('#9f1239')"><div class="swatch-block" style="background:rgba(206,47,85,0.10);border-bottom:1px solid rgba(206,47,85,0.28)"></div><div class="swatch-info"><span class="swatch-name">Block</span><span class="swatch-hex">#9f1239</span><span class="swatch-use">Denied traffic</span></div></div>
+      <div class="swatch" onclick="copyHex('#92400e')"><div class="swatch-block" style="background:rgba(251,173,65,0.12);border-bottom:1px solid rgba(251,173,65,0.35)"></div><div class="swatch-info"><span class="swatch-name">Challenge</span><span class="swatch-hex">#92400e</span><span class="swatch-use">CAPTCHA / managed</span></div></div>
+      <div class="swatch" onclick="copyHex('#1e40af')"><div class="swatch-block" style="background:rgba(62,116,255,0.10);border-bottom:1px solid rgba(62,116,255,0.28)"></div><div class="swatch-info"><span class="swatch-name">Skip</span><span class="swatch-hex">#1e40af</span><span class="swatch-use">Skip / JS challenge</span></div></div>
     </div>
   </div>
 
-  <!-- Typography -->
   <div class="section">
-    <div class="section-title">Typography — Inter + Source Code Pro</div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">40px</span><span class="spec-pill">700</span></div>
-      <div class="type-sample" style="font-size:40px;font-weight:700;">Display</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">28px</span><span class="spec-pill">600</span></div>
-      <div class="type-sample" style="font-size:28px;font-weight:600;">Page Title</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div>
-      <div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:14px;">Body text — default content for dashboard and documentation</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div>
-      <div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, table rows, captions</div>
-    </div>
-    <div class="type-row">
-      <div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div>
-      <div class="type-sample" style="font-size:13px;font-family:'Source Code Pro',monospace;color:var(--text-2);">104.21.62.1 · example.com · CNAME</div>
+    <div class="section-title">Typography — Inter</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div class="type-name">eyebrow</div>
+        <div class="type-sample"><span style="font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)">Region: Earth</span></div>
+        <div class="type-specs"><span class="spec-pill">11px</span><span class="spec-pill">600</span><span class="spec-pill">+5% ls</span><span class="spec-pill">ALL CAPS</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">headline</div>
+        <div class="type-sample"><span style="font-size:32px;font-weight:600;letter-spacing:-.03em;line-height:1">Build for the agent era</span></div>
+        <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">600</span><span class="spec-pill">−3% ls</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">h1-live</div>
+        <div class="type-sample"><span style="font-size:22px;font-weight:600;letter-spacing:-.03em;line-height:1.2">Everything we learned from powering 20% of the Internet—yours by default</span></div>
+        <div class="type-specs"><span class="spec-pill">22px</span><span class="spec-pill">600</span><span class="spec-pill">−3% ls</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">body</div>
+        <div class="type-sample"><span style="font-size:15px;font-weight:400;letter-spacing:-.02em;line-height:1.5;color:var(--text-2)">One platform for your apps, agents, and workforce.</span></div>
+        <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">−2% ls</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">label</div>
+        <div class="type-sample"><span style="font-size:13px;font-weight:500;letter-spacing:-.03em;color:var(--accent)">workers.cloudflare.com</span></div>
+        <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">500</span><span class="spec-pill">−3% ls</span><span class="spec-pill">accent</span></div>
+      </div>
+      <div class="type-row">
+        <div class="type-name">code</div>
+        <div class="type-sample"><code style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;background:var(--code-bg);padding:3px 7px;border-radius:4px;color:var(--text-3)">ip.src eq 203.0.113.0/24 and cf.threat_score gt 30</code></div>
+        <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">400</span></div>
+      </div>
     </div>
   </div>
 
-  <!-- Components -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="components-grid">
+    <div class="comp-grid">
+
       <div class="comp-card">
-        <h3>Buttons</h3>
-        <div class="btn-row">
-          <button class="btn btn-primary">Add Zone</button>
-          <button class="btn btn-danger">Block</button>
-          <button class="btn btn-ghost">Configure</button>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group" style="margin-bottom:10px">
+          <button class="btn btn-primary">Start building</button>
+          <button class="btn btn-ghost">Contact sales</button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-danger" style="font-size:12px;height:30px;padding:0 12px">Under attack?</button>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Input</h3>
-        <input class="input-demo" type="text" placeholder="Enter domain name..." />
-        <input class="input-demo" type="text" placeholder="Search zones..." />
+        <div class="comp-card-title">Inputs</div>
+        <input class="input-field" placeholder="your-zone.example.com">
+        <input class="input-field" value="ip.src eq 203.0.113.0/24" style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px">
       </div>
+
       <div class="comp-card">
-        <h3>Status Badges</h3>
-        <div class="badge-row">
-          <span class="badge badge-active">Active</span>
-          <span class="badge badge-warning">Degraded</span>
-          <span class="badge badge-blocked">Blocked</span>
-          <span class="badge badge-inactive">Inactive</span>
+        <div class="comp-card-title">Firewall Action Badges</div>
+        <div class="badge-group">
+          <span class="badge badge-allow">Allow</span>
+          <span class="badge badge-block">Block</span>
+          <span class="badge badge-challenge">Challenge</span>
+          <span class="badge badge-skip">JS Challenge</span>
+          <span class="badge badge-allow">Managed Challenge</span>
+          <span class="badge badge-skip">Skip</span>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>DNS Records</h3>
-        <table class="data-table">
-          <thead><tr><th>Type</th><th>Name</th><th>Content</th></tr></thead>
-          <tbody>
-            <tr><td>A</td><td>@</td><td>104.21.62.1</td></tr>
-            <tr><td>CNAME</td><td>www</td><td>example.com</td></tr>
-            <tr><td>MX</td><td>@</td><td>mail.example.com</td></tr>
-          </tbody>
+        <div class="comp-card-title">Toggles</div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="toggle-wrap">
+            <label class="sw"><input type="checkbox" checked><span class="sw-track"></span></label>
+            <span style="font-size:13px;color:var(--text-2)">Block OWASP Top 10 threats</span>
+          </div>
+          <div class="toggle-wrap">
+            <label class="sw"><input type="checkbox"><span class="sw-track"></span></label>
+            <span style="font-size:13px;color:var(--text-2)">Rate limiting rules</span>
+          </div>
+          <div class="toggle-wrap">
+            <label class="sw"><input type="checkbox" checked><span class="sw-track"></span></label>
+            <span style="font-size:13px;color:var(--text-2)">Bot score &lt; 10 &rarr; Challenge</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Signature Component — Firewall Rules Manager</div>
+    <div class="fw-panel">
+
+      <div class="fw-header">
+        <div class="fw-zone-row">
+          <div class="fw-zone-icon">
+            <svg width="20" height="9" viewBox="0 0 341 156" fill="none">
+              <path d="M275.125 68.25C311.507 68.25 341 97.9335 341 134.55C341 141.077 340.063 147.385 338.317 153.343C337.848 154.943 336.363 156 334.706 156H243.056C241.697 156 240.76 154.628 241.247 153.351L242.999 148.76C248.595 134.03 264.56 121.963 279.331 121.256L307.33 119.813C308.826 119.736 310 118.492 310 116.985C310 115.485 308.838 114.245 307.351 114.157L281.059 112.601C266.924 111.877 260.018 99.2932 263.82 86.179L268.195 71.0866C268.64 69.5514 269.971 68.4343 271.557 68.3476C272.738 68.2831 273.928 68.25 275.125 68.25Z" fill="white"/>
+              <path d="M184.062 0C222 0 253.868 26.1297 262.882 61.4824C263.26 62.967 263.142 64.5333 262.601 65.9662L255.383 85.0897C249.787 99.8196 235.406 112.593 219.134 112.593L93.7928 114.043C92.2801 114.061 91.063 115.3 91.0625 116.823C91.0625 118.344 92.2776 119.585 93.789 119.605L217.365 121.248C231.531 121.248 238.406 134.556 234.606 147.671L233.011 153.189C232.53 154.855 231.014 156 229.291 156H3.90889C1.98075 156 0.330745 154.574 0.17634 152.64C0.0594555 151.175 0 149.695 0 148.2C0 119.723 21.6617 96.3403 49.306 93.8266C48.7387 91.2419 48.4375 88.5564 48.4375 85.8C48.4375 65.3379 64.919 48.75 85.25 48.75C93.3413 48.75 100.822 51.3789 106.897 55.8321C117.716 23.3806 148.176 0 184.062 0Z" fill="rgba(255,255,255,0.75)"/>
+            </svg>
+          </div>
+          <div>
+            <div class="fw-zone-name">example.com</div>
+            <div class="fw-zone-sub">Active zone &middot; Cloudflare One &middot; Pay-as-you-go</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" style="font-size:12px;height:30px;padding:0 12px">View analytics</button>
+          <button class="btn btn-primary" style="font-size:12px;height:30px;padding:0 12px" onclick="toggleAddForm()">+ Add a rule</button>
+        </div>
+      </div>
+
+      <div class="fw-tabs">
+        <div class="fw-tab active" onclick="setTab(this)">Security rules</div>
+        <div class="fw-tab" onclick="setTab(this)">WAF</div>
+        <div class="fw-tab" onclick="setTab(this)">DDoS</div>
+        <div class="fw-tab" onclick="setTab(this)">Bots</div>
+        <div class="fw-tab" onclick="setTab(this)">Rate limiting</div>
+        <div class="fw-tab" onclick="setTab(this)">Exposed credentials</div>
+      </div>
+
+      <div class="fw-toolbar">
+        <div class="fw-toolbar-title">Custom rules</div>
+        <input class="fw-search" id="ruleSearch" placeholder="Search by name or expression&hellip;" oninput="filterRules(this.value)">
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="fw-table" id="rulesTable">
+          <thead>
+            <tr>
+              <th style="width:36px">#</th>
+              <th>Rule name</th>
+              <th>Expression</th>
+              <th style="width:130px">Action</th>
+              <th style="width:80px;text-align:right">Requests</th>
+              <th style="width:72px;text-align:center">Enabled</th>
+              <th style="width:110px"></th>
+            </tr>
+          </thead>
+          <tbody id="rulesTbody"></tbody>
         </table>
       </div>
+
+      <div class="fw-empty" id="emptyState">
+        <div class="fw-empty-title">No rules match your search</div>
+        <div class="fw-empty-sub">Try a different name or expression, or add a new rule.</div>
+        <button class="btn btn-primary" style="font-size:12px;height:30px;padding:0 12px" onclick="toggleAddForm()">+ Add a rule</button>
+      </div>
+
+      <div class="fw-add-form" id="addRuleForm">
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">New custom rule</div>
+        <div class="fw-add-row">
+          <div class="fw-field" style="min-width:160px">
+            <label class="fw-label">Rule name</label>
+            <input class="fw-input" id="newRuleName" placeholder="e.g. Block suspicious IPs">
+          </div>
+          <div class="fw-field" style="flex:2;min-width:240px">
+            <label class="fw-label">Expression</label>
+            <input class="fw-input" id="newRuleExpr" placeholder='ip.geoip.country eq "CN" and cf.threat_score gt 30' style="font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px">
+          </div>
+          <div class="fw-field" style="min-width:140px;max-width:170px">
+            <label class="fw-label">Action</label>
+            <select class="fw-select" id="newRuleAction">
+              <option value="block">Block</option>
+              <option value="allow">Allow</option>
+              <option value="challenge">Challenge</option>
+              <option value="js_challenge">JS Challenge</option>
+              <option value="managed_challenge">Managed Challenge</option>
+              <option value="skip">Skip</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" style="font-size:12px;height:30px;padding:0 12px" onclick="addRule()">Save rule</button>
+          <button class="btn btn-ghost" style="font-size:12px;height:30px;padding:0 12px" onclick="toggleAddForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div class="fw-footer">
+        <span class="fw-footer-count" id="ruleCount"></span>
+        <span style="font-size:12px;color:var(--text-4)">Ordered by priority &middot; drag to reorder</span>
+      </div>
+
     </div>
   </div>
 
-  <!-- Spacing -->
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-16</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-value">64px</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
   <div class="section">
     <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use orange sparingly — it's the only accent color</li>
-          <li>Use monospace for all IPs, hostnames, DNS records</li>
-          <li>Display global metrics with large numbers front-and-center</li>
-          <li>Use flat, minimal shadows for fast-loading feel</li>
-          <li>Prefer tabular data for zones, routes, and rules</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Use Tangerine (#F6821F) in every layout — even a small hit anchors the brand</div>
+        <div class="guardrail-item do">Pair orange generously with white space to create Cloudflare's bold, simple impression</div>
+        <div class="guardrail-item do">Use Inter as the only typeface for all brand communications</div>
+        <div class="guardrail-item do">Apply the Eyebrow style (all caps, 600, +5% tracking) to introduce section topics</div>
+        <div class="guardrail-item do">Use the Dawn gradient (Ruby &rarr; Tangerine &rarr; Mango) on hero and marketing backgrounds</div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use multiple accent colors — orange only</li>
-          <li>Don't round corners beyond 8px</li>
-          <li>Don't animate table rows or data updates</li>
-          <li>Don't use gradients on backgrounds — keep it flat</li>
-          <li>Don't make the orange glow or pulse</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Use secondary colors (Lemon, Blueberry, Raspberry) as primary graphics or button fills</div>
+        <div class="guardrail-item dont">Use black as a background color — reserved for type only</div>
+        <div class="guardrail-item dont">Stretch, recolor, or modify the cloud logomark shape or proportions</div>
+        <div class="guardrail-item dont">Use any typeface other than Inter for brand communications</div>
+        <div class="guardrail-item dont">Use orange text on white for small body copy — contrast is insufficient at small sizes</div>
       </div>
     </div>
   </div>
@@ -379,14 +450,124 @@ body {
 </div>
 
 <script>
-
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+function copyHex(hex) {
+  navigator.clipboard.writeText(hex).catch(function(){});
+  var t = document.getElementById('toast');
+  t.textContent = 'Copied ' + hex;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
+
+function setTab(el) {
+  document.querySelectorAll('.fw-tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+}
+
+var ACTION_BADGE = {
+  block:             ['badge-block',     'Block'],
+  allow:             ['badge-allow',     'Allow'],
+  challenge:         ['badge-challenge', 'Challenge'],
+  js_challenge:      ['badge-skip',      'JS Challenge'],
+  managed_challenge: ['badge-allow',     'Managed Challenge'],
+  skip:              ['badge-skip',      'Skip'],
+};
+
+var rules = [
+  { id:1,  name:'Block high-threat IPs',          expr:'cf.threat_score gt 50',                                        action:'block',             hits:'1.2M', enabled:true  },
+  { id:2,  name:'Allow Cloudflare health checks', expr:'ip.src in {103.21.244.0/22 103.22.200.0/22}',                 action:'allow',             hits:'84K',  enabled:true  },
+  { id:3,  name:'Challenge non-browser agents',   expr:'not cf.client.bot and http.user_agent contains "curl"',       action:'challenge',         hits:'310K', enabled:true  },
+  { id:4,  name:'Block bad bots by score',        expr:'cf.bot_management.score lt 10',                               action:'js_challenge',      hits:'2.1M', enabled:true  },
+  { id:5,  name:'Rate-limit login endpoint',      expr:'http.request.uri.path eq "/login"',                          action:'block',             hits:'45K',  enabled:false },
+  { id:6,  name:'Skip WAF for trusted IPs',       expr:'ip.src in {198.51.100.0/24 203.0.113.42}',                   action:'skip',              hits:'120K', enabled:true  },
+  { id:7,  name:'Block SQL injection patterns',   expr:'http.request.uri.query contains "UNION SELECT"',              action:'block',             hits:'7.8K', enabled:true  },
+  { id:8,  name:'Challenge POST from Russia',     expr:'http.request.method eq "POST" and ip.geoip.country eq "RU"', action:'managed_challenge', hits:'33K',  enabled:false },
+  { id:9,  name:'Allow Googlebot crawler',        expr:'cf.client.bot and http.user_agent contains "Googlebot"',     action:'allow',             hits:'560K', enabled:true  },
+  { id:10, name:'Block empty User-Agent',         expr:'http.user_agent eq ""',                                       action:'block',             hits:'18K',  enabled:true  },
+];
+
+var nextId = 11;
+var filterText = '';
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderRules() {
+  var tbody = document.getElementById('rulesTbody');
+  var filtered = rules.filter(function(r) {
+    return !filterText || r.name.toLowerCase().indexOf(filterText) !== -1 || r.expr.toLowerCase().indexOf(filterText) !== -1;
+  });
+  var empty = document.getElementById('emptyState');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.classList.add('visible');
+  } else {
+    empty.classList.remove('visible');
+    tbody.innerHTML = filtered.map(function(r, i) {
+      var ab = ACTION_BADGE[r.action] || ACTION_BADGE.allow;
+      return '<tr id="row-' + r.id + '">' +
+        '<td style="color:var(--text-4);font-size:12px">' + (i + 1) + '</td>' +
+        '<td><span class="fw-rule-name">' + esc(r.name) + '</span></td>' +
+        '<td><span class="fw-expr" title="' + esc(r.expr) + '">' + esc(r.expr) + '</span></td>' +
+        '<td><span class="badge ' + ab[0] + '">' + ab[1] + '</span></td>' +
+        '<td class="fw-hits">' + r.hits + '</td>' +
+        '<td style="text-align:center"><label class="sw"><input type="checkbox" ' + (r.enabled ? 'checked' : '') + ' onchange="toggleRule(' + r.id + ',this.checked)"><span class="sw-track"></span></label></td>' +
+        '<td><div style="display:flex;align-items:center;gap:6px"><button class="fw-action-btn" onclick="editRule(' + r.id + ')">Edit</button><button class="fw-action-btn delete" onclick="deleteRule(' + r.id + ')">Delete</button></div></td>' +
+        '</tr>';
+    }).join('');
+  }
+  var n = rules.length;
+  document.getElementById('ruleCount').textContent = n + (n === 1 ? ' rule' : ' rules') + (filterText && filtered.length !== n ? ' (' + filtered.length + ' shown)' : '');
+}
+
+function toggleRule(id, enabled) {
+  var r = rules.find(function(r){ return r.id === id; });
+  if (r) r.enabled = enabled;
+}
+
+function deleteRule(id) {
+  rules = rules.filter(function(r){ return r.id !== id; });
+  renderRules();
+}
+
+function editRule(id) {
+  var r = rules.find(function(r){ return r.id === id; });
+  if (!r) return;
+  document.getElementById('newRuleName').value = r.name;
+  document.getElementById('newRuleExpr').value = r.expr;
+  document.getElementById('newRuleAction').value = r.action;
+  document.getElementById('addRuleForm').classList.add('visible');
+  deleteRule(id);
+}
+
+function toggleAddForm() {
+  var f = document.getElementById('addRuleForm');
+  f.classList.toggle('visible');
+  if (f.classList.contains('visible')) {
+    setTimeout(function(){ document.getElementById('newRuleName').focus(); }, 50);
+  }
+}
+
+function addRule() {
+  var name   = document.getElementById('newRuleName').value.trim();
+  var expr   = document.getElementById('newRuleExpr').value.trim();
+  var action = document.getElementById('newRuleAction').value;
+  if (!name || !expr) { document.getElementById(name ? 'newRuleExpr' : 'newRuleName').focus(); return; }
+  if (rules.length >= 20) rules.shift();
+  rules.push({ id: nextId++, name: name, expr: expr, action: action, hits: '0', enabled: true });
+  document.getElementById('newRuleName').value = '';
+  document.getElementById('newRuleExpr').value = '';
+  document.getElementById('newRuleAction').value = 'block';
+  document.getElementById('addRuleForm').classList.remove('visible');
+  renderRules();
+}
+
+function filterRules(val) {
+  filterText = val.toLowerCase();
+  renderRules();
+}
+
+renderRules();
 </script>
 </body>
 </html>
