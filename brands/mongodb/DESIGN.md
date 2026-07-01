@@ -1,170 +1,190 @@
 # MongoDB Design System
 
 ## Overview
-MongoDB is the world's most popular NoSQL database. The design language pairs a deep dark navy with a vivid leafy green — professional, modern, and instantly recognizable. The brand balances enterprise credibility with developer approachability.
 
-**Brand personality:** Scalable, powerful, developer-friendly, data-first.
+MongoDB is the leading document database platform. "One data platform. Unlimited AI potential." — the design language pairs a deep dark navy with a vivid leafy green, balancing enterprise credibility with developer approachability. Dark-first.
+
+**Brand positioning:** Developer-first, scalable, AI-native data platform. Atlas is the flagship cloud product.
 
 ---
 
 ## Colors
 
-### Primary Palette
+### Green Scale (Primary Brand)
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--mdb-green` | `#00ED64` | Primary brand, CTAs, highlights |
-| `--mdb-green-dark` | `#00684A` | Hover states, secondary fills |
-| `--mdb-navy` | `#001E2B` | Primary background, hero sections |
-| `--mdb-forest` | `#023430` | Deep surface color |
+| `--brand` | `#00ED64` | Primary CTA buttons, active states, brand accent |
+| `--brand-hover` | `#00AA57` | Hover on green elements |
+| `--brand-dark` | `#00684A` | Dark green — success text on light bg, secondary fills |
+| `--brand-deepest` | `#014E3D` | Deepest green for section bgs |
+| `--brand-tint` | `rgba(0,237,100,0.08)` | Connected status bg, active nav tint |
 
-### Surface Palette (Dark)
+### Navy Scale (Backgrounds)
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#001E2B` | Main background |
-| `--bg-surface` | `#0C2336` | Cards, panels |
-| `--bg-elevated` | `#112B40` | Dropdowns, modals |
-| `--border` | `#1C3D54` | Dividers, borders |
+| `--navy-deepest` | `#061621` | Hero gradient, very deep bg |
+| `--navy-primary` | `#001E2B` | **Main dark bg — the single most identifiable MongoDB color** |
+| `--navy-surface` | `#21313C` | Cards, sidebar panels |
+| `--navy-raised` | `#3D4F58` | Raised elements, hover states, popovers |
 
-### Text
+### Slate Scale (Neutral)
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--text-primary` | `#FFFFFF` | Headings, body |
-| `--text-secondary` | `#89A0B1` | Labels, captions |
-| `--text-muted` | `#4E6C7D` | Placeholders, disabled |
-| `--text-green` | `#00ED64` | Links, accent text |
+| `--slate-500` | `#5D6C74` | Muted text, disabled, placeholders |
+| `--slate-400` | `#B8C4C2` | Secondary text on dark bg, light borders |
+| `--slate-200` | `#E7EEEC` | Light mode borders, light bg dividers |
+| `--slate-100` | `#F5F7FA` | Light mode subtle surface |
 
-### Semantic
+### Blue (Informational)
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--success` | `#00ED64` | Connected, operation OK |
-| `--warning` | `#FFC010` | Index missing, slow query |
-| `--danger` | `#FF6960` | Error, connection failed |
-| `--info` | `#0498EC` | Informational |
+| `--blue` | `#006CFA` | Links, info states, secondary CTA |
+
+### Semantic Tokens
+| Token | Light | Dark |
+|-------|-------|------|
+| `--bg` | `#ffffff` | `#001E2B` |
+| `--bg2` | `#F5F7FA` | `#061621` |
+| `--surface` | `#ffffff` | `#21313C` |
+| `--raised` | `#E7EEEC` | `#3D4F58` |
+| `--border` | `#E7EEEC` | `#3D4F58` |
+| `--text` | `#001E2B` | `#ffffff` |
+| `--text2` | `#3D4F58` | `#B8C4C2` |
+| `--text3` | `#5D6C74` | `#5D6C74` |
+| `--brand` | `#00684A` | `#00ED64` |
+| `--logo-text` | `#001E2B` | `#ffffff` |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+### Font Stack
+| Role | Family | CDN |
+|------|--------|-----|
+| Display / Marketing | MongoDBValueSerif | `https://static.mongodb.com/com/fonts/MongoDBValueSerif-Regular.woff2` |
+| Display Bold | MongoDBValueSerif Bold | `https://static.mongodb.com/com/fonts/MongoDBValueSerif-Bold.woff2` |
+| UI / Body | EuclidCircularA Regular | `https://static.mongodb.com/com/fonts/EuclidCircularA-Regular-WebXL.woff2` |
+| UI Medium | EuclidCircularA Medium | `https://static.mongodb.com/com/fonts/EuclidCircularA-Medium-WebXL.woff2` |
+| Alternate Display | AkzidenzGroteskBQ Light | `https://static.mongodb.com/com/fonts/akzidenzgroteskbq_light-webfont.woff2` |
+| Code / Queries | Source Code Pro | `https://static.mongodb.com/com/fonts/SourceCodePro-Regular.ttf` |
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 40px | 700 | Hero, marketing |
-| Heading 1 | 28px | 600 | Page titles |
-| Heading 2 | 20px | 600 | Section headers |
-| Body | 15px | 400 | Default content |
-| Small | 13px | 400 | Labels, metadata |
-| Mono | 13px | 400 | Queries, JSON, shell |
+All fonts are served from `static.mongodb.com` with `Access-Control-Allow-Origin: *`.
 
----
+### Type Scale
+| Role | Font | Size | Weight | Line Height |
+|------|------|------|--------|-------------|
+| Hero / Display | MongoDBValueSerif | 52px | 700 | 1.05 |
+| H1 | MongoDBValueSerif | 32px | 400 | 1.2 |
+| H2 | EuclidCircularA | 20px | 500 | 1.3 |
+| H3 | EuclidCircularA | 16px | 500 | 1.4 |
+| Body | EuclidCircularA | 15px | 400 | 1.65 |
+| Small / Label | EuclidCircularA | 13px | 400 | 1.5 |
+| Code / Query | Source Code Pro | 13px | 400 | 1.6 |
 
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
+MongoDBValueSerif is a proprietary serif used exclusively for marketing headings and hero copy. EuclidCircularA handles all UI and body text. Source Code Pro is mandatory for all query, JSON, and `_id` fields.
 
 ---
 
-## Border Radius
+## Logo
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Tags, badges |
-| `--radius-md` | `6px` | Buttons, inputs |
-| `--radius-lg` | `10px` | Cards, panels |
-| `--radius-xl` | `14px` | Modals |
+The MongoDB wordmark SVG (`viewBox="0 0 1102 278"`) has two distinct parts:
+
+**Leaf mark (first `<path>`):**
+A tall teardrop/leaf shape with an internal spine. Color is always `#00ED64` (bright green) — fixed regardless of theme. This is the most protected brand element.
+
+**Wordmark letters:**
+Six letter-path groups for "MongoDB". Use `fill="var(--logo-text)"` so the text adapts to dark/light automatically.
+
+**Theming rule:** Leaf = always `#00ED64`. Text = `var(--logo-text)`.
 
 ---
 
-## Shadows
+## Spacing & Shape
 
-```css
---shadow-sm: 0 1px 4px rgba(0,0,0,0.5);
---shadow-md: 0 4px 20px rgba(0,0,0,0.6);
---shadow-lg: 0 8px 40px rgba(0,0,0,0.7);
---shadow-green: 0 0 0 3px rgba(0,237,100,0.25);
-```
+| Property | Value |
+|----------|-------|
+| Border radius — buttons, inputs | 6px |
+| Border radius — cards, panels | 10px |
+| Border radius — badges, chips | 4px |
+| Border radius — modals | 14px |
+| Elevation | Subtle — `0 1px 4px rgba(0,0,0,0.4)` on dark surfaces |
 
 ---
 
 ## Components
 
 ### Buttons
-```
-Primary:  bg #00ED64, text #001E2B, hover #00C84F, radius 6px, height 40px, font-weight 600
-Ghost:    bg transparent, border #1C3D54, text #89A0B1, hover border #00ED64
-Danger:   bg #FF6960, text white
-```
+- **Primary:** `background: var(--brand)`, `color: #001E2B` (always dark text — even on dark-mode green), radius 6px, padding `10px 20px`, weight 500, EuclidCircularA.
+- **Ghost:** transparent, `border: 1px solid var(--border)`, hover border switches to `var(--brand)`.
+- **Danger:** `#FF6960` bg, white text.
 
-### Inputs
-```
-Background: #0C2336
-Border:     #1C3D54 default, #00ED64 focused
-Text:       #FFFFFF
-Placeholder: #4E6C7D
-Radius:     6px, height: 40px
-Font:       JetBrains Mono for query fields
-```
+CTAs on site: "Try Free", "Talk to an Expert", "Get started for free", "Explore Atlas".
 
-### Connection Status
-```
-Connected:    bg rgba(0,237,100,0.12), text #00ED64, dot #00ED64
-Disconnected: bg rgba(255,105,96,0.12), text #FF6960, dot #FF6960
-Connecting:   bg rgba(4,152,236,0.12), text #0498EC, dot #0498EC (pulse)
-```
+### Connection Status Badges
+- **Connected:** `#00ED64` text on `rgba(0,237,100,0.08)` bg — pulsing green dot
+- **Disconnected:** `#FF6960` text on red-tinted bg — static red dot
+- **Connecting:** `#006CFA` text on blue-tinted bg — animated dot
 
-### Query Result Card
+### Collection Chips
+Small uppercase label, EuclidCircularA 11px/500, radius 4px:
+- Document: navy/slate bg
+- Index: blue tint
+- Schema: green tint
+
+### Document Cards
+`background: var(--surface)`, `border: 1px solid var(--border)`, radius 10px:
+- Header: `background: var(--raised)`, field names in Source Code Pro, green-tinted
+- Values: Source Code Pro, white text on dark
+- `_id` field: `color: var(--brand)`, always monospace
+
+---
+
+## Signature Component — Atlas Data Explorer
+
+The most recognizable MongoDB UI: the Atlas Data Explorer showing a cluster's databases, collections, and live document data with MQL filter support.
+
+**Layout:** Left sidebar (240px) + main content area.
+
+**Sidebar:**
+- Cluster name at top with connection status badge (Connected — green)
+- Database tree: collapsed → click to expand → reveals collections
+- Collections listed with doc count in slate text
+- Active collection: green left-border + brand-tint bg
+
+**Main content:**
+- Breadcrumb: `Cluster0 / sample_mflix / movies`
+- Filter bar: Source Code Pro query input with `{ }` placeholder, "Find" CTA button
+- Document count display: "Displaying documents 1–20 of 21,349"
+- Table view: columns for `_id`, `title`, `year`, `genre`, `runtime`
+- Row hover: `background: var(--raised)`
+- Click row → expandable inline JSON panel with full document
+
+**JSON document panel:**
 ```
-Background:  #0C2336
-Border:      1px solid #1C3D54
-Header:      bg #112B40, monospace field names, text #00ED64
-Value:       white, monospace
-Radius:      10px
+{
+  "_id": ObjectId("573a1390f29313caabcd4135"),
+  "title": "The Perils of Pauline",
+  "year": 1914,
+  "genres": ["Action", "Adventure", "Romance"],
+  "runtime": 199,
+  "cast": ["Pearl White", "Crane Wilbur", ...]
+}
 ```
 
 ---
 
-## Layout
-
-- Dashboard max-width: 1280px
-- Sidebar: 240px
-- Content padding: 24px
-- Collections list: table, not cards
-
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1280px |
-| Desktop | > 1280px |
-
----
-
-## Tone & Guardrails
+## Guardrails
 
 ### DO
-- Dark navy on ALL surfaces — the deep background is MongoDB's identity
-- Use monospace for all query fields, JSON output, and collection names
-- Use the bright green sparingly — button CTAs and status indicators only
-- Dark text on green buttons — the navy contrast demands it
-- Show document counts and query times in monospace
+- Use `#001E2B` (dark navy) as the primary dark background — it is MongoDB's visual identity
+- Keep the leaf mark always `#00ED64` — it is invariant across themes
+- Use Source Code Pro for ALL query fields, JSON values, collection names, and `_id` display
+- Put dark text (`#001E2B`) on the primary green CTA button — the contrast is intentional
+- Reserve `#00ED64` for brand and success/connected states — it is not a decorative color
 
 ### DON'T
-- Don't use a grey or black background — the navy blue is the brand signal
-- Don't use green for errors or warnings — semantic colors must stay distinct
-- Don't round corners more than 10px — MongoDB is enterprise, not playful
-- Don't use thin font weights — navy backgrounds require weight 400+
-- Don't omit connection status — it's critical context in a database UI
+- Use generic black or gray as the dark background — `#001E2B` navy IS the brand signal
+- Display `_id` fields in a proportional font — always monospace
+- Use `#00ED64` for warning or danger states — semantic colors must stay distinct
+- Use green decoratively (gradients, borders, non-interactive highlights)
+- Exceed 10px border-radius on product UI elements — MongoDB is enterprise-grade, not playful

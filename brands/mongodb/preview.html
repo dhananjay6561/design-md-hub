@@ -5,256 +5,718 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MongoDB – Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face { font-family:'MongoDBValueSerif'; src:url('https://static.mongodb.com/com/fonts/MongoDBValueSerif-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'MongoDBValueSerif'; src:url('https://static.mongodb.com/com/fonts/MongoDBValueSerif-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+@font-face { font-family:'EuclidCircularA'; src:url('https://static.mongodb.com/com/fonts/EuclidCircularA-Regular-WebXL.woff2') format('woff2'); font-weight:400; font-display:swap; }
+@font-face { font-family:'EuclidCircularA'; src:url('https://static.mongodb.com/com/fonts/EuclidCircularA-Medium-WebXL.woff2') format('woff2'); font-weight:500; font-display:swap; }
+@font-face { font-family:'AkzidenzGroteskBQ'; src:url('https://static.mongodb.com/com/fonts/akzidenzgroteskbq_light-webfont.woff2') format('woff2'); font-weight:300; font-display:swap; }
+@font-face { font-family:'SourceCodePro'; src:url('https://static.mongodb.com/com/fonts/SourceCodePro-Regular.ttf') format('truetype'); font-weight:400; font-display:swap; }
 
 :root[data-theme="dark"] {
   --bg: #001E2B;
-  --surface: #0C2336;
-  --elevated: #112B40;
-  --border: #1C3D54;
-  --primary: #00ED64;
-  --primary-hover: #00C84F;
-  --primary-text: #001E2B;
-  --success: #00ED64;
-  --warning: #FFC010;
+  --bg2: #061621;
+  --surface: #21313C;
+  --raised: #3D4F58;
+  --border: #3D4F58;
+  --border2: #5D6C74;
+  --text: #ffffff;
+  --text2: #B8C4C2;
+  --text3: #5D6C74;
+  --brand: #00ED64;
+  --brand-hover: #00AA57;
+  --brand-dark: #00684A;
+  --brand-btn-text: #001E2B;
+  --brand-tint: rgba(0,237,100,0.08);
+  --brand-tint2: rgba(0,237,100,0.14);
+  --blue: #006CFA;
   --danger: #FF6960;
-  --info: #0498EC;
-  --text: #FFFFFF;
-  --text-2: #89A0B1;
-  --text-3: #4E6C7D;
-  --toggle-bg: #112B40;
-  --toggle-text: #FFFFFF;
-  --toggle-border: #1C3D54;
+  --warning: #FFC010;
+  --logo-text: #ffffff;
+  --toggle-bg: #21313C;
 }
 :root[data-theme="light"] {
-  --bg: #F0FBF5;
-  --surface: #FFFFFF;
-  --elevated: #E0F5EA;
-  --border: #B8DEC8;
-  --primary: #00684A;
-  --primary-hover: #00513A;
-  --primary-text: #FFFFFF;
-  --success: #00684A;
-  --warning: #A07000;
-  --danger: #CC3030;
-  --info: #0070C0;
+  --bg: #ffffff;
+  --bg2: #F5F7FA;
+  --surface: #ffffff;
+  --raised: #E7EEEC;
+  --border: #d4dede;
+  --border2: #B8C4C2;
   --text: #001E2B;
-  --text-2: #2E5C48;
-  --text-3: #6A9080;
-  --toggle-bg: #E0F5EA;
-  --toggle-text: #001E2B;
-  --toggle-border: #B8DEC8;
+  --text2: #3D4F58;
+  --text3: #5D6C74;
+  --brand: #00684A;
+  --brand-hover: #014E3D;
+  --brand-dark: #014E3D;
+  --brand-btn-text: #ffffff;
+  --brand-tint: rgba(0,104,74,0.07);
+  --brand-tint2: rgba(0,104,74,0.12);
+  --blue: #006CFA;
+  --danger: #CC3030;
+  --warning: #A07000;
+  --logo-text: #001E2B;
+  --toggle-bg: #E7EEEC;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: var(--primary-text); padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+body { font-family: 'EuclidCircularA', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background .2s, color .2s; }
+a { color: var(--brand); text-decoration: none; }
+code, .mono { font-family: 'SourceCodePro', 'Menlo', monospace; }
+
+/* Layout */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 32px 80px; }
+
+/* Header */
+.header { display: flex; align-items: center; justify-content: space-between; padding: 24px 32px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
+.header-logo { display: flex; align-items: center; gap: 12px; }
+.logo-svg { height: 24px; width: auto; }
+.toggle { background: var(--toggle-bg); border: 1px solid var(--border); color: var(--text2); font-family: 'EuclidCircularA', sans-serif; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all .15s; }
+.toggle:hover { border-color: var(--brand); color: var(--brand); }
+
+/* Section */
+.section { margin-top: 64px; }
+.section-label { font-family: 'SourceCodePro', monospace; font-size: 11px; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); margin-bottom: 20px; }
+.section-title { font-family: 'MongoDBValueSerif', Georgia, serif; font-size: 28px; font-weight: 400; color: var(--text); margin-bottom: 8px; }
+.section-sub { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 32px; }
+
+/* Hero */
+.hero { padding: 72px 0 56px; }
+.hero-eyebrow { font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--brand); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+.hero-h1 { font-family: 'MongoDBValueSerif', Georgia, serif; font-size: 52px; font-weight: 700; color: var(--text); line-height: 1.06; max-width: 620px; margin-bottom: 20px; }
+.hero-sub { font-size: 18px; color: var(--text2); line-height: 1.6; max-width: 500px; margin-bottom: 36px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary { background: var(--brand); color: var(--brand-btn-text); font-family: 'EuclidCircularA', sans-serif; font-size: 15px; font-weight: 500; padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; transition: background .15s; }
+.btn-primary:hover { background: var(--brand-hover); }
+.btn-ghost { background: transparent; color: var(--text2); font-family: 'EuclidCircularA', sans-serif; font-size: 15px; font-weight: 400; padding: 10px 22px; border: 1px solid var(--border2); border-radius: 6px; cursor: pointer; transition: border-color .15s, color .15s; }
+.btn-ghost:hover { border-color: var(--brand); color: var(--brand); }
+
+/* Swatches */
+.swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.swatch { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.swatch-color { height: 80px; }
+.swatch-info { padding: 10px 12px; background: var(--surface); }
+.swatch-name { font-family: 'SourceCodePro', monospace; font-size: 11px; color: var(--text2); }
+.swatch-hex { font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text); font-weight: 400; margin-top: 2px; }
+
+/* Typography specimens */
+.type-rows { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.type-row { display: grid; grid-template-columns: 180px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
 .type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
-.type-sample { flex: 1; }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: var(--primary-text); }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-.input-demo { width: 100%; height: 40px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
-.input-demo:focus { border-color: var(--primary); }
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; display: inline-flex; align-items: center; gap: 6px; }
-.badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.badge-connected { background: rgba(0,237,100,0.1); color: #00ED64; border-color: rgba(0,237,100,0.3); }
-.badge-connected::before { background: #00ED64; }
-.badge-error { background: rgba(255,105,96,0.1); color: #FF6960; border-color: rgba(255,105,96,0.3); }
-.badge-error::before { background: #FF6960; }
-.badge-connecting { background: rgba(4,152,236,0.1); color: #0498EC; border-color: rgba(4,152,236,0.3); }
-.badge-connecting::before { background: #0498EC; }
-/* Document card */
-.doc-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.doc-header { background: var(--elevated); padding: 8px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); border-bottom: 1px solid var(--border); }
-.doc-body { padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; }
-.doc-key { color: var(--text-2); }
-.doc-val { color: var(--text); }
-.doc-str { color: #00ED64; }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.7; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+.type-meta { padding: 20px 20px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.type-meta-name { font-family: 'SourceCodePro', monospace; font-size: 11px; color: var(--brand); margin-bottom: 4px; }
+.type-meta-spec { font-size: 11px; color: var(--text3); line-height: 1.6; }
+.type-specimen { padding: 24px 28px; background: var(--bg2); display: flex; align-items: center; overflow: hidden; }
+
+/* Components */
+.components-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .components-grid { grid-template-columns: 1fr; } }
+.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; }
+.comp-card-title { font-size: 12px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 18px; }
+
+/* Buttons showcase */
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.btn-danger { background: var(--danger); color: #fff; font-family: 'EuclidCircularA', sans-serif; font-size: 15px; font-weight: 500; padding: 10px 22px; border: none; border-radius: 6px; cursor: pointer; }
+
+/* Status badges */
+.status-badges { display: flex; flex-direction: column; gap: 10px; }
+.status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; width: fit-content; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.status-connected { background: rgba(0,237,100,0.10); color: #00ED64; }
+.status-connected .status-dot { background: #00ED64; animation: pulse-green 2s infinite; }
+.status-disconnected { background: rgba(255,105,96,0.10); color: var(--danger); }
+.status-disconnected .status-dot { background: var(--danger); }
+.status-connecting { background: rgba(0,108,250,0.10); color: var(--blue); }
+.status-connecting .status-dot { background: var(--blue); animation: pulse-blue 1.2s infinite; }
+@keyframes pulse-green { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,237,100,.4)} 50%{opacity:.8;box-shadow:0 0 0 4px rgba(0,237,100,0)} }
+@keyframes pulse-blue { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* Input */
+.input-demo { display: flex; flex-direction: column; gap: 12px; }
+.input-group { display: flex; flex-direction: column; gap: 5px; }
+.input-label { font-size: 12px; font-weight: 500; color: var(--text2); }
+.input-field { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 9px 14px; font-family: 'EuclidCircularA', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color .15s; }
+.input-field:focus { border-color: var(--brand); }
+.input-field.mono { font-family: 'SourceCodePro', monospace; font-size: 13px; }
+.input-field::placeholder { color: var(--text3); }
+
+/* Collection chips */
+.chips-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { display: inline-flex; align-items: center; gap: 5px; font-family: 'SourceCodePro', monospace; font-size: 11px; font-weight: 400; padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); color: var(--text2); background: var(--surface); }
+.chip-green { color: var(--brand); background: var(--brand-tint); border-color: var(--brand-dark); }
+.chip-blue { color: var(--blue); background: rgba(0,108,250,.08); border-color: rgba(0,108,250,.25); }
+
+/* ─── Signature: Atlas Data Explorer ─── */
+.explorer { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; height: 540px; }
+
+/* Sidebar */
+.explorer-sidebar { width: 240px; flex-shrink: 0; border-right: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-header { padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+.sidebar-cluster { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.cluster-name { font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text); }
+.sidebar-conn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #00ED64; background: rgba(0,237,100,.08); padding: 2px 8px; border-radius: 4px; }
+.sidebar-conn-dot { width: 6px; height: 6px; border-radius: 50%; background: #00ED64; animation: pulse-green 2s infinite; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 8px 0; }
+.nav-db { }
+.nav-db-header { display: flex; align-items: center; gap: 6px; padding: 6px 16px; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text); }
+.nav-db-header:hover { background: var(--raised); }
+.nav-arrow { font-size: 10px; color: var(--text3); transition: transform .15s; }
+.nav-arrow.open { transform: rotate(90deg); }
+.nav-db-icon { font-size: 14px; }
+.nav-collections { padding-left: 0; }
+.nav-coll { display: flex; align-items: center; justify-content: space-between; padding: 5px 16px 5px 36px; cursor: pointer; font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text2); transition: background .1s, color .1s; }
+.nav-coll:hover { background: var(--raised); color: var(--text); }
+.nav-coll.active { background: var(--brand-tint2); color: var(--brand); border-left: 2px solid var(--brand); padding-left: 34px; }
+.nav-coll-count { font-size: 10px; color: var(--text3); }
+.nav-divider { height: 1px; background: var(--border); margin: 6px 16px; }
+
+/* Main content */
+.explorer-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.explorer-topbar { padding: 12px 18px; border-bottom: 1px solid var(--border); }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+.breadcrumb-sep { color: var(--border2); }
+.breadcrumb-active { color: var(--brand); }
+.filter-bar { display: flex; gap: 8px; align-items: center; }
+.filter-input { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px; font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text); outline: none; transition: border-color .15s; }
+.filter-input:focus { border-color: var(--brand); }
+.filter-input::placeholder { color: var(--text3); }
+.filter-btn { background: var(--brand); color: var(--brand-btn-text); font-family: 'EuclidCircularA', sans-serif; font-size: 13px; font-weight: 500; padding: 7px 16px; border: none; border-radius: 6px; cursor: pointer; flex-shrink: 0; }
+.filter-btn:hover { background: var(--brand-hover); }
+.filter-opts { display: flex; gap: 6px; }
+.filter-opt { background: transparent; border: 1px solid var(--border); color: var(--text2); font-family: 'EuclidCircularA', sans-serif; font-size: 12px; padding: 7px 12px; border-radius: 6px; cursor: pointer; }
+.filter-opt:hover { border-color: var(--text2); }
+
+.explorer-count { padding: 8px 18px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text3); }
+.explorer-count span { color: var(--text2); }
+
+/* Document table */
+.doc-table { flex: 1; overflow-y: auto; }
+.doc-table-header { display: grid; grid-template-columns: 200px 1fr 60px 120px 80px; padding: 8px 18px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+.doc-th { font-family: 'SourceCodePro', monospace; font-size: 11px; color: var(--text3); font-weight: 400; letter-spacing: .04em; }
+.doc-row { display: grid; grid-template-columns: 200px 1fr 60px 120px 80px; padding: 10px 18px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .1s; align-items: center; }
+.doc-row:hover { background: var(--raised); }
+.doc-row.expanded { background: var(--brand-tint); border-left: 2px solid var(--brand); padding-left: 16px; }
+.doc-row.expanded .doc-id { color: var(--brand); }
+.doc-cell { font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc-id { color: var(--brand); }
+.doc-cell-title { font-family: 'EuclidCircularA', sans-serif; font-size: 13px; color: var(--text); }
+.doc-year { color: var(--text3); font-size: 12px; }
+.doc-genres { display: flex; gap: 4px; flex-wrap: nowrap; overflow: hidden; }
+.doc-genre-tag { font-size: 10px; padding: 2px 7px; border-radius: 4px; background: var(--raised); color: var(--text2); font-family: 'EuclidCircularA', sans-serif; white-space: nowrap; }
+.doc-runtime { font-family: 'SourceCodePro', monospace; font-size: 12px; color: var(--text2); }
+
+/* Expanded JSON panel */
+.doc-json-panel { margin: 0 18px 8px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'SourceCodePro', monospace; font-size: 12px; line-height: 1.7; color: var(--text2); }
+.j-key { color: var(--blue); }
+.j-str { color: #E9FF99; }
+.j-num { color: #A6FFEC; }
+.j-oid { color: var(--brand); }
+.j-arr { color: var(--text2); }
+
+/* Footer */
+.explorer-footer { padding: 10px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--text3); background: var(--surface); }
+.page-btns { display: flex; gap: 4px; }
+.page-btn { background: transparent; border: 1px solid var(--border); color: var(--text2); font-size: 12px; padding: 3px 10px; border-radius: 4px; cursor: pointer; }
+.page-btn:hover { border-color: var(--brand); color: var(--brand); }
+.page-btn.active { background: var(--brand-tint); border-color: var(--brand); color: var(--brand); }
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
 
-  <div class="hero">
-    <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#001E2B"/>
-        <path d="M36 12 C36 12 22 28 22 40 C22 48.8 28.3 56 36 56 C43.7 56 50 48.8 50 40 C50 28 36 12 36 12Z" fill="#00ED64"/>
-        <path d="M36 12 C36 12 36 40 36 56" stroke="#00684A" stroke-width="2" stroke-linecap="round"/>
-        <path d="M36 48 C36 48 40 44 42 40" stroke="#00684A" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </div>
-    <div class="hero-text">
-      <h1>MongoDB</h1>
-      <p>The world's most popular NoSQL database — build apps at any scale</p>
-    </div>
+<!-- Header -->
+<header class="header">
+  <div class="header-logo">
+    <!-- MongoDB leaf mark (always green) + wordmark (adaptive) -->
+    <svg class="logo-svg" viewBox="0 0 280 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="MongoDB">
+      <!-- Leaf mark scaled from 0 0 120 270 -->
+      <path d="M19.1 6.7C16.6 3.7 14.5 0.7 14.0 0.0C14.0 0.0 13.9 0.0 13.9 0.0C13.4 0.7 11.3 3.7 8.8 6.7C-12.8 34.1 12.1 52.7 12.1 52.7L12.3 52.8C12.5 55.8 13.0 60.0 13.0 60.0H14.0H14.9C14.9 60.0 15.4 55.8 15.6 52.8L15.8 52.7C15.8 52.7 40.7 34.1 19.1 6.7ZM14.0 52.3C14.0 52.3 12.8 51.3 12.5 50.8V50.7L13.9 20.9C13.9 20.8 14.1 20.8 14.1 20.9L15.5 50.7V50.8C15.2 51.3 14.0 52.3 14.0 52.3Z" fill="#00ED64"/>
+      <!-- Wordmark "MongoDB" letters -->
+      <text x="28" y="43" font-family="EuclidCircularA,system-ui,sans-serif" font-size="28" font-weight="500" fill="var(--logo-text)">MongoDB</text>
+    </svg>
   </div>
+  <button class="toggle" onclick="toggleTheme()">Toggle theme</button>
+</header>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#00ED64', this)"><div class="swatch-dot" style="background:#00ED64"></div><div class="swatch-name" style="flex:1">Green<br><span class="swatch-hex">#00ED64</span></div></div>
-        <div class="swatch" onclick="copyHex('#00684A', this)"><div class="swatch-dot" style="background:#00684A"></div><div class="swatch-name" style="flex:1">Green Dark<br><span class="swatch-hex">#00684A</span></div></div>
-        <div class="swatch" onclick="copyHex('#0498EC', this)"><div class="swatch-dot" style="background:#0498EC"></div><div class="swatch-name" style="flex:1">Info<br><span class="swatch-hex">#0498EC</span></div></div>
-        <div class="swatch" onclick="copyHex('#FF6960', this)"><div class="swatch-dot" style="background:#FF6960"></div><div class="swatch-name" style="flex:1">Danger<br><span class="swatch-hex">#FF6960</span></div></div>
+<div class="page">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow">MongoDB Atlas · Design System</div>
+    <h1 class="hero-h1">One data platform.<br>Unlimited AI potential.</h1>
+    <p class="hero-sub">Build faster on the developer data platform trusted by over 46,000 customers.</p>
+    <div class="hero-actions">
+      <button class="btn-primary">Try Free</button>
+      <button class="btn-ghost">Talk to an Expert</button>
+    </div>
+  </section>
+
+  <!-- Colors -->
+  <section class="section">
+    <div class="section-label">01 — Colors</div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00ED64"></div>
+        <div class="swatch-info"><div class="swatch-name">--brand (dark)</div><div class="swatch-hex">#00ED64</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#00684A"></div>
+        <div class="swatch-info"><div class="swatch-name">--brand-dark / light</div><div class="swatch-hex">#00684A</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#014E3D"></div>
+        <div class="swatch-info"><div class="swatch-name">--brand-deepest</div><div class="swatch-hex">#014E3D</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#001E2B"></div>
+        <div class="swatch-info"><div class="swatch-name">--navy-primary</div><div class="swatch-hex">#001E2B</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#061621"></div>
+        <div class="swatch-info"><div class="swatch-name">--navy-deepest</div><div class="swatch-hex">#061621</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#21313C"></div>
+        <div class="swatch-info"><div class="swatch-name">--navy-surface</div><div class="swatch-hex">#21313C</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#3D4F58"></div>
+        <div class="swatch-info"><div class="swatch-name">--navy-raised</div><div class="swatch-hex">#3D4F58</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#5D6C74"></div>
+        <div class="swatch-info"><div class="swatch-name">--slate-500</div><div class="swatch-hex">#5D6C74</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B8C4C2"></div>
+        <div class="swatch-info"><div class="swatch-name">--slate-400</div><div class="swatch-hex">#B8C4C2</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#006CFA"></div>
+        <div class="swatch-info"><div class="swatch-name">--blue</div><div class="swatch-hex">#006CFA</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FF6960"></div>
+        <div class="swatch-info"><div class="swatch-name">--danger</div><div class="swatch-hex">#FF6960</div></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFC010"></div>
+        <div class="swatch-info"><div class="swatch-name">--warning</div><div class="swatch-hex">#FFC010</div></div>
       </div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#001E2B', this)"><div class="swatch-dot" style="background:#001E2B;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Background<br><span class="swatch-hex">#001E2B</span></div></div>
-        <div class="swatch" onclick="copyHex('#0C2336', this)"><div class="swatch-dot" style="background:#0C2336;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Surface<br><span class="swatch-hex">#0C2336</span></div></div>
-        <div class="swatch" onclick="copyHex('#112B40', this)"><div class="swatch-dot" style="background:#112B40;border:1px solid #1C3D54"></div><div class="swatch-name" style="flex:1">Elevated<br><span class="swatch-hex">#112B40</span></div></div>
-        <div class="swatch" onclick="copyHex('#1C3D54', this)"><div class="swatch-dot" style="background:#1C3D54"></div><div class="swatch-name" style="flex:1">Border<br><span class="swatch-hex">#1C3D54</span></div></div>
+  </section>
+
+  <!-- Typography -->
+  <section class="section">
+    <div class="section-label">02 — Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">MongoDBValueSerif</div>
+          <div class="type-meta-spec">52px / 700<br>Hero display</div>
+        </div>
+        <div class="type-specimen">
+          <span style="font-family:'MongoDBValueSerif',Georgia,serif;font-size:42px;font-weight:700;color:var(--text);white-space:nowrap;">One data platform.</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">MongoDBValueSerif</div>
+          <div class="type-meta-spec">28px / 400<br>H1 heading</div>
+        </div>
+        <div class="type-specimen">
+          <span style="font-family:'MongoDBValueSerif',Georgia,serif;font-size:28px;font-weight:400;color:var(--text);">Developer Data Platform</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">AkzidenzGroteskBQ</div>
+          <div class="type-meta-spec">36px / 300<br>Alternate display</div>
+        </div>
+        <div class="type-specimen">
+          <span style="font-family:'AkzidenzGroteskBQ','Helvetica Neue',sans-serif;font-size:36px;font-weight:300;color:var(--text);white-space:nowrap;">Unlimited AI potential</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">EuclidCircularA</div>
+          <div class="type-meta-spec">20px / 500<br>H2 section heading</div>
+        </div>
+        <div class="type-specimen">
+          <span style="font-family:'EuclidCircularA',system-ui,sans-serif;font-size:20px;font-weight:500;color:var(--text);">Atlas Vector Search</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">EuclidCircularA</div>
+          <div class="type-meta-spec">15px / 400<br>Body text</div>
+        </div>
+        <div class="type-specimen">
+          <span style="font-family:'EuclidCircularA',system-ui,sans-serif;font-size:15px;font-weight:400;color:var(--text2);line-height:1.65;max-width:420px;display:block;">A fully managed cloud database that handles all the complexity of deploying, managing, and healing your deployments on the cloud service provider of your choice.</span>
+        </div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <div class="type-meta-name">SourceCodePro</div>
+          <div class="type-meta-spec">13px / 400<br>Code / queries / _id</div>
+        </div>
+        <div class="type-specimen" style="background:var(--bg2);">
+          <span style="font-family:'SourceCodePro',monospace;font-size:13px;color:var(--brand);">db.movies.find({ year: { $gte: 2020 } })</span>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">40px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:40px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">28px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:28px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:15px;">Body text — content, descriptions, documentation prose</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;color:var(--text-2);">Small — labels, metadata, timestamps</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:#00ED64;">db.users.find({ age: { $gt: 18 } })</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
+  <!-- Components -->
+  <section class="section">
+    <div class="section-label">03 — Components</div>
     <div class="components-grid">
+
+      <!-- Buttons -->
       <div class="comp-card">
-        <h3>Buttons</h3>
+        <div class="comp-card-title">Buttons</div>
         <div class="btn-row">
-          <button class="btn btn-primary">Connect</button>
-          <button class="btn btn-ghost">View Docs</button>
+          <button class="btn-primary">Try Free</button>
+          <button class="btn-ghost">Talk to an Expert</button>
+          <button class="btn-danger">Delete Cluster</button>
         </div>
       </div>
+
+      <!-- Connection Status -->
       <div class="comp-card">
-        <h3>Query Input</h3>
-        <input class="input-demo" type="text" placeholder='db.collection.find({})' />
-        <input class="input-demo" type="text" placeholder="Search collections..." />
-      </div>
-      <div class="comp-card">
-        <h3>Connection Status</h3>
-        <div class="badge-row" style="flex-direction:column;gap:8px;">
-          <span class="badge badge-connected">Connected</span>
-          <span class="badge badge-connecting">Connecting</span>
-          <span class="badge badge-error">Connection Failed</span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Document Viewer</h3>
-        <div class="doc-card">
-          <div class="doc-header">users › ObjectId("64f…")</div>
-          <div class="doc-body">
-            <span class="doc-key">_id: </span><span class="doc-str">"64f3a2b1c…"</span><br>
-            <span class="doc-key">name: </span><span class="doc-str">"Ada Lovelace"</span><br>
-            <span class="doc-key">age: </span><span class="doc-val">28</span><br>
-            <span class="doc-key">active: </span><span class="doc-val">true</span>
+        <div class="comp-card-title">Connection Status</div>
+        <div class="status-badges">
+          <div class="status-badge status-connected">
+            <div class="status-dot"></div>
+            Connected to Cluster0
+          </div>
+          <div class="status-badge status-connecting">
+            <div class="status-dot"></div>
+            Connecting…
+          </div>
+          <div class="status-badge status-disconnected">
+            <div class="status-dot"></div>
+            Connection Failed
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Dark navy on all surfaces — it's MongoDB's identity</li>
-          <li>Use monospace for queries, JSON, and collection names</li>
-          <li>Use bright green sparingly — CTAs and status only</li>
-          <li>Dark text on green buttons — navy contrast demands it</li>
-          <li>Show document counts and query times in monospace</li>
-        </ul>
+      <!-- Inputs -->
+      <div class="comp-card">
+        <div class="comp-card-title">Inputs</div>
+        <div class="input-demo">
+          <div class="input-group">
+            <div class="input-label">Cluster Name</div>
+            <input class="input-field" placeholder="e.g. Cluster0" />
+          </div>
+          <div class="input-group">
+            <div class="input-label">MQL Filter</div>
+            <input class="input-field mono" placeholder="{ field: { $operator: value } }" />
+          </div>
+        </div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use grey or black background — navy is the signal</li>
-          <li>Don't use green for errors or warnings</li>
-          <li>Don't round corners beyond 10px</li>
-          <li>Don't use thin font weights on navy backgrounds</li>
-          <li>Don't omit connection status from database UIs</li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-</div>
+      <!-- Collection Chips -->
+      <div class="comp-card">
+        <div class="comp-card-title">Collection &amp; Type Chips</div>
+        <div class="chips-row" style="margin-bottom:12px;">
+          <span class="chip chip-green">● Document</span>
+          <span class="chip chip-blue">⬡ Index</span>
+          <span class="chip">◈ Schema</span>
+          <span class="chip">⚙ Aggregation</span>
+        </div>
+        <div class="chips-row">
+          <span class="chip"><span style="color:var(--text3)">_id:</span> ObjectId</span>
+          <span class="chip"><span style="color:var(--text3)">String</span></span>
+          <span class="chip"><span style="color:var(--text3)">Int32</span></span>
+          <span class="chip"><span style="color:var(--text3)">Array</span></span>
+          <span class="chip"><span style="color:var(--text3)">Date</span></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Signature: Atlas Data Explorer -->
+  <section class="section">
+    <div class="section-label">04 — Signature Component</div>
+    <div class="section-title">Atlas Data Explorer</div>
+    <div class="section-sub">Browse clusters, databases, and document collections. Run MQL filters and inspect documents inline.</div>
+
+    <div class="explorer">
+
+      <!-- Sidebar -->
+      <div class="explorer-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-cluster">
+            <span>Cluster</span>
+            <div class="sidebar-conn">
+              <div class="sidebar-conn-dot"></div>
+              Connected
+            </div>
+          </div>
+          <div class="cluster-name">Cluster0</div>
+        </div>
+
+        <div class="sidebar-nav">
+          <!-- sample_mflix DB (open) -->
+          <div class="nav-db">
+            <div class="nav-db-header" onclick="toggleDb(this)">
+              <span class="nav-arrow open">▶</span>
+              <span class="nav-db-icon">🗄</span>
+              <span>sample_mflix</span>
+            </div>
+            <div class="nav-collections">
+              <div class="nav-coll active" onclick="selectColl(this)">
+                <span>movies</span>
+                <span class="nav-coll-count">21,349</span>
+              </div>
+              <div class="nav-coll" onclick="selectColl(this)">
+                <span>comments</span>
+                <span class="nav-coll-count">41,079</span>
+              </div>
+              <div class="nav-coll" onclick="selectColl(this)">
+                <span>sessions</span>
+                <span class="nav-coll-count">1,000</span>
+              </div>
+              <div class="nav-coll" onclick="selectColl(this)">
+                <span>theaters</span>
+                <span class="nav-coll-count">1,564</span>
+              </div>
+              <div class="nav-coll" onclick="selectColl(this)">
+                <span>users</span>
+                <span class="nav-coll-count">185</span>
+              </div>
+            </div>
+          </div>
+          <div class="nav-divider"></div>
+          <!-- sample_airbnb DB (collapsed) -->
+          <div class="nav-db">
+            <div class="nav-db-header" onclick="toggleDb(this)">
+              <span class="nav-arrow">▶</span>
+              <span class="nav-db-icon">🗄</span>
+              <span>sample_airbnb</span>
+            </div>
+          </div>
+          <!-- sample_analytics DB (collapsed) -->
+          <div class="nav-db">
+            <div class="nav-db-header" onclick="toggleDb(this)">
+              <span class="nav-arrow">▶</span>
+              <span class="nav-db-icon">🗄</span>
+              <span>sample_analytics</span>
+            </div>
+          </div>
+          <div class="nav-divider"></div>
+          <!-- sample_restaurants -->
+          <div class="nav-db">
+            <div class="nav-db-header" onclick="toggleDb(this)">
+              <span class="nav-arrow">▶</span>
+              <span class="nav-db-icon">🗄</span>
+              <span>sample_restaurants</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="explorer-main">
+        <!-- Top bar -->
+        <div class="explorer-topbar">
+          <div class="breadcrumb">
+            <span>Cluster0</span>
+            <span class="breadcrumb-sep">/</span>
+            <span>sample_mflix</span>
+            <span class="breadcrumb-sep">/</span>
+            <span class="breadcrumb-active">movies</span>
+          </div>
+          <div class="filter-bar">
+            <input class="filter-input" id="filterInput" placeholder="{ year: { $gte: 2010 } }" />
+            <button class="filter-btn" onclick="runFilter()">Find</button>
+            <button class="filter-opt">Options</button>
+            <button class="filter-opt">+Add Data</button>
+          </div>
+        </div>
+
+        <!-- Doc count -->
+        <div class="explorer-count">
+          Displaying documents <span>1–20</span> of <span>21,349</span> &nbsp;·&nbsp; Query time: <span class="mono">4ms</span>
+        </div>
+
+        <!-- Table -->
+        <div class="doc-table" id="docTable">
+          <div class="doc-table-header">
+            <div class="doc-th">_id</div>
+            <div class="doc-th">title</div>
+            <div class="doc-th">year</div>
+            <div class="doc-th">genres</div>
+            <div class="doc-th">runtime</div>
+          </div>
+
+          <!-- Row 1 (expanded by default) -->
+          <div class="doc-row expanded" onclick="toggleRow(this, 0)">
+            <div class="doc-cell doc-id mono">573a1390f…4135</div>
+            <div class="doc-cell doc-cell-title">The Perils of Pauline</div>
+            <div class="doc-cell doc-year">1914</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Action</span><span class="doc-genre-tag">Adventure</span></div>
+            <div class="doc-cell doc-runtime">199 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-0">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcd4135")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"The Perils of Pauline"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1914</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Action"</span>, <span class="j-str">"Adventure"</span>, <span class="j-str">"Romance"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">199</span>,
+  <span class="j-key">"cast"</span>: <span class="j-arr">[</span><span class="j-str">"Pearl White"</span>, <span class="j-str">"Crane Wilbur"</span><span class="j-arr">]</span>,
+  <span class="j-key">"imdb"</span>: <span class="j-arr">{ </span><span class="j-key">"rating"</span>: <span class="j-num">7.6</span>, <span class="j-key">"votes"</span>: <span class="j-num">744</span><span class="j-arr"> }</span>
+<span class="j-arr">}</span></div>
+
+          <!-- Row 2 -->
+          <div class="doc-row" onclick="toggleRow(this, 1)">
+            <div class="doc-cell doc-id mono">573a1390f…b4af</div>
+            <div class="doc-cell doc-cell-title">Blacksmith Scene</div>
+            <div class="doc-cell doc-year">1893</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Short</span></div>
+            <div class="doc-cell doc-runtime">1 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-1" style="display:none">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcdb4af")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"Blacksmith Scene"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1893</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Short"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">1</span>,
+  <span class="j-key">"directors"</span>: <span class="j-arr">[</span><span class="j-str">"William K.L. Dickson"</span><span class="j-arr">]</span>
+<span class="j-arr">}</span></div>
+
+          <!-- Row 3 -->
+          <div class="doc-row" onclick="toggleRow(this, 2)">
+            <div class="doc-cell doc-id mono">573a1390f…c7c2</div>
+            <div class="doc-cell doc-cell-title">The Story of the Kelly Gang</div>
+            <div class="doc-cell doc-year">1906</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Biography</span><span class="doc-genre-tag">Crime</span></div>
+            <div class="doc-cell doc-runtime">70 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-2" style="display:none">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcdc7c2")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"The Story of the Kelly Gang"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1906</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Biography"</span>, <span class="j-str">"Crime"</span>, <span class="j-str">"Drama"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">70</span>,
+  <span class="j-key">"countries"</span>: <span class="j-arr">[</span><span class="j-str">"Australia"</span><span class="j-arr">]</span>,
+  <span class="j-key">"imdb"</span>: <span class="j-arr">{ </span><span class="j-key">"rating"</span>: <span class="j-num">6.1</span><span class="j-arr"> }</span>
+<span class="j-arr">}</span></div>
+
+          <!-- Row 4 -->
+          <div class="doc-row" onclick="toggleRow(this, 3)">
+            <div class="doc-cell doc-id mono">573a1390f…d0e5</div>
+            <div class="doc-cell doc-cell-title">Cheat</div>
+            <div class="doc-cell doc-year">1915</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Drama</span></div>
+            <div class="doc-cell doc-runtime">50 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-3" style="display:none">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcdd0e5")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"Cheat"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1915</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Drama"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">50</span>,
+  <span class="j-key">"directors"</span>: <span class="j-arr">[</span><span class="j-str">"Cecil B. DeMille"</span><span class="j-arr">]</span>
+<span class="j-arr">}</span></div>
+
+          <!-- Row 5 -->
+          <div class="doc-row" onclick="toggleRow(this, 4)">
+            <div class="doc-cell doc-id mono">573a1390f…e1f9</div>
+            <div class="doc-cell doc-cell-title">The Birth of a Nation</div>
+            <div class="doc-cell doc-year">1915</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Drama</span><span class="doc-genre-tag">History</span></div>
+            <div class="doc-cell doc-runtime">195 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-4" style="display:none">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcde1f9")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"The Birth of a Nation"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1915</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Drama"</span>, <span class="j-str">"History"</span>, <span class="j-str">"War"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">195</span>,
+  <span class="j-key">"imdb"</span>: <span class="j-arr">{ </span><span class="j-key">"rating"</span>: <span class="j-num">6.3</span>, <span class="j-key">"votes"</span>: <span class="j-num">12437</span><span class="j-arr"> }</span>
+<span class="j-arr">}</span></div>
+
+          <!-- Row 6 -->
+          <div class="doc-row" onclick="toggleRow(this, 5)">
+            <div class="doc-cell doc-id mono">573a1390f…f3a7</div>
+            <div class="doc-cell doc-cell-title">Intolerance: Love's Struggle</div>
+            <div class="doc-cell doc-year">1916</div>
+            <div class="doc-cell doc-genres"><span class="doc-genre-tag">Drama</span></div>
+            <div class="doc-cell doc-runtime">163 min</div>
+          </div>
+          <div class="doc-json-panel" id="json-5" style="display:none">
+<span class="j-arr">{</span>
+  <span class="j-key">"_id"</span>: <span class="j-oid">ObjectId("573a1390f29313caabcdf3a7")</span>,
+  <span class="j-key">"title"</span>: <span class="j-str">"Intolerance: Love's Struggle Throughout the Ages"</span>,
+  <span class="j-key">"year"</span>: <span class="j-num">1916</span>,
+  <span class="j-key">"genres"</span>: <span class="j-arr">[</span><span class="j-str">"Drama"</span><span class="j-arr">]</span>,
+  <span class="j-key">"runtime"</span>: <span class="j-num">163</span>,
+  <span class="j-key">"directors"</span>: <span class="j-arr">[</span><span class="j-str">"D.W. Griffith"</span><span class="j-arr">]</span>
+<span class="j-arr">}</span></div>
+
+        </div><!-- end doc-table -->
+
+        <!-- Footer pagination -->
+        <div class="explorer-footer">
+          <span>Page 1 of <span class="mono">1,068</span></span>
+          <div class="page-btns">
+            <button class="page-btn">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">›</button>
+          </div>
+        </div>
+
+      </div><!-- end explorer-main -->
+    </div><!-- end explorer -->
+  </section>
+
+</div><!-- end page -->
+
 <script>
+function toggleTheme() {
+  const html = document.documentElement;
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+}
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+function toggleDb(header) {
+  const arrow = header.querySelector('.nav-arrow');
+  const db = header.parentElement;
+  const colls = db.querySelector('.nav-collections');
+  if (colls) {
+    const open = arrow.classList.contains('open');
+    arrow.classList.toggle('open', !open);
+    colls.style.display = open ? 'none' : '';
+  }
+}
+
+function selectColl(el) {
+  document.querySelectorAll('.nav-coll').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleRow(row, idx) {
+  const panel = document.getElementById('json-' + idx);
+  const isOpen = row.classList.contains('expanded');
+  // Close all
+  document.querySelectorAll('.doc-row').forEach(r => r.classList.remove('expanded'));
+  document.querySelectorAll('.doc-json-panel').forEach(p => p.style.display = 'none');
+  // Open clicked if it was closed
+  if (!isOpen) {
+    row.classList.add('expanded');
+    panel.style.display = '';
+  }
+}
+
+function runFilter() {
+  const v = document.getElementById('filterInput').value.trim();
+  if (!v) return;
 }
 </script>
 </body>
