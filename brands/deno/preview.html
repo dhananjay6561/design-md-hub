@@ -1,365 +1,467 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Deno – Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Recursive:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-@font-face{font-family:'Inter';font-style:normal;font-weight:400;font-display:swap;src:url('https://deno.com/fonts/inter/Inter-Regular.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:700;font-display:swap;src:url('https://deno.com/fonts/inter/Inter-SemiBold.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
-@font-face{font-family:'Moranga';font-style:normal;font-weight:400;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Regular.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
-@font-face{font-family:'Moranga';font-style:normal;font-weight:700;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Medium.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
-@font-face{font-family:'Recursive';font-style:normal;font-weight:300 1000;font-display:swap;src:url('https://deno.com/fonts/deploy/Recursive_Variable.woff2?__frsh_c=a41409bc2e1c5dd1caf51467e3f139d39ae9eb6d')format('woff2')}
+@font-face{font-family:'Moranga';font-style:normal;font-weight:400;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Regular.woff2')format('woff2')}
+@font-face{font-family:'Moranga';font-style:normal;font-weight:700;font-display:swap;src:url('https://deno.com/fonts/deploy/Moranga-Medium.woff2')format('woff2')}
 
 :root{
---color-black:#0b0d11;
---color-offblack:#121417;
---color-default:#12124b;
---color-runtime:#70ffaf;
---color-deploy:#01c2ff;
---color-fresh:#ffdb1e;
---dn-50:#f8f9fc;
---dn-100:#f1f3f9;
---dn-200:#eaedf5;
---dn-350:#cbd1e1;
---dn-400:#a8b2c8;
---dn-500:#64708b;
---dn-600:#475269;
---dn-700:#242d3e;
---dn-800:#171c2b;
---dn-900:#0a0e1c;
---dn-950:#020617;
---dc-50:#f0f7ff;
---dc-300:#66c2ff;
---dc-400:#1a9fff;
---dc-500:#007acc;
---dc-700:#004166;
+  --runtime:#70ffaf;--runtime-dark:#172723;
+  --deploy:#01c2ff;--deploy-dark:#0c212a;
+  --fresh:#ffdb1e;--fresh-dark:#401c00;
+  --black:#0b0d11;--offblack:#121417;--default:#12124b;
+  --dn-50:#f8f9fc;--dn-100:#f1f3f9;--dn-200:#eaedf5;
+  --dn-350:#cbd1e1;--dn-400:#a8b2c8;--dn-500:#64708b;
+  --dn-600:#475269;--dn-700:#242d3e;--dn-800:#171c2b;
+  --dn-900:#0a0e1c;--dn-950:#020617;
+  --dc-50:#f0f7ff;--dc-100:#e0f0ff;--dc-200:#b3e0ff;
+  --dc-300:#66c2ff;--dc-400:#1a9fff;--dc-500:#007acc;
+  --dc-700:#004166;--dc-800:#002633;--dc-950:#000a0d;
 }
 :root[data-theme="light"]{
---bg:var(--dn-50);
---surface:#fff;
---elevated:var(--dn-100);
---border:var(--dn-350);
---border2:var(--dn-200);
---text:var(--color-black);
---text-2:var(--dn-600);
---text-3:var(--dn-500);
---text-4:var(--dn-400);
---deploy-accent:var(--dc-500);
---deploy-accent-bg:var(--dc-50);
---tog-knob:#fff;
---tog-track:var(--dn-350);
+  --bg:var(--dn-100);--surface:#fff;--raised:var(--dn-50);
+  --border:var(--dn-350);--border2:var(--dn-200);
+  --text:var(--black);--text-2:var(--dn-600);--text-3:var(--dn-500);--text-4:var(--dn-400);
+  --logo-fill:var(--black);
 }
 :root[data-theme="dark"]{
---bg:var(--dn-900);
---surface:var(--dn-800);
---elevated:var(--dn-700);
---border:var(--dn-700);
---border2:var(--dn-800);
---text:#f1f5f9;
---text-2:var(--dn-400);
---text-3:var(--dn-500);
---text-4:var(--dn-600);
---deploy-accent:var(--color-deploy);
---deploy-accent-bg:#0c212a;
---tog-knob:var(--dn-800);
---tog-track:var(--dn-600);
+  --bg:var(--dn-950);--surface:var(--dn-900);--raised:var(--dn-800);
+  --border:var(--dn-700);--border2:var(--dn-800);
+  --text:#f1f5f9;--text-2:var(--dn-400);--text-3:var(--dn-500);--text-4:var(--dn-600);
+  --logo-fill:#f1f5f9;
 }
 
+#background,#logotype,#eye{fill:var(--logo-fill)}
+#outline{fill:transparent}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter','Recursive',ui-sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:14px;font-variation-settings:"MONO" 0,"CASL" 0,"CRSV" 0,"slnt" 0}
-.mono{font-family:'Recursive',ui-monospace;font-variation-settings:"MONO" 1,"CASL" 0,"CRSV" 0,"slnt" 0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+.mono{font-family:'Recursive',ui-monospace,monospace}
 
-.tog-wrap{position:fixed;top:16px;right:20px;z-index:100;display:flex;align-items:center;gap:8px}
-.tog-label{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
-#t{display:none}
-.sw{display:inline-block;width:36px;height:20px;background:var(--tog-track);border-radius:9999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
-.sw::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--tog-knob);transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
-#t:checked~.sw{background:var(--color-deploy)}
-#t:checked~.sw::after{transform:translateX(16px)}
+.tog{position:fixed;top:20px;right:24px;z-index:100;display:flex;align-items:center;gap:8px}
+.tog-lbl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+#tt{display:none}
+.sw{display:inline-block;width:36px;height:20px;background:var(--border);border-radius:9999px;position:relative;cursor:pointer;transition:background .2s}
+.sw::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+#tt:checked~.sw{background:var(--deploy)}
+#tt:checked~.sw::after{transform:translateX(16px)}
 
-.wrap{max-width:1080px;margin:0 auto;padding:56px 24px 80px}
-.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 96px}
+.section{padding:64px 0;border-bottom:1px solid var(--border)}
 .section:last-child{border-bottom:none}
-.sec-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:24px}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:28px}
+.gap{margin-top:48px}
 
-.hero{display:flex;align-items:center;gap:20px;padding-bottom:56px;border-bottom:1px solid var(--border)}
-.hero-text h1{font-family:'Moranga',Georgia,serif;font-size:40px;font-weight:700;color:var(--text);letter-spacing:-.02em}
-.hero-text p{font-size:15px;color:var(--text-2);margin-top:6px}
+/* Hero */
+.hero{padding:88px 0 72px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-wordmark{margin:0 auto 44px;width:300px}
+.hero-wordmark svg{width:100%;height:auto}
+.hero h1{font-family:'Moranga',Georgia,serif;font-size:56px;font-weight:700;line-height:1.05;letter-spacing:-.04em;margin-bottom:18px}
+.hero p{font-size:16px;color:var(--text-2);max-width:460px;margin:0 auto 32px;line-height:1.65}
+.hero-pills{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:6px 14px;border-radius:9999px}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill-r{background:rgba(112,255,175,.1);color:#1a6b3c;border:1px solid rgba(112,255,175,.3)}
+.pill-d{background:rgba(1,194,255,.1);color:var(--dc-500);border:1px solid rgba(1,194,255,.3)}
+.pill-f{background:rgba(255,219,30,.1);color:#7a5f00;border:1px solid rgba(255,219,30,.3)}
+:root[data-theme="dark"] .pill-r{color:var(--runtime)}
+:root[data-theme="dark"] .pill-d{color:var(--deploy)}
+:root[data-theme="dark"] .pill-f{color:var(--fresh)}
 
-.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
-.sw-tall{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:box-shadow .15s}
-.sw-tall:hover{box-shadow:0 0 0 2px var(--color-deploy)}
-.sw-tall-color{height:80px}
-.sw-tall-info{padding:10px 12px}
-.sw-tall-name{font-size:12px;font-weight:600;color:var(--text)}
-.sw-tall-hex{font-size:11px;color:var(--text-3);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1}
-.sw-tall-usage{font-size:10px;color:var(--text-4);margin-top:2px}
+/* Swatches */
+.swatch-grid{display:grid;gap:8px}
+.sw-accent{grid-template-columns:repeat(3,1fr)}
+.sw-found{grid-template-columns:repeat(5,1fr);margin-top:8px}
+.swatch{border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:box-shadow .15s}
+.swatch:hover{box-shadow:0 0 0 2px var(--deploy)}
+.swatch-block{height:80px}
+.swatch-info{padding:10px 12px;background:var(--surface)}
+.sw-name{font-size:11px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
+.sw-hex{font-family:'Recursive',monospace;font-size:11px;color:var(--text-3)}
+.sw-use{font-size:10px;color:var(--text-4);margin-top:2px;display:block}
 
-.scale-row{display:flex;gap:4px;margin-bottom:8px}
-.scale-chip{flex:1;height:36px;border-radius:4px;cursor:pointer;transition:transform .1s}
-.scale-chip:hover{transform:scaleY(1.1)}
+/* Scale */
+.scale{display:flex;gap:3px;margin-bottom:5px}
+.chip{flex:1;height:36px;border-radius:4px;cursor:pointer;transition:transform .1s}
+.chip:hover{transform:scaleY(1.1)}
+.scale-lbls{display:flex;gap:3px;margin-bottom:36px}
+.scale-lbl{flex:1;font-family:'Recursive',monospace;font-size:9px;color:var(--text-4);text-align:center}
 
-.type-grid{display:flex;flex-direction:column;gap:0}
-.type-row{display:grid;grid-template-columns:220px 1fr;align-items:center;gap:20px;padding:16px 0;border-bottom:1px solid var(--border2)}
+/* Typography */
+.type-rows{border-top:1px solid var(--border2)}
+.type-row{display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:24px;padding:22px 0;border-bottom:1px solid var(--border2)}
 .type-row:last-child{border-bottom:none}
-.type-meta{display:flex;gap:6px;flex-wrap:wrap}
-.pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:3px;background:var(--elevated);color:var(--text-2)}
+.type-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:3px;background:var(--raised);color:var(--text-3);margin-bottom:4px}
+.type-note{font-size:11px;color:var(--text-4)}
+.specs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.spec{font-size:10px;font-weight:500;padding:2px 8px;border-radius:3px;background:var(--raised);color:var(--text-2)}
 
-.sig-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.sig-title{font-size:16px;font-weight:700}
-.sig-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.sig-tab{font-size:12px;font-weight:500;padding:6px 16px;background:transparent;color:var(--text-2);border:none;cursor:pointer;border-right:1px solid var(--border)}
-.sig-tab:last-child{border-right:none}
-.sig-tab.active{background:var(--deploy-accent-bg);color:var(--deploy-accent);font-weight:600}
+/* Components */
+.comp-group{margin-bottom:28px}
+.comp-lbl{font-size:11px;font-weight:600;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.comp-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0 16px;height:36px;border-radius:6px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;border:none;cursor:pointer}
+.btn-primary{background:var(--black);color:#fff}
+:root[data-theme="dark"] .btn-primary{background:#fff;color:var(--black)}
+.btn-deploy{background:var(--deploy);color:var(--black)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-ghost{background:transparent;color:var(--text-2);border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:500}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:600}
+.bdot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+.b-ok{background:rgba(112,255,175,.12);color:#1a6b3c}
+:root[data-theme="dark"] .b-ok{color:var(--runtime)}
+.b-build{background:rgba(1,194,255,.12);color:var(--dc-500)}
+:root[data-theme="dark"] .b-build{color:var(--deploy)}
+.b-fail{background:rgba(239,68,68,.12);color:#ef4444}
+.b-cancel{background:rgba(100,112,139,.12);color:var(--dn-500)}
+.inp{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0 12px;height:36px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);width:220px;outline:none}
+.inp:focus{border-color:var(--deploy);box-shadow:0 0 0 3px rgba(1,194,255,.15)}
+.inp::placeholder{color:var(--text-4)}
 
-.stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px}
-.stat-card-label{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.stat-card-value{font-size:24px;font-weight:700;font-family:'Moranga',Georgia,serif;letter-spacing:-.02em}
-.stat-card-sub{font-size:11px;color:var(--text-3);margin-top:4px}
-
-.deployments-table{width:100%;border-collapse:collapse}
-.deployments-table th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
-.deployments-table td{padding:12px;border-bottom:1px solid var(--border2);font-size:13px;vertical-align:middle}
-.deployments-table tr:last-child td{border-bottom:none}
-.deployments-table tr:hover td{background:var(--elevated)}
-
-.dep-id{font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;font-size:12px;color:var(--deploy-accent);font-weight:600}
-.dep-branch{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--text-2);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1}
-.dep-commit{font-size:11px;color:var(--text-3);font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;margin-top:2px}
-.dep-msg{font-size:12px;color:var(--text)}
-.region-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:3px;background:var(--elevated);color:var(--text-2)}
+/* Signature */
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.dash-name{font-size:15px;font-weight:700}
+.dash-url{font-family:'Recursive',monospace;font-size:12px;color:var(--text-3);margin-top:3px}
+.dash-actions{display:flex;gap:8px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px}
+.stat-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);margin-bottom:8px}
+.stat-val{font-family:'Moranga',Georgia,serif;font-size:28px;font-weight:700;letter-spacing:-.02em}
+.stat-sub{font-size:11px;color:var(--text-3);margin-top:4px}
+.tab-bar{display:flex;border-bottom:1px solid var(--border)}
+.tab{font-size:13px;font-weight:500;padding:10px 16px;color:var(--text-3);cursor:pointer;border:none;background:transparent;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}
+.tab.active{color:var(--text);border-bottom-color:var(--deploy)}
+.dep-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+.dep-table th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--raised)}
+.dep-table td{padding:13px 16px;border-bottom:1px solid var(--border2);font-size:13px;color:var(--text-2);vertical-align:middle}
+.dep-table tr:last-child td{border-bottom:none}
+.dep-table tr:hover td{background:rgba(255,255,255,.025)}
+:root[data-theme="light"] .dep-table tr:hover td{background:var(--dn-200)}
+.dep-id{font-family:'Recursive',monospace;font-size:12px;color:var(--deploy);font-weight:600}
+.dep-branch{font-family:'Recursive',monospace;font-size:12px;color:var(--text-2)}
+.dep-commit{font-family:'Recursive',monospace;font-size:11px;color:var(--text-3);margin-top:2px}
 .dep-time{font-size:11px;color:var(--text-3)}
+.region{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:3px;background:var(--raised);color:var(--text-3);margin:1px 1px 1px 0}
 
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:3px}
-.badge-ok{background:rgba(112,255,175,.12);color:#3ddb8c}
-:root[data-theme="dark"] .badge-ok{color:#70ffaf}
-.badge-fail{background:rgba(239,68,68,.12);color:#ef4444}
-.badge-progress{background:rgba(1,194,255,.12);color:var(--color-deploy)}
-.badge-cancel{background:rgba(100,112,139,.12);color:var(--dn-500)}
+/* Guardrails */
+.rails{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.rail-col{padding:28px 32px}
+.rail-col+.rail-col{border-left:1px solid var(--border)}
+.rail-head{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.rail-head.do{color:var(--runtime)}
+.rail-head.dont{color:#ef4444}
+.rail-item{font-size:13px;color:var(--text-2);padding:8px 0;border-bottom:1px solid var(--border2);line-height:1.55}
+.rail-item:last-child{border-bottom:none}
+.rail-item.do::before{content:'↗  ';color:var(--runtime);font-size:10px}
+.rail-item.dont::before{content:'✕  ';color:#ef4444;font-size:10px}
 
-.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.badge-ok .badge-dot{background:#3ddb8c}
-:root[data-theme="dark"] .badge-ok .badge-dot{background:#70ffaf}
-.badge-fail .badge-dot{background:#ef4444}
-.badge-progress .badge-dot{background:var(--color-deploy)}
-.badge-cancel .badge-dot{background:var(--dn-500)}
-
-.log-block{background:var(--color-offblack);border-radius:8px;padding:16px 20px;margin-top:20px;font-family:'Recursive',monospace;font-variation-settings:"MONO" 1;font-size:12px;line-height:1.8;color:#a8b2c8}
-.log-ok{color:#70ffaf}
-.log-deploy{color:#01c2ff}
-.log-warn{color:#ffdb1e}
-.log-dim{color:#475269}
-.log-line{display:flex;gap:12px}
-.log-ts{color:#475269;flex-shrink:0}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--black);color:#fff;padding:10px 22px;border-radius:9999px;font-size:12px;font-weight:600;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:1000}
+:root[data-theme="dark"] #toast{background:#f1f5f9;color:var(--black)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<div class="tog-wrap">
-  <span class="tog-label">Light</span>
-  <input type="checkbox" id="t" onchange="document.documentElement.dataset.theme=this.checked?'dark':'light'">
-  <label class="sw" for="t"></label>
-  <span class="tog-label">Dark</span>
+<div class="tog">
+  <span class="tog-lbl">Light</span>
+  <input type="checkbox" id="tt" onchange="document.documentElement.dataset.theme=this.checked?'dark':'light'" checked>
+  <label class="sw" for="tt"></label>
+  <span class="tog-lbl">Dark</span>
 </div>
 
 <div class="wrap">
 
   <div class="hero">
-    <svg width="52" height="52" viewBox="0 0 401 401" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M200.5 395C307.546 395 394.5 308.046 394.5 201C394.5 93.954 307.546 7 200.5 7C93.454 7 6.5 93.954 6.5 201C6.5 308.046 93.454 395 200.5 395ZM200.5 401C310.875 401 400.5 311.375 400.5 201C400.5 90.625 310.875 1 200.5 1C90.125 1 0.5 90.625 0.5 201C0.5 311.375 90.125 401 200.5 401Z" fill="var(--text)"/>
-      <path d="M135 270C135 270 140 195 175 175C210 155 255 155 270 175C285 195 280 230 265 245C250 260 225 265 200 260C175 255 155 245 135 270Z" fill="var(--text)"/>
-      <circle cx="238" cy="170" r="12" fill="var(--bg)"/>
-      <circle cx="241" cy="168" r="5" fill="var(--text)"/>
-      <path d="M200 260C200 260 195 290 210 295C225 300 235 290 240 280" stroke="var(--text)" stroke-width="8" stroke-linecap="round" fill="none"/>
-    </svg>
-    <div class="hero-text">
-      <h1>Deno Deploy</h1>
-      <p>Uncomplicate JavaScript — serverless at the edge</p>
+    <div class="hero-wordmark">
+      <svg viewBox="0 0 1025 331" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+        <path id="background" d="M28.829,227.937c-8.871,-19.143 -13.822,-40.465 -13.822,-62.935c-0,-5.815 0.332,-11.554 0.977,-17.197c0.655,-5.703 1.626,-11.299 2.893,-16.773c7.12,-30.704 23.68,-57.808 46.452,-78.082c19.127,-17.006 42.558,-29.14 68.244,-34.64c10.137,-2.165 20.651,-3.304 31.43,-3.304c3.778,0.004 7.583,0.149 11.411,0.441c18.154,1.386 35.309,5.956 50.959,13.121c12.625,5.786 24.31,13.274 34.762,22.169c26.253,22.364 44.562,53.517 50.651,88.476c1.455,8.379 2.213,16.996 2.213,25.789c-0.003,3.784 -0.149,7.595 -0.442,11.429c-1.106,14.489 -4.241,28.342 -9.104,41.302c-6.788,18.051 -16.959,34.452 -29.738,48.428c-16.621,16.971 -37.743,24.523 -55.384,24.209c-12.828,-0.229 -25.379,-5.333 -34.052,-12.801c-12.39,-10.669 -17.394,-22.865 -19.11,-36.474c-0.426,-3.383 -0.176,-12.601 1.585,-18.984c1.312,-4.758 4.64,-13.946 9.507,-17.965c-5.693,-2.452 -13.021,-7.792 -15.331,-10.355c-0.568,-0.63 -0.494,-1.617 0.014,-2.296c0.509,-0.678 1.4,-0.946 2.199,-0.659c4.895,1.68 10.856,3.337 17.142,4.389c8.267,1.382 18.548,3.122 28.963,3.634c25.395,1.247 51.921,-10.151 60.154,-32.83c8.232,-22.679 5.038,-45.111 -24.496,-58.566c-29.535,-13.456 -43.178,-29.455 -67.041,-39.104c-15.587,-6.303 -32.935,-2.561 -50.746,7.282c-47.974,26.512 -90.955,110.279 -71.142,187.887c0.283,1.062 -0.195,2.18 -1.158,2.709c-0.903,0.495 -2.013,0.354 -2.761,-0.331c-5.766,-6.336 -10.998,-13.166 -15.623,-20.421c-3.578,-5.614 -6.79,-11.475 -9.606,-17.548Z"/>
+        <path id="outline" d="M172.67,0.181c90.968,4.232 161.386,81.521 157.155,172.489c-4.232,90.968 -81.522,161.385 -172.489,157.153c-90.968,-4.231 -161.386,-81.52 -157.155,-172.487c4.232,-90.968 81.521,-161.386 172.489,-157.155Zm38.578,198.678c-10.415,-0.512 -20.696,-2.252 -28.963,-3.634c-6.286,-1.052 -12.247,-2.709 -17.142,-4.389c-0.799,-0.287 -1.69,-0.019 -2.199,0.659c-0.508,0.679 -0.582,1.666 -0.014,2.296c2.31,2.563 9.638,7.903 15.331,10.355c-4.867,4.019 -8.195,13.207 -9.507,17.965c-1.761,6.383 -2.011,15.601 -1.585,18.984c1.716,13.609 6.72,25.805 19.11,36.474c8.673,7.468 21.224,12.572 34.052,12.801c17.702,0.315 38.909,-7.29 55.556,-24.385c21.765,-23.861 36.023,-54.887 38.67,-89.554c6.303,-82.546 -55.596,-154.681 -138.143,-160.984c-82.545,-6.303 -154.68,55.597 -160.983,138.143c-3.264,42.749 11.764,82.706 38.481,112.17c0.744,0.809 1.944,1.006 2.907,0.477c0.963,-0.529 1.441,-1.647 1.158,-2.709c-19.813,-77.608 23.168,-161.375 71.142,-187.887c17.811,-9.843 35.159,-13.585 50.746,-7.282c23.863,9.649 37.506,25.648 67.041,39.104c29.534,13.455 32.728,35.887 24.496,58.566c-8.233,22.679 -34.759,34.077 -60.154,32.83Z"/>
+        <path id="logotype" d="M694.596,164.68c-0,4.838 -0,11.794 -0.909,14.213l-103.727,0c4.837,17.542 18.749,28.431 37.8,28.431c15.728,0.302 27.219,-6.654 35.383,-16.636l25.705,23.894c-12.7,16.028 -34.171,27.822 -63.809,27.822c-43.243,-0 -75.904,-30.242 -75.904,-76.513c-0,-44.756 31.148,-75.907 73.184,-75.907c43.243,-0 72.277,31.453 72.277,74.696Zm-71.07,-39.918c-16.025,-0 -28.729,8.771 -33.265,25.706l65.02,-0c-3.932,-15.422 -14.515,-25.706 -31.755,-25.706Zm175.096,-34.778c31.758,-0 53.829,16.938 53.829,62.298l0,87.703l-39.615,-0l0,-77.724c0,-28.124 -9.976,-36.892 -28.427,-36.892c-19.953,0 -33.564,13.908 -33.564,40.221l-0,74.395l-39.617,-0l0,-147.582l39.617,-0l-0,19.055l0.602,0c12.095,-14.213 29.037,-21.474 47.175,-21.474Zm146.977,152.42c-46.871,-0 -78.324,-32.058 -78.324,-76.21c-0,-44.153 31.453,-76.21 78.324,-76.21c45.971,-0 78.628,30.849 78.628,76.21c0,45.36 -32.657,76.21 -78.628,76.21Zm-0,-35.386c21.469,0 38.411,-16.934 38.411,-40.824c-0,-24.192 -16.332,-40.825 -38.411,-40.825c-22.986,0 -38.404,17.539 -38.404,40.825c0,22.984 16.028,40.824 38.404,40.824Zm-540.473,32.967l0,-150.001l54.227,-0c47.449,-0 77.952,30.845 77.952,75.212c-0,44.154 -28.597,74.789 -77.316,74.789l-54.863,-0Zm38.976,-35.705l13.133,-0c22.878,-0 37.917,-17.535 37.917,-39.084c-0,-22.395 -15.251,-39.507 -34.952,-39.507l-16.098,-0l0,78.591Z"/>
+        <path id="eye" d="M159.634,78.772c8.092,-0.634 15.152,6.272 16.369,15.457c1.624,12.235 -2.867,24.874 -17.633,25.165c-12.614,0.252 -16.436,-12.469 -15.6,-20.175c0.83,-7.706 7.182,-19.687 16.864,-20.447Z"/>
+      </svg>
+    </div>
+    <h1>Uncomplicate JavaScript</h1>
+    <p>The open-source runtime for the modern web. Built on web standards with zero-config TypeScript and unmatched security.</p>
+    <div class="hero-pills">
+      <span class="pill pill-r"><span class="pill-dot"></span>Runtime</span>
+      <span class="pill pill-d"><span class="pill-dot"></span>Deploy</span>
+      <span class="pill pill-f"><span class="pill-dot"></span>Fresh</span>
     </div>
   </div>
 
+  <!-- Colors -->
   <div class="section">
-    <div class="sec-label">Brand Colors</div>
-    <div class="swatches">
-      <div class="sw-tall" onclick="copy('#0b0d11')"><div class="sw-tall-color" style="background:#0b0d11"></div><div class="sw-tall-info"><div class="sw-tall-name">black</div><div class="sw-tall-hex">#0B0D11</div><div class="sw-tall-usage">body text · buttons</div></div></div>
-      <div class="sw-tall" onclick="copy('#12124b')"><div class="sw-tall-color" style="background:#12124b"></div><div class="sw-tall-info"><div class="sw-tall-name">default</div><div class="sw-tall-hex">#12124B</div><div class="sw-tall-usage">brand anchor</div></div></div>
-      <div class="sw-tall" onclick="copy('#70ffaf')"><div class="sw-tall-color" style="background:#70ffaf"></div><div class="sw-tall-info"><div class="sw-tall-name">runtime</div><div class="sw-tall-hex">#70FFAF</div><div class="sw-tall-usage">runtime accent</div></div></div>
-      <div class="sw-tall" onclick="copy('#01c2ff')"><div class="sw-tall-color" style="background:#01c2ff"></div><div class="sw-tall-info"><div class="sw-tall-name">deploy</div><div class="sw-tall-hex">#01C2FF</div><div class="sw-tall-usage">Deploy primary</div></div></div>
-      <div class="sw-tall" onclick="copy('#ffdb1e')"><div class="sw-tall-color" style="background:#ffdb1e"></div><div class="sw-tall-info"><div class="sw-tall-name">fresh</div><div class="sw-tall-hex">#FFDB1E</div><div class="sw-tall-usage">Fresh framework</div></div></div>
-      <div class="sw-tall" onclick="copy('#172723')"><div class="sw-tall-color" style="background:#172723"></div><div class="sw-tall-info"><div class="sw-tall-name">runtime-dark</div><div class="sw-tall-hex">#172723</div><div class="sw-tall-usage">runtime dark surface</div></div></div>
-      <div class="sw-tall" onclick="copy('#0c212a')"><div class="sw-tall-color" style="background:#0c212a"></div><div class="sw-tall-info"><div class="sw-tall-name">deploy-dark</div><div class="sw-tall-hex">#0C212A</div><div class="sw-tall-usage">deploy dark surface</div></div></div>
+    <div class="sec-label">Brand Accents</div>
+    <div class="swatch-grid sw-accent">
+      <div class="swatch" onclick="copy('#70ffaf')">
+        <div class="swatch-block" style="background:#70ffaf"></div>
+        <div class="swatch-info"><span class="sw-name">runtime</span><span class="sw-hex">#70FFAF</span><span class="sw-use">Deno Runtime product</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#01c2ff')">
+        <div class="swatch-block" style="background:#01c2ff"></div>
+        <div class="swatch-info"><span class="sw-name">deploy</span><span class="sw-hex">#01C2FF</span><span class="sw-use">Deno Deploy product</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#ffdb1e')">
+        <div class="swatch-block" style="background:#ffdb1e"></div>
+        <div class="swatch-info"><span class="sw-name">fresh</span><span class="sw-hex">#FFDB1E</span><span class="sw-use">Fresh framework</span></div>
+      </div>
+    </div>
+    <div class="swatch-grid sw-found">
+      <div class="swatch" onclick="copy('#0b0d11')">
+        <div class="swatch-block" style="background:#0b0d11;border-bottom:1px solid var(--border)"></div>
+        <div class="swatch-info"><span class="sw-name">black</span><span class="sw-hex">#0B0D11</span><span class="sw-use">Body · buttons</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#121417')">
+        <div class="swatch-block" style="background:#121417;border-bottom:1px solid var(--border)"></div>
+        <div class="swatch-info"><span class="sw-name">offblack</span><span class="sw-hex">#121417</span><span class="sw-use">Dark surfaces</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#12124b')">
+        <div class="swatch-block" style="background:#12124b"></div>
+        <div class="swatch-info"><span class="sw-name">default</span><span class="sw-hex">#12124B</span><span class="sw-use">Brand anchor</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#172723')">
+        <div class="swatch-block" style="background:#172723"></div>
+        <div class="swatch-info"><span class="sw-name">runtime-dark</span><span class="sw-hex">#172723</span><span class="sw-use">Runtime surfaces</span></div>
+      </div>
+      <div class="swatch" onclick="copy('#0c212a')">
+        <div class="swatch-block" style="background:#0c212a"></div>
+        <div class="swatch-info"><span class="sw-name">deploy-dark</span><span class="sw-hex">#0C212A</span><span class="sw-use">Deploy surfaces</span></div>
+      </div>
     </div>
 
-    <div class="sec-label" style="margin-top:32px">Deploy Neutral Scale</div>
-    <div class="scale-row">
-      <div class="scale-chip" style="background:#f8f9fc" title="#F8F9FC · neutral-50" onclick="copy('#f8f9fc')"></div>
-      <div class="scale-chip" style="background:#f1f3f9" title="#F1F3F9 · neutral-100" onclick="copy('#f1f3f9')"></div>
-      <div class="scale-chip" style="background:#eaedf5" title="#EAEDF5 · neutral-200" onclick="copy('#eaedf5')"></div>
-      <div class="scale-chip" style="background:#cbd1e1" title="#CBD1E1 · neutral-350" onclick="copy('#cbd1e1')"></div>
-      <div class="scale-chip" style="background:#a8b2c8" title="#A8B2C8 · neutral-400" onclick="copy('#a8b2c8')"></div>
-      <div class="scale-chip" style="background:#64708b" title="#64708B · neutral-500" onclick="copy('#64708b')"></div>
-      <div class="scale-chip" style="background:#475269" title="#475269 · neutral-600" onclick="copy('#475269')"></div>
-      <div class="scale-chip" style="background:#242d3e" title="#242D3E · neutral-700" onclick="copy('#242d3e')"></div>
-      <div class="scale-chip" style="background:#171c2b" title="#171C2B · neutral-800" onclick="copy('#171c2b')"></div>
-      <div class="scale-chip" style="background:#0a0e1c" title="#0A0E1C · neutral-900" onclick="copy('#0a0e1c')"></div>
-      <div class="scale-chip" style="background:#020617" title="#020617 · neutral-950" onclick="copy('#020617')"></div>
+    <div class="sec-label gap">Deploy Neutral Scale</div>
+    <div class="scale">
+      <div class="chip" style="background:#f8f9fc" onclick="copy('#f8f9fc')" title="neutral-50 · #F8F9FC"></div>
+      <div class="chip" style="background:#f1f3f9" onclick="copy('#f1f3f9')" title="neutral-100 · #F1F3F9"></div>
+      <div class="chip" style="background:#eaedf5" onclick="copy('#eaedf5')" title="neutral-200 · #EAEDF5"></div>
+      <div class="chip" style="background:#cbd1e1" onclick="copy('#cbd1e1')" title="neutral-350 · #CBD1E1"></div>
+      <div class="chip" style="background:#a8b2c8" onclick="copy('#a8b2c8')" title="neutral-400 · #A8B2C8"></div>
+      <div class="chip" style="background:#64708b" onclick="copy('#64708b')" title="neutral-500 · #64708B"></div>
+      <div class="chip" style="background:#475269" onclick="copy('#475269')" title="neutral-600 · #475269"></div>
+      <div class="chip" style="background:#242d3e" onclick="copy('#242d3e')" title="neutral-700 · #242D3E"></div>
+      <div class="chip" style="background:#171c2b" onclick="copy('#171c2b')" title="neutral-800 · #171C2B"></div>
+      <div class="chip" style="background:#0a0e1c" onclick="copy('#0a0e1c')" title="neutral-900 · #0A0E1C"></div>
+      <div class="chip" style="background:#020617" onclick="copy('#020617')" title="neutral-950 · #020617"></div>
+    </div>
+    <div class="scale-lbls">
+      <span class="scale-lbl">50</span><span class="scale-lbl">100</span><span class="scale-lbl">200</span><span class="scale-lbl">350</span><span class="scale-lbl">400</span><span class="scale-lbl">500</span><span class="scale-lbl">600</span><span class="scale-lbl">700</span><span class="scale-lbl">800</span><span class="scale-lbl">900</span><span class="scale-lbl">950</span>
     </div>
 
-    <div class="sec-label" style="margin-top:24px">Deploy Blue Scale</div>
-    <div class="scale-row">
-      <div class="scale-chip" style="background:#f0f7ff" title="#F0F7FF · deploy-50" onclick="copy('#f0f7ff')"></div>
-      <div class="scale-chip" style="background:#e0f0ff" title="#E0F0FF · deploy-100" onclick="copy('#e0f0ff')"></div>
-      <div class="scale-chip" style="background:#b3e0ff" title="#B3E0FF · deploy-200" onclick="copy('#b3e0ff')"></div>
-      <div class="scale-chip" style="background:#66c2ff" title="#66C2FF · deploy-300" onclick="copy('#66c2ff')"></div>
-      <div class="scale-chip" style="background:#1a9fff" title="#1A9FFF · deploy-400" onclick="copy('#1a9fff')"></div>
-      <div class="scale-chip" style="background:#007acc" title="#007ACC · deploy-500" onclick="copy('#007acc')"></div>
-      <div class="scale-chip" style="background:#01c2ff" title="#01C2FF · deploy" onclick="copy('#01c2ff')"></div>
-      <div class="scale-chip" style="background:#004166" title="#004166 · deploy-700" onclick="copy('#004166')"></div>
-      <div class="scale-chip" style="background:#002633" title="#002633 · deploy-800" onclick="copy('#002633')"></div>
-      <div class="scale-chip" style="background:#000a0d" title="#000A0D · deploy-950" onclick="copy('#000a0d')"></div>
+    <div class="sec-label">Deploy Blue Scale</div>
+    <div class="scale">
+      <div class="chip" style="background:#f0f7ff" onclick="copy('#f0f7ff')" title="deploy-50 · #F0F7FF"></div>
+      <div class="chip" style="background:#e0f0ff" onclick="copy('#e0f0ff')" title="deploy-100 · #E0F0FF"></div>
+      <div class="chip" style="background:#b3e0ff" onclick="copy('#b3e0ff')" title="deploy-200 · #B3E0FF"></div>
+      <div class="chip" style="background:#66c2ff" onclick="copy('#66c2ff')" title="deploy-300 · #66C2FF"></div>
+      <div class="chip" style="background:#1a9fff" onclick="copy('#1a9fff')" title="deploy-400 · #1A9FFF"></div>
+      <div class="chip" style="background:#007acc" onclick="copy('#007acc')" title="deploy-500 · #007ACC"></div>
+      <div class="chip" style="background:#01c2ff" onclick="copy('#01c2ff')" title="deploy · #01C2FF"></div>
+      <div class="chip" style="background:#004166" onclick="copy('#004166')" title="deploy-700 · #004166"></div>
+      <div class="chip" style="background:#002633" onclick="copy('#002633')" title="deploy-800 · #002633"></div>
+      <div class="chip" style="background:#000a0d" onclick="copy('#000a0d')" title="deploy-950 · #000A0D"></div>
+    </div>
+    <div class="scale-lbls">
+      <span class="scale-lbl">50</span><span class="scale-lbl">100</span><span class="scale-lbl">200</span><span class="scale-lbl">300</span><span class="scale-lbl">400</span><span class="scale-lbl">500</span><span class="scale-lbl">deploy</span><span class="scale-lbl">700</span><span class="scale-lbl">800</span><span class="scale-lbl">950</span>
     </div>
   </div>
 
+  <!-- Typography -->
   <div class="section">
-    <div class="sec-label">Typography — Inter · Moranga · Recursive</div>
-    <div class="type-grid">
-      <div class="type-row"><div class="type-meta"><span class="pill">Moranga</span><span class="pill">40px</span><span class="pill">700</span></div><div style="font-family:'Moranga',Georgia,serif;font-size:40px;font-weight:700;letter-spacing:-.02em">Uncomplicate</div></div>
-      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">32px</span><span class="pill">700</span></div><div style="font-size:32px;font-weight:700;letter-spacing:-.01em">Deploy in seconds</div></div>
-      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">20px</span><span class="pill">600</span></div><div style="font-size:20px;font-weight:600">Edge Functions · KV · Queues</div></div>
-      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">16px</span><span class="pill">400</span></div><div style="font-size:16px;color:var(--text-2)">Push to GitHub, deploy globally in under 10 seconds — no config required.</div></div>
-      <div class="type-row"><div class="type-meta"><span class="pill">Inter</span><span class="pill">14px</span><span class="pill">400</span></div><div style="font-size:14px;color:var(--text-2)">Body text — project metadata, deployment logs, user settings</div></div>
-      <div class="type-row"><div class="type-meta"><span class="pill">Recursive</span><span class="pill">MONO 1</span><span class="pill">13px</span></div><div class="mono" style="font-size:13px;color:var(--deploy-accent)">$ deno deploy --project=my-app main.ts</div></div>
+    <div class="sec-label">Typography — Moranga · Inter · Recursive</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><span class="type-tag">Moranga</span><div class="type-note">Display only</div></div>
+        <div style="font-family:'Moranga',Georgia,serif;font-size:48px;font-weight:700;letter-spacing:-.04em;line-height:1">Uncomplicate</div>
+        <div class="specs"><span class="spec">48px</span><span class="spec">700</span><span class="spec">lh 1</span></div>
+      </div>
+      <div class="type-row">
+        <div><span class="type-tag">Moranga</span><div class="type-note">Section display</div></div>
+        <div style="font-family:'Moranga',Georgia,serif;font-size:28px;font-weight:400;letter-spacing:-.02em">Install Deno 2.9.1</div>
+        <div class="specs"><span class="spec">28px</span><span class="spec">400</span><span class="spec">lh 1.2</span></div>
+      </div>
+      <div class="type-row">
+        <div><span class="type-tag">Inter</span><div class="type-note">UI heading</div></div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:-.01em">All your favorite tools, built-in</div>
+        <div class="specs"><span class="spec">22px</span><span class="spec">700</span><span class="spec">lh 1.3</span></div>
+      </div>
+      <div class="type-row">
+        <div><span class="type-tag">Inter</span><div class="type-note">Body</div></div>
+        <div style="font-size:15px;color:var(--text-2);line-height:1.65">Built on web standards with zero-config TypeScript, unmatched security, and a complete built-in toolchain.</div>
+        <div class="specs"><span class="spec">15px</span><span class="spec">400</span><span class="spec">lh 1.65</span></div>
+      </div>
+      <div class="type-row">
+        <div><span class="type-tag">Inter</span><div class="type-note">UI label</div></div>
+        <div style="font-size:13px;font-weight:500;color:var(--text-2)">Edge Functions · KV · Queues · Cron</div>
+        <div class="specs"><span class="spec">13px</span><span class="spec">500</span></div>
+      </div>
+      <div class="type-row">
+        <div><span class="type-tag">Recursive</span><div class="type-note">CLI · IDs · logs</div></div>
+        <div class="mono" style="font-size:13px;color:var(--deploy)">$ deno run --allow-net main.ts</div>
+        <div class="specs"><span class="spec">13px</span><span class="spec">mono</span></div>
+      </div>
     </div>
   </div>
 
+  <!-- Components -->
   <div class="section">
-    <div class="sec-label">Deno Deploy — Project Dashboard</div>
+    <div class="sec-label">Components</div>
+    <div class="comp-group">
+      <div class="comp-lbl">Buttons</div>
+      <div class="comp-row">
+        <button class="btn btn-primary">Get started</button>
+        <button class="btn btn-deploy">Deploy now</button>
+        <button class="btn btn-outline">View docs</button>
+        <button class="btn-ghost">Learn more →</button>
+      </div>
+    </div>
+    <div class="comp-group">
+      <div class="comp-lbl">Status Badges</div>
+      <div class="comp-row">
+        <span class="badge b-ok"><span class="bdot"></span>Success</span>
+        <span class="badge b-build"><span class="bdot"></span>Building</span>
+        <span class="badge b-fail"><span class="bdot"></span>Failed</span>
+        <span class="badge b-cancel"><span class="bdot"></span>Cancelled</span>
+      </div>
+    </div>
+    <div class="comp-group" style="margin-bottom:0">
+      <div class="comp-lbl">Input</div>
+      <div class="comp-row">
+        <input class="inp" placeholder="my-project-name" type="text"/>
+        <input class="inp" value="deploy_3kzQ9v.deno.dev" type="text" readonly style="font-family:'Recursive',monospace;font-size:12px;color:var(--deploy);width:260px"/>
+      </div>
+    </div>
+  </div>
 
-    <div class="stat-cards">
-      <div class="stat-card">
-        <div class="stat-card-label">Deployments</div>
-        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">247</div>
-        <div class="stat-card-sub">↑ 12 this week</div>
+  <!-- Signature: Deploy Dashboard -->
+  <div class="section">
+    <div class="dash-header">
+      <div>
+        <div class="dash-name">my-app</div>
+        <div class="dash-url">my-app.deno.dev</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Requests / day</div>
-        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">1.4M</div>
-        <div class="stat-card-sub">p99 latency 18ms</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Regions</div>
-        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">35</div>
-        <div class="stat-card-sub">edge PoPs active</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-label">KV Operations</div>
-        <div class="stat-card-value" style="font-family:'Moranga',Georgia,serif">82K</div>
-        <div class="stat-card-sub">reads · writes · lists</div>
+      <div class="dash-actions">
+        <button class="btn btn-outline" style="height:32px;font-size:12px">Settings</button>
+        <button class="btn btn-deploy" style="height:32px;font-size:12px">Deploy now</button>
       </div>
     </div>
 
-    <div class="sig-header">
-      <span class="sig-title">Deployments</span>
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="sig-tabs">
-          <button class="sig-tab active">All</button>
-          <button class="sig-tab">Production</button>
-          <button class="sig-tab">Preview</button>
-        </div>
-        <button style="font-size:12px;font-weight:600;padding:6px 14px;background:var(--color-black);color:#fff;border:none;border-radius:6px;cursor:pointer">Deploy now</button>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-lbl">Deployments</div>
+        <div class="stat-val">247</div>
+        <div class="stat-sub">↑ 12 this week</div>
+      </div>
+      <div class="stat">
+        <div class="stat-lbl">Requests / day</div>
+        <div class="stat-val">1.4M</div>
+        <div class="stat-sub">p99 latency 18ms</div>
+      </div>
+      <div class="stat">
+        <div class="stat-lbl">Regions</div>
+        <div class="stat-val">35</div>
+        <div class="stat-sub">edge PoPs active</div>
+      </div>
+      <div class="stat">
+        <div class="stat-lbl">KV Operations</div>
+        <div class="stat-val">82K</div>
+        <div class="stat-sub">reads · writes · lists</div>
       </div>
     </div>
 
-    <table class="deployments-table">
+    <div class="tab-bar">
+      <button class="tab active" onclick="setTab(this)">All</button>
+      <button class="tab" onclick="setTab(this)">Production</button>
+      <button class="tab" onclick="setTab(this)">Preview</button>
+    </div>
+    <table class="dep-table">
       <thead>
         <tr>
-          <th>Status</th>
-          <th>Deployment</th>
-          <th>Branch / Commit</th>
-          <th>Regions</th>
-          <th>Time</th>
+          <th>Status</th><th>Deployment</th><th>Branch / Commit</th><th>Regions</th><th>Time</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><span class="badge badge-ok"><span class="badge-dot"></span>Success</span></td>
+          <td><span class="badge b-ok"><span class="bdot"></span>Success</span></td>
           <td><span class="dep-id">deploy_3kzQ9v</span></td>
-          <td>
-            <div class="dep-branch">⎇ main</div>
-            <div class="dep-commit">a1b2c3d · fix: improve KV read latency</div>
-          </td>
-          <td><span class="region-pill">us-east</span> <span class="region-pill">eu-west</span> <span class="region-pill">ap-southeast</span></td>
+          <td><div class="dep-branch">⎇ main</div><div class="dep-commit">a1b2c3d · fix: improve KV read latency</div></td>
+          <td><span class="region">us-east</span><span class="region">eu-west</span><span class="region">ap-se</span></td>
           <td><span class="dep-time">2 min ago</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-ok"><span class="badge-dot"></span>Success</span></td>
+          <td><span class="badge b-ok"><span class="bdot"></span>Success</span></td>
           <td><span class="dep-id">deploy_2mxP7n</span></td>
-          <td>
-            <div class="dep-branch">⎇ main</div>
-            <div class="dep-commit">9f8e7d6 · feat: add queue consumer endpoint</div>
-          </td>
-          <td><span class="region-pill">us-east</span> <span class="region-pill">eu-west</span> <span class="region-pill">ap-southeast</span></td>
+          <td><div class="dep-branch">⎇ main</div><div class="dep-commit">9f8e7d6 · feat: add queue consumer endpoint</div></td>
+          <td><span class="region">us-east</span><span class="region">eu-west</span><span class="region">ap-se</span></td>
           <td><span class="dep-time">1 hr ago</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-progress"><span class="badge-dot"></span>Building</span></td>
+          <td><span class="badge b-build"><span class="bdot"></span>Building</span></td>
           <td><span class="dep-id">deploy_4rtH2w</span></td>
-          <td>
-            <div class="dep-branch">⎇ feat/auth-refresh</div>
-            <div class="dep-commit">d4e5f6a · refactor: session token rotation</div>
-          </td>
-          <td><span class="region-pill" style="color:var(--text-3)">pending</span></td>
+          <td><div class="dep-branch">⎇ feat/auth-refresh</div><div class="dep-commit">d4e5f6a · refactor: session token rotation</div></td>
+          <td><span class="region" style="color:var(--text-4)">pending</span></td>
           <td><span class="dep-time">just now</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-fail"><span class="badge-dot"></span>Failed</span></td>
+          <td><span class="badge b-fail"><span class="bdot"></span>Failed</span></td>
           <td><span class="dep-id">deploy_1vbN5c</span></td>
-          <td>
-            <div class="dep-branch">⎇ fix/edge-cache</div>
-            <div class="dep-commit">b3c4d5e · chore: update cache headers</div>
-          </td>
-          <td><span class="region-pill" style="color:var(--text-3)">—</span></td>
+          <td><div class="dep-branch">⎇ fix/edge-cache</div><div class="dep-commit">b3c4d5e · chore: update cache headers</div></td>
+          <td><span style="color:var(--text-4);font-size:13px">—</span></td>
           <td><span class="dep-time">3 hr ago</span></td>
         </tr>
         <tr>
-          <td><span class="badge badge-cancel"><span class="badge-dot"></span>Cancelled</span></td>
+          <td><span class="badge b-cancel"><span class="bdot"></span>Cancelled</span></td>
           <td><span class="dep-id">deploy_0hkM8b</span></td>
-          <td>
-            <div class="dep-branch">⎇ chore/deps</div>
-            <div class="dep-commit">7a8b9c0 · chore: bump deno std to 0.208</div>
-          </td>
-          <td><span class="region-pill" style="color:var(--text-3)">—</span></td>
+          <td><div class="dep-branch">⎇ chore/deps</div><div class="dep-commit">7a8b9c0 · chore: bump deno std to 0.208</div></td>
+          <td><span style="color:var(--text-4);font-size:13px">—</span></td>
           <td><span class="dep-time">6 hr ago</span></td>
         </tr>
       </tbody>
     </table>
+  </div>
 
-    <div class="log-block">
-      <div class="log-line"><span class="log-ts">10:42:01</span><span class="log-ok">✓</span><span>Uploading 23 modules to isolate worker</span></div>
-      <div class="log-line"><span class="log-ts">10:42:01</span><span class="log-deploy">→</span><span>Entry point: <span class="log-deploy">main.ts</span></span></div>
-      <div class="log-line"><span class="log-ts">10:42:02</span><span>Building TypeScript — tsc 5.3.2</span></div>
-      <div class="log-line"><span class="log-ts">10:42:03</span><span class="log-ok">✓</span><span>Type check passed — 0 errors</span></div>
-      <div class="log-line"><span class="log-ts">10:42:03</span><span class="log-deploy">→</span><span>Deploying to <span class="log-deploy">35 regions</span> via Anycast</span></div>
-      <div class="log-line"><span class="log-ts">10:42:04</span><span class="log-ok">✓</span><span class="log-ok">Deployment live — deploy_3kzQ9v.deno.dev</span></div>
-      <div class="log-line"><span class="log-ts">10:42:04</span><span class="log-dim">Build time: 3.1s · Cold start: 4ms · Bundle: 142 kB</span></div>
+  <!-- Guardrails -->
+  <div class="section">
+    <div class="sec-label">Guardrails</div>
+    <div class="rails">
+      <div class="rail-col">
+        <div class="rail-head do">DO</div>
+        <div class="rail-item do">Use Moranga for hero headings and stat numerics only</div>
+        <div class="rail-item do">Match accent to product context — runtime green, deploy cyan, fresh yellow</div>
+        <div class="rail-item do">Keep accent colors on dark or near-black surfaces for contrast</div>
+        <div class="rail-item do">Use the deploy-neutral scale for all UI surfaces and text ramps</div>
+      </div>
+      <div class="rail-col">
+        <div class="rail-head dont">DON'T</div>
+        <div class="rail-item dont">Mix runtime, deploy, and fresh accents in one product context</div>
+        <div class="rail-item dont">Use Moranga below 24px or for body copy and UI labels</div>
+        <div class="rail-item dont">Place fresh yellow (#FFDB1E) on white — contrast fails WCAG AA</div>
+        <div class="rail-item dont">Use deploy-blue scale on runtime-branded surfaces</div>
+      </div>
     </div>
   </div>
 
 </div>
 
-<div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--color-black);color:#fff;padding:10px 22px;border-radius:9999px;font-size:12px;font-weight:600;opacity:0;transition:all .25s;pointer-events:none;z-index:1000"></div>
+<div id="toast"></div>
 
 <script>
 function copy(hex){
-  navigator.clipboard.writeText(hex).catch(()=>{});
+  navigator.clipboard.writeText(hex).catch(function(){});
   var t=document.getElementById('toast');
   t.textContent='Copied '+hex;
-  t.style.opacity='1';
-  t.style.transform='translateX(-50%) translateY(0)';
+  t.classList.add('show');
   clearTimeout(t._tid);
-  t._tid=setTimeout(function(){t.style.opacity='0';t.style.transform='translateX(-50%) translateY(80px)';},1800);
+  t._tid=setTimeout(function(){t.classList.remove('show');},1800);
+}
+function setTab(el){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
 }
 </script>
 </body>

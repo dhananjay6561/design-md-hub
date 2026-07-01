@@ -123,8 +123,6 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .badge-error{background:var(--error-bg);color:var(--error-text)}
 .badge-neutral{background:var(--element);color:var(--text-2)}
 
-.platform-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-
 .builds-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
 .builds-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
 .builds-title{font-size:14px;font-weight:600;color:var(--text)}
@@ -292,29 +290,6 @@ table.build-table{width:100%;border-collapse:collapse}
       </div>
     </div>
 
-    <div class="subsection">
-      <div class="subsection-title">Platform Icons</div>
-      <div class="comp-row">
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="platform-icon" style="background:#F0F0F3;border:1px solid #CDCED6">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="#555"/></svg>
-          </div>
-          <span style="font-size:13px;font-weight:500">iOS</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="platform-icon" style="background:#F0F0F3;border:1px solid #CDCED6">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.523 15.341a2 2 0 01-2 2H8.477a2 2 0 01-2-2V8.659a2 2 0 012-2h7.046a2 2 0 012 2v6.682zM7.5 5.5L6 4M16.5 5.5L18 4M9 19h6" stroke="#3DD68C" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-          <span style="font-size:13px;font-weight:500">Android</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="platform-icon" style="background:#F0F0F3;border:1px solid #CDCED6">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#70B8FF" stroke-width="1.5"/></svg>
-          </div>
-          <span style="font-size:13px;font-weight:500">Web</span>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -366,7 +341,7 @@ table.build-table{width:100%;border-collapse:collapse}
         </thead>
         <tbody id="buildTbody">
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="currentColor"/></svg></div><span class="build-name">iOS</span></div></td>
+            <td><span class="build-name">iOS</span></td>
             <td><span class="build-id">b3f8a1c2</span></td>
             <td><span class="build-branch">main</span></td>
             <td><span class="badge badge-warn"><span class="badge-dot"></span>In queue</span></td>
@@ -374,7 +349,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">just now</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M17.523 15.341a2 2 0 01-2 2H8.477a2 2 0 01-2-2V8.659a2 2 0 012-2h7.046a2 2 0 012 2v6.682zM7.5 5.5L6 4M16.5 5.5L18 4M9 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="build-name">Android</span></div></td>
+            <td><span class="build-name">Android</span></td>
             <td><span class="build-id">c7d2e9f4</span></td>
             <td><span class="build-branch">main</span></td>
             <td><span class="badge badge-success"><span class="badge-dot"></span>Finished</span></td>
@@ -382,7 +357,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">5 min ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="currentColor"/></svg></div><span class="build-name">iOS</span></div></td>
+            <td><span class="build-name">iOS</span></td>
             <td><span class="build-id">a1b2c3d4</span></td>
             <td><span class="build-branch">feat/dark-mode</span></td>
             <td><span class="badge badge-success"><span class="badge-dot"></span>Finished</span></td>
@@ -390,7 +365,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">22 min ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M17.523 15.341a2 2 0 01-2 2H8.477a2 2 0 01-2-2V8.659a2 2 0 012-2h7.046a2 2 0 012 2v6.682zM7.5 5.5L6 4M16.5 5.5L18 4M9 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="build-name">Android</span></div></td>
+            <td><span class="build-name">Android</span></td>
             <td><span class="build-id">e5f6a7b8</span></td>
             <td><span class="build-branch">feat/dark-mode</span></td>
             <td><span class="badge badge-error"><span class="badge-dot"></span>Failed</span></td>
@@ -398,7 +373,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">25 min ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="currentColor"/></svg></div><span class="build-name">iOS</span></div></td>
+            <td><span class="build-name">iOS</span></td>
             <td><span class="build-id">f9e8d7c6</span></td>
             <td><span class="build-branch">release/v2.4.0</span></td>
             <td><span class="badge badge-success"><span class="badge-dot"></span>Finished</span></td>
@@ -406,7 +381,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">1 hr ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M17.523 15.341a2 2 0 01-2 2H8.477a2 2 0 01-2-2V8.659a2 2 0 012-2h7.046a2 2 0 012 2v6.682zM7.5 5.5L6 4M16.5 5.5L18 4M9 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div><span class="build-name">Android</span></div></td>
+            <td><span class="build-name">Android</span></td>
             <td><span class="build-id">b2a3c4d5</span></td>
             <td><span class="build-branch">release/v2.4.0</span></td>
             <td><span class="badge badge-success"><span class="badge-dot"></span>Finished</span></td>
@@ -414,7 +389,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">1 hr ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" fill="currentColor"/></svg></div><span class="build-name">iOS</span></div></td>
+            <td><span class="build-name">iOS</span></td>
             <td><span class="build-id">d6e7f8a9</span></td>
             <td><span class="build-branch">fix/onboarding</span></td>
             <td><span class="badge badge-neutral"><span class="badge-dot"></span>Cancelled</span></td>
@@ -422,7 +397,7 @@ table.build-table{width:100%;border-collapse:collapse}
             <td><span class="build-duration">3 hr ago</span></td>
           </tr>
           <tr>
-            <td><div style="display:flex;align-items:center;gap:8px"><div class="platform-icon" style="background:var(--element);border:1px solid var(--border)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/></svg></div><span class="build-name">Web</span></div></td>
+            <td><span class="build-name">Web</span></td>
             <td><span class="build-id">c9b8a7f6</span></td>
             <td><span class="build-branch">main</span></td>
             <td><span class="badge badge-success"><span class="badge-dot"></span>Finished</span></td>
@@ -431,20 +406,6 @@ table.build-table{width:100%;border-collapse:collapse}
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="terminal">
-<span class="t-muted">$ </span><span class="t-blue">eas build --platform all</span>
-<span class="t-muted">✔ Using remote Android credentials (Expo server)</span>
-<span class="t-muted">✔ Using remote iOS credentials (Expo server)</span>
-
-<span class="t-success">✓</span> Build queued. Build IDs:
-  <span class="t-muted">Android:</span> <span style="color:#EDEEF0">c7d2e9f4-3a1b-4c8d-9e2f-0a1b2c3d4e5f</span>
-  <span class="t-muted">iOS:    </span> <span style="color:#EDEEF0">b3f8a1c2-9e4d-4f2a-8b7e-1a2c3d4e5f6a</span>
-
-<span class="t-muted">Waiting for build to complete...</span>
-<span class="t-success">✓</span> Android build finished in 3m 48s
-<span class="t-warn">⚠</span> iOS build queued — estimated wait: 2 min
     </div>
   </div>
 </div>
