@@ -1,171 +1,169 @@
 # Mintlify Design System
 
 ## Overview
-Mintlify is a documentation platform that makes it easy to build beautiful, interactive docs. The design language is clean, bright, and modern — it signals that documentation can be a first-class product experience. The mint/emerald green anchors a refined dark aesthetic.
 
-**Brand personality:** Clean, polished, product-quality docs, developer-delight.
+Mintlify is the knowledge infrastructure platform for the agent web. The design language is warm, precise, and paperlike — distinguishing itself from the cold white/black of most dev tools through a distinctive warm off-white background and two-tone emerald green brand mark. Light-mode-first.
+
+**Brand positioning:** "The knowledge infrastructure agents build on" — self-updating documentation for startups, enterprises, and agents.
 
 ---
 
 ## Colors
 
-### Primary Palette
+### Brand Green
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--mint-green` | `#0EA47A` | Primary brand, CTAs, links |
-| `--mint-green-light` | `#34D399` | Hover states, highlights |
-| `--mint-emerald` | `#10B981` | Secondary accent |
-| `--mint-white` | `#F8FAFC` | Primary text on dark |
+| `--color-brand-base` (dark) | `#18e299` | Primary brand — dark mode CTAs, links, accents |
+| `--color-brand-base` (light) | `#0c8c5e` | Primary brand — light mode CTAs, links, accents |
+| `--color-brand-vivid` | `#1fa77a` | Hover, emphasis |
+| `--color-mint-dark` | `#17cf85` | Accent on dark backgrounds |
 
-### Surface Palette (Dark)
+The leaf mark uses exactly two tones: `#18E299` (bright mint, top shape) and `#0C8C5E` (dark green, bottom two shapes). These are fixed and must not be altered.
+
+### Light Mode Backgrounds
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#0D1117` | Main background |
-| `--bg-surface` | `#161C24` | Cards, sidebar, panels |
-| `--bg-elevated` | `#1E2633` | Dropdowns, modals |
-| `--border` | `#2A3441` | Dividers, borders |
+| `--color-background-primary` | `#fefdfb` | Page background — warm off-white, never pure white |
+| `--color-background-secondary` | `#faf8f5` | Cards, sidebars, secondary surfaces |
+| `--color-background-tertiary` | `#ebe9e6` | Raised chips, badges, hover states |
+| `--color-background-main` | `#ffffff` | Doc content area only |
+| `--color-background-gray-subtle` | `#f9f8f7` | Subtle fills |
+| `--color-border-line` | `#f1f0ee` | Primary border — very subtle warm gray |
+
+### Dark Mode Backgrounds
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--color-background-primary` | `#0a0b0f` | Page background |
+| `--color-background-secondary` | `#121715` | Cards, sidebars |
+| `--color-background-tertiary` | `#485450` | Raised elements |
+| `--color-background-gray-subtle` | `#110a03` | Subtle dark fill |
+| `--color-border-line` | `#1e1f21` | Primary border |
 
 ### Text
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--text-primary` | `#F8FAFC` | Headings, body |
-| `--text-secondary` | `#94A3B8` | Labels, captions |
-| `--text-muted` | `#546882` | Placeholders, disabled |
-| `--text-green` | `#34D399` | Links, accent text |
-
-### Semantic
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--success` | `#0EA47A` | Deploy success |
-| `--warning` | `#F59E0B` | Deprecation notice |
-| `--danger` | `#EF4444` | Breaking change, error |
-| `--info` | `#3B82F6` | Informational callout |
+| `--color-text-main` (light) | `#08090a` | Primary text |
+| `--color-text-main` (dark) | `#ffffff` | Primary text |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+### Font Stack
+| Role | Family | Source |
+|------|--------|--------|
+| Display / H1 | ABCArizonaFlare Regular | `https://www.mintlify.com/_next/static/media/ABCArizonaFlare_Regular-s.p.957a285d.otf` |
+| UI / Body | Inter Variable | `https://www.mintlify.com/_next/static/media/InterVariable-s.p.494bb210.ttf` |
+| Code / Mono | PaperMono | `https://www.mintlify.com/_next/static/media/PaperMono-s.p.9e1cd850.woff2` |
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 40px | 700 | Hero, landing |
-| Heading 1 | 30px | 600 | Page titles |
-| Heading 2 | 22px | 600 | Section headers |
-| Heading 3 | 17px | 600 | Subsections |
-| Body | 15px | 400 | Prose content |
-| Small | 13px | 400 | Captions, metadata |
-| Mono | 13px | 400 | Code, API paths |
+All three font files are served with `Access-Control-Allow-Origin: *` from `www.mintlify.com`.
 
----
+### Type Scale
+| Role | Font | Size | Weight | Line Height |
+|------|------|------|--------|-------------|
+| Display | ABCArizonaFlare | 48–52px | 400 | 1.1 |
+| H1 (docs) | ABCArizonaFlare | 28px | 400 | 1.2 |
+| H2 | Inter Variable | 20px | 600 | 1.3 |
+| H3 | Inter Variable | 16px | 600 | 1.4 |
+| Body | Inter Variable | 15px | 400 | 1.7 |
+| Small / label | Inter Variable | 13px | 500 | 1.5 |
+| Caption | Inter Variable | 12px | 400 | 1.5 |
+| Code | PaperMono | 13px | 400 | 1.6 |
+| Nav label | PaperMono | 10px | 600 | — |
 
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Icon gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
+ABCArizonaFlare is a proprietary serif (Commercial Type). It is used exclusively for marketing display text and doc page headings — never for UI labels or body copy.
 
 ---
 
-## Border Radius
+## Logo
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Badges, tags |
-| `--radius-md` | `8px` | Buttons, inputs |
-| `--radius-lg` | `12px` | Cards, callout boxes |
-| `--radius-xl` | `16px` | Modals |
+The wordmark SVG (`viewBox="0 0 104 24"`) has two parts:
+
+**Leaf mark (3 paths):**
+- Top shape: `fill="#18E299"` (bright mint)
+- Bottom-left shape: `fill="#0C8C5E"` (dark green)
+- Bottom-right shape: `fill="#0C8C5E"` (dark green)
+
+**Wordmark text paths:** `fill="var(--color-text-main)"` — automatically inherits the CSS variable, making it adapt to dark/light mode without JS.
+
+The leaf mark colors are invariant across themes. Only the text portion adapts.
 
 ---
 
-## Shadows
+## Spacing & Shape
 
-```css
---shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
---shadow-md: 0 4px 16px rgba(0,0,0,0.5);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
---shadow-green: 0 0 0 3px rgba(14,164,122,0.25);
-```
+| Property | Value |
+|----------|-------|
+| Border radius — buttons, inputs | 4px |
+| Border radius — cards, callouts | 8px |
+| Border radius — modals | 12px |
+| Border radius — badges | 100px (pill) |
+| Elevation | None — Mintlify uses borders, not shadows |
+| Grid gutter | 7 (Tailwind custom grid-layout) |
 
 ---
 
 ## Components
 
 ### Buttons
-```
-Primary:  bg #0EA47A, text white, hover #0C9470, radius 8px, height 38px, font-weight 500
-Ghost:    bg transparent, border #2A3441, text #94A3B8, hover border #0EA47A
-```
+- **Primary:** `background: var(--color-text-main)` (inverted — dark bg on light mode, white bg on dark mode), `color: var(--color-background-primary)`, radius 4px, padding `10px 20px`, weight 500, size 14px.
+- **Ghost / Outline:** transparent bg, `border: 1px solid var(--color-border-line)`, hover `border-color: var(--color-brand-base)`.
+- No `border-radius` above 4px for interactive controls.
 
-### Inputs
-```
-Background: #161C24
-Border:     #2A3441 default, #0EA47A focused
-Text:       #F8FAFC
-Placeholder: #546882
-Radius:     8px, height: 38px
-```
+CTA labels used: "Get started", "Contact sales", "Read customer stories", "For enterprises", "For startups".
 
-### Callout Boxes
-```
-Note:    border-left 3px solid #3B82F6, bg rgba(59,130,246,0.08)
-Warning: border-left 3px solid #F59E0B, bg rgba(245,158,11,0.08)
-Danger:  border-left 3px solid #EF4444, bg rgba(239,68,68,0.08)
-Tip:     border-left 3px solid #0EA47A, bg rgba(14,164,122,0.08)
-```
+### Badges
+Pill-shaped (100px radius), PaperMono font, 11px/500. Color families:
+- Brand: bg `color-mix(in srgb, brand 12%, transparent)`, text `var(--color-brand-base)`
+- Gray: bg `var(--color-background-tertiary)`, text secondary
+- Warning: amber tones
+- Danger: red tones
 
-### API Method Badges
-```
-GET:    bg rgba(34,197,94,0.12), text #22C55E
-POST:   bg rgba(59,130,246,0.12), text #3B82F6
-PUT:    bg rgba(245,158,11,0.12), text #F59E0B
-DELETE: bg rgba(239,68,68,0.12), text #EF4444
-PATCH:  bg rgba(139,92,246,0.12), text #8B5CF6
-```
+### Callouts
+`border-radius: 8px`, `border: 1px solid`, filled with 5% brand tint. Types: tip (brand/green), warning (amber), note (gray).
+
+### Code Blocks
+Background `var(--color-background-gray-subtle)`, PaperMono 13px, brand-colored command prefixes (`$`, JSON keys).
 
 ---
 
-## Layout
+## Signature Component — Docs Viewer
 
-- Docs max-width: 1280px
-- Left sidebar: 260px (navigation)
-- Right sidebar: 220px (on-page TOC)
-- Content width: 720px max
-- Search bar: centered, prominent at top
+The most iconic Mintlify UI pattern: the documentation viewer with sidebar navigation and content area, combined with CMD+K search.
+
+**Layout:** Two-panel — 220px fixed sidebar + fluid content area.
+
+**Sidebar:**
+- Search bar with ⌘K shortcut hint
+- Grouped navigation: section group labels in PaperMono 10px uppercase
+- Nav items: 13px Inter, active state uses brand left-border + tinted background
+
+**Content area:**
+- ABCArizonaFlare h1 for page title
+- Inter body text at 15px/1.7
+- PaperMono code blocks with brand-colored keywords
+- Brand-tinted callout boxes
+
+**CMD+K modal:**
+- Full-width input at top
+- Filterable page results with icon + title + path
+- Keyboard navigation (↑↓ navigate, ↵ open, Esc close)
 
 ---
 
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1024px |
-| Desktop | > 1024px |
-
----
-
-## Tone & Guardrails
+## Guardrails
 
 ### DO
-- Use API method badges (GET/POST/PUT/DELETE) consistently in reference docs
-- Use callout boxes generously — they guide readers to important information
-- Show inline code with a subtle background and green tint for types
-- Keep the left sidebar navigation clean and hierarchical — max 2 nesting levels
-- Use the search bar as a first-class navigation element — not an afterthought
+- Use `#fefdfb` (warm off-white) as the light mode page background — it is the single most distinctive visual element
+- Use ABCArizonaFlare exclusively for display and doc headings; never for UI labels or body text
+- Use `#18e299` for dark mode brand; `#0c8c5e` for light mode — they are not interchangeable
+- Use PaperMono for all code, metadata labels, and section identifiers
+- Keep border-radius at 4px for interactive elements; elevation via borders not shadows
 
 ### DON'T
-- Don't use more than 4 heading levels in a single page — docs need clarity
-- Don't overload the right sidebar TOC — if it's too long, the page is too long
-- Don't use the green for warning or danger callouts — semantic color consistency matters
-- Don't make code blocks feel like afterthoughts — they're the product in dev docs
-- Don't use passive voice in documentation copy — "Run this command", not "This command can be run"
+- Use pure white (`#ffffff`) as the main page background in light mode
+- Use `#18e299` directly on light mode backgrounds — it fails contrast
+- Add drop shadows to cards — use subtle borders instead
+- Use font-weight above 600 for Inter in UI contexts
+- Alter the two-tone green of the leaf mark
+- Use the brand green for decorative elements — reserve it for interactive and semantic use
