@@ -1,171 +1,123 @@
 # Twilio Design System
 
 ## Overview
-Twilio is the leading cloud communications platform — SMS, voice, video, and email APIs. The design language is bold and confident, anchored by a distinctive red that communicates urgency and reliability. The UI is developer-first with an enterprise finish.
 
-**Brand personality:** Bold, reliable, communication-first, developer-grade, enterprise-ready.
+Twilio is "the platform for conversations in the AI era" — APIs for SMS, RCS, voice, and email, plus conversational AI and identity verification. The identity is anchored by one loud, confident red and the dot-circle bug (four dots inside a ring). It pairs that red with a deep navy "ink," a warm "paper" background, and clean humanist type — developer-first, but warmer and more human than most infrastructure brands.
+
+**Brand personality:** Bold, human, communication-first, developer-grade, reliable.
+
+**Positioning (live copy):** "Build amazing customer experiences on the Twilio platform with APIs for SMS, RCS, voice, and email — the infrastructure behind every magical customer moment."
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--twilio-red` | `#F22F46` | Primary brand, CTAs |
-| `--twilio-red-dark` | `#C82333` | Hover states |
-| `--twilio-red-light` | `#FF6B7A` | Highlights, subtle accents |
-| `--twilio-blue` | `#0263E0` | Secondary actions, links |
+Twilio is **light-first** on a warm `#FDF7F4` paper background with white cards and `#000D25` ink text; dark mode is the ink navy. Red is the identity; blue is the interactive/link color.
 
-### Surface Palette (Dark)
+### Primary — the red
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#06080D` | Main background |
-| `--bg-surface` | `#0F1623` | Cards, panels |
-| `--bg-elevated` | `#172030` | Dropdowns, modals |
-| `--border` | `#1F2D42` | Dividers, borders |
+| `--twilio-red` | `#F22F46` | Primary brand, CTAs, the bug |
+| `--red-light` | `#EF223A` | Hover, bright red accent |
+| `--red-dark` | `#B10F23` | Accessible red for text on light, pressed |
+
+### Secondary — blue
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--blue` | `#0263E0` | Links, secondary actions |
+| `--cyan` | `#3ACEFA` | Bright accent, highlights (dark-mode links) |
+| `--night` | `#001489` | Deep blue, emphasis, gradients |
+
+### Surfaces — Light
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#FFFFFF` | Cards, panels |
+| `--bg2` | `#FDF7F4` | Page background (warm paper) |
+| `--bg3` | `#F5EDE8` | Fills, hover (warm) |
+| `--border` | `#E8DFD9` | Borders, dividers (warm) |
+
+### Surfaces — Dark (ink)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#0A1A38` | Cards, panels |
+| `--bg2` | `#000D25` | Page background (ink) |
+| `--bg3` | `#12244A` | Elevated, hover |
+| `--border` | `#1E3157` | Borders, dividers |
 
 ### Text
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#F4F6FA` | Headings, body |
-| `--text-secondary` | `#8896AD` | Labels, captions |
-| `--text-muted` | `#4E5F78` | Placeholders, disabled |
+| Token | Hex (light) | Hex (dark) | Usage |
+|-------|-------------|------------|-------|
+| `--text` | `#000D25` | `#F5F7FA` | Headings, body (ink) |
+| `--text2` | `#3D4A5C` | `#9AA8C0` | Labels, secondary |
+| `--text3` | `#8A94A6` | `#64748B` | Muted, placeholder |
 
 ### Semantic
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--success` | `#07BB8B` | Message delivered, call connected |
-| `--warning` | `#E8A800` | Rate limited, queue growing |
-| `--danger` | `#F22F46` | Failed delivery, error code |
-| `--info` | `#0263E0` | Informational |
+| `--success` | `#0E7C3A` | Delivered, healthy (fill `#36D576`) |
+| `--warning` | `#F47C22` | Queued, attention |
+| `--danger` | `#F22F46` | Failed, undelivered, delete |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+| Role | Font | Notes |
+|------|------|-------|
+| Display / headings | **Buffalo** (≈ Source Sans 3, 700) | Buffalo is Twilio-proprietary; headings substitute the humanist body family at heavy weight |
+| UI / body | **Whitney SSm** (≈ Source Sans 3) | Whitney is a commercial Hoefler face; Source Sans 3 is the CORS-safe humanist substitute |
+| Mono / code | **Twilio Sans Mono** (≈ JetBrains Mono) | API snippets, Message SIDs, phone numbers |
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 36px | 700 | Marketing, hero |
-| Heading 1 | 26px | 600 | Page titles |
-| Heading 2 | 20px | 600 | Section headers |
-| Body | 14px | 400 | Default content |
-| Small | 12px | 400 | Metadata, timestamps |
-| Mono | 13px | 400 | Phone numbers, SIDs, webhook payloads |
-
----
-
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
-
----
-
-## Border Radius
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Tags, badges |
-| `--radius-md` | `6px` | Buttons, inputs |
-| `--radius-lg` | `8px` | Cards, panels |
-| `--radius-xl` | `12px` | Modals |
-
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
---shadow-md: 0 4px 16px rgba(0,0,0,0.6);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.7);
---shadow-red: 0 0 0 3px rgba(242,47,70,0.3);
-```
+### Scale
+| Token | Size | Weight | Sample |
+|-------|------|--------|--------|
+| `display-2xl` | 52px | 700 | Twilio |
+| `display-xl` | 32px | 700 | Build. Without limits. |
+| `display-md` | 22px | 600 | Building blocks for every conversation |
+| `text-lg` | 16px | 400 | Body / lead copy |
+| `text-sm` | 13px | 400 | UI copy, table cells |
+| `ui-mono` | 12px | 400 | `client.messages.create(...)` |
 
 ---
 
 ## Components
 
-### Buttons
-```
-Primary:  bg #F22F46, text white, hover #C82333, radius 6px, height 38px, font-weight 500
-Ghost:    bg transparent, border #1F2D42, text #8896AD, hover border #F22F46
-Blue:     bg #0263E0, text white — for secondary actions
-```
+- **Buttons:** red `#F22F46` primary (white text, safe in both themes), outline secondary, blue link. Radius `4px`.
+- **Message log table:** the Twilio Console Messaging pattern — SID, To, Body, Status badge, Segments, Price.
+- **Status badges:** `queued` (orange), `sent` (blue), `delivered` (green), `failed` (red).
+- **Code snippet:** dark ink card with language tabs (Node · Python · curl) showing `client.messages.create()`.
+- **Inputs:** 1px warm border, `#F22F46` focus ring.
 
-### Inputs
-```
-Background: #0F1623
-Border:     #1F2D42 default, #F22F46 focused
-Text:       #F4F6FA
-Placeholder: #4E5F78
-Radius:     6px, height: 38px
-Font:       JetBrains Mono for phone numbers, SIDs, webhook URLs
-```
-
-### Message Status Badges
-```
-Delivered: bg rgba(7,187,139,0.12), text #07BB8B
-Sent:      bg rgba(2,99,224,0.12), text #0263E0
-Queued:    bg rgba(232,168,0,0.12), text #E8A800
-Failed:    bg rgba(242,47,70,0.12), text #F22F46
-```
-
-### Error Code Block
-```
-Background: #06080D
-Border:     left 3px solid #F22F46
-Radius:     6px
-Code:       JetBrains Mono 13px
-Error code: color #F22F46, font-weight 600
-Message:    color #8896AD
-```
+### Radius & elevation
+| Token | Value |
+|-------|-------|
+| `radius-sm` | 4px |
+| `radius-md` | 8px |
+| `radius-lg` | 16px |
+| `shadow-card` | `0 1px 2px rgba(0,13,37,.06), 0 6px 20px rgba(0,13,37,.08)` |
 
 ---
 
-## Layout
+## Signature component
 
-- Console max-width: 1280px
-- Left sidebar: 220px
-- Content padding: 24px
-- Phone number tables use monospace throughout
+**Messaging logs + send.** Twilio's defining developer moment: send a message via the API and watch it move through delivery states. A code card shows `client.messages.create({ to, from, body })`; the composer sends a message that appends a row to the Console-style log with an auto-generated `SM…` Message SID and a status that animates **queued → sent → delivered**, plus segments and price. Log is capped at 20 rows.
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1280px |
-| Desktop | > 1280px |
+Seen with no branding, the `SM…` SIDs and queued→sent→delivered status chips are unmistakably Twilio.
 
 ---
 
-## Tone & Guardrails
+## Guardrails
 
-### DO
-- Use monospace for ALL phone numbers, SIDs, account IDs, and webhook payloads
-- Color-code message status consistently (Delivered/Sent/Queued/Failed)
-- Show error codes prominently — developers debugging failed messages need them fast
-- Use the red confidently — it's a brand color here, not just a warning signal
-- Display delivery receipts with timestamps in relative time
+**DO**
+- Use Twilio Red `#F22F46` as the one loud primary — for CTAs, the bug, and emphasis.
+- Keep the bug (four dots in a ring) monochrome red; render it on paper, white, or ink.
+- Use the warm paper `#FDF7F4` for page backgrounds — it's part of the identity.
+- Use blue `#0263E0` for links; reserve red for brand and destructive.
+- Pair every message status with its colored chip and a real `SM…` SID.
 
-### DON'T
-- Don't confuse brand red with danger red — Twilio red IS the primary action color
-- Don't use light mode for the console — developers prefer dark for long sessions
-- Don't truncate phone numbers — always show the full E.164 format (+12025551234)
-- Don't use soft corners beyond 8px — Twilio is enterprise-grade, not a consumer app
-- Don't skip error code details — a vague "failed" message is useless for debugging
+**DON'T**
+- Don't use the old flat red `#F30` / random reds — the brand red is `#F22F46`.
+- Don't recolor or split the bug's fill — it's a single-color mark.
+- Don't use pure black `#000` for text or dark surfaces — Twilio's ink is `#000D25`.
+- Don't cool the background to plain white everywhere — keep the warm paper tint.
+- Don't fake phone numbers or SIDs into random formats — use `+E.164` and `SM` + hex.
