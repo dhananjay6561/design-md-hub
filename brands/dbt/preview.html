@@ -3,264 +3,413 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>dbt Design System</title>
+<title>dbt — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"]{--bg:#0E0E10;--surface:#161618;--elevated:#1E1E22;--border:#2C2C32;--brand:#FF694A;--brand-light:#FF8F76;--text-primary:#F2F2F4;--text-secondary:#9090A0;--text-muted:#606070;--success:#22C55E;--warning:#F59E0B;--error:#EF4444;--info:#60A5FA}
-:root[data-theme="light"]{--bg:#F4F4F6;--surface:#FFFFFF;--elevated:#EEEEF2;--border:#D8D8E0;--brand:#CC4A2E;--brand-light:#FF694A;--text-primary:#0E0E10;--text-secondary:#505060;--text-muted:#909098;--success:#16803A;--warning:#B07408;--error:#BE2A2A;--info:#2060C0}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle:hover{border-color:var(--brand)}
-.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
-.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
-.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
-.hero-text h1{font-size:28px;font-weight:700}
-.hero-text p{color:var(--text-secondary);margin-top:4px}
-.hero-badge{margin-left:auto;background:rgba(255,105,74,.12);color:var(--brand-light);border:1px solid rgba(255,105,74,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
-.section{margin-bottom:56px}
-.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
-.color-groups{display:flex;flex-direction:column;gap:20px}
-.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
-.color-row{display:flex;gap:10px;flex-wrap:wrap}
-.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
-.swatch:hover .swatch-block{transform:scale(1.08)}
-.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-.type-rows{display:flex;flex-direction:column;gap:12px}
-.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
-.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
-.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
-
-/* Node types */
-.node-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.node-model{background:rgba(255,105,74,.15);color:#FF694A}
-.node-source{background:rgba(34,197,94,.15);color:#22C55E}
-.node-seed{background:rgba(245,158,11,.15);color:#F59E0B}
-.node-snapshot{background:rgba(167,139,250,.15);color:#A78BFA}
-.node-exposure{background:rgba(96,165,250,.15);color:#60A5FA}
-.node-metric{background:rgba(52,211,153,.15);color:#34D399}
-
-/* Lineage graph */
-.dag-wrap{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:16px;overflow-x:auto}
-.dag{display:flex;align-items:center;gap:0;width:min-content}
-.dag-col{display:flex;flex-direction:column;gap:10px;padding:0 20px}
-.dag-node{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:12px;font-family:'JetBrains Mono',monospace;min-width:130px;display:flex;flex-direction:column;gap:4px;cursor:pointer;position:relative}
-.dag-node:hover{border-color:var(--brand)}
-.dag-node.selected{border-color:var(--brand);box-shadow:0 0 0 2px rgba(255,105,74,.2)}
-.dag-node-name{font-weight:600;font-size:12px}
-.dag-arrow{color:var(--text-muted);font-size:18px;flex-shrink:0}
-.mat-badge{font-size:10px;background:var(--elevated);color:var(--text-muted);border-radius:3px;padding:1px 5px;font-family:inherit;margin-top:2px}
-
-/* Run results */
-.run-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.run-row:last-child{border-bottom:none}
-.run-icon{font-size:14px;flex-shrink:0}
-.run-name{font-family:'JetBrains Mono',monospace;font-size:12px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.run-dur{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
-.run-rows{font-size:11px;color:var(--text-muted);flex-shrink:0}
-.status-pass{color:#22C55E}
-.status-fail{color:#EF4444}
-.status-warn{color:#F59E0B}
-.status-skip{color:#9090A0}
-
-/* SQL model */
-.sql-model{background:var(--elevated);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.sql-model-header{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.sql-model-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text-secondary)}
-.sql-body{padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.9}
-.ln{color:var(--text-muted);user-select:none;margin-right:12px;display:inline-block;width:16px;text-align:right}
-.sql-kw{color:#60A5FA}
-.sql-ref{color:#FF694A;font-weight:600}
-.sql-src{color:#22C55E;font-weight:600}
-.sql-jinja{color:#A78BFA}
-.sql-str{color:#86EFAC}
-.sql-col{color:#F2F2F4}
-.sql-cmt{color:#606070}
-
-/* Test row */
-.test-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
-.test-row:last-child{border-bottom:none}
-.test-name{font-size:12px;flex:1;font-family:'JetBrains Mono',monospace}
-.test-col{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;flex-shrink:0}
-.test-status{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;flex-shrink:0}
-.ts-pass{background:rgba(34,197,94,.12);color:#22C55E}
-.ts-fail{background:rgba(239,68,68,.12);color:#EF4444}
-.ts-warn{background:rgba(245,158,11,.12);color:#F59E0B}
-
-.spacing-bars{display:flex;flex-direction:column;gap:10px}
-.spacing-row{display:flex;align-items:center;gap:12px}
-.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
-.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
-.spacing-val{font-size:11px;color:var(--text-secondary)}
-.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
-.guardrail-card.do{border-top:2px solid var(--success)}
-.guardrail-card.dont{border-top:2px solid var(--error)}
-.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px}
-.guardrail-card.do h4{color:var(--success)}
-.guardrail-card.dont h4{color:var(--error)}
-.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
-.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
-.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
-.guardrail-card.do ul li::before{background:var(--success)}
-.guardrail-card.dont ul li::before{background:var(--error)}
+:root{
+  --orange:#FE6703;--purple:#632FF5;--purple-light:#9C79FF;--purple-deep:#6A00FF;
+  --lime:#D8FF33;--yellow:#FFCC25;
+  --t-source:#23C05C;--t-staging:#6B9AFF;--t-inter:#9C79FF;--t-mart:#FE6703;
+  --brand-text:#101828;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F6F5FF;--bg3:#EEECFB;--bg-hover:#F2F0FF;
+  --border:#E5E7EB;--border-strong:#D8D5EA;
+  --text:#101828;--text2:#4A5060;--text3:#8F8F9C;
+  --brand:#FE6703;--brand-hover:#E85D00;
+  --c-orange:#D45400;--c-purple:#632FF5;--c-green:#178A43;--c-red:#C93B40;
+  --logo:#FE6703;--ring:rgba(254,103,3,.22);
+  --edge:#C9C6DE;--edge-hot:#FE6703;
+}
+:root[data-theme="dark"]{
+  --bg:#1A1E2B;--bg2:#101828;--bg3:#252A3A;--bg-hover:#252A3A;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#F2F3F7;--text2:#A9AEBC;--text3:#6E7488;
+  --brand:#FE6703;--brand-hover:#FF7E28;
+  --c-orange:#FF8C3D;--c-purple:#B49BFF;--c-green:#3DD46E;--c-red:#F0696E;
+  --logo:#FE6703;--ring:rgba(254,103,3,.30);
+  --edge:#3A3F52;--edge-hot:#FE6703;
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:46px;width:auto;color:var(--logo)}
+.hero h1{font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1.04;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:580px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:145px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* DAG signature */
+.dag-box{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden}
+.dag-head{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.dag-title{font-size:13px;font-weight:600;color:var(--text)}
+.dag-hint{font-size:12px;color:var(--text3);margin-left:auto;font-family:'IBM Plex Mono',monospace}
+.dag-legend{display:flex;gap:14px;padding:10px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;font-size:11px;color:var(--text2)}
+.leg{display:inline-flex;align-items:center;gap:6px}
+.leg-dot{width:9px;height:9px;border-radius:50%}
+.dag-scroll{overflow-x:auto;padding:20px 16px}
+.dag-canvas{position:relative;width:748px;height:216px;margin:0 auto}
+.dag-edges{position:absolute;inset:0;width:748px;height:216px;pointer-events:none;overflow:visible}
+.node{position:absolute;width:168px;height:38px;border:1px solid var(--border-strong);border-radius:8px;background:var(--bg);display:flex;align-items:center;gap:8px;padding:0 10px;cursor:pointer;transition:opacity .2s,border-color .2s,box-shadow .2s;z-index:2}
+.node:hover{border-color:var(--brand)}
+.node-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.node-name{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.node-mat{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+.dag-canvas.focusing .node{opacity:.28}
+.dag-canvas.focusing .node.lit{opacity:1}
+.node.sel{border-color:var(--orange);box-shadow:0 0 0 3px var(--ring)}
+.dag-foot{display:flex;align-items:center;gap:10px;padding:11px 16px;border-top:1px solid var(--border);background:var(--bg2);min-height:44px;flex-wrap:wrap}
+.dag-foot .fx{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2)}
+.dag-foot .fx b{color:var(--c-orange)}
+.dag-clear{margin-left:auto;background:transparent;border:1px solid var(--border-strong);color:var(--text2);border-radius:8px;height:28px;padding:0 12px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer}
+.dag-clear:hover{color:var(--text);border-color:var(--brand)}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:var(--brand-text)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--c-purple);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.b-orange{background:rgba(254,103,3,.14);color:var(--c-orange)}
+.b-purple{background:rgba(99,47,245,.14);color:var(--c-purple)}
+.b-green{background:rgba(35,192,92,.15);color:var(--c-green)}
+.b-red{background:rgba(229,72,77,.15);color:var(--c-red)}
+.b-lime{background:rgba(150,180,0,.16);color:#5f7a00}
+:root[data-theme="dark"] .b-lime{background:rgba(216,255,51,.14);color:#D8FF33}
+.b-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-green)}
+.gr-heading.dont{color:var(--c-red)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--t-source)}
+.dont .gr-item::before{background:var(--c-red)}
+.gr-item code{font-family:'IBM Plex Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'IBM Plex Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="wrap">
-  <div class="hero">
-    <div class="logo-wrap">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <rect x="8" y="14" width="8" height="8" rx="2" fill="rgba(255,105,74,0.2)" stroke="#FF694A" stroke-width="1.5"/>
-        <rect x="20" y="14" width="8" height="8" rx="2" fill="rgba(255,105,74,0.2)" stroke="#FF694A" stroke-width="1.5"/>
-        <path d="M16 18H20" stroke="#FF694A" stroke-width="1.5"/>
-        <circle cx="18" cy="24" r="3" fill="#FF694A"/>
-        <path d="M18 21V22" stroke="#FF694A" stroke-width="1.5"/>
-        <path d="M12 14V10M24 14V10" stroke="#FF694A" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="40 24 44 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="dbt"><path d="M44 37.7734C44 33.6149 44 31.5357 44.8367 30.4678C45.5644 29.539 46.6678 28.9987 47.8342 29C49.1754 29.0015 50.7691 30.3004 53.9564 32.8981L76.3194 51.1248C78.3641 52.7913 79.3865 53.6245 79.7566 54.6312C80.0811 55.5138 80.0811 56.4862 79.7566 57.3688C79.3865 58.3755 78.3641 59.2087 76.3194 60.8752L53.9564 79.1019C50.7691 81.6996 49.1754 82.9985 47.8342 83C46.6678 83.0013 45.5644 82.461 44.8367 81.5322C44 80.4643 44 78.3851 44 74.2266V37.7734Z" fill="currentColor"></path></svg>
     </div>
-    <div class="hero-text"><h1>dbt</h1><p>The transformation layer of the modern data stack</p></div>
-    <div class="hero-badge">DATA BUILD TOOL</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-groups">
-      <div><div class="color-group-label">Brand</div><div class="color-row">
-        <div class="swatch" onclick="navigator.clipboard.writeText('#FF694A')"><div class="swatch-block" style="background:#FF694A"></div><span>#FF694A</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#FF8F76')"><div class="swatch-block" style="background:#FF8F76"></div><span>#FF8F76</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#CC4A2E')"><div class="swatch-block" style="background:#CC4A2E"></div><span>#CC4A2E</span></div>
-      </div></div>
-      <div><div class="color-group-label">Node Types</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#FF694A"></div><span>Model</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#22C55E"></div><span>Source</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#F59E0B"></div><span>Seed</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#A78BFA"></div><span>Snapshot</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#60A5FA"></div><span>Exposure</span></div>
-      </div></div>
-      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#0E0E10;border:1px solid #2C2C32"></div><span>#0E0E10</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#161618"></div><span>#161618</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#1E1E22"></div><span>#1E1E22</span></div>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-rows">
-      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Lineage Explorer</span></div>
-      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Run results</span></div>
-      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Transform data in your warehouse with SQL and Jinja</span></div>
-      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">{{ ref('stg_orders') }} · {{ source('raw', 'events') }}</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="comp-grid">
-
-      <div class="comp-card" style="grid-column:span 2">
-        <h3>Lineage Graph</h3>
-        <div class="dag-wrap">
-          <div class="dag">
-            <div class="dag-col">
-              <div class="dag-node"><span class="node-badge node-source">Source</span><span class="dag-node-name">raw.orders</span></div>
-              <div class="dag-node"><span class="node-badge node-source">Source</span><span class="dag-node-name">raw.users</span></div>
-            </div>
-            <div class="dag-arrow">→</div>
-            <div class="dag-col">
-              <div class="dag-node"><span class="node-badge node-model">Model</span><span class="dag-node-name">stg_orders</span><span class="mat-badge">view</span></div>
-              <div class="dag-node"><span class="node-badge node-model">Model</span><span class="dag-node-name">stg_users</span><span class="mat-badge">view</span></div>
-            </div>
-            <div class="dag-arrow">→</div>
-            <div class="dag-col">
-              <div class="dag-node selected"><span class="node-badge node-model">Model</span><span class="dag-node-name">fct_orders</span><span class="mat-badge">table</span></div>
-            </div>
-            <div class="dag-arrow">→</div>
-            <div class="dag-col">
-              <div class="dag-node"><span class="node-badge node-exposure">Exposure</span><span class="dag-node-name">revenue_dash</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comp-card" style="grid-column:span 2">
-        <h3>SQL Model</h3>
-        <div class="sql-model">
-          <div class="sql-model-header"><span class="sql-model-name">fct_orders.sql</span><span class="node-badge node-model">incremental</span></div>
-          <div class="sql-body">
-            <span class="ln">1</span><span class="sql-jinja">{{</span> <span class="sql-ref">config</span>(materialized=<span class="sql-str">'incremental'</span>) <span class="sql-jinja">}}</span><br>
-            <span class="ln">2</span><br>
-            <span class="ln">3</span><span class="sql-kw">SELECT</span><br>
-            <span class="ln">4</span>&nbsp;&nbsp;o.order_id,<br>
-            <span class="ln">5</span>&nbsp;&nbsp;o.user_id,<br>
-            <span class="ln">6</span>&nbsp;&nbsp;u.name <span class="sql-kw">AS</span> user_name,<br>
-            <span class="ln">7</span>&nbsp;&nbsp;o.amount<br>
-            <span class="ln">8</span><span class="sql-kw">FROM</span> <span class="sql-jinja">{{</span> <span class="sql-ref">ref</span>(<span class="sql-str">'stg_orders'</span>) <span class="sql-jinja">}}</span> o<br>
-            <span class="ln">9</span><span class="sql-kw">JOIN</span> <span class="sql-jinja">{{</span> <span class="sql-ref">ref</span>(<span class="sql-str">'stg_users'</span>) <span class="sql-jinja">}}</span> u <span class="sql-kw">ON</span> o.user_id = u.user_id<br>
-            <span class="ln">10</span><span class="sql-cmt">-- downstream: revenue_dash, finance_report</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <h3>Run Results</h3>
-        <div class="run-row"><span class="run-icon status-pass">✓</span><span class="run-name">stg_orders</span><span class="run-dur">0.42s</span><span class="run-rows">12.4k rows</span></div>
-        <div class="run-row"><span class="run-icon status-pass">✓</span><span class="run-name">stg_users</span><span class="run-dur">0.31s</span><span class="run-rows">24.3k rows</span></div>
-        <div class="run-row"><span class="run-icon status-pass">✓</span><span class="run-name">fct_orders</span><span class="run-dur">1.84s</span><span class="run-rows">12.4k rows</span></div>
-        <div class="run-row"><span class="run-icon status-fail">✕</span><span class="run-name">fct_revenue</span><span class="run-dur">0.09s</span><span class="run-rows" style="color:#EF4444">2 errors</span></div>
-        <div class="run-row"><span class="run-icon status-skip">–</span><span class="run-name">fct_sessions</span><span class="run-dur">—</span><span class="run-rows">skipped</span></div>
-      </div>
-
-      <div class="comp-card">
-        <h3>Tests</h3>
-        <div class="test-row"><span class="test-name">unique · order_id</span><span class="test-col">fct_orders</span><span class="test-status ts-pass">PASS</span></div>
-        <div class="test-row"><span class="test-name">not_null · order_id</span><span class="test-col">fct_orders</span><span class="test-status ts-pass">PASS</span></div>
-        <div class="test-row"><span class="test-name">not_null · user_id</span><span class="test-col">stg_users</span><span class="test-status ts-pass">PASS</span></div>
-        <div class="test-row"><span class="test-name">accepted_values · status</span><span class="test-col">stg_orders</span><span class="test-status ts-fail">FAIL 3</span></div>
-        <div class="test-row"><span class="test-name">relationships · user_id</span><span class="test-col">fct_orders</span><span class="test-status ts-warn">WARN</span></div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-bars">
-      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
-      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
-      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
-      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrail-grid">
-      <div class="guardrail-card do"><h4>DO</h4><ul>
-        <li>Color-code node types consistently — lineage is the core mental model</li>
-        <li>Show test failure counts prominently — zero failures is the goal</li>
-        <li>Use mono for all model names, column names, and SQL</li>
-        <li>Show materialization type on every model reference</li>
-        <li>Highlight ref() and source() in SQL — they define the DAG</li>
-      </ul></div>
-      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
-        <li>Don't hide skipped tests — they're as important as failures</li>
-        <li>Don't flatten the lineage graph — depth is meaningful</li>
-        <li>Don't use orange for anything other than models and primary actions</li>
-        <li>Don't truncate run logs — developers debug from them</li>
-        <li>Don't auto-run on save without confirmation</li>
-      </ul></div>
+    <h1>dbt</h1>
+    <p>The open standard for modern, AI-ready data transformation — build, test, and document data models in SQL.</p>
+    <div class="chips">
+      <span class="chip">Models</span>
+      <span class="chip">Tests</span>
+      <span class="chip">Lineage</span>
+      <span class="chip">Sources</span>
+      <span class="chip">Snapshots</span>
+      <span class="chip">dbt Cloud</span>
     </div>
   </div>
 </div>
+
+<div class="wrap">
+
+  <!-- SIGNATURE: LINEAGE DAG -->
+  <div class="section">
+    <div class="section-label">Signature — Model Lineage (DAG)</div>
+    <div class="dag-box">
+      <div class="dag-head">
+        <span class="dag-title">jaffle_shop</span>
+        <span class="dag-hint">click a model to focus its lineage</span>
+      </div>
+      <div class="dag-legend">
+        <span class="leg"><span class="leg-dot" style="background:var(--t-source)"></span>source</span>
+        <span class="leg"><span class="leg-dot" style="background:var(--t-staging)"></span>staging</span>
+        <span class="leg"><span class="leg-dot" style="background:var(--t-inter)"></span>intermediate</span>
+        <span class="leg"><span class="leg-dot" style="background:var(--t-mart)"></span>mart</span>
+      </div>
+      <div class="dag-scroll">
+        <div class="dag-canvas" id="dagCanvas">
+          <svg class="dag-edges" id="dagEdges" viewBox="0 0 748 216"></svg>
+        </div>
+      </div>
+      <div class="dag-foot">
+        <span class="fx" id="dagFx">8 models · 7 dependencies</span>
+        <button class="dag-clear" id="dagClear" onclick="clearFocus()" style="display:none">Clear focus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — dbt orange</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FE6703')"><div class="swatch-color" style="background:#FE6703"></div><div class="swatch-info"><span class="swatch-name">orange</span><span class="swatch-hex">#FE6703</span><span class="swatch-use">Brand, primary CTA, mark</span></div></div>
+      <div class="swatch" onclick="copyHex('#E85D00')"><div class="swatch-color" style="background:#E85D00"></div><div class="swatch-info"><span class="swatch-name">orange-hover</span><span class="swatch-hex">#E85D00</span><span class="swatch-use">Hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#101828')"><div class="swatch-color" style="background:#101828"></div><div class="swatch-info"><span class="swatch-name">navy</span><span class="swatch-hex">#101828</span><span class="swatch-use">Ink, button text, dark page</span></div></div>
+      <div class="swatch" onclick="copyHex('#F6F5FF')"><div class="swatch-color" style="background:#F6F5FF"></div><div class="swatch-info"><span class="swatch-name">pale-purple</span><span class="swatch-hex">#F6F5FF</span><span class="swatch-use">Light page</span></div></div>
+    </div>
+
+    <div class="group-label">Accent</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#632FF5')"><div class="swatch-color" style="background:#632FF5"></div><div class="swatch-info"><span class="swatch-name">purple</span><span class="swatch-hex">#632FF5</span><span class="swatch-use">Links, secondary</span></div></div>
+      <div class="swatch" onclick="copyHex('#9C79FF')"><div class="swatch-color" style="background:#9C79FF"></div><div class="swatch-info"><span class="swatch-name">purple-light</span><span class="swatch-hex">#9C79FF</span><span class="swatch-use">Intermediate nodes</span></div></div>
+      <div class="swatch" onclick="copyHex('#D8FF33')"><div class="swatch-color" style="background:#D8FF33"></div><div class="swatch-info"><span class="swatch-name">lime</span><span class="swatch-hex">#D8FF33</span><span class="swatch-use">Highlight, fresh data</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFCC25')"><div class="swatch-color" style="background:#FFCC25"></div><div class="swatch-info"><span class="swatch-name">yellow</span><span class="swatch-hex">#FFCC25</span><span class="swatch-use">Warnings, callouts</span></div></div>
+    </div>
+
+    <div class="group-label">Node types — lineage</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#23C05C')"><div class="swatch-color" style="background:#23C05C"></div><div class="swatch-info"><span class="swatch-name">source</span><span class="swatch-hex">#23C05C</span><span class="swatch-use">Raw sources</span></div></div>
+      <div class="swatch" onclick="copyHex('#6B9AFF')"><div class="swatch-color" style="background:#6B9AFF"></div><div class="swatch-info"><span class="swatch-name">staging</span><span class="swatch-hex">#6B9AFF</span><span class="swatch-use">stg_ models</span></div></div>
+      <div class="swatch" onclick="copyHex('#9C79FF')"><div class="swatch-color" style="background:#9C79FF"></div><div class="swatch-info"><span class="swatch-name">intermediate</span><span class="swatch-hex">#9C79FF</span><span class="swatch-use">int_ models</span></div></div>
+      <div class="swatch" onclick="copyHex('#FE6703')"><div class="swatch-color" style="background:#FE6703"></div><div class="swatch-info"><span class="swatch-name">mart</span><span class="swatch-hex">#FE6703</span><span class="swatch-use">fct_ / dim_ models</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#4A5060')"><div class="swatch-color" style="background:#4A5060"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#4A5060</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#8F8F9C')"><div class="swatch-color" style="background:#8F8F9C"></div><div class="swatch-info"><span class="swatch-name">muted</span><span class="swatch-hex">#8F8F9C</span><span class="swatch-use">Metadata</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5E7EB')"><div class="swatch-color" style="background:#E5E7EB"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E5E7EB</span><span class="swatch-use">Borders, dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">white</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Cards, surfaces</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Polymath (≈ Space Grotesk) · Inter · IBM Plex Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Space Grotesk · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1">dbt</div><div class="spec-pills"><span class="spec-pill">54px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Space Grotesk · 700</div></div><div class="type-sample display" style="font-size:29px;font-weight:700;letter-spacing:-.02em;line-height:1.1">AI-ready data transformation</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Space Grotesk · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">Deliver trusted data with dbt</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:17px">The open standard for modern data transformation.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Build, test, and document models in SQL.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">IBM Plex Mono · 500</div></div><div class="type-sample" style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text2)">select * from {{ ref('stg_orders') }}</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get started</button>
+          <button class="btn btn-secondary">Read the docs</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">View lineage →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Model status</div>
+        <div class="badge-row">
+          <span class="badge b-green"><span class="b-dot"></span>PASS</span>
+          <span class="badge b-red"><span class="b-dot"></span>ERROR</span>
+          <span class="badge b-lime"><span class="b-dot"></span>fresh</span>
+          <span class="badge b-orange"><span class="b-dot"></span>mart</span>
+          <span class="badge b-purple"><span class="b-dot"></span>test</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">dbt CLI</div>
+        <input class="mono-input" value="dbt build --select stg_orders+" spellcheck="false">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use dbt orange <code>#FE6703</code> for primary actions, the mark, and focused lineage</div>
+          <div class="gr-item">Put <strong>navy text on orange</strong> buttons — orange is too bright for white</div>
+          <div class="gr-item">Color DAG nodes by type: source-green, staging-blue, intermediate-purple, mart-orange</div>
+          <div class="gr-item">Set headings in Polymath (≈ Space Grotesk), model names / SQL in IBM Plex Mono</div>
+          <div class="gr-item">Use purple and lime as accents — the dbt energy without competing with orange</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Put white text on the orange button — contrast fails; use navy <code>#101828</code></div>
+          <div class="gr-item">Use purple or lime as the primary action — orange owns "go"</div>
+          <div class="gr-item">Set model names or SQL in a sans — dbt is code-first; mono everywhere</div>
+          <div class="gr-item">Tint dark surfaces neutral-grey — dbt's dark is navy <code>#101828</code></div>
+          <div class="gr-item">Fabricate a DAG — use real dbt naming (<code>stg_</code>, <code>int_</code>, <code>fct_</code>, <code>dim_</code>)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Lineage DAG ---- */
+const NODES=[
+  {id:'raw_orders',   label:'raw.orders',   x:16, y:14,  type:'source', mat:'source'},
+  {id:'raw_customers',label:'raw.customers',x:16, y:89,  type:'source', mat:'source'},
+  {id:'raw_payments', label:'raw.payments', x:16, y:164, type:'source', mat:'source'},
+  {id:'stg_orders',   label:'stg_orders',   x:206,y:14,  type:'staging',mat:'view'},
+  {id:'stg_customers',label:'stg_customers',x:206,y:89,  type:'staging',mat:'view'},
+  {id:'stg_payments', label:'stg_payments', x:206,y:164, type:'staging',mat:'view'},
+  {id:'int_payments', label:'int_payments', x:396,y:126, type:'inter',  mat:'ephemeral'},
+  {id:'fct_orders',   label:'fct_orders',   x:580,y:52,  type:'mart',   mat:'table'},
+  {id:'dim_customers',label:'dim_customers',x:580,y:150, type:'mart',   mat:'table'}
+];
+const EDGES=[
+  ['raw_orders','stg_orders'],['raw_customers','stg_customers'],['raw_payments','stg_payments'],
+  ['stg_payments','int_payments'],['stg_orders','fct_orders'],['int_payments','fct_orders'],
+  ['stg_customers','dim_customers'],['stg_customers','fct_orders']
+];
+const TYPECOL={source:'var(--t-source)',staging:'var(--t-staging)',inter:'var(--t-inter)',mart:'var(--t-mart)'};
+const W=168,H=38;
+const canvas=document.getElementById('dagCanvas');
+const edgesSvg=document.getElementById('dagEdges');
+const fx=document.getElementById('dagFx');
+const clearBtn=document.getElementById('dagClear');
+const byId={};NODES.forEach(n=>byId[n.id]=n);
+const up={},down={};NODES.forEach(n=>{up[n.id]=[];down[n.id]=[];});
+EDGES.forEach(([a,b])=>{down[a].push(b);up[b].push(a);});
+let selected=null;
+
+function edgePath(a,b){
+  const x1=a.x+W,y1=a.y+H/2,x2=b.x,y2=b.y+H/2,mx=(x1+x2)/2;
+  return 'M'+x1+','+y1+' C'+mx+','+y1+' '+mx+','+y2+' '+x2+','+y2;
+}
+function walk(id,map,acc){map[id].forEach(n=>{if(!acc.has(n)){acc.add(n);walk(n,map,acc);}});}
+function lineageSet(id){
+  const s=new Set([id]);walk(id,up,s);walk(id,down,s);return s;
+}
+function render(){
+  // edges
+  let e='';
+  EDGES.forEach(([a,b])=>{
+    const hot=selected&&lit.has(a)&&lit.has(b);
+    e+='<path d="'+edgePath(byId[a],byId[b])+'" fill="none" stroke="'+(hot?'var(--edge-hot)':'var(--edge)')+'" stroke-width="'+(hot?2.2:1.5)+'" opacity="'+(selected&&!hot?0.25:1)+'"/>';
+  });
+  edgesSvg.innerHTML=e;
+  // nodes
+  NODES.forEach(n=>{
+    let el=document.getElementById('nd_'+n.id);
+    if(!el){
+      el=document.createElement('div');el.id='nd_'+n.id;el.className='node';
+      el.style.left=n.x+'px';el.style.top=n.y+'px';
+      el.innerHTML='<span class="node-dot" style="background:'+TYPECOL[n.type]+'"></span>'
+        +'<span class="node-name">'+n.label+'</span><span class="node-mat">'+n.mat+'</span>';
+      el.onclick=(ev)=>{ev.stopPropagation();focusNode(n.id);};
+      canvas.appendChild(el);
+    }
+    el.classList.toggle('lit',!selected||lit.has(n.id));
+    el.classList.toggle('sel',n.id===selected);
+  });
+  canvas.classList.toggle('focusing',!!selected);
+  clearBtn.style.display=selected?'block':'none';
+  if(selected){
+    const u=new Set();walk(selected,up,u);const d=new Set();walk(selected,down,d);
+    fx.innerHTML='<b>'+byId[selected].label+'</b> · '+u.size+' upstream · '+d.size+' downstream';
+  }else{
+    fx.textContent=NODES.length+' models · '+EDGES.length+' dependencies';
+  }
+}
+let lit=new Set();
+function focusNode(id){
+  if(selected===id){clearFocus();return;}
+  selected=id;lit=lineageSet(id);render();
+}
+function clearFocus(){selected=null;lit=new Set();render();}
+canvas.addEventListener('click',clearFocus);
+render();
+</script>
 </body>
 </html>
+</content>
