@@ -1,225 +1,392 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PagerDuty – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PagerDuty — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #0B0B0E; --surface: #14151A; --elevated: #1E1F26; --border: #2C2E38;
-  --primary: #06AC38; --primary-hover: #059030;
-  --p1: #E8001C; --p2: #FF6B00; --p3: #F5A623; --p4: #2D9CDB; --p5: #828282;
-  --triggered: #E8001C; --ack: #F5A623; --resolved: #06AC38; --silenced: #828282;
-  --text: #F0F1F5; --text-2: #8A8FA8; --text-3: #4A4E62;
-  --toggle-bg: #1E1F26; --toggle-text: #F0F1F5; --toggle-border: #2C2E38;
+:root{
+  --green:#06AC38;--green-deep:#048A24;--jade:#ADF07E;--jade-hover:#9EE86A;--navy:#082B56;
+  --triggered:#FB2C36;--ack:#FAC800;--resolved:#22C55E;
 }
-:root[data-theme="light"] {
-  --bg: #F2FFF6; --surface: #FFFFFF; --elevated: #D6F5E0; --border: #B8E8C8;
-  --primary: #06AC38; --primary-hover: #059030;
-  --p1: #C40018; --p2: #CC5500; --p3: #B07000; --p4: #1A7AB0; --p5: #606060;
-  --triggered: #C40018; --ack: #B07000; --resolved: #06AC38; --silenced: #606060;
-  --text: #0B0B0E; --text-2: #2A2E40; --text-3: #8A8FA8;
-  --toggle-bg: #D6F5E0; --toggle-text: #0B0B0E; --toggle-border: #B8E8C8;
+:root[data-theme="dark"]{
+  --bg:#141416;--bg2:#09090B;--bg3:#1F1F23;--bg-hover:#1F1F23;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#FAFAFA;--text2:#A3A3A3;--text3:#737373;
+  --brand:#ADF07E;--brand-hover:#9EE86A;--brand-text:#09090B;
+  --logo:#22C55E;--ring:rgba(173,240,126,.28);
+  --c-green:#4ADE7E;--c-triggered:#FB6A6A;--c-ack:#FAC800;--c-resolved:#4ADE7E;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Incident card */
-.incident-card { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px }
-
-
-
-.inc-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.inc-title { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
-.status-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
-.st-triggered { background: rgba(232,0,28,0.12); color: #E8001C; }
-.st-ack { background: rgba(245,166,35,0.12); color: #F5A623; }
-.st-resolved { background: rgba(6,172,56,0.12); color: #06AC38; }
-.inc-meta { font-size: 11px; color: var(--text-3); margin-top: 6px; }
-.inc-service { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-/* On-call schedule */
-.oncall-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.oncall-row:last-child { border-bottom: none; }
-.oncall-row.active { background: rgba(6,172,56,0.06); border-radius: 6px; padding: 10px 8px; margin: 0 -8px; }
-.oc-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--elevated); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-2); flex-shrink: 0; }
-.oc-name { font-size: 13px; font-weight: 500; flex: 1; }
-.oc-shift { font-size: 11px; color: var(--text-3); font-family: 'JetBrains Mono', monospace; }
-.sev-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; }
-.sev-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.sev-label { font-size: 12px; font-weight: 600; width: 80px; }
-.sev-desc { font-size: 12px; color: var(--text-2); }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-danger { background: var(--p1); color: #fff; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--resolved); } .guardrail-card.dont { border-top: 3px solid var(--triggered); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--resolved); } .guardrail-card.dont .guardrail-label { color: var(--triggered); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#FAFAFA;--bg3:#F5F5F5;--bg-hover:#F5F5F5;
+  --border:#E5E5E5;--border-strong:#D4D4D4;
+  --text:#09090B;--text2:#525252;--text3:#737373;
+  --brand:#ADF07E;--brand-hover:#9AE564;--brand-text:#09090B;
+  --logo:#06AC38;--ring:rgba(6,172,56,.22);
+  --c-green:#048A24;--c-triggered:#D92030;--c-ack:#B77A00;--c-resolved:#048A24;
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Inter',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:28px;width:auto;color:var(--logo)}
+.hero h1{font-size:50px;font-weight:700;letter-spacing:-.03em;line-height:1.04;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:130px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* Incident signature */
+.inc-box{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden}
+.inc-head{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.inc-head-title{font-size:13px;font-weight:600}
+.inc-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:auto}
+.inc-grid{display:grid;grid-template-columns:1fr 1.15fr}
+.inc-list{border-right:1px solid var(--border);max-height:440px;overflow-y:auto}
+.inc-row{display:flex;flex-direction:column;gap:6px;padding:13px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.inc-row:last-child{border-bottom:none}
+.inc-row:hover{background:var(--bg-hover)}
+.inc-row.sel{background:var(--bg3)}
+.inc-row-top{display:flex;align-items:center;gap:8px}
+.sev{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;border:1px solid var(--border-strong);color:var(--text2)}
+.sev.s1{color:var(--c-triggered);border-color:var(--c-triggered)}
+.sev.s2{color:var(--c-ack);border-color:var(--c-ack)}
+.inc-title{font-size:13px;font-weight:500;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inc-sub{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.st{display:inline-flex;align-items:center;gap:5px;height:20px;padding:0 8px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'Inter',sans-serif}
+.st-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-triggered{background:rgba(251,44,54,.15);color:var(--c-triggered)}
+.st-acknowledged{background:rgba(250,200,0,.16);color:var(--c-ack)}
+.st-resolved{background:rgba(34,197,94,.15);color:var(--c-resolved)}
+.st-triggered .st-dot{animation:pulse 1.1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+.inc-detail{display:flex;flex-direction:column;max-height:440px}
+.det-head{padding:16px;border-bottom:1px solid var(--border)}
+.det-title{font-size:15px;font-weight:600;margin-bottom:8px;line-height:1.3}
+.det-meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.det-meta b{color:var(--text2);font-weight:500}
+.det-actions{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.timeline{padding:14px 16px;overflow-y:auto;flex:1}
+.tl-item{display:flex;gap:10px;padding-bottom:14px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:'';position:absolute;left:4px;top:14px;bottom:-2px;width:1px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:3px;z-index:1;background:var(--text3)}
+.tl-dot.triggered{background:var(--triggered)}.tl-dot.ack{background:var(--ack)}.tl-dot.resolved{background:var(--resolved)}
+.tl-body{flex:1;min-width:0}
+.tl-txt{font-size:12.5px;color:var(--text)}
+.tl-time{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text3);margin-top:2px}
+.tl-item.new{animation:slidein .3s ease}
+@keyframes slidein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s,opacity .12s;white-space:nowrap}
+.btn-sm{height:34px;font-size:13px;padding:0 13px}
+.btn-primary{background:var(--brand);color:var(--brand-text)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-primary:disabled{opacity:.4;cursor:default}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-secondary:disabled{opacity:.4;cursor:default}
+.btn-link{background:transparent;color:var(--c-green);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--green);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-resolved)}
+.gr-heading.dont{color:var(--c-triggered)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--resolved)}
+.dont .gr-item::before{background:var(--triggered)}
+.gr-item code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'JetBrains Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols,.inc-grid{grid-template-columns:1fr}.inc-list{border-right:none;border-bottom:1px solid var(--border)}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
-  <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0B0B0E"/>
-      <!-- PagerDuty PD mark -->
-      <rect x="18" y="16" width="14" height="40" rx="4" fill="#06AC38"/>
-      <path d="M32 16 C50 16 50 36 32 36" stroke="#06AC38" stroke-width="0" fill="#06AC38"/>
-      <rect x="38" y="36" width="14" height="20" rx="4" fill="#06AC38" opacity="0.7"/>
-      <path d="M38 36 C56 36 56 56 38 56" stroke="#06AC38" stroke-width="0" fill="#06AC38" opacity="0.7"/>
-    </svg>
-    <div class="hero-text"><h1>PagerDuty</h1><p>Incident management — on-call scheduling, alerting, and response automation</p></div>
-  </div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand & Severity</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#06AC38',this)"><div class="swatch-dot" style="background:#06AC38"></div><div class="swatch-name">Green</div><div class="swatch-hex">#06AC38</div></div>
-        <div class="swatch" onclick="copyHex('#E8001C',this)"><div class="swatch-dot" style="background:#E8001C"></div><div class="swatch-name">P1 Critical</div><div class="swatch-hex">#E8001C</div></div>
-        <div class="swatch" onclick="copyHex('#FF6B00',this)"><div class="swatch-dot" style="background:#FF6B00"></div><div class="swatch-name">P2 High</div><div class="swatch-hex">#FF6B00</div></div>
-        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-name">P3 Medium</div><div class="swatch-hex">#F5A623</div></div>
-      </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 974.8 200" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="PagerDuty"><path d="m950.5 41.9-22 62.4c-4 11.2-6 17.6-9.7 28.4h-.4c-2.9-9.3-5.5-16.8-9.3-27.8l-21.4-63.1h-25.6l44.3 115.8c-1 2.5-2 5.1-3.1 7.8-3.7 9-12.5 14.9-22.2 14.9h-11V200h11.3c18.3 0 34.8-11.1 41.6-28.2 14.1-35.3 38.1-95.4 51.8-129.9h-24.3zm-614.3 93.5c0 41.9-19.2 64.6-58 64.6-28.9 0-46.3-15.2-52.5-38.1h23.4c4 10.6 12.3 20.1 29.5 20.1 26.5 0 35.9-16.5 35.9-47.9-.2 0-.2-.2-.4-.2-5.7 9.9-18.5 18.7-38.8 18.7-32.6 0-53.4-23.6-53.4-56.7 0-34.4 22.5-57.6 53.6-57.6 20.1 0 32.2 8.6 38.8 18.1-.2-2.4-.2-4.9-.2-7.3v-7.3h22.1v93.6zm-90-39.7c0 22.5 12.6 38.6 34.2 38.6 19.4 0 34.4-13.7 34.4-39.3 0-22.7-13.2-37.9-34.4-37.9s-34.2 15.2-34.2 38.6zm126.5 9.9c.9 20.3 13.9 36.4 36.4 36.4 15.9 0 23.6-7.5 29.5-17.4h22.3c-6.6 20.9-24.9 35.9-52.7 35.9-35.7 0-58-24-58-60.2s23.2-61.7 58-61.7c37.7 0 55.1 28.7 55.1 59.8v7.3h-90.6v-.1zM440.1 88c-2-18.3-13.5-31.3-32.4-31.3-18.1 0-32 11.9-34.2 31.3h66.6zM499 41.9v14.8c3.7-10.8 15-17.6 28-17.6 2.9 0 4.2.2 5.7.4v20.3c-2-.4-5.3-.7-7.7-.7-20.9 0-24.9 15.4-24.9 38.6v60h-22.3v-95c0-7.3 0-13.7-.2-20.7l21.4-.1zm262.7 99.2c-6 9.9-17.2 19.4-36.8 19.4-26.9 0-40.1-16.5-40.1-46.5V41.9H707v63.7c0 22.7 7.5 36.4 25.6 36.4 23.8 0 28-21.6 28-47V41.9h22.3v98.3c0 6 0 11.7.2 17.4h-21.4v-16.5zM833 41.9h21.6v17.2H833v69.5c0 11 5.5 14.3 14.1 14.3 1.5 0 4.2-.2 5.5-.4V159c-3.3.4-5.7.9-8.6.9-20.5 0-33.5-6.8-33.5-30V59.1h-17.4V41.9h17.4V10.6H833v31.3zM0 115.6h23.1v42H0zM87 7.7C74.6 1.1 66 0 45.7 0H0v95.6h45.5c18.1 0 31.6-1.1 43.5-9 13-8.6 19.7-22.9 19.7-39.4 0-17.9-8.3-32.2-21.7-39.5zM50.8 75.6H23.1V20.5l26.1-.2C73 20 84.9 28.4 84.9 47.4c0 20.4-14.7 28.2-34.1 28.2zM546.3 0h38.6c57.8.4 85.6 28.6 85.8 79.2.2 43.1-22.1 77.9-82 78.5h-42.3L546.3 0zm23.4 138h13.5c41.9 0 63.8-16 63.8-58.9-.1-37.7-21.8-59.3-61.6-59.3-7.7 0-15.7.2-15.7.2v118zm-380 19.7c-.7-4.6-.7-7.5-1.1-15.9-8.8 12.6-20.5 18.1-39 18.1-24.3 0-41.9-11.9-41.9-33.5 0-24.9 23.8-33.1 54.7-37.3 7.7-1.1 16.3-2 23.8-2.6 0-22.9-12.7-29.8-26-29.8s-23 9.3-23 21.5h-21.6c0-23.5 18.5-39.3 45.1-39.3s47.1 11 47.1 53.4v22.5c0 18.7.9 32.4 2.9 43h-21v-.1zm-58-31.6c0 10.8 8.8 17.6 22.9 17.6 20.7 0 31.8-12.6 31.8-35.1 0-2.9 0-4.9.2-6.2-37.7 3.9-54.9 7.6-54.9 23.7z"></path></svg>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0B0B0E',this)"><div class="swatch-dot" style="background:#0B0B0E;border:1px solid #2C2E38"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0B0B0E</div></div>
-        <div class="swatch" onclick="copyHex('#14151A',this)"><div class="swatch-dot" style="background:#14151A;border:1px solid #2C2E38"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#14151A</div></div>
-        <div class="swatch" onclick="copyHex('#1E1F26',this)"><div class="swatch-dot" style="background:#1E1F26"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1E1F26</div></div>
-        <div class="swatch" onclick="copyHex('#2C2E38',this)"><div class="swatch-dot" style="background:#2C2E38"></div><div class="swatch-name">Border</div><div class="swatch-hex">#2C2E38</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — incident summaries, runbook steps, notes</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, service names, escalation policy</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--primary);">payment-service-prod</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Incident Alerts</h3>
-        <div class="incident-card inc-p1">
-          <div class="inc-header"><span class="inc-title">Payment API — 5xx error rate &gt; 20%</span><span class="status-badge st-triggered">Triggered</span></div>
-          <div class="inc-service">payment-service-prod</div>
-          <div class="inc-meta">P1 · 3 min ago · Auto-escalated</div>
-        </div>
-        <div class="incident-card inc-p2">
-          <div class="inc-header"><span class="inc-title">Auth latency spike p99 &gt; 2s</span><span class="status-badge st-ack">Acknowledged</span></div>
-          <div class="inc-service">auth-service-prod</div>
-          <div class="inc-meta">P2 · 12 min ago · Assigned to Maya</div>
-        </div>
-        <div class="incident-card">
-          <div class="inc-header"><span class="inc-title">CDN cache invalidation complete</span><span class="status-badge st-resolved">Resolved</span></div>
-          <div class="inc-service">cdn-edge-nodes</div>
-          <div class="inc-meta">P3 · Resolved 8 min ago</div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>On-Call Schedule</h3>
-        <div class="oncall-row active">
-          <div class="oc-avatar" style="color:#06AC38">M</div>
-          <div style="flex:1"><div class="oc-name">Maya Patel</div><div class="oc-shift">Now → Jun 22 09:00</div></div>
-          <span style="font-size:11px;color:#06AC38;font-weight:600">On call</span>
-        </div>
-        <div class="oncall-row">
-          <div class="oc-avatar">R</div>
-          <div style="flex:1"><div class="oc-name">Raj Kumar</div><div class="oc-shift">Jun 22 → Jun 24</div></div>
-        </div>
-        <div class="oncall-row">
-          <div class="oc-avatar">S</div>
-          <div style="flex:1"><div class="oc-name">Sara Chen</div><div class="oc-shift">Jun 24 → Jun 26</div></div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Severity Scale</h3>
-        <div class="sev-row"><div class="sev-dot" style="background:#E8001C"></div><span class="sev-label" style="color:#E8001C">P1</span><span class="sev-desc">Critical — immediate action</span></div>
-        <div class="sev-row"><div class="sev-dot" style="background:#FF6B00"></div><span class="sev-label" style="color:#FF6B00">P2</span><span class="sev-desc">High — urgent response</span></div>
-        <div class="sev-row"><div class="sev-dot" style="background:#F5A623"></div><span class="sev-label" style="color:#F5A623">P3</span><span class="sev-desc">Medium — same shift</span></div>
-        <div class="sev-row"><div class="sev-dot" style="background:#2D9CDB"></div><span class="sev-label" style="color:#2D9CDB">P4</span><span class="sev-desc">Low — informational</span></div>
-        <div style="margin-top:14px;display:flex;gap:10px;">
-          <button class="btn btn-danger">Trigger Incident</button>
-          <button class="btn btn-ghost">View Schedule</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>Severity colors are life-safety semantics — never repurpose</li>
-        <li>P1 incidents must have prominent red treatment</li>
-        <li>Service names always in monospace</li>
-        <li>Resolved state must feel calming — green, not grey</li>
-        <li>Acknowledge button always visible, never behind hover</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't use grey for resolved — it reads as deprioritized</li>
-        <li>Don't reuse P-level colors for other meanings</li>
-        <li>Don't truncate incident titles</li>
-        <li>Don't hide on-call person behind a click</li>
-        <li>Don't use color alone for severity — always show P-label</li>
-      </ul></div>
+    <h1>PagerDuty</h1>
+    <p>Ship faster, resolve smarter, sleep better — the AI-first operations platform for real-time incident response.</p>
+    <div class="chips">
+      <span class="chip">Incident Response</span>
+      <span class="chip">On-Call</span>
+      <span class="chip">Escalation Policies</span>
+      <span class="chip">AIOps</span>
+      <span class="chip">Automation</span>
+      <span class="chip">Status Pages</span>
     </div>
   </div>
 </div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+<div class="wrap">
+
+  <!-- SIGNATURE: INCIDENT RESPONSE -->
+  <div class="section">
+    <div class="section-label">Signature — Incident Response</div>
+    <div class="inc-box">
+      <div class="inc-head">
+        <span class="inc-head-title">Open incidents</span>
+        <span class="inc-count" id="incCount"></span>
+      </div>
+      <div class="inc-grid">
+        <div class="inc-list" id="incList"></div>
+        <div class="inc-detail" id="incDetail"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#06AC38')"><div class="swatch-color" style="background:#06AC38"></div><div class="swatch-info"><span class="swatch-name">green</span><span class="swatch-hex">#06AC38</span><span class="swatch-use">Brand, mark, resolved</span></div></div>
+      <div class="swatch" onclick="copyHex('#ADF07E')"><div class="swatch-color" style="background:#ADF07E"></div><div class="swatch-info"><span class="swatch-name">electric-jade</span><span class="swatch-hex">#ADF07E</span><span class="swatch-use">Primary CTA (dark text)</span></div></div>
+      <div class="swatch" onclick="copyHex('#048A24')"><div class="swatch-color" style="background:#048A24"></div><div class="swatch-info"><span class="swatch-name">green-deep</span><span class="swatch-hex">#048A24</span><span class="swatch-use">Hover, green text</span></div></div>
+      <div class="swatch" onclick="copyHex('#082B56')"><div class="swatch-color" style="background:#082B56"></div><div class="swatch-info"><span class="swatch-name">cosmic-ocean</span><span class="swatch-hex">#082B56</span><span class="swatch-use">Deep navy accent</span></div></div>
+    </div>
+
+    <div class="group-label">Incident status</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FB2C36')"><div class="swatch-color" style="background:#FB2C36"></div><div class="swatch-info"><span class="swatch-name">triggered</span><span class="swatch-hex">#FB2C36</span><span class="swatch-use">Triggered, error</span></div></div>
+      <div class="swatch" onclick="copyHex('#FAC800')"><div class="swatch-color" style="background:#FAC800"></div><div class="swatch-info"><span class="swatch-name">acknowledged</span><span class="swatch-hex">#FAC800</span><span class="swatch-use">Acknowledged, warning</span></div></div>
+      <div class="swatch" onclick="copyHex('#22C55E')"><div class="swatch-color" style="background:#22C55E"></div><div class="swatch-info"><span class="swatch-name">resolved</span><span class="swatch-hex">#22C55E</span><span class="swatch-use">Resolved, success</span></div></div>
+      <div class="swatch" onclick="copyHex('#082B56')"><div class="swatch-color" style="background:#082B56"></div><div class="swatch-info"><span class="swatch-name">info</span><span class="swatch-hex">#082B56</span><span class="swatch-use">Info, low urgency</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#09090B')"><div class="swatch-color" style="background:#09090B"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#09090B</span><span class="swatch-use">Dark page, headings</span></div></div>
+      <div class="swatch" onclick="copyHex('#525252')"><div class="swatch-color" style="background:#525252"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#525252</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5E5E5')"><div class="swatch-color" style="background:#E5E5E5"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E5E5E5</span><span class="swatch-use">Borders, dividers</span></div></div>
+      <div class="swatch" onclick="copyHex('#FAFAFA')"><div class="swatch-color" style="background:#FAFAFA"></div><div class="swatch-info"><span class="swatch-name">off-white</span><span class="swatch-hex">#FAFAFA</span><span class="swatch-use">Light page</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Plain (≈ Inter) · JetBrains Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Inter · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1">PagerDuty</div><div class="spec-pills"><span class="spec-pill">52px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Inter · 700</div></div><div class="type-sample display" style="font-size:29px;font-weight:700;letter-spacing:-.02em;line-height:1.1">Ship faster, resolve smarter</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Inter · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">The AI-first operations platform</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:17px">Detect, triage, and resolve incidents in real time.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Route the right alert to the right responder, instantly.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">JetBrains Mono · 500</div></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text2)">PD-4821 · api-gateway · SEV-1 · triggered</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get a demo</button>
+          <button class="btn btn-secondary">Escalate</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">View runbook →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Status badges</div>
+        <div class="badge-row">
+          <span class="st st-triggered"><span class="st-dot"></span>Triggered</span>
+          <span class="st st-acknowledged"><span class="st-dot"></span>Acknowledged</span>
+          <span class="st st-resolved"><span class="st-dot"></span>Resolved</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Event API</div>
+        <input class="mono-input" value="POST /v2/enqueue { event_action: trigger }" spellcheck="false">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use electric-jade <code>#ADF07E</code> with <strong>dark text</strong> for the primary action</div>
+          <div class="gr-item">Use brand green <code>#06AC38</code> for the mark, resolved state, and accents</div>
+          <div class="gr-item">Color status semantically: red triggered, amber acknowledged, green resolved</div>
+          <div class="gr-item">Set UI in Inter (≈ Plain), incident IDs / timestamps in JetBrains Mono</div>
+          <div class="gr-item">Keep operations surfaces dark (<code>#09090B</code>) — where on-call lives</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Put white text on jade or green buttons — contrast fails; use dark ink</div>
+          <div class="gr-item">Use green for a triggered/unresolved incident — green means resolved</div>
+          <div class="gr-item">Tint dark surfaces navy-heavy — the ops surface is near-black zinc</div>
+          <div class="gr-item">Render incident IDs or timestamps in a sans — mono carries the log</div>
+          <div class="gr-item">Fabricate incidents — use real SEV levels, service names, and a real lifecycle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Incident Response ---- */
+const INCIDENTS=[
+  {id:'PD-4821',title:'High error rate on api-gateway',service:'api-gateway',sev:'SEV-1',urgency:'High',status:'triggered',responder:'Priya Nair',policy:'Platform On-Call',age:'2m',
+   tl:[{t:'10:42:01',k:'triggered',x:'Triggered — error rate 8.2% exceeds 5% threshold'},{t:'10:42:03',k:'note',x:'Notified Priya Nair via push + SMS'},{t:'10:43:10',k:'note',x:'Escalation policy "Platform On-Call" — level 1'}]},
+  {id:'PD-4820',title:'Elevated p99 latency on checkout',service:'checkout-svc',sev:'SEV-2',urgency:'High',status:'acknowledged',responder:'Diego Marquez',policy:'Payments On-Call',age:'14m',
+   tl:[{t:'10:30:22',k:'triggered',x:'Triggered — p99 latency 2.4s exceeds 800ms SLO'},{t:'10:31:00',k:'note',x:'Notified Diego Marquez via phone'},{t:'10:33:47',k:'ack',x:'Acknowledged by Diego Marquez'}]},
+  {id:'PD-4819',title:'Disk usage above 90% on db-primary',service:'postgres-db',sev:'SEV-3',urgency:'Low',status:'triggered',responder:'Unassigned',policy:'Data On-Call',age:'31m',
+   tl:[{t:'10:13:40',k:'triggered',x:'Triggered — disk usage 91% on /var/lib/postgres'},{t:'10:13:42',k:'note',x:'Notified Data On-Call via email'}]},
+  {id:'PD-4818',title:'TLS certificate expiring in 24h',service:'edge-proxy',sev:'SEV-3',urgency:'Low',status:'resolved',responder:'Sam Okafor',policy:'Platform On-Call',age:'1h',
+   tl:[{t:'09:41:10',k:'triggered',x:'Triggered — cert for *.acme.io expires in 24h'},{t:'09:44:30',k:'ack',x:'Acknowledged by Sam Okafor'},{t:'09:58:12',k:'resolved',x:'Resolved — certificate renewed via cert-manager'}]}
+];
+const ST={triggered:'Triggered',acknowledged:'Acknowledged',resolved:'Resolved'};
+const listEl=document.getElementById('incList');
+const detEl=document.getElementById('incDetail');
+const countEl=document.getElementById('incCount');
+let sel='PD-4821';
+let clock=1055; // minutes-of-day-ish counter for new timestamps
+
+function byId(id){return INCIDENTS.find(i=>i.id===id);}
+function fmtClock(){clock+=2;const h=Math.floor(clock/60)%24,m=clock%60;return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String((clock*7)%60).padStart(2,'0');}
+function sevCls(s){return s==='SEV-1'?'s1':s==='SEV-2'?'s2':'';}
+
+function renderList(){
+  const open=INCIDENTS.filter(i=>i.status!=='resolved').length;
+  countEl.textContent=open+' open · '+INCIDENTS.length+' total';
+  listEl.innerHTML='';
+  INCIDENTS.forEach(i=>{
+    const row=document.createElement('div');
+    row.className='inc-row'+(i.id===sel?' sel':'');
+    row.innerHTML='<div class="inc-row-top"><span class="sev '+sevCls(i.sev)+'">'+i.sev+'</span>'
+      +'<span class="inc-title">'+i.title+'</span></div>'
+      +'<div class="inc-sub"><span>'+i.id+'</span><span>·</span><span>'+i.service+'</span>'
+      +'<span class="st st-'+i.status+'" style="margin-left:auto"><span class="st-dot"></span>'+ST[i.status]+'</span></div>';
+    row.onclick=()=>{sel=i.id;render();};
+    listEl.appendChild(row);
+  });
+}
+function renderDetail(newKind){
+  const i=byId(sel);
+  const canAck=i.status==='triggered';
+  const canRes=i.status!=='resolved';
+  detEl.innerHTML=
+    '<div class="det-head"><div class="det-title">'+i.title+'</div>'
+    +'<div class="det-meta"><span>'+i.id+'</span><span><b>'+i.service+'</b></span><span>'+i.sev+'</span>'
+    +'<span>urgency <b>'+i.urgency+'</b></span><span>'+i.responder+'</span><span><b>'+i.policy+'</b></span></div></div>'
+    +'<div class="det-actions">'
+    +'<button class="btn btn-primary btn-sm" id="ackBtn"'+(canAck?'':' disabled')+'>Acknowledge</button>'
+    +'<button class="btn btn-secondary btn-sm" id="resBtn"'+(canRes?'':' disabled')+'>Resolve</button>'
+    +'<span class="st st-'+i.status+'" style="margin-left:auto;align-self:center"><span class="st-dot"></span>'+ST[i.status]+'</span>'
+    +'</div><div class="timeline" id="tl"></div>';
+  const tl=document.getElementById('tl');
+  i.tl.forEach((e,idx)=>{
+    const it=document.createElement('div');
+    it.className='tl-item'+(newKind&&idx===i.tl.length-1?' new':'');
+    it.innerHTML='<span class="tl-dot '+e.k+'"></span><div class="tl-body"><div class="tl-txt">'+e.x+'</div><div class="tl-time">'+e.t+'</div></div>';
+    tl.appendChild(it);
+  });
+  const ack=document.getElementById('ackBtn'),res=document.getElementById('resBtn');
+  if(ack&&canAck)ack.onclick=()=>{i.status='acknowledged';i.tl.push({t:fmtClock(),k:'ack',x:'Acknowledged by '+(i.responder==='Unassigned'?'you':i.responder)});render('ack');toast(i.id+' acknowledged');};
+  if(res&&canRes)res.onclick=()=>{i.status='resolved';i.tl.push({t:fmtClock(),k:'resolved',x:'Resolved by '+(i.responder==='Unassigned'?'you':i.responder)});render('resolved');toast(i.id+' resolved');};
+}
+function render(newKind){renderList();renderDetail(newKind);}
+render();
 </script>
 </body>
 </html>
+</content>
