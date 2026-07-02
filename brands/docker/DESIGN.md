@@ -1,173 +1,120 @@
 # Docker Design System
 
 ## Overview
-Docker is the de-facto standard for containerization. The design language centers on a clear, confident blue — it's technical but accessible, enterprise-grade but not sterile. The whale logo and blue palette are among the most recognized in the developer world.
 
-**Brand personality:** Reliable, universal, developer-first, infrastructure backbone.
+Docker is the platform developers use to build, share, and run container applications — "we handle the tedious setup, so you can focus on the code." The visual language is built around one confident, unmistakable blue and the Moby Dock whale. It reads as infrastructure you can trust: clean, technical, enterprise-grade, but still developer-first and approachable.
+
+**Brand personality:** Reliable, universal, developer-first, the container standard.
+
+**Positioning (live copy):** "91% of the Fortune 100 already run on Docker · 20B+ pulls a month on Docker Hub · 20M+ developers build on Docker every day."
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--docker-blue` | `#2496ED` | Primary brand, CTAs, links |
-| `--docker-blue-dark` | `#1A7BC4` | Hover on blue elements |
-| `--docker-navy` | `#003F8A` | Deep accent, gradients |
-| `--docker-teal` | `#00ADB5` | Secondary accent |
+Docker is **light-first** on the marketing surface (white panels on a cool `#f4f6f9` page) with a navy-tinted dark mode. The one non-negotiable is Docker Blue `#1d63ed`.
 
-### Surface Palette (Dark)
+### Primary
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#0D1117` | Main background |
-| `--bg-surface` | `#131D2B` | Cards, panels |
-| `--bg-elevated` | `#1A2840` | Dropdowns, modals |
-| `--border` | `#243550` | Dividers, borders |
+| `--docker-blue` | `#1D63ED` | Primary brand, buttons, links, the whale mark |
+| `--blue-bright` | `#2560FF` | Link hover, focus, brighter accent (dark mode brand) |
+| `--navy` | `#00153C` | Deep navy — headings on light, logo default fill |
+| `--blue-soft` | `#5B9CF0` | Soft accent, illustrations, secondary highlights |
+
+### Surfaces — Light
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#FFFFFF` | Cards, panels, primary surface |
+| `--bg2` | `#F4F6F9` | Page background |
+| `--bg3` | `#E6EBF2` | Fills, hover, tertiary surface |
+| `--border` | `#E3E6EA` | Default borders, dividers |
+| `--term-bg` | `#0C1424` | Terminal / code surface (always dark) |
+
+### Surfaces — Dark
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#0F1A2E` | Cards, panels |
+| `--bg2` | `#0B1220` | Page background |
+| `--bg3` | `#14233D` | Elevated, hover |
+| `--border` | `#1F3350` | Borders, dividers |
 
 ### Text
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#F0F6FF` | Headings, body |
-| `--text-secondary` | `#8BA5C4` | Labels, captions |
-| `--text-muted` | `#506580` | Placeholders, disabled |
+| Token | Hex (light) | Hex (dark) | Usage |
+|-------|-------------|------------|-------|
+| `--text` | `#00153C` | `#E6EBF2` | Headings, body |
+| `--text2` | `#475569` | `#8AA1C5` | Labels, secondary |
+| `--text3` | `#94A3B8` | `#5B7398` | Muted, placeholder |
 
 ### Semantic
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--success` | `#26A269` | Container running, healthy |
-| `--warning` | `#E5A50A` | Image outdated, restarting |
-| `--danger` | `#E01E37` | Container stopped, error |
-| `--info` | `#2496ED` | Pull in progress |
+| `--success` | `#27C93F` | Container running, healthy, build succeeded |
+| `--warning` | `#FFBD2E` | Restarting, image outdated |
+| `--danger` | `#FF5F56` | Container exited, error, failed pull |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+Three fonts, three strict roles.
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 36px | 700 | Hero, marketing |
-| Heading 1 | 26px | 600 | Page titles |
-| Heading 2 | 18px | 600 | Section headers |
-| Body | 14px | 400 | Default content |
-| Small | 12px | 400 | Metadata, timestamps |
-| Mono | 13px | 400 | Commands, image names, IDs |
+| Role | Font | Notes |
+|------|------|-------|
+| Display / headings | **Repro** (≈ Space Grotesk) | Docker's headings use ABC Repro; Space Grotesk is the CORS-safe free substitute |
+| UI / body | **Inter** | All body, labels, nav, buttons, table cells |
+| Mono / code | **JetBrains Mono** | Terminal, CLI specimens, image tags, metadata |
 
----
-
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
-
----
-
-## Border Radius
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Tags, labels |
-| `--radius-md` | `6px` | Buttons, inputs |
-| `--radius-lg` | `8px` | Cards, panels |
-| `--radius-xl` | `12px` | Modals |
-
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
---shadow-md: 0 4px 16px rgba(0,0,0,0.6);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.7);
---shadow-blue: 0 0 0 3px rgba(36,150,237,0.3);
-```
+### Scale
+| Token | Size | Weight | Sample |
+|-------|------|--------|--------|
+| `display-2xl` | 52px | 700 | Docker |
+| `display-xl` | 34px | 700 | Build better, together |
+| `display-md` | 22px | 600 | Start local. Scale anywhere. |
+| `text-lg` | 16px | 400 | Body / lead copy |
+| `text-sm` | 13px | 400 | UI copy, table cells |
+| `ui-mono` | 12px | 400 | `docker run -d -p 80:80 nginx` |
 
 ---
 
 ## Components
 
-### Buttons
-```
-Primary:  bg #2496ED, text white, hover #1A7BC4, radius 6px, height 36px
-Ghost:    bg transparent, border #243550, text #8BA5C4, hover border #2496ED
-Danger:   bg #E01E37, text white
-```
+- **Buttons:** solid Docker-blue primary (`#1D63ED`, white text — safe in both themes), outline secondary, ghost link. Radius `8px`.
+- **Containers table:** the Docker Desktop pattern — name, image, status dot, port mapping, CPU. Green dot = running, gray = exited.
+- **Badges:** status (`Running`, `Exited`, `Paused`) and image tags (`nginx:latest`, `redis:7-alpine`) in mono.
+- **Terminal:** dark `#0C1424` surface with macOS traffic-light dots, mono body, blue prompt.
+- **Inputs:** 1px border, `#1D63ED` focus ring at 3px / 30% alpha.
 
-### Inputs
-```
-Background: #131D2B
-Border:     #243550 default, #2496ED focused
-Text:       #F0F6FF
-Placeholder: #506580
-Radius:     6px, height: 36px
-Font:       JetBrains Mono for image names, tags
-```
-
-### Container Status Badges
-```
-Running:    bg rgba(38,162,105,0.12), text #26A269
-Stopped:    bg rgba(224,30,55,0.12), text #E01E37
-Restarting: bg rgba(229,165,10,0.12), text #E5A50A
-Pulling:    bg rgba(36,150,237,0.12), text #2496ED
-```
-
-### Terminal Block
-```
-Background: #000000
-Border:     1px solid #243550
-Radius:     6px
-Font:       JetBrains Mono 12px
-Prompt:     color #2496ED
-Output:     color #8BA5C4
-Success:    color #26A269
-Error:      color #E01E37
-```
+### Radius & elevation
+| Token | Value |
+|-------|-------|
+| `radius-sm` | 6px |
+| `radius-md` | 8px |
+| `radius-lg` | 12px |
+| `shadow-card` | `0 1px 2px rgba(0,21,60,.06), 0 4px 16px rgba(0,21,60,.06)` |
 
 ---
 
-## Layout
+## Signature component
 
-- Dashboard max-width: 1280px
-- Sidebar: 220px
-- Content padding: 24px
-- Container list: table layout preferred
+**Docker CLI terminal.** The universal Docker moment: type a command, watch it run. Supports real commands — `docker run`, `docker ps`, `docker images`, `docker pull`, `docker build`, `docker compose up`, `docker --version` — with realistic layer-pull and build output. Output history is capped at 20 lines.
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1280px |
-| Desktop | > 1280px |
+If you saw only this terminal with no branding, the `docker run` / layer-pull output would be unmistakable.
 
 ---
 
-## Tone & Guardrails
+## Guardrails
 
-### DO
-- Use monospace for all image names, container IDs, tags, and CLI commands
-- Color-code container status consistently across all views
-- Show container logs in a dark terminal block — black, not navy
-- Use the blue anchor sparingly for primary actions — it must feel clickable
-- Show resource usage (CPU/RAM) with progress bars, not just numbers
+**DO**
+- Use Docker Blue `#1D63ED` as the single primary — one confident blue, not a rainbow.
+- Keep the whale mark blue; render it on white or navy, never on a busy photo.
+- Keep surfaces neutral (white / `#f4f6f9`) and let the blue carry emphasis.
+- Use green only for genuine "running / healthy / succeeded" states.
+- Pair status color with a label or dot — never color alone.
 
-### DON'T
-- Don't use light mode for container dashboards — operators work in dim conditions
-- Don't use rounded corners beyond 8px — Docker is infrastructure, not consumer
-- Don't mix the teal accent with blue in the same component
-- Don't show partial image names — always show full registry/repo:tag
-- Don't use color alone to indicate status — pair with text labels too
+**DON'T**
+- Don't use the old cyan `#2496ED` — the current brand blue is `#1D63ED`.
+- Don't recolor the whale into gradients or off-brand hues.
+- Don't use pure black `#000` for dark surfaces — Docker's dark is navy-tinted (`#0B1220`).
+- Don't use the macOS traffic-light trio as decorative UI accents — they're terminal chrome / status only.
+- Don't set display headings in the mono or body font — Repro/Space Grotesk owns headings.

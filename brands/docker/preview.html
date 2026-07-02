@@ -1,271 +1,452 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Docker – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docker — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root[data-theme="dark"] {
-  --bg: #0D1117;
-  --surface: #131D2B;
-  --elevated: #1A2840;
-  --border: #243550;
-  --primary: #2496ED;
-  --primary-hover: #1A7BC4;
-  --success: #26A269;
-  --warning: #E5A50A;
-  --danger: #E01E37;
-  --text: #F0F6FF;
-  --text-2: #8BA5C4;
-  --text-3: #506580;
-  --toggle-bg: #1A2840;
-  --toggle-text: #F0F6FF;
-  --toggle-border: #243550;
+:root{
+  --docker-blue:#1D63ED;--blue-bright:#2560FF;--navy:#00153C;--blue-soft:#5B9CF0;
+  --success:#27C93F;--warning:#FFBD2E;--danger:#FF5F56;
+  --term-bg:#0C1424;--term-text:#D6DCE6;--term-muted:#8AA1C5;
 }
-:root[data-theme="light"] {
-  --bg: #F0F6FF;
-  --surface: #FFFFFF;
-  --elevated: #E0ECFF;
-  --border: #C0D4F0;
-  --primary: #2496ED;
-  --primary-hover: #1A7BC4;
-  --success: #1A8050;
-  --warning: #A07000;
-  --danger: #C01020;
-  --text: #0D1117;
-  --text-2: #2A4060;
-  --text-3: #6080A0;
-  --toggle-bg: #E0ECFF;
-  --toggle-text: #0D1117;
-  --toggle-border: #C0D4F0;
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F4F6F9;--bg3:#E6EBF2;--bg-hover:#EDF1F7;
+  --border:#E3E6EA;--border-strong:#D6DCE6;
+  --text:#00153C;--text2:#475569;--text3:#94A3B8;
+  --brand:#1D63ED;--brand-hover:#1750C7;
+  --logo:#1D63ED;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 4px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
-.type-sample { flex: 1; }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-.input-demo { width: 100%; height: 36px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
-.input-demo:focus { border-color: var(--primary); }
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 4px; border: 1px solid; }
-.badge-run { background: rgba(38,162,105,0.12); color: #26A269; border-color: rgba(38,162,105,0.3); }
-.badge-stop { background: rgba(224,30,55,0.12); color: #E01E37; border-color: rgba(224,30,55,0.3); }
-.badge-restart { background: rgba(229,165,10,0.12); color: #E5A50A; border-color: rgba(229,165,10,0.3); }
-.badge-pull { background: rgba(36,150,237,0.12); color: #2496ED; border-color: rgba(36,150,237,0.3); }
-/* Terminal */
-.terminal { background: #000000; border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.8; }
-.t-prompt { color: #2496ED; }
-.t-cmd { color: #F0F6FF; }
-.t-out { color: #8BA5C4; }
-.t-ok { color: #26A269; }
-/* Resource bar */
-.resource-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-.resource-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 80px; flex-shrink: 0; }
-.resource-track { flex: 1; height: 6px; background: var(--elevated); border-radius: 9999px; overflow: hidden; }
-.resource-fill { height: 100%; border-radius: 9999px; background: var(--primary); }
-.resource-pct { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 36px; text-align: right; }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 2px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+:root[data-theme="dark"]{
+  --bg:#0F1A2E;--bg2:#0B1220;--bg3:#14233D;--bg-hover:#1A2C48;
+  --border:#1F3350;--border-strong:#2A4260;
+  --text:#E6EBF2;--text2:#8AA1C5;--text3:#5B7398;
+  --brand:#2560FF;--brand-hover:#3B7BFF;
+  --logo:#4D8FE0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 56px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero h1{font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.hero-stats{display:flex;gap:36px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--brand)}
+.stat-label{font-size:12px;color:var(--text3);margin-top:2px}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:500}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-card.full{grid-column:span 2}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+/* Buttons */
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-ghost{background:transparent;color:var(--brand);padding:0 6px}
+.btn-ghost:hover{color:var(--brand-hover)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:6px;font-size:11px;font-weight:600}
+.badge-mono{font-family:'JetBrains Mono',monospace;font-weight:500}
+.badge-row{display:flex;gap:7px;flex-wrap:wrap}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* Input */
+.d-input{background:var(--bg);border:1px solid var(--border-strong);border-radius:8px;height:38px;padding:0 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.d-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(29,99,237,.3)}
+.d-input::placeholder{color:var(--text3)}
+
+/* Containers table */
+.ctable{width:100%;border-collapse:collapse;font-size:13px}
+.ctable th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:0 10px 10px;border-bottom:1px solid var(--border)}
+.ctable td{padding:11px 10px;border-bottom:1px solid var(--border);color:var(--text2)}
+.ctable tr:last-child td{border-bottom:none}
+.ctable tbody tr{cursor:default;transition:background .1s}
+.ctable tbody tr:hover{background:var(--bg-hover)}
+.ct-name{color:var(--text);font-weight:500}
+.ct-img{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)}
+.ct-status{display:inline-flex;align-items:center;gap:6px}
+
+/* Terminal signature */
+.term{background:var(--term-bg);border-radius:12px;overflow:hidden;border:1px solid #1a2740;box-shadow:0 12px 40px rgba(0,21,60,.24)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#0a101d;border-bottom:1px solid #1a2740}
+.tl{width:12px;height:12px;border-radius:50%}
+.term-title{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--term-muted)}
+.term-body{padding:16px 18px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:var(--term-text);height:340px;overflow-y:auto}
+.term-line{white-space:pre-wrap;word-break:break-word}
+.term-prompt{color:var(--blue-soft)}
+.term-cmd{color:#fff}
+.term-ok{color:var(--success)}
+.term-warn{color:var(--warning)}
+.term-err{color:var(--danger)}
+.term-dim{color:var(--term-muted)}
+.term-input-row{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#0a101d;border-top:1px solid #1a2740}
+.term-input-row .term-prompt{font-family:'JetBrains Mono',monospace;font-size:12.5px}
+.term-input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:12.5px}
+.term-input::placeholder{color:#3f5170}
+.term-hint{font-size:11px;color:var(--text3);margin-top:10px}
+.term-hint code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text2)}
+
+/* Radius */
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:64px;height:64px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:8px}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--success)}
+.gr-heading.dont{color:var(--danger)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--success)}
+.dont .gr-item::before{background:var(--danger)}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--navy);color:#fff;padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none;font-family:'JetBrains Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:720px){.comp-grid,.gr-cols{grid-template-columns:1fr}.comp-card.full{grid-column:span 1}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#0D1117"/>
-        <!-- Docker whale -->
-        <path d="M14 38 C14 38 18 34 36 34 C54 34 58 38 58 38 C58 44 52 48 36 48 C20 48 14 44 14 38Z" fill="#2496ED"/>
-        <!-- water spray -->
-        <path d="M50 32 C50 32 52 26 54 24" stroke="#2496ED" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M54 24 C54 24 56 22 57 20" stroke="#2496ED" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-        <!-- containers on whale -->
-        <rect x="20" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
-        <rect x="30" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
-        <rect x="40" y="29" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.9"/>
-        <rect x="25" y="23" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.7"/>
-        <rect x="35" y="23" width="8" height="6" rx="1" fill="#F0F6FF" opacity="0.7"/>
-        <!-- tail fin -->
-        <path d="M14 40 C10 38 8 42 12 44" stroke="#2496ED" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <svg width="112" height="88" viewBox="0 0 38 30" xmlns="http://www.w3.org/2000/svg" aria-label="Docker logo">
+        <path d="M37.413,12.315c-0.933,-0.627 -3.382,-0.896 -5.163,-0.415c-0.097,-1.774 -1.012,-3.27 -2.685,-4.573l-0.619,-0.416l-0.414,0.624c-0.811,1.232 -1.153,2.873 -1.032,4.366c0.095,0.92 0.415,1.953 1.032,2.703c-2.318,1.345 -4.455,1.039 -13.919,1.039l-14.61,0c-0.042,2.137 0.302,6.248 2.915,9.593c0.289,0.37 0.604,0.727 0.948,1.072c2.126,2.128 5.336,3.689 10.138,3.693c7.325,0.007 13.601,-3.953 17.419,-13.527c1.257,0.02 4.572,0.225 6.195,-2.911c0.039,-0.052 0.413,-0.831 0.413,-0.831l-0.618,-0.415l0,-0.002Zm-27.875,-1.953l-4.108,0l-0,4.108l4.108,0l0,-4.108Zm5.308,0l-4.108,0l-0,4.108l4.108,0l0,-4.108Zm5.308,0l-4.108,0l-0,4.108l4.108,0l0,-4.108Zm5.308,0l-4.108,0l-0,4.108l4.108,0l0,-4.108Zm-21.232,0l-4.108,0l-0,4.108l4.108,0l0,-4.108Zm5.308,-5.19l-4.108,-0l-0,4.108l4.108,0l0,-4.108Zm5.308,-0l-4.108,-0l-0,4.108l4.108,0l0,-4.108Zm5.308,-0l-4.108,-0l-0,4.108l4.108,0l0,-4.108Zm0,-5.19l-4.108,0l-0,4.109l4.108,-0l0,-4.109Z" style="fill:var(--logo);fill-rule:nonzero"></path>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>Docker</h1>
-      <p>Build, ship, and run containerized applications anywhere</p>
+    <h1>Docker</h1>
+    <p>Build, share, and run container applications. We handle the tedious setup, so you can focus on the code.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">91%</div><div class="stat-label">of the Fortune 100 run on Docker</div></div>
+      <div class="stat"><div class="stat-num">20B+</div><div class="stat-label">pulls a month on Docker Hub</div></div>
+      <div class="stat"><div class="stat-num">20M+</div><div class="stat-label">developers build on Docker daily</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#1D63ED')"><div class="swatch-color" style="background:#1D63ED"></div><div class="swatch-info"><span class="swatch-name">docker-blue</span><span class="swatch-hex">#1D63ED</span><span class="swatch-use">Primary, buttons, links</span></div></div>
+      <div class="swatch" onclick="copyHex('#2560FF')"><div class="swatch-color" style="background:#2560FF"></div><div class="swatch-info"><span class="swatch-name">blue-bright</span><span class="swatch-hex">#2560FF</span><span class="swatch-use">Hover, focus, dark brand</span></div></div>
+      <div class="swatch" onclick="copyHex('#00153C')"><div class="swatch-color" style="background:#00153C"></div><div class="swatch-info"><span class="swatch-name">navy</span><span class="swatch-hex">#00153C</span><span class="swatch-use">Headings, logo default</span></div></div>
+      <div class="swatch" onclick="copyHex('#5B9CF0')"><div class="swatch-color" style="background:#5B9CF0"></div><div class="swatch-info"><span class="swatch-name">blue-soft</span><span class="swatch-hex">#5B9CF0</span><span class="swatch-use">Soft accent, illustration</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #E3E6EA"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Cards, panels</span></div></div>
+      <div class="swatch" onclick="copyHex('#F4F6F9')"><div class="swatch-color" style="background:#F4F6F9"></div><div class="swatch-info"><span class="swatch-name">bg2</span><span class="swatch-hex">#F4F6F9</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#E6EBF2')"><div class="swatch-color" style="background:#E6EBF2"></div><div class="swatch-info"><span class="swatch-name">bg3</span><span class="swatch-hex">#E6EBF2</span><span class="swatch-use">Fills, hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#0C1424')"><div class="swatch-color" style="background:#0C1424"></div><div class="swatch-info"><span class="swatch-name">term-bg</span><span class="swatch-hex">#0C1424</span><span class="swatch-use">Terminal, code</span></div></div>
+    </div>
+
+    <div class="group-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00153C')"><div class="swatch-color" style="background:#00153C"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#00153C</span><span class="swatch-use">Headings, body</span></div></div>
+      <div class="swatch" onclick="copyHex('#475569')"><div class="swatch-color" style="background:#475569"></div><div class="swatch-info"><span class="swatch-name">text2</span><span class="swatch-hex">#475569</span><span class="swatch-use">Labels, secondary</span></div></div>
+      <div class="swatch" onclick="copyHex('#94A3B8')"><div class="swatch-color" style="background:#94A3B8"></div><div class="swatch-info"><span class="swatch-name">text3</span><span class="swatch-hex">#94A3B8</span><span class="swatch-use">Muted, placeholder</span></div></div>
+      <div class="swatch" onclick="copyHex('#E3E6EA')"><div class="swatch-color" style="background:#E3E6EA"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E3E6EA</span><span class="swatch-use">Dividers, borders</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#27C93F')"><div class="swatch-color" style="background:#27C93F"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#27C93F</span><span class="swatch-use">Running, healthy</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFBD2E')"><div class="swatch-color" style="background:#FFBD2E"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#FFBD2E</span><span class="swatch-use">Restarting, outdated</span></div></div>
+      <div class="swatch" onclick="copyHex('#FF5F56')"><div class="swatch-color" style="background:#FF5F56"></div><div class="swatch-info"><span class="swatch-name">danger</span><span class="swatch-hex">#FF5F56</span><span class="swatch-use">Exited, error</span></div></div>
     </div>
   </div>
 
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#2496ED', this)"><div class="swatch-dot" style="background:#2496ED"></div><div class="swatch-info"><span class="swatch-name">Blue</span><span class="swatch-hex">#2496ED</span></div></div>
-        <div class="swatch" onclick="copyHex('#1A7BC4', this)"><div class="swatch-dot" style="background:#1A7BC4"></div><div class="swatch-info"><span class="swatch-name">Blue Dark</span><span class="swatch-hex">#1A7BC4</span></div></div>
-        <div class="swatch" onclick="copyHex('#26A269', this)"><div class="swatch-dot" style="background:#26A269"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#26A269</span></div></div>
-        <div class="swatch" onclick="copyHex('#E01E37', this)"><div class="swatch-dot" style="background:#E01E37"></div><div class="swatch-info"><span class="swatch-name">Danger</span><span class="swatch-hex">#E01E37</span></div></div>
+    <div class="section-label">Typography — Space Grotesk · Inter · JetBrains Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-2xl</div><div class="type-spec">Space Grotesk · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1">Docker</div><div class="spec-pills"><span class="spec-pill">52px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-xl</div><div class="type-spec">Space Grotesk · 700</div></div><div class="type-sample display" style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1">Build better, together</div><div class="spec-pills"><span class="spec-pill">34px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-md</div><div class="type-spec">Space Grotesk · 600</div></div><div class="type-sample display" style="font-size:21px;font-weight:600">Start local. Scale anywhere.</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:16px">The runtime under every agent — invisible to developers.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Standard body text and UI copy across the product.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-mono</div><div class="type-spec">JetBrains Mono · 400</div></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text2)">docker run -d -p 80:80 nginx:latest</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE: TERMINAL -->
+  <div class="section">
+    <div class="section-label">Signature — Docker CLI</div>
+    <div class="term">
+      <div class="term-bar">
+        <span class="tl" style="background:#FF5F56"></span>
+        <span class="tl" style="background:#FFBD2E"></span>
+        <span class="tl" style="background:#27C93F"></span>
+        <span class="term-title">~/projects/app — docker</span>
+      </div>
+      <div class="term-body" id="termBody"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">$</span>
+        <input class="term-input" id="termInput" placeholder="try: docker run -d -p 80:80 nginx" autocomplete="off" spellcheck="false">
       </div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0D1117', this)"><div class="swatch-dot" style="background:#0D1117;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D1117</span></div></div>
-        <div class="swatch" onclick="copyHex('#131D2B', this)"><div class="swatch-dot" style="background:#131D2B;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#131D2B</span></div></div>
-        <div class="swatch" onclick="copyHex('#1A2840', this)"><div class="swatch-dot" style="background:#1A2840;border:1px solid #243550"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1A2840</span></div></div>
-        <div class="swatch" onclick="copyHex('#243550', this)"><div class="swatch-dot" style="background:#243550"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#243550</span></div></div>
-      </div>
-    </div>
+    <div class="term-hint">Try <code>docker run -d -p 80:80 nginx</code>, <code>docker ps</code>, <code>docker images</code>, <code>docker pull redis</code>, <code>docker compose up</code>, <code>help</code>, <code>clear</code></div>
   </div>
 
+  <!-- COMPONENTS -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:26px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">18px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:18px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body text — default content for dashboard and docs</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — metadata, container IDs, timestamps</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">docker run -p 3000:3000 my-app:latest</div></div>
-  </div>
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
 
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
       <div class="comp-card">
-        <h3>Buttons</h3>
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Download Docker Desktop</button>
+          <button class="btn btn-secondary">Get started</button>
+        </div>
         <div class="btn-row">
-          <button class="btn btn-primary">Pull Image</button>
-          <button class="btn btn-danger">Stop</button>
-          <button class="btn btn-ghost">Logs</button>
+          <button class="btn btn-secondary">Contact sales</button>
+          <button class="btn btn-ghost">Sign In →</button>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Container Status</h3>
+        <div class="comp-title">Status &amp; image tags</div>
+        <div class="badge-row" style="margin-bottom:12px">
+          <span class="badge" style="background:rgba(39,201,63,.14);color:#1a8f2e"><span class="dot" style="background:#27C93F"></span>Running</span>
+          <span class="badge" style="background:rgba(255,189,46,.16);color:#a5720a"><span class="dot" style="background:#FFBD2E"></span>Restarting</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)"><span class="dot" style="background:#94A3B8"></span>Exited</span>
+        </div>
         <div class="badge-row">
-          <span class="badge badge-run">Running</span>
-          <span class="badge badge-stop">Stopped</span>
-          <span class="badge badge-restart">Restarting</span>
-          <span class="badge badge-pull">Pulling</span>
+          <span class="badge badge-mono" style="background:rgba(29,99,237,.1);color:var(--brand)">nginx:latest</span>
+          <span class="badge badge-mono" style="background:rgba(29,99,237,.1);color:var(--brand)">redis:7-alpine</span>
+          <span class="badge badge-mono" style="background:rgba(29,99,237,.1);color:var(--brand)">postgres:16</span>
         </div>
       </div>
+
+      <div class="comp-card full">
+        <div class="comp-title">Containers — Docker Desktop</div>
+        <table class="ctable">
+          <thead><tr><th>Name</th><th>Image</th><th>Status</th><th>Port(s)</th><th>CPU</th></tr></thead>
+          <tbody>
+            <tr><td class="ct-name">web-proxy</td><td class="ct-img">nginx:latest</td><td><span class="ct-status"><span class="dot" style="background:#27C93F"></span>Running</span></td><td class="ct-img">80:80</td><td>0.4%</td></tr>
+            <tr><td class="ct-name">api</td><td class="ct-img">app/api:2.3.1</td><td><span class="ct-status"><span class="dot" style="background:#27C93F"></span>Running</span></td><td class="ct-img">3000:3000</td><td>2.1%</td></tr>
+            <tr><td class="ct-name">cache</td><td class="ct-img">redis:7-alpine</td><td><span class="ct-status"><span class="dot" style="background:#27C93F"></span>Running</span></td><td class="ct-img">6379:6379</td><td>0.2%</td></tr>
+            <tr><td class="ct-name">db</td><td class="ct-img">postgres:16</td><td><span class="ct-status"><span class="dot" style="background:#FFBD2E"></span>Restarting</span></td><td class="ct-img">5432:5432</td><td>1.8%</td></tr>
+            <tr><td class="ct-name">worker</td><td class="ct-img">app/worker:2.3.1</td><td><span class="ct-status"><span class="dot" style="background:#94A3B8"></span>Exited (0)</span></td><td class="ct-img">—</td><td>0.0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="comp-card">
-        <h3>Terminal</h3>
-        <div class="terminal">
-          <div><span class="t-prompt">$ </span><span class="t-cmd">docker ps</span></div>
-          <div class="t-out">CONTAINER ID   IMAGE</div>
-          <div class="t-ok">a1b2c3d4e5f6   nginx:latest</div>
-          <div><span class="t-prompt">$ </span><span class="t-cmd">docker logs a1b2</span></div>
+        <div class="comp-title">Input</div>
+        <input class="d-input" placeholder="Search images and containers…" style="margin-bottom:12px">
+        <input class="d-input" value="docker.io/library/nginx" style="font-family:'JetBrains Mono',monospace;font-size:12px">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px</div></div>
         </div>
       </div>
-      <div class="comp-card">
-        <h3>Resource Usage</h3>
-        <div class="resource-row"><span class="resource-name">CPU</span><div class="resource-track"><div class="resource-fill" style="width:34%"></div></div><span class="resource-pct">34%</span></div>
-        <div class="resource-row"><span class="resource-name">Memory</span><div class="resource-track"><div class="resource-fill" style="width:61%;background:#26A269"></div></div><span class="resource-pct">61%</span></div>
-        <div class="resource-row"><span class="resource-name">Network</span><div class="resource-track"><div class="resource-fill" style="width:18%"></div></div><span class="resource-pct">18%</span></div>
-      </div>
+
     </div>
   </div>
 
+  <!-- GUARDRAILS -->
   <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use monospace for image names, container IDs, tags</li>
-          <li>Color-code container status consistently</li>
-          <li>Show container logs in a black terminal block</li>
-          <li>Use resource bars (CPU/RAM) not just numbers</li>
-          <li>Blue for primary actions — it must feel clickable</li>
-        </ul>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use Docker Blue <code style="font-family:'JetBrains Mono',monospace">#1D63ED</code> as the single primary — one confident blue, not a rainbow</div>
+          <div class="gr-item">Keep the whale mark blue; render it on white or navy, never on a busy photo</div>
+          <div class="gr-item">Keep surfaces neutral (white / #F4F6F9) and let the blue carry emphasis</div>
+          <div class="gr-item">Use green only for genuine "running / healthy / succeeded" states</div>
+          <div class="gr-item">Pair every status color with a label or dot — never color alone</div>
+        </div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use light mode for container dashboards</li>
-          <li>Don't round corners beyond 8px</li>
-          <li>Don't mix the teal accent with blue in one component</li>
-          <li>Don't show partial image names — always show full tag</li>
-          <li>Don't use color alone for status — pair with text labels</li>
-        </ul>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Use the old cyan <code style="font-family:'JetBrains Mono',monospace">#2496ED</code> — the current brand blue is #1D63ED</div>
+          <div class="gr-item">Recolor the whale into gradients or off-brand hues</div>
+          <div class="gr-item">Use pure black #000 for dark surfaces — Docker's dark is navy-tinted (#0B1220)</div>
+          <div class="gr-item">Use the macOS traffic-light trio as decorative accents — terminal chrome / status only</div>
+          <div class="gr-item">Set display headings in the mono or body font — Space Grotesk owns headings</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  const t=document.getElementById('toast');
+  t.textContent='Copied '+hex;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
 }
+
+/* ---- Docker CLI terminal ---- */
+const body=document.getElementById('termBody');
+const input=document.getElementById('termInput');
+const MAX_LINES=20;
+let containers=[
+  {name:'web-proxy',image:'nginx:latest',status:'running',ports:'80:80'},
+  {name:'api',image:'app/api:2.3.1',status:'running',ports:'3000:3000'}
+];
+let idSeed=0;
+function shortId(){idSeed++;const base='a3f9c1e7b2d84f60';return base.slice(0,10)+(idSeed);}
+
+function push(html,cls){
+  const div=document.createElement('div');
+  div.className='term-line'+(cls?(' '+cls):'');
+  div.innerHTML=html;
+  body.appendChild(div);
+  while(body.children.length>MAX_LINES) body.removeChild(body.firstChild);
+  body.scrollTop=body.scrollHeight;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function run(raw){
+  const cmd=raw.trim();
+  push('<span class="term-prompt">$</span> <span class="term-cmd">'+esc(cmd)+'</span>');
+  if(!cmd) return;
+  const parts=cmd.split(/\s+/);
+  if(cmd==='clear'){body.innerHTML='';return;}
+  if(cmd==='help'||cmd==='docker'){
+    push('Usage:  docker COMMAND','term-dim');
+    push('  run       Create and run a new container from an image','term-dim');
+    push('  ps        List containers        images    List images','term-dim');
+    push('  pull      Download an image      build     Build from a Dockerfile','term-dim');
+    push('  compose   Define and run multi-container apps','term-dim');
+    return;
+  }
+  if(parts[0]!=='docker'){push('command not found: '+esc(parts[0])+' — try \'docker\' or \'help\'','term-err');return;}
+  const sub=parts[1]||'';
+  if(sub==='--version'||sub==='version'){push('Docker version 27.4.0, build bde2b89','term-dim');return;}
+  if(sub==='run'){
+    const img=parts.filter(p=>!p.startsWith('-')&&p!=='docker'&&p!=='run').pop()||'nginx';
+    const portFlag=parts.find((p,i)=>parts[i-1]==='-p');
+    push('Unable to find image \''+esc(img)+'\' locally','term-dim');
+    push(esc(img.includes(':')?img.split(':')[1]:'latest')+': Pulling from library/'+esc(img.split(':')[0]),'term-dim');
+    push('a2318d6c47ec: Pull complete','term-ok');
+    push('9f3178e64b96: Pull complete','term-ok');
+    push('Status: Downloaded newer image for '+esc(img),'term-dim');
+    const id=shortId();
+    containers.push({name:img.split(':')[0]+'-'+(idSeed),image:img.includes(':')?img:img+':latest',status:'running',ports:portFlag||'—'});
+    push(id,'');
+    return;
+  }
+  if(sub==='pull'){
+    const img=parts[2]||'redis';
+    push('Using default tag: latest','term-dim');
+    push('latest: Pulling from library/'+esc(img),'term-dim');
+    push('c1e5b1f4d2a0: Pull complete','term-ok');
+    push('7b2d84f60ab3: Pull complete','term-ok');
+    push('Status: Downloaded newer image for '+esc(img)+':latest','term-dim');
+    return;
+  }
+  if(sub==='ps'){
+    push('CONTAINER ID   IMAGE               STATUS         PORTS','term-dim');
+    containers.forEach(c=>{
+      const line=(shortId().slice(0,12)).padEnd(15)+c.image.padEnd(20)+(c.status==='running'?'Up 4 minutes':'Exited (0)').padEnd(15)+c.ports;
+      push(esc(line),c.status==='running'?'term-ok':'term-dim');
+    });
+    return;
+  }
+  if(sub==='images'){
+    push('REPOSITORY          TAG        IMAGE ID       SIZE','term-dim');
+    push(esc('nginx               latest     a2318d6c47ec   187MB'),'');
+    push(esc('redis               7-alpine   9f3178e64b96   41MB'),'');
+    push(esc('postgres            16         c1e5b1f4d2a0   438MB'),'');
+    push(esc('app/api             2.3.1      7b2d84f60ab3   112MB'),'');
+    return;
+  }
+  if(sub==='build'){
+    push('[+] Building 12.4s (10/10) FINISHED','term-dim');
+    push(' => [internal] load build definition from Dockerfile','term-ok');
+    push(' => [1/4] FROM docker.io/library/node:20-alpine','term-ok');
+    push(' => [2/4] COPY package.json .        => [3/4] RUN npm ci','term-ok');
+    push(' => exporting to image  => naming to docker.io/app/api:2.3.1','term-ok');
+    return;
+  }
+  if(sub==='compose'){
+    push('[+] Running 3/3','term-dim');
+    push(' ✔ Container app-db-1     Started','term-ok');
+    push(' ✔ Container app-cache-1  Started','term-ok');
+    push(' ✔ Container app-api-1    Started','term-ok');
+    return;
+  }
+  if(sub==='stop'){push(esc(parts[2]||'container'),'term-dim');return;}
+  push('docker: \''+esc(sub)+'\' is not a docker command. See \'docker help\'.','term-err');
+}
+
+['Docker version 27.4.0, build bde2b89','Type a docker command below, or \'help\' to list commands.'].forEach(l=>push(l,'term-dim'));
+
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){run(input.value);input.value='';}
+});
 </script>
 </body>
 </html>
