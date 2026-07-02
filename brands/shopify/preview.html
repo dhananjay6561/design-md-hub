@@ -1,281 +1,458 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shopify – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopify — Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+/* PolySans — display */
+@font-face{font-family:PolySans;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/PolySans-Neutral.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:PolySans;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/PolySans-Median.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:PolySans;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/PolySans-Bulky.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+/* Neue Haas Grotesk — UI/body */
+@font-face{font-family:NeueHaasGrotesk;src:url(https://cdn.shopify.com/b/shopify-brochure2-assets/8e7a81acb91d51d6051bfb7f97e8ecaa.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:NeueHaasGrotesk;src:url(https://cdn.shopify.com/b/shopify-brochure2-assets/5ed4b67d15b44e848aaae29d2e30ec03.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:NeueHaasGrotesk;src:url(https://cdn.shopify.com/b/shopify-brochure2-assets/85640034fdc1068cdb17d5e74ab9876d.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+/* IBM Plex Mono */
+@font-face{font-family:IBMPlexMono;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/IBMPlexMono--regular.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:IBMPlexMono;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/IBMPlexMono--medium.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:IBMPlexMono;src:url(https://cdn.shopify.com/shopifycloud/brochure2/production/fonts/IBMPlexMono--semibold.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
 
-:root[data-theme="dark"] {
-  --bg: #1A1A1A;
-  --surface: #242424;
-  --elevated: #2E2E2E;
-  --border: #3D3D3D;
-  --primary: #95BF47;
-  --primary-hover: #7DA33A;
-  --commerce: #008060;
-  --commerce-hover: #006E52;
-  --success: #008060;
-  --warning: #FFC453;
-  --danger: #D72C0D;
-  --text: #F4F4F4;
-  --text-2: #ABABAB;
-  --text-3: #6E6E6E;
-  --toggle-bg: #2E2E2E;
-  --toggle-text: #F4F4F4;
-  --toggle-border: #3D3D3D;
+:root{
+  --green:#008060;--green-hover:#006E52;--green-deep:#004C3F;
+  --lime:#95BF47;--aloe:#C1FBD4;--pistachio:#D4F9E0;
+  --bag:#008060;
 }
-:root[data-theme="light"] {
-  --bg: #F6F6F7;
-  --surface: #FFFFFF;
-  --elevated: #F0F8EC;
-  --border: #D4D4D4;
-  --primary: #95BF47;
-  --primary-hover: #7DA33A;
-  --commerce: #008060;
-  --commerce-hover: #006E52;
-  --success: #008060;
-  --warning: #B07A00;
-  --danger: #D72C0D;
-  --text: #1A1A1A;
-  --text-2: #484848;
-  --text-3: #9E9E9E;
-  --toggle-bg: #F0F8EC;
-  --toggle-text: #1A1A1A;
-  --toggle-border: #D4D4D4;
+:root[data-theme="dark"]{
+  --bg:#18181B;--bg2:#02090A;--bg3:#232327;--bg-hover:#232327;
+  --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.17);
+  --text:#F4F4F5;--text2:#A1A1AA;--text3:#71717A;
+  --brand:#008060;--brand-hover:#0A9670;
+  --c-green:#5EC49A;--c-amber:#E0A93B;--c-red:#F0806E;--c-blue:#7CA9F0;
+  --logo:#FFFFFF;
+  --mkt-bg:#FFFFFF;--mkt-text:#02090A;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--commerce); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.type-sample { flex: 1; }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Product card */
-.product-img { width: 100%; height: 140px; background: var(--elevated); border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; }
-.product-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.product-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-.product-price { font-size: 16px; font-weight: 700; color: var(--commerce); }
-.product-sku { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
-/* Order status */
-.order-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.order-row:last-child { border-bottom: none; }
-.order-id { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-2); flex: 1; }
-.order-amt { font-size: 13px; font-weight: 600; color: var(--text); }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 9999px; border: 1px solid; }
-.badge-fulfilled { background: rgba(0,128,96,0.12); color: #28A775; border-color: rgba(0,128,96,0.3); }
-.badge-unfulfilled { background: rgba(255,196,83,0.12); color: #FFC453; border-color: rgba(255,196,83,0.3); }
-.badge-cancelled { background: rgba(215,44,13,0.12); color: #D72C0D; border-color: rgba(215,44,13,0.3); }
-/* inventory */
-.inventory-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-.inventory-row:last-child { border-bottom: none; }
-.inv-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.inv-name { flex: 1; font-size: 13px; color: var(--text); }
-.inv-qty { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-2); }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
-.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-commerce { background: var(--commerce); color: #fff; }
-.btn-commerce:hover { background: var(--commerce-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--commerce); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); }
-.guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F4F4F5;--bg3:#E4E4E7;--bg-hover:#F4F4F5;
+  --border:#E4E4E7;--border-strong:#D4D4D8;
+  --text:#0E0E10;--text2:#52525B;--text3:#71717A;
+  --brand:#008060;--brand-hover:#006E52;
+  --c-green:#008060;--c-amber:#9A6C00;--c-red:#C41E00;--c-blue:#2C6ECB;
+  --logo:#02090A;
+  --mkt-bg:#02090A;--mkt-text:#FFFFFF;
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'NeueHaasGrotesk','Helvetica Neue',Arial,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'PolySans','Helvetica Neue',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg2)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center}
+.hero-logo svg{height:52px;width:auto;color:var(--bag)}
+.hero h1{font-size:54px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'IBMPlexMono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:130px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'IBMPlexMono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:500}
+
+/* Orders signature */
+.orders{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden}
+.ord-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.ord-title{font-size:14px;font-weight:600;color:var(--text)}
+.ord-title span{display:block;font-family:'IBMPlexMono',monospace;font-size:11px;color:var(--text3);font-weight:400;margin-top:3px}
+.ord-actions{display:flex;gap:8px}
+.ord-tabs{display:flex;gap:2px;padding:8px 10px;border-bottom:1px solid var(--border);overflow-x:auto}
+.ord-tab{font-family:inherit;font-size:13px;font-weight:500;color:var(--text2);background:transparent;border:none;padding:6px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.ord-tab:hover{background:var(--bg-hover)}
+.ord-tab.active{background:var(--bg3);color:var(--text)}
+.tab-count{font-size:11px;font-weight:600;color:var(--text3);background:var(--bg-hover);padding:1px 6px;border-radius:9999px}
+.ord-tab.active .tab-count{color:var(--text2)}
+.ord-bulk{display:none;align-items:center;gap:12px;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.ord-bulk.show{display:flex}
+.ord-bulk-count{font-size:13px;font-weight:600;color:var(--text)}
+.ord-bulk-spacer{flex:1}
+.clear-sel{font-family:inherit;font-size:12px;font-weight:500;color:var(--text2);background:transparent;border:none;cursor:pointer;padding:4px 6px}
+.clear-sel:hover{color:var(--text)}
+.ord-table-wrap{overflow-x:auto;max-height:440px;overflow-y:auto}
+.ord-table{width:100%;border-collapse:collapse;font-size:13px}
+.ord-table thead th{position:sticky;top:0;background:var(--bg);text-align:left;font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--text3);padding:10px 14px;border-bottom:1px solid var(--border);white-space:nowrap;z-index:1}
+.ord-table th.num,.ord-table td.num{text-align:right}
+.ord-table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap}
+.ord-table tbody tr:last-child td{border-bottom:none}
+.ord-table tbody tr{cursor:pointer;transition:background .1s}
+.ord-table tbody tr:hover{background:var(--bg-hover)}
+.ord-table tbody tr.sel{background:rgba(0,128,96,.08)}
+.cbcol{width:40px;text-align:center!important;padding-right:0!important}
+.ord-cb{width:16px;height:16px;accent-color:var(--green);cursor:pointer;vertical-align:middle}
+.ord-n{font-family:'IBMPlexMono',monospace;font-weight:500;color:var(--text)}
+.ord-date{color:var(--text2)}
+.ord-total{font-family:'IBMPlexMono',monospace;font-weight:500;color:var(--c-green)}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s,opacity .12s;white-space:nowrap}
+.btn-sm{height:32px;font-size:13px;padding:0 12px}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-market{background:var(--mkt-bg);color:var(--mkt-text)}
+.btn-market:hover{opacity:.88}
+.btn-link{background:transparent;color:var(--c-blue);padding:0 6px;height:40px;font-weight:600}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.b-green{background:rgba(0,128,96,.14);color:var(--c-green)}
+.b-amber{background:rgba(185,137,0,.16);color:var(--c-amber)}
+.b-red{background:rgba(216,44,13,.13);color:var(--c-red)}
+.b-neutral{background:var(--bg3);color:var(--text2)}
+.b-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'IBMPlexMono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'IBMPlexMono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(0,128,96,.22)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-green)}
+.gr-heading.dont{color:var(--c-red)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--green)}
+.dont .gr-item::before{background:var(--c-red)}
+.gr-item code{font-family:'IBMPlexMono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'IBMPlexMono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="hero">
-    <div>
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#1A1A1A"/>
-        <!-- Shopping bag outline -->
-        <path d="M24 30 L22 54 L50 54 L48 30 Z" fill="none" stroke="#95BF47" stroke-width="3" stroke-linejoin="round"/>
-        <!-- Handle -->
-        <path d="M29 30 C29 24 43 24 43 30" fill="none" stroke="#95BF47" stroke-width="3" stroke-linecap="round"/>
-        <!-- S letter hint -->
-        <path d="M30 40 C30 38 34 38 34 40 C34 42 38 42 38 44 C38 46 34 46 34 44" stroke="#008060" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      </svg>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Shopify"><path d="M30.0164 5.94322C30.0164 5.94322 29.4539 6.10386 28.5297 6.38498C28.369 5.86289 28.1279 5.26048 27.8064 4.61791C26.7616 2.60988 25.1945 1.52554 23.3461 1.52554C23.2256 1.52554 23.105 1.52554 22.9443 1.56571C22.9041 1.48538 22.8237 1.44522 22.7836 1.3649C21.9799 0.481368 20.9352 0.0797613 19.6895 0.119922C17.2785 0.200243 14.8676 1.92715 12.9388 5.01952C11.5726 7.1882 10.5279 9.91912 10.2466 12.0476C7.47397 12.891 5.54521 13.4934 5.50502 13.5336C4.09863 13.9753 4.05845 14.0155 3.89772 15.3408C3.65662 16.3448 0 44.6581 0 44.6581L30.3781 49.9191V5.86289C30.2174 5.90306 30.0968 5.90305 30.0164 5.94322ZM22.9845 8.11189C21.3772 8.59382 19.6091 9.15607 17.8813 9.67815C18.3635 7.79061 19.3279 5.90305 20.453 4.65807C20.895 4.21631 21.4977 3.69422 22.1808 3.37293C22.8639 4.81872 23.0247 6.78659 22.9845 8.11189ZM19.7297 1.72635C20.2922 1.72635 20.7744 1.84683 21.1763 2.08779C20.5333 2.40908 19.8904 2.93117 19.2877 3.53358C17.7607 5.18016 16.5954 7.75044 16.1132 10.2002C14.6667 10.642 13.2201 11.0838 11.8941 11.4854C12.7379 7.67012 15.9927 1.84683 19.7297 1.72635ZM15.0283 23.8147C15.189 26.385 21.9799 26.9472 22.3817 33.0115C22.663 37.7906 19.8502 41.0436 15.7918 41.2846C10.8895 41.6059 8.19726 38.7143 8.19726 38.7143L9.24201 34.2966C9.24201 34.2966 11.9342 36.3448 14.1041 36.1842C15.5105 36.1039 16.0329 34.9392 15.9927 34.136C15.7918 30.7625 10.2466 30.9633 9.88493 25.4211C9.56347 20.8027 12.6174 16.1039 19.368 15.6621C21.9799 15.5014 23.3059 16.144 23.3059 16.144L21.779 21.9272C21.779 21.9272 20.0511 21.1239 18.0018 21.2846C15.0283 21.4854 14.9881 23.3729 15.0283 23.8147ZM24.5918 7.62996C24.5918 6.42514 24.4311 4.69824 23.8685 3.25245C25.7169 3.6139 26.6009 5.66209 27.0027 6.90707C26.2795 7.10787 25.4758 7.34884 24.5918 7.62996Z" fill="currentColor"></path><path d="M31.3828 49.7589L44.0002 46.6263C44.0002 46.6263 38.5755 9.95967 38.5353 9.71871C38.4951 9.47775 38.2942 9.3171 38.0933 9.3171C37.8924 9.3171 34.3563 9.23678 34.3563 9.23678C34.3563 9.23678 32.1865 7.14843 31.3828 6.34521V49.7589Z" fill="currentColor"></path></svg>
     </div>
-    <div class="hero-text">
-      <h1>Shopify</h1>
-      <p>Commerce platform — build stores, manage orders, scale globally</p>
+    <h1>Shopify</h1>
+    <p>The all-in-one commerce platform to start, run, and grow a business.</p>
+    <div class="chips">
+      <span class="chip">Online Store</span>
+      <span class="chip">Shopify POS</span>
+      <span class="chip">Shop Pay</span>
+      <span class="chip">Sidekick</span>
+      <span class="chip">Shopify Payments</span>
+      <span class="chip">Polaris</span>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#95BF47',this)"><div class="swatch-dot" style="background:#95BF47"></div><div class="swatch-info"><span class="swatch-name">Lime</span><span class="swatch-hex">#95BF47</span></div></div>
-        <div class="swatch" onclick="copyHex('#008060',this)"><div class="swatch-dot" style="background:#008060"></div><div class="swatch-info"><span class="swatch-name">Commerce</span><span class="swatch-hex">#008060</span></div></div>
-        <div class="swatch" onclick="copyHex('#FFC453',this)"><div class="swatch-dot" style="background:#FFC453"></div><div class="swatch-info"><span class="swatch-name">Warning</span><span class="swatch-hex">#FFC453</span></div></div>
-        <div class="swatch" onclick="copyHex('#D72C0D',this)"><div class="swatch-dot" style="background:#D72C0D"></div><div class="swatch-info"><span class="swatch-name">Error</span><span class="swatch-hex">#D72C0D</span></div></div>
-      </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1A1A1A',this)"><div class="swatch-dot" style="background:#1A1A1A;border:1px solid #3D3D3D"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#1A1A1A</span></div></div>
-        <div class="swatch" onclick="copyHex('#242424',this)"><div class="swatch-dot" style="background:#242424;border:1px solid #3D3D3D"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#242424</span></div></div>
-        <div class="swatch" onclick="copyHex('#2E2E2E',this)"><div class="swatch-dot" style="background:#2E2E2E"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#2E2E2E</span></div></div>
-        <div class="swatch" onclick="copyHex('#3D3D3D',this)"><div class="swatch-dot" style="background:#3D3D3D"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#3D3D3D</span></div></div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
 
+  <!-- SIGNATURE: ORDERS -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">34px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:34px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:24px;font-weight:700;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">18px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:18px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — default content across admin and storefront</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — inventory counts, order dates, metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text-2);">#SKU-88421-BLK-M</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Product Card</h3>
-        <div class="product-img">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="6" fill="#3D3D3D"/><path d="M18 28 L24 20 L30 28" stroke="#95BF47" stroke-width="2" stroke-linejoin="round" fill="none"/></svg>
+    <div class="section-label">Signature — Admin Orders</div>
+    <div class="orders">
+      <div class="ord-head">
+        <div class="ord-title">Orders<span>acme-store.myshopify.com</span></div>
+        <div class="ord-actions">
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary btn-sm">Create order</button>
         </div>
-        <div class="product-name">Merino Crewneck — Black</div>
-        <div class="product-row">
-          <span class="product-price">$89.00</span>
-          <span class="product-sku">SKU-88421</span>
+      </div>
+      <div class="ord-tabs" id="ordTabs"></div>
+      <div class="ord-bulk" id="ordBulk">
+        <span class="ord-bulk-count" id="bulkCount">0 selected</span>
+        <button class="btn btn-primary btn-sm" onclick="markFulfilled()">Mark as fulfilled</button>
+        <div class="ord-bulk-spacer"></div>
+        <button class="clear-sel" onclick="clearSel()">Clear</button>
+      </div>
+      <div class="ord-table-wrap">
+        <table class="ord-table">
+          <thead><tr>
+            <th class="cbcol"><input type="checkbox" class="ord-cb" id="selAll" onclick="toggleAll(this)"></th>
+            <th>Order</th><th>Date</th><th>Customer</th><th class="num">Total</th>
+            <th>Payment</th><th>Fulfillment</th><th class="num">Items</th>
+          </tr></thead>
+          <tbody id="ordBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — commerce green</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#008060')"><div class="swatch-color" style="background:#008060"></div><div class="swatch-info"><span class="swatch-name">green</span><span class="swatch-hex">#008060</span><span class="swatch-use">CTAs, Paid, success, bag</span></div></div>
+      <div class="swatch" onclick="copyHex('#006E52')"><div class="swatch-color" style="background:#006E52"></div><div class="swatch-info"><span class="swatch-name">green-hover</span><span class="swatch-hex">#006E52</span><span class="swatch-use">Hover / pressed</span></div></div>
+      <div class="swatch" onclick="copyHex('#004C3F')"><div class="swatch-color" style="background:#004C3F"></div><div class="swatch-info"><span class="swatch-name">green-deep</span><span class="swatch-hex">#004C3F</span><span class="swatch-use">Deep accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#C1FBD4')"><div class="swatch-color" style="background:#C1FBD4"></div><div class="swatch-info"><span class="swatch-name">aloe</span><span class="swatch-hex">#C1FBD4</span><span class="swatch-use">Success badge bg</span></div></div>
+      <div class="swatch" onclick="copyHex('#95BF47')"><div class="swatch-color" style="background:#95BF47"></div><div class="swatch-info"><span class="swatch-name">legacy-lime</span><span class="swatch-hex">#95BF47</span><span class="swatch-use">Heritage bag — not UI</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#02090A')"><div class="swatch-color" style="background:#02090A"></div><div class="swatch-info"><span class="swatch-name">coal-black</span><span class="swatch-hex">#02090A</span><span class="swatch-use">Dark page (hero)</span></div></div>
+      <div class="swatch" onclick="copyHex('#18181B')"><div class="swatch-color" style="background:#18181B"></div><div class="swatch-info"><span class="swatch-name">shade-90</span><span class="swatch-hex">#18181B</span><span class="swatch-use">Dark cards</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">white</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Light cards, admin</span></div></div>
+      <div class="swatch" onclick="copyHex('#F4F4F5')"><div class="swatch-color" style="background:#F4F4F5"></div><div class="swatch-info"><span class="swatch-name">shade-10</span><span class="swatch-hex">#F4F4F5</span><span class="swatch-use">Light page</span></div></div>
+      <div class="swatch" onclick="copyHex('#E4E4E7')"><div class="swatch-color" style="background:#E4E4E7"></div><div class="swatch-info"><span class="swatch-name">shade-20</span><span class="swatch-hex">#E4E4E7</span><span class="swatch-use">Borders, fills</span></div></div>
+    </div>
+
+    <div class="group-label">Text &amp; neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0E0E10')"><div class="swatch-color" style="background:#0E0E10"></div><div class="swatch-info"><span class="swatch-name">shade-ink</span><span class="swatch-hex">#0E0E10</span><span class="swatch-use">Headings, marketing CTA</span></div></div>
+      <div class="swatch" onclick="copyHex('#52525B')"><div class="swatch-color" style="background:#52525B"></div><div class="swatch-info"><span class="swatch-name">shade-60</span><span class="swatch-hex">#52525B</span><span class="swatch-use">Body (light)</span></div></div>
+      <div class="swatch" onclick="copyHex('#71717A')"><div class="swatch-color" style="background:#71717A"></div><div class="swatch-info"><span class="swatch-name">shade-50</span><span class="swatch-hex">#71717A</span><span class="swatch-use">Muted, metadata</span></div></div>
+      <div class="swatch" onclick="copyHex('#A1A1AA')"><div class="swatch-color" style="background:#A1A1AA"></div><div class="swatch-info"><span class="swatch-name">shade-40</span><span class="swatch-hex">#A1A1AA</span><span class="swatch-use">Body (dark)</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic — Polaris tones</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#008060')"><div class="swatch-color" style="background:#008060"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#008060</span><span class="swatch-use">Paid, Fulfilled</span></div></div>
+      <div class="swatch" onclick="copyHex('#B98900')"><div class="swatch-color" style="background:#B98900"></div><div class="swatch-info"><span class="swatch-name">attention</span><span class="swatch-hex">#B98900</span><span class="swatch-use">Pending, Unfulfilled</span></div></div>
+      <div class="swatch" onclick="copyHex('#D82C0D')"><div class="swatch-color" style="background:#D82C0D"></div><div class="swatch-info"><span class="swatch-name">critical</span><span class="swatch-hex">#D82C0D</span><span class="swatch-use">Error, destructive</span></div></div>
+      <div class="swatch" onclick="copyHex('#2C6ECB')"><div class="swatch-color" style="background:#2C6ECB"></div><div class="swatch-info"><span class="swatch-name">info</span><span class="swatch-hex">#2C6ECB</span><span class="swatch-use">Links, highlight</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — PolySans · Neue Haas Grotesk · IBM Plex Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">PolySans · 700</div></div><div class="type-sample display" style="font-size:46px;font-weight:700;letter-spacing:-.03em;line-height:1">Shopify</div><div class="spec-pills"><span class="spec-pill">56px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">PolySans · 600</div></div><div class="type-sample display" style="font-size:32px;font-weight:600;letter-spacing:-.02em;line-height:1.1">Be the next AI all-star</div><div class="spec-pills"><span class="spec-pill">34px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">PolySans · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">Your brand has entered the chat</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Neue Haas · 400</div></div><div class="type-sample" style="font-size:17px">The all-in-one commerce platform to start, run, and grow a business.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Neue Haas · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Meet your secret weapon, Sidekick.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">IBM Plex Mono · 400</div></div><div class="type-sample" style="font-size:12px;font-family:'IBMPlexMono',monospace;color:var(--text2)">shopify theme push --store acme-store</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Add product</button>
+          <button class="btn btn-secondary">Export</button>
         </div>
         <div class="btn-row">
-          <button class="btn btn-commerce">Add to Cart</button>
+          <button class="btn btn-market">Start free trial</button>
+          <button class="btn btn-link">View analytics →</button>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Order Status</h3>
-        <div class="order-row">
-          <span class="order-id">#1042</span>
-          <span class="order-amt">$224.00</span>
-          <span class="badge badge-fulfilled">Fulfilled</span>
+        <div class="comp-title">Status badges</div>
+        <div class="badge-row" style="margin-bottom:10px">
+          <span class="badge b-green"><span class="b-dot"></span>Paid</span>
+          <span class="badge b-amber"><span class="b-dot"></span>Pending</span>
+          <span class="badge b-neutral"><span class="b-dot"></span>Refunded</span>
         </div>
-        <div class="order-row">
-          <span class="order-id">#1043</span>
-          <span class="order-amt">$56.00</span>
-          <span class="badge badge-unfulfilled">Unfulfilled</span>
-        </div>
-        <div class="order-row">
-          <span class="order-id">#1044</span>
-          <span class="order-amt">$120.00</span>
-          <span class="badge badge-cancelled">Cancelled</span>
+        <div class="badge-row">
+          <span class="badge b-green"><span class="b-dot"></span>Fulfilled</span>
+          <span class="badge b-amber"><span class="b-dot"></span>Unfulfilled</span>
+          <span class="badge b-red"><span class="b-dot"></span>Error</span>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Inventory</h3>
-        <div class="inventory-row"><div class="inv-dot" style="background:#008060"></div><span class="inv-name">Black / Medium</span><span class="inv-qty">42 in stock</span></div>
-        <div class="inventory-row"><div class="inv-dot" style="background:#FFC453"></div><span class="inv-name">Black / Small</span><span class="inv-qty">3 in stock</span></div>
-        <div class="inventory-row"><div class="inv-dot" style="background:#D72C0D"></div><span class="inv-name">White / Large</span><span class="inv-qty">0 in stock</span></div>
-        <div class="inventory-row"><div class="inv-dot" style="background:#008060"></div><span class="inv-name">Navy / Medium</span><span class="inv-qty">18 in stock</span></div>
+        <div class="comp-title">Shopify CLI</div>
+        <input class="mono-input" value="shopify app dev --store acme-store.myshopify.com" spellcheck="false">
       </div>
+
       <div class="comp-card">
-        <h3>Buttons</h3>
-        <div class="btn-row">
-          <button class="btn btn-commerce">Fulfill Order</button>
-          <button class="btn btn-ghost">Export</button>
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><div class="radius-label">4px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px</div></div>
         </div>
       </div>
+
     </div>
   </div>
 
+  <!-- GUARDRAILS -->
   <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use #008060 for commerce CTAs (buy, fulfill, add)</li>
-          <li>Use #95BF47 for brand accents and highlights only</li>
-          <li>Always show order IDs and SKUs in monospace</li>
-          <li>Color-code inventory: green / yellow / red</li>
-          <li>Keep tables scannable — horizontal rules only</li>
-        </ul>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use commerce green <code>#008060</code> for primary actions and Paid / Fulfilled / success — white text on it in both themes</div>
+          <div class="gr-item">Keep the shopping-bag mark green — it's the one constant across every rebrand</div>
+          <div class="gr-item">Set headings in PolySans, UI in Neue Haas Grotesk, code in IBM Plex Mono — one role each</div>
+          <div class="gr-item">Use amber for Pending / Unfulfilled and green for Paid / Fulfilled — never the reverse</div>
+          <div class="gr-item">Follow Polaris: pill status badges, horizontal-only table separators, plain-English copy</div>
+        </div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use lime green for interactive elements</li>
-          <li>Don't truncate order IDs — they're reference numbers</li>
-          <li>Don't mix commerce green with success semantics</li>
-          <li>Don't use jargon in merchant-facing copy</li>
-          <li>Don't add vertical borders to data tables</li>
-        </ul>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Use the legacy lime <code>#95BF47</code> for interactive elements — it's heritage, not a UI action color</div>
+          <div class="gr-item">Put dark text on the green button — commerce green takes white text always</div>
+          <div class="gr-item">Tint dark surfaces navy — Shopify's dark is coal-black <code>#02090A</code>, near-neutral</div>
+          <div class="gr-item">Set body or UI in PolySans — it's display only; Neue Haas Grotesk owns the UI</div>
+          <div class="gr-item">Invent order data — use real order numbers, realistic totals, and Polaris badge tones</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
 }
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Orders ---- */
+const ORDERS=[
+  {n:1024,date:'Jul 2',cust:'Mae Jemison',total:124.00,pay:'paid',ful:'unfulfilled',items:3},
+  {n:1023,date:'Jul 2',cust:'Ellen Ochoa',total:89.50,pay:'pending',ful:'unfulfilled',items:1},
+  {n:1022,date:'Jul 1',cust:'Jaydon Stanton',total:412.00,pay:'paid',ful:'fulfilled',items:6},
+  {n:1021,date:'Jul 1',cust:'Colm Byrne',total:56.25,pay:'paid',ful:'unfulfilled',items:2},
+  {n:1020,date:'Jun 30',cust:'Rivka Cohen',total:230.00,pay:'refunded',ful:'fulfilled',items:4},
+  {n:1019,date:'Jun 30',cust:'Sofia Almeida',total:18.00,pay:'paid',ful:'fulfilled',items:1},
+  {n:1018,date:'Jun 29',cust:'Aiko Tanaka',total:305.75,pay:'pending',ful:'unfulfilled',items:5},
+  {n:1017,date:'Jun 29',cust:'Diego Márquez',total:74.00,pay:'paid',ful:'fulfilled',items:2},
+  {n:1016,date:'Jun 28',cust:'Priya Nair',total:149.99,pay:'paid',ful:'unfulfilled',items:3},
+  {n:1015,date:'Jun 28',cust:'Sam Okafor',total:62.40,pay:'paid',ful:'fulfilled',items:1},
+  {n:1014,date:'Jun 27',cust:'Lena Fischer',total:588.00,pay:'pending',ful:'unfulfilled',items:8},
+  {n:1013,date:'Jun 27',cust:'Marco Rossi',total:41.20,pay:'paid',ful:'fulfilled',items:2}
+];
+const TABS=[
+  {k:'all',label:'All',fn:()=>true},
+  {k:'unfulfilled',label:'Unfulfilled',fn:o=>o.ful==='unfulfilled'},
+  {k:'unpaid',label:'Unpaid',fn:o=>o.pay==='pending'}
+];
+let filter='all';
+const sel=new Set();
+const body=document.getElementById('ordBody');
+const tabsEl=document.getElementById('ordTabs');
+const bulkEl=document.getElementById('ordBulk');
+const bulkCount=document.getElementById('bulkCount');
+const selAll=document.getElementById('selAll');
+
+const PAY={paid:['b-green','Paid'],pending:['b-amber','Pending'],refunded:['b-neutral','Refunded']};
+const FUL={fulfilled:['b-green','Fulfilled'],unfulfilled:['b-amber','Unfulfilled']};
+function money(v){return '$'+v.toFixed(2);}
+function visible(){return ORDERS.filter(TABS.find(t=>t.k===filter).fn);}
+
+function renderTabs(){
+  tabsEl.innerHTML='';
+  TABS.forEach(t=>{
+    const c=ORDERS.filter(t.fn).length;
+    const b=document.createElement('button');
+    b.className='ord-tab'+(t.k===filter?' active':'');
+    b.innerHTML=t.label+' <span class="tab-count">'+c+'</span>';
+    b.onclick=()=>{filter=t.k;clearSel();render();};
+    tabsEl.appendChild(b);
+  });
+}
+function render(){
+  renderTabs();
+  const rows=visible();
+  body.innerHTML='';
+  rows.forEach(o=>{
+    const tr=document.createElement('tr');
+    if(sel.has(o.n))tr.classList.add('sel');
+    const pay=PAY[o.pay],ful=FUL[o.ful];
+    tr.innerHTML=
+      '<td class="cbcol"><input type="checkbox" class="ord-cb rowcb" '+(sel.has(o.n)?'checked':'')+'></td>'
+      +'<td class="ord-n">#'+o.n+'</td>'
+      +'<td class="ord-date">'+o.date+'</td>'
+      +'<td>'+o.cust+'</td>'
+      +'<td class="num ord-total">'+money(o.total)+'</td>'
+      +'<td><span class="badge '+pay[0]+'"><span class="b-dot"></span>'+pay[1]+'</span></td>'
+      +'<td><span class="badge '+ful[0]+'"><span class="b-dot"></span>'+ful[1]+'</span></td>'
+      +'<td class="num">'+o.items+'</td>';
+    const cb=tr.querySelector('.rowcb');
+    const toggle=()=>{if(sel.has(o.n))sel.delete(o.n);else sel.add(o.n);render();};
+    cb.onclick=e=>{e.stopPropagation();toggle();};
+    tr.onclick=toggle;
+    body.appendChild(tr);
+  });
+  const vis=rows.length,selVis=rows.filter(o=>sel.has(o.n)).length;
+  selAll.checked=vis>0&&selVis===vis;
+  selAll.indeterminate=selVis>0&&selVis<vis;
+  if(sel.size>0){bulkEl.classList.add('show');bulkCount.textContent=sel.size+' selected';}
+  else bulkEl.classList.remove('show');
+}
+function toggleAll(cb){
+  const rows=visible();
+  if(cb.checked)rows.forEach(o=>sel.add(o.n));
+  else rows.forEach(o=>sel.delete(o.n));
+  render();
+}
+function clearSel(){sel.clear();render();}
+function markFulfilled(){
+  let done=0;
+  ORDERS.forEach(o=>{if(sel.has(o.n)&&o.ful==='unfulfilled'){o.ful='fulfilled';done++;}});
+  sel.clear();render();
+  toast(done?done+(done===1?' order':' orders')+' fulfilled':'No unfulfilled orders selected');
+}
+render();
 </script>
 </body>
 </html>
+</content>
