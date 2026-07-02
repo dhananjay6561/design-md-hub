@@ -1,200 +1,396 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Terraform – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terraform — Design System</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #1A1625; --surface: #231E32; --elevated: #2D2740; --border: #3D3558;
-  --primary: #844FBA; --primary-hover: #6B3FA0;
-  --add: #27AE60; --change: #F39C12; --destroy: #E74C3C; --noop: #7F8C8D;
-  --text: #EDE8F8; --text-2: #9A8FC0; --text-3: #5A5078;
-  --toggle-bg: #2D2740; --toggle-text: #EDE8F8; --toggle-border: #3D3558;
+@font-face{font-family:Gilmer;src:url(https://developer.hashicorp.com/_next/static/media/gilmer-300-normal.9572f286.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Gilmer;src:url(https://developer.hashicorp.com/_next/static/media/gilmer-400-normal.b49f8e45.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Gilmer;src:url(https://developer.hashicorp.com/_next/static/media/gilmer-500-normal.3353a748.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Gilmer;src:url(https://developer.hashicorp.com/_next/static/media/gilmer-700-normal.383d4225.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Metro;src:url(https://developer.hashicorp.com/_next/static/media/metro-300-normal.5d84f6b6.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:Metro;src:url(https://developer.hashicorp.com/_next/static/media/metro-400-normal.66065390.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Metro;src:url(https://developer.hashicorp.com/_next/static/media/metro-600-normal.bb4791d8.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:Metro;src:url(https://developer.hashicorp.com/_next/static/media/metro-700-normal.9945bf41.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'DejaVu Sans Mono';src:url(https://developer.hashicorp.com/_next/static/media/dejavu_sans_mono-400-normal.d5a42912.woff2?dpl=dpl_32AuJKBPuKkbN9Qp3yCGCsRVhWiv) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+
+:root{
+  --purple:#7B42BC;--purple-hover:#713DAD;--purple-active:#65369A;--purple-light:#A067DA;
+  --create:#23C05C;--update:#E5A000;--destroy:#E5484D;--hc-blue:#2E71E5;
+  --term-bg:#0A0A0C;--term-text:#D6D8DE;--term-dim:#6B6F79;
 }
-:root[data-theme="light"] {
-  --bg: #F5F2FF; --surface: #FFFFFF; --elevated: #EBE3FF; --border: #D8CCEE;
-  --primary: #844FBA; --primary-hover: #6B3FA0;
-  --add: #1E8449; --change: #B7770D; --destroy: #C0392B; --noop: #666;
-  --text: #1A1625; --text-2: #4A3A70; --text-3: #9A8FC0;
-  --toggle-bg: #EBE3FF; --toggle-text: #1A1625; --toggle-border: #D8CCEE;
+:root[data-theme="dark"]{
+  --bg:#17181C;--bg2:#0C0D10;--bg3:#24262C;--bg-hover:#24262C;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#F2F2F3;--text2:#A8ABB3;--text3:#727680;
+  --brand:#8B52CC;--brand-hover:#A067DA;
+  --c-purple:#B98AE6;--c-create:#3DD46E;--c-update:#EDB53A;--c-destroy:#F0696E;
+  --logo:#9A63D6;--ring:rgba(139,82,204,.32);
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Plan output */
-.plan-block { background: #0D0A15; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.9; }
-.plan-add { color: #27AE60; } .plan-change { color: #F39C12; } .plan-destroy { color: #E74C3C; } .plan-noop { color: #7F8C8D; }
-.plan-summary { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
-/* Resource card */
-.resource-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
-.res-address { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--primary); margin-bottom: 6px; }
-.res-attrs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; }
-.res-attr { font-size: 11px; } .res-key { color: var(--text-3); } .res-val { color: var(--text-2); font-family: 'JetBrains Mono', monospace; }
-/* Provider badge */
-.provider-tag { display: inline-block; background: rgba(132,79,186,0.12); border: 1px solid rgba(132,79,186,0.3); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; margin: 3px; }
-.status-chip { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; }
-.chip-planned { background: rgba(39,174,96,0.12); color: #27AE60; }
-.chip-applied { background: rgba(39,174,96,0.2); color: #2ECC71; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--add); } .guardrail-card.dont { border-top: 3px solid var(--destroy); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--add); } .guardrail-card.dont .guardrail-label { color: var(--destroy); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F9F9FB;--bg3:#F2F2F3;--bg-hover:#F5F3FA;
+  --border:#EBEBED;--border-strong:#DADADD;
+  --text:#1B1D22;--text2:#656A76;--text3:#8C909A;
+  --brand:#7B42BC;--brand-hover:#713DAD;
+  --c-purple:#65369A;--c-create:#178A43;--c-update:#9A6C00;--c-destroy:#C93B40;
+  --logo:#7B42BC;--ring:rgba(123,66,188,.22);
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Metro','Helvetica Neue',Arial,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Gilmer','Metro',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:48px;width:auto}
+.hero h1{font-size:54px;font-weight:700;letter-spacing:-.02em;line-height:1.02;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:6px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'DejaVu Sans Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:140px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'DejaVu Sans Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* Terminal signature */
+.term{border-radius:10px;background:var(--term-bg);overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.term-head{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#141418;border-bottom:1px solid rgba(255,255,255,.06)}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+.term-title{margin-left:8px;font-family:'DejaVu Sans Mono',monospace;font-size:12px;color:var(--term-dim)}
+.term-run{margin-left:auto;background:var(--brand);color:#fff;border:none;border-radius:6px;height:30px;padding:0 14px;font-family:'DejaVu Sans Mono',monospace;font-size:12px;font-weight:400;cursor:pointer;transition:background .12s}
+.term-run:hover{background:var(--brand-hover)}
+.term-run:disabled{opacity:.55;cursor:default}
+.term-body{padding:16px 18px;font-family:'DejaVu Sans Mono',monospace;font-size:12.5px;line-height:1.72;color:var(--term-text);overflow-y:auto;max-height:440px;white-space:pre-wrap;word-break:break-word}
+.tl{display:block}
+.t-prompt{color:var(--purple-light)}
+.t-dim{color:var(--term-dim)}
+.t-create{color:#3DD46E}
+.t-update{color:#EDB53A}
+.t-destroy{color:#F0696E}
+.t-bold{color:#fff;font-weight:400}
+.stream{opacity:0;animation:fade .25s forwards}
+@keyframes fade{to{opacity:1}}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:'Metro',sans-serif;font-weight:600;font-size:14px;border-radius:6px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--c-purple);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.b-purple{background:rgba(123,66,188,.16);color:var(--c-purple)}
+.b-create{background:rgba(35,192,92,.15);color:var(--c-create)}
+.b-update{background:rgba(229,160,0,.16);color:var(--c-update)}
+.b-destroy{background:rgba(229,72,77,.15);color:var(--c-destroy)}
+.b-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'DejaVu Sans Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:6px;font-size:12px;font-family:'DejaVu Sans Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-create)}
+.gr-heading.dont{color:var(--c-destroy)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--create)}
+.dont .gr-item::before{background:var(--destroy)}
+.gr-item code{font-family:'DejaVu Sans Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'DejaVu Sans Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
-  <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#1A1625"/>
-      <!-- Terraform diamond/T mark -->
-      <path d="M36 14 L52 24 L52 44 L36 54 L20 44 L20 24 Z" fill="none" stroke="#844FBA" stroke-width="2.5"/>
-      <path d="M28 28 L28 44 L36 40 L36 32 Z" fill="#844FBA"/>
-      <path d="M44 24 L44 40 L36 36 L36 28 Z" fill="#A678D4" opacity="0.8"/>
-    </svg>
-    <div class="hero-text"><h1>Terraform</h1><p>Infrastructure as code — provision and manage cloud resources declaratively</p></div>
-  </div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand & Plan Diff</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#844FBA',this)"><div class="swatch-dot" style="background:#844FBA"></div><div class="swatch-name">Purple</div><div class="swatch-hex">#844FBA</div></div>
-        <div class="swatch" onclick="copyHex('#27AE60',this)"><div class="swatch-dot" style="background:#27AE60"></div><div class="swatch-name">+ Add</div><div class="swatch-hex">#27AE60</div></div>
-        <div class="swatch" onclick="copyHex('#F39C12',this)"><div class="swatch-dot" style="background:#F39C12"></div><div class="swatch-name">~ Change</div><div class="swatch-hex">#F39C12</div></div>
-        <div class="swatch" onclick="copyHex('#E74C3C',this)"><div class="swatch-dot" style="background:#E74C3C"></div><div class="swatch-name">- Destroy</div><div class="swatch-hex">#E74C3C</div></div>
-      </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Terraform"><g fill="var(--logo)" fill-rule="evenodd" clip-rule="evenodd"><path d="M8.893 4.617l6.214 3.598v7.2l-6.214-3.6V4.617zM15.788 8.215v7.2l6.212-3.6V4.617l-6.212 3.598zM2 .6v7.197l6.212 3.6V4.199L2 .6zM8.893 19.8l6.212 3.6v-7.197l-6.212-3.6V19.8z"/></g></svg>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1A1625',this)"><div class="swatch-dot" style="background:#1A1625;border:1px solid #3D3558"></div><div class="swatch-name">Background</div><div class="swatch-hex">#1A1625</div></div>
-        <div class="swatch" onclick="copyHex('#231E32',this)"><div class="swatch-dot" style="background:#231E32;border:1px solid #3D3558"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#231E32</div></div>
-        <div class="swatch" onclick="copyHex('#2D2740',this)"><div class="swatch-dot" style="background:#2D2740"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#2D2740</div></div>
-        <div class="swatch" onclick="copyHex('#3D3558',this)"><div class="swatch-dot" style="background:#3D3558"></div><div class="swatch-name">Border</div><div class="swatch-hex">#3D3558</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — workspace descriptions, run history, docs</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, run IDs, workspace labels</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">aws_s3_bucket.app_assets</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Plan Output</h3>
-        <div class="plan-block">
-          <div class="plan-add">+ aws_s3_bucket.app_assets</div>
-          <div class="plan-add">+ aws_cloudfront.distribution</div>
-          <div class="plan-change">~ aws_iam_role.lambda_exec</div>
-          <div class="plan-destroy">- aws_lambda.old_handler</div>
-          <div class="plan-noop">= aws_vpc.main (no changes)</div>
-          <div class="plan-summary">Plan: 2 to add, 1 to change, 1 to destroy.</div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Resource</h3>
-        <div class="resource-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div class="res-address">aws_s3_bucket.app_assets</div>
-            <span class="status-chip chip-planned">planned</span>
-          </div>
-          <div class="res-attrs">
-            <div class="res-attr"><span class="res-key">bucket</span><br><span class="res-val">my-app-prod</span></div>
-            <div class="res-attr"><span class="res-key">region</span><br><span class="res-val">us-east-1</span></div>
-            <div class="res-attr"><span class="res-key">versioning</span><br><span class="res-val">true</span></div>
-            <div class="res-attr"><span class="res-key">acl</span><br><span class="res-val">private</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Provider Badges</h3>
-        <div><span class="provider-tag">aws</span><span class="provider-tag">google</span><span class="provider-tag">azurerm</span><span class="provider-tag">kubernetes</span><span class="provider-tag">datadog</span></div>
-        <div style="margin-top:12px;display:flex;gap:10px;">
-          <button class="btn btn-primary">Apply Plan</button>
-          <button class="btn btn-ghost">View State</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>Resource addresses always in monospace</li>
-        <li>Plan diff colors (+/-/~) must match exactly</li>
-        <li>Always show plan summary count before apply</li>
-        <li>Provider names always in monospace</li>
-        <li>Destroy actions need prominent red treatment</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't abbreviate resource addresses</li>
-        <li>Don't repurpose plan diff colors</li>
-        <li>Don't allow apply without showing plan first</li>
-        <li>Don't use color alone to convey plan type</li>
-        <li>Don't truncate attribute values in resource view</li>
-      </ul></div>
+    <h1>Terraform</h1>
+    <p>Automate infrastructure on any cloud — provision, change, and version resources safely with infrastructure as code.</p>
+    <div class="chips">
+      <span class="chip">Providers</span>
+      <span class="chip">Modules</span>
+      <span class="chip">State</span>
+      <span class="chip">HCL</span>
+      <span class="chip">Registry</span>
+      <span class="chip">Plan &amp; Apply</span>
     </div>
   </div>
 </div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+<div class="wrap">
+
+  <!-- SIGNATURE: PLAN & APPLY -->
+  <div class="section">
+    <div class="section-label">Signature — Plan &amp; Apply</div>
+    <div class="term">
+      <div class="term-head">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="term-title">acme-infra — terraform</span>
+        <button class="term-run" id="tfBtn" onclick="apply()">terraform apply</button>
+      </div>
+      <div class="term-body" id="tfBody"></div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — Terraform purple</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#7B42BC')"><div class="swatch-color" style="background:#7B42BC"></div><div class="swatch-info"><span class="swatch-name">purple</span><span class="swatch-hex">#7B42BC</span><span class="swatch-use">Brand, primary CTA</span></div></div>
+      <div class="swatch" onclick="copyHex('#713DAD')"><div class="swatch-color" style="background:#713DAD"></div><div class="swatch-info"><span class="swatch-name">purple-hover</span><span class="swatch-hex">#713DAD</span><span class="swatch-use">Hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#65369A')"><div class="swatch-color" style="background:#65369A"></div><div class="swatch-info"><span class="swatch-name">purple-active</span><span class="swatch-hex">#65369A</span><span class="swatch-use">Pressed / active</span></div></div>
+      <div class="swatch" onclick="copyHex('#A067DA')"><div class="swatch-color" style="background:#A067DA"></div><div class="swatch-info"><span class="swatch-name">purple-light</span><span class="swatch-hex">#A067DA</span><span class="swatch-use">Dark-mode lift</span></div></div>
+    </div>
+
+    <div class="group-label">Plan diff — semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#23C05C')"><div class="swatch-color" style="background:#23C05C"></div><div class="swatch-info"><span class="swatch-name">create</span><span class="swatch-hex">#23C05C</span><span class="swatch-use">+ resources to add</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5A000')"><div class="swatch-color" style="background:#E5A000"></div><div class="swatch-info"><span class="swatch-name">update</span><span class="swatch-hex">#E5A000</span><span class="swatch-use">~ change in-place</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5484D')"><div class="swatch-color" style="background:#E5484D"></div><div class="swatch-info"><span class="swatch-name">destroy</span><span class="swatch-hex">#E5484D</span><span class="swatch-use">- resources to destroy</span></div></div>
+      <div class="swatch" onclick="copyHex('#2E71E5')"><div class="swatch-color" style="background:#2E71E5"></div><div class="swatch-info"><span class="swatch-name">hashicorp-blue</span><span class="swatch-hex">#2E71E5</span><span class="swatch-use">Corporate link</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#1B1D22')"><div class="swatch-color" style="background:#1B1D22"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#1B1D22</span><span class="swatch-use">Text, dark page</span></div></div>
+      <div class="swatch" onclick="copyHex('#656A76')"><div class="swatch-color" style="background:#656A76"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#656A76</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#DADADD')"><div class="swatch-color" style="background:#DADADD"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#DADADD</span><span class="swatch-use">Borders</span></div></div>
+      <div class="swatch" onclick="copyHex('#F9F9FB')"><div class="swatch-color" style="background:#F9F9FB"></div><div class="swatch-info"><span class="swatch-name">off-white</span><span class="swatch-hex">#F9F9FB</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#0A0A0C')"><div class="swatch-color" style="background:#0A0A0C"></div><div class="swatch-info"><span class="swatch-name">terminal</span><span class="swatch-hex">#0A0A0C</span><span class="swatch-use">CLI background</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Gilmer · Metro · DejaVu Sans Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Gilmer · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.02em;line-height:1">Terraform</div><div class="spec-pills"><span class="spec-pill">54px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Gilmer · 700</div></div><div class="type-sample display" style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1">Automate Infrastructure on Any Cloud</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Gilmer · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">Infrastructure as code</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Metro · 400</div></div><div class="type-sample" style="font-size:17px">Provision and manage resources across any cloud or service.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Metro · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Preview changes before you apply them.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">DejaVu Sans Mono · 400</div></div><div class="type-sample" style="font-size:12.5px;font-family:'DejaVu Sans Mono',monospace;color:var(--text2)">resource "aws_instance" "web" { ... }</div><div class="spec-pills"><span class="spec-pill">12.5px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get Started</button>
+          <button class="btn btn-secondary">Documentation</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">Browse the Registry →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Plan diff badges</div>
+        <div class="badge-row">
+          <span class="badge b-create"><span class="b-dot"></span>+ add</span>
+          <span class="badge b-update"><span class="b-dot"></span>~ change</span>
+          <span class="badge b-destroy"><span class="b-dot"></span>- destroy</span>
+          <span class="badge b-purple"><span class="b-dot"></span>module</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">CLI</div>
+        <input class="mono-input" value="terraform init &amp;&amp; terraform plan -out=tfplan" spellcheck="false">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:5px"></div><div class="radius-label">5px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:10px"></div><div class="radius-label">10px</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use Terraform purple <code>#7B42BC</code> for primary actions and the mark — it is the brand</div>
+          <div class="gr-item">Color the plan diff semantically: green <code>+</code> add, amber <code>~</code> change, red <code>-</code> destroy</div>
+          <div class="gr-item">Keep the CLI in DejaVu Sans Mono on a near-black terminal in both themes</div>
+          <div class="gr-item">Set headings in Gilmer, body/UI in Metro — one role each</div>
+          <div class="gr-item">Lift purple to <code>#8B52CC</code> on dark so it stays legible</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Recolor the stacked-parallelogram mark — it is fixed Terraform purple</div>
+          <div class="gr-item">Use HashiCorp corporate blue <code>#2E71E5</code> as Terraform's primary — purple owns Terraform</div>
+          <div class="gr-item">Set body or UI in Gilmer — it's display only; Metro owns the UI</div>
+          <div class="gr-item">Render a light terminal — the CLI is always dark</div>
+          <div class="gr-item">Fabricate plan output — use real resource types and a deterministic apply</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- terraform plan / apply ---- */
+const body=document.getElementById('tfBody');
+const btn=document.getElementById('tfBtn');
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+const PLAN=[
+  ['t-prompt','$ terraform plan'],
+  ['','',],
+  ['t-dim','Terraform used the selected providers to generate the following execution'],
+  ['t-dim','plan. Resource actions are indicated with the following symbols:'],
+  ['t-create','  + create'],
+  ['t-update','  ~ update in-place'],
+  ['t-destroy','  - destroy'],
+  ['','',],
+  ['t-bold','Terraform will perform the following actions:'],
+  ['','',],
+  ['t-dim','  # aws_instance.web will be created'],
+  ['t-create','  + resource "aws_instance" "web" {'],
+  ['t-create','      + ami           = "ami-0c55b159cbfafe1f0"'],
+  ['t-create','      + instance_type = "t3.micro"'],
+  ['t-create','      + tags          = { "Name" = "acme-web" }'],
+  ['t-create','    }'],
+  ['','',],
+  ['t-dim','  # aws_s3_bucket.assets will be updated in-place'],
+  ['t-update','  ~ resource "aws_s3_bucket" "assets" {'],
+  ['t-update','      ~ versioning = "Disabled" -> "Enabled"'],
+  ['t-update','    }'],
+  ['','',],
+  ['t-dim','  # aws_security_group.legacy will be destroyed'],
+  ['t-destroy','  - resource "aws_security_group" "legacy" {'],
+  ['t-destroy','      - name = "legacy-sg" -> null'],
+  ['t-destroy','    }'],
+  ['','',],
+  ['t-bold','Plan: 2 to add, 1 to change, 1 to destroy.']
+];
+const APPLY=[
+  ['t-prompt','$ terraform apply'],
+  ['','',],
+  ['t-bold','Do you want to perform these actions?'],
+  ['t-dim','  Terraform will perform the actions described above.'],
+  ['t-dim','  Enter a value: '],
+  ['t-purple','  yes'],
+  ['','',],
+  ['t-create','aws_instance.web: Creating...'],
+  ['t-create','aws_instance.web: Creation complete after 12s [id=i-0a1b2c3d4e5f]'],
+  ['t-update','aws_s3_bucket.assets: Modifying... [id=acme-assets]'],
+  ['t-update','aws_s3_bucket.assets: Modifications complete after 3s'],
+  ['t-destroy','aws_security_group.legacy: Destroying... [id=sg-0f9e8d7c]'],
+  ['t-destroy','aws_security_group.legacy: Destruction complete after 1s'],
+  ['','',],
+  ['t-bold','Apply complete! Resources: 2 added, 1 changed, 1 destroyed.']
+];
+function writeStatic(lines){
+  body.innerHTML='';
+  lines.forEach(([cls,txt])=>{
+    const s=document.createElement('span');s.className='tl'+(cls?(' '+cls):'');
+    if(cls==='t-purple'){s.className='tl';s.innerHTML='<span class="t-prompt">'+esc(txt)+'</span>';}
+    else s.textContent=txt||' ';
+    body.appendChild(s);
+  });
+}
+function apply(){
+  btn.disabled=true;btn.textContent='applying…';
+  writeStatic(PLAN);
+  let d=0;
+  APPLY.forEach(([cls,txt])=>{
+    const s=document.createElement('span');
+    s.className='tl stream'+(cls&&cls!=='t-purple'?(' '+cls):'');
+    if(cls==='t-purple')s.innerHTML='<span class="t-prompt">'+esc(txt)+'</span>';
+    else s.textContent=txt||' ';
+    s.style.animationDelay=(d)+'ms';d+=170;
+    body.appendChild(s);
+  });
+  body.scrollTop=body.scrollHeight;
+  setTimeout(()=>{
+    btn.disabled=false;btn.textContent='terraform apply';
+    body.scrollTop=body.scrollHeight;
+    toast('Apply complete — 2 added, 1 changed, 1 destroyed');
+  },d+300);
+}
+writeStatic(PLAN);
 </script>
 </body>
 </html>
+</content>
