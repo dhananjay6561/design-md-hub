@@ -1,125 +1,92 @@
 # Postman Design System
 
 ## Brand Overview
-Postman is the world's most popular API platform — used for building, testing, and documenting APIs. The visual identity is bold and warm — deep dark backgrounds, signature orange as the hero color, and request/response-centric layouts. UI feels like a powerful yet approachable developer workspace.
+
+Postman is "the world's leading API platform" — now "the AI-native API Platform." The identity is warm and confident: the iconic **Postman orange `#FF6C37`** and the Postmanaut planet mark, near-black ink `#212121`, and a clean neutral canvas. The product's soul is the **request builder** — a method, a URL, Send, and a color-coded response — and HTTP-method color (GET green, POST amber, PUT blue, PATCH purple, DELETE red) is a first-class part of the system.
+
+Light-first marketing; the app itself ships light and dark.
+
+> Verified live from postman.com (2026). Orange `#FF6C37` confirmed 96× in the production CSS. Fonts are Degular (display) + Inter + IBM Plex Mono via next/font (Degular self-hosted, not CORS-open) — so this reference uses **Figtree** (≈ Degular) + **Inter** + the real **IBM Plex Mono**.
 
 ## Color Palette
 
 ### Primary
-- Brand Orange: `#FF6C37`
-- Orange Light: `#FF9068`
-- Orange Dark: `#CC4F1E`
+- **Orange**: `#FF6C37` — brand, Send, the mark, primary CTAs
+- **Orange Hover**: `#EF5B25` — hover/pressed
+- **Ink**: `#212121` — headings, body, dark UI chrome
+- **Dark Plum**: `#140B1E` — deep brand dark, tinted dark surfaces
 
-### Backgrounds
-- Base: `#0C0D0E`
-- Surface: `#161718`
-- Elevated: `#1E2022`
-- Border: `#2E3135`
+### HTTP methods (semantic — the core)
+- **GET**: `#0CBB52` green · **POST**: `#B07800` amber · **PUT**: `#0265D2` blue · **PATCH**: `#7C3FBF` purple · **DELETE**: `#D92D20` red
 
-### Semantic
-- Success: `#27AE60`
-- Warning: `#F2994A`
-- Error: `#EB5757`
-- Info: `#2F80ED`
+### Neutrals
+- **Grey**: `#5C5C5C` · **Muted**: `#6B6B6B`
+- **Border**: `#E6E6E6` · **Fill**: `#EFEFEF` · **Off-white**: `#F9F8F7` · **White**: `#FFFFFF`
 
-### Text
-- Primary: `#F5F5F5`
-- Secondary: `#9E9E9E`
-- Muted: `#616161`
-- On-orange: `#FFFFFF`
-
-### HTTP Method Colors
-- GET: `#27AE60`
-- POST: `#F2994A`
-- PUT: `#2F80ED`
-- PATCH: `#9B51E0`
-- DELETE: `#EB5757`
-- HEAD: `#27AE60`
-- OPTIONS: `#9E9E9E`
+### Response syntax
+- **Key**: `#C15B28` · **String**: `#0A8F40` · **Number**: `#0265D2` · **Boolean/null**: `#7C3FBF`
 
 ## Typography
 
-### Font Stack
-- UI: `Space Grotesk, system-ui, sans-serif`
-- Code/Body: `JetBrains Mono, monospace`
+Three fonts, one role each. Degular is CORS-locked, so this reference approximates it; IBM Plex Mono is the real, Google-Fonts-hosted face.
+
+- **Display — Figtree** (≈ Degular) (500/600/700): hero, page + section headings
+- **UI / Body — Inter** (400/500/600): all body, labels, nav, buttons, UI
+- **Mono — IBM Plex Mono** (400/500): URLs, JSON, code, method labels
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+| Token | Size | Weight | Font | Use |
+|-------|------|--------|------|-----|
+| display | 54px | 700 | Figtree | Hero |
+| h1 | 32px | 700 | Figtree | Page title |
+| h2 | 22px | 600 | Figtree | Section heading |
+| body-lg | 17px | 400 | Inter | Lead paragraph |
+| body | 14px | 400 | Inter | Default UI |
+| small | 12px | 400 | Inter | Metadata |
+| mono | 12.5px | 400 | IBM Plex Mono | URLs, JSON |
 
-### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+## Spacing
+4px base — 4, 8, 12, 16, 24, 32, 48, 64.
+
+## Border Radius
+- Buttons / inputs: 6px
+- Cards / panels: 8px
+- Method / status pills: 4px
+- Base: 4px
 
 ## Components
 
-### Request Builder
-- Method dropdown: color-coded pill (GET=green, POST=orange, etc.)
-- URL bar: monospace input, full width
-- Send button: orange filled
-- Tabs below: Params / Auth / Headers / Body / Scripts
+### Button
+- **Primary**: orange `#FF6C37`, white text ("Send"). Labels: `Send`, `Sign Up for Free`, `Save`
+- **Secondary**: transparent, `--border-strong` outline. Labels: `Import`, `Docs`
+- The Send button is the hero action — always orange
 
-### Response Viewer
-- Status badge: 200 (green), 4xx (orange), 5xx (red)
-- Response time + size in muted text
-- Body tab: JSON with syntax highlighting
-- Pretty / Raw / Preview toggle
+### Method tag
+Bold mono label colored by verb: GET green, POST amber, PUT blue, PATCH purple, DELETE red. Appears in the request bar and on every saved request.
 
-### Collection Sidebar
-- Folder icon + collection name
-- Nested request rows with method badge
-- Active request: orange left border
-- Search bar at top
+### Status pill
+`200 OK` green, `201 Created` green, `204 No Content` grey-green, `4xx/5xx` red — beside response time and size.
 
-### Environment Selector
-- Dropdown in top-right of workspace
-- Environment name + variable count
-- Active variables shown as key-value list
-- Add variable button: dashed border row
+### Response viewer
+Monospace JSON with syntax highlighting (key / string / number / boolean colors), status + time + size header.
 
-### Auth Config Panel
-- Auth type dropdown (Bearer, Basic, OAuth2, API Key…)
-- Token/key input masked
-- "Use collection auth" inherit option
+## Signature — API Request Builder
 
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-- Border radius: 4px (badges, method pills), 6px (inputs, cards), 8px (modals)
-- Border: `1px solid #2E3135`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.5)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.6)`
+Postman's defining view: `[method] [URL] [Send]`. Pick a verb — the method tag recolors — enter the endpoint, and **Send** runs it: a status pill (`200 OK` / `201 Created` / `204 No Content`), response time, size, and a syntax-highlighted JSON body appear. Each method returns its own realistic response against `api.getpostman.com`. Deterministic timings, real API shapes.
 
 ## Guardrails
 
-### DO
-- Color-code HTTP methods consistently across all views
-- Use orange only for the primary Send/submit action
-- Show status codes prominently with color — they're the key signal
-- Use mono for URLs, headers, request/response bodies
-- Show response time on every request — performance is a core concern
+**DO**
+- Use orange `#FF6C37` for the Send button and primary CTAs — it is the brand
+- Color HTTP methods semantically: GET green, POST amber, PUT blue, PATCH purple, DELETE red
+- Set URLs, JSON, and method labels in IBM Plex Mono — the request/response is code
+- Set headings in Degular (≈ Figtree), UI in Inter
+- Show status + time + size on every response — that triad is the Postman readout
 
-### DON'T
-- Don't use the same color for different HTTP methods
-- Don't hide the response status code — it's the first thing devs look for
-- Don't wrap URLs — keep them on one line with horizontal scroll
-- Don't truncate JSON response bodies — show full payload with collapse
-- Don't mix sans-serif and mono in the same code block
+**DON'T**
+- Don't recolor the Postmanaut mark — it's fixed orange + white
+- Don't use a method's color for a different verb — GET is green, never orange
+- Don't set JSON or URLs in a sans — mono carries the payload
+- Don't render response bodies without a status pill — status is always shown
+- Don't fabricate responses — use realistic API shapes and correct status codes
+</content>

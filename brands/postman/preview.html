@@ -1,264 +1,413 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Postman Design System</title>
+<title>Postman — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"]{--bg:#0C0D0E;--surface:#161718;--elevated:#1E2022;--border:#2E3135;--brand:#FF6C37;--brand-light:#FF9068;--text-primary:#F5F5F5;--text-secondary:#9E9E9E;--text-muted:#616161;--success:#27AE60;--warning:#F2994A;--error:#EB5757;--info:#2F80ED}
-:root[data-theme="light"]{--bg:#F5F5F5;--surface:#FFFFFF;--elevated:#F0F0F0;--border:#D8D8D8;--brand:#CC4F1E;--brand-light:#FF6C37;--text-primary:#0C0D0E;--text-secondary:#525252;--text-muted:#A0A0A0;--success:#1E7C3A;--warning:#C27C0E;--error:#C0303A;--info:#1A5FBF}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle:hover{border-color:var(--brand)}
-.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
-.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
-.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
-.hero-text h1{font-size:28px;font-weight:700}
-.hero-text p{color:var(--text-secondary);margin-top:4px}
-.hero-badge{margin-left:auto;background:rgba(255,108,55,.12);color:var(--brand-light);border:1px solid rgba(255,108,55,.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
-.section{margin-bottom:56px}
-.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
-.color-groups{display:flex;flex-direction:column;gap:20px}
-.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
-.color-row{display:flex;gap:10px;flex-wrap:wrap}
-.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
-.swatch:hover .swatch-block{transform:scale(1.08)}
-.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-.type-rows{display:flex;flex-direction:column;gap:12px}
-.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
-.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
-.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
-
-/* Method pills */
-.method{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;flex-shrink:0;width:60px;justify-content:center}
-.m-get{background:rgba(39,174,96,.15);color:#27AE60}
-.m-post{background:rgba(242,153,74,.15);color:#F2994A}
-.m-put{background:rgba(47,128,237,.15);color:#2F80ED}
-.m-patch{background:rgba(155,81,224,.15);color:#9B51E0}
-.m-delete{background:rgba(235,87,87,.15);color:#EB5757}
-
-/* Request Builder */
-.request-builder{background:var(--elevated);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.req-header{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border)}
-.req-url{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:7px 12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary)}
-.send-btn{background:var(--brand);color:white;border:none;padding:7px 18px;border-radius:5px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;flex-shrink:0}
-.req-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 12px}
-.req-tab{padding:8px 12px;font-size:12px;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent}
-.req-tab.active{color:var(--brand);border-bottom-color:var(--brand)}
-.req-body{padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);line-height:1.7}
-
-/* Response */
-.response-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--elevated);border:1px solid var(--border);border-radius:6px;margin-bottom:8px}
-.status-badge{font-size:12px;font-weight:700;padding:3px 9px;border-radius:4px}
-.s-200{background:rgba(39,174,96,.15);color:#27AE60}
-.s-404{background:rgba(242,153,74,.15);color:#F2994A}
-.s-500{background:rgba(235,87,87,.15);color:#EB5757}
-.res-meta{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-.res-body{background:var(--elevated);border:1px solid var(--border);border-radius:6px;padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7}
-.j-key{color:#60A5FA}
-.j-str{color:#86EFAC}
-.j-num{color:#FCA5A5}
-.j-bool{color:#F2994A}
-
-/* Collection sidebar */
-.collection-list{display:flex;flex-direction:column;gap:4px}
-.coll-folder{font-size:12px;font-weight:600;color:var(--text-secondary);padding:5px 8px;display:flex;align-items:center;gap:6px}
-.coll-req{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 22px;border-radius:4px;font-size:12px;cursor:pointer}
-.coll-req:hover{background:var(--elevated)}
-.coll-req.active{background:rgba(255,108,55,.08)}
-.coll-req-name{flex:1;color:var(--text-secondary)}
-
-/* Environment */
-.env-row{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--elevated);border:1px solid var(--border);border-radius:5px;font-size:12px;margin-bottom:5px}
-.env-key{font-family:'JetBrains Mono',monospace;color:var(--brand-light);flex:1}
-.env-val{font-family:'JetBrains Mono',monospace;color:var(--text-muted)}
-
-.spacing-bars{display:flex;flex-direction:column;gap:10px}
-.spacing-row{display:flex;align-items:center;gap:12px}
-.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
-.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
-.spacing-val{font-size:11px;color:var(--text-secondary)}
-.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
-.guardrail-card.do{border-top:2px solid var(--success)}
-.guardrail-card.dont{border-top:2px solid var(--error)}
-.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px}
-.guardrail-card.do h4{color:var(--success)}
-.guardrail-card.dont h4{color:var(--error)}
-.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
-.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
-.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
-.guardrail-card.do ul li::before{background:var(--success)}
-.guardrail-card.dont ul li::before{background:var(--error)}
+:root{
+  --orange:#FF6C37;--orange-hover:#EF5B25;--ink:#212121;--plum:#140B1E;
+  --m-get:#0CBB52;--m-post:#B07800;--m-put:#0265D2;--m-patch:#7C3FBF;--m-delete:#D92D20;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F9F8F7;--bg3:#EFEFEF;--bg-hover:#F4F3F2;
+  --border:#E6E6E6;--border-strong:#D6D6D6;
+  --text:#212121;--text2:#5C5C5C;--text3:#8A8A8A;
+  --brand:#FF6C37;--brand-hover:#EF5B25;
+  --get:#0A8F40;--post:#B07800;--put:#0265D2;--patch:#7C3FBF;--delete:#D92D20;
+  --ok:#0A8F40;
+  --j-key:#C15B28;--j-str:#0A8F40;--j-num:#0265D2;--j-bool:#7C3FBF;
+  --logo-shadow:rgba(0,0,0,.04);--ring:rgba(255,108,55,.22);
+}
+:root[data-theme="dark"]{
+  --bg:#201B27;--bg2:#141118;--bg3:#2A2531;--bg-hover:#2A2531;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#EDEDED;--text2:#A5A0AD;--text3:#726D7A;
+  --brand:#FF6C37;--brand-hover:#FF8351;
+  --get:#2BD46B;--post:#E0A82E;--put:#5B9BF5;--patch:#C6A0F5;--delete:#F0796B;
+  --ok:#2BD46B;
+  --j-key:#FF9E6B;--j-str:#2BD46B;--j-num:#5B9BF5;--j-bool:#C6A0F5;
+  --logo-shadow:rgba(0,0,0,.3);--ring:rgba(255,108,55,.30);
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Figtree','Inter',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:20px;display:flex;justify-content:center}
+.hero-logo svg{height:54px;width:auto;filter:drop-shadow(0 2px 6px var(--logo-shadow))}
+.hero h1{font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1.04;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:130px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* Request builder signature */
+.rb{border:1px solid var(--border);border-radius:8px;background:var(--bg);overflow:hidden}
+.rb-bar{display:flex;gap:8px;padding:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.rb-method{position:relative;flex-shrink:0}
+.rb-method select{appearance:none;-webkit-appearance:none;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;padding:0 30px 0 12px;height:38px;border:1px solid var(--border-strong);border-radius:6px;background:var(--bg);color:var(--mcol,var(--get));cursor:pointer;outline:none}
+.rb-method::after{content:'▾';position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none;font-size:11px}
+.rb-url{flex:1;min-width:220px;height:38px;padding:0 12px;border:1px solid var(--border-strong);border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text);background:var(--bg);outline:none}
+.rb-url:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+.rb-send{height:38px;padding:0 24px;background:var(--brand);color:#fff;border:none;border-radius:6px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .12s;flex-shrink:0}
+.rb-send:hover{background:var(--brand-hover)}
+.rb-send:disabled{opacity:.6;cursor:default}
+.rb-tabs{display:flex;gap:2px;padding:0 12px;border-bottom:1px solid var(--border)}
+.rb-tab{font-size:12.5px;font-weight:500;color:var(--text3);padding:10px 12px;border-bottom:2px solid transparent;cursor:default}
+.rb-tab.active{color:var(--text);border-bottom-color:var(--brand)}
+.rb-resp-head{display:flex;align-items:center;gap:14px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap;min-height:42px}
+.rb-resp-title{font-size:12px;font-weight:600;color:var(--text2)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600}
+.status-pill .sd{width:7px;height:7px;border-radius:50%;background:currentColor}
+.status-ok{color:var(--ok)}
+.status-none{color:var(--text3)}
+.rb-meta{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text3);display:flex;gap:14px;margin-left:auto}
+.rb-meta b{color:var(--text2);font-weight:500}
+.rb-body{padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.7;color:var(--text);white-space:pre;overflow-x:auto;min-height:150px;max-height:320px;overflow-y:auto}
+.rb-hint{color:var(--text3);font-style:normal}
+.j-key{color:var(--j-key)}.j-str{color:var(--j-str)}.j-num{color:var(--j-num)}.j-bool{color:var(--j-bool)}.j-p{color:var(--text3)}
+.fade{animation:fade .25s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:6px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--brand);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.method-row{display:flex;gap:8px;flex-wrap:wrap}
+.mtag{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;padding:3px 8px;border-radius:4px;border:1px solid var(--border-strong)}
+.mtag.get{color:var(--get)}.mtag.post{color:var(--post)}.mtag.put{color:var(--put)}.mtag.patch{color:var(--patch)}.mtag.delete{color:var(--delete)}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:6px;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--get)}
+.gr-heading.dont{color:var(--delete)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--get)}
+.dont .gr-item::before{background:var(--delete)}
+.gr-item code{font-family:'IBM Plex Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'IBM Plex Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="wrap">
-  <div class="hero">
-    <div class="logo-wrap">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <circle cx="18" cy="18" r="14" fill="rgba(255,108,55,0.15)"/>
-        <path d="M11 18C11 14.13 14.13 11 18 11C21.87 11 25 14.13 25 18" stroke="#FF6C37" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <circle cx="18" cy="18" r="3" fill="#FF6C37"/>
-        <line x1="18" y1="21" x2="18" y2="26" stroke="#FF6C37" stroke-width="2" stroke-linecap="round"/>
-        <line x1="15" y1="24" x2="21" y2="24" stroke="#FF6C37" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Postman"><path d="m18.0379.13033c-3.1388-.403077-6.3266.133689-9.16038 1.54242-2.83373 1.40873-5.18608 3.62614-6.75956 6.37182-1.573474 2.74573-2.297402 5.89633-2.0802323 9.05343.2171693 3.1571 1.3656823 6.179 3.3002923 8.6833 1.93461 2.5044 4.56843 4.3788 7.56838 5.3863 2.9999 1.0074 6.2312 1.1026 9.2853.2736 3.054-.8291 5.7937-2.5452 7.8724-4.9313 2.0787-2.3862 3.4031-5.3351 3.8058-8.474.5399-4.2086-.614-8.45933-3.208-11.81721-2.5939-3.35789-6.4154-5.547909-10.624-6.08836z" fill="#ff6c37"/><g fill="#fff"><path d="m11.5675 17.0112c.0062.0127.0167.0228.0295.0286.0128.0059.0273.0071.0409.0034l2.56-.552-1.0768-1.0912-1.5344 1.5344c-.0121.0082-.0207.0205-.0243.0347-.0035.0142-.0017.0292.0051.0421z"/><path d="m23.5547 6.01921c-.3567.00036-.7089.08074-1.0305.23521-.3215.15447-.6044.3791-.8277.65736-.2232.27825-.3813.60304-.4624.95045s-.0833.70859-.0064 1.05696.231.67505.4509.95599c.2199.28092.5.50902.8197.66732.3197.1584.6708.243 1.0275.2477s.71-.0707 1.0337-.2206l-1.6224-1.62239c-.0186-.01858-.0334-.04065-.0435-.06495-.01-.0243-.0152-.05035-.0152-.07665 0-.02631.0052-.05236.0152-.07666.0101-.0243.0249-.04637.0435-.06494l2.12-2.1184c-.4257-.34232-.9561-.52814-1.5024-.5264z"/><path d="m25.3483 6.8208-1.9872 1.9792 1.5584 1.5584c.1148-.0806.2219-.1717.32-.272.4271-.43.6757-1.00568.6959-1.61142.0202-.60575-.1896-1.1967-.5871-1.65418z"/><path d="m21.3723 10.4736h-.0352c-.0413-.0003-.0826.0034-.1232.0112h-.0144c-.0446.0096-.0884.0224-.1312.0384l-.0336.016c-.0322.0134-.0632.0295-.0928.048l-.0352.0224c-.0387.0267-.0751.0567-.1088.0896l-5.8928 5.8944.7296.7296 6.24-5.4768c.0353-.0309.0674-.0652.096-.1024l.0272-.0352c.0213-.0312.0406-.0638.0576-.0976.0096-.0192.0176-.0384.0256-.0576.0108-.0255.0198-.0517.0272-.0784 0-.0192.0112-.0384.016-.0576.0079-.0396.0132-.0797.016-.12v-.0528c0-.0288 0-.0576 0-.0864s0-.0384-.008-.0576c-.0296-.151-.1033-.2898-.2118-.3989s-.247-.1835-.3978-.2139h-.0304c-.0396-.0076-.0797-.0124-.12-.0144z"/><path d="m13.3963 15.1168 1.2096 1.2032 5.9088-5.9088c.1923-.188.4428-.3048.7104-.3312-1.0448-.8-2.184-.5904-7.8288 5.0368z"/><path d="m22.2075 12.0768-.072.0704-6.24 5.4752 1.0608 1.0592c2.6304-2.488 4.9648-4.8576 5.2512-6.6048z"/><path d="m6.64277 24.904c.00324.0113.0099.0214.01905.0288.00916.0075.02038.0119.03215.0128l2.71999.1872-1.5248-1.5248-1.23359 1.232c-.008.0083-.01345.0188-.01572.0301-.00226.0114-.00125.0231.00292.0339z"/><path d="m8.17394 23.3248 1.60799 1.608c.01909.0204.04463.0336.07231.0374s.05582-.0021.07969-.0166c.02493-.0124.04478-.033.05617-.0584.0114-.0254.0136-.054.00623-.0808l-.2704-1.1552c-.01751-.0749-.00955-.1535.02262-.2233.03216-.0698.0867-.1269.15498-.1623 2.81917-1.4128 5.09277-2.8672 6.76157-4.32l-1.12-1.12-2.4.5168z"/><path d="m15.2011 17.4944-.6016-.6016-.832.8304c-.006.0072-.0093.0163-.0093.0256 0 .0094.0033.0184.0093.0256.0039.0085.0107.0154.0193.0192.0085.0038.0181.0044.0271.0016z"/></g><path d="m25.4043 8.1104c-.0082-.02518-.0217-.04831-.0396-.06784-.0178-.01953-.0397-.03501-.0641-.04539-.0243-.01039-.0506-.01544-.0771-.01481-.0265.00062-.0525.00691-.0764.01843-.0238.01152-.0449.02801-.0619.04836-.0169.02035-.0293.04409-.0363.06963s-.0085.05229-.0043.07844.0139.0511.0285.07318c.0478.09622.0668.20422.0546.31097s-.0551.20768-.1234.29063c-.0224.0271-.0367.06001-.0411.09492-.0045.0349.0011.07035.016.10221s.0386.05883.0683.07775c.0296.01892.0641.02902.0992.02912.0272-.00029.054-.00645.0786-.01805.0246-.01159.0463-.02836.0638-.04915.1133-.13769.1844-.30513.2048-.48222s-.0107-.35632-.0896-.51618z" fill="#ff6c37"/></svg>
     </div>
-    <div class="hero-text"><h1>Postman</h1><p>The world's most popular API platform</p></div>
-    <div class="hero-badge">API PLATFORM</div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-groups">
-      <div><div class="color-group-label">Brand</div><div class="color-row">
-        <div class="swatch" onclick="navigator.clipboard.writeText('#FF6C37')"><div class="swatch-block" style="background:#FF6C37"></div><span>#FF6C37</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#FF9068')"><div class="swatch-block" style="background:#FF9068"></div><span>#FF9068</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#CC4F1E')"><div class="swatch-block" style="background:#CC4F1E"></div><span>#CC4F1E</span></div>
-      </div></div>
-      <div><div class="color-group-label">HTTP Methods</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#27AE60"></div><span>GET</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#F2994A"></div><span>POST</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#2F80ED"></div><span>PUT</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#9B51E0"></div><span>PATCH</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#EB5757"></div><span>DELETE</span></div>
-      </div></div>
-      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#0C0D0E;border:1px solid #2E3135"></div><span>#0C0D0E</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#161718"></div><span>#161718</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#1E2022"></div><span>#1E2022</span></div>
-      </div></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-rows">
-      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">API Platform</span></div>
-      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Collections</span></div>
-      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Build, test, and document APIs collaboratively</span></div>
-      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">https://api.example.com/v1/users/{{userId}}</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="comp-grid">
-
-      <div class="comp-card" style="grid-column:span 2">
-        <h3>Request Builder</h3>
-        <div class="request-builder">
-          <div class="req-header">
-            <span class="method m-post">POST</span>
-            <div class="req-url">https://api.example.com/v1/users</div>
-            <button class="send-btn">Send</button>
-          </div>
-          <div class="req-tabs">
-            <div class="req-tab">Params</div>
-            <div class="req-tab">Auth</div>
-            <div class="req-tab">Headers</div>
-            <div class="req-tab active">Body</div>
-            <div class="req-tab">Scripts</div>
-          </div>
-          <div class="req-body">
-            {<br>
-            &nbsp;&nbsp;<span class="j-key">"name"</span>: <span class="j-str">"Ana Torres"</span>,<br>
-            &nbsp;&nbsp;<span class="j-key">"email"</span>: <span class="j-str">"ana@example.com"</span>,<br>
-            &nbsp;&nbsp;<span class="j-key">"role"</span>: <span class="j-str">"admin"</span>,<br>
-            &nbsp;&nbsp;<span class="j-key">"active"</span>: <span class="j-bool">true</span><br>
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <h3>Response Viewer</h3>
-        <div class="response-header">
-          <span class="status-badge s-200">200 OK</span>
-          <span class="res-meta">142 ms · 1.24 KB</span>
-        </div>
-        <div class="res-body">
-          {<br>
-          &nbsp;&nbsp;<span class="j-key">"id"</span>: <span class="j-str">"usr_01H9K2"</span>,<br>
-          &nbsp;&nbsp;<span class="j-key">"name"</span>: <span class="j-str">"Ana Torres"</span>,<br>
-          &nbsp;&nbsp;<span class="j-key">"email"</span>: <span class="j-str">"ana@example.com"</span>,<br>
-          &nbsp;&nbsp;<span class="j-key">"role"</span>: <span class="j-str">"admin"</span>,<br>
-          &nbsp;&nbsp;<span class="j-key">"created_at"</span>: <span class="j-str">"2024-06-22T09:14:00Z"</span><br>
-          }
-        </div>
-        <div style="display:flex;gap:8px;margin-top:10px">
-          <span class="status-badge s-404" style="font-size:11px">404 Not Found</span>
-          <span class="status-badge s-500" style="font-size:11px">500 Server Error</span>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <h3>Collection Sidebar</h3>
-        <div class="collection-list">
-          <div class="coll-folder">📁 Users API</div>
-          <div class="coll-req active"><span class="method m-get">GET</span><span class="coll-req-name">List Users</span></div>
-          <div class="coll-req"><span class="method m-post">POST</span><span class="coll-req-name">Create User</span></div>
-          <div class="coll-req"><span class="method m-put">PUT</span><span class="coll-req-name">Update User</span></div>
-          <div class="coll-req"><span class="method m-delete">DELETE</span><span class="coll-req-name">Delete User</span></div>
-          <div class="coll-folder" style="margin-top:6px">📁 Auth API</div>
-          <div class="coll-req"><span class="method m-post">POST</span><span class="coll-req-name">Login</span></div>
-          <div class="coll-req"><span class="method m-patch">PATCH</span><span class="coll-req-name">Refresh Token</span></div>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <h3>Environment Variables</h3>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <span style="font-size:12px;font-weight:600">Production</span>
-          <span style="font-size:11px;color:var(--success)">● Active</span>
-        </div>
-        <div class="env-row"><span class="env-key">baseUrl</span><span class="env-val">https://api.example.com</span></div>
-        <div class="env-row"><span class="env-key">apiKey</span><span class="env-val">••••••••••••4a2f</span></div>
-        <div class="env-row"><span class="env-key">userId</span><span class="env-val">usr_01H9K2M3</span></div>
-        <div class="env-row"><span class="env-key">authToken</span><span class="env-val">••••••••••••x9r1</span></div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-bars">
-      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
-      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
-      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
-      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrail-grid">
-      <div class="guardrail-card do"><h4>DO</h4><ul>
-        <li>Color-code HTTP methods consistently across all views</li>
-        <li>Use orange only for the primary Send/submit action</li>
-        <li>Show status codes prominently — they're the key signal</li>
-        <li>Use mono for URLs, headers, and request/response bodies</li>
-        <li>Show response time on every request</li>
-      </ul></div>
-      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
-        <li>Don't use the same color for different HTTP methods</li>
-        <li>Don't hide the response status code</li>
-        <li>Don't wrap URLs — keep on one line with scroll</li>
-        <li>Don't truncate JSON response bodies</li>
-        <li>Don't mix sans-serif and mono in the same code block</li>
-      </ul></div>
+    <h1>Postman</h1>
+    <p>The AI-native API platform — design, test, and ship APIs, all in one place.</p>
+    <div class="chips">
+      <span class="chip">Collections</span>
+      <span class="chip">Environments</span>
+      <span class="chip">Mock Servers</span>
+      <span class="chip">Monitors</span>
+      <span class="chip">Flows</span>
+      <span class="chip">Postbot AI</span>
     </div>
   </div>
 </div>
+
+<div class="wrap">
+
+  <!-- SIGNATURE: REQUEST BUILDER -->
+  <div class="section">
+    <div class="section-label">Signature — API Request Builder</div>
+    <div class="rb">
+      <div class="rb-bar">
+        <div class="rb-method">
+          <select id="rbMethod" onchange="onMethod()">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+          </select>
+        </div>
+        <input class="rb-url" id="rbUrl" value="https://api.getpostman.com/collections" spellcheck="false">
+        <button class="rb-send" id="rbSend" onclick="send()">Send</button>
+      </div>
+      <div class="rb-tabs">
+        <span class="rb-tab">Params</span>
+        <span class="rb-tab">Authorization</span>
+        <span class="rb-tab">Headers <span style="color:var(--text3)">(2)</span></span>
+        <span class="rb-tab active">Body</span>
+      </div>
+      <div class="rb-resp-head">
+        <span class="rb-resp-title">Response</span>
+        <span class="status-pill status-none" id="rbStatus"><span class="sd"></span>—</span>
+        <span class="rb-meta" id="rbMeta"><span>Time <b>—</b></span><span>Size <b>—</b></span></span>
+      </div>
+      <div class="rb-body" id="rbBody"><span class="rb-hint">// Hit Send to run the request</span></div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FF6C37')"><div class="swatch-color" style="background:#FF6C37"></div><div class="swatch-info"><span class="swatch-name">orange</span><span class="swatch-hex">#FF6C37</span><span class="swatch-use">Brand, Send, mark</span></div></div>
+      <div class="swatch" onclick="copyHex('#EF5B25')"><div class="swatch-color" style="background:#EF5B25"></div><div class="swatch-info"><span class="swatch-name">orange-hover</span><span class="swatch-hex">#EF5B25</span><span class="swatch-use">Hover/pressed</span></div></div>
+      <div class="swatch" onclick="copyHex('#212121')"><div class="swatch-color" style="background:#212121"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#212121</span><span class="swatch-use">Headings, body</span></div></div>
+      <div class="swatch" onclick="copyHex('#140B1E')"><div class="swatch-color" style="background:#140B1E"></div><div class="swatch-info"><span class="swatch-name">dark-plum</span><span class="swatch-hex">#140B1E</span><span class="swatch-use">Deep dark surface</span></div></div>
+    </div>
+
+    <div class="group-label">HTTP methods</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0CBB52')"><div class="swatch-color" style="background:#0CBB52"></div><div class="swatch-info"><span class="swatch-name">GET</span><span class="swatch-hex">#0CBB52</span><span class="swatch-use">Read</span></div></div>
+      <div class="swatch" onclick="copyHex('#B07800')"><div class="swatch-color" style="background:#B07800"></div><div class="swatch-info"><span class="swatch-name">POST</span><span class="swatch-hex">#B07800</span><span class="swatch-use">Create</span></div></div>
+      <div class="swatch" onclick="copyHex('#0265D2')"><div class="swatch-color" style="background:#0265D2"></div><div class="swatch-info"><span class="swatch-name">PUT</span><span class="swatch-hex">#0265D2</span><span class="swatch-use">Replace</span></div></div>
+      <div class="swatch" onclick="copyHex('#7C3FBF')"><div class="swatch-color" style="background:#7C3FBF"></div><div class="swatch-info"><span class="swatch-name">PATCH</span><span class="swatch-hex">#7C3FBF</span><span class="swatch-use">Update</span></div></div>
+      <div class="swatch" onclick="copyHex('#D92D20')"><div class="swatch-color" style="background:#D92D20"></div><div class="swatch-info"><span class="swatch-name">DELETE</span><span class="swatch-hex">#D92D20</span><span class="swatch-use">Remove</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#5C5C5C')"><div class="swatch-color" style="background:#5C5C5C"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#5C5C5C</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#E6E6E6')"><div class="swatch-color" style="background:#E6E6E6"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E6E6E6</span><span class="swatch-use">Borders</span></div></div>
+      <div class="swatch" onclick="copyHex('#EFEFEF')"><div class="swatch-color" style="background:#EFEFEF"></div><div class="swatch-info"><span class="swatch-name">fill</span><span class="swatch-hex">#EFEFEF</span><span class="swatch-use">Subtle fills</span></div></div>
+      <div class="swatch" onclick="copyHex('#F9F8F7')"><div class="swatch-color" style="background:#F9F8F7"></div><div class="swatch-info"><span class="swatch-name">off-white</span><span class="swatch-hex">#F9F8F7</span><span class="swatch-use">Page background</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Degular (≈ Figtree) · Inter · IBM Plex Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Figtree · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1">Postman</div><div class="spec-pills"><span class="spec-pill">54px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Figtree · 700</div></div><div class="type-sample display" style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1">The AI-native API Platform</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Figtree · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">Design, test, and ship APIs</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:17px">Build and collaborate on APIs, all in one place.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Send a request and inspect the response in seconds.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">IBM Plex Mono · 500</div></div><div class="type-sample" style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text2)">GET https://api.getpostman.com/collections</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Send</button>
+          <button class="btn btn-secondary">Import</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">View documentation →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Method tags</div>
+        <div class="method-row">
+          <span class="mtag get">GET</span>
+          <span class="mtag post">POST</span>
+          <span class="mtag put">PUT</span>
+          <span class="mtag patch">PATCH</span>
+          <span class="mtag delete">DELETE</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Request URL</div>
+        <input class="mono-input" value="{{baseUrl}}/collections/:collectionId" spellcheck="false">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><div class="radius-label">4px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use orange <code>#FF6C37</code> for the Send button and primary CTAs — it is the brand</div>
+          <div class="gr-item">Color HTTP methods semantically: GET green, POST amber, PUT blue, PATCH purple, DELETE red</div>
+          <div class="gr-item">Set URLs, JSON, and method labels in IBM Plex Mono — the payload is code</div>
+          <div class="gr-item">Set headings in Degular (≈ Figtree), UI in Inter</div>
+          <div class="gr-item">Show status + time + size on every response — the Postman readout</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Recolor the Postmanaut mark — it's fixed orange + white</div>
+          <div class="gr-item">Use a method's color for a different verb — GET is green, never orange</div>
+          <div class="gr-item">Set JSON or URLs in a sans — mono carries the payload</div>
+          <div class="gr-item">Render a response without a status pill — status is always shown</div>
+          <div class="gr-item">Fabricate responses — use realistic shapes and correct status codes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Request builder ---- */
+const METHOD_VAR={GET:'--get',POST:'--post',PUT:'--put',PATCH:'--patch',DELETE:'--delete'};
+const RESP={
+  GET:{code:200,text:'OK',time:142,size:'1.24 KB',url:'https://api.getpostman.com/collections',body:
+`{
+  "collections": [
+    { "id": "12ece9e1-7abf", "name": "User Service API", "requests": 24 },
+    { "id": "a8f3b2c0-91de", "name": "Payments API", "requests": 18 },
+    { "id": "5c7d1f44-33ab", "name": "Auth API", "requests": 11 }
+  ]
+}`},
+  POST:{code:201,text:'Created',time:206,size:'384 B',url:'https://api.getpostman.com/collections',body:
+`{
+  "collection": {
+    "id": "9d4e2a11-6f0c",
+    "uid": "9531234-9d4e2a11-6f0c",
+    "name": "Orders API"
+  }
+}`},
+  PUT:{code:200,text:'OK',time:174,size:'402 B',url:'https://api.getpostman.com/collections/12ece9e1-7abf',body:
+`{
+  "collection": {
+    "id": "12ece9e1-7abf",
+    "name": "User Service API v2",
+    "updated": true
+  }
+}`},
+  PATCH:{code:200,text:'OK',time:158,size:'268 B',url:'https://api.getpostman.com/collections/12ece9e1-7abf',body:
+`{
+  "collection": {
+    "id": "12ece9e1-7abf",
+    "description": "Patched via API"
+  }
+}`},
+  DELETE:{code:204,text:'No Content',time:96,size:'0 B',url:'https://api.getpostman.com/collections/12ece9e1-7abf',body:'// 204 No Content — collection deleted'}
+};
+const sel=document.getElementById('rbMethod');
+const url=document.getElementById('rbUrl');
+const sendBtn=document.getElementById('rbSend');
+const statusEl=document.getElementById('rbStatus');
+const metaEl=document.getElementById('rbMeta');
+const bodyEl=document.getElementById('rbBody');
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function hl(json){
+  return esc(json).replace(/("(?:\\.|[^"\\])*")(\s*:)|("(?:\\.|[^"\\])*")|(-?\d+\.?\d*)|(\btrue\b|\bfalse\b|\bnull\b)/g,
+    (m,key,colon,str,num,bool)=>{
+      if(key)return '<span class="j-key">'+key+'</span>'+colon;
+      if(str)return '<span class="j-str">'+str+'</span>';
+      if(num)return '<span class="j-num">'+num+'</span>';
+      if(bool)return '<span class="j-bool">'+bool+'</span>';
+      return m;
+    });
+}
+function onMethod(){
+  const m=sel.value;
+  sel.style.setProperty('--mcol','var('+METHOD_VAR[m]+')');
+  url.value=RESP[m].url;
+  statusEl.className='status-pill status-none';statusEl.innerHTML='<span class="sd"></span>—';
+  metaEl.innerHTML='<span>Time <b>—</b></span><span>Size <b>—</b></span>';
+  bodyEl.innerHTML='<span class="rb-hint">// Hit Send to run the '+m+' request</span>';
+}
+function send(){
+  const m=sel.value,r=RESP[m];
+  sendBtn.disabled=true;sendBtn.textContent='Sending…';
+  bodyEl.innerHTML='<span class="rb-hint">// Sending '+m+' '+esc(url.value)+' …</span>';
+  setTimeout(()=>{
+    const ok=r.code<300;
+    statusEl.className='status-pill '+(ok?'status-ok':'status-none');
+    statusEl.innerHTML='<span class="sd"></span>'+r.code+' '+r.text;
+    metaEl.innerHTML='<span>Time <b>'+r.time+' ms</b></span><span>Size <b>'+r.size+'</b></span>';
+    bodyEl.innerHTML='<span class="fade">'+(m==='DELETE'?'<span class="j-p">'+esc(r.body)+'</span>':hl(r.body))+'</span>';
+    sendBtn.disabled=false;sendBtn.textContent='Send';
+    toast(r.code+' '+r.text+' · '+r.time+' ms');
+  },560);
+}
+onMethod();
+</script>
 </body>
 </html>
+</content>
