@@ -1,174 +1,119 @@
 # Firebase Design System
 
 ## Overview
-Firebase is Google's app development platform — real-time database, auth, hosting, and more. The design language uses a warm amber/orange flame that signals energy and speed. It's approachable and colorful compared to most developer tools, reflecting its appeal to indie devs and teams alike.
+
+Firebase is Google's app development platform — "make your app the best it can be with Firebase and generative AI." The identity is anchored by the flame mark: a warm gradient of yellow → orange → red that signals energy and speed, paired with Google's neutral grays and Google Blue. It's friendlier and more colorful than most developer tools, and it sits firmly inside the wider Google / Material design language.
 
 **Brand personality:** Fast, warm, full-stack, approachable, Google-backed.
+
+**Positioning (live copy):** "Google's mobile and web app development platform that helps developers build apps and games that users will love."
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--fb-amber` | `#FFCA28` | Primary brand, highlights |
-| `--fb-orange` | `#FF6F00` | CTA buttons, hover states |
-| `--fb-orange-light` | `#FFA000` | Mid-tone accent |
-| `--fb-red` | `#DD2C00` | Danger, delete actions |
+Firebase is **light-first** on the marketing surface (white and `#ECEFF1` on `#202124` text) with a Google-gray dark theme. The flame is the identity; Google Blue is the interactive/secondary color.
 
-### Surface Palette (Dark)
+### Primary — the flame
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#111827` | Main background |
-| `--bg-surface` | `#1A2332` | Cards, panels |
-| `--bg-elevated` | `#222D40` | Dropdowns, modals |
-| `--border` | `#2E3F58` | Dividers, borders |
+| `--fb-amber` | `#FFCA28` | Primary brand highlight, flame core |
+| `--fb-yellow` | `#FFC400` | Flame top, warm accent |
+| `--fb-orange` | `#FF9100` | Flame mid, CTA hover |
+| `--fb-orange-deep` | `#F57C00` | Deep orange, emphasis |
+| `--fb-coral` | `#FF8A65` | Soft coral accent, illustration |
+| `--fb-red` | `#DD2C00` | Flame base, danger, delete |
+
+### Secondary — Google Blue
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--g-blue` | `#1A73E8` | Links, interactive, primary buttons |
+| `--g-blue-bright` | `#4285F4` | Focus, selected, accent |
+| `--g-blue-light` | `#039BE5` | Info, secondary highlight |
+
+### Surfaces — Light
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#FFFFFF` | Cards, panels |
+| `--bg2` | `#ECEFF1` | Page background (Blue Grey 50) |
+| `--bg3` | `#E1F3FC` | Selected / info fill |
+| `--border` | `#CFD8DC` | Borders, dividers |
+
+### Surfaces — Dark (Google grays)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#292A2D` | Cards, panels |
+| `--bg2` | `#202124` | Page background (Google dark) |
+| `--bg3` | `#35363A` | Elevated, hover |
+| `--border` | `#3C4043` | Borders, dividers |
 
 ### Text
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#F9FAFB` | Headings, body |
-| `--text-secondary` | `#9CA3AF` | Labels, captions |
-| `--text-muted` | `#6B7280` | Placeholders, disabled |
-| `--text-amber` | `#FFCA28` | Links, highlighted values |
-
-### Semantic
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--success` | `#34D399` | Rules matched, deploy OK |
-| `--warning` | `#FFCA28` | Quota approaching, slow |
-| `--danger` | `#DD2C00` | Security rule violation, error |
-| `--info` | `#60A5FA` | Informational |
+| Token | Hex (light) | Hex (dark) | Usage |
+|-------|-------------|------------|-------|
+| `--text` | `#202124` | `#E8EAED` | Headings, body |
+| `--text2` | `#5F6368` | `#9AA0A6` | Labels, secondary |
+| `--text3` | `#80868B` | `#5F6368` | Muted, placeholder |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Google Sans` (fallback: `Inter`, Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+| Role | Font | Notes |
+|------|------|-------|
+| Display / headings | **Google Sans** (≈ DM Sans) | Google Sans is Google-proprietary; DM Sans is the CORS-safe free substitute |
+| UI / body | **Roboto** | Firebase's actual body font — Google Fonts |
+| Mono / code | **Roboto Mono** | Console values, field types, code — Google Fonts |
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 36px | 700 | Hero, product pages |
-| Heading 1 | 26px | 600 | Page titles |
-| Heading 2 | 20px | 600 | Section headers |
-| Body | 14px | 400 | Default content |
-| Small | 12px | 400 | Metadata, timestamps |
-| Mono | 13px | 400 | Security rules, JSON, paths |
-
----
-
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
-
----
-
-## Border Radius
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Tags, small badges |
-| `--radius-md` | `8px` | Buttons, inputs |
-| `--radius-lg` | `12px` | Cards, panels |
-| `--radius-xl` | `16px` | Modals |
-
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
---shadow-md: 0 4px 16px rgba(0,0,0,0.5);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
---shadow-amber: 0 0 0 3px rgba(255,202,40,0.25);
-```
+### Scale
+| Token | Size | Weight | Sample |
+|-------|------|--------|--------|
+| `display-2xl` | 52px | 700 | Firebase |
+| `display-xl` | 32px | 600 | Build apps users love |
+| `display-md` | 22px | 500 | Easy to integrate on iOS, Android, and the Web |
+| `text-lg` | 16px | 400 | Body / lead copy |
+| `text-sm` | 13px | 400 | UI copy, table cells |
+| `ui-mono` | 12px | 400 | `users/uid_8f3a/displayName` |
 
 ---
 
 ## Components
 
-### Buttons
-```
-Primary:  bg #FF6F00, text white, hover #E65100, radius 8px, height 40px, font-weight 500
-Amber:    bg #FFCA28, text #111827, hover #FFB300 — for featured/hero CTAs only
-Ghost:    bg transparent, border #2E3F58, text #9CA3AF, hover border #FFA000
-```
+- **Buttons:** Google Blue `#1A73E8` primary (white text, safe in both themes), tonal secondary, text button. Radius `4px` (Material).
+- **Product cards:** icon + title + description — the Firebase console product grid.
+- **Data browser:** the Cloud Firestore three-panel viewer — collections → documents → fields.
+- **Field-type chips:** `string`, `number`, `boolean`, `timestamp`, `map`, `array` in Roboto Mono.
+- **Inputs:** 1px border, `#1A73E8` focus ring at 2px.
 
-### Inputs
-```
-Background: #1A2332
-Border:     #2E3F58 default, #FFCA28 focused
-Text:       #F9FAFB
-Placeholder: #6B7280
-Radius:     8px, height: 40px
-Font:       JetBrains Mono for document paths, security rules
-```
-
-### Product Badges (Firebase services)
-```
-Firestore:   bg rgba(255,202,40,0.12), text #FFCA28
-Auth:        bg rgba(66,133,244,0.12), text #4285F4
-Hosting:     bg rgba(52,211,153,0.12), text #34D399
-Functions:   bg rgba(255,111,0,0.12), text #FF6F00
-Storage:     bg rgba(96,165,250,0.12), text #60A5FA
-```
-
-### Security Rule Block
-```
-Background: #0D1117
-Border:     1px solid #2E3F58
-Radius:     8px
-Font:       JetBrains Mono 12px
-Keyword:    #FFCA28
-String:     #34D399
-Comment:    #6B7280
-```
+### Radius & elevation
+| Token | Value |
+|-------|-------|
+| `radius-sm` | 4px |
+| `radius-md` | 8px |
+| `radius-lg` | 12px |
+| `shadow-card` | `0 1px 2px rgba(60,64,67,.1), 0 2px 6px rgba(60,64,67,.08)` |
 
 ---
 
-## Layout
+## Signature component
 
-- Console max-width: 1280px
-- Left nav: 220px (product switcher)
-- Content padding: 24px
-- Data tables for Firestore documents
+**Cloud Firestore data explorer.** The Firebase console's most recognizable view: three panels — collections on the left, documents in the middle, the selected document's fields on the right. Click a collection to load its documents; click a document to inspect its fields with real Firestore field types. Lists are capped at 20 rows.
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1024px |
-| Desktop | > 1024px |
+Seen with no branding, the collection → document → field panel with `string` / `timestamp` / `map` type chips is unmistakably Firestore.
 
 ---
 
-## Tone & Guardrails
+## Guardrails
 
-### DO
-- Use the flame gradient (amber → orange) in hero/marketing contexts only
-- Color-code Firebase products consistently (Firestore=amber, Auth=blue, etc.)
-- Use monospace for security rules, document paths, and JSON data
-- Show quota usage with visual progress bars — Firebase devs monitor limits closely
-- Use amber `#FFCA28` as a warning color — it's both brand and semantic here
+**DO**
+- Keep the flame a warm gradient (yellow `#FFC400` → orange `#FF9100` → red `#DD2C00`) — that trio is the identity.
+- Use Google Blue `#1A73E8` for interactive elements; reserve the flame colors for brand and warm accents.
+- Sit inside Material: 4px base radius, Google grays, Roboto for UI.
+- Use `#202124` (not pure black) for text and dark surfaces.
+- Pair every field with its type chip in the data browser.
 
-### DON'T
-- Don't use the amber/orange as a generic background fill — it's an accent
-- Don't mix multiple product accent colors in a single non-console view
-- Don't use sharp corners — Firebase is more approachable than enterprise infra tools
-- Don't use the red (#DD2C00) for anything except delete and critical security errors
-- Don't use small font sizes for security rules — they're complex enough to need breathing room
+**DON'T**
+- Don't recolor the flame or flatten it to a single hue — it's a three-color gradient mark.
+- Don't use the flame red `#DD2C00` for links — links are Google Blue.
+- Don't set display headings in Roboto Mono or the body font — Google Sans / DM Sans owns headings.
+- Don't use pure black `#000` — Google's neutral is `#202124`.
+- Don't fabricate metrics — use real Firebase product names and field types.
