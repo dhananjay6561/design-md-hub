@@ -1,292 +1,430 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Amplitude – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@font-face{font-family:Gellix;src:url(https://fonts.cdnfonts.com/s/29655/GellixMedium.woff) format("woff");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Gellix;src:url(https://fonts.cdnfonts.com/s/29655/GellixSemiBold.woff) format("woff");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:Gellix;src:url(https://fonts.cdnfonts.com/s/29655/GellixBold.woff) format("woff");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:Gellix;src:url(https://fonts.cdnfonts.com/s/29655/GellixExtraBold.woff) format("woff");font-weight:800;font-style:normal;font-display:swap}
 
-:root[data-theme="dark"] {
-  --bg: #0D0F1A;
-  --surface: #161929;
-  --elevated: #1F2340;
-  --border: #2A3058;
-  --primary: #1C57EB;
-  --primary-hover: #1648C9;
-  --primary-light: #5B8AF5;
-  --success: #00BFA5;
-  --warning: #F5A623;
-  --danger: #E03E3E;
-  --c2: #9B59F5;
-  --c3: #00BFA5;
-  --c4: #F5A623;
-  --text: #EEF0FA;
-  --text-2: #8B93C4;
-  --text-3: #4A5280;
-  --toggle-bg: #1F2340;
-  --toggle-text: #EEF0FA;
-  --toggle-border: #2A3058;
+:root{
+  --blue:#1E61F0;--blue-deep:#0052F2;--blue-light:#3D6BFF;--navy:#001A4F;
+  --purple:#A273FF;--purple-deep:#7C3AED;
 }
-:root[data-theme="light"] {
-  --bg: #F4F5FF;
-  --surface: #FFFFFF;
-  --elevated: #E0E5FF;
-  --border: #C8D0F0;
-  --primary: #1C57EB;
-  --primary-hover: #1648C9;
-  --primary-light: #5B8AF5;
-  --success: #008E78;
-  --warning: #B07000;
-  --danger: #C02020;
-  --c2: #7B30D5;
-  --c3: #008E78;
-  --c4: #B07000;
-  --text: #0D0F1A;
-  --text-2: #2A3060;
-  --text-3: #8B93C4;
-  --toggle-bg: #E0E5FF;
-  --toggle-text: #0D0F1A;
-  --toggle-border: #C8D0F0;
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F5F4F0;--bg3:#EDEBE3;--bg-hover:#F7F6F2;
+  --border:#E4E2DB;--border-strong:#D6D3C9;
+  --text:#0C0C0E;--text2:#50565B;--text3:#868D95;
+  --brand:#1E61F0;--brand-hover:#0052F2;
+  --c-blue:#1E61F0;--c-purple:#7C3AED;--c-green:#00875A;--c-amber:#B26A00;--c-red:#D64545;
+  --logo:#0C0C0E;--ring:rgba(30,97,240,.20);
+  --grid:#EBE9E1;--area1:rgba(30,97,240,.22);--area2:rgba(162,115,255,.02);
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary-light); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary-light); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.type-sample { flex: 1; }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Metric card */
-.metric-num { font-size: 36px; font-weight: 700; color: var(--text); }
-.metric-label { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
-.metric-trend { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
-.trend-up { color: var(--success); font-size: 13px; font-weight: 600; }
-.trend-down { color: var(--danger); font-size: 13px; font-weight: 600; }
-.trend-period { font-size: 11px; color: var(--text-3); }
-/* Sparkline (SVG chart) */
-.sparkline-wrap { margin-top: 14px; }
-/* Funnel */
-.funnel-step { margin-bottom: 10px; }
-.funnel-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
-.funnel-name { color: var(--text); }
-.funnel-pct { color: var(--primary-light); font-weight: 600; }
-.funnel-track { background: var(--elevated); border-radius: 3px; height: 10px; overflow: hidden; }
-.funnel-fill { height: 100%; border-radius: 3px; }
-/* Event prop tag */
-.prop-tag { display: inline-block; background: rgba(28,87,235,0.10); border: 1px solid rgba(28,87,235,0.28); color: var(--primary-light); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin: 3px; }
-.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary-light); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--border); border-radius: 3px; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { padding: 0; }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 16px; position: relative; }
-.guardrail-card li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; }
-.guardrail-card.do li::before { background: var(--success); }
-.guardrail-card.dont li::before { background: var(--danger); }
+:root[data-theme="dark"]{
+  --bg:#14161F;--bg2:#0B0D14;--bg3:#1E2130;--bg-hover:#1E2130;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#F2F4F8;--text2:#A9AEB6;--text3:#6D7480;
+  --brand:#3D6BFF;--brand-hover:#6980FF;
+  --c-blue:#6980FF;--c-purple:#B991FF;--c-green:#34D399;--c-amber:#FBBF24;--c-red:#F87171;
+  --logo:#FFFFFF;--ring:rgba(61,107,255,.30);
+  --grid:rgba(255,255,255,.06);--area1:rgba(61,107,255,.30);--area2:rgba(185,145,255,.02);
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Gellix','IBM Plex Sans',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:44px;width:auto;color:var(--logo)}
+.hero h1{font-size:54px;font-weight:700;letter-spacing:-.03em;line-height:1.02;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:135px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* Chart signature */
+.chart-box{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden}
+.chart-head{padding:16px 18px;border-bottom:1px solid var(--border)}
+.chart-events{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.ev{font-family:inherit;font-size:12.5px;font-weight:500;padding:5px 12px;border-radius:9999px;border:1px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;transition:.12s;display:inline-flex;align-items:center;gap:6px}
+.ev:hover{border-color:var(--brand);color:var(--brand)}
+.ev.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.ev-dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.9}
+.chart-stat{display:flex;align-items:flex-end;gap:14px}
+.chart-num{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1;color:var(--text)}
+.chart-delta{font-size:13px;font-weight:600;font-family:'IBM Plex Mono',monospace;padding-bottom:3px}
+.chart-delta.up{color:var(--c-green)}
+.chart-delta.down{color:var(--c-red)}
+.chart-sub{font-size:12px;color:var(--text3);padding-bottom:4px;margin-left:auto}
+.chart-body{padding:16px 8px 8px}
+.chart-svg{width:100%;height:auto;display:block}
+.chart-x{display:flex;justify-content:space-between;padding:2px 12px 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3)}
+.chart-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-top:1px solid var(--border);background:var(--bg2);flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden}
+.seg button{font-family:inherit;font-size:12px;font-weight:500;padding:5px 12px;background:transparent;color:var(--text2);border:none;cursor:pointer;border-right:1px solid var(--border-strong)}
+.seg button:last-child{border-right:none}
+.seg button.active{background:var(--brand);color:#fff}
+.foot-label{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--c-blue);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.b-blue{background:rgba(30,97,240,.12);color:var(--c-blue)}
+.b-purple{background:rgba(162,115,255,.16);color:var(--c-purple)}
+.b-green{background:rgba(0,135,90,.14);color:var(--c-green)}
+.b-amber{background:rgba(178,106,0,.16);color:var(--c-amber)}
+.b-red{background:rgba(214,69,69,.14);color:var(--c-red)}
+.b-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-green)}
+.gr-heading.dont{color:var(--c-red)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--c-green)}
+.dont .gr-item::before{background:var(--c-red)}
+.gr-item code{font-family:'IBM Plex Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'IBM Plex Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="hero">
-    <div>
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#0D0F1A"/>
-        <!-- Amplitude A mark: bold upward arrow/chart shape -->
-        <path d="M20 52 L36 20 L52 52" stroke="#1C57EB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <line x1="26" y1="42" x2="46" y2="42" stroke="#1C57EB" stroke-width="4" stroke-linecap="round"/>
-        <!-- chart bars hint -->
-        <rect x="28" y="46" width="4" height="6" rx="1" fill="#5B8AF5" opacity="0.7"/>
-        <rect x="34" y="43" width="4" height="9" rx="1" fill="#5B8AF5" opacity="0.7"/>
-        <rect x="40" y="40" width="4" height="12" rx="1" fill="#1C57EB"/>
-      </svg>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Amplitude"><path opacity="0.75" d="M16.7758 15.5243L14.0419 12.438H9.98006L4.50449 18.6191C4.34633 18.7924 4.28517 18.9374 4.26622 19.0557C4.25226 19.1428 4.25574 19.2492 4.29607 19.3822C4.3104 19.4294 4.32944 19.4799 4.35402 19.5341C4.4491 19.7444 4.55627 19.8579 4.65671 19.9231C4.75664 19.9881 4.90102 20.0383 5.1257 20.0383H13.598C13.4532 19.8597 13.3173 19.6337 13.2357 19.3566L13.2325 19.3457L13.2295 19.3348C13.1281 18.9698 13.1283 18.5692 13.2616 18.1744C13.378 17.8201 13.5963 17.4876 13.9131 17.2388L13.9327 17.2234L13.9528 17.2086C14.26 16.9833 14.613 16.8577 14.9791 16.8244L14.986 16.8237L16.407 16.7013L16.9905 15.3272L16.9971 15.3126C17.0104 15.2829 17.0247 15.2528 17.04 15.2227L16.7758 15.5243Z" fill="currentColor"></path><path d="M16.9148 14.3882L14.6647 11.8531V5.71287H15.7398C16.1798 5.71287 16.5298 5.35786 16.5298 4.92284C16.5298 4.48783 16.1748 4.13281 15.7398 4.13281H8.2645C7.82448 4.13281 7.47447 4.48783 7.47447 4.92284C7.47447 5.35786 7.82948 5.71287 8.2645 5.71287H9.34954V11.8581L3.60932 18.3334C3.1193 18.8784 3.0193 19.4884 3.31931 20.1384C3.61432 20.7935 4.12434 21.1285 4.83437 21.1285H12.8447C13.2847 21.1285 13.6347 20.7735 13.6347 20.3384C13.6347 19.9034 13.2797 19.5484 12.8447 19.5484H4.82937C4.82937 19.5484 4.79937 19.5484 4.78437 19.5484C4.77437 19.5334 4.76937 19.5184 4.75437 19.4934C4.74937 19.4784 4.74437 19.4634 4.73937 19.4534C4.74937 19.4384 4.76437 19.4184 4.78937 19.3934L10.7396 12.6881C10.8696 12.5431 10.9396 12.3581 10.9396 12.1631V5.71287H13.0847V12.1531C13.0847 12.3481 13.1547 12.5331 13.2847 12.6781L15.7298 15.4382C16.0198 15.7633 16.5198 15.7983 16.8498 15.5032C17.1748 15.2132 17.2048 14.7132 16.9148 14.3832V14.3882Z" fill="currentColor"></path><path d="M22.9851 18.9284C23.0101 18.8384 23.0101 18.7434 22.9751 18.6484C22.9401 18.5484 22.8901 18.4684 22.8201 18.4184C22.7501 18.3634 22.6551 18.3284 22.5451 18.3184L20.225 18.1184L19.2949 15.9283C19.2549 15.8283 19.1899 15.7533 19.1149 15.7033C18.9649 15.6033 18.7049 15.6033 18.5499 15.7033C18.4699 15.7533 18.4099 15.8283 18.3649 15.9283L17.4349 18.1184L15.1148 18.3184C15.0048 18.3284 14.9148 18.3634 14.8398 18.4184C14.7698 18.4734 14.7147 18.5534 14.6847 18.6484C14.6497 18.7484 14.6497 18.8434 14.6747 18.9334C14.6997 19.0184 14.7598 19.1034 14.8498 19.1834L16.6048 20.7085L16.0748 22.9985C16.0548 23.1085 16.0598 23.2085 16.0898 23.2985C16.1248 23.3886 16.1848 23.4636 16.2748 23.5336C16.3598 23.5986 16.4498 23.6336 16.5398 23.6386C16.6348 23.6436 16.7148 23.6186 16.8048 23.5636L18.8299 22.3335L20.85 23.5586C20.945 23.6136 21.035 23.6386 21.12 23.6336C21.21 23.6286 21.3 23.5936 21.385 23.5236C21.47 23.4586 21.535 23.3786 21.565 23.2936C21.595 23.2085 21.605 23.1085 21.585 22.9985L21.055 20.7085L22.8101 19.1834C22.9001 19.1084 22.9551 19.0234 22.9851 18.9334V18.9284Z" fill="currentColor"></path></svg>
     </div>
-    <div class="hero-text">
-      <h1>Amplitude</h1>
-      <p>Product analytics — understand user behavior, drive growth decisions</p>
+    <h1>Amplitude</h1>
+    <p>See what users do. Improve what matters — the AI analytics platform for modern digital analytics.</p>
+    <div class="chips">
+      <span class="chip">Analytics</span>
+      <span class="chip">Funnels</span>
+      <span class="chip">Segmentation</span>
+      <span class="chip">Journeys</span>
+      <span class="chip">Experiment</span>
+      <span class="chip">Session Replay</span>
     </div>
   </div>
+</div>
 
+<div class="wrap">
+
+  <!-- SIGNATURE: EVENT SEGMENTATION -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand & Chart Series</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1C57EB',this)"><div class="swatch-dot" style="background:#1C57EB"></div><div class="swatch-info"><span class="swatch-name">Indigo</span><span class="swatch-hex">#1C57EB</span></div></div>
-        <div class="swatch" onclick="copyHex('#9B59F5',this)"><div class="swatch-dot" style="background:#9B59F5"></div><div class="swatch-info"><span class="swatch-name">Purple</span><span class="swatch-hex">#9B59F5</span></div></div>
-        <div class="swatch" onclick="copyHex('#00BFA5',this)"><div class="swatch-dot" style="background:#00BFA5"></div><div class="swatch-info"><span class="swatch-name">Teal</span><span class="swatch-hex">#00BFA5</span></div></div>
-        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-info"><span class="swatch-name">Amber</span><span class="swatch-hex">#F5A623</span></div></div>
+    <div class="section-label">Signature — Event Segmentation</div>
+    <div class="chart-box">
+      <div class="chart-head">
+        <div class="chart-events" id="chEvents"></div>
+        <div class="chart-stat">
+          <div class="chart-num" id="chNum">0</div>
+          <div class="chart-delta up" id="chDelta">▲ 0%</div>
+          <div class="chart-sub" id="chSub">Event Totals · Last 30 days</div>
+        </div>
+      </div>
+      <div class="chart-body">
+        <svg class="chart-svg" id="chSvg" viewBox="0 0 680 220" preserveAspectRatio="none" role="img" aria-label="Event trend chart"></svg>
+        <div class="chart-x" id="chX"></div>
+      </div>
+      <div class="chart-foot">
+        <div class="seg" id="chMeasure">
+          <button class="active" data-m="total">Event Totals</button>
+          <button data-m="uniques">Unique Users</button>
+        </div>
+        <div class="seg" id="chRange">
+          <button data-r="7">7D</button>
+          <button class="active" data-r="30">30D</button>
+          <button data-r="90">90D</button>
+        </div>
+        <span class="foot-label">Realtime · updated just now</span>
       </div>
     </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0D0F1A',this)"><div class="swatch-dot" style="background:#0D0F1A;border:1px solid #2A3058"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0D0F1A</span></div></div>
-        <div class="swatch" onclick="copyHex('#161929',this)"><div class="swatch-dot" style="background:#161929;border:1px solid #2A3058"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161929</span></div></div>
-        <div class="swatch" onclick="copyHex('#1F2340',this)"><div class="swatch-dot" style="background:#1F2340"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1F2340</span></div></div>
-        <div class="swatch" onclick="copyHex('#2A3058',this)"><div class="swatch-dot" style="background:#2A3058"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2A3058</span></div></div>
-      </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — brand blue</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#1E61F0')"><div class="swatch-color" style="background:#1E61F0"></div><div class="swatch-info"><span class="swatch-name">blue</span><span class="swatch-hex">#1E61F0</span><span class="swatch-use">Primary, chart line</span></div></div>
+      <div class="swatch" onclick="copyHex('#0052F2')"><div class="swatch-color" style="background:#0052F2"></div><div class="swatch-info"><span class="swatch-name">blue-deep</span><span class="swatch-hex">#0052F2</span><span class="swatch-use">Hover, highlight</span></div></div>
+      <div class="swatch" onclick="copyHex('#3D6BFF')"><div class="swatch-color" style="background:#3D6BFF"></div><div class="swatch-info"><span class="swatch-name">blue-light</span><span class="swatch-hex">#3D6BFF</span><span class="swatch-use">Dark-mode brand</span></div></div>
+      <div class="swatch" onclick="copyHex('#001A4F')"><div class="swatch-color" style="background:#001A4F"></div><div class="swatch-info"><span class="swatch-name">navy</span><span class="swatch-hex">#001A4F</span><span class="swatch-use">Deep gradient anchor</span></div></div>
+    </div>
+
+    <div class="group-label">Data-viz — blue → purple</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#A273FF')"><div class="swatch-color" style="background:#A273FF"></div><div class="swatch-info"><span class="swatch-name">purple</span><span class="swatch-hex">#A273FF</span><span class="swatch-use">2nd series, gradient top</span></div></div>
+      <div class="swatch" onclick="copyHex('#7C3AED')"><div class="swatch-color" style="background:#7C3AED"></div><div class="swatch-info"><span class="swatch-name">purple-deep</span><span class="swatch-hex">#7C3AED</span><span class="swatch-use">Purple text/accents</span></div></div>
+      <div class="swatch" onclick="copyHex('#6980FF')"><div class="swatch-color" style="background:#6980FF"></div><div class="swatch-info"><span class="swatch-name">indigo</span><span class="swatch-hex">#6980FF</span><span class="swatch-use">Gradient mid</span></div></div>
+      <div class="swatch" onclick="copyHex('#8597FF')"><div class="swatch-color" style="background:#8597FF"></div><div class="swatch-info"><span class="swatch-name">indigo-light</span><span class="swatch-hex">#8597FF</span><span class="swatch-use">Soft series</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals — warm</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0C0C0E')"><div class="swatch-color" style="background:#0C0C0E"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#0C0C0E</span><span class="swatch-use">Headings, body</span></div></div>
+      <div class="swatch" onclick="copyHex('#50565B')"><div class="swatch-color" style="background:#50565B"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#50565B</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#868D95')"><div class="swatch-color" style="background:#868D95"></div><div class="swatch-info"><span class="swatch-name">muted</span><span class="swatch-hex">#868D95</span><span class="swatch-use">Metadata, axes</span></div></div>
+      <div class="swatch" onclick="copyHex('#F5F4F0')"><div class="swatch-color" style="background:#F5F4F0"></div><div class="swatch-info"><span class="swatch-name">warm-white</span><span class="swatch-hex">#F5F4F0</span><span class="swatch-use">Page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8E7E2')"><div class="swatch-color" style="background:#E8E7E2"></div><div class="swatch-info"><span class="swatch-name">warm-border</span><span class="swatch-hex">#E8E7E2</span><span class="swatch-use">Borders, dividers</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00875A')"><div class="swatch-color" style="background:#00875A"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#00875A</span><span class="swatch-use">Uplift, positive delta</span></div></div>
+      <div class="swatch" onclick="copyHex('#B26A00')"><div class="swatch-color" style="background:#B26A00"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#B26A00</span><span class="swatch-use">Warning</span></div></div>
+      <div class="swatch" onclick="copyHex('#D64545')"><div class="swatch-color" style="background:#D64545"></div><div class="swatch-info"><span class="swatch-name">error</span><span class="swatch-hex">#D64545</span><span class="swatch-use">Decline, negative delta</span></div></div>
+      <div class="swatch" onclick="copyHex('#1E61F0')"><div class="swatch-color" style="background:#1E61F0"></div><div class="swatch-info"><span class="swatch-name">info</span><span class="swatch-hex">#1E61F0</span><span class="swatch-use">Info</span></div></div>
     </div>
   </div>
 
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:26px;font-weight:700;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — chart labels, cohort descriptions, annotations</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:11px;color:var(--text-2);">Small — axis labels, chart ticks, percentages</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary-light);">event_properties.revenue</div></div>
+    <div class="section-label">Typography — Gellix · IBM Plex Sans · IBM Plex Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Gellix · 700</div></div><div class="type-sample display" style="font-size:46px;font-weight:700;letter-spacing:-.03em;line-height:1">Amplitude</div><div class="spec-pills"><span class="spec-pill">56px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Gellix · 700</div></div><div class="type-sample display" style="font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.1">See what users do</div><div class="spec-pills"><span class="spec-pill">34px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Gellix · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">Improve what matters</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">IBM Plex Sans · 400</div></div><div class="type-sample" style="font-size:17px">The AI analytics platform for modern digital analytics.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">IBM Plex Sans · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Track events, build funnels, and segment cohorts in seconds.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">IBM Plex Mono · 500</div></div><div class="type-sample" style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:var(--text2)">amplitude.track('Signup Completed', { plan: 'pro' })</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
   </div>
 
+  <!-- COMPONENTS -->
   <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
       <div class="comp-card">
-        <h3>Metric Card</h3>
-        <div class="metric-label">Monthly Active Users</div>
-        <div class="metric-num">48,291</div>
-        <div class="metric-trend">
-          <span class="trend-up">↑ 12.4%</span>
-          <span class="trend-period">vs last month</span>
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get started</button>
+          <button class="btn btn-secondary">Book a demo</button>
         </div>
-        <div class="sparkline-wrap">
-          <svg width="100%" height="40" viewBox="0 0 240 40" preserveAspectRatio="none">
-            <polyline points="0,36 40,28 80,30 120,20 160,18 200,12 240,8" fill="none" stroke="#1C57EB" stroke-width="2"/>
-            <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#1C57EB" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#1C57EB" stop-opacity="0"/>
-            </linearGradient>
-            <polygon points="0,36 40,28 80,30 120,20 160,18 200,12 240,8 240,40 0,40" fill="url(#sg)"/>
-          </svg>
-        </div>
+        <div class="btn-row"><button class="btn btn-link">View docs →</button></div>
       </div>
+
       <div class="comp-card">
-        <h3>Conversion Funnel</h3>
-        <div class="funnel-step">
-          <div class="funnel-label"><span class="funnel-name">Page View</span><span class="funnel-pct">100%</span></div>
-          <div class="funnel-track"><div class="funnel-fill" style="width:100%;background:#1C57EB"></div></div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label"><span class="funnel-name">Add to Cart</span><span class="funnel-pct">62%</span></div>
-          <div class="funnel-track"><div class="funnel-fill" style="width:62%;background:#5B8AF5"></div></div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label"><span class="funnel-name">Checkout</span><span class="funnel-pct">38%</span></div>
-          <div class="funnel-track"><div class="funnel-fill" style="width:38%;background:#9B59F5"></div></div>
-        </div>
-        <div class="funnel-step">
-          <div class="funnel-label"><span class="funnel-name">Purchase</span><span class="funnel-pct">21%</span></div>
-          <div class="funnel-track"><div class="funnel-fill" style="width:21%;background:#00BFA5"></div></div>
+        <div class="comp-title">Badges</div>
+        <div class="badge-row">
+          <span class="badge b-blue"><span class="b-dot"></span>Event</span>
+          <span class="badge b-purple"><span class="b-dot"></span>Cohort</span>
+          <span class="badge b-green"><span class="b-dot"></span>▲ 12.4%</span>
+          <span class="badge b-red"><span class="b-dot"></span>▼ 3.2%</span>
+          <span class="badge b-amber"><span class="b-dot"></span>Sampled</span>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>Event Properties</h3>
-        <div>
-          <span class="prop-tag">event_type</span>
-          <span class="prop-tag">user_id</span>
-          <span class="prop-tag">revenue</span>
-          <span class="prop-tag">product_id</span>
-          <span class="prop-tag">platform</span>
-          <span class="prop-tag">country</span>
-        </div>
+        <div class="comp-title">Track event</div>
+        <input class="mono-input" value="amplitude.track('Add to Cart', { value: 49 })" spellcheck="false">
       </div>
+
       <div class="comp-card">
-        <h3>Buttons</h3>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-primary">New Chart</button>
-          <button class="btn btn-ghost">Export CSV</button>
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><div class="radius-label">4px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px</div></div>
         </div>
       </div>
+
     </div>
   </div>
 
+  <!-- GUARDRAILS -->
   <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Always show absolute numbers alongside percentages</li>
-          <li>Use chart colors in series order — never skip</li>
-          <li>Trend arrows use red/green only — not indigo</li>
-          <li>Event properties always in monospace</li>
-          <li>Empty chart states must include a CTA</li>
-        </ul>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use brand blue <code>#1E61F0</code> for primary actions, links, and the main chart series</div>
+          <div class="gr-item">Fill chart areas with the <code>blue → purple</code> gradient at low opacity — the signature look</div>
+          <div class="gr-item">Set headings in Gellix, body/UI in IBM Plex Sans, code in IBM Plex Mono</div>
+          <div class="gr-item">Color deltas semantically: green for uplift, red for decline</div>
+          <div class="gr-item">Keep light surfaces warm (<code>#F5F4F0</code>) — the warmth is part of the identity</div>
+        </div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use indigo for warning or error states</li>
-          <li>Don't show percentages without context period</li>
-          <li>Don't use thin axis labels — they must be legible</li>
-          <li>Don't truncate chart series labels</li>
-          <li>Don't show stacked charts without a legend</li>
-        </ul>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Set the brand blue on dark at <code>#1E61F0</code> — contrast fails; lift to <code>#3D6BFF</code></div>
+          <div class="gr-item">Use purple as a primary action — it's a data-viz accent, not a CTA</div>
+          <div class="gr-item">Set body or UI in Gellix — it's display only; IBM Plex Sans owns the UI</div>
+          <div class="gr-item">Cool the light neutrals to pure grey — Amplitude's off-white is warm</div>
+          <div class="gr-item">Fabricate chart data — plot a real, deterministic series</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
 }
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Event Segmentation chart ---- */
+const EVENTS=[
+  {name:'Page Viewed',   base:9200, amp:1400, trend:52,  phase:0.4},
+  {name:'Signup Started',base:3100, amp:520,  trend:34,  phase:1.1},
+  {name:'Signup Completed',base:1740,amp:300, trend:28,  phase:2.0},
+  {name:'Purchase',      base:820,  amp:240,  trend:-6,  phase:0.8}
+];
+// deterministic 90-day series per event (index-based, no randomness)
+EVENTS.forEach(e=>{
+  e.series=[];
+  for(let i=0;i<90;i++){
+    const wave=Math.sin(i/5+e.phase)*e.amp + Math.cos(i/11+e.phase)*e.amp*0.35;
+    e.series.push(Math.max(0,Math.round(e.base + wave + i*e.trend)));
+  }
+});
+let curEvent=0,measure='total',range=30;
+const svg=document.getElementById('chSvg');
+const evEl=document.getElementById('chEvents');
+const numEl=document.getElementById('chNum');
+const deltaEl=document.getElementById('chDelta');
+const subEl=document.getElementById('chSub');
+const xEl=document.getElementById('chX');
+
+function seriesFor(e){
+  const full=e.series.slice(90-range);
+  return measure==='uniques'? full.map(v=>Math.round(v*0.42)) : full;
+}
+function fmt(n){return n.toLocaleString('en-US');}
+function renderEvents(){
+  evEl.innerHTML='';
+  EVENTS.forEach((e,i)=>{
+    const b=document.createElement('button');
+    b.className='ev'+(i===curEvent?' active':'');
+    b.innerHTML='<span class="ev-dot"></span>'+e.name;
+    b.onclick=()=>{curEvent=i;render();};
+    evEl.appendChild(b);
+  });
+}
+function renderChart(){
+  const data=seriesFor(EVENTS[curEvent]);
+  const W=680,H=220,pl=8,pr=8,pt=14,pb=14;
+  const iw=W-pl-pr,ih=H-pt-pb;
+  const max=Math.max.apply(null,data)*1.12,min=Math.min.apply(null,data)*0.86;
+  const xs=i=>pl+(data.length<=1?0:i/(data.length-1)*iw);
+  const ys=v=>pt+ih-((v-min)/(max-min||1))*ih;
+  let line='',area='M'+xs(0).toFixed(1)+','+(pt+ih).toFixed(1);
+  data.forEach((v,i)=>{const x=xs(i).toFixed(1),y=ys(v).toFixed(1);line+=(i?'L':'M')+x+','+y+' ';area+=' L'+x+','+y;});
+  area+=' L'+xs(data.length-1).toFixed(1)+','+(pt+ih).toFixed(1)+' Z';
+  // gridlines
+  let grid='';
+  for(let g=0;g<=3;g++){const y=(pt+g/3*ih).toFixed(1);grid+='<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" stroke="var(--grid)" stroke-width="1"/>';}
+  const lastX=xs(data.length-1).toFixed(1),lastY=ys(data[data.length-1]).toFixed(1);
+  svg.innerHTML=
+    '<defs><linearGradient id="ampArea" x1="0" y1="0" x2="0" y2="1">'
+    +'<stop offset="0%" stop-color="var(--area1)"/><stop offset="100%" stop-color="var(--area2)"/></linearGradient>'
+    +'<linearGradient id="ampLine" x1="0" y1="0" x2="1" y2="0">'
+    +'<stop offset="0%" stop-color="var(--blue)"/><stop offset="100%" stop-color="var(--purple)"/></linearGradient></defs>'
+    +grid
+    +'<path d="'+area+'" fill="url(#ampArea)"/>'
+    +'<path d="'+line.trim()+'" fill="none" stroke="url(#ampLine)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'
+    +'<circle cx="'+lastX+'" cy="'+lastY+'" r="4" fill="var(--blue)" stroke="var(--bg)" stroke-width="2"/>';
+  // x labels
+  const days=range;
+  xEl.innerHTML='<span>'+days+'d ago</span><span>'+Math.round(days*2/3)+'d</span><span>'+Math.round(days/3)+'d</span><span>Today</span>';
+  // stat + delta
+  const total=data.reduce((a,b)=>a+b,0);
+  const half=Math.floor(data.length/2);
+  const first=data.slice(0,half).reduce((a,b)=>a+b,0)||1;
+  const second=data.slice(half).reduce((a,b)=>a+b,0);
+  const d=((second-first)/first*100);
+  numEl.textContent=fmt(total);
+  deltaEl.className='chart-delta '+(d>=0?'up':'down');
+  deltaEl.textContent=(d>=0?'▲ ':'▼ ')+Math.abs(d).toFixed(1)+'%';
+  subEl.textContent=(measure==='uniques'?'Unique Users':'Event Totals')+' · Last '+range+' days';
+}
+function render(){renderEvents();renderChart();}
+document.getElementById('chMeasure').addEventListener('click',e=>{
+  if(e.target.dataset.m){measure=e.target.dataset.m;[...e.currentTarget.children].forEach(b=>b.classList.toggle('active',b===e.target));render();}
+});
+document.getElementById('chRange').addEventListener('click',e=>{
+  if(e.target.dataset.r){range=+e.target.dataset.r;[...e.currentTarget.children].forEach(b=>b.classList.toggle('active',b===e.target));render();}
+});
+render();
 </script>
 </body>
 </html>
+</content>
