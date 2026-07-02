@@ -1,198 +1,387 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GitLab – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitLab — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #1F1F1F; --surface: #2B2B2B; --elevated: #363636; --border: #4A4A4A;
-  --primary: #FC6D26; --primary-hover: #E24329;
-  --success: #108548; --warning: #C17D10; --danger: #AE1800;
-  --text: #FAFAFA; --text-2: #ACACAC; --text-3: #737373;
-  --toggle-bg: #363636; --toggle-text: #FAFAFA; --toggle-border: #4A4A4A;
+:root{
+  --purple:#7759C2;--purple-deep:#6E49CB;--purple-dark:#380D75;
+  --t-red:#E24329;--t-orange:#FC6D26;--t-light:#FCA326;
+  --pass:#108548;--run:#1F75CB;--fail:#DD2B0E;--pend:#89888D;
 }
-:root[data-theme="light"] {
-  --bg: #F9F9F9; --surface: #FFFFFF; --elevated: #FFE8D9; --border: #E0E0E0;
-  --primary: #FC6D26; --primary-hover: #E24329;
-  --success: #108548; --warning: #A56200; --danger: #AE1800;
-  --text: #1F1F1F; --text-2: #555; --text-3: #999;
-  --toggle-bg: #FFE8D9; --toggle-text: #1F1F1F; --toggle-border: #E0E0E0;
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F2F1F5;--bg3:#EBEAEC;--bg-hover:#F6F3FE;
+  --border:#E8E7EB;--border-strong:#D1D0D3;
+  --text:#171321;--text2:#5E5C66;--text3:#89888D;
+  --brand:#6E49CB;--brand-hover:#5B37B8;
+  --c-purple:#6E49CB;--c-orange:#C24A0B;
+  --c-pass:#108548;--c-run:#1F75CB;--c-fail:#DD2B0E;
+  --ring:rgba(110,73,203,.20);
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Pipeline */
-.pipeline-chain { display: flex; align-items: center; gap: 0; overflow-x: auto; padding-bottom: 4px; }
-.pipe-stage { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
-.pipe-connector { width: 24px; height: 2px; background: var(--border); flex-shrink: 0; }
-.pipe-job { width: 72px; padding: 6px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; text-align: center; border: 1px solid; }
-.pipe-passed { background: rgba(16,133,72,0.12); color: #1aaa55; border-color: rgba(16,133,72,0.3); }
-.pipe-running { background: rgba(252,109,38,0.12); color: #FC6D26; border-color: rgba(252,109,38,0.3); }
-.pipe-failed { background: rgba(174,24,0,0.12); color: #f14a26; border-color: rgba(174,24,0,0.3); }
-.pipe-pending { background: rgba(117,111,163,0.12); color: #756FA3; border-color: rgba(117,111,163,0.3); }
-.pipe-label { font-size: 10px; color: var(--text-3); }
-/* MR rows */
-.mr-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.mr-row:last-child { border-bottom: none; }
-.mr-title { flex: 1; font-size: 13px; color: var(--text); }
-.mr-branch { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-3); }
-.mr-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
-.mr-open { background: rgba(16,133,72,0.12); color: #1aaa55; }
-.mr-draft { background: rgba(172,172,172,0.12); color: #ACACAC; }
-.branch-tag { display: inline-block; background: rgba(252,109,38,0.10); border: 1px solid rgba(252,109,38,0.28); color: var(--primary); border-radius: 4px; padding: 3px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin: 3px; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
+:root[data-theme="dark"]{
+  --bg:#1F1A2E;--bg2:#171321;--bg3:#2B2540;--bg-hover:#2B2540;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#F2F1F5;--text2:#BFBCC8;--text3:#918EA0;
+  --brand:#8151E6;--brand-hover:#9A79E8;
+  --c-purple:#B69EF0;--c-orange:#FC8A4E;
+  --c-pass:#2DA160;--c-run:#63A6E9;--c-fail:#F57F6C;
+  --ring:rgba(129,81,230,.32);
+}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Inter',sans-serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:48px;width:auto}
+.hero h1{font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1.02;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:135px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text);min-width:0}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:600}
+
+/* Pipeline signature */
+.pipe-box{border:1px solid var(--border);border-radius:8px;background:var(--bg);overflow:hidden}
+.pipe-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.pipe-id{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
+.pipe-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3)}
+.pipe-status{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.pipe-run-btn{margin-left:auto;background:var(--brand);color:#fff;border:none;border-radius:8px;height:34px;padding:0 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .12s}
+.pipe-run-btn:hover{background:var(--brand-hover)}
+.pipe-run-btn:disabled{opacity:.6;cursor:default}
+.pipe-graph{display:flex;gap:0;padding:22px 8px;overflow-x:auto}
+.stage{min-width:180px;flex:1;padding:0 14px;position:relative}
+.stage+.stage{border-left:1px dashed var(--border)}
+.stage-name{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:12px;padding-left:2px}
+.job{display:flex;align-items:center;gap:9px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:8px;background:var(--bg);margin-bottom:8px;transition:border-color .2s,background .2s}
+.job:last-child{margin-bottom:0}
+.job-name{font-size:12.5px;font-weight:500;color:var(--text);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job-ic{width:16px;height:16px;flex-shrink:0;border-radius:50%;border:1.6px solid var(--pend);position:relative}
+.job.passed .job-ic{border-color:var(--pass);background:var(--pass)}
+.job.passed .job-ic::after{content:'';position:absolute;left:4.4px;top:1.6px;width:4px;height:7px;border:solid #fff;border-width:0 1.7px 1.7px 0;transform:rotate(45deg)}
+.job.running .job-ic{border-color:var(--run);border-right-color:transparent;animation:spin .7s linear infinite}
+.job.failed .job-ic{border-color:var(--fail);background:var(--fail)}
+.job.failed .job-ic::after{content:'✕';position:absolute;inset:0;color:#fff;font-size:10px;line-height:13px;text-align:center;font-weight:700}
+.job.manual .job-ic{border-color:var(--pend)}
+.job.manual .job-ic::after{content:'';position:absolute;left:5px;top:3.5px;border-left:5px solid var(--pend);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent}
+.job.passed{border-color:color-mix(in srgb,var(--pass) 40%,var(--border-strong))}
+.job.running{border-color:color-mix(in srgb,var(--run) 45%,var(--border-strong))}
+@keyframes spin{to{transform:rotate(360deg)}}
+.st-passed{background:rgba(16,133,72,.14);color:var(--c-pass)}
+.st-running{background:rgba(31,117,203,.14);color:var(--c-run)}
+.st-failed{background:rgba(221,43,14,.14);color:var(--c-fail)}
+.st-pending{background:var(--bg3);color:var(--text2)}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s;white-space:nowrap}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--c-purple);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.b-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:56px;height:56px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:40px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--c-pass)}
+.gr-heading.dont{color:var(--c-fail)}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--pass)}
+.dont .gr-item::before{background:var(--fail)}
+.gr-item code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'JetBrains Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:40px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
-  <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#1F1F1F"/>
-      <!-- GitLab fox/diamond mark -->
-      <path d="M36 54 L18 28 L24 20 L36 38 L48 20 L54 28 Z" fill="#FC6D26"/>
-      <path d="M18 28 L14 40 L36 54 Z" fill="#FCA326" opacity="0.8"/>
-      <path d="M54 28 L58 40 L36 54 Z" fill="#FCA326" opacity="0.8"/>
-    </svg>
-    <div class="hero-text"><h1>GitLab</h1><p>DevOps platform — code, CI/CD, security, and deployment in one place</p></div>
-  </div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand & Pipeline</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FC6D26',this)"><div class="swatch-dot" style="background:#FC6D26"></div><div class="swatch-name">Orange</div><div class="swatch-hex">#FC6D26</div></div>
-        <div class="swatch" onclick="copyHex('#108548',this)"><div class="swatch-dot" style="background:#108548"></div><div class="swatch-name">Passed</div><div class="swatch-hex">#108548</div></div>
-        <div class="swatch" onclick="copyHex('#AE1800',this)"><div class="swatch-dot" style="background:#AE1800"></div><div class="swatch-name">Failed</div><div class="swatch-hex">#AE1800</div></div>
-        <div class="swatch" onclick="copyHex('#756FA3',this)"><div class="swatch-dot" style="background:#756FA3"></div><div class="swatch-name">Pending</div><div class="swatch-hex">#756FA3</div></div>
-      </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="GitLab"><path fill="#E24329" d="M31.462 12.779l-.045-.115-4.35-11.35a1.137 1.137 0 00-.447-.541 1.163 1.163 0 00-1.343.071c-.187.15-.322.356-.386.587l-2.94 9.001h-11.9l-2.941-9a1.138 1.138 0 00-1.045-.84 1.153 1.153 0 00-1.13.72L.579 12.68l-.045.113a8.09 8.09 0 002.68 9.34l.016.012.038.03 6.635 4.967 3.28 2.484 1.994 1.51a1.35 1.35 0 001.627 0l1.994-1.51 3.282-2.484 6.673-4.997.018-.013a8.088 8.088 0 002.69-9.352z"></path><path fill="#FC6D26" d="M31.462 12.779l-.045-.115a14.748 14.748 0 00-5.856 2.634l-9.553 7.24A11225.6 11225.6 0 0022.1 27.14l6.673-4.997.019-.013a8.09 8.09 0 002.67-9.352z"></path><path fill="#FCA326" d="M9.908 27.14l3.275 2.485 1.994 1.51a1.35 1.35 0 001.627 0l1.994-1.51 3.282-2.484s-2.835-2.14-6.092-4.603l-6.08 4.603z"></path><path fill="#FC6D26" d="M6.435 15.305A14.712 14.712 0 00.58 12.672l-.045.113a8.09 8.09 0 002.68 9.347l.016.012.038.03 6.635 4.967 6.105-4.603-9.573-7.233z"></path></svg>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1F1F1F',this)"><div class="swatch-dot" style="background:#1F1F1F;border:1px solid #4A4A4A"></div><div class="swatch-name">Background</div><div class="swatch-hex">#1F1F1F</div></div>
-        <div class="swatch" onclick="copyHex('#2B2B2B',this)"><div class="swatch-dot" style="background:#2B2B2B;border:1px solid #4A4A4A"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#2B2B2B</div></div>
-        <div class="swatch" onclick="copyHex('#363636',this)"><div class="swatch-dot" style="background:#363636"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#363636</div></div>
-        <div class="swatch" onclick="copyHex('#4A4A4A',this)"><div class="swatch-dot" style="background:#4A4A4A"></div><div class="swatch-name">Border</div><div class="swatch-hex">#4A4A4A</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:24px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — MR descriptions, pipeline logs, issue details</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, job names, metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">feat/add-oauth-provider</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card" style="grid-column: span 2">
-        <h3>Pipeline Stages</h3>
-        <div class="pipeline-chain">
-          <div class="pipe-stage"><div class="pipe-label">build</div><div class="pipe-job pipe-passed">✓ compile</div></div>
-          <div class="pipe-connector"></div>
-          <div class="pipe-stage"><div class="pipe-label">test</div><div class="pipe-job pipe-passed">✓ unit</div></div>
-          <div class="pipe-connector"></div>
-          <div class="pipe-stage"><div class="pipe-label">test</div><div class="pipe-job pipe-running">⟳ e2e</div></div>
-          <div class="pipe-connector"></div>
-          <div class="pipe-stage"><div class="pipe-label">security</div><div class="pipe-job pipe-pending">◷ sast</div></div>
-          <div class="pipe-connector"></div>
-          <div class="pipe-stage"><div class="pipe-label">deploy</div><div class="pipe-job pipe-pending">◷ staging</div></div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Merge Requests</h3>
-        <div class="mr-row"><div style="width:8px;height:8px;border-radius:50%;background:#1aaa55;flex-shrink:0"></div><div style="flex:1"><div class="mr-title">feat: add SSO with SAML 2.0</div><div class="mr-branch">feat/saml-sso</div></div><span class="mr-badge mr-open">Open</span></div>
-        <div class="mr-row"><div style="width:8px;height:8px;border-radius:50%;background:#ACACAC;flex-shrink:0"></div><div style="flex:1"><div class="mr-title">WIP: refactor auth middleware</div><div class="mr-branch">refactor/auth-v2</div></div><span class="mr-badge mr-draft">Draft</span></div>
-      </div>
-      <div class="comp-card">
-        <h3>Branch Tags</h3>
-        <div><span class="branch-tag">main</span><span class="branch-tag">feat/saml-sso</span><span class="branch-tag">fix/token-refresh</span></div>
-        <div style="margin-top:12px;display:flex;gap:10px;">
-          <button class="btn btn-primary">New MR</button>
-          <button class="btn btn-ghost">Run Pipeline</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>Branch names always in monospace</li>
-        <li>Pipeline stage chain always horizontal</li>
-        <li>Pipeline status colors match the defined set exactly</li>
-        <li>Show passed/total count per stage header</li>
-        <li>Use orange only for brand and running state</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't use orange for error states</li>
-        <li>Don't truncate MR titles on desktop</li>
-        <li>Don't stack pipeline stages vertically</li>
-        <li>Don't hide pipeline job status behind a click</li>
-        <li>Don't use more than 6 pipeline stages</li>
-      </ul></div>
+    <h1>GitLab</h1>
+    <p>Ship faster. With trust. The AI-native platform for the entire software lifecycle.</p>
+    <div class="chips">
+      <span class="chip">Source Code</span>
+      <span class="chip">CI/CD</span>
+      <span class="chip">Duo AI</span>
+      <span class="chip">Merge Requests</span>
+      <span class="chip">Security</span>
+      <span class="chip">Registry</span>
     </div>
   </div>
 </div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+<div class="wrap">
+
+  <!-- SIGNATURE: PIPELINE -->
+  <div class="section">
+    <div class="section-label">Signature — CI/CD Pipeline</div>
+    <div class="pipe-box">
+      <div class="pipe-head">
+        <span class="pipe-id" id="pipeId">#1047</span>
+        <span class="pipe-status st-pending" id="pipeStatus"><span class="b-dot"></span>Pending</span>
+        <span class="pipe-meta">main · <span id="pipeSha">a3f9c1e</span></span>
+        <button class="pipe-run-btn" id="pipeBtn" onclick="runPipeline()">Run pipeline</button>
+      </div>
+      <div class="pipe-graph" id="pipeGraph"></div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — brand purple</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#7759C2')"><div class="swatch-color" style="background:#7759C2"></div><div class="swatch-info"><span class="swatch-name">purple</span><span class="swatch-hex">#7759C2</span><span class="swatch-use">Brand, active</span></div></div>
+      <div class="swatch" onclick="copyHex('#6E49CB')"><div class="swatch-color" style="background:#6E49CB"></div><div class="swatch-info"><span class="swatch-name">purple-deep</span><span class="swatch-hex">#6E49CB</span><span class="swatch-use">Primary CTA</span></div></div>
+      <div class="swatch" onclick="copyHex('#380D75')"><div class="swatch-color" style="background:#380D75"></div><div class="swatch-info"><span class="swatch-name">purple-dark</span><span class="swatch-hex">#380D75</span><span class="swatch-use">Deep accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#F6F3FE')"><div class="swatch-color" style="background:#F6F3FE"></div><div class="swatch-info"><span class="swatch-name">purple-pale</span><span class="swatch-hex">#F6F3FE</span><span class="swatch-use">Hover, fills</span></div></div>
+    </div>
+
+    <div class="group-label">Tanuki — the mark</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#E24329')"><div class="swatch-color" style="background:#E24329"></div><div class="swatch-info"><span class="swatch-name">tanuki-red</span><span class="swatch-hex">#E24329</span><span class="swatch-use">Mark, brand</span></div></div>
+      <div class="swatch" onclick="copyHex('#FC6D26')"><div class="swatch-color" style="background:#FC6D26"></div><div class="swatch-info"><span class="swatch-name">tanuki-orange</span><span class="swatch-hex">#FC6D26</span><span class="swatch-use">Mark, in-progress</span></div></div>
+      <div class="swatch" onclick="copyHex('#FCA326')"><div class="swatch-color" style="background:#FCA326"></div><div class="swatch-info"><span class="swatch-name">tanuki-light</span><span class="swatch-hex">#FCA326</span><span class="swatch-use">Mark highlight</span></div></div>
+      <div class="swatch" onclick="copyHex('#171321')"><div class="swatch-color" style="background:#171321"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#171321</span><span class="swatch-use">Text, dark page</span></div></div>
+    </div>
+
+    <div class="group-label">Neutrals</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#74717A')"><div class="swatch-color" style="background:#74717A"></div><div class="swatch-info"><span class="swatch-name">grey</span><span class="swatch-hex">#74717A</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#D1D0D3')"><div class="swatch-color" style="background:#D1D0D3"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#D1D0D3</span><span class="swatch-use">Borders</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8E7EB')"><div class="swatch-color" style="background:#E8E7EB"></div><div class="swatch-info"><span class="swatch-name">fill</span><span class="swatch-hex">#E8E7EB</span><span class="swatch-use">Subtle fills</span></div></div>
+      <div class="swatch" onclick="copyHex('#F2F1F5')"><div class="swatch-color" style="background:#F2F1F5"></div><div class="swatch-info"><span class="swatch-name">page-tint</span><span class="swatch-hex">#F2F1F5</span><span class="swatch-use">Page background</span></div></div>
+    </div>
+
+    <div class="group-label">Status — pipelines</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#108548')"><div class="swatch-color" style="background:#108548"></div><div class="swatch-info"><span class="swatch-name">passed</span><span class="swatch-hex">#108548</span><span class="swatch-use">Passed, success</span></div></div>
+      <div class="swatch" onclick="copyHex('#1F75CB')"><div class="swatch-color" style="background:#1F75CB"></div><div class="swatch-info"><span class="swatch-name">running</span><span class="swatch-hex">#1F75CB</span><span class="swatch-use">Running, info</span></div></div>
+      <div class="swatch" onclick="copyHex('#DD2B0E')"><div class="swatch-color" style="background:#DD2B0E"></div><div class="swatch-info"><span class="swatch-name">failed</span><span class="swatch-hex">#DD2B0E</span><span class="swatch-use">Failed, error</span></div></div>
+      <div class="swatch" onclick="copyHex('#89888D')"><div class="swatch-color" style="background:#89888D"></div><div class="swatch-info"><span class="swatch-name">pending</span><span class="swatch-hex">#89888D</span><span class="swatch-use">Pending, manual</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Inter (≈ GitLab Sans) · JetBrains Mono (≈ GitLab Mono)</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Inter · 700</div></div><div class="type-sample display" style="font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1">GitLab</div><div class="spec-pills"><span class="spec-pill">52px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h1</div><div class="type-spec">Inter · 700</div></div><div class="type-sample display" style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1">Ship faster. With trust.</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">h2</div><div class="type-spec">Inter · 600</div></div><div class="type-sample display" style="font-size:22px;font-weight:600">AI for the entire software lifecycle</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:17px">One platform for source code, CI/CD, security, and AI.</div><div class="spec-pills"><span class="spec-pill">17px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:13px;color:var(--text2)">Automate your delivery from commit to production.</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">JetBrains Mono · 500</div></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text2)">git push -o ci.variable="DEPLOY=true" origin main</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get free trial</button>
+          <button class="btn btn-secondary">Contact sales</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">View docs →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Pipeline status</div>
+        <div class="badge-row">
+          <span class="badge st-passed"><span class="b-dot"></span>Passed</span>
+          <span class="badge st-running"><span class="b-dot"></span>Running</span>
+          <span class="badge st-failed"><span class="b-dot"></span>Failed</span>
+          <span class="badge st-pending"><span class="b-dot"></span>Pending</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Clone URL</div>
+        <input class="mono-input" value="git@gitlab.com:acme/web-app.git" spellcheck="false">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:4px"></div><div class="radius-label">4px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:9999px"></div><div class="radius-label">pill</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use purple <code>#6E49CB</code> for primary actions — purple is the action color</div>
+          <div class="gr-item">Keep the tanuki three-tone (<code>#E24329 / #FC6D26 / #FCA326</code>) — never recolor or flatten it</div>
+          <div class="gr-item">Use orange for brand + in-progress; green / blue / red for pipeline status</div>
+          <div class="gr-item">Set UI/headings in Inter (GitLab Sans), code/SHAs in JetBrains Mono (GitLab Mono)</div>
+          <div class="gr-item">Lift purple to <code>#8151E6</code> on the dark purple-black so it stays legible</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Set the brand purple on dark at <code>#7759C2</code> — contrast dips; lift it</div>
+          <div class="gr-item">Use tanuki orange as a primary button — it's brand/accent, not the CTA</div>
+          <div class="gr-item">Tint dark surfaces neutral-grey — GitLab's dark is purple-black <code>#171321</code></div>
+          <div class="gr-item">Color a passed job orange or a running job green — status color is semantic</div>
+          <div class="gr-item">Fabricate pipeline data — use real stage/job names and a deterministic run</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  toast('Copied '+hex);
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- CI/CD Pipeline ---- */
+const STAGES=[
+  {name:'build', jobs:['compile']},
+  {name:'test',  jobs:['rspec','jest','eslint']},
+  {name:'deploy',jobs:['review','staging','production']}
+];
+const MANUAL={production:true};
+const graph=document.getElementById('pipeGraph');
+const statusEl=document.getElementById('pipeStatus');
+const btn=document.getElementById('pipeBtn');
+const idEl=document.getElementById('pipeId');
+const shaEl=document.getElementById('pipeSha');
+let pipelineNo=1047, seed=0;
+const HEX='0123456789abcdef';
+function nextSha(){seed++;const base='a3f9c1e7b20d84f6';let s='';for(let i=0;i<7;i++)s+=HEX[(base.charCodeAt(i)+seed*7+i)%16];return s;}
+let jobEls={};
+function render(states){
+  graph.innerHTML='';jobEls={};
+  STAGES.forEach(st=>{
+    const col=document.createElement('div');col.className='stage';
+    col.innerHTML='<div class="stage-name">'+st.name+'</div>';
+    st.jobs.forEach(j=>{
+      const state=states[j]||(MANUAL[j]?'manual':'pending');
+      const el=document.createElement('div');
+      el.className='job '+state;
+      el.innerHTML='<span class="job-ic"></span><span class="job-name">'+st.name+':'+j+'</span>';
+      col.appendChild(el);jobEls[j]=el;
+    });
+    graph.appendChild(col);
+  });
+}
+function setStatus(cls,label){statusEl.className='pipe-status '+cls;statusEl.innerHTML='<span class="b-dot"></span>'+label;}
+const ALLJOBS=STAGES.flatMap(s=>s.jobs);
+let states={};
+function reset(){states={};ALLJOBS.forEach(j=>states[j]=MANUAL[j]?'manual':'pending');render(states);}
+function runPipeline(){
+  btn.disabled=true;
+  pipelineNo++;idEl.textContent='#'+pipelineNo;shaEl.textContent=nextSha();
+  reset();setStatus('st-running','Running');
+  // sequential stages; jobs within a stage run together
+  const order=[['compile'],['rspec','jest','eslint'],['review','staging']];
+  let step=0;
+  function runStep(){
+    if(step>=order.length){
+      setStatus('st-passed','Passed');
+      btn.disabled=false;btn.textContent='Run pipeline';
+      toast('Pipeline #'+pipelineNo+' passed');
+      return;
+    }
+    const jobs=order[step];
+    jobs.forEach(j=>{states[j]='running';});render(states);
+    setTimeout(()=>{
+      jobs.forEach(j=>{states[j]='passed';});render(states);
+      step++;runStep();
+    },900);
+  }
+  btn.textContent='Running…';
+  setTimeout(runStep,350);
+}
+reset();
 </script>
 </body>
 </html>
+</content>
