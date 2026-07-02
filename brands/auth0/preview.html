@@ -1,258 +1,363 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Auth0 – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth0 — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
-:root[data-theme="dark"] {
-  --bg: #0E1117;
-  --surface: #161D2E;
-  --elevated: #1E2840;
-  --border: #2A3650;
-  --primary: #EB5424;
-  --primary-hover: #C9481E;
-  --success: #21A179;
-  --warning: #F5A623;
-  --danger: #E03E3E;
-  --text: #F5F7FA;
-  --text-2: #8FA3C0;
-  --text-3: #546480;
-  --toggle-bg: #1E2840;
-  --toggle-text: #F5F7FA;
-  --toggle-border: #2A3650;
+:root{
+  --indigo:#635DFF;--blue:#3F59E4;--purple-deep:#4016A0;
+  --lavender:#BCBAFF;--periwinkle:#99A7F1;--sky:#B6CAFF;--violet:#C698FF;
+  --success:#4CB7A3;
 }
-:root[data-theme="light"] {
-  --bg: #FFF8F5;
-  --surface: #FFFFFF;
-  --elevated: #FFE8DF;
-  --border: #F0C8B8;
-  --primary: #EB5424;
-  --primary-hover: #C9481E;
-  --success: #157358;
-  --warning: #B07000;
-  --danger: #B02020;
-  --text: #0E1117;
-  --text-2: #3A4A60;
-  --text-3: #7888A0;
-  --toggle-bg: #FFE8DF;
-  --toggle-text: #0E1117;
-  --toggle-border: #F0C8B8;
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#FFFEFA;--bg3:#F4F4F4;--bg-hover:#F4F4F4;
+  --border:#E5E5E5;--border-strong:#D4D4D4;
+  --text:#191919;--text2:#555555;--text3:#8C929C;
+  --brand:#635DFF;--brand-hover:#514BE0;
+  --logo:#191919;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; }
-.hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-.color-group { margin-bottom: 24px; }
-.color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-info { display: flex; flex-direction: column; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); }
-.swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); white-space: nowrap; }
-.type-sample { flex: 1; }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.btn { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-ghost:hover { border-color: var(--primary); }
-.input-demo { width: 100%; height: 40px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.15s; margin-bottom: 10px; }
-.input-demo:focus { border-color: var(--primary); }
-.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 9999px; border: 1px solid; }
-.badge-active { background: rgba(33,161,121,0.12); color: #21A179; border-color: rgba(33,161,121,0.3); }
-.badge-blocked { background: rgba(224,62,62,0.12); color: #E03E3E; border-color: rgba(224,62,62,0.3); }
-.badge-pending { background: rgba(245,166,35,0.12); color: #F5A623; border-color: rgba(245,166,35,0.3); }
-.badge-invited { background: rgba(59,130,246,0.12); color: #3B82F6; border-color: rgba(59,130,246,0.3); }
-/* JWT viewer */
-.jwt-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.8; word-break: break-all; }
-.jwt-header { color: #EB5424; }
-.jwt-dot { color: var(--text-3); }
-.jwt-payload { color: var(--text); }
-.jwt-sig { color: var(--text-3); }
-.jwt-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 4px; margin-top: 10px; }
-.jwt-label:first-child { margin-top: 0; }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--border); border-radius: 3px; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 60px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { padding: 0; }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); }
-.guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 16px; position: relative; }
-.guardrail-card li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; }
-.guardrail-card.do li::before { background: var(--success); }
-.guardrail-card.dont li::before { background: var(--danger); }
+:root[data-theme="dark"]{
+  --bg:#191919;--bg2:#111111;--bg3:#2A2A2A;--bg-hover:#2A2A2A;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.20);
+  --text:#FFFEFA;--text2:#ABABAB;--text3:#8C929C;
+  --brand:#7B76FF;--brand-hover:#938FFF;
+  --logo:#FFFEFA;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg2);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Space Grotesk','Inter',sans-serif}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Hero */
+.hero{padding:72px 0 52px;border-bottom:1px solid var(--border);text-align:center;background:var(--bg)}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center}
+.hero-logo svg{height:44px;width:auto}
+.hero h1{font-size:46px;font-weight:600;letter-spacing:-.02em;line-height:1.05;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:580px;margin:0 auto;line-height:1.5}
+.chips{display:flex;gap:8px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;padding:6px 12px;border-radius:9999px;background:var(--bg2);color:var(--text2);border:1px solid var(--border)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 80px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* Colors */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s,transform .12s;background:var(--bg)}
+.swatch:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px;display:block}
+
+/* Typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:9999px;white-space:nowrap;font-weight:500}
+
+/* Universal Login signature */
+.login-stage{display:flex;justify-content:center;padding:36px 20px;background:
+  radial-gradient(circle at 30% 20%, rgba(99,93,255,.10), transparent 60%),
+  radial-gradient(circle at 75% 80%, rgba(188,186,255,.14), transparent 55%),
+  var(--bg3);
+  border:1px solid var(--border);border-radius:16px}
+.login{width:100%;max-width:380px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:32px 30px;box-shadow:0 2px 4px rgba(25,25,25,.06),0 12px 32px rgba(25,25,25,.12)}
+.login-logo{display:flex;justify-content:center;margin-bottom:22px}
+.login-logo svg{height:30px;width:auto}
+.login h2{font-size:20px;font-weight:600;text-align:center;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:22px}
+.tabs{display:flex;background:var(--bg3);border-radius:8px;padding:3px;margin-bottom:20px}
+.tab{flex:1;text-align:center;font-size:13px;font-weight:600;padding:8px;border-radius:6px;cursor:pointer;color:var(--text2)}
+.tab.active{background:var(--bg);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--text2);margin-bottom:6px}
+.field input{width:100%;height:44px;padding:0 13px;border:1px solid var(--border-strong);border-radius:8px;font-size:14px;font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);outline:none;transition:border .12s,box-shadow .12s}
+.field input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(99,93,255,.22)}
+.field input::placeholder{color:var(--text3)}
+.login-btn{width:100%;height:46px;background:var(--brand);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px}
+.login-btn:hover{background:var(--brand-hover)}
+.login-btn.done{background:var(--success)}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text3);font-size:12px}
+.divider::before,.divider::after{content:'';height:1px;background:var(--border);flex:1}
+.socials{display:flex;flex-direction:column;gap:9px}
+.social{display:flex;align-items:center;justify-content:center;gap:10px;height:44px;border:1px solid var(--border-strong);border-radius:8px;background:var(--bg);font-size:13px;font-weight:500;color:var(--text);cursor:pointer;transition:background .12s,border-color .12s}
+.social:hover{background:var(--bg3);border-color:var(--brand)}
+.social svg{width:18px;height:18px;flex-shrink:0}
+.login-foot{text-align:center;font-size:13px;color:var(--text2);margin-top:20px}
+.login-foot a{color:var(--brand);text-decoration:none;font-weight:600;cursor:pointer}
+.login-note{font-size:11px;color:var(--text3);text-align:center;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:5px}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:20px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:14px;border-radius:8px;padding:0 18px;height:42px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-link{background:transparent;color:var(--brand);padding:0 6px}
+.btn-link:hover{text-decoration:underline}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:600}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+
+.radius-row{display:flex;gap:20px;flex-wrap:wrap}
+.radius-item{text-align:center}
+.radius-box{width:60px;height:60px;background:var(--bg3);border:1px solid var(--border-strong)}
+.radius-label{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--text3);margin-top:8px}
+
+.mono-input{width:100%;height:42px;padding:0 12px;border:1px solid var(--border-strong);border-radius:8px;font-size:12px;font-family:'Roboto Mono',monospace;color:var(--text);background:var(--bg);outline:none}
+.mono-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(99,93,255,.2)}
+
+/* Guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px}
+.gr-heading.do{color:var(--success)}
+.gr-heading.dont{color:#D14343}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--success)}
+.dont .gr-item::before{background:#D14343}
+.gr-item code{font-family:'Roboto Mono',monospace;background:var(--bg3);padding:1px 5px;border-radius:4px;color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 18px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none;font-family:'Roboto Mono',monospace}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+@media(max-width:760px){.comp-grid,.gr-cols{grid-template-columns:1fr}.hero h1{font-size:34px}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="72" height="72" rx="14" fill="#0E1117"/>
-        <!-- Auth0 logo: circle with key-like shape -->
-        <circle cx="36" cy="36" r="18" fill="none" stroke="#EB5424" stroke-width="3"/>
-        <!-- A0 text simplified as mark -->
-        <path d="M26 44 L33 24 L36 30 L39 24 L46 44" stroke="#EB5424" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <line x1="29" y1="39" x2="43" y2="39" stroke="#EB5424" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
+      <svg viewBox="0 0 106 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Auth0 logo"><path d="M1.69096 17.4795C6.93608 16.6184 11.0487 12.5058 11.9098 7.26068L12.3326 4.70858C12.4108 4.21277 12.009 3.77959 11.5079 3.81612C7.51539 4.12404 3.75249 5.44967 1.67009 6.30037C0.662823 6.71268 0 7.69386 0 8.78985V16.8532C0 17.3282 0.422753 17.6883 0.892465 17.61L1.69096 17.4795Z" fill="var(--logo)"></path><path d="M14.4356 7.26056C15.2968 12.5057 19.4094 16.6183 24.6545 17.4794L25.453 17.6099C25.9227 17.6882 26.3454 17.3281 26.3454 16.8531V8.78973C26.3454 7.69895 25.6826 6.71777 24.6753 6.30025C22.5982 5.44433 18.83 4.12392 14.8375 3.816C14.3365 3.77947 13.9294 4.21265 14.0129 4.70846L14.4356 7.26056Z" fill="var(--logo)"></path><path d="M24.6589 20.0112C19.4138 20.8723 15.3012 24.9849 14.44 30.23L13.9181 35.209C13.8712 35.6578 14.367 35.9762 14.7428 35.7257C14.7428 35.7257 14.748 35.7257 14.7532 35.7205C18.0412 33.5024 25.5461 27.6936 26.2872 20.4392C26.3238 20.0843 26.0054 19.792 25.6557 19.8494L24.6641 20.0112H24.6589Z" fill="var(--logo)"></path><path d="M11.9075 30.2277C11.0464 24.9826 6.9338 20.87 1.68868 20.0088L0.618783 19.8314C0.305641 19.7792 0.0238052 20.0401 0.0551193 20.3585C0.759688 27.6547 8.36904 33.5 11.6831 35.7181C12.0276 35.9477 12.4816 35.6711 12.4399 35.2588L11.9128 30.2225L11.9075 30.2277Z" fill="var(--logo)"></path><path d="M62.7942 13.954H60.297C60.1456 13.954 60.0267 14.073 60.0267 14.2243V21.4295C60.0267 22.3105 59.8807 23.0835 59.5889 23.7483C59.297 24.4132 58.8862 24.9213 58.3511 25.2672C57.8159 25.6132 57.1835 25.7861 56.4538 25.7861C55.4052 25.7861 54.616 25.4402 54.0917 24.7483C53.5674 24.0564 53.3026 23.0619 53.3026 21.77V14.2243C53.3026 14.073 53.1837 13.954 53.0323 13.954H50.5081C50.3567 13.954 50.2378 14.073 50.2378 14.2243V22.0781C50.2378 23.2943 50.3891 24.3105 50.6864 25.1267C50.9837 25.9429 51.3945 26.6023 51.908 27.1104C52.4215 27.6185 53.0107 27.9752 53.6809 28.1915C54.3458 28.4077 55.0431 28.5158 55.7728 28.5158C56.8214 28.5158 57.6916 28.3158 58.3889 27.9104C58.9024 27.6131 59.3348 27.2834 59.697 26.9158C59.8483 26.7591 60.1078 26.8455 60.151 27.0564L60.3456 28.1212C60.3672 28.2509 60.4807 28.3428 60.6105 28.3428H62.7834C62.9347 28.3428 63.0536 28.2239 63.0536 28.0725V14.2243C63.0536 14.073 62.9347 13.954 62.7834 13.954H62.7942Z" fill="var(--logo)"></path><path d="M73.644 25.6751H70.3846C69.8062 25.6751 69.3954 25.5562 69.163 25.3237C68.9306 25.0913 68.8117 24.6913 68.8117 24.1292V16.897C68.8117 16.7456 68.9306 16.6267 69.0819 16.6267H73.5034C73.6548 16.6267 73.7737 16.5078 73.7737 16.3564V14.2268C73.7737 14.0754 73.6548 13.9565 73.5034 13.9565H69.3522C69.0549 13.9565 68.8117 13.7133 68.8117 13.416V9.85394C68.8117 9.70259 68.6928 9.58368 68.5414 9.58368H66.0442C65.8928 9.58368 65.7739 9.70259 65.7739 9.85394V24.4427C65.7739 25.7562 66.082 26.7345 66.7036 27.3777C67.3198 28.0264 68.3144 28.3453 69.6819 28.3453H73.644C73.7953 28.3453 73.9142 28.2264 73.9142 28.075V25.9453C73.9142 25.794 73.7953 25.6751 73.644 25.6751Z" fill="var(--logo)"></path><path d="M86.3392 14.5169C85.4852 14.0304 84.4907 13.7872 83.3447 13.7872C82.4475 13.7872 81.6205 13.9655 80.8691 14.3223C80.3286 14.5817 79.8475 14.9006 79.4367 15.2844C79.2638 15.4466 78.9881 15.3223 78.9881 15.0898V8.93866C78.9881 8.78731 78.8692 8.6684 78.7178 8.6684H76.1936C76.0423 8.6684 75.9233 8.78731 75.9233 8.93866V28.0732C75.9233 28.2246 76.0423 28.3435 76.1936 28.3435H78.7178C78.8692 28.3435 78.9881 28.2246 78.9881 28.0732V21.0626C78.9881 20.1275 79.1395 19.3167 79.4367 18.6303C79.734 17.9492 80.1611 17.4195 80.7178 17.0411C81.2691 16.6682 81.9232 16.479 82.6691 16.479C83.415 16.479 84.0096 16.6465 84.4961 16.9871C84.9825 17.3222 85.3501 17.7979 85.5933 18.4086C85.8366 19.0194 85.9609 19.7437 85.9609 20.587V28.0732C85.9609 28.2246 86.0798 28.3435 86.2311 28.3435H88.7284C88.8797 28.3435 88.9986 28.2246 88.9986 28.0732V20.3329C88.9986 18.8735 88.7716 17.6573 88.3122 16.6952C87.8527 15.7276 87.1987 15.0033 86.3446 14.5169H86.3392Z" fill="var(--logo)"></path><path d="M104.469 12.9455C103.891 11.5239 103.064 10.4267 101.994 9.65913C100.923 8.89158 99.6423 8.50781 98.1451 8.50781C96.6478 8.50781 95.3884 8.89158 94.3073 9.65913C93.2317 10.4267 92.3993 11.5239 91.8209 12.9455C91.2426 14.3725 90.9507 16.0752 90.9507 18.0589V18.9561C90.9507 20.9615 91.2426 22.6804 91.8209 24.1128C92.3993 25.5451 93.2317 26.637 94.3073 27.3883C95.383 28.1397 96.664 28.5126 98.1451 28.5126C99.6261 28.5126 100.929 28.1397 101.994 27.3883C103.058 26.637 103.885 25.5451 104.469 24.1128C105.048 22.6804 105.339 20.9615 105.339 18.9561V18.0589C105.339 16.0752 105.048 14.3671 104.469 12.9455ZM94.0155 19.3021C94.0155 19.1507 94.0155 18.9994 94.0155 18.848V18.1724C94.0155 15.886 94.3722 14.1347 95.0857 12.9185C95.7992 11.7023 96.8208 11.0915 98.1505 11.0915C99.3883 11.0915 100.356 11.6158 101.058 12.6699C101.329 13.0482 101.096 13.5293 100.983 13.659L95.4424 19.8372C94.9506 20.3885 94.0425 20.048 94.0263 19.3129L94.0155 19.3021ZM102.275 18.848C102.275 21.1182 101.918 22.8587 101.204 24.0749C100.491 25.2911 99.4693 25.9019 98.1397 25.9019C96.9181 25.9019 95.9559 25.3884 95.2587 24.3614C94.9884 23.9884 95.2208 23.5128 95.3343 23.3776L100.853 17.1886C101.345 16.6373 102.253 16.9724 102.269 17.7129C102.269 17.8643 102.269 18.021 102.269 18.1778V18.8534L102.275 18.848Z" fill="var(--logo)"></path><path d="M48.5034 25.7039H48.4277C48.125 25.7039 47.9142 25.6391 47.7791 25.5093C47.6493 25.3796 47.5845 25.1364 47.5845 24.7796V19.0176C47.5845 17.315 47.0602 16.0177 46.0115 15.1259C44.9629 14.234 43.4927 13.7908 41.6009 13.7908C40.4009 13.7908 39.3469 13.98 38.4388 14.3529C37.5307 14.7259 36.8064 15.2556 36.2605 15.9421C35.7794 16.5474 35.4767 17.2447 35.347 18.0339C35.32 18.196 35.4551 18.3474 35.6173 18.3474H38.0712C38.1956 18.3474 38.2983 18.2609 38.3307 18.1366C38.4766 17.5961 38.7955 17.1528 39.2982 16.8123C39.8604 16.4285 40.5793 16.2339 41.4603 16.2339C42.4333 16.2339 43.1954 16.461 43.7359 16.9204C44.2765 17.3799 44.5521 18.0123 44.5521 18.8176V19.4176C44.5521 19.569 44.4332 19.6879 44.2819 19.6879H41.0117C39.028 19.6879 37.5145 20.0879 36.4713 20.8825C35.4335 21.677 34.9092 23.8175 34.9092 24.2986C34.9092 25.1796 35.1362 25.9364 35.5848 26.5742C36.0335 27.212 36.6551 27.6931 37.455 28.0228C38.2496 28.3525 39.1631 28.5147 40.1955 28.5147C41.5468 28.5147 42.6441 28.2012 43.4981 27.5741C43.8711 27.2985 44.2062 26.985 44.4981 26.6444C44.6386 26.4769 44.9143 26.5363 44.9629 26.7471C45.0386 27.1039 45.1845 27.4174 45.3954 27.6714C45.7683 28.1201 46.4656 28.3471 47.4764 28.3471H48.779C48.9304 28.3471 49.0493 28.2282 49.0493 28.0768V26.1526C49.0493 25.785 48.9304 25.7039 48.5088 25.7039H48.5034ZM44.5467 22.5311C44.5467 23.2229 44.39 23.8499 44.0711 24.4013C43.7522 24.9526 43.3035 25.385 42.7198 25.6931C42.1414 26.0012 41.4333 26.158 40.6117 26.158C39.7901 26.158 39.1631 25.9634 38.6874 25.5796C38.2118 25.1958 37.9685 24.704 37.9685 24.104C37.9685 23.3743 38.2172 22.8283 38.7145 22.4716C39.2118 22.1148 39.9252 21.9365 40.8658 21.9365H44.5467V22.5256V22.5311Z" fill="var(--logo)"></path></svg>
     </div>
-    <div class="hero-text">
-      <h1>Auth0</h1>
-      <p>Identity platform — authentication &amp; authorization for every app</p>
+    <h1>Secure AI agents, humans, and whatever comes next</h1>
+    <p>Secure users, AI agents, and more with an easy-to-implement, scalable, and adaptable authentication and authorization platform.</p>
+    <div class="chips">
+      <span class="chip">Universal Login</span>
+      <span class="chip">Passkeys</span>
+      <span class="chip">MFA</span>
+      <span class="chip">Auth for GenAI</span>
+      <span class="chip">Enterprise SSO</span>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#EB5424', this)"><div class="swatch-dot" style="background:#EB5424"></div><div class="swatch-info"><span class="swatch-name">Orange</span><span class="swatch-hex">#EB5424</span></div></div>
-        <div class="swatch" onclick="copyHex('#FF7849', this)"><div class="swatch-dot" style="background:#FF7849"></div><div class="swatch-info"><span class="swatch-name">Orange Light</span><span class="swatch-hex">#FF7849</span></div></div>
-        <div class="swatch" onclick="copyHex('#21A179', this)"><div class="swatch-dot" style="background:#21A179"></div><div class="swatch-info"><span class="swatch-name">Success</span><span class="swatch-hex">#21A179</span></div></div>
-        <div class="swatch" onclick="copyHex('#E03E3E', this)"><div class="swatch-dot" style="background:#E03E3E"></div><div class="swatch-info"><span class="swatch-name">Danger</span><span class="swatch-hex">#E03E3E</span></div></div>
-      </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0E1117', this)"><div class="swatch-dot" style="background:#0E1117;border:1px solid #2A3650"></div><div class="swatch-info"><span class="swatch-name">Background</span><span class="swatch-hex">#0E1117</span></div></div>
-        <div class="swatch" onclick="copyHex('#161D2E', this)"><div class="swatch-dot" style="background:#161D2E;border:1px solid #2A3650"></div><div class="swatch-info"><span class="swatch-name">Surface</span><span class="swatch-hex">#161D2E</span></div></div>
-        <div class="swatch" onclick="copyHex('#1E2840', this)"><div class="swatch-dot" style="background:#1E2840;border:1px solid #2A3650"></div><div class="swatch-info"><span class="swatch-name">Elevated</span><span class="swatch-hex">#1E2840</span></div></div>
-        <div class="swatch" onclick="copyHex('#2A3650', this)"><div class="swatch-dot" style="background:#2A3650"></div><div class="swatch-info"><span class="swatch-name">Border</span><span class="swatch-hex">#2A3650</span></div></div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
 
+  <!-- SIGNATURE: UNIVERSAL LOGIN -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">36px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:36px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">26px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:26px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body text — default content for dashboard and docs</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — token previews, client IDs, metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--primary);">https://tenant.auth0.com/authorize</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card">
-        <h3>Buttons</h3>
-        <div class="btn-row">
-          <button class="btn btn-primary">Create App</button>
-          <button class="btn btn-danger">Block User</button>
-          <button class="btn btn-ghost">View Logs</button>
+    <div class="section-label">Signature — Universal Login</div>
+    <div class="login-stage">
+      <div class="login">
+        <div class="login-logo">
+          <svg viewBox="0 0 26.5 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Auth0 mark"><path d="M1.69096 17.4795C6.93608 16.6184 11.0487 12.5058 11.9098 7.26068L12.3326 4.70858C12.4108 4.21277 12.009 3.77959 11.5079 3.81612C7.51539 4.12404 3.75249 5.44967 1.67009 6.30037C0.662823 6.71268 0 7.69386 0 8.78985V16.8532C0 17.3282 0.422753 17.6883 0.892465 17.61L1.69096 17.4795Z" fill="var(--brand)"></path><path d="M14.4356 7.26056C15.2968 12.5057 19.4094 16.6183 24.6545 17.4794L25.453 17.6099C25.9227 17.6882 26.3454 17.3281 26.3454 16.8531V8.78973C26.3454 7.69895 25.6826 6.71777 24.6753 6.30025C22.5982 5.44433 18.83 4.12392 14.8375 3.816C14.3365 3.77947 13.9294 4.21265 14.0129 4.70846L14.4356 7.26056Z" fill="var(--brand)"></path><path d="M24.6589 20.0112C19.4138 20.8723 15.3012 24.9849 14.44 30.23L13.9181 35.209C13.8712 35.6578 14.367 35.9762 14.7428 35.7257C14.7428 35.7257 14.748 35.7257 14.7532 35.7205C18.0412 33.5024 25.5461 27.6936 26.2872 20.4392C26.3238 20.0843 26.0054 19.792 25.6557 19.8494L24.6641 20.0112H24.6589Z" fill="var(--brand)"></path><path d="M11.9075 30.2277C11.0464 24.9826 6.9338 20.87 1.68868 20.0088L0.618783 19.8314C0.305641 19.7792 0.0238052 20.0401 0.0551193 20.3585C0.759688 27.6547 8.36904 33.5 11.6831 35.7181C12.0276 35.9477 12.4816 35.6711 12.4399 35.2588L11.9128 30.2225L11.9075 30.2277Z" fill="var(--brand)"></path></svg>
         </div>
+        <h2 id="loginTitle">Welcome back</h2>
+        <div class="login-sub" id="loginSub">Log in to Acme to continue</div>
+        <div class="tabs">
+          <div class="tab active" id="tabLogin" onclick="setMode('login')">Log in</div>
+          <div class="tab" id="tabSignup" onclick="setMode('signup')">Sign up</div>
+        </div>
+        <div class="field"><label>Email address</label><input type="email" id="email" value="jane@acme.com" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input type="password" id="pw" value="············" placeholder="Enter your password"></div>
+        <button class="login-btn" id="loginBtn" onclick="authenticate()">Continue</button>
+        <div class="divider">Or continue with</div>
+        <div class="socials">
+          <div class="social" onclick="socialAuth('Google')"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.4a5.5 5.5 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.6-5.2 3.6-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1 .7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9H1.5v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.5a12 12 0 0 0 0 10.8l3.9-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.5 6.6l3.9 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>Continue with Google</div>
+          <div class="social" onclick="socialAuth('GitHub')"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.9 10.9c.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>Continue with GitHub</div>
+          <div class="social" onclick="socialAuth('Microsoft')"><svg viewBox="0 0 24 24"><path fill="#F25022" d="M1 1h10v10H1z"/><path fill="#7FBA00" d="M13 1h10v10H13z"/><path fill="#00A4EF" d="M1 13h10v10H1z"/><path fill="#FFB900" d="M13 13h10v10H13z"/></svg>Continue with Microsoft</div>
+        </div>
+        <div class="login-foot" id="loginFoot">Don't have an account? <a onclick="setMode('signup')">Sign up</a></div>
+        <div class="login-note">🔒 Secured by Auth0</div>
       </div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="group-label">Primary — indigo</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#635DFF')"><div class="swatch-color" style="background:#635DFF"></div><div class="swatch-info"><span class="swatch-name">indigo</span><span class="swatch-hex">#635DFF</span><span class="swatch-use">Primary, Continue button</span></div></div>
+      <div class="swatch" onclick="copyHex('#3F59E4')"><div class="swatch-color" style="background:#3F59E4"></div><div class="swatch-info"><span class="swatch-name">blue</span><span class="swatch-hex">#3F59E4</span><span class="swatch-use">Links, focus</span></div></div>
+      <div class="swatch" onclick="copyHex('#4016A0')"><div class="swatch-color" style="background:#4016A0"></div><div class="swatch-info"><span class="swatch-name">purple-deep</span><span class="swatch-hex">#4016A0</span><span class="swatch-use">Deep accent, gradients</span></div></div>
+    </div>
+
+    <div class="group-label">Accents — lavender</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#BCBAFF')"><div class="swatch-color" style="background:#BCBAFF"></div><div class="swatch-info"><span class="swatch-name">lavender</span><span class="swatch-hex">#BCBAFF</span><span class="swatch-use">Soft accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#99A7F1')"><div class="swatch-color" style="background:#99A7F1"></div><div class="swatch-info"><span class="swatch-name">periwinkle</span><span class="swatch-hex">#99A7F1</span><span class="swatch-use">Highlight tint</span></div></div>
+      <div class="swatch" onclick="copyHex('#B6CAFF')"><div class="swatch-color" style="background:#B6CAFF"></div><div class="swatch-info"><span class="swatch-name">sky</span><span class="swatch-hex">#B6CAFF</span><span class="swatch-use">Light-blue accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#C698FF')"><div class="swatch-color" style="background:#C698FF"></div><div class="swatch-info"><span class="swatch-name">violet</span><span class="swatch-hex">#C698FF</span><span class="swatch-use">Purple accent</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Cards, login widget</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFEFA')"><div class="swatch-color" style="background:#FFFEFA"></div><div class="swatch-info"><span class="swatch-name">paper</span><span class="swatch-hex">#FFFEFA</span><span class="swatch-use">Page background (warm)</span></div></div>
+      <div class="swatch" onclick="copyHex('#111111')"><div class="swatch-color" style="background:#111111"></div><div class="swatch-info"><span class="swatch-name">ink-dark</span><span class="swatch-hex">#111111</span><span class="swatch-use">Dark page background</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5E5E5')"><div class="swatch-color" style="background:#E5E5E5"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E5E5E5</span><span class="swatch-use">Borders, dividers</span></div></div>
+    </div>
+
+    <div class="group-label">Text &amp; semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#191919')"><div class="swatch-color" style="background:#191919"></div><div class="swatch-info"><span class="swatch-name">text</span><span class="swatch-hex">#191919</span><span class="swatch-use">Headings, body</span></div></div>
+      <div class="swatch" onclick="copyHex('#555555')"><div class="swatch-color" style="background:#555555"></div><div class="swatch-info"><span class="swatch-name">text2</span><span class="swatch-hex">#555555</span><span class="swatch-use">Secondary text</span></div></div>
+      <div class="swatch" onclick="copyHex('#8C929C')"><div class="swatch-color" style="background:#8C929C"></div><div class="swatch-info"><span class="swatch-name">text3</span><span class="swatch-hex">#8C929C</span><span class="swatch-use">Muted, placeholder</span></div></div>
+      <div class="swatch" onclick="copyHex('#4CB7A3')"><div class="swatch-color" style="background:#4CB7A3"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#4CB7A3</span><span class="swatch-use">Authenticated, healthy</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Aeonik (≈ Space Grotesk) · Inter · Roboto Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-2xl</div><div class="type-spec">Space Grotesk · 600</div></div><div class="type-sample display" style="font-size:44px;font-weight:600;letter-spacing:-.02em;line-height:1">Auth0</div><div class="spec-pills"><span class="spec-pill">52px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-xl</div><div class="type-spec">Space Grotesk · 600</div></div><div class="type-sample display" style="font-size:30px;font-weight:600;letter-spacing:-.01em;line-height:1.1">Built for what you're building</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">display-md</div><div class="type-spec">Space Grotesk · 500</div></div><div class="type-sample display" style="font-size:21px;font-weight:500">More signups. Less friction.</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">500</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-lg</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:16px">Integrate Auth0 in any application in just 5 minutes.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">text-sm</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:14px;color:var(--text2)">Standard body text and form labels.</div><div class="spec-pills"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">ui-mono</div><div class="type-spec">Roboto Mono · 400</div></div><div class="type-sample" style="font-size:12px;font-family:'Roboto Mono',monospace;color:var(--text2)">auth0 login --domain your-tenant.us.auth0.com</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+
       <div class="comp-card">
-        <h3>User Status</h3>
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:12px">
+          <button class="btn btn-primary">Get started for free</button>
+          <button class="btn btn-secondary">Talk to sales</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-link">See all quickstarts →</button></div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Auth badges</div>
         <div class="badge-row">
-          <span class="badge badge-active">Active</span>
-          <span class="badge badge-blocked">Blocked</span>
-          <span class="badge badge-pending">Pending MFA</span>
-          <span class="badge badge-invited">Invited</span>
+          <span class="badge" style="background:rgba(76,183,163,.16);color:#2f8574">✓ Verified</span>
+          <span class="badge" style="background:rgba(99,93,255,.14);color:#514BE0">MFA</span>
+          <span class="badge" style="background:rgba(99,93,255,.14);color:#514BE0">Passkey</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">SSO</span>
         </div>
       </div>
+
       <div class="comp-card">
-        <h3>JWT Viewer</h3>
-        <div class="jwt-block">
-          <div class="jwt-label">Header</div>
-          <span class="jwt-header">eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9</span>
-          <div class="jwt-label">Payload</div>
-          <span class="jwt-payload">eyJzdWIiOiJhdXRoMHx1c2VyMTIzIiwiaXNzIjoiaHR0cHMvL3RlbmFudC5hdXRoMC5jb20vIn0</span>
-          <div class="jwt-label">Signature</div>
-          <span class="jwt-sig">SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</span>
+        <div class="comp-title">Tenant domain</div>
+        <input class="mono-input" value="your-tenant.us.auth0.com">
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radius-row">
+          <div class="radius-item"><div class="radius-box" style="border-radius:6px"></div><div class="radius-label">6px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px</div></div>
+          <div class="radius-item"><div class="radius-box" style="border-radius:14px"></div><div class="radius-label">14px</div></div>
         </div>
       </div>
-      <div class="comp-card">
-        <h3>Input</h3>
-        <input class="input-demo" type="text" placeholder="client_id: abc123xyz..." />
-        <input class="input-demo" type="password" placeholder="client_secret: ••••••••" />
-      </div>
+
     </div>
   </div>
 
+  <!-- GUARDRAILS -->
   <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Use monospace for tokens, client IDs, callback URLs</li>
-          <li>Color-code user status (Active/Blocked/Pending)</li>
-          <li>Show JWTs with section color-coding</li>
-          <li>Mask client secrets by default — reveal on toggle</li>
-          <li>Use orange for primary CTAs — it must feel actionable</li>
-        </ul>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use indigo <code>#635DFF</code> as the one primary — the current Auth0 brand color</div>
+          <div class="gr-item">Keep page backgrounds warm paper <code>#FFFEFA</code>; let indigo carry emphasis</div>
+          <div class="gr-item">Keep the shield mark monochrome on paper, white, or dark</div>
+          <div class="gr-item">Use neutral near-black <code>#111111</code> for dark surfaces — not navy</div>
+          <div class="gr-item">Use teal <code>#4CB7A3</code> only for genuine authenticated / success states</div>
+        </div>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't show client secrets in plain text by default</li>
-          <li>Don't use orange for warnings — keep semantics distinct</li>
-          <li>Don't use corners below 8px</li>
-          <li>Don't abbreviate tenant names or client IDs</li>
-          <li>Don't use thin fonts — auth data must be readable</li>
-        </ul>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Use the legacy orange <code>#EB5424</code> — Auth0 rebranded to indigo</div>
+          <div class="gr-item">Tint dark surfaces blue/navy — Auth0's dark is neutral gray-black</div>
+          <div class="gr-item">Set display headings in Roboto Mono or the body font</div>
+          <div class="gr-item">Overload the login widget — one primary action, providers secondary</div>
+          <div class="gr-item">Fake provider names — use real IdPs (Google, GitHub, Microsoft)</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
-<script>
 
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = `Copied ${hex}`;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  const t=document.getElementById('toast');
+  t.textContent='Copied '+hex;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ---- Universal Login ---- */
+let mode='login';
+function setMode(m){
+  mode=m;
+  document.getElementById('tabLogin').classList.toggle('active',m==='login');
+  document.getElementById('tabSignup').classList.toggle('active',m==='signup');
+  const btn=document.getElementById('loginBtn');
+  if(m==='login'){
+    document.getElementById('loginTitle').textContent='Welcome back';
+    document.getElementById('loginSub').textContent='Log in to Acme to continue';
+    btn.textContent='Continue';btn.className='login-btn';
+    document.getElementById('loginFoot').innerHTML="Don't have an account? <a onclick=\"setMode('signup')\">Sign up</a>";
+  }else{
+    document.getElementById('loginTitle').textContent='Create your account';
+    document.getElementById('loginSub').textContent='Sign up for Acme to get started';
+    btn.textContent='Continue';btn.className='login-btn';
+    document.getElementById('loginFoot').innerHTML="Already have an account? <a onclick=\"setMode('login')\">Log in</a>";
+  }
+}
+function authenticate(){
+  const btn=document.getElementById('loginBtn');
+  if(btn.classList.contains('done')) return;
+  btn.textContent='Authenticating…';btn.disabled=true;
+  setTimeout(()=>{
+    btn.classList.add('done');btn.textContent='✓ '+(mode==='login'?'Signed in':'Account created');
+    setTimeout(()=>{btn.classList.remove('done');btn.disabled=false;btn.textContent='Continue';},1800);
+  },900);
+}
+function socialAuth(provider){
+  const t=document.getElementById('toast');
+  t.textContent='Redirecting to '+provider+'…';t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1600);
 }
 </script>
 </body>

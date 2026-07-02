@@ -1,173 +1,118 @@
 # Auth0 Design System
 
 ## Overview
-Auth0 (now part of Okta) is a leading identity and authentication platform. The design language is clean, professional, and secure-feeling — the orange accent on dark backgrounds communicates warmth and trustworthiness. It's enterprise-ready but developer-accessible.
 
-**Brand personality:** Secure, trustworthy, developer-friendly, enterprise-grade, clear.
+Auth0 (by Okta) is the identity platform for developers — "secure AI agents, humans, and whatever comes next." The current brand is built on a confident **indigo** (not the legacy orange), a warm off-white paper surface, geometric grotesque display type, and the four-shape shield mark. It reads as secure and modern, but developer-first and approachable rather than sterile enterprise.
+
+**Brand personality:** Secure, modern, developer-first, identity for humans and AI.
+
+**Positioning (live copy):** "Secure users, AI agents, and more with an easy-to-implement, scalable, and adaptable authentication and authorization platform."
 
 ---
 
 ## Colors
 
-### Primary Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--auth0-orange` | `#EB5424` | Primary brand, CTAs, highlights |
-| `--auth0-orange-hover` | `#C9481E` | Hover states |
-| `--auth0-orange-light` | `#FF7849` | Subtle highlights |
-| `--auth0-blue` | `#16214D` | Deep accent surface |
+Auth0 is **light-first** on a warm `#FFFEFA` paper background with white cards; dark mode is a neutral near-black (`#111111`). Indigo is the identity.
 
-### Surface Palette (Dark)
+### Primary — indigo
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--bg-primary` | `#0E1117` | Main background |
-| `--bg-surface` | `#161D2E` | Cards, panels |
-| `--bg-elevated` | `#1E2840` | Dropdowns, modals |
-| `--border` | `#2A3650` | Dividers, borders |
+| `--indigo` | `#635DFF` | Primary brand, CTAs, the "Continue" button |
+| `--blue` | `#3F59E4` | Links, secondary actions, focus |
+| `--purple-deep` | `#4016A0` | Deep accent, emphasis, gradients |
 
-### Text
+### Accents — lavender
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--text-primary` | `#F5F7FA` | Headings, body |
-| `--text-secondary` | `#8FA3C0` | Labels, captions |
-| `--text-muted` | `#546480` | Placeholders, disabled |
-| `--text-orange` | `#EB5424` | Links, accent text |
+| `--lavender` | `#BCBAFF` | Soft accent, illustration |
+| `--periwinkle` | `#99A7F1` | Highlight tint |
+| `--sky` | `#B6CAFF` | Light-blue accent |
+| `--violet` | `#C698FF` | Purple accent |
 
-### Semantic
+### Surfaces — Light
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `--success` | `#21A179` | Login successful, token valid |
-| `--warning` | `#F5A623` | Token expiring, MFA required |
-| `--danger` | `#E03E3E` | Auth failed, blocked user |
-| `--info` | `#3B82F6` | Informational |
+| `--bg` | `#FFFFFF` | Cards, the login widget |
+| `--bg2` | `#FFFEFA` | Page background (warm paper) |
+| `--bg3` | `#F4F4F4` | Fills, hover |
+| `--border` | `#E5E5E5` | Borders, dividers |
+
+### Surfaces — Dark (neutral near-black)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `--bg` | `#191919` | Cards, panels |
+| `--bg2` | `#111111` | Page background |
+| `--bg3` | `#2A2A2A` | Elevated, hover |
+| `--border` | `rgba(255,255,255,.10)` | Borders, dividers |
+
+### Text & semantic
+| Token | Hex (light) | Hex (dark) | Usage |
+|-------|-------------|------------|-------|
+| `--text` | `#191919` | `#FFFEFA` | Headings, body |
+| `--text2` | `#555555` | `#ABABAB` | Labels, secondary |
+| `--text3` | `#8C929C` | `#8C929C` | Muted, placeholder |
+| `--success` | `#4CB7A3` | `#4CB7A3` | Authenticated, healthy |
 
 ---
 
 ## Typography
 
-**Primary Font:** `Inter` (Google Fonts)
-**Monospace Font:** `JetBrains Mono`
+| Role | Font | Notes |
+|------|------|-------|
+| Display / headings | **Aeonik** (≈ Space Grotesk) | Aeonik is commercial; Auth0 also ships Space Grotesk — the CORS-safe substitute, on Google Fonts |
+| UI / body | **Inter** | Auth0's actual body font — Google Fonts |
+| Mono / code | **Roboto Mono** | Auth0's actual mono (also Aeonik Mono) — Google Fonts |
 
-| Scale | Size | Weight | Usage |
-|-------|------|--------|-------|
-| Display | 36px | 700 | Hero, landing pages |
-| Heading 1 | 26px | 600 | Page titles |
-| Heading 2 | 20px | 600 | Section headers |
-| Body | 14px | 400 | Default content |
-| Small | 12px | 400 | Metadata, token previews |
-| Mono | 13px | 400 | JWTs, client IDs, callback URLs |
-
----
-
-## Spacing
-
-Base unit: `4px`
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--space-1` | `4px` | Micro gaps |
-| `--space-2` | `8px` | Inline spacing |
-| `--space-3` | `12px` | Compact padding |
-| `--space-4` | `16px` | Standard gap |
-| `--space-6` | `24px` | Card padding |
-| `--space-8` | `32px` | Section gap |
-| `--space-12` | `48px` | Page sections |
-
----
-
-## Border Radius
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--radius-sm` | `4px` | Tags, badges |
-| `--radius-md` | `8px` | Buttons, inputs |
-| `--radius-lg` | `12px` | Cards, panels |
-| `--radius-xl` | `16px` | Modals |
-
----
-
-## Shadows
-
-```css
---shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
---shadow-md: 0 4px 16px rgba(0,0,0,0.5);
---shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
---shadow-orange: 0 0 0 3px rgba(235,84,36,0.25);
-```
+### Scale
+| Token | Size | Weight | Sample |
+|-------|------|--------|--------|
+| `display-2xl` | 52px | 600 | Auth0 |
+| `display-xl` | 32px | 600 | Built for what you're building |
+| `display-md` | 22px | 500 | More signups. Less friction. |
+| `text-lg` | 16px | 400 | Body / lead copy |
+| `text-sm` | 14px | 400 | UI copy, form labels |
+| `ui-mono` | 12px | 400 | `auth0 login --domain your-tenant` |
 
 ---
 
 ## Components
 
-### Buttons
-```
-Primary:  bg #EB5424, text white, hover #C9481E, radius 8px, height 40px, font-weight 500
-Ghost:    bg transparent, border #2A3650, text #8FA3C0, hover border #EB5424
-Danger:   bg #E03E3E, text white
-```
+- **Buttons:** indigo `#635DFF` primary (white text, safe in both themes), outline secondary, text link. Radius `8px`.
+- **Universal Login:** the Lock widget — logo, email/password, Continue, social providers, tab toggle.
+- **Social buttons:** outlined, provider icon + label (Google, GitHub, Microsoft).
+- **Inputs:** 1px border, `#635DFF` focus ring at 3px / ~25% alpha.
+- **Badges:** `Verified`, `MFA`, `Passkey` — indigo/teal semantic fills.
 
-### Inputs
-```
-Background: #161D2E
-Border:     #2A3650 default, #EB5424 focused
-Text:       #F5F7FA
-Placeholder: #546480
-Radius:     8px, height: 40px
-Font:       JetBrains Mono for client IDs, secrets, callback URLs
-```
-
-### User Status Badges
-```
-Active:  bg rgba(33,161,121,0.12), text #21A179
-Blocked: bg rgba(224,62,62,0.12), text #E03E3E
-Pending: bg rgba(245,166,35,0.12), text #F5A623
-Invited: bg rgba(59,130,246,0.12), text #3B82F6
-```
-
-### JWT Viewer
-```
-Background: #0E1117
-Border:     1px solid #2A3650
-Radius:     8px
-Header:     color #EB5424 (monospace)
-Payload:    color #F5F7FA (monospace)
-Signature:  color #8FA3C0 (monospace)
-Section divider: · in #546480
-```
+### Radius & elevation
+| Token | Value |
+|-------|-------|
+| `radius-sm` | 6px |
+| `radius-md` | 8px |
+| `radius-lg` | 14px |
+| `shadow-card` | `0 2px 4px rgba(25,25,25,.06), 0 12px 32px rgba(25,25,25,.10)` |
 
 ---
 
-## Layout
+## Signature component
 
-- Dashboard max-width: 1280px
-- Left nav: 220px
-- Content padding: 24px
-- Application list: card grid (3-col)
+**Universal Login.** Auth0's defining artifact: the drop-in login box. The widget shows the Auth0 logo, email + password fields, an indigo **Continue** button, an "or continue with" divider, and social providers. Tabs toggle between **Log in** and **Sign up** (changing the button and footer copy); pressing Continue animates through "Authenticating…" to an authenticated state.
 
----
-
-## Responsive Breakpoints
-
-| Name | Width |
-|------|-------|
-| Mobile | < 768px |
-| Tablet | 768px – 1280px |
-| Desktop | > 1280px |
+Seen with no branding, the centered login card with social buttons and the indigo Continue button is unmistakably Auth0 Universal Login.
 
 ---
 
-## Tone & Guardrails
+## Guardrails
 
-### DO
-- Use monospace for ALL tokens, client IDs, secrets, and callback URLs
-- Color-code user status (Active/Blocked/Pending) consistently
-- Show JWTs with section color-coding (header/payload/signature)
-- Use the orange for primary CTAs — it must always feel actionable
-- Mask sensitive values (client secrets) by default with a reveal toggle
+**DO**
+- Use indigo `#635DFF` as the one primary — it's the current Auth0 brand color.
+- Keep page backgrounds warm paper `#FFFEFA`; let indigo carry emphasis.
+- Keep the shield mark monochrome; render it on paper, white, or dark.
+- Use neutral near-black (`#111111`) for dark surfaces — not navy.
+- Use teal `#4CB7A3` only for genuine success / authenticated states.
 
-### DON'T
-- Don't show client secrets in plain text by default — always mask
-- Don't use the orange for warnings — semantic colors must stay distinct
-- Don't use rounded corners below 8px — Auth0 is security-focused, not playful
-- Don't abbreviate tenant names or client IDs — security context requires full values
-- Don't use thin fonts on dark backgrounds — critical auth data must be readable
+**DON'T**
+- Don't use the legacy orange `#EB5424` — Auth0 rebranded to indigo `#635DFF`.
+- Don't tint dark surfaces blue/navy — Auth0's dark is neutral gray-black.
+- Don't set display headings in Roboto Mono or the body font — Aeonik / Space Grotesk owns headings.
+- Don't overload the login widget — one primary action (Continue), providers secondary.
+- Don't fake provider names — use real IdPs (Google, GitHub, Microsoft).
