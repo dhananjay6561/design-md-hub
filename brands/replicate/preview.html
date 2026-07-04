@@ -1,255 +1,378 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Replicate Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"]{--bg:#0D0D0D;--surface:#161616;--elevated:#1E1E1E;--border:#2A2A2A;--brand:#0066FF;--brand-light:#4D94FF;--text-primary:#F5F5F5;--text-secondary:#A0A0A0;--text-muted:#666666;--success:#22C55E;--warning:#F59E0B;--error:#EF4444}
-:root[data-theme="light"]{--bg:#F5F5F5;--surface:#FFFFFF;--elevated:#F0F0F0;--border:#D5D5D5;--brand:#0047B3;--brand-light:#0066FF;--text-primary:#0D0D0D;--text-secondary:#525252;--text-muted:#A0A0A0;--success:#16A34A;--warning:#D97706;--error:#DC2626}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle:hover{border-color:var(--brand)}
-.wrap{max-width:1100px;margin:0 auto;padding:48px 24px}
-.hero{display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border)}
-.logo-wrap{width:64px;height:64px;background:var(--surface);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center}
-.hero-text h1{font-size:28px;font-weight:700}
-.hero-text p{color:var(--text-secondary);margin-top:4px}
-.hero-badge{margin-left:auto;background:rgba(0,102,255,0.12);color:var(--brand-light);border:1px solid rgba(0,102,255,0.3);padding:4px 12px;border-radius:4px;font-size:12px;font-weight:600;letter-spacing:.05em}
-.section{margin-bottom:56px}
-.section-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px}
-.color-groups{display:flex;flex-direction:column;gap:20px}
-.color-group-label{font-size:12px;color:var(--text-muted);margin-bottom:8px;font-weight:500}
-.color-row{display:flex;gap:10px;flex-wrap:wrap}
-.swatch{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-.swatch-block{width:56px;height:40px;border-radius:6px;border:1px solid rgba(255,255,255,.08);transition:transform .1s}
-.swatch:hover .swatch-block{transform:scale(1.08)}
-.swatch span{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-.type-rows{display:flex;flex-direction:column;gap:12px}
-.type-row{display:flex;align-items:baseline;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
-.type-label{font-size:11px;color:var(--text-muted);width:80px;flex-shrink:0;font-family:'JetBrains Mono',monospace}
-.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
-.comp-card h3{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+  :root[data-theme="light"] {
+    --bg: #FFFFFF;
+    --surface: #F9FAFB;
+    --sunken: #111827;
+    --fg: #111827;
+    --fg-muted: #6B7280;
+    --fg-disabled: #9CA3AF;
+    --border: #E5E7EB;
+    --accent: #EA2804;
+    --blue: #2563EB;
+    --swatch-ring: rgba(0,0,0,.10);
+    --logbg: #0D1117;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1115;
+    --surface: #17191E;
+    --sunken: #090B0E;
+    --fg: #E6E9EF;
+    --fg-muted: #9CA3AF;
+    --fg-disabled: #6B7280;
+    --border: #2A2E37;
+    --accent: #FF5A2C;
+    --blue: #5B8DEF;
+    --swatch-ring: rgba(255,255,255,.14);
+    --logbg: #090B0E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family:'Inter', system-ui, sans-serif; background:var(--bg); color:var(--fg); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .toggle-theme { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--fg-muted);width:38px;height:38px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle-theme:hover { border-color: var(--accent); }
+  .container { max-width: 1060px; margin: 0 auto; padding: 40px 24px 88px; }
+  .section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 26px; }
 
-/* Prediction Card */
-.pred-card{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
-.pred-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.pred-model{font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--text-primary);flex:1}
-.pred-status{font-size:11px;font-weight:500;padding:2px 8px;border-radius:3px}
-.pred-timing{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-.pred-inputs{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
-.pred-kv{display:flex;gap:8px;font-size:12px}
-.pred-key{color:var(--text-muted);width:90px;flex-shrink:0}
-.pred-val{font-family:'JetBrains Mono',monospace;color:var(--text-secondary);word-break:break-all}
-.pred-output{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary);line-height:1.6}
-.pred-id{font-size:10px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;margin-top:8px}
+  /* HERO */
+  .hero { padding: 32px 0 44px; border-bottom: 1px solid var(--border); }
+  .hero-logo { margin-bottom: 22px; display:flex; align-items:center; gap:11px; color:var(--fg); }
+  .hero-logo .wordmark { font-weight:600; font-size:22px; color:var(--fg); letter-spacing:-.01em; }
+  .hero h1 { font-size: 46px; font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; color: var(--fg); margin-bottom: 16px; max-width: 640px; }
+  .hero p { font-size: 19px; line-height: 1.5; color: var(--fg-muted); max-width: 560px; }
+  .hero-cta { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
 
-/* Model Cards */
-.model-list{display:flex;flex-direction:column;gap:8px}
-.model-row{display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--elevated);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .15s}
-.model-row:hover{border-color:var(--brand)}
-.model-thumb{width:40px;height:40px;border-radius:6px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px}
-.model-info{flex:1}
-.model-name{font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace}
-.model-desc{font-size:11px;color:var(--text-muted);margin-top:2px}
-.model-runs{font-size:11px;color:var(--text-secondary)}
-.hw-badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px}
+  /* COLORS */
+  .colors-group { margin-bottom: 26px; }
+  .colors-group:last-child { margin-bottom: 0; }
+  .colors-group-title { font-size: 11px; font-weight: 600; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+  .swatch { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 80ms, transform 80ms; }
+  .swatch:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .swatch-block { height: 74px; box-shadow: inset 0 0 0 1px var(--swatch-ring); }
+  .swatch-info { padding: 9px 11px 11px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .swatch-hex { font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--fg-muted); margin-top: 3px; }
+  .swatch-usage { font-size: 11px; color: var(--fg-disabled); margin-top: 3px; line-height: 1.4; }
 
-/* Status badges */
-.badge-grid{display:flex;flex-wrap:wrap;gap:8px}
-.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:4px;font-size:12px;font-weight:500}
-.b-processing{background:rgba(0,102,255,.15);color:var(--brand-light)}
-.b-succeeded{background:rgba(34,197,94,.12);color:#4ADE80}
-.b-failed{background:rgba(239,68,68,.12);color:#F87171}
-.b-starting{background:rgba(102,102,102,.15);color:#A0A0A0}
-.b-canceled{background:transparent;color:#94A3B8;border:1px solid var(--border)}
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--fg); color: var(--bg); font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 9px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-/* Version List */
-.version-list{display:flex;flex-direction:column;gap:6px}
-.version-row{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--elevated);border:1px solid var(--border);border-radius:5px;font-size:12px}
-.v-hash{font-family:'JetBrains Mono',monospace;color:var(--brand-light);flex:1}
-.v-date{color:var(--text-muted)}
-.v-runs{color:var(--text-secondary)}
-.v-latest{font-size:10px;background:rgba(0,102,255,.12);color:var(--brand-light);padding:1px 6px;border-radius:3px}
+  /* TYPOGRAPHY */
+  .type-row { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family:'JetBrains Mono',monospace; color: var(--fg-disabled); }
+  .type-sample { color: var(--fg); overflow: hidden; text-overflow: ellipsis; }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family:'JetBrains Mono',monospace; padding: 2px 7px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
 
-.spacing-bars{display:flex;flex-direction:column;gap:10px}
-.spacing-row{display:flex;align-items:center;gap:12px}
-.spacing-bar{background:var(--brand);border-radius:3px;height:14px;opacity:.8}
-.spacing-label{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono',monospace;width:36px}
-.spacing-val{font-size:11px;color:var(--text-secondary)}
-.guardrail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.guardrail-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
-.guardrail-card.do{border-top:2px solid var(--success)}
-.guardrail-card.dont{border-top:2px solid var(--error)}
-.guardrail-card h4{font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.05em}
-.guardrail-card.do h4{color:var(--success)}
-.guardrail-card.dont h4{color:var(--error)}
-.guardrail-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
-.guardrail-card ul li{font-size:12px;color:var(--text-secondary);padding-left:14px;position:relative}
-.guardrail-card ul li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
-.guardrail-card.do ul li::before{background:var(--success)}
-.guardrail-card.dont ul li::before{background:var(--error)}
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items:center; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 600; padding: 0 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; height: 40px; display: inline-flex; align-items: center; gap: 7px; transition: filter 80ms, background 80ms; }
+  .btn-black { background: var(--fg); color: var(--bg); }
+  .btn-black:hover { filter: brightness(1.25); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-accent:hover { filter: brightness(1.06); }
+  .btn-secondary { background: var(--bg); color: var(--fg); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--surface); }
+  .btn:disabled { opacity:.55; cursor:default; filter:none; }
+
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0 13px; font-family:'JetBrains Mono',monospace; font-size: 13px; color: var(--fg); height: 40px; transition: border-color 80ms, box-shadow 80ms; width: 100%; }
+  .input::placeholder { color: var(--fg-disabled); }
+  .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(234,40,4,.16); }
+
+  .chip-group { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 6px; display:inline-flex; align-items:center; gap:6px; border: 1px solid var(--border); background: var(--surface); color: var(--fg-muted); font-family:'JetBrains Mono',monospace; }
+  .chip .dot { width:7px;height:7px;border-radius:50%; }
+
+  /* SIGNATURE: PREDICTION */
+  .pr { border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--surface); }
+  .pr-head { display:flex; align-items:center; gap:11px; padding:14px 16px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .pr-mark { color:var(--accent); display:flex; }
+  .pr-slug { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--fg); font-weight:500; }
+  .pr-slug .owner { color:var(--fg-muted); }
+  .pr-badge { font-size:11px; font-family:'JetBrains Mono',monospace; color:var(--fg-muted); border:1px solid var(--border); border-radius:6px; padding:2px 7px; }
+  .pr-runs { margin-left:auto; font-size:12px; color:var(--fg-muted); font-family:'JetBrains Mono',monospace; }
+  .pr-body { padding:16px; }
+  .pr-field { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--fg-muted); font-weight:600; margin-bottom:7px; }
+  .pr-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:11px 13px; font-family:'Inter',sans-serif; font-size:14px; color:var(--fg); resize:none; line-height:1.5; }
+  .pr-input:focus { outline:none; border-color:var(--accent); }
+  .pr-run { display:flex; align-items:center; gap:12px; margin-top:12px; }
+  .pr-status { font-size:12px; font-weight:600; font-family:'JetBrains Mono',monospace; display:inline-flex; align-items:center; gap:7px; padding:4px 10px; border-radius:6px; }
+  .ps-idle { color:var(--fg-disabled); } .ps-processing { color:var(--blue); background:rgba(37,99,235,.1); } .ps-succeeded { color:#16A34A; background:rgba(22,163,74,.12); }
+  .pr-status .sd { width:7px;height:7px;border-radius:50%;background:currentColor; }
+  .pr-logs { margin-top:14px; background:var(--logbg); border-radius:8px; padding:12px 14px; font-family:'JetBrains Mono',monospace; font-size:12px; line-height:1.7; color:#8B98A5; min-height:40px; max-height:150px; overflow-y:auto; }
+  .pr-logs .lg { opacity:0; }
+  .pr-logs .lg.show { opacity:1; }
+  .pr-logs .t { color:#5A6b78; }
+  .pr-out { margin-top:14px; border:1px solid var(--border); border-radius:8px; padding:14px; background:var(--bg); font-size:14px; line-height:1.6; min-height:30px; }
+  .pr-out .cursor { display:inline-block;width:7px;height:15px;background:var(--accent);vertical-align:text-bottom;animation:blink 1s steps(2) infinite; }
+  @keyframes blink { 50%{opacity:0} }
+  .pr-meta { margin-top:12px; display:flex; gap:16px; font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--fg-disabled); flex-wrap:wrap; }
+
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 9px; }
+  .guardrails-heading { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: #16A34A; }
+  .guardrails-heading.dont { color: #EA2804; }
+  .guardrail-item { font-size: 13px; color: var(--fg-muted); padding: 4px 0 4px 18px; position: relative; line-height: 1.5; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-item.do::before { background: #16A34A; }
+  .guardrail-item.dont::before { background: #EA2804; }
+
+  @media (max-width: 720px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 70px 1fr; }
+    .type-specs { display: none; }
+    .hero h1 { font-size: 36px; }
+  }
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="wrap">
+<button class="toggle-theme" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast">Copied!</div>
+
+<div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <div class="logo-wrap">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <rect x="6" y="6" width="24" height="24" rx="4" stroke="#0066FF" stroke-width="2" fill="none"/>
-        <path d="M12 12h6a4 4 0 010 8h-6V12z" fill="#0066FF" opacity="0.3"/>
-        <rect x="12" y="12" width="3" height="12" rx="1.5" fill="#0066FF"/>
-        <circle cx="22" cy="24" r="3" fill="#4D94FF"/>
-      </svg>
+    <div class="hero-logo">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-label="Replicate"><path d="M24 10.262v2.712h-9.518V24h-3.034V10.262zm0-5.131v2.717H8.755V24H5.722V5.131zM24 0v2.717H3.034V24H0V0z"/></svg>
+      <span class="wordmark">Replicate</span>
     </div>
-    <div class="hero-text"><h1>Replicate</h1><p>Run AI models in the cloud via API</p></div>
-    <div class="hero-badge">AI MODEL CLOUD</div>
+    <h1>Run and fine-tune models. All with one line of code.</h1>
+    <p>Run open-source models with a cloud API, or deploy your own custom models at scale.</p>
+    <div class="hero-cta">
+      <button class="btn btn-black">Sign in with GitHub</button>
+      <button class="btn btn-secondary">Explore models</button>
+    </div>
   </div>
 
+  <!-- COLORS -->
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-groups">
-      <div><div class="color-group-label">Brand</div><div class="color-row">
-        <div class="swatch" onclick="navigator.clipboard.writeText('#0066FF')"><div class="swatch-block" style="background:#0066FF"></div><span>#0066FF</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#4D94FF')"><div class="swatch-block" style="background:#4D94FF"></div><span>#4D94FF</span></div>
-        <div class="swatch" onclick="navigator.clipboard.writeText('#0047B3')"><div class="swatch-block" style="background:#0047B3"></div><span>#0047B3</span></div>
-      </div></div>
-      <div><div class="color-group-label">Prediction Status</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#0066FF"></div><span>Processing</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#22C55E"></div><span>Succeeded</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#EF4444"></div><span>Failed</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#666666"></div><span>Starting</span></div>
-      </div></div>
-      <div><div class="color-group-label">Backgrounds</div><div class="color-row">
-        <div class="swatch"><div class="swatch-block" style="background:#0D0D0D;border:1px solid #2A2A2A"></div><span>#0D0D0D</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#161616"></div><span>#161616</span></div>
-        <div class="swatch"><div class="swatch-block" style="background:#1E1E1E"></div><span>#1E1E1E</span></div>
-      </div></div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#000000', this)"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><div class="swatch-name">Black</div><div class="swatch-hex">#000000</div><div class="swatch-usage">Text, buttons</div></div></div>
+        <div class="swatch" onclick="copyHex('#EA2804', this)"><div class="swatch-block" style="background:#EA2804"></div><div class="swatch-info"><div class="swatch-name">Orange-Red</div><div class="swatch-hex">#EA2804</div><div class="swatch-usage">Accent, Run</div></div></div>
+        <div class="swatch" onclick="copyHex('#2563EB', this)"><div class="swatch-block" style="background:#2563EB"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#2563EB</div><div class="swatch-usage">Links, processing</div></div></div>
+        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-block" style="background:#FFFFFF"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Page</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Accent Spectrum (model tags)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FFE629', this)"><div class="swatch-block" style="background:#FFE629"></div><div class="swatch-info"><div class="swatch-name">Yellow</div><div class="swatch-hex">#FFE629</div><div class="swatch-usage">Tag</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF6BFC', this)"><div class="swatch-block" style="background:#FF6BFC"></div><div class="swatch-info"><div class="swatch-name">Pink</div><div class="swatch-hex">#FF6BFC</div><div class="swatch-usage">Tag</div></div></div>
+        <div class="swatch" onclick="copyHex('#E54FE2', this)"><div class="swatch-block" style="background:#E54FE2"></div><div class="swatch-info"><div class="swatch-name">Magenta</div><div class="swatch-hex">#E54FE2</div><div class="swatch-usage">Tag</div></div></div>
+        <div class="swatch" onclick="copyHex('#F97E82', this)"><div class="swatch-block" style="background:#F97E82"></div><div class="swatch-info"><div class="swatch-name">Salmon</div><div class="swatch-hex">#F97E82</div><div class="swatch-usage">Tag</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Dark (neutral near-black)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#0F1115', this)"><div class="swatch-block" style="background:#0F1115"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#0F1115</div><div class="swatch-usage">Dark background</div></div></div>
+        <div class="swatch" onclick="copyHex('#17191E', this)"><div class="swatch-block" style="background:#17191E"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#17191E</div><div class="swatch-usage">Cards</div></div></div>
+        <div class="swatch" onclick="copyHex('#1F232B', this)"><div class="swatch-block" style="background:#1F232B"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#1F232B</div><div class="swatch-usage">Raised</div></div></div>
+        <div class="swatch" onclick="copyHex('#111827', this)"><div class="swatch-block" style="background:#111827"></div><div class="swatch-info"><div class="swatch-name">Code / Logs</div><div class="swatch-hex">#111827</div><div class="swatch-usage">Log surface</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text &amp; Status</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#6B7280', this)"><div class="swatch-block" style="background:#6B7280"></div><div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#6B7280</div><div class="swatch-usage">Muted text</div></div></div>
+        <div class="swatch" onclick="copyHex('#16A34A', this)"><div class="swatch-block" style="background:#16A34A"></div><div class="swatch-info"><div class="swatch-name">Succeeded</div><div class="swatch-hex">#16A34A</div><div class="swatch-usage">Prediction done</div></div></div>
+        <div class="swatch" onclick="copyHex('#E5E7EB', this)"><div class="swatch-block" style="background:#E5E7EB"></div><div class="swatch-info"><div class="swatch-name">Border (light)</div><div class="swatch-hex">#E5E7EB</div><div class="swatch-usage">Dividers</div></div></div>
+        <div class="swatch" onclick="copyHex('#9CA3AF', this)"><div class="swatch-block" style="background:#9CA3AF"></div><div class="swatch-info"><div class="swatch-name">Starting</div><div class="swatch-hex">#9CA3AF</div><div class="swatch-usage">Pending status</div></div></div>
+      </div>
     </div>
   </div>
 
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-rows">
-      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Run AI Models</span></div>
-      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Prediction History</span></div>
-      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Deploy and scale machine learning models with one line of code</span></div>
-      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--brand-light)">stability-ai/sdxl · v39ed631</span></div>
+    <div class="section-title">Typography — Inter ≈ Basier Square · JetBrains Mono</div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample" style="font-size:40px;font-weight:600;letter-spacing:-0.03em;">Run AI with an API</div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">600</span><span class="spec-pill">Inter</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample" style="font-size:27px;font-weight:600;">Thousands of models</div>
+      <div class="type-specs"><span class="spec-pill">27px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.1</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample" style="font-size:20px;font-weight:600;">Predictions &amp; deployments</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:400;">Push your model to Replicate and it becomes a scalable API endpoint — no infrastructure to manage.</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample mono" style="font-size:13px;color:var(--accent);">replicate.run("meta/meta-llama-3-70b-instruct")</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">JetBrains Mono</span></div>
     </div>
   </div>
 
+  <!-- SIGNATURE: PREDICTION -->
+  <div class="section">
+    <div class="section-title">Signature — Prediction</div>
+    <div class="pr">
+      <div class="pr-head">
+        <span class="pr-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.262v2.712h-9.518V24h-3.034V10.262zm0-5.131v2.717H8.755V24H5.722V5.131zM24 0v2.717H3.034V24H0V0z"/></svg></span>
+        <span class="pr-slug"><span class="owner">meta/</span>meta-llama-3-70b-instruct</span>
+        <span class="pr-badge">Public</span>
+        <span class="pr-runs">12.4M runs</span>
+      </div>
+      <div class="pr-body">
+        <div class="pr-field">Input · prompt</div>
+        <textarea class="pr-input" id="pr-input" rows="2">Explain diffusion models to a 10-year-old in two sentences.</textarea>
+        <div class="pr-run">
+          <button class="btn btn-accent" id="pr-btn" onclick="runPrediction()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Run
+          </button>
+          <span class="pr-status ps-idle" id="pr-status"><span class="sd"></span>idle</span>
+        </div>
+        <div class="pr-logs" id="pr-logs"></div>
+        <div class="pr-out" id="pr-out" style="display:none"></div>
+        <div class="pr-meta" id="pr-meta" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="comp-grid">
-      <div class="comp-card" style="grid-column:span 2">
-        <h3>Prediction Card</h3>
-        <div class="pred-card">
-          <div class="pred-header">
-            <span class="pred-model">stability-ai/sdxl</span>
-            <span class="pred-status" style="background:rgba(34,197,94,.12);color:#4ADE80">Succeeded</span>
-            <span class="pred-timing">3.2s · $0.0023</span>
-          </div>
-          <div class="pred-inputs">
-            <div class="pred-kv"><span class="pred-key">prompt</span><span class="pred-val">"A photorealistic cat sitting on a moonlit rooftop"</span></div>
-            <div class="pred-kv"><span class="pred-key">width</span><span class="pred-val">1024</span></div>
-            <div class="pred-kv"><span class="pred-key">height</span><span class="pred-val">1024</span></div>
-            <div class="pred-kv"><span class="pred-key">num_inference_steps</span><span class="pred-val">25</span></div>
-          </div>
-          <div class="pred-output">Output: [image] 1024×1024 · PNG · 1.4 MB<br><span style="color:var(--brand-light)">→ View output</span></div>
-          <div class="pred-id">ID: nt3a7k8d2fbg0cm4n2p3q5r6s7</div>
-        </div>
-        <div class="pred-card">
-          <div class="pred-header">
-            <span class="pred-model">meta/llama-2-70b-chat</span>
-            <span class="pred-status" style="background:rgba(0,102,255,.15);color:#4D94FF">Processing</span>
-            <span class="pred-timing">12s so far</span>
-          </div>
-          <div class="pred-inputs">
-            <div class="pred-kv"><span class="pred-key">prompt</span><span class="pred-val">"Explain transformers in 3 sentences"</span></div>
-            <div class="pred-kv"><span class="pred-key">max_new_tokens</span><span class="pred-val">512</span></div>
-          </div>
-          <div class="pred-output" style="border-color:rgba(0,102,255,.3)">Transformers are a neural network architecture based on self-attention mechanisms... <span style="display:inline-block;width:8px;height:14px;background:var(--brand-light);animation:blink 1s step-end infinite;vertical-align:middle"></span></div>
+    <div class="components-grid">
+      <div class="comp-card">
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-accent">Run</button>
+          <button class="btn btn-black">Deploy</button>
+          <button class="btn btn-secondary">Get the API</button>
         </div>
       </div>
-
       <div class="comp-card">
-        <h3>Model Directory</h3>
-        <div class="model-list">
-          <div class="model-row"><div class="model-thumb" style="background:rgba(139,92,246,.15)">🎨</div><div class="model-info"><div class="model-name">stability-ai/sdxl</div><div class="model-desc">Text-to-image · Stable Diffusion XL</div></div><span class="model-runs">4.2M runs</span></div>
-          <div class="model-row"><div class="model-thumb" style="background:rgba(0,102,255,.15)">💬</div><div class="model-info"><div class="model-name">meta/llama-2-70b-chat</div><div class="model-desc">Language model · Chat optimized</div></div><span class="model-runs">2.1M runs</span></div>
-          <div class="model-row"><div class="model-thumb" style="background:rgba(236,72,153,.15)">🎵</div><div class="model-info"><div class="model-name">riffusion/riffusion</div><div class="model-desc">Audio generation from text</div></div><span class="model-runs">810k runs</span></div>
+        <div class="comp-card-title">Search</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Search models…">
         </div>
       </div>
-
       <div class="comp-card">
-        <h3>Version History</h3>
-        <div class="version-list">
-          <div class="version-row"><span class="v-hash">39ed6318</span><span class="v-latest">latest</span><span class="v-runs">1.2M runs</span><span class="v-date">Jun 10</span></div>
-          <div class="version-row"><span class="v-hash">2b017d9b</span><span style="flex:1"></span><span class="v-runs">840k runs</span><span class="v-date">Apr 22</span></div>
-          <div class="version-row"><span class="v-hash">ac732ec8</span><span style="flex:1"></span><span class="v-runs">500k runs</span><span class="v-date">Feb 14</span></div>
-        </div>
-        <div style="margin-top:16px">
-          <div class="section-title" style="margin-bottom:8px">Hardware Badges</div>
-          <div class="badge-grid">
-            <span class="hw-badge" style="background:rgba(148,163,184,.1);color:#94A3B8">CPU</span>
-            <span class="hw-badge" style="background:rgba(34,197,94,.1);color:#4ADE80">T4</span>
-            <span class="hw-badge" style="background:rgba(0,102,255,.12);color:#4D94FF">A40</span>
-            <span class="hw-badge" style="background:rgba(139,92,246,.12);color:#C084FC">A100</span>
-            <span class="hw-badge" style="background:rgba(249,115,22,.12);color:#FB923C">H100</span>
-          </div>
+        <div class="comp-card-title">Prediction Status</div>
+        <div class="chip-group">
+          <span class="chip"><span class="dot" style="background:#9CA3AF"></span>starting</span>
+          <span class="chip"><span class="dot" style="background:#2563EB"></span>processing</span>
+          <span class="chip"><span class="dot" style="background:#16A34A"></span>succeeded</span>
+          <span class="chip"><span class="dot" style="background:#EA2804"></span>failed</span>
         </div>
       </div>
-
       <div class="comp-card">
-        <h3>Prediction Status Badges</h3>
-        <div class="badge-grid">
-          <span class="badge b-starting">○ Starting</span>
-          <span class="badge b-processing">⟳ Processing</span>
-          <span class="badge b-succeeded">✓ Succeeded</span>
-          <span class="badge b-failed">✕ Failed</span>
-          <span class="badge b-canceled">— Canceled</span>
+        <div class="comp-card-title">Model Tags</div>
+        <div class="chip-group">
+          <span class="chip" style="color:#B45309;border-color:#FFE629;background:rgba(255,230,41,.18)">text</span>
+          <span class="chip" style="color:#A21CAF;border-color:#FF6BFC;background:rgba(255,107,252,.14)">image</span>
+          <span class="chip" style="color:#2563EB;border-color:#93C5FD;background:rgba(37,99,235,.1)">audio</span>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-bars">
-      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
-      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
-      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
-      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
-    </div>
-  </div>
-
+  <!-- GUARDRAILS -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrail-grid">
-      <div class="guardrail-card do"><h4>DO</h4><ul>
-        <li>Use owner/model-name format consistently</li>
-        <li>Show prediction timing always — speed is core value</li>
-        <li>Use mono for all IDs, hashes, and version strings</li>
-        <li>Blue only for the primary Run/Submit action</li>
-        <li>Show cost/time estimates before running</li>
-      </ul></div>
-      <div class="guardrail-card dont"><h4>DON'T</h4><ul>
-        <li>Don't hide model versions — critical for reproducibility</li>
-        <li>Don't animate prediction status — instant feedback only</li>
-        <li>Don't use rounded corners > 8px</li>
-        <li>Don't omit hardware type — affects cost and latency</li>
-        <li>Don't truncate output without a "show more" affordance</li>
-      </ul></div>
+    <div class="guardrails-grid">
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Keep the canvas monochrome; use #EA2804 for the Run / brand accent</div>
+        <div class="guardrail-item do">Show the full prediction lifecycle and streaming logs</div>
+        <div class="guardrail-item do">Set model slugs, prediction IDs, and logs in the mono stack</div>
+        <div class="guardrail-item do">Show predict time and prediction ID on every completed run</div>
+        <div class="guardrail-item do">Use the spectrum only for model tags/badges</div>
+      </div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Don't make the brand blue — Replicate is monochrome + orange-red</div>
+        <div class="guardrail-item dont">Don't invent dark surfaces; anchor on neutral near-black #0F1115</div>
+        <div class="guardrail-item dont">Don't hide logs — they're how developers debug a prediction</div>
+        <div class="guardrail-item dont">Don't set slugs or IDs in a proportional font</div>
+        <div class="guardrail-item dont">Don't skip the status — a prediction always has a state</div>
+      </div>
     </div>
   </div>
+
 </div>
-<style>@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}</style>
+
+<script>
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+const LOGS = [
+  ['0.0s','Starting prediction…'],
+  ['0.4s','Booting container (nvidia-a40)'],
+  ['1.1s','Loading weights: meta-llama-3-70b-instruct'],
+  ['2.0s','Running inference'],
+  ['2.6s','Streaming tokens →']
+];
+const OUTPUT = "Diffusion models start with pure random noise and slowly clean it up, step by step, until a picture appears. It's like watching TV static magically turn into a photo as the computer removes the fuzz.";
+let busy=false;
+function runPrediction(){
+  if(busy) return; busy=true;
+  const btn=document.getElementById('pr-btn'), status=document.getElementById('pr-status');
+  const logs=document.getElementById('pr-logs'), out=document.getElementById('pr-out'), meta=document.getElementById('pr-meta');
+  btn.disabled=true;
+  status.className='pr-status ps-processing'; status.innerHTML='<span class="sd"></span>processing';
+  logs.innerHTML=''; out.style.display='none'; out.innerHTML=''; meta.style.display='none';
+  LOGS.forEach((l,i)=>{
+    const el=document.createElement('div'); el.className='lg';
+    el.innerHTML='<span class="t">['+l[0]+']</span> '+l[1];
+    logs.appendChild(el);
+    setTimeout(()=>{ el.classList.add('show'); logs.scrollTop=logs.scrollHeight; }, 120+i*300);
+  });
+  const afterLogs = 120 + LOGS.length*300 + 200;
+  setTimeout(()=>{
+    out.style.display='block';
+    const words=OUTPUT.split(' '); let i=0;
+    const cur=document.createElement('span'); cur.className='cursor'; out.appendChild(cur);
+    (function step(){
+      if(i<words.length){ cur.insertAdjacentText('beforebegin',(i?' ':'')+words[i]); i++; setTimeout(step,40); }
+      else { cur.remove();
+        status.className='pr-status ps-succeeded'; status.innerHTML='<span class="sd"></span>succeeded';
+        meta.style.display='flex';
+        meta.innerHTML='<span>predict time: 2.41s</span><span>id: hd8f3k…q2</span><span>hardware: A40</span>';
+        btn.disabled=false; busy=false;
+      }
+    })();
+  }, afterLogs);
+}
+runPrediction();
+</script>
 </body>
 </html>

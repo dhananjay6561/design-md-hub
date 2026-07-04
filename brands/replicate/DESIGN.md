@@ -1,139 +1,75 @@
 # Replicate Design System
 
 ## Brand Overview
-Replicate is the cloud platform for running AI models via API. The visual identity is minimal and technical — near-black backgrounds, electric blue accents, and code-first layouts. UI feels like a precision tool for ML engineers: clean, fast, and unapologetic about complexity.
+
+Replicate lets you run and fine-tune AI models with one line of code. The identity is minimal and
+code-forward: **monochrome black/white** with a neutral gray scale and a vivid **orange-red
+`#EA2804`** accent (plus a playful spectrum for model tags). Everything is in service of the
+model page and the prediction. Light-first.
+
+> "Run and fine-tune models. Deploy custom models. All with one line of code."
+
+## Typography
+
+- **Basier Square** — Replicate's brand typeface (proprietary). **Inter** is used here as the
+  ≈ fallback for display and UI.
+- **Mono** — model slugs, prediction IDs, logs, code (here: **JetBrains Mono**).
 
 ## Color Palette
 
 ### Primary
-- Brand Blue: `#0066FF`
-- Blue Light: `#4D94FF`
-- Blue Dark: `#0047B3`
+- Black: `#000000` — text, primary buttons
+- White: `#FFFFFF`
+- Orange-Red: `#EA2804` — brand accent, Run
+- Blue: `#2563EB` — links
 
-### Backgrounds
-- Base: `#0D0D0D`
-- Surface: `#161616`
-- Elevated: `#1E1E1E`
-- Border: `#2A2A2A`
+### Accent Spectrum (model tags)
+- Yellow: `#FFE629` · Pink: `#FF6BFC` · Magenta: `#E54FE2` · Salmon: `#F97E82`
 
-### Semantic
-- Success: `#22C55E`
-- Warning: `#F59E0B`
-- Error: `#EF4444`
-- Processing: `#0066FF`
+### Surfaces — Light
+- Page: `#FFFFFF`
+- Surface: `#F9FAFB`
+- Sunken (logs/code): `#111827`
+- Border: `#E5E7EB`
+
+### Surfaces — Dark (neutral near-black)
+- Page: `#0F1115`
+- Surface: `#17191E`
+- Elevated: `#1F232B`
+- Border: `#2A2E37`
 
 ### Text
-- Primary: `#F5F5F5`
-- Secondary: `#A0A0A0`
-- Muted: `#666666`
-- On-blue: `#FFFFFF`
+- Primary (light `#111827` / dark `#E6E9EF`)
+- Secondary: `#6B7280`
+- Muted: `#9CA3AF`
 
 ### Prediction Status
-- Starting: `#666666`
-- Processing: `#0066FF`
-- Succeeded: `#22C55E`
-- Failed: `#EF4444`
-- Canceled: `#94A3B8`
+- Starting: `#9CA3AF` · Processing: `#2563EB` · Succeeded: `#16A34A` · Failed: `#EA2804`
 
-## Typography
+## Logo
 
-### Font Stack
-- UI: `Space Grotesk, system-ui, sans-serif`
-- Code/IDs: `JetBrains Mono, monospace`
+The **Replicate mark** — the three nested staircase brackets (viewBox `0 0 24 24`, single path),
+rendered in black (or `#EA2804`). Pairs with the "Replicate" wordmark in Basier Square.
 
-### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+## Signature Component — Prediction
 
-### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
-
-## Components
-
-### Prediction Card
-- Model name + version in mono
-- Input params shown as key-value
-- Output preview: image thumbnail or text block
-- Status badge with timing (e.g. "Succeeded · 3.2s")
-- Prediction ID in muted mono
-
-### Model Card
-- Model name + owner (`owner/model-name`)
-- Cover image or gradient placeholder
-- Run count badge (e.g. "1.2M runs")
-- Description truncated to 2 lines
-- Tags: task type, hardware, license
-
-### API Playground
-- Input fields generated from model schema
-- Run button: blue filled, full-width
-- Output area: image or text with copy button
-- Cost estimate in muted text below Run
-
-### Version List
-- Version hash in mono, truncated
-- Created date
-- Run count
-- Diff indicator if schema changed
-
-### Hardware Badges
-- CPU: grey
-- T4: green
-- A40: blue
-- A100: purple
-- H100: orange
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (badges, mono tags), 6px (cards, inputs), 8px (modals)
-- Border: `1px solid #2A2A2A`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.5)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.6)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Minimal set: run, model, version, API, hardware
-- No decorative icons
-
-## Motion
-- Transitions: 150ms ease
-- Prediction processing: pulsing blue border
-- Output reveal: fade-in 200ms
-- Status change: instant (no animation for status)
+The model page run: a header (owner/model slug, visibility, run count), a prompt input, and a
+**Run** action that drives the prediction lifecycle — starting → processing (with streaming
+setup + inference **logs**) → succeeded — then streams the output and shows predict time and
+prediction ID. This is the core Replicate moment: a model, a run, an output.
 
 ## Guardrails
 
-### DO
-- Use `owner/model-name` format consistently
-- Show prediction timing always (speed is a key value prop)
-- Use mono for all IDs, hashes, and version strings
-- Blue only for the primary Run/Submit action
-- Show cost/time estimates before running
+**DO**
+- Keep the canvas monochrome; use `#EA2804` for the Run/brand accent.
+- Show the full prediction lifecycle and streaming logs, not just the output.
+- Set model slugs, prediction IDs, and logs in the mono stack.
+- Show predict time and prediction ID on every completed run.
+- Use the spectrum only for model tags/badges, not core UI.
 
-### DON'T
-- Don't hide model versions — they're critical for reproducibility
-- Don't animate prediction status changes — instant feedback only
-- Don't use rounded corners > 8px — the aesthetic is technical, not playful
-- Don't omit hardware type — it affects both cost and latency
-- Don't truncate output without a "show more" affordance
+**DON'T**
+- Don't make the brand blue — Replicate is monochrome with an orange-red accent.
+- Don't invent dark surfaces; anchor on a neutral near-black `#0F1115`.
+- Don't hide logs — they're how developers debug a prediction.
+- Don't set slugs or IDs in a proportional font.
+- Don't skip the status — a prediction always has a state.
