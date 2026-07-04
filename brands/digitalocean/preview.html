@@ -1,211 +1,381 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>DigitalOcean – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigitalOcean Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #0B1624; --surface: #131F2E; --elevated: #1C2D40; --border: #273D54;
-  --primary: #0080FF; --primary-hover: #0064CC;
-  --success: #00B27A; --warning: #FFB020; --danger: #FF4040;
-  --text: #EBF4FF; --text-2: #6B9BBB; --text-3: #3A5A78;
-  --toggle-bg: #1C2D40; --toggle-text: #EBF4FF; --toggle-border: #273D54;
-}
-:root[data-theme="light"] {
-  --bg: #EEF6FF; --surface: #FFFFFF; --elevated: #D8EEFF; --border: #BBDAFF;
-  --primary: #0080FF; --primary-hover: #0064CC;
-  --success: #00875A; --warning: #B07000; --danger: #CC2020;
-  --text: #0B1624; --text-2: #1A4060; --text-3: #6B9BBB;
-  --toggle-bg: #D8EEFF; --toggle-text: #0B1624; --toggle-border: #BBDAFF;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Droplet card */
-.droplet-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-.droplet-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.status-dot-sm { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.droplet-name { font-size: 14px; font-weight: 600; flex: 1; }
-.droplet-region { font-size: 11px; color: var(--text-3); }
-.droplet-specs { display: flex; gap: 12px; font-size: 11px; color: var(--text-2); margin-bottom: 8px; }
-.spec-item { display: flex; align-items: center; gap: 4px; }
-.droplet-ip { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--primary); }
-/* Usage bar */
-.usage-row { margin-bottom: 12px; }
-.usage-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
-.usage-label { color: var(--text-2); }
-.usage-pct { font-weight: 600; }
-.usage-track { background: var(--elevated); border-radius: 4px; height: 8px; overflow: hidden; }
-.usage-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
-/* Region badge */
-.region-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--elevated); border: 1px solid var(--border); color: var(--text-2); border-radius: 6px; padding: 4px 12px; font-size: 12px; margin: 4px; }
-.btn { display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--success); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--success); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  :root[data-theme="light"] {
+    --bg: #F9FAFE;
+    --card: #FFFFFF;
+    --sunken: #F1F3FB;
+    --fg: #080B2D;
+    --fg-muted: #5A6488;
+    --fg-disabled: #98A1BC;
+    --border: #E1E5F0;
+    --blue: #0069FF;
+    --blue-hover: #1633FF;
+    --green: #15CD72;
+    --swatch-ring: rgba(0,0,0,.10);
+  }
+  :root[data-theme="dark"] {
+    --bg: #080B2D;
+    --card: #11192E;
+    --sunken: #0D1428;
+    --fg: #EAEEFB;
+    --fg-muted: #8690A9;
+    --fg-disabled: #5A6488;
+    --border: #24335A;
+    --blue: #4C8DFF;
+    --blue-hover: #6BA1FF;
+    --green: #22DD82;
+    --swatch-ring: rgba(255,255,255,.14);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family:'Inter', system-ui, sans-serif; background:var(--bg); color:var(--fg); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  h1,h2,h3,.display,.wordmark { font-family:'Plus Jakarta Sans','Inter',sans-serif; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .toggle-theme { position:fixed;top:16px;right:16px;background:var(--card);border:1px solid var(--border);color:var(--fg-muted);width:38px;height:38px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle-theme:hover { border-color: var(--blue); }
+  .container { max-width: 1060px; margin: 0 auto; padding: 40px 24px 88px; }
+  .section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 26px; }
+
+  /* HERO */
+  .hero { padding: 32px 0 44px; border-bottom: 1px solid var(--border); }
+  .hero-logo { margin-bottom: 22px; display:flex; align-items:center; gap:11px; }
+  .hero-logo .wordmark { font-weight:800; font-size:22px; color:var(--fg); letter-spacing:-.01em; }
+  .hero h1 { font-size: 50px; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: var(--fg); margin-bottom: 16px; max-width: 620px; }
+  .hero p { font-size: 19px; line-height: 1.5; color: var(--fg-muted); max-width: 540px; }
+  .hero-cta { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+
+  /* COLORS */
+  .colors-group { margin-bottom: 26px; }
+  .colors-group:last-child { margin-bottom: 0; }
+  .colors-group-title { font-size: 11px; font-weight: 600; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+  .swatch { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 80ms, transform 80ms; }
+  .swatch:hover { border-color: var(--blue); transform: translateY(-1px); }
+  .swatch-block { height: 74px; box-shadow: inset 0 0 0 1px var(--swatch-ring); }
+  .swatch-info { padding: 9px 11px 11px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .swatch-hex { font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--fg-muted); margin-top: 3px; }
+  .swatch-usage { font-size: 11px; color: var(--fg-disabled); margin-top: 3px; line-height: 1.4; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--blue); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 9px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TYPOGRAPHY */
+  .type-row { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family:'JetBrains Mono',monospace; color: var(--fg-disabled); }
+  .type-sample { color: var(--fg); overflow: hidden; text-overflow: ellipsis; }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family:'JetBrains Mono',monospace; padding: 2px 7px; border-radius: 5px; background: var(--sunken); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
+
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items:center; }
+  .btn { font-family:'Inter',sans-serif; font-size: 14px; font-weight: 600; padding: 0 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; height: 40px; display: inline-flex; align-items: center; gap: 7px; transition: filter 80ms, background 80ms; }
+  .btn-blue { background: var(--blue); color: #fff; }
+  .btn-blue:hover { background: var(--blue-hover); }
+  .btn-secondary { background: var(--card); color: var(--blue); border-color: var(--blue); }
+  .btn-secondary:hover { background: var(--sunken); }
+  .btn-ghost { background: transparent; color: var(--fg-muted); border-color:var(--border); }
+  .btn-ghost:hover { background: var(--sunken); }
+  .btn:disabled { opacity:.55; cursor:default; }
+
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0 13px; font-family:'Inter',sans-serif; font-size: 14px; color: var(--fg); height: 40px; transition: border-color 80ms, box-shadow 80ms; width: 100%; }
+  .input::placeholder { color: var(--fg-disabled); }
+  .input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,105,255,.18); }
+
+  .chip-group { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 6px; display:inline-flex; align-items:center; gap:6px; border: 1px solid var(--border); background: var(--sunken); color: var(--fg-muted); }
+  .chip .dot { width:7px;height:7px;border-radius:50%; }
+
+  /* SIGNATURE: DROPLETS */
+  .dp { border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--card); }
+  .dp-bar { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .dp-title { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:16px; }
+  .dp-count { font-size:12px; color:var(--fg-muted); background:var(--sunken); border:1px solid var(--border); padding:2px 9px; border-radius:9999px; }
+  .dp-spacer { flex:1; }
+  .dp-head, .droplet { display:grid; grid-template-columns:1.6fr 1fr 1.1fr 1.3fr 70px; align-items:center; gap:12px; padding:11px 16px; }
+  .dp-head { font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--fg-disabled); border-bottom:1px solid var(--border); font-weight:600; background:var(--sunken); }
+  .droplet { border-bottom:1px solid var(--border); font-size:14px; }
+  .droplet:last-child { border-bottom:none; }
+  .dp-name { display:flex; align-items:center; gap:10px; min-width:0; }
+  .dp-name .status { width:9px;height:9px;border-radius:50%;flex-shrink:0; }
+  .st-active { background:var(--green); box-shadow:0 0 0 3px rgba(21,205,114,.2); }
+  .st-new { background:#FFB020; box-shadow:0 0 0 3px rgba(255,176,32,.2); animation:blink 1s infinite; }
+  .st-off { background:var(--fg-disabled); }
+  @keyframes blink { 50%{opacity:.35} }
+  .dp-name .nm { font-weight:600; color:var(--fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .dp-region, .dp-size, .dp-ip { font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--fg-muted); }
+  .dp-ip { color:var(--fg); }
+  .spark { display:flex; align-items:flex-end; gap:2px; height:22px; }
+  .spark i { width:3px; background:var(--blue); border-radius:1px; opacity:.75; }
+  .dp-foot { padding:12px 16px; border-top:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+  .dp-msg { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--fg-disabled); }
+
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 9px; }
+  .guardrails-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: #15CD72; }
+  .guardrails-heading.dont { color: #FF4747; }
+  .guardrail-item { font-size: 13px; color: var(--fg-muted); padding: 4px 0 4px 18px; position: relative; line-height: 1.5; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-item.do::before { background: #15CD72; }
+  .guardrail-item.dont::before { background: #FF4747; }
+
+  @media (max-width: 760px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 70px 1fr; }
+    .type-specs { display: none; }
+    .hero h1 { font-size: 36px; }
+    .dp-head, .droplet { grid-template-columns: 1.4fr 1fr 1.2fr; }
+    .dp-size, .spark { display:none; }
+  }
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<button class="toggle-theme" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 <div class="toast" id="toast">Copied!</div>
+
 <div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0B1624"/>
-      <!-- DigitalOcean D-O mark -->
-      <circle cx="36" cy="36" r="16" fill="#0080FF"/>
-      <circle cx="36" cy="36" r="9" fill="#0B1624"/>
-      <rect x="27" y="52" width="9" height="5" rx="2.5" fill="#0080FF"/>
-      <rect x="20" y="47" width="6" height="5" rx="2.5" fill="#0080FF"/>
-    </svg>
-    <div class="hero-text"><h1>DigitalOcean</h1><p>Developer cloud — simple, affordable infrastructure for builders</p></div>
+    <div class="hero-logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="#0069FF" aria-label="DigitalOcean"><path d="M12.04 0C5.408-.02.005 5.37.005 11.992h4.638c0-4.923 4.882-8.731 10.064-6.855a6.95 6.95 0 014.147 4.148c1.889 5.177-1.924 10.055-6.84 10.064v-4.61H7.391v4.623h4.61V24c7.86 0 13.967-7.588 11.397-15.83-1.115-3.59-3.985-6.446-7.575-7.575A12.8 12.8 0 0012.039 0zM7.39 19.362H3.828v3.564H7.39zm-3.563 0v-2.978H.85v2.978z"/></svg>
+      <span class="wordmark">DigitalOcean</span>
+    </div>
+    <h1>AI-Native Cloud</h1>
+    <p>Simple, predictable cloud infrastructure — Droplets, managed databases, and apps built for developers.</p>
+    <div class="hero-cta">
+      <button class="btn btn-blue">Sign up</button>
+      <button class="btn btn-secondary">Contact sales</button>
+    </div>
   </div>
 
+  <!-- COLORS -->
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0080FF',this)"><div class="swatch-dot" style="background:#0080FF"></div><div class="swatch-name">Ocean Blue</div><div class="swatch-hex">#0080FF</div></div>
-        <div class="swatch" onclick="copyHex('#00B27A',this)"><div class="swatch-dot" style="background:#00B27A"></div><div class="swatch-name">Success</div><div class="swatch-hex">#00B27A</div></div>
-        <div class="swatch" onclick="copyHex('#FFB020',this)"><div class="swatch-dot" style="background:#FFB020"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#FFB020</div></div>
-        <div class="swatch" onclick="copyHex('#FF4040',this)"><div class="swatch-dot" style="background:#FF4040"></div><div class="swatch-name">Danger</div><div class="swatch-hex">#FF4040</div></div>
+        <div class="swatch" onclick="copyHex('#0069FF', this)"><div class="swatch-block" style="background:#0069FF"></div><div class="swatch-info"><div class="swatch-name">Ocean Blue</div><div class="swatch-hex">#0069FF</div><div class="swatch-usage">Brand, CTAs, links</div></div></div>
+        <div class="swatch" onclick="copyHex('#1633FF', this)"><div class="swatch-block" style="background:#1633FF"></div><div class="swatch-info"><div class="swatch-name">Blue Deep</div><div class="swatch-hex">#1633FF</div><div class="swatch-usage">Hover</div></div></div>
+        <div class="swatch" onclick="copyHex('#000C79', this)"><div class="swatch-block" style="background:#000C79"></div><div class="swatch-info"><div class="swatch-name">Navy</div><div class="swatch-hex">#000C79</div><div class="swatch-usage">Deep accents</div></div></div>
+        <div class="swatch" onclick="copyHex('#080B2D', this)"><div class="swatch-block" style="background:#080B2D"></div><div class="swatch-info"><div class="swatch-name">Ink</div><div class="swatch-hex">#080B2D</div><div class="swatch-usage">Text, dark page</div></div></div>
       </div>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Accent &amp; Semantic</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0B1624',this)"><div class="swatch-dot" style="background:#0B1624;border:1px solid #273D54"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0B1624</div></div>
-        <div class="swatch" onclick="copyHex('#131F2E',this)"><div class="swatch-dot" style="background:#131F2E;border:1px solid #273D54"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#131F2E</div></div>
-        <div class="swatch" onclick="copyHex('#1C2D40',this)"><div class="swatch-dot" style="background:#1C2D40"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1C2D40</div></div>
-        <div class="swatch" onclick="copyHex('#273D54',this)"><div class="swatch-dot" style="background:#273D54"></div><div class="swatch-name">Border</div><div class="swatch-hex">#273D54</div></div>
+        <div class="swatch" onclick="copyHex('#15CD72', this)"><div class="swatch-block" style="background:#15CD72"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#15CD72</div><div class="swatch-usage">Active, healthy</div></div></div>
+        <div class="swatch" onclick="copyHex('#80D34A', this)"><div class="swatch-block" style="background:#80D34A"></div><div class="swatch-info"><div class="swatch-name">Lime</div><div class="swatch-hex">#80D34A</div><div class="swatch-usage">Accent</div></div></div>
+        <div class="swatch" onclick="copyHex('#FFB020', this)"><div class="swatch-block" style="background:#FFB020"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">#FFB020</div><div class="swatch-usage">Provisioning</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF4747', this)"><div class="swatch-block" style="background:#FF4747"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#FF4747</div><div class="swatch-usage">Failed</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Dark (real DO navy)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#080B2D', this)"><div class="swatch-block" style="background:#080B2D"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#080B2D</div><div class="swatch-usage">Dark background</div></div></div>
+        <div class="swatch" onclick="copyHex('#11192E', this)"><div class="swatch-block" style="background:#11192E"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#11192E</div><div class="swatch-usage">Cards</div></div></div>
+        <div class="swatch" onclick="copyHex('#1A2444', this)"><div class="swatch-block" style="background:#1A2444"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#1A2444</div><div class="swatch-usage">Raised</div></div></div>
+        <div class="swatch" onclick="copyHex('#24335A', this)"><div class="swatch-block" style="background:#24335A"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#24335A</div><div class="swatch-usage">Dividers</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text &amp; Light</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#8690A9', this)"><div class="swatch-block" style="background:#8690A9"></div><div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#8690A9</div><div class="swatch-usage">Muted text</div></div></div>
+        <div class="swatch" onclick="copyHex('#BCC2C2', this)"><div class="swatch-block" style="background:#BCC2C2"></div><div class="swatch-info"><div class="swatch-name">Muted</div><div class="swatch-hex">#BCC2C2</div><div class="swatch-usage">Disabled</div></div></div>
+        <div class="swatch" onclick="copyHex('#F9FAFE', this)"><div class="swatch-block" style="background:#F9FAFE"></div><div class="swatch-info"><div class="swatch-name">Page Light</div><div class="swatch-hex">#F9FAFE</div><div class="swatch-usage">Light background</div></div></div>
+        <div class="swatch" onclick="copyHex('#E1E5F0', this)"><div class="swatch-block" style="background:#E1E5F0"></div><div class="swatch-info"><div class="swatch-name">Border (light)</div><div class="swatch-hex">#E1E5F0</div><div class="swatch-usage">Dividers</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:22px;font-weight:600;">Page Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — resource descriptions, docs, billing info</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — region labels, spec metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--primary);">167.99.204.12</div></div>
+    <div class="section-title">Typography — Plus Jakarta Sans · Inter · JetBrains Mono</div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample display" style="font-size:40px;font-weight:800;letter-spacing:-0.03em;">Cloud, simplified</div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">800</span><span class="spec-pill">Jakarta</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample display" style="font-size:27px;font-weight:700;">Spin up a Droplet in seconds</div>
+      <div class="type-specs"><span class="spec-pill">27px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.1</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample display" style="font-size:20px;font-weight:700;">Managed Databases</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:400;">Deploy an SSD virtual machine in 55 seconds with predictable, flat-rate pricing and full root access.</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">Inter</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample mono" style="font-size:13px;color:var(--blue);">doctl compute droplet create web-01 --size s-2vcpu-4gb</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">JetBrains Mono</span></div>
+    </div>
   </div>
 
+  <!-- SIGNATURE: DROPLETS -->
+  <div class="section">
+    <div class="section-title">Signature — Droplets</div>
+    <div class="dp">
+      <div class="dp-bar">
+        <span class="dp-title">Droplets</span>
+        <span class="dp-count" id="dp-count">3</span>
+        <div class="dp-spacer"></div>
+        <button class="btn btn-blue" id="dp-btn" onclick="createDroplet()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg> Create Droplet
+        </button>
+      </div>
+      <div class="dp-head"><span>Name</span><span>Region</span><span>Size</span><span>Public IP</span><span>CPU</span></div>
+      <div id="dp-list"></div>
+      <div class="dp-foot"><span class="dp-msg" id="dp-msg">3 Droplets · 2 regions</span></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
   <div class="section">
     <div class="section-title">Components</div>
     <div class="components-grid">
       <div class="comp-card">
-        <h3>Droplets</h3>
-        <div class="droplet-card">
-          <div class="droplet-header"><div class="status-dot-sm" style="background:#00B27A;box-shadow:0 0 5px #00B27A"></div><div class="droplet-name">web-prod-1</div><div class="droplet-region">🇺🇸 NYC3</div></div>
-          <div class="droplet-specs"><span class="spec-item">2 vCPUs</span><span class="spec-item">4 GB RAM</span><span class="spec-item">80 GB SSD</span></div>
-          <div class="droplet-ip">167.99.204.12</div>
-        </div>
-        <div class="droplet-card">
-          <div class="droplet-header"><div class="status-dot-sm" style="background:#FFB020"></div><div class="droplet-name">db-staging</div><div class="droplet-region">🇩🇪 FRA1</div></div>
-          <div class="droplet-specs"><span class="spec-item">1 vCPU</span><span class="spec-item">2 GB RAM</span><span class="spec-item">50 GB SSD</span></div>
-          <div class="droplet-ip">128.140.52.44</div>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-blue">Create Droplet</button>
+          <button class="btn btn-secondary">Add volume</button>
+          <button class="btn btn-ghost">More</button>
         </div>
       </div>
       <div class="comp-card">
-        <h3>Resource Usage</h3>
-        <div class="usage-row">
-          <div class="usage-header"><span class="usage-label">CPU</span><span class="usage-pct" style="color:#00B27A">34%</span></div>
-          <div class="usage-track"><div class="usage-fill" style="width:34%;background:#00B27A"></div></div>
-        </div>
-        <div class="usage-row">
-          <div class="usage-header"><span class="usage-label">Memory</span><span class="usage-pct" style="color:#FFB020">71%</span></div>
-          <div class="usage-track"><div class="usage-fill" style="width:71%;background:#FFB020"></div></div>
-        </div>
-        <div class="usage-row">
-          <div class="usage-header"><span class="usage-label">Disk</span><span class="usage-pct" style="color:#FF4040">88%</span></div>
-          <div class="usage-track"><div class="usage-fill" style="width:88%;background:#FF4040"></div></div>
-        </div>
-        <div class="usage-row">
-          <div class="usage-header"><span class="usage-label">Bandwidth</span><span class="usage-pct" style="color:#00B27A">22%</span></div>
-          <div class="usage-track"><div class="usage-fill" style="width:22%;background:#00B27A"></div></div>
+        <div class="comp-card-title">Search</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Search by Droplet name or IP…">
         </div>
       </div>
       <div class="comp-card">
-        <h3>Regions</h3>
-        <div><span class="region-tag">🇺🇸 NYC3</span><span class="region-tag">🇺🇸 SFO3</span><span class="region-tag">🇩🇪 FRA1</span><span class="region-tag">🇸🇬 SGP1</span><span class="region-tag">🇳🇱 AMS3</span></div>
-        <div style="margin-top:14px;display:flex;gap:10px;">
-          <button class="btn btn-primary">Create Droplet</button>
-          <button class="btn btn-ghost">View All</button>
+        <div class="comp-card-title">Resource Status</div>
+        <div class="chip-group">
+          <span class="chip"><span class="dot" style="background:#15CD72"></span>Active</span>
+          <span class="chip"><span class="dot" style="background:#FFB020"></span>New</span>
+          <span class="chip"><span class="dot" style="background:#8690A9"></span>Off</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Regions</div>
+        <div class="chip-group">
+          <span class="chip mono">NYC3</span>
+          <span class="chip mono">SFO3</span>
+          <span class="chip mono">AMS3</span>
+          <span class="chip mono">BLR1</span>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
+  <!-- GUARDRAILS -->
   <div class="section">
     <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>IP addresses always in monospace</li>
-        <li>Show vCPU/RAM/disk specs together always</li>
-        <li>Usage bar color changes by threshold</li>
-        <li>Status dot always visible with glow on active</li>
-        <li>Show pricing alongside specs — key decision factor</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't truncate droplet names</li>
-        <li>Don't hide status behind hover</li>
-        <li>Don't use blue for warning states</li>
-        <li>Don't show resource usage without unit</li>
-        <li>Don't omit region from resource cards</li>
-      </ul></div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Use ocean blue #0069FF for brand, CTAs, and links</div>
+        <div class="guardrail-item do">Use green #15CD72 only for healthy / active resources</div>
+        <div class="guardrail-item do">Set IPs, regions, sizes, and commands in the mono stack</div>
+        <div class="guardrail-item do">Keep the canvas cool off-white / navy so status colors read</div>
+        <div class="guardrail-item do">Show region and size on every Droplet</div>
+      </div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Don't drift the blue lighter — the brand blue is #0069FF, not #0080FF</div>
+        <div class="guardrail-item dont">Don't invent dark surfaces; anchor on the real DO navy #080B2D</div>
+        <div class="guardrail-item dont">Don't use green for anything but healthy / active state</div>
+        <div class="guardrail-item dont">Don't set IPs or resource sizes in a proportional font</div>
+        <div class="guardrail-item dont">Don't hide a Droplet's status while it's provisioning</div>
+      </div>
     </div>
   </div>
-</div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</div>
+
+<script>
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+const SPARK = [8,12,7,14,10,16,9,13,11,18,12,15];
+function sparkHTML(seed){
+  return '<div class="spark">'+SPARK.map((v,i)=>'<i style="height:'+(4+((v+seed*3)%16))+'px"></i>').join('')+'</div>';
+}
+let DROPLETS = [
+  {nm:'web-prod-01',  region:'NYC3', size:'s-4vcpu-8gb', ip:'164.92.78.14',  status:'active'},
+  {nm:'api-worker-02',region:'SFO3', size:'s-2vcpu-4gb', ip:'137.184.11.203',status:'active'},
+  {nm:'db-replica-01',region:'NYC3', size:'g-2vcpu-8gb', ip:'167.71.44.90',  status:'off'}
+];
+let nextN = 3;
+
+function render(){
+  const list = document.getElementById('dp-list');
+  list.innerHTML = '';
+  DROPLETS.forEach((d,i) => {
+    const row = document.createElement('div');
+    row.className = 'droplet';
+    const stClass = d.status==='active'?'st-active':(d.status==='off'?'st-off':'st-new');
+    const label = d.status==='new'?'Booting…':(d.status==='off'?'Off':'');
+    row.innerHTML =
+      '<div class="dp-name"><span class="status '+stClass+'"></span><span class="nm">'+d.nm+'</span></div>'+
+      '<div class="dp-region">'+d.region+'</div>'+
+      '<div class="dp-size">'+d.size+'</div>'+
+      '<div class="dp-ip">'+(d.ip||'—')+'</div>'+
+      (d.status==='off'||d.status==='new' ? '<div class="dp-region">'+label+'</div>' : sparkHTML(i));
+    list.appendChild(row);
+  });
+  document.getElementById('dp-count').textContent = DROPLETS.length;
+  const active = DROPLETS.filter(d=>d.status==='active').length;
+  document.getElementById('dp-msg').textContent = DROPLETS.length+' Droplets · '+active+' active';
+}
+
+let busy=false;
+function createDroplet(){
+  if(busy || DROPLETS.length>=8) return;
+  busy=true;
+  const btn=document.getElementById('dp-btn'); btn.disabled=true;
+  nextN++;
+  const regions=['AMS3','BLR1','LON1','TOR1'];
+  const d={nm:'app-node-0'+nextN, region:regions[nextN%regions.length], size:'s-2vcpu-4gb', ip:'', status:'new'};
+  DROPLETS.push(d); render();
+  setTimeout(()=>{
+    d.status='active';
+    d.ip='159.'+(89+nextN)+'.'+(20+nextN*3)+'.'+(100+nextN);
+    render(); btn.disabled=false; busy=false;
+  }, 1600);
+}
+render();
 </script>
 </body>
 </html>
