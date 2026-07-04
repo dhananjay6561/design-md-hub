@@ -1,144 +1,91 @@
 # Hasura Design System
 
 ## Brand Overview
-Hasura is a GraphQL engine that gives instant, realtime APIs on databases. The visual identity is technical and precise — dark surfaces, cyan-teal accents, and monospace code everywhere. UI feels like a high-performance developer console.
+Hasura is the GraphQL data-access company — instant, secure GraphQL APIs on your data (and now PromptQL for AI data access). The current identity is confident and technical: a deep **navy-black** canvas, a vivid **lime** accent that signals speed, a strong **electric blue** for actions, and monospace GraphQL everywhere. It reads like a high-performance developer control plane.
+
+> **Rebrand note (verify against live):** the older stub's teal `#1EB4D4` is superseded — the live palette is navy `#000615` + lime `#B6FC34` + blue `#3970FD` / `#1E56E3`.
 
 ## Color Palette
 
 ### Primary
-- Brand Teal: `#1EB4D4`
-- Teal Light: `#5ECFE7`
-- Teal Dark: `#0F8BA6`
+- Blue (brand action): `#3970FD` — primary buttons, links
+- Blue deep: `#1E56E3` / `#0D41C6`
+- Blue light: `#80A3FF` (accents on dark)
+- Lime (accent): `#B6FC34` — highlights, speed, run states
 
-### Backgrounds
-- Base: `#0F1117`
-- Surface: `#1A1D27`
-- Elevated: `#242837`
-- Border: `#2E3347`
+### Backgrounds — Dark (default)
+- Base: `#000615` — navy-black page
+- Surface: `#0A1120`
+- Elevated: `#121A2E`
+- Code well: `#00030D`
+- Border: `rgba(255,255,255,.09)`
 
-### Semantic
-- Success: `#27AE60`
-- Warning: `#F2994A`
-- Error: `#EB5757`
-- Info: `#1EB4D4`
+### Backgrounds — Light
+- Base: `#F0F4FF` — cool blue-white
+- Surface: `#FFFFFF`
+- Tint: `#DFE8FF` / `#C6D6FF`
+- Border: `#E5E7EB`
 
 ### Text
-- Primary: `#F8FAFC`
-- Secondary: `#94A3B8`
-- Muted: `#64748B`
-- On-teal: `#0F1117`
+- Primary (dark): `#F5F5F5` / (light): `#0B0E1C`
+- Secondary: `#9DA4AE` / `#697394`
+- Muted: `#6C737F`
 
-### GraphQL Syntax
-- Field: `#1EB4D4`
-- Type: `#A78BFA`
-- String: `#86EFAC`
-- Keyword: `#FB923C`
-- Comment: `#64748B`
+### Accent tints
+- Purple: `#DBC6FF`
+- Cream: `#FFE4B0`
+
+### GraphQL syntax
+- Keyword (`query`/`mutation`): `#DBC6FF`
+- Field: `#80A3FF`
+- String: `#B6FC34`
+- Number / enum: `#FFE4B0`
+- Punctuation: `#6C737F`
+
+### Semantic
+- Success: `#3DD68C`
+- Warning: `#FFB020`
+- Error: `#FF5A5F`
+- Info: `#3970FD`
 
 ## Typography
 
-### Font Stack
-- UI: `Space Grotesk, system-ui, sans-serif`
-- Code/Query: `JetBrains Mono, Fira Code, monospace`
+### Font Stack (real Hasura fonts)
+- Display / UI: **Archivo** (Google Fonts, self-hosted by Hasura) — headings, body, buttons.
+- Code / mono: **JetBrains Mono** (Google Fonts, real Hasura font) — GraphQL, JSON, keys.
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+- xs 11 / sm 13 / base 15 / md 18 / lg 22 / xl 30 / 2xl 46
 
 ### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+Regular 400 · Medium 500 · Semibold 600 · Bold 700
 
 ## Components
 
-### Query Editor
-- Dark surface `#1A1D27`
-- Monospace font, syntax highlighted
-- Line numbers in muted text
-- Run button: teal filled, top-right
-- Results pane below with JSON output
+### Buttons
+- Primary: blue `#3970FD`, white text, radius 8px — "Get started"
+- Lime CTA: `#B6FC34` fill, navy text (`#000615`) — high-emphasis moments
+- Secondary: transparent, 1px border — "Contact Us"
 
-### Schema Browser
-- Left sidebar: table/view list with icons
-- Expandable rows showing columns with type badges
-- Relationship arrows shown as `→` links
-- Search field at top with teal focus ring
+### GraphQL editor
+Dark code well, JetBrains Mono, GraphQL-highlighted (keyword / field / string / number). Operation tabs above; a lime **Run** (▶) triggers execution.
 
-### Table Selector
-- Dropdown with search
-- Database icon prefix
-- Schema grouping (public / custom)
-- Active item: teal left border
+### Response viewer
+JSON pane keyed with syntax colors; status line shows time + row count.
 
-### Status Badges
-- Tracked: teal pill
-- Untracked: grey outline
-- Error: red filled
-- Deprecated: orange outline
-
-### Relationship Cards
-- Object relationship: single arrow icon
-- Array relationship: stacked arrow icon
-- Source/target table names in mono
-- Edit/delete actions on hover
-
-### Permission Matrix
-- Grid: roles × operations (insert/select/update/delete)
-- Cell: checkmark (full), partial circle (custom), dash (none)
-- Row header: role name
-- Hover: highlight entire row/column
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (inputs, badges), 6px (cards), 8px (modals)
-- Border: `1px solid #2E3347`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.5)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Stroke weight: 1.5px
-- Database, table, column, relationship, permissions themes
-- No filled icons except status indicators
-
-## Motion
-- Transitions: 150ms ease
-- Panel expand: 200ms ease-out
-- Query run: spinner in button, no page jump
-- Toast notifications: slide in from top-right
+## Signature Component — GraphQL API Explorer
+Hasura's core value is **instant GraphQL on your data**. The signature is the Console **API Explorer** (GraphiQL): a query editor with GraphQL syntax highlighting, operation tabs (`users`, `orders + relationship`, `insert (mutation)`), and a lime **Run** button. Executing an operation returns realistic JSON in the response pane with a `200 · N rows · Xms` status line. Each operation maps to a deterministic result. This is the single UI most associated with Hasura.
 
 ## Guardrails
 
-### DO
-- Use monospace for all query text, table names, column names
-- Use teal exclusively for primary actions and active states
-- Keep backgrounds layered: base → surface → elevated
-- Show relationship directions clearly with arrows
-- Use type badges on every column (Int, String, Boolean, etc.)
+**DO**
+- Use navy `#000615` as the dark canvas and blue `#3970FD` for actions.
+- Reserve lime `#B6FC34` for the Run state, highlights, and speed cues.
+- Render all GraphQL, JSON and keys in JetBrains Mono.
+- Use Archivo for UI; keep GraphQL syntax colors consistent.
 
-### DON'T
-- Don't use rounded corners > 8px — feels too soft for a DB tool
-- Don't color-code unrelated elements teal — it signals "action"
-- Don't show raw SQL unless explicitly toggled — keep GraphQL first
-- Don't use animations > 250ms in query workflows
-- Don't mix UI font and mono in the same sentence/label
+**DON'T**
+- Don't use the legacy teal `#1EB4D4` as the brand color.
+- Don't put lime on a light background as text (too low contrast) — flip to blue.
+- Don't render GraphQL/JSON in a proportional font.
+- Don't overuse lime — it's an accent, not a surface.
