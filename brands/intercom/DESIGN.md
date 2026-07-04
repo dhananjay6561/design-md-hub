@@ -1,67 +1,78 @@
 # Intercom Design System
 
 ## Brand Overview
-Intercom is a customer messaging platform — live chat, support, and product tours. The brand is approachable and human, built on a signature blue with conversational UI patterns.
+
+Intercom is the AI-first customer service platform — a helpdesk built around **Fin**, its
+natively integrated AI Agent. The 2024 rebrand is bold and editorial: **black** as the lead,
+a **warm cream `#F4F3EC`** paper, and vivid **electric blue `#000CE1`** and **orange `#FF5600`**
+accents. The identity is confident and human; the Messenger is the beating heart of the product.
+Light-first, on warm paper.
+
+> "The only helpdesk designed for the AI Agent era."
+
+## Typography
+
+- **MediumLL** (Lineto) — proprietary display / brand typeface. **Inter** is used here as the
+  ≈ fallback.
+- **Inter** — UI / body (Intercom ships Inter for interface text directly).
+- **Mono** — IDs, code, metadata (Intercom's *Saans Mono*; here **JetBrains Mono**).
 
 ## Color Palette
 
 ### Primary
-- **Blue**: `#1F8EFA` — primary brand, CTAs, user bubbles
-- **Blue Dark**: `#0F7AE5` — hover, pressed
-- **Blue Light**: `#5AACFF` — highlights
+- Black: `#000000` — lead brand, primary buttons, text
+- Warm Cream: `#F4F3EC` — paper / page
+- Electric Blue: `#000CE1` — interactive, Messenger, links
+- Orange: `#FF5600` — accent, highlights
 
-### Semantic
-- **Success**: `#00C896`
-- **Warning**: `#F5A623`
-- **Error**: `#FC4747`
-- **Online**: `#00C896` — green dot
+### Accent & Semantic
+- Blue Deep: `#0007CB` (hover)
+- Green: `#00A544` (online, resolved)
+- Red: `#E40014` (urgent, error)
+- Gray: `#626260`
 
-### Surfaces (Dark Mode)
-- **Background**: `#0C1219`
-- **Surface**: `#14202E`
-- **Elevated**: `#1D2F42`
-- **Border**: `#283E55`
+### Surfaces — Light
+- Page: `#F4F3EC` (warm cream)
+- Card: `#FFFFFF`
+- Sunken: `#FAF9F6`
+- Border: `#E3E2DF`
+
+### Surfaces — Dark (warm near-black)
+- Page: `#111111`
+- Surface: `#1A1A19`
+- Elevated: `#242422`
+- Border: `#2E2E2C`
 
 ### Text
-- **Primary**: `#EDF2F7`
-- **Secondary**: `#7FA8C4`
-- **Muted**: `#3D6080`
+- Primary (light `#111111` / dark `#F4F3EC`)
+- Secondary: `#626260`
+- Muted: `#9A9A97`
 
-## Typography
-- **Primary Font**: Inter (400, 500, 600, 700)
-- **Mono Font**: JetBrains Mono (for user IDs, conversation IDs)
+## Logo
 
-## Spacing
-4px base — 4, 8, 12, 16, 24, 32, 48, 64.
+The **Intercom mark** — the rounded speech-bubble with descending vertical bars (viewBox
+`0 0 24 24`, single path), rendered in `currentColor` (black on cream, cream on dark) or the
+electric blue. The signature product motif is the **Messenger launcher** bubble.
 
-## Border Radius
-- Chat bubbles: 18px (rounded), flat on sender side bottom
-- Buttons: 8px
-- Cards: 12px
-- Inputs: 8px
+## Signature Component — Messenger
 
-## Components
-
-### Chat Bubble
-- User message: blue bg, right-aligned
-- Agent message: surface bg, left-aligned, avatar left
-- Timestamp below bubble, muted
-
-### Conversation List Row
-- Avatar + name + preview text truncated
-- Unread count badge blue, right
-- Last message time right-aligned
-
-### Presence Dot
-- 10px circle, green = online, grey = offline
-- Positioned bottom-right of avatar
-
-### Team Badge
-- Team name with member count, surface bg
+The Intercom Messenger: a chat widget led by **Fin AI Agent**. A branded header, a conversation
+of Fin and customer bubbles, **quick-reply** pills, and a composer. Tapping a quick reply (or
+sending a message) adds a customer bubble, shows Fin's typing indicator, then streams Fin's
+answer — the defining Intercom interaction, with the floating launcher bubble alongside.
 
 ## Guardrails
-- Chat bubbles must have generous padding — conversations need breathing room
-- User vs agent messages must be clearly distinct at a glance
-- Online status dot must always be visible on avatars
-- Never truncate a message preview below 2 lines
-- Conversation IDs in monospace
+
+**DO**
+- Lead with black and the warm cream paper; use blue/orange as accents.
+- Use electric blue `#000CE1` for the Messenger, interactive state, and links.
+- Keep the Messenger human — Fin branding, quick replies, typing indicator.
+- Use Inter for interface text; reserve MediumLL for display.
+- Set IDs and metadata in the mono stack.
+
+**DON'T**
+- Don't use the pre-rebrand sky blue `#1F8EFA` — the current accent is `#000CE1`.
+- Don't cool the cream to plain white — the warmth (`#F4F3EC`) is the identity.
+- Don't invent navy dark surfaces; step within warm near-black.
+- Don't overuse orange — it's a highlight, not a primary surface.
+- Don't strip Fin's identity from the Messenger — it's the product's core.

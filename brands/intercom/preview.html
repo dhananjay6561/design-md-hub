@@ -1,214 +1,390 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Intercom – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intercom Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #0C1219; --surface: #14202E; --elevated: #1D2F42; --border: #283E55;
-  --primary: #1F8EFA; --primary-hover: #0F7AE5;
-  --online: #00C896; --warning: #F5A623; --danger: #FC4747;
-  --text: #EDF2F7; --text-2: #7FA8C4; --text-3: #3D6080;
-  --toggle-bg: #1D2F42; --toggle-text: #EDF2F7; --toggle-border: #283E55;
-}
-:root[data-theme="light"] {
-  --bg: #F0F6FF; --surface: #FFFFFF; --elevated: #D8EBF8; --border: #BDD6EC;
-  --primary: #1F8EFA; --primary-hover: #0F7AE5;
-  --online: #00A87A; --warning: #B07000; --danger: #C02020;
-  --text: #0C1219; --text-2: #2A5070; --text-3: #7FA8C4;
-  --toggle-bg: #D8EBF8; --toggle-text: #0C1219; --toggle-border: #BDD6EC;
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Chat bubbles */
-.chat-wrap { display: flex; flex-direction: column; gap: 10px; }
-.msg-row { display: flex; gap: 8px; align-items: flex-end; }
-.msg-row.user { flex-direction: row-reverse; }
-.avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; position: relative; }
-.presence { position: absolute; bottom: 0; right: 0; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--surface); }
-.bubble { max-width: 220px; padding: 10px 14px; font-size: 13px; line-height: 1.45; }
-.bubble.agent { background: var(--elevated); border-radius: 18px 18px 18px 4px; color: var(--text); }
-.bubble.user { background: var(--primary); border-radius: 18px 18px 4px 18px; color: #fff; }
-.bubble-time { font-size: 10px; color: var(--text-3); margin-top: 3px; text-align: right; }
-/* Conversation list */
-.conv-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-.conv-row:last-child { border-bottom: none; }
-.conv-row:hover { background: var(--elevated); border-radius: 6px; padding: 10px 8px; margin: 0 -8px; }
-.conv-info { flex: 1; min-width: 0; }
-.conv-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.conv-preview { font-size: 12px; color: var(--text-3); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.unread-badge { background: var(--primary); color: #fff; border-radius: 9999px; font-size: 10px; font-weight: 700; padding: 2px 7px; flex-shrink: 0; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--primary); border-radius: 3px; opacity: 0.8; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.guardrail-card.do { border-top: 3px solid var(--online); } .guardrail-card.dont { border-top: 3px solid var(--danger); }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--online); } .guardrail-card.dont .guardrail-label { color: var(--danger); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 14px; position: relative; }
-.guardrail-card li::before { content: '–'; position: absolute; left: 0; color: var(--text-3); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  :root[data-theme="light"] {
+    --bg: #F4F3EC;
+    --bg-surface: #FAF9F6;
+    --bg-card: #FFFFFF;
+    --fg: #111111;
+    --fg-muted: #626260;
+    --fg-disabled: #9A9A97;
+    --border: #E3E2DF;
+    --brand: #000CE1;
+    --brand-hover: #0007CB;
+    --orange: #FF5600;
+    --swatch-ring: rgba(0,0,0,.10);
+    --btn-fg: #FFFFFF;
+  }
+  :root[data-theme="dark"] {
+    --bg: #111111;
+    --bg-surface: #1A1A19;
+    --bg-card: #242422;
+    --fg: #F4F3EC;
+    --fg-muted: #A3A39F;
+    --fg-disabled: #6E6E6B;
+    --border: #2E2E2C;
+    --brand: #5B6BFF;
+    --brand-hover: #7A87FF;
+    --orange: #FF7A33;
+    --swatch-ring: rgba(255,255,255,.14);
+    --btn-fg: #111111;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family:'Inter', system-ui, sans-serif; background:var(--bg); color:var(--fg); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .toggle-theme { position:fixed;top:16px;right:16px;background:var(--bg-card);border:1px solid var(--border);color:var(--fg-muted);width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle-theme:hover { border-color: var(--brand); }
+  .container { max-width: 1060px; margin: 0 auto; padding: 40px 24px 88px; }
+  .section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 26px; }
+
+  /* HERO */
+  .hero { padding: 32px 0 44px; border-bottom: 1px solid var(--border); }
+  .hero-logo { margin-bottom: 24px; display:flex; align-items:center; gap:11px; color:var(--fg); }
+  .hero-logo .wordmark { font-weight:700; font-size:23px; color:var(--fg); letter-spacing:-.02em; }
+  .hero h1 { font-size: 50px; font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: var(--fg); margin-bottom: 16px; max-width: 660px; }
+  .hero p { font-size: 19px; line-height: 1.5; color: var(--fg-muted); max-width: 560px; }
+  .hero-cta { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+
+  /* COLORS */
+  .colors-group { margin-bottom: 26px; }
+  .colors-group:last-child { margin-bottom: 0; }
+  .colors-group-title { font-size: 11px; font-weight: 600; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+  .swatch { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 80ms, transform 80ms; }
+  .swatch:hover { border-color: var(--brand); transform: translateY(-1px); }
+  .swatch-block { height: 74px; box-shadow: inset 0 0 0 1px var(--swatch-ring); }
+  .swatch-info { padding: 9px 11px 11px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .swatch-hex { font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--fg-muted); margin-top: 3px; }
+  .swatch-usage { font-size: 11px; color: var(--fg-disabled); margin-top: 3px; line-height: 1.4; }
+
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #000; color: #fff; font-size: 13px; font-weight: 500; padding: 9px 18px; border-radius: 9px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* TYPOGRAPHY */
+  .type-row { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family:'JetBrains Mono',monospace; color: var(--fg-disabled); }
+  .type-sample { color: var(--fg); overflow: hidden; text-overflow: ellipsis; }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family:'JetBrains Mono',monospace; padding: 2px 7px; border-radius: 5px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
+
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items:center; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 600; padding: 0 16px; border-radius: 9px; border: 1px solid transparent; cursor: pointer; height: 40px; display: inline-flex; align-items: center; gap: 7px; transition: filter 80ms, background 80ms; }
+  .btn-black { background: var(--fg); color: var(--bg); }
+  .btn-black:hover { filter: brightness(1.2); }
+  .btn-blue { background: var(--brand); color: #fff; }
+  .btn-blue:hover { background: var(--brand-hover); }
+  :root[data-theme="dark"] .btn-blue { color:#0A0A0A; }
+  .btn-secondary { background: transparent; color: var(--fg); border-color: var(--fg); }
+  .btn-secondary:hover { background: var(--bg-surface); }
+
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input { background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; padding: 0 13px; font-family: inherit; font-size: 14px; color: var(--fg); height: 40px; transition: border-color 80ms, box-shadow 80ms; width: 100%; }
+  .input::placeholder { color: var(--fg-disabled); }
+  .input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(0,12,225,.15); }
+
+  .chip-group { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 3px 11px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); background: var(--bg-surface); color: var(--fg-muted); }
+  .chip .dot { width:7px;height:7px;border-radius:50%; }
+  .chip.blue { background:rgba(0,12,225,.1); color:var(--brand); border-color:transparent; }
+  .chip.orange { background:rgba(255,86,0,.12); color:var(--orange); border-color:transparent; }
+
+  /* SIGNATURE: MESSENGER */
+  .msgr-stage { display:flex; align-items:flex-end; justify-content:center; gap:24px; background:var(--bg-surface); border:1px solid var(--border); border-radius:16px; padding:36px 24px 28px; }
+  .messenger { width:352px; background:var(--bg-card); border-radius:18px; overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.16); border:1px solid var(--border); display:flex; flex-direction:column; }
+  .msgr-head { background:linear-gradient(135deg, #000CE1 0%, #3A20E0 60%, #6A2BD9 100%); color:#fff; padding:18px 18px 16px; }
+  .msgr-head-top { display:flex; align-items:center; gap:8px; opacity:.9; font-size:12px; }
+  .msgr-fin { display:flex; align-items:center; gap:10px; margin-top:12px; }
+  .msgr-fin-av { width:34px; height:34px; border-radius:50%; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; }
+  .msgr-fin-name { font-weight:700; font-size:16px; }
+  .msgr-fin-sub { font-size:12px; opacity:.85; }
+  .msgr-body { padding:16px; display:flex; flex-direction:column; gap:10px; background:var(--bg-card); min-height:190px; max-height:260px; overflow-y:auto; }
+  .bub { max-width:78%; padding:9px 13px; font-size:13.5px; line-height:1.45; border-radius:16px; }
+  .bub.fin { align-self:flex-start; background:var(--bg-surface); color:var(--fg); border-bottom-left-radius:5px; }
+  .bub.me { align-self:flex-end; background:var(--brand); color:#fff; border-bottom-right-radius:5px; }
+  :root[data-theme="dark"] .bub.me { color:#0A0A0A; }
+  .typing { align-self:flex-start; background:var(--bg-surface); border-radius:16px; border-bottom-left-radius:5px; padding:11px 14px; display:flex; gap:4px; }
+  .typing i { width:7px; height:7px; border-radius:50%; background:var(--fg-disabled); animation:bounce 1.2s infinite; }
+  .typing i:nth-child(2){ animation-delay:.15s } .typing i:nth-child(3){ animation-delay:.3s }
+  @keyframes bounce { 0%,60%,100%{ transform:translateY(0); opacity:.5 } 30%{ transform:translateY(-4px); opacity:1 } }
+  .quick { display:flex; flex-direction:column; gap:7px; padding:4px 16px 8px; }
+  .qr { text-align:left; background:var(--bg-card); border:1.5px solid var(--brand); color:var(--brand); font-family:inherit; font-size:13px; font-weight:600; padding:9px 13px; border-radius:11px; cursor:pointer; transition:background .12s; }
+  .qr:hover { background:rgba(0,12,225,.07); }
+  .msgr-foot { display:flex; align-items:center; gap:8px; padding:12px 14px; border-top:1px solid var(--border); }
+  .msgr-input { flex:1; border:none; background:transparent; font-family:inherit; font-size:14px; color:var(--fg); outline:none; }
+  .msgr-input::placeholder { color:var(--fg-disabled); }
+  .msgr-send { background:var(--brand); border:none; width:32px; height:32px; border-radius:9px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0; }
+  .launcher { width:60px; height:60px; border-radius:50%; background:#000CE1; box-shadow:0 8px 24px rgba(0,12,225,.4); display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0; }
+
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 9px; }
+  .guardrails-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: #00A544; }
+  .guardrails-heading.dont { color: #E40014; }
+  .guardrail-item { font-size: 13px; color: var(--fg-muted); padding: 4px 0 4px 18px; position: relative; line-height: 1.5; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-item.do::before { background: #00A544; }
+  .guardrail-item.dont::before { background: #E40014; }
+
+  @media (max-width: 720px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 70px 1fr; }
+    .type-specs { display: none; }
+    .hero h1 { font-size: 36px; }
+    .launcher { display:none; }
+    .messenger { width:100%; max-width:352px; }
+  }
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<button class="toggle-theme" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
 <div class="toast" id="toast">Copied!</div>
+
 <div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#0C1219"/>
-      <!-- Intercom speech bubble mark -->
-      <rect x="14" y="16" width="44" height="32" rx="8" fill="#1F8EFA"/>
-      <circle cx="26" cy="32" r="3.5" fill="white"/>
-      <circle cx="36" cy="32" r="3.5" fill="white"/>
-      <circle cx="46" cy="32" r="3.5" fill="white"/>
-      <path d="M22 48 L28 56 L36 48" fill="#1F8EFA"/>
-    </svg>
-    <div class="hero-text"><h1>Intercom</h1><p>Customer messaging — live chat, support, and product tours at scale</p></div>
+    <div class="hero-logo">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-label="Intercom"><path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.658 1.343 3 3 3h18c1.658 0 3-1.342 3-3V3c0-1.657-1.342-3-3-3zm-5.801 4.399c0-.44.36-.8.802-.8.44 0 .8.36.8.8v10.688c0 .442-.36.801-.8.801-.443 0-.802-.359-.802-.801V4.399zM11.2 3.994c0-.44.357-.799.8-.799s.8.359.8.799v11.602c0 .44-.357.8-.8.8s-.8-.36-.8-.8V3.994zm-4 .405c0-.44.359-.8.799-.8.443 0 .802.36.802.8v10.688c0 .442-.36.801-.802.801-.44 0-.799-.359-.799-.801V4.399zM3.199 6c0-.442.36-.8.802-.8.44 0 .799.358.799.8v7.195c0 .441-.359.8-.799.8-.443 0-.802-.36-.802-.8V6zM20.52 18.202c-.123.105-3.086 2.593-8.52 2.593-5.433 0-8.397-2.486-8.521-2.593-.335-.288-.375-.792-.086-1.128.285-.334.79-.375 1.125-.09.047.041 2.693 2.211 7.481 2.211 4.848 0 7.456-2.186 7.479-2.207.334-.289.839-.25 1.128.086.289.336.25.84-.086 1.128zm.281-5.007c0 .441-.36.8-.801.8-.441 0-.801-.36-.801-.8V6c0-.442.361-.8.801-.8.441 0 .801.357.801.8v7.195z"/></svg>
+      <span class="wordmark">Intercom</span>
+    </div>
+    <h1>The only helpdesk designed for the AI Agent era</h1>
+    <p>Intercom is the only helpdesk with a natively integrated AI Agent, Fin — so every customer conversation improves.</p>
+    <div class="hero-cta">
+      <button class="btn btn-black">Start free trial</button>
+      <button class="btn btn-secondary">View demo</button>
+    </div>
   </div>
 
+  <!-- COLORS -->
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1F8EFA',this)"><div class="swatch-dot" style="background:#1F8EFA"></div><div class="swatch-name">Blue</div><div class="swatch-hex">#1F8EFA</div></div>
-        <div class="swatch" onclick="copyHex('#00C896',this)"><div class="swatch-dot" style="background:#00C896"></div><div class="swatch-name">Online</div><div class="swatch-hex">#00C896</div></div>
-        <div class="swatch" onclick="copyHex('#F5A623',this)"><div class="swatch-dot" style="background:#F5A623"></div><div class="swatch-name">Warning</div><div class="swatch-hex">#F5A623</div></div>
-        <div class="swatch" onclick="copyHex('#FC4747',this)"><div class="swatch-dot" style="background:#FC4747"></div><div class="swatch-name">Danger</div><div class="swatch-hex">#FC4747</div></div>
+        <div class="swatch" onclick="copyHex('#000000', this)"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><div class="swatch-name">Black</div><div class="swatch-hex">#000000</div><div class="swatch-usage">Lead, buttons</div></div></div>
+        <div class="swatch" onclick="copyHex('#F4F3EC', this)"><div class="swatch-block" style="background:#F4F3EC"></div><div class="swatch-info"><div class="swatch-name">Warm Cream</div><div class="swatch-hex">#F4F3EC</div><div class="swatch-usage">Paper / page</div></div></div>
+        <div class="swatch" onclick="copyHex('#000CE1', this)"><div class="swatch-block" style="background:#000CE1"></div><div class="swatch-info"><div class="swatch-name">Electric Blue</div><div class="swatch-hex">#000CE1</div><div class="swatch-usage">Messenger, links</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF5600', this)"><div class="swatch-block" style="background:#FF5600"></div><div class="swatch-info"><div class="swatch-name">Orange</div><div class="swatch-hex">#FF5600</div><div class="swatch-usage">Accent, highlights</div></div></div>
       </div>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
+    <div class="colors-group">
+      <div class="colors-group-title">Accent &amp; Semantic</div>
       <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#0C1219',this)"><div class="swatch-dot" style="background:#0C1219;border:1px solid #283E55"></div><div class="swatch-name">Background</div><div class="swatch-hex">#0C1219</div></div>
-        <div class="swatch" onclick="copyHex('#14202E',this)"><div class="swatch-dot" style="background:#14202E;border:1px solid #283E55"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#14202E</div></div>
-        <div class="swatch" onclick="copyHex('#1D2F42',this)"><div class="swatch-dot" style="background:#1D2F42"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#1D2F42</div></div>
-        <div class="swatch" onclick="copyHex('#283E55',this)"><div class="swatch-dot" style="background:#283E55"></div><div class="swatch-name">Border</div><div class="swatch-hex">#283E55</div></div>
+        <div class="swatch" onclick="copyHex('#0007CB', this)"><div class="swatch-block" style="background:#0007CB"></div><div class="swatch-info"><div class="swatch-name">Blue Deep</div><div class="swatch-hex">#0007CB</div><div class="swatch-usage">Hover</div></div></div>
+        <div class="swatch" onclick="copyHex('#00A544', this)"><div class="swatch-block" style="background:#00A544"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#00A544</div><div class="swatch-usage">Online, resolved</div></div></div>
+        <div class="swatch" onclick="copyHex('#E40014', this)"><div class="swatch-block" style="background:#E40014"></div><div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-hex">#E40014</div><div class="swatch-usage">Urgent, error</div></div></div>
+        <div class="swatch" onclick="copyHex('#626260', this)"><div class="swatch-block" style="background:#626260"></div><div class="swatch-info"><div class="swatch-name">Gray</div><div class="swatch-hex">#626260</div><div class="swatch-usage">Secondary text</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Light (warm)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F4F3EC', this)"><div class="swatch-block" style="background:#F4F3EC"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#F4F3EC</div><div class="swatch-usage">Warm cream</div></div></div>
+        <div class="swatch" onclick="copyHex('#FAF9F6', this)"><div class="swatch-block" style="background:#FAF9F6"></div><div class="swatch-info"><div class="swatch-name">Sunken</div><div class="swatch-hex">#FAF9F6</div><div class="swatch-usage">Panels</div></div></div>
+        <div class="swatch" onclick="copyHex('#FFFFFF', this)"><div class="swatch-block" style="background:#FFFFFF"></div><div class="swatch-info"><div class="swatch-name">Card</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Cards, Messenger</div></div></div>
+        <div class="swatch" onclick="copyHex('#E3E2DF', this)"><div class="swatch-block" style="background:#E3E2DF"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#E3E2DF</div><div class="swatch-usage">Dividers</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Dark (warm near-black)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#111111', this)"><div class="swatch-block" style="background:#111111"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#111111</div><div class="swatch-usage">Dark background</div></div></div>
+        <div class="swatch" onclick="copyHex('#1A1A19', this)"><div class="swatch-block" style="background:#1A1A19"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#1A1A19</div><div class="swatch-usage">Panels</div></div></div>
+        <div class="swatch" onclick="copyHex('#242422', this)"><div class="swatch-block" style="background:#242422"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#242422</div><div class="swatch-usage">Cards</div></div></div>
+        <div class="swatch" onclick="copyHex('#2E2E2C', this)"><div class="swatch-block" style="background:#2E2E2C"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#2E2E2C</div><div class="swatch-usage">Dividers</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography — Inter</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — chat messages, notes, conversation previews</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">13px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:13px;">Bubble — chat message content</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">10px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:10px;color:var(--text-3);">Timestamp — 2m ago · Seen</div></div>
+    <div class="section-title">Typography — Inter ≈ MediumLL · JetBrains Mono</div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample" style="font-size:40px;font-weight:700;letter-spacing:-0.03em;">Conversations, resolved</div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">700</span><span class="spec-pill">Inter</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample" style="font-size:27px;font-weight:700;">Meet Fin, the AI Agent</div>
+      <div class="type-specs"><span class="spec-pill">27px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.1</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample" style="font-size:20px;font-weight:600;">Inbox &amp; Help Center</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:400;">Fin resolves customer questions instantly, pulling answers from your help center and past conversations.</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample mono" style="font-size:13px;color:var(--brand);">Intercom('boot', { app_id: 'abc123' })</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">JetBrains Mono</span></div>
+    </div>
   </div>
 
+  <!-- SIGNATURE: MESSENGER -->
+  <div class="section">
+    <div class="section-title">Signature — Messenger</div>
+    <div class="msgr-stage">
+      <div class="messenger">
+        <div class="msgr-head">
+          <div class="msgr-head-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.658 1.343 3 3 3h18c1.658 0 3-1.342 3-3V3c0-1.657-1.342-3-3-3zm-5.801 4.399c0-.44.36-.8.802-.8.44 0 .8.36.8.8v10.688c0 .442-.36.801-.8.801-.443 0-.802-.359-.802-.801V4.399zM11.2 3.994c0-.44.357-.799.8-.799s.8.359.8.799v11.602c0 .44-.357.8-.8.8s-.8-.36-.8-.8V3.994zm-4 .405c0-.44.359-.8.799-.8.443 0 .802.36.802.8v10.688c0 .442-.36.801-.802.801-.44 0-.799-.359-.799-.801V4.399zM3.199 6c0-.442.36-.8.802-.8.44 0 .799.358.799.8v7.195c0 .441-.359.8-.799.8-.443 0-.802-.36-.802-.8V6zM20.52 18.202c-.123.105-3.086 2.593-8.52 2.593-5.433 0-8.397-2.486-8.521-2.593-.335-.288-.375-.792-.086-1.128.285-.334.79-.375 1.125-.09.047.041 2.693 2.211 7.481 2.211 4.848 0 7.456-2.186 7.479-2.207.334-.289.839-.25 1.128.086.289.336.25.84-.086 1.128zm.281-5.007c0 .441-.36.8-.801.8-.441 0-.801-.36-.801-.8V6c0-.442.361-.8.801-.8.441 0 .801.357.801.8v7.195z"/></svg><span>Messenger</span></div>
+          <div class="msgr-fin">
+            <div class="msgr-fin-av"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></div>
+            <div><div class="msgr-fin-name">Fin</div><div class="msgr-fin-sub">AI Agent · replies instantly</div></div>
+          </div>
+        </div>
+        <div class="msgr-body" id="msgr-body">
+          <div class="bub fin">Hi! I'm Fin, Intercom's AI Agent. How can I help you today?</div>
+        </div>
+        <div class="quick" id="msgr-quick">
+          <button class="qr" onclick="ask('Where is my order?')">Where is my order?</button>
+          <button class="qr" onclick="ask('How do I get a refund?')">How do I get a refund?</button>
+          <button class="qr" onclick="ask('Talk to a human')">Talk to a human</button>
+        </div>
+        <div class="msgr-foot">
+          <input class="msgr-input" id="msgr-input" placeholder="Ask a question…" onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="msgr-send" onclick="sendMsg()"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+        </div>
+      </div>
+      <div class="launcher"><svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M21 0H3C1.343 0 0 1.343 0 3v18c0 1.658 1.343 3 3 3h18c1.658 0 3-1.342 3-3V3c0-1.657-1.342-3-3-3zm-5.801 4.399c0-.44.36-.8.802-.8.44 0 .8.36.8.8v10.688c0 .442-.36.801-.8.801-.443 0-.802-.359-.802-.801V4.399zM11.2 3.994c0-.44.357-.799.8-.799s.8.359.8.799v11.602c0 .44-.357.8-.8.8s-.8-.36-.8-.8V3.994zm-4 .405c0-.44.359-.8.799-.8.443 0 .802.36.802.8v10.688c0 .442-.36.801-.802.801-.44 0-.799-.359-.799-.801V4.399zM3.199 6c0-.442.36-.8.802-.8.44 0 .799.358.799.8v7.195c0 .441-.359.8-.799.8-.443 0-.802-.36-.802-.8V6zM20.52 18.202c-.123.105-3.086 2.593-8.52 2.593-5.433 0-8.397-2.486-8.521-2.593-.335-.288-.375-.792-.086-1.128.285-.334.79-.375 1.125-.09.047.041 2.693 2.211 7.481 2.211 4.848 0 7.456-2.186 7.479-2.207.334-.289.839-.25 1.128.086.289.336.25.84-.086 1.128zm.281-5.007c0 .441-.36.8-.801.8-.441 0-.801-.36-.801-.8V6c0-.442.361-.8.801-.8.441 0 .801.357.801.8v7.195z"/></svg></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
   <div class="section">
     <div class="section-title">Components</div>
     <div class="components-grid">
       <div class="comp-card">
-        <h3>Chat Thread</h3>
-        <div class="chat-wrap">
-          <div class="msg-row">
-            <div class="avatar" style="background:#1D2F42;color:var(--text-2)">S<div class="presence" style="background:#00C896"></div></div>
-            <div><div class="bubble agent">Hey! How can I help you today?</div><div class="bubble-time">Sarah · 2m ago</div></div>
-          </div>
-          <div class="msg-row user">
-            <div class="avatar" style="background:#1F8EFA;color:#fff">M</div>
-            <div><div class="bubble user">I can't reset my password</div><div class="bubble-time">Just now · Sent</div></div>
-          </div>
-          <div class="msg-row">
-            <div class="avatar" style="background:#1D2F42;color:var(--text-2)">S<div class="presence" style="background:#00C896"></div></div>
-            <div><div class="bubble agent">No problem! Let me send you a reset link right away.</div></div>
-          </div>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-black">Start free trial</button>
+          <button class="btn btn-blue">Send</button>
+          <button class="btn btn-secondary">View demo</button>
         </div>
       </div>
       <div class="comp-card">
-        <h3>Conversation List</h3>
-        <div class="conv-row">
-          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">A<div class="presence" style="background:#00C896"></div></div>
-          <div class="conv-info"><div class="conv-name">Alice Martin</div><div class="conv-preview">Can I upgrade my plan today?</div></div>
-          <span class="unread-badge">2</span>
-        </div>
-        <div class="conv-row">
-          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">J<div class="presence" style="background:#3D6080"></div></div>
-          <div class="conv-info"><div class="conv-name">James K.</div><div class="conv-preview">Thanks, that worked perfectly!</div></div>
-          <span style="font-size:10px;color:var(--text-3)">1h</span>
-        </div>
-        <div class="conv-row">
-          <div class="avatar" style="background:#1D2F42;color:#7FA8C4;width:32px;height:32px;font-size:12px">P<div class="presence" style="background:#3D6080"></div></div>
-          <div class="conv-info"><div class="conv-name">Priya S.</div><div class="conv-preview">Is there a bulk export option?</div></div>
-          <span style="font-size:10px;color:var(--text-3)">3h</span>
+        <div class="comp-card-title">Search</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Search conversations…">
         </div>
       </div>
       <div class="comp-card">
-        <h3>Buttons</h3>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn btn-primary">New Conversation</button>
-          <button class="btn btn-ghost">View All</button>
+        <div class="comp-card-title">Status</div>
+        <div class="chip-group">
+          <span class="chip"><span class="dot" style="background:#00A544"></span>Online</span>
+          <span class="chip blue">Fin AI</span>
+          <span class="chip orange">Priority</span>
+          <span class="chip"><span class="dot" style="background:#626260"></span>Snoozed</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Quick Replies</div>
+        <div class="input-group">
+          <button class="qr">Track my order</button>
+          <button class="qr">Talk to a human</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
+  <!-- GUARDRAILS -->
   <div class="section">
     <div class="section-title">Guardrails</div>
     <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>User vs agent bubbles must be clearly distinct</li>
-        <li>Presence dot always visible on avatars</li>
-        <li>Generous padding in chat bubbles</li>
-        <li>Unread badge must be prominent</li>
-        <li>Never truncate message below 2 lines in preview</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't reuse blue for non-user messages</li>
-        <li>Don't hide the send button on mobile</li>
-        <li>Don't use tiny timestamps — they must be legible</li>
-        <li>Don't remove presence dot from avatars</li>
-        <li>Don't use justified text in chat bubbles</li>
-      </ul></div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Lead with black and warm cream paper; use blue/orange as accents</div>
+        <div class="guardrail-item do">Use electric blue #000CE1 for the Messenger, interactive state, links</div>
+        <div class="guardrail-item do">Keep the Messenger human — Fin branding, quick replies, typing dots</div>
+        <div class="guardrail-item do">Use Inter for interface text; reserve MediumLL for display</div>
+        <div class="guardrail-item do">Set IDs and metadata in the mono stack</div>
+      </div>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Don't use the pre-rebrand sky blue #1F8EFA — current accent is #000CE1</div>
+        <div class="guardrail-item dont">Don't cool the cream to plain white — the warmth is the identity</div>
+        <div class="guardrail-item dont">Don't invent navy dark surfaces; step within warm near-black</div>
+        <div class="guardrail-item dont">Don't overuse orange — it's a highlight, not a surface</div>
+        <div class="guardrail-item dont">Don't strip Fin's identity from the Messenger</div>
+      </div>
     </div>
   </div>
-</div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+</div>
+
+<script>
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+const ANSWERS = {
+  'Where is my order?': "Your order #INT-4821 shipped yesterday and is out for delivery today. Want me to share the live tracking link?",
+  'How do I get a refund?': "I can start a refund for you. Refunds are processed to your original payment method within 5–7 business days. Which order is it for?",
+  'Talk to a human': "No problem — I'm connecting you with a member of our support team. They typically reply in a few minutes.",
+  'default': "Great question! I'm pulling the answer from your Help Center and recent conversations — one moment."
+};
+let busy = false;
+const body = () => document.getElementById('msgr-body');
+
+function addBub(text, who){
+  const b = document.createElement('div');
+  b.className = 'bub ' + who;
+  b.textContent = text;
+  body().appendChild(b);
+  body().scrollTop = body().scrollHeight;
+  return b;
+}
+function respond(q){
+  if(busy) return;
+  busy = true;
+  document.getElementById('msgr-quick').style.display = 'none';
+  addBub(q, 'me');
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<i></i><i></i><i></i>';
+  body().appendChild(typing);
+  body().scrollTop = body().scrollHeight;
+  setTimeout(() => {
+    typing.remove();
+    addBub(ANSWERS[q] || ANSWERS.default, 'fin');
+    busy = false;
+  }, 950);
+}
+function ask(q){ respond(q); }
+function sendMsg(){
+  const inp = document.getElementById('msgr-input');
+  const v = inp.value.trim();
+  if(!v) return;
+  inp.value = '';
+  respond(v);
+}
 </script>
 </body>
 </html>
