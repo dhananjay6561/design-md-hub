@@ -1,68 +1,77 @@
 # Sanity Design System
 
 ## Brand Overview
-Sanity is a headless CMS with a real-time, structured content platform. The brand is bold and editorial — built on a striking red with near-black surfaces and a strong typographic hierarchy.
+
+Sanity is the Content Operating System for the AI era — a real-time, structured content platform
+whose heart is **Studio**, a configurable editing environment. The identity pairs the iconic
+**Sanity red `#F03E2F`** with a clean neutral canvas and a playful neon accent spectrum on
+marketing surfaces. The Studio itself is calm and neutral so structured content leads. Light-first.
+
+> "The Content Operating System for the AI era."
+
+## Typography
+
+- **Waldenburg** — Sanity's proprietary brand typeface (CORS-locked to the Studio; not
+  distributable). **Inter** is used here as the ≈ fallback for display and UI.
+- **Mono** — GROQ queries, field names, slugs, document IDs (here: **JetBrains Mono**).
 
 ## Color Palette
 
 ### Primary
-- **Red**: `#F03E2F` — primary brand, CTAs, active states
-- **Red Hover**: `#D43020` — pressed states
-- **Red Light**: `#FF6B5B` — highlights
+- Sanity Red: `#F03E2F` — logo, brand, critical actions
+- Red Hover: `#D43020`
+- Studio Blue: `#2276FC` — focus, primary Studio actions
+- Publish Green: `#3AB667` — publish / positive
 
-### Semantic
-- **Success**: `#43BF8F`
-- **Warning**: `#F5A623`
-- **Error**: `#F03E2F`
-- **Info**: `#2276FC`
+### Neon Accents (marketing spectrum)
+- Yellow: `#FFF500` · Green: `#96FF6F` · Magenta: `#F500FF` · Sky: `#AFE3FF`
 
-### Surfaces (Dark Mode)
-- **Background**: `#101112`
-- **Surface**: `#1A1B1D`
-- **Elevated**: `#232428`
-- **Border**: `#313238`
+### Surfaces — Light
+- Page: `#FFFFFF`
+- Panel: `#F6F6F8`
+- Sunken: `#FBFBFC`
+- Border: `#E3E4E8`
+
+### Surfaces — Dark (real Studio dark)
+- Page: `#101112`
+- Surface: `#1A1B1D`
+- Elevated: `#232428`
+- Border: `#313238`
 
 ### Text
-- **Primary**: `#F5F5F5`
-- **Secondary**: `#9898A6`
-- **Muted**: `#565660`
+- Primary (light `#101112` / dark `#F5F5F5`)
+- Secondary: `#6E6E76`
+- Muted: `#9898A6`
 
-## Typography
-- **Primary Font**: Inter (400, 500, 600, 700)
-- **Mono Font**: JetBrains Mono (for GROQ queries, field names, document IDs)
+### Semantic
+- Success: `#3AB667` · Warning: `#F5A623` · Critical: `#F03E2F`
 
-## Spacing
-4px base — 4, 8, 12, 16, 24, 32, 48, 64.
+## Logo
 
-## Border Radius
-- Buttons: 6px
-- Cards: 10px
-- Input fields: 6px
-- Document preview: 8px
+The **Sanity mark** — the overlapping-planes polygon (viewBox `0 0 24 24`, single path),
+rendered in Sanity red `#F03E2F`. Pairs with the "Sanity" wordmark; the mark is never recolored
+off the brand red in primary contexts.
 
-## Components
+## Signature Component — Studio
 
-### Document List Row
-- Document title, type badge, last edited
-- Published indicator: green dot = live, grey = draft
-- Preview thumbnail left when available
-
-### Portable Text Editor
-- Block-level formatting toolbar
-- Inline annotations underlined in red
-- Focus mode hides surrounding UI
-
-### GROQ Query Block
-- Dark bg, monospace throughout
-- Field names in red, strings in green, operators in grey
-
-### Document Type Badge
-- Type name, subtle bg tinted by type color
-- Consistent across list and detail views
+The Sanity Studio document editor: a document header with type + status, structured **fields**
+(Title, Slug, a Portable Text body with a formatting toolbar, Categories), collaborator
+presence, and a **Publish** bar. Editing the Title regenerates the slug and flips the document to
+"Edited — unpublished changes"; **Publish** commits it to "Published just now". This is the core
+Sanity editing moment: real-time, structured, configurable.
 
 ## Guardrails
-- GROQ queries always in monospace
-- Published vs draft state must always be visible
-- Document IDs in monospace
-- Red is for brand CTAs — don't use it for warnings
-- Portable text toolbar appears on selection only — don't always-show
+
+**DO**
+- Render the Sanity mark in brand red `#F03E2F`.
+- Keep the Studio canvas neutral so structured content and fields lead.
+- Use Studio blue `#2276FC` for focus and primary field actions; green for Publish.
+- Show document status truthfully (Draft / Edited / Published).
+- Set GROQ, slugs, and field names in the mono stack.
+
+**DON'T**
+- Don't recolor the Sanity mark off brand red in primary contexts.
+- Don't flood the Studio with neon — the spectrum is for marketing, not editing UI.
+- Don't invent dark surfaces; anchor on the real Studio dark `#101112`.
+- Don't hide unpublished-changes state — editors rely on it.
+- Don't set slugs or field keys in a proportional font.
