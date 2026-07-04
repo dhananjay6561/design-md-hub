@@ -1,147 +1,88 @@
 # Weights & Biases Design System
 
 ## Brand Overview
-Weights & Biases (wandb) is the ML experiment tracking and model management platform. The visual identity is bold and data-rich — very dark backgrounds, golden-yellow as the signature accent, and chart/metric-centric layouts. UI feels like a high-density research dashboard built for ML practitioners.
+Weights & Biases (W&B) is the AI developer platform — experiment tracking, model management, and evaluations for the world's leading AI teams. The identity is data-rich and confident: dark **slate** surfaces, the signature **gold** dot-gauge mark, and a bright multi-hue chart palette (teal / magenta / orange / mint) that maps to overlaid run curves. It reads like a high-density research dashboard.
+
+> **Palette note (verify against live):** the real signature gold is `#FFCC33` (not `#FFCC00`), the dark surface is warm **slate `#2B3038`** (not pure `#0F0F0F`), and the brand carries a full run-chart spectrum (teal `#00AFC2`, magenta `#FF0E65`, orange `#FFAD33`, mint `#5EEAD4`).
 
 ## Color Palette
 
 ### Primary
-- Brand Gold: `#FFCC00`
-- Gold Light: `#FFE066`
-- Gold Dark: `#CC9F00`
+- Brand Gold: `#FFCC33` — mark, signature accent, primary run
+- Gold Orange: `#FFAD33` / `#FCBC32`
+- Teal: `#00AFC2` — secondary brand, chart line
+- Magenta: `#FF0E65` — accent, chart line
 
-### Backgrounds
-- Base: `#0F0F0F`
-- Surface: `#181818`
-- Elevated: `#222222`
-- Border: `#333333`
+### Chart / run spectrum
+- Run 1 (gold): `#FFCC33`
+- Run 2 (teal): `#00AFC2`
+- Run 3 (magenta): `#FF0E65`
+- Run 4 (orange): `#FFAD33`
+- Run 5 (mint): `#5EEAD4`
+- Peach: `#FFB666` · Lavender: `#EDE8FF`
 
-### Semantic
-- Success: `#34D399`
-- Warning: `#FFCC00`
-- Error: `#F87171`
-- Info: `#60A5FA`
+### Backgrounds — Dark (default)
+- Base: `#1A1C1F`
+- Surface: `#212429`
+- Elevated: `#2B3038`
+- Hairline: `#34373C`
+- Border: `rgba(255,255,255,.09)`
+
+### Backgrounds — Light
+- Base: `#FBFBFC`
+- Surface: `#FFFFFF`
+- Border: `#E5E7EB`
 
 ### Text
-- Primary: `#F0F0F0`
-- Secondary: `#A0A0A0`
-- Muted: `#666666`
-- On-gold: `#0F0F0F`
+- Primary (dark): `#FBFBFC` / (light): `#1A1C1F`
+- Secondary: `#C5C7CC` / `#5B6069`
+- Muted: `#8A8F98`
 
-### Chart Colors (Run Lines)
-- Run 1: `#FFCC00`
-- Run 2: `#60A5FA`
-- Run 3: `#34D399`
-- Run 4: `#F87171`
-- Run 5: `#A78BFA`
-- Run 6: `#FB923C`
+### Run state / semantic
+- Running: `#FFCC33` (gold, pulsing)
+- Finished: `#5EEAD4` (mint)
+- Crashed / error: `#FF0E65`
+- Success: `#34D399`
 
 ## Typography
 
-### Font Stack
-- UI: `IBM Plex Sans, system-ui, sans-serif`
-- Code/Metrics: `JetBrains Mono, monospace`
+### Font Stack (real W&B fonts, all Google Fonts)
+- UI / body: **Source Sans 3** (Source Sans Pro) — headings, body, buttons.
+- Serif accent: **Source Serif 4** (Source Serif Pro) — editorial headlines.
+- Code / mono: **Inconsolata** — run names, metrics, config, code.
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+- xs 11 / sm 13 / base 15 / md 18 / lg 22 / xl 30 / 2xl 46
 
 ### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+Light 300 · Regular 400 · Semibold 600 · Bold 700
 
 ## Components
 
-### Run Row
-- Colored left dot (run color)
-- Run name in bold
-- Status badge: running (animated), finished, crashed, killed
-- Key metrics inline: `val_loss: 0.234 · accuracy: 94.2%`
-- Duration + GPU hours in muted text
+### Buttons
+- Primary: gold `#FFCC33`, ink text (`#1A1C1F`) — "Sign up"
+- Secondary: transparent, 1px border — "Contact sales"
+- Ghost / link: teal `#00AFC2`
 
-### Metric Chart
-- Dark background `#181818`
-- Axis labels in muted text
-- Grid lines: `#2A2A2A`
-- Multiple run lines in chart colors
-- Hover tooltip: all runs at that step
-- Smooth curves (cubic interpolation)
+### Run legend row
+Colored line-swatch + run name (Inconsolata) + state dot + final metric value. Toggling hides/shows the run's line in the chart.
 
-### Config / Summary Table
-- Two-column: key | value
-- Key in secondary text
-- Value in primary or mono for numbers
-- Nested expandable sections
+### Metric chart
+SVG line chart with gridlines; each run is a polyline in its fixed run color; axis labels in Inconsolata.
 
-### Artifact Card
-- Artifact name + version (`v3`)
-- Type badge: dataset / model / code
-- Size in muted text
-- Aliases as tags (`:latest`, `:best`)
-
-### Project Card
-- Project name + entity
-- Run count, last active date
-- Team avatars if shared
-- Hover: quick-access to latest run
-
-### Status Badges
-- Running: gold animated dot
-- Finished: green
-- Crashed: red
-- Killed: grey
-- Failed: red
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (badges, tags), 6px (cards, inputs), 8px (modals, panels)
-- Border: `1px solid #333333`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.5)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Chart/graph iconography dominant
-- Run, artifact, sweep, project icons
-
-## Motion
-- Chart line draw: 400ms ease-out on load
-- Run status pulse: 1.5s ease-in-out infinite for "running"
-- Metric card value update: 200ms fade
-- Panel expand: 200ms ease-out
+## Signature Component — Experiment Runs
+W&B's core value is **experiment tracking**: overlaying metric curves across runs. The signature is a **Runs panel**: a project header with a metric selector (`train/loss`, `val/accuracy`, `lr`), an SVG line chart overlaying multiple run curves in the run-color spectrum, and a legend of runs (name, state, final value). Toggling a run shows/hides its curve; switching the metric reslices every curve. This is the single UI most associated with Weights & Biases.
 
 ## Guardrails
 
-### DO
-- Use gold exclusively for primary actions and highlighted runs
-- Show step/epoch on x-axis of all charts — time is ambiguous
-- Use run colors consistently across all charts in a workspace
-- Display metric values with consistent decimal precision
-- Show system metrics (GPU util, memory) alongside model metrics
+**DO**
+- Use gold `#FFCC33` as the signature; keep the dot-gauge mark gold.
+- Keep dark surfaces warm slate `#2B3038` / `#1A1C1F` (not pure black).
+- Assign each run a fixed color from the spectrum and keep it consistent across chart + legend.
+- Render run names, metrics, and config in Inconsolata.
 
-### DON'T
-- Don't use rounded corners > 8px on chart containers
-- Don't smooth out NaN gaps — show them as breaks in the line
-- Don't default to showing all runs — default to top-5 by primary metric
-- Don't use gold for anything other than primary CTA and active run
-- Don't hide crashed/failed runs by default — researchers need them
+**DON'T**
+- Don't flatten the gold to `#FFCC00` or the dark to pure `#0F0F0F`.
+- Don't recolor a run between the chart and its legend row.
+- Don't render metrics or run ids in a proportional font.
+- Don't overload the hero with the full spectrum — gold leads, others support charts.
