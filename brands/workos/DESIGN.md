@@ -1,148 +1,81 @@
 # WorkOS Design System
 
 ## Brand Overview
-WorkOS provides enterprise authentication infrastructure — SSO, SCIM, and audit logs for B2B SaaS. The visual identity is clean and trustworthy — near-black backgrounds, indigo accents, and a structured, compliance-forward aesthetic. UI feels polished and enterprise-grade without sacrificing developer ergonomics.
+WorkOS makes apps **Enterprise Ready** — SSO, Directory Sync (SCIM), Audit Logs, and AuthKit for B2B SaaS. The identity is polished and enterprise-grade: a deep **navy** canvas, a confident **indigo** brand color, a fresh **mint** for active/success states, and a small support spectrum (blue, periwinkle, purple). It reads trustworthy and developer-first — compliance without the drab.
+
+> **Palette note (verify against live):** the real brand indigo is `#6363F1` with blue `#558ADB`, periwinkle `#B1B3F6`, mint `#23F0C3`, and purple `#D272FF`; dark surfaces are true navy (`#030527` / `#181B39`), not generic near-black.
 
 ## Color Palette
 
 ### Primary
-- Brand Indigo: `#6366F1`
-- Indigo Light: `#818CF8`
-- Indigo Dark: `#4338CA`
+- Brand Indigo: `#6363F1` — actions, links, the logo mark
+- Blue: `#558ADB` — secondary accent
+- Periwinkle: `#B1B3F6` — accents on dark
+- Mint: `#23F0C3` — active / success / connected
+- Purple: `#D272FF` — spectrum accent
 
-### Backgrounds
-- Base: `#09090B`
-- Surface: `#111113`
-- Elevated: `#18181C`
-- Border: `#27272A`
+### Backgrounds — Dark (default)
+- Base: `#030527` — deep navy page
+- Surface: `#0E1330`
+- Elevated: `#181B39`
+- Raised: `#24274C`
+- Border: `rgba(255,255,255,.10)`
 
-### Semantic
-- Active: `#22C55E`
-- Inactive: `#94A3B8`
-- Error: `#EF4444`
-- Warning: `#F59E0B`
-- Info: `#6366F1`
+### Backgrounds — Light
+- Base: `#F9F9FB`
+- Surface: `#FFFFFF`
+- Border: `#E8EAED`
 
 ### Text
-- Primary: `#FAFAFA`
-- Secondary: `#A1A1AA`
-- Muted: `#71717A`
-- On-indigo: `#FFFFFF`
+- Primary (dark): `#F5F6FF` / (light): `#030527`
+- Secondary: `#8F96BD` / `#5D6C7B`
+- Muted: `#5D6485`
 
-### Provider Colors
-- Google: `#4285F4`
-- Microsoft: `#00A4EF`
-- Okta: `#007DC1`
-- GitHub: `#E8E8E8`
-- SAML: `#6366F1`
-- OIDC: `#818CF8`
+### Connection status
+- Active: `#23F0C3` (mint)
+- Validating: `#6363F1` (indigo, in progress)
+- Pending: `#F5A623` (amber)
+- Draft: `#8F96BD` (gray)
+- Error: `#EA384C`
 
 ## Typography
 
-### Font Stack
-- UI: `Plus Jakarta Sans, system-ui, sans-serif`
-- Code/Keys: `JetBrains Mono, monospace`
+### Font Stack (real WorkOS fonts)
+- Display / UI: **Untitled Sans** (Klim, proprietary) — approximated by **Inter**, which WorkOS also ships as its fallback. `Inter, "Untitled Sans", system-ui, sans-serif`.
+- Code / mono: **IBM Plex Mono** (real WorkOS mono, Google Fonts) — org ids, connection ids, code.
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+- xs 11 / sm 13 / base 15 / md 18 / lg 22 / xl 30 / 2xl 46
 
 ### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+Regular 400 · Medium 500 · Semibold 600 · Bold 700
 
 ## Components
 
-### SSO Connection Card
-- Provider logo (Google, Okta, Microsoft, etc.) + name
-- Status badge: Active (green) / Inactive (grey) / Error (red)
-- Domain(s) shown in mono below provider name
-- Protocol badge: SAML / OIDC pill
-- Edit / Test / Delete actions in overflow menu
+### Buttons
+- Primary: indigo `#6363F1`, white text, radius 8px — "Get started"
+- Secondary: transparent, 1px border — "Talk to an expert"
+- Ghost / link: indigo text — "Read the docs"
 
-### Directory Sync Row
-- Provider icon + directory name
-- Sync status: synced (green checkmark), syncing (spinner), error (red)
-- Last synced time in muted text
-- User/group count badges
+### Connection row
+Org name + identity-provider label (IBM Plex Mono) + connection type (SSO/SAML, SCIM) + status pill. Draft/Pending rows expose a **Provision** action.
 
-### Organization Card
-- Org name + logo/avatar
-- Domain list below name
-- SSO enabled badge if configured
-- Member count
-- Created date in muted text
+### Status pill
+Rounded pill + dot; colors map to the connection-status table (Active mint / Validating indigo / Pending amber / Draft gray).
 
-### Audit Log Entry
-- Event type in semibold (e.g. `user.created`, `sso.login`)
-- Actor email/ID in mono
-- Target resource in secondary text
-- Timestamp right-aligned
-- IP address in muted mono
-
-### API Key Row
-- Key name, truncated key in mono (`sk_live_••••••1234`)
-- Created date
-- Last used date (or "Never")
-- Copy button, revoke button
-- Environment badge: Live / Sandbox
-
-### Environment Toggle
-- Live vs Sandbox pill selector in header
-- Live: indigo filled, Sandbox: grey outline
-- Key values change per environment
-
-## Spacing
-
-```
-4px   — icon gap
-8px   — tight padding
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (badges, pills), 6px (cards, inputs), 8px (modals)
-- Border: `1px solid #27272A`
-- Shadow sm: `0 1px 3px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.5)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Provider logos: official SVG marks where available
-- Lock, key, user, building, shield for auth concepts
-- Checkmark, x, spinner for status
-
-## Motion
-- Transitions: 150ms ease
-- Card hover: subtle border brightening
-- Status badge change: 200ms color transition
-- Modal: fade + slide-up 200ms
+## Signature Component — SSO Connections
+WorkOS's core value is **enterprise connections** — wiring a customer's identity provider into your app. The signature is the Dashboard **Organizations / SSO Connections** panel: a stat header (organizations, active connections), and a table of enterprise orgs each with their IdP (Okta, Azure AD, Google Workspace, OneLogin, Entra ID), connection type, and status. **Provisioning** a Draft/Pending connection steps it `Draft → Validating (indigo spinner) → Active (mint)` and bumps the active count. This is the single UI most associated with WorkOS.
 
 ## Guardrails
 
-### DO
-- Always mask API keys — show only last 4 chars
-- Use provider logos/colors for SSO connection identity
-- Show environment (Live/Sandbox) persistently in the header
-- Display audit logs in reverse chronological order
-- Use indigo exclusively for primary CTA buttons
+**DO**
+- Use indigo `#6363F1` for the brand and mark; mint `#23F0C3` for active/connected.
+- Keep dark surfaces true navy (`#030527` / `#181B39`), not generic black.
+- Render org ids, connection ids, and IdP labels in IBM Plex Mono.
+- Map connection status to its fixed colors consistently.
 
-### DON'T
-- Don't show full API secrets after creation
-- Don't use green for anything other than Active/success states
-- Don't omit timestamps from audit log entries — compliance requires them
-- Don't collapse provider type (SAML/OIDC) — it's critical context
-- Don't skip confirmation dialogs for destructive actions (revoke, delete)
+**DON'T**
+- Don't swap indigo for a generic purple, or drop the mint active state.
+- Don't use a flat near-black `#09090B` page — it's navy.
+- Don't render connection/org identifiers in a proportional font.
+- Don't overuse the purple/blue spectrum — indigo leads, mint signals success.
