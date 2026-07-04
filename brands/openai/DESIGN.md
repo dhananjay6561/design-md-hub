@@ -1,130 +1,96 @@
 # OpenAI Design System
 
 ## Brand Overview
-OpenAI is the leading AI research company and API provider. The visual identity is minimal and confident — near-black backgrounds, clean white as the primary expression, and a precision-engineered aesthetic. UI communicates cutting-edge capability through restraint: no noise, no decoration, just the model and the developer.
 
-## Color Palette
+OpenAI's visual identity was rebuilt in February 2025 — its first full rebrand — led by
+Head of Design Veit Moeller and Design Director Shannon Jager with ABC Dinamo (typeface)
+and Studio Dumbar (motion). The system is intentionally reductive: **black and white are the
+primary brand colors**, a bespoke geometric typeface (OpenAI Sans) carries every headline,
+and the redesigned **Blossom** symbol appears on its own, never locked up beside the wordmark.
+Black stands for technological depth; white for openness and accessibility.
 
-### Primary
-- Brand White: `#FFFFFF`
-- Brand Green: `#10A37F`
-- Green Light: `#19C37D`
-- Green Dark: `#0D8C6C`
+The ChatGPT green (`#10A37F`) that many associate with OpenAI is **no longer the corporate
+brand color** — since the rebrand it is scoped to ChatGPT product surfaces and interactive
+elements. Treat the identity as monochrome first, green second.
 
-### Backgrounds
-- Base: `#0D0D0D`
-- Surface: `#141414`
-- Elevated: `#1A1A1A`
-- Border: `#2A2A2A`
-
-### Semantic
-- Success: `#10A37F`
-- Warning: `#F59E0B`
-- Error: `#EF4444`
-- Info: `#6B7280`
-
-### Text
-- Primary: `#ECECEC`
-- Secondary: `#8E8EA0`
-- Muted: `#565869`
-- On-green: `#FFFFFF`
-
-### Model Colors
-- GPT-4o: `#10A37F`
-- GPT-4: `#AB68FF`
-- GPT-3.5: `#19C37D`
-- DALL·E: `#F59E0B`
-- Whisper: `#60A5FA`
-- TTS: `#FB923C`
+> Mission: *"Our mission is to ensure that artificial general intelligence benefits all of humanity."*
 
 ## Typography
 
-### Font Stack
-- UI: `Söhne, Inter, system-ui, sans-serif`
-- Code: `Söhne Mono, JetBrains Mono, monospace`
+- **OpenAI Sans** — custom geometric sans-serif by ABC Dinamo (2025), five weights + italics,
+  a perfectly circular `O`, geometric structure softened with humanist warmth. Proprietary.
+- **Fallbacks used here** (proprietary font is not distributable):
+  - Display / headings / wordmark → **Sora** (≈ OpenAI Sans — geometric, circular `O`)
+  - Body / UI → **Inter**
+  - Mono / code → **JetBrains Mono**
+- Pre-2025 the brand used **Söhne** (Klim). Documented for context; do not reintroduce it.
 
-### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.6
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.5
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+Roles are strict: Sora for display only, Inter for all body/UI/labels, mono for code and API
+identifiers.
 
-### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+## Color Palette
 
-## Components
+### Primary (monochrome — the brand)
+- Black: `#000000`
+- White: `#FFFFFF`
+- Cod Gray (supporting near-black): `#080808`
 
-### Playground Message
-- User: right-aligned, grey bubble
-- Assistant: left-aligned, surface bg, green left accent line
-- System: top-pinned, muted text with tag
-- Streaming: blinking cursor at end of output
+### Accent (ChatGPT / interactive — scoped, not corporate)
+- OpenAI Green: `#10A37F`
+- Green Light: `#19C37D`
+- Green Dark: `#0D8C6C`
 
-### Model Selector
-- Dropdown with model name + capability tags
-- Model icon/color dot beside name
-- Context window shown in muted text
-- Capability badges: Vision, Functions, JSON mode
+### Surfaces — Light
+- Page: `#FFFFFF`
+- Surface (sidebar): `#F7F7F8`
+- Elevated: `#ECECF1`
+- Border: `#E3E3E6`
 
-### Token Counter
-- Input / Output / Total shown as three columns
-- Progress bar filling toward context limit
-- Color: green → orange → red as limit approaches
+### Surfaces — Dark (real ChatGPT / platform values)
+- Page: `#0D0D0D`
+- Surface (sidebar): `#171717`
+- Elevated (thread): `#212121`
+- Raised (composer): `#303030`
+- Border: `#2F2F2F`
 
-### API Key Row
-- Key name + masked value (`sk-...XXXX`)
-- Created date + last used
-- Copy / Delete actions
-- Usage stats sparkline
+### Text
+- Primary (light `#0D0D0D` / dark `#ECECEC`)
+- Secondary (light `#5D5D5D` / dark `#B4B4B4`)
+- Muted: `#8E8EA0`
 
-### Usage Dashboard
-- Bar chart per day: input tokens (light) / output tokens (dark)
-- Model breakdown as stacked or grouped bars
-- Cost estimate below chart
-- Date range picker: 7d / 30d / 90d
+### Semantic (used sparingly)
+- Success: `#10A37F`
+- Error: `#EF4444`
+- Warning: `#F59E0B`
 
-### Response Format Toggle
-- Text / JSON object / JSON schema tabs
-- JSON schema: inline editor with type validation
-- Active: green underline tab
+## Logo
 
-## Spacing
+The **Blossom** — an interwoven hexagonal-knot mark (viewBox `0 0 24 24`, single path).
+Rendered in `currentColor`: black on light, white on dark. The primary **wordmark** ("OpenAI")
+is set in OpenAI Sans and, per brand guidelines, is used **on its own** — the Blossom is never
+placed beside the wordmark in a lockup.
 
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
+## Signature Component — Playground
 
-## Elevation & Borders
-- Border radius: 4px (tags, pills), 6px (inputs, cards), 12px (chat bubbles, modals)
-- Border: `1px solid #2A2A2A`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 20px rgba(0,0,0,0.5)`
+An interactive Chat Playground mirroring `platform.openai.com`: a system + user message stack,
+a model selector (`gpt-4o`, `gpt-4o-mini`, `o3`, `o4-mini`, `gpt-4.1`), a temperature control,
+and a **Run** button that streams the assistant response token-by-token with a live cursor,
+then a `tokens · latency · model` footer. A **Chat / Code** toggle reveals the equivalent
+Python snippet using the current **Responses API** (`client.responses.create`), kept in sync
+with the selected model and temperature.
 
 ## Guardrails
 
-### DO
-- Use green exclusively for the brand accent and success states
-- Keep the UI minimal — the model output is the hero
-- Show token counts always — developers are cost-conscious
-- Use monospace for all prompts, completions, and code
-- Show model name and version on every completion context
+**DO**
+- Lead with the wordmark and give it the prescribed clear space.
+- Keep the palette monochrome — black and white are the primary brand colors.
+- Use the Blossom on its own; render it in a single flat color.
+- Reserve OpenAI green for ChatGPT product surfaces and interactive states.
+- Set headlines in OpenAI Sans (or the closest available geometric fallback).
 
-### DON'T
-- Don't use color for decoration — every color must carry meaning
-- Don't truncate streaming output — show it as it arrives
-- Don't omit finish_reason — it tells devs why the model stopped
-- Don't round token costs — show 4 decimal places minimum
-- Don't mix model colors in a single response thread
+**DON'T**
+- Don't lock the Blossom up beside the wordmark.
+- Don't recolor, gradient, stretch, or rotate the wordmark or Blossom.
+- Don't treat green as the corporate brand color — it's a ChatGPT accent since the 2025 rebrand.
+- Don't reintroduce the pre-2025 Söhne typography as the brand voice.
+- Don't place the logo on low-contrast or busy backgrounds.
