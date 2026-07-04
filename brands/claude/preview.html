@@ -3,397 +3,317 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude Design System</title>
+<title>Claude — Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root[data-theme="light"] {
-    --bg: #FAF9F7;
-    --surface: #FFFFFF;
-    --surface-raised: #F3F2EF;
-    --surface-overlay: #E8E7E3;
-    --text-primary: #1A1A1A;
-    --text-secondary: #6B6B6B;
-    --text-muted: #9E9E9E;
-    --border: #E5E4E0;
-    --border-strong: #CCCBC7;
-    --primary: #D97757;
-    --primary-hover: #C4633F;
-    --coral-dim: rgba(217,119,87,0.12);
-    --error: #E53935;
-    --success: #43A047;
-  }
-  :root[data-theme="dark"] {
-    --bg: #1A1A1A;
-    --surface: #242424;
-    --surface-raised: #2E2E2E;
-    --surface-overlay: #383838;
-    --text-primary: #F0EFE9;
-    --text-secondary: #9A9A8A;
-    --text-muted: #6A6A5A;
-    --border: #3A3A3A;
-    --border-strong: #4A4A4A;
-    --primary: #D97757;
-    --primary-hover: #C4633F;
-    --coral-dim: rgba(217,119,87,0.15);
-    --error: #EF5350;
-    --success: #66BB6A;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text-primary);
-    font-size: 14px;
-    line-height: 1.5;
-    letter-spacing: -0.01em;
-  }
-  .toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-  .toggle-btn:hover { background: var(--surface-overlay); }
-  .container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-  .section { margin-bottom: 64px; }
-  .section-title {
-    font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--text-muted); margin-bottom: 24px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
-  }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%);
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 48px 40px; margin-bottom: 64px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: ''; position: absolute; top: -60px; right: -60px;
-    width: 200px; height: 200px; background: var(--coral-dim);
-    border-radius: 50%; filter: blur(40px);
-  }
-  .hero-logo { margin-bottom: 20px; }
-  .hero h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 8px; }
-  .hero p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-
-  /* COLORS */
-  .colors-group { margin-bottom: 32px; }
-  .colors-group-title {
-    font-size: 12px; font-weight: 500; color: var(--text-muted);
-    letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px;
-  }
-  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
-  .swatch {
-    background: var(--surface-raised); border: 1px solid var(--border);
-    border-radius: 6px; overflow: hidden; cursor: pointer; transition: border-color 150ms;
-  }
-  .swatch:hover { border-color: var(--border-strong); }
-  .swatch-block { height: 80px; width: 100%; }
-  .swatch-info { padding: 8px 10px; }
-  .swatch-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-  .swatch-hex { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-  .swatch-usage { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
-  .toast {
-    position: fixed; bottom: 24px; left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--surface-overlay); border: 1px solid var(--border-strong);
-    color: var(--text-primary); font-size: 13px; padding: 8px 16px; border-radius: 6px;
-    transition: transform 200ms; z-index: 1000; pointer-events: none;
-  }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-
-  /* TYPOGRAPHY */
-  .type-row {
-    display: grid; grid-template-columns: 100px 1fr auto;
-    align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border);
-  }
-  .type-row:last-child { border-bottom: none; }
-  .type-name { font-size: 12px; font-family: 'Courier New', monospace; color: var(--text-muted); }
-  .type-sample { color: var(--text-primary); }
-  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .spec-pill {
-    font-size: 11px; font-family: 'Courier New', monospace; padding: 2px 6px; border-radius: 3px;
-    background: var(--surface-raised); border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap;
-  }
-
-  /* COMPONENTS */
-  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
-  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .comp-card-title {
-    font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-    color: var(--text-muted); margin-bottom: 16px;
-  }
-  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
-  .btn {
-    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
-    padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; transition: background 150ms, color 150ms;
-  }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); }
-  .btn-secondary { background: transparent; border: 1px solid var(--border-strong); color: var(--text-primary); }
-  .btn-secondary:hover { background: var(--surface-raised); }
-  .btn-ghost { background: transparent; color: var(--text-secondary); }
-  .btn-ghost:hover { background: var(--surface-raised); color: var(--text-primary); }
-  .btn-danger { background: var(--error); color: #fff; }
-
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-primary);
-    transition: border-color 150ms; width: 100%;
-  }
-  .input::placeholder { color: var(--text-muted); }
-  .input:hover { border-color: var(--border-strong); }
-  .input:focus { outline: none; border-color: var(--primary); }
-
-  .badge-group { display: flex; flex-wrap: wrap; gap: 6px; }
-  .badge {
-    font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 4px;
-    display: inline-flex; align-items: center; gap: 4px;
-  }
-  .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
-
-  .sample-card { background: var(--surface-raised); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-  .sample-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-  .sample-card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
-  .sample-card-meta { font-size: 12px; color: var(--text-secondary); }
-
-  /* SPACING */
-  .spacing-list { display: flex; flex-direction: column; gap: 8px; }
-  .spacing-row { display: flex; align-items: center; gap: 12px; }
-  .spacing-label { font-family: 'Courier New', monospace; font-size: 12px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
-  .spacing-bar-wrap { flex: 1; }
-  .spacing-bar { height: 8px; background: var(--primary); border-radius: 2px; opacity: 0.7; }
-  .spacing-val { font-size: 12px; color: var(--text-secondary); width: 36px; text-align: right; }
-
-  /* GUARDRAILS */
-  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .guardrails-col { display: flex; flex-direction: column; gap: 8px; }
-  .guardrails-heading { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
-  .guardrails-heading.do { color: var(--success); }
-  .guardrails-heading.dont { color: var(--error); }
-  .guardrail-item {
-    font-size: 13px; color: var(--text-secondary); padding: 8px 12px;
-    border-radius: 6px; background: var(--surface);
-  }
-  .guardrail-item.do {; }
-  .guardrail-item.dont {; }
-
-  @media (max-width: 600px) {
-    .guardrails-grid { grid-template-columns: 1fr; }
-    .type-row { grid-template-columns: 80px 1fr; }
-    .type-specs { display: none; }
-  }
+:root{ --clay:#D97757;--clay-deep:#C15F3C; }
+:root[data-theme="light"]{
+  --bg:#F0EEE6;--panel:#FAF9F5;--bg3:#E8E6DC;
+  --border:#DEDBCE;--border-strong:#CDC9BA;
+  --text:#141413;--text2:#3D3D3A;--text3:#87867F;--faint:#B0AEA5;
+  --user-bubble:#E8E6DC;--code-bg:#F3F1E9;
+}
+:root[data-theme="dark"]{
+  --bg:#1F1E1C;--panel:#262523;--bg3:#302E2A;
+  --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.16);
+  --text:#F0EEE6;--text2:#C6C3B8;--text3:#8F8D83;--faint:#6E6C64;
+  --user-bubble:#302E2A;--code-bg:#15140F;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.serif{font-family:'Newsreader',Georgia,serif}
+.toggle{position:fixed;top:16px;right:16px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:80px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1140px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px}
+.hero h1{font-family:'Newsreader',Georgia,serif;font-size:56px;font-weight:500;letter-spacing:-.02em;line-height:1.05;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 40px 90px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.16)}
+.swatch-info{padding:9px 11px;background:var(--panel)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:130px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 6px;border-radius:9999px;white-space:nowrap}
+
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:500;font-size:13px;border-radius:10px;padding:0 15px;height:36px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.14s ease}
+.btn-primary{background:var(--clay);color:#fff}
+.btn-primary:hover{background:var(--clay-deep)}
+.btn-secondary{background:transparent;border:1px solid var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:9999px;font-size:12px;font-weight:500;border:1px solid var(--border-strong);color:var(--text2);background:transparent}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* SIGNATURE — Claude chat + artifacts */
+.claude-app{display:flex;gap:0;border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--panel);min-height:520px}
+.chat{flex:1;display:flex;flex-direction:column;min-width:0}
+.chat-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.chat-head .name{font-weight:600;font-size:15px}
+.modelchip{margin-left:auto;font-size:12px;color:var(--text2);border:1px solid var(--border-strong);border-radius:9999px;padding:4px 11px;display:inline-flex;align-items:center;gap:6px}
+.thread{flex:1;overflow-y:auto;padding:22px 20px;display:flex;flex-direction:column;gap:20px;max-height:460px}
+.greeting{margin:auto 0;text-align:center;color:var(--text2)}
+.greeting .g-mark{margin-bottom:14px}
+.greeting .g-text{font-family:'Newsreader',Georgia,serif;font-size:30px;font-weight:400;color:var(--text);letter-spacing:-.01em}
+.msg{display:flex;gap:12px;max-width:100%}
+.msg.user{justify-content:flex-end}
+.msg.user .bubble{background:var(--user-bubble);border-radius:16px 16px 4px 16px;padding:11px 15px;max-width:78%;font-size:14px}
+.msg.claude .av{width:26px;height:26px;flex-shrink:0;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.msg.claude .body{font-size:14px;line-height:1.65;color:var(--text);padding-top:2px;max-width:calc(100% - 40px)}
+.msg.claude .body p{margin:0 0 8px}
+.msg.claude .body p:last-child{margin:0}
+.haiku{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;line-height:1.7;color:var(--text)}
+.caret{display:inline-block;width:7px;height:15px;background:var(--clay);vertical-align:-2px;margin-left:1px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.composer{padding:14px 16px 16px;border-top:1px solid var(--border)}
+.suggest{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sg{font-size:12.5px;color:var(--text2);border:1px solid var(--border-strong);background:transparent;border-radius:9999px;padding:6px 13px;cursor:pointer;transition:.12s}
+.sg:hover{border-color:var(--clay);color:var(--text)}
+.inputbar{border:1px solid var(--border-strong);border-radius:14px;padding:12px 14px;background:var(--bg)}
+.inputbar:focus-within{border-color:var(--clay)}
+.inputbar textarea{width:100%;border:none;background:transparent;resize:none;outline:none;font-family:inherit;font-size:14px;color:var(--text);line-height:1.5;height:24px}
+.inputbar textarea::placeholder{color:var(--text3)}
+.composer-foot{display:flex;align-items:center;margin-top:10px}
+.foot-model{font-size:12px;color:var(--text3);display:inline-flex;align-items:center;gap:6px}
+.send{margin-left:auto;width:32px;height:32px;border-radius:50%;border:none;background:var(--clay);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.14s}
+.send:hover{background:var(--clay-deep)}
+.send:disabled{background:var(--faint);cursor:not-allowed}
+
+.artifact{width:44%;border-left:1px solid var(--border);display:none;flex-direction:column;background:var(--bg)}
+.artifact.open{display:flex}
+.artifact-head{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.artifact-title{font-size:13px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'JetBrains Mono',monospace}
+.tabs{display:flex;gap:2px;background:var(--bg3);border-radius:9999px;padding:3px}
+.tab{font-size:12px;font-weight:500;padding:4px 12px;border-radius:9999px;cursor:pointer;color:var(--text2);border:none;background:transparent}
+.tab.active{background:var(--panel);color:var(--text)}
+.artifact-close{cursor:pointer;color:var(--text3);font-size:18px;line-height:1;background:none;border:none}
+.artifact-body{flex:1;overflow:auto;padding:20px;position:relative}
+.code-view{display:none;position:absolute;inset:0;padding:16px;background:var(--code-bg);overflow:auto}
+.code-view.show{display:block}
+.code-view pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;color:var(--text2);white-space:pre-wrap}
+.preview-view.hide{display:none}
+.tc{max-width:300px;margin:0 auto;font-family:'DM Sans',sans-serif}
+.tc h3{font-family:'Newsreader',serif;font-size:22px;font-weight:500;margin-bottom:16px}
+.tc label{display:block;font-size:12px;color:var(--text3);margin:14px 0 5px}
+.tc input{width:100%;border:1px solid var(--border-strong);border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;background:var(--panel);color:var(--text);outline:none}
+.tc input:focus{border-color:var(--clay)}
+.tc-tips{display:flex;gap:7px;margin-top:6px}
+.tc-tips button{flex:1;border:1px solid var(--border-strong);background:var(--panel);border-radius:9px;padding:8px 0;font-size:13px;font-weight:500;cursor:pointer;color:var(--text2)}
+.tc-tips button.on{background:var(--clay);border-color:var(--clay);color:#fff}
+.tc-out{margin-top:18px;padding:14px 16px;background:var(--bg3);border-radius:12px}
+.tc-line{display:flex;justify-content:space-between;font-size:13px;color:var(--text2);margin-bottom:6px}
+.tc-total{display:flex;justify-content:space-between;font-size:18px;font-weight:600;color:var(--text);font-family:'JetBrains Mono',monospace}
+.hint{font-size:12px;color:var(--text3);margin-top:12px}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#43A047}
+.gr-heading.dont{color:#E5484A}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#43A047}
+.dont .gr-item::before{background:#E5484A}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:860px){.comp-grid,.gr-cols{grid-template-columns:1fr}.claude-app{flex-direction:column}.artifact{width:auto;border-left:none;border-top:1px solid var(--border)}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-<div class="container">
-
-  <!-- HERO -->
-  <div class="hero">
+<div class="hero">
+  <div class="hero-inner">
     <div class="hero-logo">
-      <svg width="56" height="56" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="40" y="4" width="51" height="51" rx="6" transform="rotate(45 40 4)" fill="#D97757"/>
-      </svg>
+      <svg width="60" height="60" viewBox="0 0 24 24" fill="#D97757" xmlns="http://www.w3.org/2000/svg" aria-label="Claude"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
     </div>
     <h1>Claude</h1>
-    <p>Warm, minimal, and human — an AI interface that feels thoughtful rather than mechanical.</p>
+    <p>Warm, editorial, human — an AI interface built to feel thoughtful rather than mechanical.</p>
   </div>
+</div>
+
+<div class="wrap">
 
   <!-- COLORS -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="colors-group">
-      <div class="colors-group-title">Primary</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#D97757', this)">
-          <div class="swatch-block" style="background:#D97757"></div>
-          <div class="swatch-info"><div class="swatch-name">primary</div><div class="swatch-hex">#D97757</div><div class="swatch-usage">CTAs, active states</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#C4633F', this)">
-          <div class="swatch-block" style="background:#C4633F"></div>
-          <div class="swatch-info"><div class="swatch-name">primary-hover</div><div class="swatch-hex">#C4633F</div><div class="swatch-usage">Button hover</div></div>
-        </div>
-      </div>
+    <div class="section-label">Colors</div>
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#D97757')"><div class="swatch-color" style="background:#D97757"></div><div class="swatch-info"><span class="swatch-name">clay</span><span class="swatch-hex">#D97757</span><span class="swatch-use">Accent, CTAs, mark</span></div></div>
+      <div class="swatch" onclick="copyHex('#C15F3C')"><div class="swatch-color" style="background:#C15F3C"></div><div class="swatch-info"><span class="swatch-name">clay-deep</span><span class="swatch-hex">#C15F3C</span><span class="swatch-use">Hover / pressed</span></div></div>
+      <div class="swatch" onclick="copyHex('#141413')"><div class="swatch-color" style="background:#141413"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#141413</span><span class="swatch-use">Headings, text</span></div></div>
+      <div class="swatch" onclick="copyHex('#3D3D3A')"><div class="swatch-color" style="background:#3D3D3A"></div><div class="swatch-info"><span class="swatch-name">text-2</span><span class="swatch-hex">#3D3D3A</span><span class="swatch-use">Secondary text</span></div></div>
     </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#FAF9F7', this)">
-          <div class="swatch-block" style="background:#FAF9F7;border:1px solid #E5E4E0;"></div>
-          <div class="swatch-info"><div class="swatch-name">background</div><div class="swatch-hex">#FAF9F7</div><div class="swatch-usage">Page background</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#FFFFFF', this)">
-          <div class="swatch-block" style="background:#FFFFFF;border:1px solid #E5E4E0;"></div>
-          <div class="swatch-info"><div class="swatch-name">surface</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-usage">Cards, panels</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#F3F2EF', this)">
-          <div class="swatch-block" style="background:#F3F2EF"></div>
-          <div class="swatch-info"><div class="swatch-name">surface-secondary</div><div class="swatch-hex">#F3F2EF</div><div class="swatch-usage">Subtle backgrounds</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#E5E4E0', this)">
-          <div class="swatch-block" style="background:#E5E4E0"></div>
-          <div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#E5E4E0</div><div class="swatch-usage">Dividers, inputs</div></div>
-        </div>
-      </div>
+    <div class="group-label">Surfaces — warm paper</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F0EEE6')"><div class="swatch-color" style="background:#F0EEE6"></div><div class="swatch-info"><span class="swatch-name">cream</span><span class="swatch-hex">#F0EEE6</span><span class="swatch-use">Page canvas</span></div></div>
+      <div class="swatch" onclick="copyHex('#FAF9F5')"><div class="swatch-color" style="background:#FAF9F5"></div><div class="swatch-info"><span class="swatch-name">card</span><span class="swatch-hex">#FAF9F5</span><span class="swatch-use">Panels, chat</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8E6DC')"><div class="swatch-color" style="background:#E8E6DC"></div><div class="swatch-info"><span class="swatch-name">deep-cream</span><span class="swatch-hex">#E8E6DC</span><span class="swatch-use">User bubble, hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#CDC9BA')"><div class="swatch-color" style="background:#CDC9BA"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#CDC9BA</span><span class="swatch-use">Dividers, inputs</span></div></div>
     </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Text</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#1A1A1A', this)">
-          <div class="swatch-block" style="background:#1A1A1A"></div>
-          <div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#1A1A1A</div><div class="swatch-usage">Headings, body</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#6B6B6B', this)">
-          <div class="swatch-block" style="background:#6B6B6B"></div>
-          <div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#6B6B6B</div><div class="swatch-usage">Supporting text</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#9E9E9E', this)">
-          <div class="swatch-block" style="background:#9E9E9E"></div>
-          <div class="swatch-info"><div class="swatch-name">text-muted</div><div class="swatch-hex">#9E9E9E</div><div class="swatch-usage">Placeholders, disabled</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="colors-group">
-      <div class="colors-group-title">Semantic</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#E53935', this)">
-          <div class="swatch-block" style="background:#E53935"></div>
-          <div class="swatch-info"><div class="swatch-name">error</div><div class="swatch-hex">#E53935</div><div class="swatch-usage">Error states</div></div>
-        </div>
-        <div class="swatch" onclick="copyHex('#43A047', this)">
-          <div class="swatch-block" style="background:#43A047"></div>
-          <div class="swatch-info"><div class="swatch-name">success</div><div class="swatch-hex">#43A047</div><div class="swatch-usage">Success states</div></div>
-        </div>
-      </div>
+    <div class="group-label">Warm neutrals &amp; dark</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#87867F')"><div class="swatch-color" style="background:#87867F"></div><div class="swatch-info"><span class="swatch-name">muted</span><span class="swatch-hex">#87867F</span><span class="swatch-use">Metadata</span></div></div>
+      <div class="swatch" onclick="copyHex('#B0AEA5')"><div class="swatch-color" style="background:#B0AEA5"></div><div class="swatch-info"><span class="swatch-name">faint</span><span class="swatch-hex">#B0AEA5</span><span class="swatch-use">Placeholders</span></div></div>
+      <div class="swatch" onclick="copyHex('#1F1E1C')"><div class="swatch-color" style="background:#1F1E1C"></div><div class="swatch-info"><span class="swatch-name">dark-page</span><span class="swatch-hex">#1F1E1C</span><span class="swatch-use">Dark canvas (warm)</span></div></div>
+      <div class="swatch" onclick="copyHex('#262523')"><div class="swatch-color" style="background:#262523"></div><div class="swatch-info"><span class="swatch-name">dark-card</span><span class="swatch-hex">#262523</span><span class="swatch-use">Dark surface</span></div></div>
     </div>
   </div>
 
   <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-row">
-      <div class="type-name">display</div>
-      <div class="type-sample" style="font-size:32px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
-      <div class="type-specs"><span class="spec-pill">32px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.2</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">heading-lg</div>
-      <div class="type-sample" style="font-size:24px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
-      <div class="type-specs"><span class="spec-pill">24px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">heading-md</div>
-      <div class="type-sample" style="font-size:18px;font-weight:600;letter-spacing:-0.01em;">The quick brown fox</div>
-      <div class="type-specs"><span class="spec-pill">18px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">body</div>
-      <div class="type-sample" style="font-size:15px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
-      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">body-sm</div>
-      <div class="type-sample" style="font-size:13px;font-weight:400;">The quick brown fox jumps over the lazy dog</div>
-      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.5</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">caption</div>
-      <div class="type-sample" style="font-size:12px;font-weight:400;color:var(--text-secondary);">Caption text for metadata</div>
-      <div class="type-specs"><span class="spec-pill">12px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.4</span></div>
-    </div>
-    <div class="type-row">
-      <div class="type-name">code</div>
-      <div class="type-sample" style="font-size:13px;font-family:'Courier New',monospace;color:var(--primary);">const reply = await claude.ask(prompt)</div>
-      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">mono</span><span class="spec-pill">lh 1.6</span></div>
+    <div class="section-label">Typography — Anthropic Serif ≈ Newsreader · Sans ≈ DM Sans · Mono ≈ JetBrains</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">serif-display</div><div class="type-spec">Newsreader · 500</div></div><div class="type-sample serif" style="font-size:40px;font-weight:500;letter-spacing:-.02em;line-height:1.05">Good evening, DJ</div><div class="spec-pills"><span class="spec-pill">56px</span><span class="spec-pill">serif</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">serif-quote</div><div class="type-spec">Newsreader · italic</div></div><div class="type-sample serif" style="font-size:22px;font-style:italic">Helpful, honest, and harmless.</div><div class="spec-pills"><span class="spec-pill">italic</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading</div><div class="type-spec">DM Sans · 600</div></div><div class="type-sample" style="font-size:22px;font-weight:600;letter-spacing:-.01em">How can I help you today?</div><div class="spec-pills"><span class="spec-pill">22px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">DM Sans · 400</div></div><div class="type-sample" style="font-size:15px;line-height:1.65">Claude explains its reasoning clearly, in plain, unhurried prose.</div><div class="spec-pills"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono / code</div><div class="type-spec">JetBrains Mono</div></div><div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text2)">const tip = bill * (pct / 100);</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
 
   <!-- COMPONENTS -->
   <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
       <div class="comp-card">
-        <div class="comp-card-title">Buttons</div>
-        <div class="btn-group">
-          <button class="btn btn-primary">Primary</button>
-          <button class="btn btn-secondary">Secondary</button>
-          <button class="btn btn-ghost">Ghost</button>
-          <button class="btn btn-danger">Danger</button>
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Try Claude</button>
+          <button class="btn btn-secondary">Download app</button>
         </div>
+        <div class="btn-row"><button class="btn btn-secondary">Share chat</button><button class="btn btn-secondary">New chat</button></div>
       </div>
       <div class="comp-card">
-        <div class="comp-card-title">Inputs</div>
-        <div class="input-group">
-          <input class="input" type="text" placeholder="Ask Claude anything…">
-          <input class="input" type="text" placeholder="Focused state" style="border-color:var(--primary);">
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Badges</div>
-        <div class="badge-group">
-          <span class="badge" style="background:rgba(67,160,71,0.12);color:#43A047;">
-            <span class="badge-dot" style="background:#43A047;"></span>Active
-          </span>
-          <span class="badge" style="background:rgba(217,119,87,0.12);color:#D97757;">
-            <span class="badge-dot" style="background:#D97757;"></span>Thinking
-          </span>
-          <span class="badge" style="background:rgba(229,57,53,0.12);color:#E53935;">
-            <span class="badge-dot" style="background:#E53935;"></span>Error
-          </span>
-          <span class="badge" style="background:var(--surface-raised);color:var(--text-secondary);">
-            <span class="badge-dot" style="background:var(--text-muted);"></span>Idle
-          </span>
-        </div>
-      </div>
-      <div class="comp-card">
-        <div class="comp-card-title">Sample Card</div>
-        <div class="sample-card">
-          <div class="sample-card-header">
-            <div class="sample-card-title">Summarize this document</div>
-            <span class="badge" style="background:rgba(217,119,87,0.12);color:#D97757;font-size:11px;">Thinking</span>
-          </div>
-          <div class="sample-card-meta">Started just now · Claude 3.5 Sonnet</div>
+        <div class="comp-title">Suggested prompts</div>
+        <div class="chip-row">
+          <span class="chip">Write a haiku about the sea</span>
+          <span class="chip">Summarize this PDF</span>
+          <span class="chip">Build a tip calculator</span>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SPACING -->
+  <!-- SIGNATURE — CLAUDE CHAT + ARTIFACTS -->
   <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><div class="spacing-label">space-1</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(4/48*100%)"></div></div><div class="spacing-val">4px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-2</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(8/48*100%)"></div></div><div class="spacing-val">8px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-3</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(12/48*100%)"></div></div><div class="spacing-val">12px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-4</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(16/48*100%)"></div></div><div class="spacing-val">16px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-5</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(20/48*100%)"></div></div><div class="spacing-val">20px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-6</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(24/48*100%)"></div></div><div class="spacing-val">24px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-8</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:calc(32/48*100%)"></div></div><div class="spacing-val">32px</div></div>
-      <div class="spacing-row"><div class="spacing-label">space-12</div><div class="spacing-bar-wrap"><div class="spacing-bar" style="width:100%"></div></div><div class="spacing-val">48px</div></div>
+    <div class="section-label">Signature — Chat &amp; Artifacts</div>
+    <div class="claude-app">
+      <div class="chat">
+        <div class="chat-head">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#D97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>
+          <span class="name">Claude</span>
+          <span class="modelchip">Claude Opus 4.8 ▾</span>
+        </div>
+        <div class="thread" id="thread">
+          <div class="greeting" id="greeting">
+            <div class="g-mark"><svg width="34" height="34" viewBox="0 0 24 24" fill="#D97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></div>
+            <div class="g-text">Good evening — how can I help?</div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="suggest" id="suggest">
+            <button class="sg" onclick="ask('haiku')">Write a haiku about the sea</button>
+            <button class="sg" onclick="ask('mission')">Explain Anthropic's mission</button>
+            <button class="sg" onclick="ask('tip')">Build a tip calculator</button>
+          </div>
+          <div class="inputbar">
+            <textarea id="prompt" rows="1" placeholder="How can I help you today?" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendTyped();}"></textarea>
+            <div class="composer-foot">
+              <span class="foot-model">Claude Opus 4.8</span>
+              <button class="send" id="sendBtn" onclick="sendTyped()" title="Send" aria-label="Send"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="artifact" id="artifact">
+        <div class="artifact-head">
+          <span class="artifact-title" id="artTitle">tip-calculator.tsx</span>
+          <div class="tabs">
+            <button class="tab active" id="tabPrev" onclick="setTab('prev')">Preview</button>
+            <button class="tab" id="tabCode" onclick="setTab('code')">Code</button>
+          </div>
+          <button class="artifact-close" onclick="closeArtifact()" title="Close" aria-label="Close">×</button>
+        </div>
+        <div class="artifact-body">
+          <div class="preview-view" id="prevView">
+            <div class="tc">
+              <h3>Tip calculator</h3>
+              <label>Bill amount</label>
+              <input id="tcBill" type="number" value="58.40" step="0.01" oninput="calcTip()">
+              <label>Tip</label>
+              <div class="tc-tips" id="tcTips">
+                <button data-p="15" onclick="setTip(15,this)">15%</button>
+                <button data-p="18" class="on" onclick="setTip(18,this)">18%</button>
+                <button data-p="20" onclick="setTip(20,this)">20%</button>
+                <button data-p="25" onclick="setTip(25,this)">25%</button>
+              </div>
+              <div class="tc-out">
+                <div class="tc-line"><span>Tip</span><span id="tcTipAmt">$10.51</span></div>
+                <div class="tc-total"><span>Total</span><span id="tcTotal">$68.91</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="code-view" id="codeView"><pre id="codePre"></pre></div>
+        </div>
+      </div>
     </div>
+    <div class="hint">Click a suggested prompt (or type one) — Claude streams a reply. <b>Build a tip calculator</b> opens a live <b>Artifact</b> with Preview / Code tabs.</div>
   </div>
 
   <!-- GUARDRAILS -->
   <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrails-col">
-        <div class="guardrails-heading do">DO</div>
-        <div class="guardrail-item do">Use generous whitespace — crowded UI feels anxious</div>
-        <div class="guardrail-item do">Prefer warm neutrals over pure white or black</div>
-        <div class="guardrail-item do">Use the coral accent sparingly — one CTA per view</div>
-        <div class="guardrail-item do">Animate with ease curves, keep transitions under 200ms</div>
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas warm cream #F0EEE6 — surfaces are off-white #FAF9F5, never pure white.</div>
+          <div class="gr-item">Use clay #D97757 sparingly — ideally one primary action per view.</div>
+          <div class="gr-item">Lead greetings and headings with the serif; keep body in the sans.</div>
+          <div class="gr-item">Keep dark mode warm near-black #1F1E1C — never a cool blue-black.</div>
+          <div class="gr-item">Favor whitespace over borders; animate with ease curves under 200ms.</div>
+        </div>
       </div>
-      <div class="guardrails-col">
-        <div class="guardrails-heading dont">DON'T</div>
-        <div class="guardrail-item dont">Use harsh drop shadows or heavy borders</div>
-        <div class="guardrail-item dont">Use blue as a primary color — it conflicts with the brand</div>
-        <div class="guardrail-item dont">Use all-caps headings</div>
-        <div class="guardrail-item dont">Add decorative gradients or glass-morphism effects</div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't use blue as a primary color — it conflicts with the brand's warmth.</div>
+          <div class="gr-item">Don't render the Claude mark in any color but clay.</div>
+          <div class="gr-item">Don't use all-caps headings, heavy shadows, or glassmorphism.</div>
+          <div class="gr-item">Don't set body copy in the serif or long strings in the mono.</div>
+          <div class="gr-item">Don't crowd the layout — density reads as anxious; the brand is calm.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -401,13 +321,96 @@
 </div>
 
 <script>
-function copyHex(hex, el) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const toast = document.getElementById('toast');
-  toast.textContent = 'Copied ' + hex;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
+const MARK='<svg width="26" height="26" viewBox="0 0 24 24" fill="#D97757" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>';
+const RESP={
+  haiku:{q:'Write a haiku about the sea',html:'<div class="haiku">Grey swells breathe and fall,<br>the horizon keeps no line —<br>salt on every word.</div>',artifact:false},
+  mission:{q:"Explain Anthropic's mission",html:'<p>Anthropic is an AI safety company. The mission is to ensure the world safely makes the transition through transformative AI.</p><p>In practice that means building frontier models like Claude while doing the research to keep them <em>helpful, honest, and harmless</em> — and sharing what we learn about steering powerful systems.</p>',artifact:false},
+  tip:{q:'Build a tip calculator',html:'<p>Here’s a small tip calculator. Enter the bill, pick a tip percentage, and it computes the tip and total live.</p><p>I’ve put it in an artifact on the right — open the <b>Code</b> tab to see the source.</p>',artifact:true}
+};
+const CODE=`function TipCalculator() {
+  const [bill, setBill] = useState(58.40);
+  const [pct, setPct]   = useState(18);
+
+  const tip   = bill * (pct / 100);
+  const total = bill + tip;
+
+  return (
+    <div className="tc">
+      <h3>Tip calculator</h3>
+      <input value={bill}
+        onChange={e => setBill(+e.target.value)} />
+      {[15, 18, 20, 25].map(p => (
+        <button key={p} className={p === pct ? 'on' : ''}
+          onClick={() => setPct(p)}>{p}%</button>
+      ))}
+      <div>Tip:   \${tip.toFixed(2)}</div>
+      <div>Total: \${total.toFixed(2)}</div>
+    </div>
+  );
+}`;
+let busy=false;
+const thread=document.getElementById('thread');
+
+function ask(key){ if(busy) return; const r=RESP[key]; run(r.q, r.html, r.artifact); }
+function sendTyped(){
+  if(busy) return;
+  const ta=document.getElementById('prompt'); const q=ta.value.trim(); if(!q) return; ta.value='';
+  const l=q.toLowerCase(); let r=RESP.mission;
+  if(l.includes('haiku')||l.includes('poem')) r=RESP.haiku;
+  else if(l.includes('tip')||l.includes('calculator')||l.includes('build')) r=RESP.tip;
+  run(q, r.html, r.artifact);
 }
+function addUser(q){
+  const g=document.getElementById('greeting'); if(g) g.remove();
+  const el=document.createElement('div'); el.className='msg user';
+  el.innerHTML='<div class="bubble"></div>'; el.querySelector('.bubble').textContent=q;
+  thread.appendChild(el); thread.scrollTop=thread.scrollHeight;
+}
+function run(q, html, artifact){
+  busy=true; document.getElementById('sendBtn').disabled=true;
+  addUser(q);
+  const msg=document.createElement('div'); msg.className='msg claude';
+  msg.innerHTML='<div class="av">'+MARK+'</div><div class="body"><span class="caret"></span></div>';
+  thread.appendChild(msg);
+  const body=msg.querySelector('.body');
+  thread.scrollTop=thread.scrollHeight;
+  setTimeout(()=>stream(body, html, artifact), 450);
+}
+function stream(body, html, artifact){
+  const tokens=html.split(/(\s+)/);
+  let i=0;
+  (function next(){
+    i++;
+    body.innerHTML=tokens.slice(0,i).join('')+'<span class="caret"></span>';
+    thread.scrollTop=thread.scrollHeight;
+    if(i<tokens.length){ setTimeout(next, 40); }
+    else{
+      body.innerHTML=html;
+      if(artifact) openArtifact();
+      busy=false; document.getElementById('sendBtn').disabled=false;
+      thread.scrollTop=thread.scrollHeight;
+    }
+  })();
+}
+function openArtifact(){ document.getElementById('artifact').classList.add('open'); setTab('prev'); calcTip(); }
+function closeArtifact(){ document.getElementById('artifact').classList.remove('open'); }
+function setTab(t){
+  document.getElementById('tabPrev').classList.toggle('active',t==='prev');
+  document.getElementById('tabCode').classList.toggle('active',t==='code');
+  document.getElementById('prevView').classList.toggle('hide',t!=='prev');
+  document.getElementById('codeView').classList.toggle('show',t==='code');
+  if(t==='code') document.getElementById('codePre').textContent=CODE;
+}
+let tipPct=18;
+function setTip(p,el){ tipPct=p; document.querySelectorAll('#tcTips button').forEach(b=>b.classList.remove('on')); el.classList.add('on'); calcTip(); }
+function calcTip(){
+  const bill=parseFloat(document.getElementById('tcBill').value)||0;
+  const tip=bill*(tipPct/100); const total=bill+tip;
+  document.getElementById('tcTipAmt').textContent='$'+tip.toFixed(2);
+  document.getElementById('tcTotal').textContent='$'+total.toFixed(2);
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function copyHex(hex){navigator.clipboard.writeText(hex).catch(()=>{});showToast('Copied '+hex);}
 </script>
 </body>
 </html>
