@@ -1,70 +1,77 @@
 # CircleCI Design System
 
 ## Brand Overview
-CircleCI is a CI/CD platform focused on speed and developer experience. The brand is sharp, technical, and confident — built on a near-black with a vivid green accent that signals passing builds.
+CircleCI is the CI/CD platform for autonomous validation. The current identity — the internal **"Morph"** design system — is a sharp, terminal-flavored, **dark-first** look: a true near-black canvas, a deep midnight-navy for panels, a vivid **spring green** that reads as "passed," and a pixel display face for eyebrow labels that nods to the build-log heritage. Color is disciplined and semantic — green means passing, red means failed — with a soft pastel gradient (mint → cyan → pink → yellow) reserved for marketing hero moments only.
 
 ## Color Palette
 
 ### Primary
-- **Green**: `#04AA51` — primary brand, passing builds, CTAs
-- **Green Hover**: `#038B42` — pressed states
-- **Green Light**: `#06CC61` — highlights
+- **Green** `#00DB74` — brand, passing builds, primary success (the `positive`/`passed` token)
+- **Green light** `#C4EDCF` — success tint / subtle fills
+- **Blue** `#2152E5` — links, running jobs, interactive accents
+- **Blue bright** `#0055FF` — hero / high-emphasis links
 
-### Build Status
-- **Passed**: `#04AA51` — green
-- **Failed**: `#E5483A` — red
-- **Running**: `#FA7A14` — orange (animated)
-- **On Hold**: `#9B9B9B` — grey
-- **Cancelled**: `#676767` — dark grey
+### Build status (semantic — never repurpose)
+- **Success / passed** `#00DB74`
+- **Running** `#2152E5` (animated pulse)
+- **On hold / needs approval** `#DD9F54` (bronze)
+- **Failed** `#CC4242`
+- **Not run / queued** `#6A6A6A` (neutral)
 
-### Semantic
-- **Success**: `#04AA51`
-- **Warning**: `#FA7A14`
-- **Error**: `#E5483A`
+### Surfaces (dark-first)
+- **Terminal** `#161616` — page background (`--color-morph-terminal`)
+- **Midnight** `#1C273A` — primary panels/cards (`--color-morph-midnight`)
+- **Deep** `#0D1520` — wells, code areas
+- **Slate** `#2E3C52` — raised surfaces, hover
+- **Border** `rgba(255,255,255,.10)` — hairlines on dark
 
-### Surfaces (Dark Mode)
-- **Background**: `#161616`
-- **Surface**: `#1E1E1E`
-- **Elevated**: `#282828`
-- **Border**: `#383838`
+### Neutrals (light mode + text)
+- **Fog** `#EDEDED`  ·  **Body light** `#FAFAFA`  ·  **Neutral-40** `#F7F7F7`
+- **Cool grey** `#ECEEF2` / `#C5CAD4` / `#B4B8C6`  ·  **Neutral-400** `#6A6A6A`
+- **Text on dark** `#FAFAFA` / muted `#B4B8C6` / faint `#6A6A6A`
 
-### Text
-- **Primary**: `#F5F5F5`
-- **Secondary**: `#9A9A9A`
-- **Muted**: `#5A5A5A`
+### Morph gradient (marketing hero only)
+- **Mint** `#B3FFDE` → **Cyan** `#83F1FF` → **Pink** `#FFBDFB` → **Yellow** `#FFF67B`
 
 ## Typography
-- **Primary Font**: Inter (400, 500, 600, 700)
-- **Mono Font**: JetBrains Mono (for job names, branch names, commit SHAs, config)
+All four Morph faces are on Google Fonts and used directly.
+- **Display / "mega"** — `Space Grotesk` — hero H1, big headings
+- **UI / body** — `Inter` — all product text, labels, buttons, job cards
+- **Mono** — `Roboto Mono` — job names, branch names, commit SHAs, config, durations
+- **Pixel** — `Silkscreen` — small uppercase eyebrow labels / section identifiers (terminal flavor)
 
 ## Spacing
 4px base — 4, 8, 12, 16, 24, 32, 48, 64.
 
 ## Border Radius
-- Buttons: 6px
-- Cards: 8px
-- Status badges: 4px
-- Inputs: 6px
+- Buttons: 8px  ·  Cards / panels: 12px  ·  Job pills: 9999px (pill)  ·  Status badges: 6px  ·  Inputs: 8px
 
 ## Components
 
-### Workflow Graph
-- Jobs as nodes, dependencies as directed edges
-- Node color reflects job status
-- Parallel jobs shown on same horizontal level
+### Workflow graph (signature)
+Jobs as pills laid out in stage columns, dependencies as directed connectors. Pill color/dot reflects live job status. Parallel jobs share a stage column. Approval jobs hold as bronze until manually approved.
 
-### Pipeline Row
-- Branch name in mono, commit SHA in mono
-- Status icon left, duration right
-- Expand to see individual jobs
+### Pipeline row
+Branch name + commit SHA in mono, status dot left, duration right; expands to its workflows.
 
-### Job Card
-- Job name, executor type, duration
-- Step list with pass/fail indicators
+### Job pill
+Status dot + job name (mono) + duration (mono). Running jobs pulse; failed jobs are unmissable red.
+
+### Button
+Green `#00DB74` primary with terminal-black text (green is too bright for white text — a dual-theme contrast trap); secondary is a translucent-white outline on dark.
 
 ## Guardrails
-- Build status colors are semantic — never repurpose them
-- Branch names and SHAs always in monospace
-- Running builds should have a subtle pulse animation indicator
-- Failed builds must be impossible to miss — red, prominent
-- Duration always visible on completed jobs
+
+**DO**
+- Use `#00DB74` as the brand green — the retired `#04AA51`-style dull greens are legacy.
+- Keep build-status colors strictly semantic (green passed / red failed / blue running / bronze on-hold).
+- Put branch names, commit SHAs, job names, and durations in monospace.
+- Pulse running jobs; make failed jobs prominent and impossible to miss.
+- Use black text on the green button — never white (contrast trap).
+
+**DON'T**
+- Don't use the Morph pastel gradient inside product UI — it's marketing-hero only.
+- Don't put white text on `#00DB74`.
+- Don't repurpose status colors for decoration.
+- Don't hide duration on completed jobs.
+- Don't use the pixel face (Silkscreen) for body or long strings — short uppercase labels only.

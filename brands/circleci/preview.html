@@ -1,209 +1,362 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CircleCI – Design System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CircleCI — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root[data-theme="dark"] {
-  --bg: #161616; --surface: #1E1E1E; --elevated: #282828; --border: #383838;
-  --primary: #04AA51; --primary-hover: #038B42;
-  --passed: #04AA51; --failed: #E5483A; --running: #FA7A14; --onhold: #9B9B9B;
-  --text: #F5F5F5; --text-2: #9A9A9A; --text-3: #5A5A5A;
-  --toggle-bg: #282828; --toggle-text: #F5F5F5; --toggle-border: #383838;
+:root{
+  --green:#00DB74;--green-tint:#C4EDCF;--blue:#2152E5;--blue-bright:#0055FF;
+  --run:#2152E5;--hold:#DD9F54;--fail:#CC4242;--pend:#6A6A6A;
 }
-:root[data-theme="light"] {
-  --bg: #F5F5F5; --surface: #FFFFFF; --elevated: #EBEBEB; --border: #D8D8D8;
-  --primary: #04AA51; --primary-hover: #038B42;
-  --passed: #04AA51; --failed: #D03020; --running: #D06010; --onhold: #777;
-  --text: #161616; --text-2: #555; --text-3: #999;
-  --toggle-bg: #EBEBEB; --toggle-text: #161616; --toggle-border: #D8D8D8;
+:root[data-theme="dark"]{
+  --bg:#161616;--panel:#1C273A;--deep:#0D1520;--slate:#2E3C52;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --text:#FAFAFA;--text2:#B4B8C6;--text3:#6A7486;--logo:#FAFAFA;
+  --link:#5B84FF;--row-hover:#232F44;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle-btn:hover { border-color: var(--primary); }
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--primary); color: #fff; padding: 10px 22px; border-radius: 9999px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; }
-.hero-text h1 { font-size: 32px; font-weight: 700; } .hero-text p { color: var(--text-2); font-size: 15px; margin-top: 6px; }
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 20px; }
-.colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.color-group { margin-bottom: 24px; } .color-group-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 10px; }
-.swatch { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.15s; margin-bottom: 6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; }
-.swatch-name { font-size: 12px; font-weight: 500; color: var(--text); } .swatch-hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); }
-.type-row { display: flex; align-items: baseline; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--border); }
-.type-row:last-child { border-bottom: none; }
-.type-meta { display: flex; gap: 8px; flex-shrink: 0; width: 200px; }
-.spec-pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 4px; background: var(--elevated); color: var(--text-2); }
-.components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.comp-card h3 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 16px; }
-/* Pipeline rows */
-.pipe-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.pipe-row:last-child { border-bottom: none; }
-.pipe-status { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-.pipe-branch { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-2); flex: 1; }
-.pipe-sha { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-3); }
-.pipe-dur { font-size: 11px; color: var(--text-3); flex-shrink: 0; }
-/* Workflow graph */
-.workflow-graph { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 8px 0; }
-.wf-node { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
-.wf-connector { width: 20px; height: 2px; flex-shrink: 0; }
-.wf-job { width: 80px; padding: 8px; border-radius: 6px; border: 1px solid; text-align: center; font-size: 11px; font-weight: 500; }
-.wf-passed { background: rgba(4,170,81,0.12); color: #04AA51; border-color: rgba(4,170,81,0.3); }
-.wf-failed { background: rgba(229,72,58,0.12); color: #E5483A; border-color: rgba(229,72,58,0.3); }
-.wf-running { background: rgba(250,122,20,0.12); color: #FA7A14; border-color: rgba(250,122,20,0.3); }
-.wf-onhold { background: rgba(155,155,155,0.10); color: #9B9B9B; border-color: rgba(155,155,155,0.25); }
-.wf-label { font-size: 9px; color: var(--text-3); }
-/* Status badges */
-.status-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.st-badge { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 4px; }
-.st-pass { background: rgba(4,170,81,0.12); color: #04AA51; }
-.st-fail { background: rgba(229,72,58,0.12); color: #E5483A; }
-.st-run { background: rgba(250,122,20,0.12); color: #FA7A14; }
-.st-hold { background: rgba(155,155,155,0.10); color: #9B9B9B; }
-.btn { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1px solid transparent; transition: all 0.15s; }
-.btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: var(--primary-hover); }
-.btn-ghost { background: transparent; color: var(--text-2); border-color: var(--border); }
-.spacing-list { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row2 { display: flex; align-items: center; gap: 16px; }
-.spacing-bar { height: 10px; background: var(--border); border-radius: 3px; }
-.spacing-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-2); width: 64px; flex-shrink: 0; }
-.spacing-value { font-size: 11px; color: var(--text-3); }
-.guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { padding: 0; }
-.guardrail-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-.guardrail-card.do .guardrail-label { color: var(--passed); } .guardrail-card.dont .guardrail-label { color: var(--failed); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.guardrail-card li { font-size: 13px; color: var(--text-2); padding-left: 16px; position: relative; }
-.guardrail-card li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; }
-.guardrail-card.do li::before { background: var(--passed); }
-.guardrail-card.dont li::before { background: var(--failed); }
+:root[data-theme="light"]{
+  --bg:#FAFAFA;--panel:#FFFFFF;--deep:#0D1520;--slate:#ECEEF2;
+  --border:#E2E5EB;--border-strong:#C5CAD4;
+  --text:#161616;--text2:#4A5262;--text3:#8A90A0;--logo:#161616;
+  --link:#2152E5;--row-hover:#F2F4F8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+.eyebrow{font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--green)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1120px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px}
+.hero .eyebrow{display:block;margin-bottom:16px}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:52px;font-weight:700;letter-spacing:-.03em;line-height:1.02;margin-bottom:14px;max-width:760px;margin-left:auto;margin-right:auto}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px 90px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
+
+/* gradient strip */
+.mstrip{height:52px;border-radius:12px;margin-bottom:26px;border:1px solid var(--border);background:linear-gradient(90deg,#B3FFDE,#83F1FF,#FFBDFB,#FFF67B)}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--panel)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--slate);color:var(--text2);padding:2px 6px;border-radius:9999px;white-space:nowrap}
+
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:8px;padding:0 14px;height:36px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--green);color:#161616}
+.btn-primary:hover{background:#00c368}
+.btn-secondary{background:transparent;border:1px solid var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--slate)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+.sbadge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:6px;font-size:12px;font-weight:600;font-family:'Roboto Mono',monospace}
+.dotmini{width:8px;height:8px;border-radius:50%}
+
+/* SIGNATURE — workflow */
+.pipe{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--panel)}
+.pipe-head{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--deep)}
+:root[data-theme="light"] .pipe-head{background:var(--slate)}
+.repo{font-family:'Roboto Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
+.meta-mono{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--text3)}
+.tag{font-family:'Roboto Mono',monospace;font-size:11px;padding:2px 8px;border-radius:6px;background:var(--slate);color:var(--text2)}
+:root[data-theme="light"] .tag{background:#E2E5EB}
+.pipe-spacer{flex:1}
+.ov{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;font-family:'Roboto Mono',monospace;padding:4px 10px;border-radius:9999px}
+.wf-body{padding:26px 20px;overflow-x:auto}
+.wf{display:flex;align-items:center;gap:0;min-width:720px}
+.stage{display:flex;flex-direction:column;gap:12px;min-width:150px}
+.stage-label{font-family:'Silkscreen',monospace;font-size:10px;letter-spacing:.03em;text-transform:uppercase;color:var(--text3);margin-bottom:2px;text-align:center}
+.connector{flex:0 0 34px;height:2px;background:var(--border);align-self:center;margin-top:18px;position:relative}
+.connector.lit{background:var(--green)}
+.job{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--border-strong);border-radius:9999px;padding:8px 14px;transition:.15s}
+:root[data-theme="light"] .job{background:#fff}
+.job .jdot{width:14px;height:14px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#161616;border:2px solid var(--pend)}
+.job .jname{font-family:'Roboto Mono',monospace;font-size:12px;font-weight:500;color:var(--text);flex:1;white-space:nowrap}
+.job .jdur{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--text3)}
+.job.pending{opacity:.55}
+.job.pending .jdur{visibility:hidden}
+.job.running{border-color:var(--run);box-shadow:0 0 0 3px rgba(33,82,229,.18)}
+.job.running .jdot{border-color:var(--run);background:var(--run);animation:pulse 1s infinite}
+.job.success .jdot{border-color:var(--green);background:var(--green)}
+.job.failed .jdot{border-color:var(--fail);background:var(--fail);color:#fff}
+.job.hold{border-color:var(--hold);box-shadow:0 0 0 3px rgba(221,159,84,.16)}
+.job.hold .jdot{border-color:var(--hold);background:var(--hold)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(33,82,229,.5)}50%{box-shadow:0 0 0 5px rgba(33,82,229,0)}}
+.approve{margin-top:2px}
+.approve button{font-family:inherit;font-size:12px;font-weight:600;background:var(--hold);color:#161616;border:none;border-radius:8px;padding:6px 12px;cursor:pointer}
+.pipe-foot{display:flex;align-items:center;gap:14px;padding:12px 16px;border-top:1px solid var(--border);font-family:'Roboto Mono',monospace;font-size:12px;color:var(--text3);flex-wrap:wrap}
+.hint{font-size:12px;color:var(--text3);margin-top:12px}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--green)}
+.gr-heading.dont{color:var(--fail)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--green)}
+.dont .gr-item::before{background:var(--fail)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:720px){.comp-grid,.gr-cols{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="toast" id="toast">Copied!</div>
-<div class="container">
-  <div class="hero">
-    <svg width="56" height="56" viewBox="0 0 72 72" fill="none"><rect width="72" height="72" rx="14" fill="#161616"/>
-      <!-- CircleCI circle mark -->
-      <circle cx="36" cy="36" r="18" fill="none" stroke="#04AA51" stroke-width="3"/>
-      <circle cx="36" cy="36" r="7" fill="#04AA51"/>
-    </svg>
-    <div class="hero-text"><h1>CircleCI</h1><p>CI/CD platform — automate builds, tests, and deployments at speed</p></div>
-  </div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-  <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group"><div class="color-group-label">Brand & Build Status</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#04AA51',this)"><div class="swatch-dot" style="background:#04AA51"></div><div class="swatch-name">Passed</div><div class="swatch-hex">#04AA51</div></div>
-        <div class="swatch" onclick="copyHex('#E5483A',this)"><div class="swatch-dot" style="background:#E5483A"></div><div class="swatch-name">Failed</div><div class="swatch-hex">#E5483A</div></div>
-        <div class="swatch" onclick="copyHex('#FA7A14',this)"><div class="swatch-dot" style="background:#FA7A14"></div><div class="swatch-name">Running</div><div class="swatch-hex">#FA7A14</div></div>
-        <div class="swatch" onclick="copyHex('#9B9B9B',this)"><div class="swatch-dot" style="background:#9B9B9B"></div><div class="swatch-name">On Hold</div><div class="swatch-hex">#9B9B9B</div></div>
-      </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width="150" height="32" viewBox="0 0 116 25" fill="var(--logo)" xmlns="http://www.w3.org/2000/svg" aria-label="CircleCI"><path d="m8.87876 12.6691c0-1.5781 1.30334-2.87304 2.89174-2.87304s2.8917 1.29494 2.8917 2.87304c0 1.5782-1.3033 2.8731-2.8917 2.8731-1.6292 0-2.89174-1.2544-2.89174-2.8731zm2.89174-12.018362c-5.66126 0-10.42647 3.844272-11.7705 9.064382v.1214c0 .32368.24437.56648.570196.56648h4.887394c.24437 0 .44801-.1214.52947-.3237 1.0182-2.18515 3.21753-3.68239 5.78344-3.68239 3.5026 0 6.3536 2.83262 6.3536 6.31269 0 3.4801-2.851 6.3127-6.3536 6.3127-2.56591 0-4.76524-1.4972-5.78344-3.6824-.08146-.2023-.2851-.3237-.52947-.3237h-4.887394c-.325826-.0405-.570196.2023-.570196.526v.1214c1.34403 5.2201 6.10924 9.0644 11.7705 9.0644 6.6794 0 12.0963-5.382 12.0963-12.0184 0-6.67688-5.4169-12.058862-12.0963-12.058862zm31.6458 14.851062h-1.6291c-.1222 0-.2036.0404-.2851.1214-.9367 1.4163-2.5659 2.347-4.3986 2.347-2.9732 0-5.3354-2.347-5.3354-5.3011 0-2.95398 2.4029-5.301 5.3354-5.301 1.8327 0 3.4619.93071 4.3986 2.34702.0815.08094.1629.1214.2851.1214h1.6291c.2037 0 .3666-.16186.3666-.36419 0-.04047 0-.1214-.0407-.16187-1.2219-2.42796-3.747-4.08706-6.6387-4.08706-4.1136 0-7.4533 3.31821-7.4533 7.4053 0 4.168 3.3397 7.4457 7.4533 7.4457 2.8917 0 5.4168-1.6591 6.6387-4.087.0407-.0405.0407-.081.0407-.1619 0-.1619-.1629-.3237-.3666-.3237zm4.9689-12.70636c0 .76885-.6517 1.41631-1.4255 1.41631s-1.4255-.64746-1.4255-1.41631c0-.76886.6517-1.41631 1.4255-1.41631.8146.04046 1.4255.64745 1.4255 1.41631zm-.3258 16.59106v-13.75844h-2.1179v13.75844c0 .2023.1629.3642.3665.3642h1.4255c.163 0 .3259-.1619.3259-.3642zm9.2046-14.08217c-2.1586.08093-3.8692 1.13305-4.9689 2.67076v-1.98284c0-.20233-.1629-.36419-.3665-.36419h-1.4255c-.2037 0-.3666.16186-.3666.36419v13.39425c0 .2023.1629.3642.3666.3642h1.4255c.2036 0 .3665-.1619.3665-.3642v-6.7174c0-2.79211 2.1993-5.09867 4.9689-5.26054.2036 0 .3665-.16186.3665-.36419v-1.41631c0-.16187-.1629-.32373-.3665-.32373zm14.1734 10.19747h-1.6291c-.1222 0-.2037.0404-.2851.1214-.9368 1.4163-2.5659 2.347-4.3987 2.347-2.9324 0-5.3354-2.3875-5.3354-5.3011 0-2.91351 2.403-5.301 5.3354-5.301 1.8328 0 3.4619.93071 4.3987 2.34702.0814.08094.1629.1214.2851.1214h1.6291c.2036 0 .3666-.16186.3666-.36419 0-.04047-.0001-.1214-.0408-.16187-1.2218-2.42796-3.747-4.08706-6.6387-4.08706-4.1135 0-7.4533 3.31821-7.4533 7.4053 0 4.087 3.3398 7.4053 7.4533 7.4053 2.8917 0 5.4169-1.6592 6.6387-4.0871.0407-.0405.0408-.0809.0408-.1619-.0408-.1214-.163-.2832-.3666-.2832zm4.2357-14.4464h-1.4254c-.2037 0-.3666.16186-.3666.36419v18.00741c0 .2023.1629.3642.3666.3642h1.4254c.2037 0 .3666-.1619.3666-.3642v-18.00741c0-.20233-.1629-.36419-.3666-.36419zm9.9377 4.20846c-4.1135 0-7.4532 3.31822-7.4532 7.40524 0 4.0871 3.3397 7.4053 7.4532 7.4053 2.8917 0 5.4169-1.6591 6.6387-4.087.0408-.0405.0408-.081.0408-.1619 0-.2023-.1629-.3642-.3666-.3642h-1.6291c-.1222 0-.2036.0405-.2851.1619-.9775 1.4163-2.5659 2.3065-4.3987 2.3065-2.688 0-4.9281-1.9828-5.2946-4.5726h12.3814c.2036 0 .3258-.1619.3665-.3238 0-.1214 0-.2428 0-.3642 0-4.08702-3.3397-7.40524-7.4533-7.40524zm-5.1317 6.02944c.6109-2.22563 2.688-3.88474 5.1317-3.88474s4.5209 1.65911 5.1318 3.88474zm33.2339-10.602096c-1.181 0-2.118.930716-2.118 2.104236 0 1.17351.937 2.10423 2.118 2.10423s2.118-.93072 2.118-2.10423c0-1.13305-.937-2.104236-2.118-2.104236zm1.752 4.936856v13.75844c0 .2023-.163.3642-.367.3642h-2.851c-.204 0-.366-.1619-.366-.3642v-13.75844zm-12.789 14.44634c3.462 0 6.394-2.3875 7.209-5.5843 0-.0405 0-.0405 0-.0809 0-.2023-.163-.3642-.367-.3642h-3.014c-.162 0-.285.0809-.325.2023-.611 1.3354-1.955 2.2661-3.544 2.2661-2.158 0-3.9097-1.74-3.9097-3.8847s1.7517-3.88476 3.9097-3.88476c1.589 0 2.933.93072 3.544 2.26606.04.1214.163.2024.325.2024h3.014c.204 0 .367-.1619.367-.3642 0-.0405 0-.0405 0-.081-.815-3.19677-3.747-5.58427-7.209-5.58427-4.1136 0-7.4533 3.31821-7.4533 7.40527 0 4.2085 3.3397 7.4862 7.4533 7.4862z"/></svg>
     </div>
-    <div class="color-group"><div class="color-group-label">Surfaces</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#161616',this)"><div class="swatch-dot" style="background:#161616;border:1px solid #383838"></div><div class="swatch-name">Background</div><div class="swatch-hex">#161616</div></div>
-        <div class="swatch" onclick="copyHex('#1E1E1E',this)"><div class="swatch-dot" style="background:#1E1E1E;border:1px solid #383838"></div><div class="swatch-name">Surface</div><div class="swatch-hex">#1E1E1E</div></div>
-        <div class="swatch" onclick="copyHex('#282828',this)"><div class="swatch-dot" style="background:#282828"></div><div class="swatch-name">Elevated</div><div class="swatch-hex">#282828</div></div>
-        <div class="swatch" onclick="copyHex('#383838',this)"><div class="swatch-dot" style="background:#383838"></div><div class="swatch-name">Border</div><div class="swatch-hex">#383838</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div class="type-sample" style="font-size:32px;font-weight:700;">Display</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div class="type-sample" style="font-size:20px;font-weight:600;">Section Header</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:14px;">Body — pipeline descriptions, job logs, config docs</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div class="type-sample" style="font-size:12px;color:var(--text-2);">Small — timestamps, durations, executor labels</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div><div class="type-sample" style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">feat/add-e2e-tests</div></div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Components</div>
-    <div class="components-grid">
-      <div class="comp-card" style="grid-column:span 2">
-        <h3>Workflow Graph</h3>
-        <div class="workflow-graph">
-          <div class="wf-node"><div class="wf-label">checkout</div><div class="wf-job wf-passed">✓ checkout</div></div>
-          <div class="wf-connector" style="background:#04AA51;opacity:0.4"></div>
-          <div class="wf-node"><div class="wf-label">test</div><div class="wf-job wf-passed">✓ unit-test</div></div>
-          <div class="wf-connector" style="background:#04AA51;opacity:0.4"></div>
-          <div class="wf-node"><div class="wf-label">test</div><div class="wf-job wf-running">⟳ e2e</div></div>
-          <div class="wf-connector" style="background:var(--border)"></div>
-          <div class="wf-node"><div class="wf-label">build</div><div class="wf-job wf-onhold">◷ docker</div></div>
-          <div class="wf-connector" style="background:var(--border)"></div>
-          <div class="wf-node"><div class="wf-label">deploy</div><div class="wf-job wf-onhold">◷ prod</div></div>
-        </div>
-      </div>
-      <div class="comp-card">
-        <h3>Pipeline History</h3>
-        <div class="pipe-row"><div class="pipe-status" style="background:#04AA51"></div><div><div class="pipe-branch">main · a3f8c12</div><div class="pipe-sha">fix: resolve token refresh</div></div><div class="pipe-dur">1m 42s</div></div>
-        <div class="pipe-row"><div class="pipe-status" style="background:#E5483A"></div><div><div class="pipe-branch">feat/new-ui · e1b9d04</div><div class="pipe-sha">feat: add dashboard v2</div></div><div class="pipe-dur">3m 11s</div></div>
-        <div class="pipe-row"><div class="pipe-status" style="background:#FA7A14;box-shadow:0 0 4px #FA7A14"></div><div><div class="pipe-branch">fix/auth · 7c2a831</div><div class="pipe-sha">chore: bump dependencies</div></div><div class="pipe-dur">running…</div></div>
-      </div>
-      <div class="comp-card">
-        <h3>Status Badges</h3>
-        <div class="status-row">
-          <span class="st-badge st-pass">Passed</span>
-          <span class="st-badge st-fail">Failed</span>
-          <span class="st-badge st-run">Running</span>
-          <span class="st-badge st-hold">On Hold</span>
-        </div>
-        <div style="margin-top:14px;display:flex;gap:10px;">
-          <button class="btn btn-primary">Rerun Workflow</button>
-          <button class="btn btn-ghost">View Config</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row2"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row2"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row2"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row2"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row2"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row2"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do"><div class="guardrail-label">Do</div><ul>
-        <li>Build status colors are semantic — never repurpose</li>
-        <li>Branch names and SHAs always in monospace</li>
-        <li>Workflow graph always horizontal</li>
-        <li>Failed builds must be visually prominent</li>
-        <li>Show duration on all completed jobs</li>
-      </ul></div>
-      <div class="guardrail-card dont"><div class="guardrail-label">Don't</div><ul>
-        <li>Don't truncate branch names in pipeline view</li>
-        <li>Don't use green for anything other than passed</li>
-        <li>Don't stack workflow nodes vertically</li>
-        <li>Don't hide re-run action behind a menu</li>
-        <li>Don't show running state without an indicator</li>
-      </ul></div>
-    </div>
+    <span class="eyebrow">// autonomous validation</span>
+    <h1>Autonomous validation for the AI&nbsp;era</h1>
+    <p>Ship at AI speed, confidently — the CI/CD platform trusted by 2M+ developers for production-ready software.</p>
   </div>
 </div>
-<script>
 
-function copyHex(hex) { navigator.clipboard.writeText(hex).catch(()=>{}); const t=document.getElementById('toast'); t.textContent=`Copied ${hex}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="mstrip" title="Morph marketing gradient — hero only"></div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00DB74')"><div class="swatch-color" style="background:#00DB74"></div><div class="swatch-info"><span class="swatch-name">green</span><span class="swatch-hex">#00DB74</span><span class="swatch-use">Passed, primary</span></div></div>
+      <div class="swatch" onclick="copyHex('#2152E5')"><div class="swatch-color" style="background:#2152E5"></div><div class="swatch-info"><span class="swatch-name">blue</span><span class="swatch-hex">#2152E5</span><span class="swatch-use">Running, links</span></div></div>
+      <div class="swatch" onclick="copyHex('#0055FF')"><div class="swatch-color" style="background:#0055FF"></div><div class="swatch-info"><span class="swatch-name">blue-bright</span><span class="swatch-hex">#0055FF</span><span class="swatch-use">Hero links</span></div></div>
+      <div class="swatch" onclick="copyHex('#C4EDCF')"><div class="swatch-color" style="background:#C4EDCF"></div><div class="swatch-info"><span class="swatch-name">green-tint</span><span class="swatch-hex">#C4EDCF</span><span class="swatch-use">Success fills</span></div></div>
+    </div>
+
+    <div class="group-label">Build status</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00DB74')"><div class="swatch-color" style="background:#00DB74"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#00DB74</span><span class="swatch-use">Passed</span></div></div>
+      <div class="swatch" onclick="copyHex('#2152E5')"><div class="swatch-color" style="background:#2152E5"></div><div class="swatch-info"><span class="swatch-name">running</span><span class="swatch-hex">#2152E5</span><span class="swatch-use">In progress</span></div></div>
+      <div class="swatch" onclick="copyHex('#DD9F54')"><div class="swatch-color" style="background:#DD9F54"></div><div class="swatch-info"><span class="swatch-name">on-hold</span><span class="swatch-hex">#DD9F54</span><span class="swatch-use">Needs approval</span></div></div>
+      <div class="swatch" onclick="copyHex('#CC4242')"><div class="swatch-color" style="background:#CC4242"></div><div class="swatch-info"><span class="swatch-name">failed</span><span class="swatch-hex">#CC4242</span><span class="swatch-use">Failed</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#161616')"><div class="swatch-color" style="background:#161616"></div><div class="swatch-info"><span class="swatch-name">terminal</span><span class="swatch-hex">#161616</span><span class="swatch-use">Page bg</span></div></div>
+      <div class="swatch" onclick="copyHex('#1C273A')"><div class="swatch-color" style="background:#1C273A"></div><div class="swatch-info"><span class="swatch-name">midnight</span><span class="swatch-hex">#1C273A</span><span class="swatch-use">Panels</span></div></div>
+      <div class="swatch" onclick="copyHex('#2E3C52')"><div class="swatch-color" style="background:#2E3C52"></div><div class="swatch-info"><span class="swatch-name">slate</span><span class="swatch-hex">#2E3C52</span><span class="swatch-use">Raised / hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#EDEDED')"><div class="swatch-color" style="background:#EDEDED"></div><div class="swatch-info"><span class="swatch-name">fog</span><span class="swatch-hex">#EDEDED</span><span class="swatch-use">Light neutral</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Space Grotesk · Inter · Roboto Mono · Silkscreen</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display / mega</div><div class="type-spec">Space Grotesk · 700</div></div><div class="type-sample" style="font-family:'Space Grotesk';font-size:38px;font-weight:700;letter-spacing:-.03em;line-height:1.02">97% faster test runs</div><div class="spec-pills"><span class="spec-pill">52px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading</div><div class="type-spec">Inter · 600</div></div><div class="type-sample" style="font-size:24px;font-weight:600;letter-spacing:-.01em">Ship at AI speed, confidently</div><div class="spec-pills"><span class="spec-pill">24px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:15px">Any app, deployed anywhere, at any scale.</div><div class="spec-pills"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono</div><div class="type-spec">Roboto Mono</div></div><div class="type-sample" style="font-family:'Roboto Mono',monospace;font-size:13px;color:var(--text2)">git@main · a1f9c02 · deploy-prod · 2:14</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">pixel / label</div><div class="type-spec">Silkscreen</div></div><div class="type-sample" style="font-family:'Silkscreen',monospace;font-size:14px;color:var(--green)">// WORKFLOWS</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">pixel</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Start building for free</button>
+          <button class="btn btn-secondary">Talk to sales</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-secondary">Rerun workflow</button><button class="btn btn-secondary">View config</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Status badges</div>
+        <div class="badge-row" style="margin-bottom:10px">
+          <span class="sbadge" style="background:rgba(0,219,116,.14);color:#00DB74"><span class="dotmini" style="background:#00DB74"></span>passed</span>
+          <span class="sbadge" style="background:rgba(33,82,229,.16);color:#5B84FF"><span class="dotmini" style="background:#2152E5"></span>running</span>
+        </div>
+        <div class="badge-row">
+          <span class="sbadge" style="background:rgba(221,159,84,.16);color:#DD9F54"><span class="dotmini" style="background:#DD9F54"></span>on hold</span>
+          <span class="sbadge" style="background:rgba(204,66,66,.16);color:#E06666"><span class="dotmini" style="background:#CC4242"></span>failed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE — WORKFLOW -->
+  <div class="section">
+    <div class="section-label">Signature — Workflow graph</div>
+    <div class="pipe">
+      <div class="pipe-head">
+        <span class="repo">circleci/frontend</span>
+        <span class="tag">main</span>
+        <span class="meta-mono">a1f9c02 · "chore: bump smart test splitting"</span>
+        <span class="pipe-spacer"></span>
+        <span class="ov" id="overall"></span>
+        <button class="btn btn-primary" id="rerun" onclick="rerun()" style="height:32px;padding:0 12px;font-size:12px">Rerun workflow</button>
+      </div>
+      <div class="wf-body">
+        <div class="wf" id="wf"></div>
+      </div>
+      <div class="pipe-foot">
+        <span id="footstatus">build-test-deploy</span>
+        <span class="pipe-spacer"></span>
+        <span id="elapsed">0:00</span>
+      </div>
+    </div>
+    <div class="hint">Click <b>Rerun workflow</b> to stream jobs through queued → running → passed. The <b>deploy-prod</b> job holds for manual approval — click <b>Approve</b> to release it.</div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Use #00DB74 as the brand green — dull legacy greens are retired.</div>
+          <div class="gr-item">Keep status colors strictly semantic: green passed / red failed / blue running / bronze on-hold.</div>
+          <div class="gr-item">Put branch names, SHAs, job names, and durations in monospace.</div>
+          <div class="gr-item">Pulse running jobs; make failed jobs impossible to miss.</div>
+          <div class="gr-item">Use black text on the green button (green is too bright for white).</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't use the Morph pastel gradient inside product UI — hero only.</div>
+          <div class="gr-item">Don't put white text on #00DB74.</div>
+          <div class="gr-item">Don't repurpose build-status colors for decoration.</div>
+          <div class="gr-item">Don't hide duration on completed jobs.</div>
+          <div class="gr-item">Don't set body copy in the pixel face — short uppercase labels only.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const STAGES=[
+  {label:'setup',jobs:[{id:'checkout',dur:'0:04',ms:500}]},
+  {label:'build',jobs:[{id:'build',dur:'1:12',ms:1400},{id:'lint',dur:'0:22',ms:900}]},
+  {label:'test',jobs:[{id:'test-unit',dur:'0:48',ms:1100},{id:'test-integration',dur:'1:36',ms:1600},{id:'test-e2e',dur:'2:10',ms:2000}]},
+  {label:'deploy',jobs:[{id:'deploy-prod',dur:'0:54',ms:1200,approval:true}]}
+];
+const OV={
+  running:{t:'running',bg:'rgba(33,82,229,.16)',c:'#5B84FF',dot:'#2152E5'},
+  success:{t:'success',bg:'rgba(0,219,116,.16)',c:'#00DB74',dot:'#00DB74'},
+  on_hold:{t:'on hold',bg:'rgba(221,159,84,.18)',c:'#DD9F54',dot:'#DD9F54'},
+  failed:{t:'failed',bg:'rgba(204,66,66,.18)',c:'#E06666',dot:'#CC4242'}
+};
+let state={};      // id -> pending|running|success|failed|hold
+let timer=null,elapsed=0,running=false;
+
+function initState(final){
+  STAGES.forEach(s=>s.jobs.forEach(j=>{state[j.id]=final?(j.approval?'hold':'success'):'pending';}));
+}
+function setOverall(k){const o=OV[k];const el=document.getElementById('overall');
+  el.style.background=o.bg;el.style.color=o.c;
+  el.innerHTML=`<span class="dotmini" style="background:${o.dot}"></span>${o.t}`;}
+
+function jobHTML(j){
+  const st=state[j.id];
+  let inner='';
+  if(st==='success')inner='✓'; else if(st==='failed')inner='✕'; else if(st==='hold')inner='!';
+  let extra='';
+  if(st==='hold')extra=`<div class="approve"><button onclick="approve()">Approve</button></div>`;
+  return `<div class="jobwrap"><div class="job ${st}"><span class="jdot">${inner}</span><span class="jname">${j.id}</span><span class="jdur">${j.dur}</span></div>${extra}</div>`;
+}
+function render(){
+  let html='';
+  STAGES.forEach((s,si)=>{
+    if(si>0){const lit=STAGES[si-1].jobs.every(j=>state[j.id]==='success');html+=`<div class="connector ${lit?'lit':''}"></div>`;}
+    html+=`<div class="stage"><div class="stage-label">${s.label}</div>`+s.jobs.map(jobHTML).join('')+`</div>`;
+  });
+  document.getElementById('wf').innerHTML=html;
+}
+function fmt(sec){const m=Math.floor(sec/60);const s=Math.floor(sec%60);return m+':'+String(s).padStart(2,'0');}
+function tick(){elapsed+=0.1;document.getElementById('elapsed').textContent=fmt(elapsed);}
+
+function runStage(si){
+  if(si>=STAGES.length){finish();return;}
+  const s=STAGES[si];
+  // approval gate
+  if(s.jobs.length===1 && s.jobs[0].approval){
+    state[s.jobs[0].id]='hold';render();setOverall('on_hold');
+    document.getElementById('footstatus').textContent='awaiting approval · deploy-prod';
+    stopTimer();return;
+  }
+  s.jobs.forEach(j=>state[j.id]='running');render();
+  document.getElementById('footstatus').textContent='running · '+s.label;
+  let done=0;
+  s.jobs.forEach(j=>{
+    setTimeout(()=>{state[j.id]='success';done++;render();
+      if(done===s.jobs.length)setTimeout(()=>runStage(si+1),350);
+    },j.ms);
+  });
+}
+function startTimer(){stopTimer();running=true;timer=setInterval(tick,100);}
+function stopTimer(){if(timer){clearInterval(timer);timer=null;}running=false;}
+function rerun(){
+  stopTimer();elapsed=0;document.getElementById('elapsed').textContent='0:00';
+  initState(false);render();setOverall('running');
+  document.getElementById('rerun').disabled=true;
+  startTimer();
+  setTimeout(()=>runStage(0),250);
+}
+function approve(){
+  const dj=STAGES[3].jobs[0];
+  state[dj.id]='running';render();setOverall('running');startTimer();
+  document.getElementById('footstatus').textContent='running · deploy';
+  setTimeout(()=>{state[dj.id]='success';render();finish();},dj.ms);
+}
+function finish(){
+  stopTimer();setOverall('success');
+  document.getElementById('footstatus').textContent='build-test-deploy · success';
+  document.getElementById('rerun').disabled=false;
+  showToast('Workflow succeeded');
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function copyHex(hex){navigator.clipboard.writeText(hex).catch(()=>{});showToast('Copied '+hex);}
+
+// initial: a completed run holding at deploy approval
+initState(true);render();setOverall('on_hold');
+document.getElementById('footstatus').textContent='awaiting approval · deploy-prod';
+document.getElementById('elapsed').textContent='4:52';
 </script>
 </body>
 </html>
