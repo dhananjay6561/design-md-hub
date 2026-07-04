@@ -1,116 +1,87 @@
 # Snowflake Design System
 
 ## Brand Overview
-Snowflake is the cloud data platform — data warehouse, data lake, and data sharing in one. The visual identity is clean and data-forward — deep dark backgrounds, icy blue as the signature color, and query/warehouse-centric layouts. UI communicates enterprise-grade scale with developer-friendly precision.
+
+Snowflake is the **AI Data Cloud** — one platform to mobilize data, build apps, and run AI
+across clouds. The identity is crisp and arctic: a white, airy marketing canvas, deep midnight
+navy for depth, and the unmistakable arctic-blue snowflake mark. The product surface (Snowsight)
+is a data-worker's cockpit — worksheets, warehouses, and result grids. Light-first.
+
+> "Mobilize the world's data."
+
+## Typography
+
+- **Texta** — display, headings, nav, UI (real Snowflake brand font, weights 400/800/900,
+  self-hosted at `snowflake.com/fonts/`, CORS ✅ — used directly here).
+- **Lato** — body / long-form (real, 400/600/900, same CDN).
+- **Source Code Pro** — SQL, code, warehouse names, metrics (real, same CDN).
+
+Roles are strict: Texta for anything headline/interface, Lato for running prose, Source Code
+Pro for anything a query engine would read.
 
 ## Color Palette
 
 ### Primary
-- Brand Blue: `#29B5E8`
-- Blue Light: `#63CFF1`
-- Blue Dark: `#1A8FC0`
+- Arctic Blue (brand): `#29B5E8` — the snowflake mark, highlights, links
+- Blue Hover: `#249EDC`
+- Action Blue (CTA): `#126FE7` — primary buttons (white text)
+- Midnight Navy: `#042130` — dark page, deep sections, ink
 
-### Backgrounds
-- Base: `#0A0F14`
-- Surface: `#111820`
-- Elevated: `#182030`
-- Border: `#263040`
+### Surfaces — Light
+- Page: `#FFFFFF`
+- Surface: `#F6F9FA`
+- Elevated: `#ECEEF1`
+- Light Blue Tint: `#D4F0FA` (callouts, selected)
+- Border: `#D2D1D4`
 
-### Semantic
-- Success: `#22C55E`
-- Warning: `#F59E0B`
-- Error: `#EF4444`
-- Info: `#29B5E8`
+### Surfaces — Dark (anchored on real `#042130`, stepped within the navy hue)
+- Page: `#042130`
+- Surface: `#08293A`
+- Elevated: `#0E3348`
+- Border: `rgba(255,255,255,.10)`
 
 ### Text
-- Primary: `#E8F0FF`
-- Secondary: `#8098B8`
-- Muted: `#506080`
-- On-blue: `#FFFFFF`
+- Primary (light `#042130` / dark `#EAF6FB`)
+- Secondary: `#535862`
+- Muted: `#B9C2C5`
 
 ### SQL Syntax
-- Keyword: `#29B5E8`
-- Function: `#A78BFA`
-- String: `#86EFAC`
-- Number: `#FCA5A5`
-- Comment: `#506080`
-- Table/Column: `#E8F0FF`
+- Keyword: `#126FE7` (dark: `#5AA8FF`)
+- Function: `#8B5CF6`
+- String: `#12A150`
+- Number: `#C2410C`
+- Comment: `#B9C2C5`
 
-## Typography
+### Semantic
+- Success: `#12A150`
+- Warning: `#F59E0B`
+- Error: `#EF4444`
 
-### Font Stack
-- UI: `IBM Plex Sans, system-ui, sans-serif`
-- Code/SQL: `JetBrains Mono, monospace`
+## Logo
 
-### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+The **snowflake mark** — a six-point flake built from interlocking arrows around a central
+gem, viewBox `0 0 28 28`, single `currentColor` path — rendered in arctic blue `#29B5E8`.
+It carries the brand with or without the "Snowflake" wordmark set in Texta.
 
-## Components
+## Signature Component — SQL Worksheet (Snowsight)
 
-### SQL Editor
-- Dark surface with line numbers
-- Syntax-highlighted SQL
-- Run button: blue filled, top-right
-- Keyboard shortcut hint: Cmd+Enter
-- Error underline: red squiggle
-
-### Query Results Grid
-- Column headers: sortable, resizable
-- Cell values: type-aware formatting (dates, numbers right-aligned)
-- Row count in footer
-- Export button: CSV / JSON
-
-### Warehouse Card
-- Name + size badge (XS / S / M / L / XL)
-- Status: Running (green) / Suspended (grey) / Starting (blue animated)
-- Credits/hour + estimated cost
-- Suspend / Resume button
-- Auto-suspend timer shown
-
-### Database/Schema Tree
-- Hierarchical: Account → Database → Schema → Table/View
-- Icons: cylinder (DB), folder (schema), grid (table), eye (view)
-- Row count badge on tables
-- Search at top
-
-### Query History Row
-- Query preview (first 60 chars of SQL)
-- Status badge: Success / Failed / Running
-- Duration in mono
-- Warehouse used
-- Timestamp
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
+A worksheet mirroring Snowsight: role + warehouse chips (`ACCOUNTADMIN`, `COMPUTE_WH`), a
+syntax-highlighted SQL editor, and a blue **Run** button that executes a query against
+`snowflake_sample_data.tpch_sf1` and streams a **results grid** — typed columns, monospace
+cells, and a `N rows · Xs` status. The result grid is the core Snowflake work moment.
 
 ## Guardrails
 
-### DO
-- Use blue exclusively for primary actions and active states
-- Show warehouse status prominently — it affects cost directly
-- Use monospace for all SQL, column names, and row values
-- Show query duration on every result — performance is key
-- Color-code SQL syntax tokens consistently
+**DO**
+- Render the snowflake mark in arctic blue `#29B5E8`; keep its geometry intact.
+- Keep the marketing canvas white and airy; use navy for depth, not as the default.
+- Use Source Code Pro for all SQL, warehouse names, and result cells.
+- Reserve action blue `#126FE7` for primary buttons; arctic blue for brand/links.
+- Show query metrics (rows, duration, warehouse) — data workers expect them.
 
-### DON'T
-- Don't hide credit consumption — it's the core billing signal
-- Don't auto-resume warehouses silently — always confirm
-- Don't truncate query results — paginate with explicit row count
-- Don't use sans-serif for SQL — mono only
-- Don't collapse the schema tree by default — context is critical
+**DON'T**
+- Don't recolor or distort the snowflake mark.
+- Don't invent a saturated dark palette; anchor on real `#042130` within the navy hue.
+- Don't set SQL or metrics in a proportional font.
+- Don't put white text on arctic blue `#29B5E8` (low contrast) — use navy or action blue.
+- Don't crowd the worksheet — the editor and result grid are the product.
