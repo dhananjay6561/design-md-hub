@@ -1,147 +1,87 @@
 # Convex Design System
 
 ## Brand Overview
-Convex is the reactive backend platform — real-time database, functions, and file storage in one. The visual identity is warm and modern — very dark backgrounds, amber-orange accents, and reactive/live UI patterns. UI communicates backend-as-a-product: the dashboard is the developer's lens into a living system.
+Convex is the reactive backend platform — a real-time database, serverless functions, file storage, scheduling, search and auth in one, positioned as **"the backend building blocks for your agents."** The current identity is warm and editorial: a distinctive **antique-white cream** canvas, near-black type, a serif for confident headlines, a retro **pixel mono** for labels, and a vivid syntax palette (plum / gold / red) borrowed from Convex's own code theme. It reads like a developer product with taste.
+
+> **Rebrand note (verify against live):** the legacy dark/amber (`#0A0A0A` bg, `#F5A623` amber) identity in older stubs is **retired**. Convex today is **light-first** on cream `#f6eedb`, with near-black CTAs and the plum/gold/red accent family.
 
 ## Color Palette
 
-### Primary
-- Brand Amber: `#F5A623`
-- Amber Light: `#FFBE5C`
-- Amber Dark: `#C07D0F`
+### Foundation
+- Antique White (page): `#f6eedb` — the signature warm cream canvas
+- Half White: `#fffff9`
+- Ink (text / n12): `#141414`
+- CTA (n11): `#292929`
 
-### Backgrounds
-- Base: `#0A0A0A`
-- Surface: `#111111`
-- Elevated: `#1A1A1A`
-- Border: `#2A2A2A`
+### Neutral scale
+`n1 #f6f6f6` · `n2 #f1f1f1` · `n3 #e5e5e5` · `n4 #d7d7d7` · `n5 #c2c2c2` · `n6 #a9a9ac` · `n7 #8b8b8e` · `n8 #6d6d70` · `n9 #4f4f52` · `n10 #38383a` · `n11 #292929` · `n12 #141414`
 
-### Semantic
-- Success: `#22C55E`
-- Warning: `#F5A623`
-- Error: `#EF4444`
-- Info: `#60A5FA`
+### Brand accents
+- Plum: `#8d2676` (p4) — brand accent, actions (lights p1 `#f4e9f1` → p6 `#47133b`)
+- Gold: `#f3b01c` (y3) — highlight, warm accent (`#fdefd2` → `#e7a71b`)
+- Red: `#ee342f` (r3) — Convex red, errors/destructive (`#fcd6d5` → `#d62f2a`)
+- Blue: `#074ee8` / ultramarine `#3d72f5`
+- Green: `#4fb014` (g3) — success (`#e5f3dc` → `#479e12`)
 
-### Text
-- Primary: `#F5F5F5`
-- Secondary: `#A0A0A0`
-- Muted: `#666666`
-- On-amber: `#0A0A0A`
+### Code syntax ("Chalk" theme — code blocks only)
+- Pink: `#fc618d`
+- Green: `#7bd88f`
+- Purple: `#948ae3`
+- Cyan: `#5ad4e6`
+- Yellow: `#fce566`
+- Comment gray: `#bab6c0`
 
-### Function Types
-- Query: `#60A5FA`
-- Mutation: `#F5A623`
-- Action: `#A78BFA`
-- HTTP Action: `#34D399`
+### Function types (dashboard)
+- Query: `#3d72f5` (blue)
+- Mutation: `#f3b01c` (gold)
+- Action: `#8d2676` (plum)
+- HTTP Action: `#4fb014` (green)
+
+### Dark mode
+Convex's dashboard is dark; step within the neutral hue anchored on n12.
+- Base: `#141414` · Surface: `#1c1c1c` · Elevated: `#242424` · Border: `rgba(255,255,255,.10)`
 
 ## Typography
 
-### Font Stack
-- UI: `Space Grotesk, system-ui, sans-serif`
-- Code: `JetBrains Mono, monospace`
+### Font Stack (all real Convex fonts, self-hosted, CORS-open)
+- Display / UI: **GT America** (`gtAmerica`) — weights Light/Regular/Medium/Bold/Black. `--font-primary`.
+- Serif headline: **Publico** (Publico Headline, Roman + Italic) — hero eyebrow, editorial pull-quotes. `--font-serif`.
+- Pixel mono: **VCR OSD Mono** — section identifiers, labels, small caps accents. `--font-pixel`.
+- Code: system `ui-monospace, SFMono-Regular, Menlo, monospace` (Convex ships no branded code mono).
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+- xs 11 / sm 13 / base 15 / md 18 / lg 22 / xl 30 / 2xl 46
 
 ### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+Light 300 · Regular 400 · Medium 500 · Bold 700 · Black 900
 
 ## Components
 
-### Function Log Row
-- Function name in mono
-- Type badge: Query / Mutation / Action (color per type)
-- Duration in mono
-- Status: success (green check) / error (red x)
-- Timestamp right-aligned in muted text
-- Expand: shows arguments and return value as JSON
+### Buttons
+- Primary: `#292929` (n11) fill, white text, fully-rounded (`rounded-full`), hover → `#141414` — "Start building"
+- Secondary: transparent, 1px ink border, pill
+- Accent: plum `#8d2676` for brand moments
 
-### Data Browser Table
-- Column headers: field name + type badge
-- Row hover: subtle surface highlight
-- ID column: always first, monospace, truncated
-- Reactive indicator: amber pulse dot when live
+### Function type badge
+Pill with the function-type color + VCR/mono label: `query` (blue), `mutation` (gold), `action` (plum), `httpAction` (green).
 
-### Document Viewer
-- JSON tree with expand/collapse
-- Key names in secondary text
-- String values in green mono
-- Number values in amber mono
-- Null in muted text
-- Edit inline: click value to edit
+### Reactive table
+Document rows keyed by `_id` (mono), with `_creationTime`; new documents flash-highlight on insert (the reactivity tell).
 
-### Deployment Card
-- Deployment name + URL
-- Status dot: live (green) / paused (grey) / error (red)
-- Function count badge
-- Last deploy timestamp
-- Environment: Production / Preview / Development
-
-### Metrics Sparkline
-- Small inline chart (48px tall)
-- Amber line on dark bg
-- No axes — relative trend only
-- Current value displayed next to sparkline
-
-### Environment Variable Row
-- Key in mono
-- Value masked: `••••••••`
-- Reveal toggle button
-- Copy button
-- Edit / Delete in overflow
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (badges, tags), 6px (cards, inputs), 8px (modals)
-- Border: `1px solid #2A2A2A`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.5)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.6)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Function, database, file, deployment icons
-- Reactive indicator: animated amber pulse dot
-
-## Motion
-- Log stream: smooth append, no layout shift
-- Reactive data pulse: amber glow on change
-- Document edit: inline transition 150ms
-- Status badge: instant color change
+## Signature Component — Reactive Data ("Always in sync")
+Convex's core value is **reactivity**: a query function and the data it returns stay in sync automatically. The signature pairs a syntax-highlighted Convex **query function** (`api.tasks.list`) with the live `tasks` table it powers, plus a **mutation** composer. Running `api.tasks.add` inserts a document that appears in the table instantly with a highlight flash and bumps the live count; toggling a row's checkbox runs a mutation. Function-type badges (query/mutation/action) label each. This captures "everything is code" + "always in sync."
 
 ## Guardrails
 
-### DO
-- Color-code function types consistently across all views
-- Show real-time reactivity — pulse on live data changes
-- Always mask env variable values by default
-- Use mono for all function names, IDs, and document fields
-- Show duration on every function call — performance matters
+**DO**
+- Keep the page warm cream `#f6eedb` — the antique white IS the brand.
+- Use near-black `#292929`/`#141414` for CTAs and body type.
+- Reserve the Chalk syntax colors for code; use plum/gold/red for brand accents.
+- Use GT America for UI, Publico serif for headline eyebrows, VCR pixel for labels.
+- Map function types to their fixed colors consistently.
 
-### DON'T
-- Don't use amber for anything other than primary actions and Mutations
-- Don't show full document contents in list views — truncate arrays/objects
-- Don't hide error stack traces — show them fully in log rows
-- Don't paginate realtime logs — stream them
-- Don't omit function type from any context where functions appear
+**DON'T**
+- Don't revert to the legacy dark `#0A0A0A` background or amber `#F5A623` — that identity is retired.
+- Don't cool the cream to plain white (`#ffffff`).
+- Don't use pixel/VCR for body copy or code — it's for short labels only.
+- Don't scatter syntax colors as general UI accents.
