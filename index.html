@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>design-md-hub — a specimen wall of brand design systems</title>
+<meta name="description" content="A curated collection of DESIGN.md files — plain-text design system documents that AI agents read to generate consistent, on-brand UI. Browse 68 live brand specimens.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#0B0C0E;--bg2:#141518;--bg3:#1C1E22;--elev:#141518;
+  --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.18);
+  --text:#F4F5F6;--text2:#A2A6AD;--text3:#6C7076;
+  --accent:#F4F5F6;--ring:rgba(255,255,255,.14);
+}
+:root[data-theme="light"]{
+  --bg:#FAFAF8;--bg2:#FFFFFF;--bg3:#F1F1EE;--elev:#FFFFFF;
+  --border:#E7E6E1;--border-strong:#D7D6CF;
+  --text:#111214;--text2:#565A61;--text3:#8A8E95;
+  --accent:#111214;--ring:rgba(0,0,0,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+
+.toggle{position:fixed;top:18px;right:18px;background:var(--bg2);border:1px solid var(--border-strong);color:var(--text2);width:40px;height:40px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100}
+.toggle:hover{color:var(--text)}
+
+/* Hero */
+.hero{padding:96px 0 34px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:26px;height:1px;background:var(--border-strong)}
+.hero h1{font-size:clamp(38px,6vw,72px);font-weight:600;letter-spacing:-.035em;line-height:.98;max-width:15ch}
+.hero h1 em{font-style:normal;color:var(--text3)}
+.hero p{margin-top:22px;font-size:clamp(15px,1.6vw,19px);color:var(--text2);max-width:56ch;line-height:1.55}
+.hero p code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--bg3);padding:2px 7px;border-radius:5px;color:var(--text)}
+
+/* Spectrum strip — every real brand accent, one hairline each */
+.spectrum{display:flex;height:8px;border-radius:6px;overflow:hidden;margin:40px 0 0;border:1px solid var(--border)}
+.spectrum i{flex:1;transition:flex .35s cubic-bezier(.2,.7,.3,1)}
+.spectrum:hover i{flex:.5}
+.spectrum i:hover{flex:5}
+
+/* Controls */
+.controls{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0;margin-top:44px}
+.controls-inner{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.search{position:relative;flex:1;min-width:220px}
+.search input{width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:var(--bg2);border:1px solid var(--border-strong);border-radius:10px;padding:11px 14px 11px 38px;outline:none}
+.search input:focus{border-color:var(--accent)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3)}
+.count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);white-space:nowrap}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text2);background:transparent;border:1px solid var(--border);border-radius:9999px;padding:6px 12px;cursor:pointer;transition:.13s;white-space:nowrap}
+.chip:hover{border-color:var(--border-strong);color:var(--text)}
+.chip.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px;padding:34px 0 90px}
+.card{position:relative;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--elev);cursor:pointer;transition:transform .16s cubic-bezier(.2,.7,.3,1),border-color .16s,box-shadow .2s;opacity:0;transform:translateY(10px);animation:rise .5s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.card:hover{transform:translateY(-4px);border-color:var(--border-strong);box-shadow:0 14px 40px rgba(0,0,0,.28)}
+:root[data-theme="light"] .card:hover{box-shadow:0 14px 40px rgba(0,0,0,.10)}
+.card-color{height:132px;position:relative;box-shadow:inset 0 0 0 1px var(--ring)}
+.card-color .idx{position:absolute;top:11px;left:13px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;mix-blend-mode:difference;color:#fff;opacity:.85}
+.card-color .hex{position:absolute;bottom:11px;left:13px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;mix-blend-mode:difference;color:#fff;opacity:0;transition:opacity .16s}
+.card:hover .card-color .hex{opacity:.9}
+.card-color .go{position:absolute;bottom:11px;right:13px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;mix-blend-mode:difference;opacity:0;transform:translateX(-4px);transition:.16s}
+.card:hover .card-color .go{opacity:.9;transform:none}
+.card-info{padding:13px 15px 15px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-name{font-size:15.5px;font-weight:600;letter-spacing:-.01em}
+.card-cat{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--text3);text-transform:lowercase;white-space:nowrap}
+.spec-link{position:absolute;top:11px;right:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;mix-blend-mode:difference;opacity:.55;padding:3px 6px;border-radius:5px;z-index:3}
+.spec-link:hover{opacity:1;text-decoration:underline}
+.empty{grid-column:1/-1;text-align:center;padding:70px 0;color:var(--text3);font-family:'JetBrains Mono',monospace;font-size:13px}
+
+/* Footer */
+.foot{border-top:1px solid var(--border);padding:34px 0 70px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+.foot .mono{font-size:12px;color:var(--text3)}
+.foot a.gh{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);border:1px solid var(--border);border-radius:9px;padding:8px 13px}
+.foot a.gh:hover{border-color:var(--border-strong);color:var(--text)}
+</style>
+</head>
+<body>
+<button class="toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+  <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+</button>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="kicker">design-md-hub</div>
+    <h1>Design systems, <em>as plain text for agents.</em></h1>
+    <p>A curated wall of <code>DESIGN.md</code> files — each one describes a real brand's colors, type, components and guardrails so a coding agent can generate on-brand UI. Every card is painted with that brand's actual accent. Open one to see the live specimen.</p>
+    <div class="spectrum" id="spectrum" aria-hidden="true"></div>
+  </header>
+</div>
+
+<div class="controls">
+  <div class="wrap controls-inner">
+    <label class="search">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="search 68 design systems…" autocomplete="off" spellcheck="false">
+    </label>
+    <div class="chips" id="chips"></div>
+    <span class="count mono" id="count"></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="grid" id="grid"></div>
+  <footer class="foot">
+    <span class="mono">Unofficial references · built from live brand sites · not affiliated with any brand.</span>
+    <a class="gh" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener">↗ github.com/dhananjay6561/design-md-hub</a>
+  </footer>
+</div>
+
+<script>
+const BRANDS=[
+  ["airtable","Airtable","Productivity","#2D7FF9"],
+  ["algolia","Algolia","Dev Tools","#003DFF"],
+  ["amplitude","Amplitude","Analytics","#1E61F0"],
+  ["auth0","Auth0","Auth","#635DFF"],
+  ["circleci","CircleCI","Dev Tools","#00CD65"],
+  ["claude","Claude","AI","#D97757"],
+  ["clerk","Clerk","Auth","#6C47FF"],
+  ["cloudflare","Cloudflare","Infra","#F48120"],
+  ["contentful","Contentful","Content","#1770E6"],
+  ["convex","Convex","Data","#EE342F"],
+  ["cursor","Cursor","Dev Tools","#111111"],
+  ["dagster","Dagster","Data","#4F43DD"],
+  ["datadog","Datadog","Observability","#632CA6"],
+  ["dbt","dbt","Data","#FE6703"],
+  ["deno","Deno","Dev Tools","#70C04E"],
+  ["digitalocean","DigitalOcean","Infra","#0069FF"],
+  ["docker","Docker","Dev Tools","#1D63ED"],
+  ["doppler","Doppler","Auth","#6B13F5"],
+  ["expo","Expo","Dev Tools","#4630EB"],
+  ["figma","Figma","Content","#0D99FF"],
+  ["firebase","Firebase","Dev Tools","#FF9100"],
+  ["github","GitHub","Dev Tools","#0969DA"],
+  ["gitlab","GitLab","Dev Tools","#FC6D26"],
+  ["hasura","Hasura","Data","#3970FD"],
+  ["huggingface","Hugging Face","AI","#FFD21E"],
+  ["infisical","Infisical","Auth","#EAB308"],
+  ["intercom","Intercom","Comms","#000CE1"],
+  ["jira","Jira","Dev Tools","#0C66E4"],
+  ["launchdarkly","LaunchDarkly","Dev Tools","#405BFF"],
+  ["lemonsqueezy","Lemon Squeezy","Payments","#FFC233"],
+  ["linear","Linear","Dev Tools","#5E6AD2"],
+  ["liveblocks","Liveblocks","Dev Tools","#0057FF"],
+  ["mintlify","Mintlify","Content","#0C8C5E"],
+  ["mixpanel","Mixpanel","Analytics","#7856FF"],
+  ["mongodb","MongoDB","Data","#00ED64"],
+  ["neon","Neon","Data","#00E599"],
+  ["netlify","Netlify","Infra","#00C7B7"],
+  ["newrelic","New Relic","Observability","#00AC69"],
+  ["notion","Notion","Content","#111111"],
+  ["openai","OpenAI","AI","#10A37F"],
+  ["pagerduty","PagerDuty","Observability","#06AC38"],
+  ["perplexity","Perplexity","AI","#20808D"],
+  ["pinecone","Pinecone","AI","#002BFF"],
+  ["planetscale","PlanetScale","Data","#111111"],
+  ["posthog","PostHog","Analytics","#F9BD2B"],
+  ["postman","Postman","Dev Tools","#FF6C37"],
+  ["prisma","Prisma","Data","#16A394"],
+  ["railway","Railway","Infra","#A16BFE"],
+  ["raycast","Raycast","Dev Tools","#FF6363"],
+  ["render","Render","Infra","#8A05FF"],
+  ["replicate","Replicate","AI","#EA2804"],
+  ["resend","Resend","Dev Tools","#0A0A0A"],
+  ["retool","Retool","Dev Tools","#F05A28"],
+  ["sanity","Sanity","Content","#F03E2F"],
+  ["sentry","Sentry","Observability","#6A5FC1"],
+  ["shopify","Shopify","Payments","#008060"],
+  ["snowflake","Snowflake","Data","#29B5E8"],
+  ["stripe","Stripe","Payments","#635BFF"],
+  ["stytch","Stytch","Auth","#348CFF"],
+  ["supabase","Supabase","Data","#3ECF8E"],
+  ["temporal","Temporal","Dev Tools","#B664FF"],
+  ["terraform","Terraform","Infra","#7B42BC"],
+  ["twilio","Twilio","Comms","#F22F46"],
+  ["upstash","Upstash","Data","#00E9A3"],
+  ["vercel","Vercel","Infra","#0A0A0A"],
+  ["wandb","Weights & Biases","AI","#FFCC33"],
+  ["webflow","Webflow","Content","#146EF5"],
+  ["workos","WorkOS","Auth","#6363F1"],
+];
+
+function toggleTheme(){const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'}
+
+// spectrum strip
+document.getElementById('spectrum').innerHTML=BRANDS.map(b=>`<i style="background:${b[3]}" title="${b[1]}"></i>`).join('');
+
+// category chips
+const cats=['All',...[...new Set(BRANDS.map(b=>b[2]))].sort()];
+let activeCat='All',query='';
+const chipsEl=document.getElementById('chips');
+chipsEl.innerHTML=cats.map(c=>`<button class="chip${c==='All'?' active':''}" data-cat="${c}">${c}</button>`).join('');
+chipsEl.addEventListener('click',e=>{
+  const b=e.target.closest('.chip');if(!b)return;
+  activeCat=b.dataset.cat;
+  chipsEl.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active',c===b));
+  render();
+});
+document.getElementById('q').addEventListener('input',e=>{query=e.target.value.trim().toLowerCase();render();});
+
+const grid=document.getElementById('grid');
+function render(){
+  const list=BRANDS.filter(b=>
+    (activeCat==='All'||b[2]===activeCat) &&
+    (b[1].toLowerCase().includes(query)||b[0].includes(query)||b[2].toLowerCase().includes(query))
+  );
+  const idxOf={};BRANDS.forEach((b,i)=>idxOf[b[0]]=i+1);
+  grid.innerHTML=list.length?list.map((b,i)=>{
+    const [slug,name,cat,hex]=b;
+    const num=String(idxOf[slug]).padStart(2,'0');
+    return `<a class="card" href="brands/${slug}/preview.html" style="animation-delay:${Math.min(i*22,520)}ms">
+      <a class="spec-link mono" href="brands/${slug}/DESIGN.md" onclick="event.stopPropagation()">.md</a>
+      <div class="card-color" style="background:${hex}">
+        <span class="idx">${num}</span>
+        <span class="hex">${hex.toUpperCase()}</span>
+        <span class="go">open ↗</span>
+      </div>
+      <div class="card-info"><span class="card-name">${name}</span><span class="card-cat">${cat}</span></div>
+    </a>`;
+  }).join(''):`<div class="empty">no design systems match "${query||activeCat}"</div>`;
+  document.getElementById('count').textContent=list.length===BRANDS.length?`${BRANDS.length} systems`:`${list.length} / ${BRANDS.length}`;
+}
+render();
+</script>
+</body>
+</html>
