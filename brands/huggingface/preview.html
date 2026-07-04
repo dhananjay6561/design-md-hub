@@ -1,396 +1,434 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hugging Face Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root[data-theme="light"] {
+    --bg: #FFFFFF;
+    --bg-surface: #F9FAFB;
+    --bg-elevated: #F3F4F6;
+    --fg: #101828;
+    --fg-muted: #6A7282;
+    --fg-disabled: #99A1AF;
+    --border: #E5E7EB;
+    --accent: #3080FF;
+    --swatch-ring: rgba(0,0,0,.10);
+    --btn-fg: #101828;
+    --widget-grad: linear-gradient(180deg,#FFFFFF 0%,#F3F4F6 100%);
+  }
+  :root[data-theme="dark"] {
+    --bg: #030712;
+    --bg-surface: #101828;
+    --bg-elevated: #1E2939;
+    --fg: #F3F4F6;
+    --fg-muted: #99A1AF;
+    --fg-disabled: #6A7282;
+    --border: #364153;
+    --accent: #5A9BFF;
+    --swatch-ring: rgba(255,255,255,.14);
+    --btn-fg: #F3F4F6;
+    --widget-grad: linear-gradient(180deg,#1E2939 0%,#101828 100%);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .toggle { position:fixed;top:16px;right:16px;background:var(--bg-surface);border:1px solid var(--border);color:var(--fg-muted);width:38px;height:38px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle:hover { border-color: var(--fg-disabled); }
+  .container { max-width: 1060px; margin: 0 auto; padding: 40px 24px 88px; }
+  .section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 26px; }
 
-:root[data-theme="dark"] {
-  --bg: #0F0F0F;
-  --surface: #1A1A1A;
-  --elevated: #242424;
-  --border: #333333;
-  --brand: #FFD21E;
-  --brand-dark: #C9A800;
-  --text-primary: #F5F5F5;
-  --text-secondary: #A0A0A0;
-  --text-muted: #666666;
-  --text-on-brand: #0F0F0F;
-  --success: #22C55E;
-  --warning: #FFD21E;
-  --error: #EF4444;
-  --task-nlp: #3B82F6;
-  --task-vision: #8B5CF6;
-  --task-audio: #EC4899;
-  --task-multi: #F97316;
-  --task-tabular: #22C55E;
-}
-:root[data-theme="light"] {
-  --bg: #FAFAFA;
-  --surface: #FFFFFF;
-  --elevated: #F5F5F5;
-  --border: #E5E5E5;
-  --brand: #C9A800;
-  --brand-dark: #9A7F00;
-  --text-primary: #0F0F0F;
-  --text-secondary: #525252;
-  --text-muted: #A0A0A0;
-  --text-on-brand: #0F0F0F;
-  --success: #16A34A;
-  --warning: #C9A800;
-  --error: #DC2626;
-  --task-nlp: #2563EB;
-  --task-vision: #7C3AED;
-  --task-audio: #DB2777;
-  --task-multi: #C2410C;
-  --task-tabular: #15803D;
-}
+  /* HERO */
+  .hero { padding: 32px 0 44px; border-bottom: 1px solid var(--border); }
+  .hero-logo { margin-bottom: 22px; }
+  .hero-logo svg { display:block; }
+  .hero h1 { font-size: 44px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: var(--fg); margin-bottom: 16px; max-width: 640px; }
+  .hero p { font-size: 18px; line-height: 1.5; color: var(--fg-muted); max-width: 620px; }
+  .hero-cta { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.6; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle:hover { border-color: var(--brand); }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+  /* COLORS */
+  .colors-group { margin-bottom: 26px; }
+  .colors-group:last-child { margin-bottom: 0; }
+  .colors-group-title { font-size: 11px; font-weight: 600; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+  .swatch { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 80ms, transform 80ms; }
+  .swatch:hover { border-color: var(--fg-disabled); transform: translateY(-1px); }
+  .swatch-block { height: 74px; box-shadow: inset 0 0 0 1px var(--swatch-ring); }
+  .swatch-info { padding: 9px 11px 11px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .swatch-hex { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--fg-muted); margin-top: 3px; }
+  .swatch-usage { font-size: 11px; color: var(--fg-disabled); margin-top: 3px; line-height: 1.4; }
 
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
-.logo-wrap { width: 64px; height: 64px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.hero-text h1 { font-size: 28px; font-weight: 700; }
-.hero-text p { color: var(--text-secondary); margin-top: 4px; }
-.hero-badge { margin-left: auto; background: rgba(255,210,30,0.12); color: var(--brand); border: 1px solid rgba(255,210,30,0.3); padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--fg); color: var(--bg); font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 9px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+  /* TYPOGRAPHY */
+  .type-row { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family: 'IBM Plex Mono', monospace; color: var(--fg-disabled); }
+  .type-sample { color: var(--fg); overflow: hidden; text-overflow: ellipsis; }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family: 'IBM Plex Mono', monospace; padding: 2px 7px; border-radius: 5px; background: var(--bg-surface); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
 
-.color-groups { display: flex; flex-direction: column; gap: 20px; }
-.color-group-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-.color-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.swatch-block { width: 56px; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); transition: transform 0.1s; }
-.swatch:hover .swatch-block { transform: scale(1.08); }
-.swatch span { font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 600; padding: 0 15px; border-radius: 9px; border: 1px solid transparent; cursor: pointer; height: 38px; display: inline-flex; align-items: center; gap: 7px; transition: filter 80ms, background 80ms; }
+  .btn-brand { background: linear-gradient(180deg,#FFD21E,#FF9D0B); color: #101828; }
+  .btn-brand:hover { filter: brightness(1.04); }
+  .btn-dark { background: var(--fg); color: var(--bg); }
+  .btn-dark:hover { filter: brightness(1.15); }
+  .btn-secondary { background: var(--bg-surface); color: var(--fg); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--bg-elevated); }
 
-.type-rows { display: flex; flex-direction: column; gap: 12px; }
-.type-row { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.type-label { font-size: 11px; color: var(--text-muted); width: 80px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input { background: var(--bg); border: 1px solid var(--border); border-radius: 9px; padding: 0 13px; font-family: inherit; font-size: 14px; color: var(--fg); height: 38px; transition: border-color 80ms, box-shadow 80ms; width: 100%; }
+  .input::placeholder { color: var(--fg-disabled); }
+  .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(48,128,255,.18); }
 
-.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.comp-card h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .badge-group { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag { font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 7px; display: inline-flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; border: 1px solid var(--border); background: var(--bg-surface); color: var(--fg-muted); }
+  .tag.blue { background: rgba(48,128,255,.12); color: var(--accent); border-color: rgba(48,128,255,.28); }
+  .tag.green { background: rgba(33,222,117,.14); color: #12a85a; border-color: rgba(33,222,117,.3); }
+  .tag.purple { background: rgba(134,31,255,.12); color: #861FFF; border-color: rgba(134,31,255,.28); }
+  :root[data-theme="dark"] .tag.green { color: #21DE75; }
 
-/* Model Card */
-.model-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; padding: 14px; cursor: pointer; transition: border-color 0.15s; }
-.model-card:hover { border-color: var(--brand); }
-.model-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-.model-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: var(--text-on-brand); flex-shrink: 0; }
-.model-name-wrap { flex: 1; }
-.model-org { font-size: 11px; color: var(--text-muted); }
-.model-name { font-size: 13px; font-weight: 600; }
-.task-badge { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 3px; }
-.model-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-.tag { font-size: 10px; padding: 2px 7px; border-radius: 3px; border: 1px solid var(--border); color: var(--text-muted); }
-.model-meta { display: flex; gap: 12px; margin-top: 10px; }
-.meta-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-muted); }
+  /* MODEL LIST */
+  .model-row { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px; }
+  .model-row:last-child { border-bottom:none; }
+  .model-row .id { font-family:'IBM Plex Mono',monospace; color:var(--fg); font-weight:500; }
+  .model-row .meta { margin-left:auto; display:flex; gap:14px; color:var(--fg-muted); font-size:12.5px; font-family:'IBM Plex Mono',monospace; }
 
-/* Model List */
-.model-list { display: flex; flex-direction: column; gap: 8px; }
+  /* SIGNATURE: MODEL PAGE + WIDGET */
+  .mp { border:1px solid var(--border); border-radius:14px; overflow:hidden; background:var(--bg); }
+  .mp-head { display:flex; align-items:center; gap:12px; padding:16px 18px; border-bottom:1px solid var(--border); background:var(--bg-surface); flex-wrap:wrap; }
+  .mp-id { font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:500; color:var(--fg); }
+  .mp-id .org { color:var(--fg-muted); }
+  .mp-stats { margin-left:auto; display:flex; gap:16px; color:var(--fg-muted); font-size:13px; }
+  .mp-stats b { color:var(--fg); font-weight:600; }
+  .mp-body { padding:18px; }
+  .widget-label { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--fg-muted); margin-bottom:12px; }
+  .widget-label .lightning { color:#FF9D0B; }
+  .widget-box { background:var(--widget-grad); border:1px solid var(--border); border-radius:12px; padding:16px; }
+  .widget-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:9px; padding:12px 13px; font-family:'Source Sans 3',sans-serif; font-size:15px; color:var(--fg); resize:none; line-height:1.5; }
+  .widget-input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(48,128,255,.18); }
+  .widget-mask { color:#FF9D0B; font-weight:600; }
+  .widget-actions { display:flex; align-items:center; gap:12px; margin-top:12px; }
+  .widget-examples { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
+  .ex-chip { font-size:12px; padding:4px 10px; border-radius:9999px; border:1px solid var(--border); background:var(--bg); color:var(--fg-muted); cursor:pointer; font-family:'IBM Plex Mono',monospace; transition:border-color 80ms; }
+  .ex-chip:hover { border-color:var(--accent); color:var(--accent); }
+  .preds { margin-top:16px; display:flex; flex-direction:column; gap:9px; }
+  .pred { display:grid; grid-template-columns:130px 1fr 52px; align-items:center; gap:12px; opacity:0; transform:translateY(4px); transition:opacity .25s, transform .25s; }
+  .pred.show { opacity:1; transform:none; }
+  .pred .tok { font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--fg); }
+  .pred .bar-wrap { height:8px; background:var(--bg-elevated); border-radius:4px; overflow:hidden; }
+  .pred .bar { height:100%; width:0; background:linear-gradient(90deg,#FFD21E,#FF9D0B); border-radius:4px; transition:width .5s ease; }
+  .pred .score { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--fg-muted); text-align:right; }
+  .widget-hint { margin-top:14px; font-size:12.5px; color:var(--fg-disabled); font-style:italic; }
 
-/* Inference Playground */
-.playground { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.playground-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.playground-title { font-size: 12px; font-weight: 600; }
-.model-selector { font-size: 11px; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 3px 8px; display: flex; align-items: center; gap: 4px; }
-.playground-body { padding: 12px; }
-.playground-input { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; min-height: 60px; font-family: inherit; }
-.playground-run { background: var(--brand); color: var(--text-on-brand); border: none; padding: 7px 20px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
-.playground-output { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); margin-top: 8px; line-height: 1.6; }
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 9px; }
+  .guardrails-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: #12a85a; }
+  :root[data-theme="dark"] .guardrails-heading.do { color: #21DE75; }
+  .guardrails-heading.dont { color: #FB2C36; }
+  .guardrail-item { font-size: 13px; color: var(--fg-muted); padding: 4px 0 4px 18px; position: relative; line-height: 1.5; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-item.do::before { background: #21DE75; }
+  .guardrail-item.dont::before { background: #FB2C36; }
 
-/* Space Card */
-.space-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-.space-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
-.space-card:hover { border-color: var(--brand); }
-.space-thumb { height: 72px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
-.space-info { padding: 8px 10px; border-top: 1px solid var(--border); }
-.space-name { font-size: 12px; font-weight: 600; }
-.space-author { font-size: 10px; color: var(--text-muted); }
-.space-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
-.space-sdk { font-size: 10px; padding: 1px 6px; border-radius: 3px; border: 1px solid var(--border); color: var(--text-muted); }
-.space-status { display: flex; align-items: center; gap: 4px; font-size: 10px; }
-
-/* Like/Download counters */
-.counters-row { display: flex; gap: 16px; margin-top: 10px; }
-.counter { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
-.counter-num { font-weight: 600; color: var(--text-secondary); }
-
-.spacing-bars { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 12px; }
-.spacing-bar { background: var(--brand); border-radius: 3px; height: 14px; opacity: 0.8; }
-.spacing-label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 36px; }
-.spacing-val { font-size: 11px; color: var(--text-secondary); }
-
-.guardrail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.guardrail-card.do { border-top: 2px solid var(--success); }
-.guardrail-card.dont { border-top: 2px solid var(--error); }
-.guardrail-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.05em; }
-.guardrail-card.do h4 { color: var(--success); }
-.guardrail-card.dont h4 { color: var(--error); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.guardrail-card ul li { font-size: 12px; color: var(--text-secondary); padding-left: 14px; position: relative; }
-.guardrail-card ul li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; }
-.guardrail-card.do ul li::before { background: var(--success); }
-.guardrail-card.dont ul li::before { background: var(--error); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  @media (max-width: 640px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 70px 1fr; }
+    .type-specs { display: none; }
+    .hero h1 { font-size: 34px; }
+    .pred { grid-template-columns: 96px 1fr 46px; }
+  }
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="wrap">
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast">Copied!</div>
 
-  <!-- Hero -->
+<div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <div class="logo-wrap">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-        <!-- Hugging face emoji-inspired mark -->
-        <circle cx="20" cy="22" r="14" fill="#FFD21E" opacity="0.15" stroke="#FFD21E" stroke-width="1.5"/>
-        <!-- eyes -->
-        <ellipse cx="14" cy="20" rx="2.5" ry="3" fill="#FFD21E"/>
-        <ellipse cx="26" cy="20" rx="2.5" ry="3" fill="#FFD21E"/>
-        <!-- smile -->
-        <path d="M14 26 Q20 31 26 26" stroke="#FFD21E" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <!-- arms -->
-        <path d="M6 22 Q8 18 12 19" stroke="#FFD21E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-        <path d="M34 22 Q32 18 28 19" stroke="#FFD21E" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    <div class="hero-logo">
+      <svg width="76" height="70" viewBox="0 0 95 88" fill="none" aria-label="Hugging Face">
+        <path fill="#FFD21E" d="M47.21 76.5a34.75 34.75 0 1 0 0-69.5 34.75 34.75 0 0 0 0 69.5Z"/>
+        <path fill="#FF9D0B" d="M81.96 41.75a34.75 34.75 0 1 0-69.5 0 34.75 34.75 0 0 0 69.5 0Zm-73.5 0a38.75 38.75 0 1 1 77.5 0 38.75 38.75 0 0 1-77.5 0Z"/>
+        <path fill="#3A3B45" d="M58.5 32.3c1.28.44 1.78 3.06 3.07 2.38a5 5 0 1 0-6.76-2.07c.61 1.15 2.55-.72 3.7-.32ZM34.95 32.3c-1.28.44-1.79 3.06-3.07 2.38a5 5 0 1 1 6.76-2.07c-.61 1.15-2.56-.72-3.7-.32Z"/>
+        <path fill="#FF323D" d="M46.96 56.29c9.83 0 13-8.76 13-13.26 0-2.34-1.57-1.6-4.09-.36-2.33 1.15-5.46 2.74-8.9 2.74-7.19 0-13-6.88-13-2.38s3.16 13.26 13 13.26Z"/>
+        <path fill="#3A3B45" fill-rule="evenodd" d="M39.43 54a8.7 8.7 0 0 1 5.3-4.49c.4-.12.81.57 1.24 1.28.4.68.82 1.37 1.24 1.37.45 0 .9-.68 1.33-1.35.45-.7.89-1.38 1.32-1.25a8.61 8.61 0 0 1 5 4.17c3.73-2.94 5.1-7.74 5.1-10.7 0-2.34-1.57-1.6-4.09-.36l-.14.07c-2.31 1.15-5.39 2.67-8.77 2.67s-6.45-1.52-8.77-2.67c-2.6-1.29-4.23-2.1-4.23.29 0 3.05 1.46 8.06 5.47 10.97Z" clip-rule="evenodd"/>
+        <path fill="#FF9D0B" d="M70.71 37a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5ZM24.21 37a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5ZM17.52 48c-1.62 0-3.06.66-4.07 1.87a5.97 5.97 0 0 0-1.33 3.76 7.1 7.1 0 0 0-1.94-.3c-1.55 0-2.95.59-3.94 1.66a5.8 5.8 0 0 0-.8 7 5.3 5.3 0 0 0-1.79 2.82c-.24.9-.48 2.8.8 4.74a5.22 5.22 0 0 0-.37 5.02c1.02 2.32 3.57 4.14 8.52 6.1 3.07 1.22 5.89 2 5.91 2.01a44.33 44.33 0 0 0 10.93 1.6c5.86 0 10.05-1.8 12.46-5.34 3.88-5.69 3.33-10.9-1.7-15.92-2.77-2.78-4.62-6.87-5-7.77-.78-2.66-2.84-5.62-6.25-5.62a5.7 5.7 0 0 0-4.6 2.46c-1-1.26-1.98-2.25-2.86-2.82A7.4 7.4 0 0 0 17.52 48Zm0 4c.51 0 1.14.22 1.82.65 2.14 1.36 6.25 8.43 7.76 11.18.5.92 1.37 1.31 2.14 1.31 1.55 0 2.75-1.53.15-3.48-3.92-2.93-2.55-7.72-.68-8.01.08-.02.17-.02.24-.02 1.7 0 2.45 2.93 2.45 2.93s2.2 5.52 5.98 9.3c3.77 3.77 3.97 6.8 1.22 10.83-1.88 2.75-5.47 3.58-9.16 3.58-3.81 0-7.73-.9-9.92-1.46-.11-.03-13.45-3.8-11.76-7 .28-.54.75-.76 1.34-.76 2.38 0 6.7 3.54 8.57 3.54.41 0 .7-.17.83-.6.79-2.85-12.06-4.05-10.98-8.17.2-.73.71-1.02 1.44-1.02 3.14 0 10.2 5.53 11.68 5.53.11 0 .2-.03.24-.1.74-1.2.33-2.04-4.9-5.2-5.21-3.16-8.88-5.06-6.8-7.33.24-.26.58-.38 1-.38 3.17 0 10.66 6.82 10.66 6.82s2.02 2.1 3.25 2.1c.28 0 .52-.1.68-.38.86-1.46-8.06-8.22-8.56-11.01-.34-1.9.24-2.85 1.31-2.85Z"/>
+        <path fill="#FFD21E" d="M38.6 76.69c2.75-4.04 2.55-7.07-1.22-10.84-3.78-3.77-5.98-9.3-5.98-9.3s-.82-3.2-2.69-2.9c-1.87.3-3.24 5.08.68 8.01 3.91 2.93-.78 4.92-2.29 2.17-1.5-2.75-5.62-9.82-7.76-11.18-2.13-1.35-3.63-.6-3.13 2.2.5 2.79 9.43 9.55 8.56 11-.87 1.47-3.93-1.71-3.93-1.71s-9.57-8.71-11.66-6.44c-2.08 2.27 1.59 4.17 6.8 7.33 5.23 3.16 5.64 4 4.9 5.2-.75 1.2-12.28-8.53-13.36-4.4-1.08 4.11 11.77 5.3 10.98 8.15-.8 2.85-9.06-5.38-10.74-2.18-1.7 3.21 11.65 6.98 11.76 7.01 4.3 1.12 15.25 3.49 19.08-2.12Z"/>
+        <path fill="#FF9D0B" d="M77.4 48c1.62 0 3.07.66 4.07 1.87a5.97 5.97 0 0 1 1.33 3.76 7.1 7.1 0 0 1 1.95-.3c1.55 0 2.95.59 3.94 1.66a5.8 5.8 0 0 1 .8 7 5.3 5.3 0 0 1 1.78 2.82c.24.9.48 2.8-.8 4.74a5.22 5.22 0 0 1 .37 5.02c-1.02 2.32-3.57 4.14-8.51 6.1-3.08 1.22-5.9 2-5.92 2.01a44.33 44.33 0 0 1-10.93 1.6c-5.86 0-10.05-1.8-12.46-5.34-3.88-5.69-3.33-10.9 1.7-15.92 2.78-2.78 4.63-6.87 5.01-7.77.78-2.66 2.83-5.62 6.24-5.62a5.7 5.7 0 0 1 4.6 2.46c1-1.26 1.98-2.25 2.87-2.82A7.4 7.4 0 0 1 77.4 48Zm0 4c-.51 0-1.13.22-1.82.65-2.13 1.36-6.25 8.43-7.76 11.18a2.43 2.43 0 0 1-2.14 1.31c-1.54 0-2.75-1.53-.14-3.48 3.91-2.93 2.54-7.72.67-8.01a1.54 1.54 0 0 0-.24-.02c-1.7 0-2.45 2.93-2.45 2.93s-2.2 5.52-5.97 9.3c-3.78 3.77-3.98 6.8-1.22 10.83 1.87 2.75 5.47 3.58 9.15 3.58 3.82 0 7.73-.9 9.93-1.46.1-.03 13.45-3.8 11.76-7-.29-.54-.75-.76-1.34-.76-2.38 0-6.71 3.54-8.57 3.54-.42 0-.71-.17-.83-.6-.8-2.85 12.05-4.05 10.97-8.17-.19-.73-.7-1.02-1.44-1.02-3.14 0-10.2 5.53-11.68 5.53-.1 0-.19-.03-.23-.1-.74-1.2-.34-2.04 4.88-5.2 5.23-3.16 8.9-5.06 6.8-7.33-.23-.26-.57-.38-.98-.38-3.18 0-10.67 6.82-10.67 6.82s-2.02 2.1-3.24 2.1a.74.74 0 0 1-.68-.38c-.87-1.46 8.05-8.22 8.55-11.01.34-1.9-.24-2.85-1.31-2.85Z"/>
+        <path fill="#FFD21E" d="M56.33 76.69c-2.75-4.04-2.56-7.07 1.22-10.84 3.77-3.77 5.97-9.3 5.97-9.3s.82-3.2 2.7-2.9c1.86.3 3.23 5.08-.68 8.01-3.92 2.93.78 4.92 2.28 2.17 1.51-2.75 5.63-9.82 7.76-11.18 2.13-1.35 3.64-.6 3.13 2.2-.5 2.79-9.42 9.55-8.55 11 .86 1.47 3.92-1.71 3.92-1.71s9.58-8.71 11.66-6.44c2.08 2.27-1.58 4.17-6.8 7.33-5.23 3.16-5.63 4-4.9 5.2.75 1.2 12.28-8.53 13.36-4.4 1.08 4.11-11.76 5.3-10.97 8.15.8 2.85 9.05-5.38 10.74-2.18 1.69 3.21-11.65 6.98-11.76 7.01-4.31 1.12-15.26 3.49-19.08-2.12Z"/>
       </svg>
     </div>
-    <div class="hero-text">
-      <h1>Hugging Face</h1>
-      <p>The AI community platform — models, datasets, and Spaces</p>
+    <h1>The AI community building the future.</h1>
+    <p>The platform where the machine learning community collaborates on models, datasets, and applications.</p>
+    <div class="hero-cta">
+      <button class="btn btn-dark">Explore AI Apps</button>
+      <button class="btn btn-secondary">Browse 2M+ models</button>
     </div>
-    <div class="hero-badge">AI/ML HUB</div>
   </div>
 
-  <!-- Colors -->
+  <!-- COLORS -->
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-groups">
-      <div>
-        <div class="color-group-label">Brand</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#FFD21E')"><div class="swatch-block" style="background:#FFD21E"></div><span>#FFD21E</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#FFE566')"><div class="swatch-block" style="background:#FFE566"></div><span>#FFE566</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#C9A800')"><div class="swatch-block" style="background:#C9A800"></div><span>#C9A800</span></div>
-        </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary — the 🤗 mark</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FFD21E', this)"><div class="swatch-block" style="background:#FFD21E"></div><div class="swatch-info"><div class="swatch-name">Brand Yellow</div><div class="swatch-hex">#FFD21E</div><div class="swatch-usage">The face</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF9D0B', this)"><div class="swatch-block" style="background:#FF9D0B"></div><div class="swatch-info"><div class="swatch-name">Orange</div><div class="swatch-hex">#FF9D0B</div><div class="swatch-usage">Outline, hands</div></div></div>
+        <div class="swatch" onclick="copyHex('#3A3B45', this)"><div class="swatch-block" style="background:#3A3B45"></div><div class="swatch-info"><div class="swatch-name">Face Dark</div><div class="swatch-hex">#3A3B45</div><div class="swatch-usage">Eyes, mouth</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF323D', this)"><div class="swatch-block" style="background:#FF323D"></div><div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-hex">#FF323D</div><div class="swatch-usage">Mouth, blush</div></div></div>
       </div>
-      <div>
-        <div class="color-group-label">Task Colors</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#3B82F6')"><div class="swatch-block" style="background:#3B82F6"></div><span>NLP</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#8B5CF6')"><div class="swatch-block" style="background:#8B5CF6"></div><span>Vision</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#EC4899')"><div class="swatch-block" style="background:#EC4899"></div><span>Audio</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#F97316')"><div class="swatch-block" style="background:#F97316"></div><span>Multimodal</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#22C55E')"><div class="swatch-block" style="background:#22C55E"></div><span>Tabular</span></div>
-        </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Accent &amp; Category</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#3080FF', this)"><div class="swatch-block" style="background:#3080FF"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#3080FF</div><div class="swatch-usage">Links, interactive</div></div></div>
+        <div class="swatch" onclick="copyHex('#21DE75', this)"><div class="swatch-block" style="background:#21DE75"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#21DE75</div><div class="swatch-usage">Success, running</div></div></div>
+        <div class="swatch" onclick="copyHex('#861FFF', this)"><div class="swatch-block" style="background:#861FFF"></div><div class="swatch-info"><div class="swatch-name">Purple</div><div class="swatch-hex">#861FFF</div><div class="swatch-usage">Spaces, category</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF3270', this)"><div class="swatch-block" style="background:#FF3270"></div><div class="swatch-info"><div class="swatch-name">Pink</div><div class="swatch-hex">#FF3270</div><div class="swatch-usage">Category accent</div></div></div>
       </div>
-      <div>
-        <div class="color-group-label">Backgrounds</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#0F0F0F')"><div class="swatch-block" style="background:#0F0F0F;border:1px solid #333"></div><span>#0F0F0F</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#1A1A1A')"><div class="swatch-block" style="background:#1A1A1A"></div><span>#1A1A1A</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#242424')"><div class="swatch-block" style="background:#242424"></div><span>#242424</span></div>
-        </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Dark (Tailwind navy-gray)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#030712', this)"><div class="swatch-block" style="background:#030712"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#030712</div><div class="swatch-usage">gray-950</div></div></div>
+        <div class="swatch" onclick="copyHex('#101828', this)"><div class="swatch-block" style="background:#101828"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#101828</div><div class="swatch-usage">gray-900</div></div></div>
+        <div class="swatch" onclick="copyHex('#1E2939', this)"><div class="swatch-block" style="background:#1E2939"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#1E2939</div><div class="swatch-usage">gray-800</div></div></div>
+        <div class="swatch" onclick="copyHex('#364153', this)"><div class="swatch-block" style="background:#364153"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#364153</div><div class="swatch-usage">gray-700</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text &amp; Semantic</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#101828', this)"><div class="swatch-block" style="background:#101828"></div><div class="swatch-info"><div class="swatch-name">Text Primary</div><div class="swatch-hex">#101828</div><div class="swatch-usage">Headings, body</div></div></div>
+        <div class="swatch" onclick="copyHex('#6A7282', this)"><div class="swatch-block" style="background:#6A7282"></div><div class="swatch-info"><div class="swatch-name">Text Secondary</div><div class="swatch-hex">#6A7282</div><div class="swatch-usage">gray-500</div></div></div>
+        <div class="swatch" onclick="copyHex('#FB2C36', this)"><div class="swatch-block" style="background:#FB2C36"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#FB2C36</div><div class="swatch-usage">Errors, delete</div></div></div>
+        <div class="swatch" onclick="copyHex('#E5E7EB', this)"><div class="swatch-block" style="background:#E5E7EB"></div><div class="swatch-info"><div class="swatch-name">Border Light</div><div class="swatch-hex">#E5E7EB</div><div class="swatch-usage">gray-200</div></div></div>
       </div>
     </div>
   </div>
 
-  <!-- Typography -->
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-rows">
-      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">AI Community Hub</span></div>
-      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Model Hub</span></div>
-      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">The home of machine learning models, datasets, and demos</span></div>
-      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--text-secondary)">meta-llama/Llama-3-8B-Instruct</span></div>
+    <div class="section-title">Typography — Source Sans Pro · IBM Plex Mono</div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample" style="font-size:40px;font-weight:700;letter-spacing:-0.02em;">The AI community</div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">700</span><span class="spec-pill">Source Sans</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample" style="font-size:26px;font-weight:600;">Trending on the Hub</div>
+      <div class="type-specs"><span class="spec-pill">26px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample" style="font-size:19px;font-weight:600;">Hosted inference API</div>
+      <div class="type-specs"><span class="spec-pill">19px</span><span class="spec-pill">600</span><span class="spec-pill">lh 1.4</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:400;">We're on a journey to advance and democratize artificial intelligence through open source and open science.</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">400</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">caption</div>
+      <div class="type-sample" style="font-size:12.5px;font-weight:400;color:var(--fg-muted);">Updated 2 days ago</div>
+      <div class="type-specs"><span class="spec-pill">12.5px</span><span class="spec-pill">400</span><span class="spec-pill">muted</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample mono" style="font-size:14px;color:var(--accent);">from transformers import pipeline</div>
+      <div class="type-specs"><span class="spec-pill">14px</span><span class="spec-pill">Plex Mono</span><span class="spec-pill">400</span></div>
     </div>
   </div>
 
-  <!-- Components -->
+  <!-- SIGNATURE: MODEL PAGE + INFERENCE WIDGET -->
+  <div class="section">
+    <div class="section-title">Signature — Model page &amp; Inference Widget</div>
+    <div class="mp">
+      <div class="mp-head">
+        <svg width="26" height="24" viewBox="0 0 95 88" fill="none" aria-hidden="true">
+          <path fill="#FFD21E" d="M47.21 76.5a34.75 34.75 0 1 0 0-69.5 34.75 34.75 0 0 0 0 69.5Z"/>
+          <path fill="#FF9D0B" d="M81.96 41.75a34.75 34.75 0 1 0-69.5 0 34.75 34.75 0 0 0 69.5 0Zm-73.5 0a38.75 38.75 0 1 1 77.5 0 38.75 38.75 0 0 1-77.5 0Z"/>
+          <path fill="#3A3B45" d="M58.5 32.3c1.28.44 1.78 3.06 3.07 2.38a5 5 0 1 0-6.76-2.07c.61 1.15 2.55-.72 3.7-.32ZM34.95 32.3c-1.28.44-1.79 3.06-3.07 2.38a5 5 0 1 1 6.76-2.07c-.61 1.15-2.56-.72-3.7-.32Z"/>
+          <path fill="#FF323D" d="M46.96 56.29c9.83 0 13-8.76 13-13.26 0-2.34-1.57-1.6-4.09-.36-2.33 1.15-5.46 2.74-8.9 2.74-7.19 0-13-6.88-13-2.38s3.16 13.26 13 13.26Z"/>
+          <path fill="#FF9D0B" d="M70.71 37a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5ZM24.21 37a3.25 3.25 0 1 0 0-6.5 3.25 3.25 0 0 0 0 6.5Z"/>
+        </svg>
+        <span class="mp-id"><span class="org">google-bert/</span>bert-base-uncased</span>
+        <span class="tag blue">Fill-Mask</span>
+        <div class="mp-stats"><span>♥ <b>2.4k</b></span><span>↓ <b>68.1M</b></span></div>
+      </div>
+      <div class="mp-body">
+        <div class="widget-label"><span class="lightning">⚡</span> Hosted inference API</div>
+        <div class="widget-box">
+          <textarea class="widget-input" id="hf-input" rows="2">The goal of life is [MASK].</textarea>
+          <div class="widget-examples">
+            <span class="ex-chip" onclick="setExample(0)">The goal of life is [MASK].</span>
+            <span class="ex-chip" onclick="setExample(1)">Paris is the capital of [MASK].</span>
+            <span class="ex-chip" onclick="setExample(2)">The future of AI is [MASK].</span>
+          </div>
+          <div class="widget-actions">
+            <button class="btn btn-secondary" id="hf-btn" onclick="compute()">Compute</button>
+            <span class="mono" style="font-size:12px;color:var(--fg-disabled);" id="hf-time"></span>
+          </div>
+          <div class="preds" id="hf-preds"></div>
+        </div>
+        <div class="widget-hint">This model can be loaded on the Inference API on-demand.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="comp-grid">
-
-      <!-- Model Cards -->
-      <div class="comp-card" style="grid-column: span 2;">
-        <h3>Model Cards</h3>
-        <div class="model-list">
-          <div class="model-card">
-            <div class="model-header">
-              <div class="model-avatar" style="background:#FFD21E">ML</div>
-              <div class="model-name-wrap">
-                <div class="model-org">meta-llama</div>
-                <div class="model-name">Llama-3-8B-Instruct</div>
-              </div>
-              <span class="task-badge" style="background:rgba(59,130,246,0.12);color:#60A5FA">Text Generation</span>
-            </div>
-            <div class="model-tags">
-              <span class="tag">pytorch</span><span class="tag">llama</span><span class="tag">English</span><span class="tag">Meta</span><span class="tag">llama3</span>
-            </div>
-            <div class="model-meta">
-              <div class="meta-item">♥ <span class="counter-num" style="color:var(--brand)">24.1k</span></div>
-              <div class="meta-item">↓ <span class="counter-num">1.2M</span></div>
-              <div class="meta-item" style="margin-left:auto;font-size:10px">Updated 3 days ago</div>
-            </div>
-          </div>
-          <div class="model-card">
-            <div class="model-header">
-              <div class="model-avatar" style="background:#8B5CF6">ST</div>
-              <div class="model-name-wrap">
-                <div class="model-org">stabilityai</div>
-                <div class="model-name">stable-diffusion-xl-base-1.0</div>
-              </div>
-              <span class="task-badge" style="background:rgba(139,92,246,0.12);color:#C084FC">Text-to-Image</span>
-            </div>
-            <div class="model-tags">
-              <span class="tag">diffusers</span><span class="tag">stable-diffusion</span><span class="tag">en</span>
-            </div>
-            <div class="model-meta">
-              <div class="meta-item">♥ <span class="counter-num" style="color:var(--brand)">18.4k</span></div>
-              <div class="meta-item">↓ <span class="counter-num">943k</span></div>
-              <div class="meta-item" style="margin-left:auto;font-size:10px">Updated 1 week ago</div>
-            </div>
-          </div>
-          <div class="model-card">
-            <div class="model-header">
-              <div class="model-avatar" style="background:#EC4899">OW</div>
-              <div class="model-name-wrap">
-                <div class="model-org">openai</div>
-                <div class="model-name">whisper-large-v3</div>
-              </div>
-              <span class="task-badge" style="background:rgba(236,72,153,0.12);color:#F9A8D4">Automatic Speech Recognition</span>
-            </div>
-            <div class="model-tags">
-              <span class="tag">pytorch</span><span class="tag">whisper</span><span class="tag">multilingual</span>
-            </div>
-            <div class="model-meta">
-              <div class="meta-item">♥ <span class="counter-num" style="color:var(--brand)">9.8k</span></div>
-              <div class="meta-item">↓ <span class="counter-num">620k</span></div>
-              <div class="meta-item" style="margin-left:auto;font-size:10px">Updated 2 weeks ago</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inference Playground -->
+    <div class="components-grid">
       <div class="comp-card">
-        <h3>Inference Playground</h3>
-        <div class="playground">
-          <div class="playground-header">
-            <span class="playground-title">Inference API</span>
-            <span class="model-selector">meta-llama/Llama-3-8B ▾</span>
-          </div>
-          <div class="playground-body">
-            <div class="playground-input">Summarize the key differences between supervised and unsupervised learning in machine learning.</div>
-            <button class="playground-run">▶ Run</button>
-            <div class="playground-output">Supervised learning trains on labeled data with known outputs, optimizing predictions against ground truth. Unsupervised learning finds patterns in unlabeled data through clustering, dimensionality reduction, or generative modeling...</div>
-          </div>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-brand">Sign Up</button>
+          <button class="btn btn-dark">Deploy</button>
+          <button class="btn btn-secondary">Use this model</button>
         </div>
       </div>
-
-      <!-- Spaces -->
       <div class="comp-card">
-        <h3>Spaces</h3>
-        <div class="space-grid">
-          <div class="space-card">
-            <div class="space-thumb" style="background:rgba(255,210,30,0.08)">🎨</div>
-            <div class="space-info">
-              <div class="space-name">SDXL Turbo</div>
-              <div class="space-author">stabilityai</div>
-              <div class="space-footer">
-                <span class="space-sdk">Gradio</span>
-                <div class="space-status"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span> Running</div>
-              </div>
-            </div>
-          </div>
-          <div class="space-card">
-            <div class="space-thumb" style="background:rgba(59,130,246,0.08)">💬</div>
-            <div class="space-info">
-              <div class="space-name">LLaMA Chat</div>
-              <div class="space-author">meta-llama</div>
-              <div class="space-footer">
-                <span class="space-sdk">Gradio</span>
-                <div class="space-status"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span> Running</div>
-              </div>
-            </div>
-          </div>
-          <div class="space-card">
-            <div class="space-thumb" style="background:rgba(236,72,153,0.08)">🎵</div>
-            <div class="space-info">
-              <div class="space-name">MusicGen</div>
-              <div class="space-author">facebook</div>
-              <div class="space-footer">
-                <span class="space-sdk">Streamlit</span>
-                <div class="space-status"><span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;display:inline-block"></span> Building</div>
-              </div>
-            </div>
-          </div>
-          <div class="space-card">
-            <div class="space-thumb" style="background:rgba(139,92,246,0.08)">🧪</div>
-            <div class="space-info">
-              <div class="space-name">ControlNet</div>
-              <div class="space-author">lllyasviel</div>
-              <div class="space-footer">
-                <span class="space-sdk">Gradio</span>
-                <div class="space-status"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span> Running</div>
-              </div>
-            </div>
-          </div>
+        <div class="comp-card-title">Search</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="Search models, datasets, users...">
         </div>
       </div>
-
+      <div class="comp-card">
+        <div class="comp-card-title">Tags</div>
+        <div class="badge-group">
+          <span class="tag blue">Text Generation</span>
+          <span class="tag purple">Spaces</span>
+          <span class="tag green">Transformers</span>
+          <span class="tag">PyTorch</span>
+          <span class="tag">apache-2.0</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title">Trending Models</div>
+        <div class="model-row"><span class="id">meta-llama/Llama-3.3-70B</span><span class="meta"><span>↓ 4.2M</span><span>♥ 1.9k</span></span></div>
+        <div class="model-row"><span class="id">black-forest-labs/FLUX.1-dev</span><span class="meta"><span>↓ 3.1M</span><span>♥ 8.4k</span></span></div>
+        <div class="model-row"><span class="id">openai/whisper-large-v3</span><span class="meta"><span>↓ 6.8M</span><span>♥ 4.1k</span></span></div>
+      </div>
     </div>
   </div>
 
-  <!-- Spacing -->
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-bars">
-      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Icon gap</span></div>
-      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Tight padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">24px</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-val">Section gap</span></div>
-      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
+  <!-- GUARDRAILS -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrail-grid">
-      <div class="guardrail-card do">
-        <h4>DO</h4>
-        <ul>
-          <li>Use yellow exclusively for primary actions and brand moments</li>
-          <li>Show download + like counts on every model/dataset card</li>
-          <li>Color-code task types consistently (NLP=blue, Vision=purple)</li>
-          <li>Use org/model-name format for all model references</li>
-          <li>Keep inference playground outputs in monospace</li>
-        </ul>
+    <div class="guardrails-grid">
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Keep the 🤗 mark full-color and unmodified — it is the entire brand</div>
+        <div class="guardrail-item do">Keep the canvas neutral gray so model cards, tags, and metrics lead</div>
+        <div class="guardrail-item do">Use IBM Plex Mono for every model id, shape, count, and code token</div>
+        <div class="guardrail-item do">Use colored pills for tasks and libraries, legible in both themes</div>
+        <div class="guardrail-item do">Reserve yellow/orange for the mark and highlights, not large fills</div>
       </div>
-      <div class="guardrail-card dont">
-        <h4>DON'T</h4>
-        <ul>
-          <li>Don't use emoji in data-dense tables or metric rows</li>
-          <li>Don't use yellow text on white/light backgrounds</li>
-          <li>Don't omit license information on model cards</li>
-          <li>Don't use bright colors for muted/secondary metadata</li>
-          <li>Don't auto-run inference without user trigger</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Don't flatten, recolor, or add effects to the Hugging Face emoji</div>
+        <div class="guardrail-item dont">Don't make yellow a page background — it's an accent, not a surface</div>
+        <div class="guardrail-item dont">Don't invent dark surfaces; anchor on the real Tailwind navy-gray scale</div>
+        <div class="guardrail-item dont">Don't set model ids or metrics in a proportional font</div>
+        <div class="guardrail-item dont">Don't crowd out the inference widget — it's the core value moment</div>
       </div>
     </div>
   </div>
 
 </div>
+
+<script>
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+const EXAMPLES = [
+  "The goal of life is [MASK].",
+  "Paris is the capital of [MASK].",
+  "The future of AI is [MASK]."
+];
+const RESULTS = [
+  [["happiness",0.109],["love",0.079],["freedom",0.066],["peace",0.043],["simplicity",0.038]],
+  [["france",0.412],["europe",0.061],["belgium",0.037],["paris",0.031],["italy",0.024]],
+  [["bright",0.087],["uncertain",0.061],["here",0.049],["now",0.041],["ours",0.033]]
+];
+
+function setExample(i){
+  document.getElementById('hf-input').value = EXAMPLES[i];
+  document.getElementById('hf-preds').innerHTML = '';
+  document.getElementById('hf-time').textContent = '';
+}
+
+let computing = false;
+function compute(){
+  if(computing) return;
+  const val = document.getElementById('hf-input').value.trim();
+  const idx = EXAMPLES.indexOf(val);
+  const preds = document.getElementById('hf-preds');
+  const time = document.getElementById('hf-time');
+  const btn = document.getElementById('hf-btn');
+  if(idx === -1 || !val.includes('[MASK]')){
+    preds.innerHTML = '<div class="widget-hint" style="color:var(--accent)">Include a [MASK] token, or pick an example above.</div>';
+    return;
+  }
+  computing = true;
+  btn.textContent = 'Computing…'; btn.style.opacity = '.6';
+  preds.innerHTML = '';
+  const rows = RESULTS[idx];
+  rows.forEach(([tok,score]) => {
+    const el = document.createElement('div');
+    el.className = 'pred';
+    el.innerHTML = '<span class="tok">'+tok+'</span><div class="bar-wrap"><div class="bar"></div></div><span class="score">'+score.toFixed(3)+'</span>';
+    preds.appendChild(el);
+  });
+  const nodes = preds.querySelectorAll('.pred');
+  const maxScore = rows[0][1];
+  nodes.forEach((n,i) => {
+    setTimeout(() => {
+      n.classList.add('show');
+      n.querySelector('.bar').style.width = Math.round(rows[i][1]/maxScore*100) + '%';
+    }, 120 + i*90);
+  });
+  setTimeout(() => {
+    btn.textContent = 'Compute'; btn.style.opacity = '';
+    time.textContent = 'computed in ' + (0.08 + rows.length*0.01).toFixed(2) + 's';
+    computing = false;
+  }, 140 + nodes.length*90 + 400);
+}
+</script>
 </body>
 </html>
