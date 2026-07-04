@@ -1,68 +1,76 @@
 # Mixpanel Design System
 
 ## Brand Overview
-Mixpanel is a product analytics platform focused on event-based tracking. The brand is dark, bold, and data-forward — built on a deep violet/purple with sharp data visualizations.
+
+Mixpanel is the product-analytics platform — event-based tracking, funnels, retention, and
+insights. The rebranded identity leads with a confident **purple `#7856FF`** and a playful warm
+**chart spectrum** (coral, yellow, teal, blue, green) for segments and series, on a clean canvas.
+The product is chart-first — the funnel is its signature. Light-first.
+
+> "The product intelligence system for the AI era."
+
+## Typography
+
+- **DM Sans** — display / UI / body (real Mixpanel brand font, Google Fonts).
+- **Inter** — secondary UI (real, Google Fonts).
+- **Mono** — counts, event names, distinct_ids (here: **JetBrains Mono**).
 
 ## Color Palette
 
 ### Primary
-- **Violet**: `#7856FF` — primary brand, CTAs, chart series 1
-- **Violet Dark**: `#5D3FD3` — hover, pressed
-- **Violet Light**: `#A08AFF` — highlights, secondary series
+- Purple: `#7856FF` — brand, CTAs, primary series
+- Purple Deep: `#472BA0`
+- Purple Light: `#9074FF`
+- Ink: `#15003F` — deep purple, dark page
 
-### Chart Series
-- **Series 1**: `#7856FF` — violet
-- **Series 2**: `#FF6B6B` — coral
-- **Series 3**: `#4ECDC4` — teal
-- **Series 4**: `#FFE66D` — yellow
-- **Series 5**: `#A8E6CF` — mint
+### Chart Spectrum (segments & series)
+- Coral: `#FF7557` · Yellow: `#F9C85F` · Teal: `#7FE1D8`
+- Blue: `#72BEF4` · Green: `#3BA974` · Peach: `#FFB27A`
 
-### Semantic
-- **Success**: `#4ECDC4`
-- **Warning**: `#FFD166`
-- **Error**: `#FF6B6B`
+### Surfaces — Light
+- Page: `#F7F5FF`
+- Card: `#FFFFFF`
+- Sunken: `#F1EEFB`
+- Border: `#E8E4F5`
 
-### Surfaces (Dark Mode)
-- **Background**: `#0A0A14`
-- **Surface**: `#13131F`
-- **Elevated**: `#1C1C2E`
-- **Border**: `#2A2A42`
+### Surfaces — Dark (deep purple, real tokens)
+- Page: `#15003F`
+- Surface: `#1E0B4D`
+- Elevated: `#2E1670`
+- Border: `rgba(255,255,255,.10)`
 
 ### Text
-- **Primary**: `#EEEEFF`
-- **Secondary**: `#8888BB`
-- **Muted**: `#4A4A6A`
+- Primary (light `#1F2023` / dark `#F1ECFF`)
+- Secondary: `#6B6680`
+- Muted: `#9A94B0`
 
-## Typography
-- **Primary Font**: Inter (400, 500, 600, 700)
-- **Mono Font**: JetBrains Mono (for event names, property keys)
+### Semantic
+- Success: `#3BA974` · Warning: `#F9C85F` · Error / dropoff: `#FF7557`
 
-## Spacing
-4px base — 4, 8, 12, 16, 24, 32, 48, 64.
+## Logo
 
-## Border Radius
-- Buttons: 8px
-- Cards: 12px
-- Inputs: 8px
+The **Mixpanel mark** — the `><` chevron pair (viewBox `0 0 24 24`, single path), rendered in
+purple `#7856FF`. Pairs with the "Mixpanel" wordmark set in DM Sans.
 
-## Components
+## Signature Component — Funnel
 
-### Funnel Chart
-- Horizontal bar per step, proportional width
-- Step name left, conversion % right in bold violet
-- Drop-off delta between steps in red
-
-### Retention Grid
-- Row = cohort week, columns = week N retention
-- Color intensity: deeper violet = higher retention
-- Header row and column with dates
-
-### Event Property Tag
-- Mono, violet bg at 10% opacity
+A conversion funnel: ordered steps (Viewed → Trial → Activated → Invited → Upgraded), each a
+bar sized by count with overall and step-to-step conversion %, and the dropoff between steps in
+coral. A **segment** switch (All / Mobile / Web) reslices every step's counts and the bars
+re-animate. This is the defining Mixpanel analysis.
 
 ## Guardrails
-- Event names always in monospace
-- Chart series colors must be used in order
-- Always show both absolute numbers and percentages
-- Retention grid cells must be readable — don't go below 40% opacity
-- Empty chart states need a guide, not just "no data"
+
+**DO**
+- Lead with purple `#7856FF`; use the warm spectrum for segments/series.
+- Give funnel steps both overall and step-to-step conversion %.
+- Show dropoff explicitly (coral) between steps.
+- Set counts, event names, and IDs in the mono stack.
+- Keep the canvas light so the chart colors carry meaning.
+
+**DON'T**
+- Don't reassign spectrum colors between segments within one view.
+- Don't invent dark surfaces; anchor on the real deep purple `#15003F`.
+- Don't use coral for anything but dropoff / negative in analysis views.
+- Don't set metric counts in a proportional font.
+- Don't show a funnel step without its conversion rate.
