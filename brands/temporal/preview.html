@@ -4,382 +4,373 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Temporal Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family:'Aeonik'; src:url('https://temporal.io/fonts/aeonik/Aeonik-Light.woff2') format('woff2'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'Aeonik'; src:url('https://temporal.io/fonts/aeonik/Aeonik-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'Aeonik'; src:url('https://temporal.io/fonts/aeonik/Aeonik-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'Aeonik'; src:url('https://temporal.io/fonts/aeonik/Aeonik-Black.woff2') format('woff2'); font-weight:900; font-display:swap; }
 
-:root[data-theme="dark"] {
-  --bg: #0D0D0F;
-  --surface: #161618;
-  --elevated: #1E1E22;
-  --border: #2A2A30;
-  --brand: #438AFF;
-  --brand-light: #76AAFF;
-  --text-primary: #F4F4F6;
-  --text-secondary: #8B8B9E;
-  --text-muted: #5C5C70;
-  --running: #438AFF;
-  --completed: #22C55E;
-  --failed: #EF4444;
-  --timedout: #F97316;
-  --canceled: #94A3B8;
-  --terminated: #A855F7;
-  --activity: #438AFF;
-  --timer: #A78BFA;
-  --signal: #FB923C;
-  --child: #34D399;
-}
-:root[data-theme="light"] {
-  --bg: #F4F4F6;
-  --surface: #FFFFFF;
-  --elevated: #F0F0F4;
-  --border: #D0D0DC;
-  --brand: #2060CC;
-  --brand-light: #438AFF;
-  --text-primary: #0D0D0F;
-  --text-secondary: #4A4A60;
-  --text-muted: #8B8B9E;
-  --running: #2060CC;
-  --completed: #16A34A;
-  --failed: #DC2626;
-  --timedout: #C2410C;
-  --canceled: #64748B;
-  --terminated: #7C3AED;
-  --activity: #2060CC;
-  --timer: #7C3AED;
-  --signal: #C2410C;
-  --child: #059669;
-}
+  :root[data-theme="dark"] {
+    --bg: #141414;
+    --surface: #1C1C1E;
+    --elevated: #26262A;
+    --fg: #F8FAFC;
+    --fg-muted: #9CA3AF;
+    --fg-disabled: #6B7280;
+    --border: #33333A;
+    --purple: #B664FF;
+    --mint: #1FF1A5;
+    --indigo: #6D74F0;
+    --swatch-ring: rgba(255,255,255,.14);
+  }
+  :root[data-theme="light"] {
+    --bg: #F8FAFC;
+    --surface: #FFFFFF;
+    --elevated: #F1F3F7;
+    --fg: #141414;
+    --fg-muted: #6B7280;
+    --fg-disabled: #9CA3AF;
+    --border: #E5E7EB;
+    --purple: #8A2BE2;
+    --mint: #0F9B6C;
+    --indigo: #444CE7;
+    --swatch-ring: rgba(0,0,0,.10);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family:'Aeonik', system-ui, sans-serif; background:var(--bg); color:var(--fg); font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .toggle-theme { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--fg-muted);width:38px;height:38px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
+  .toggle-theme:hover { border-color: var(--purple); }
+  .container { max-width: 1060px; margin: 0 auto; padding: 40px 24px 88px; }
+  .section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 26px; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text-primary); font-size: 14px; line-height: 1.6; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-secondary,#888);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s }
-.toggle:hover { border-color: var(--brand); }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+  /* HERO */
+  .hero { padding: 32px 0 44px; border-bottom: 1px solid var(--border); }
+  .hero-logo { margin-bottom: 22px; display:flex; align-items:center; gap:11px; }
+  .hero-logo .wordmark { font-weight:700; font-size:23px; color:var(--fg); letter-spacing:-.01em; }
+  .hero h1 { font-size: 50px; font-weight: 900; line-height: 1.04; letter-spacing: -0.03em; color: var(--fg); margin-bottom: 16px; max-width: 640px; }
+  .hero p { font-size: 19px; line-height: 1.5; color: var(--fg-muted); max-width: 560px; }
+  .hero-cta { display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
 
-.hero { display: flex; align-items: center; gap: 20px; margin-bottom: 64px; padding-bottom: 40px; border-bottom: 1px solid var(--border); }
-.logo-wrap { width: 64px; height: 64px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
-.hero-text h1 { font-size: 28px; font-weight: 700; }
-.hero-text p { color: var(--text-secondary); margin-top: 4px; }
-.hero-badge { margin-left: auto; background: rgba(67,138,255,0.12); color: var(--brand); border: 1px solid rgba(67,138,255,0.3); padding: 4px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; }
+  /* COLORS */
+  .colors-group { margin-bottom: 26px; }
+  .colors-group:last-child { margin-bottom: 0; }
+  .colors-group-title { font-size: 11px; font-weight: 500; color: var(--fg-muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+  .swatch { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 80ms, transform 80ms; }
+  .swatch:hover { border-color: var(--purple); transform: translateY(-1px); }
+  .swatch-block { height: 74px; box-shadow: inset 0 0 0 1px var(--swatch-ring); }
+  .swatch-info { padding: 9px 11px 11px; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--fg); }
+  .swatch-hex { font-family:'JetBrains Mono',monospace; font-size: 11px; color: var(--fg-muted); margin-top: 3px; }
+  .swatch-usage { font-size: 11px; color: var(--fg-disabled); margin-top: 3px; line-height: 1.4; }
 
-.section { margin-bottom: 56px; }
-.section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--purple); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 9px; transition: transform 150ms; z-index: 1000; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-.color-groups { display: flex; flex-direction: column; gap: 20px; }
-.color-group-label { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-.color-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.swatch { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.swatch-block { width: 56px; height: 40px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08); transition: transform 0.1s; }
-.swatch:hover .swatch-block { transform: scale(1.08); }
-.swatch span { font-size: 10px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+  /* TYPOGRAPHY */
+  .type-row { display: grid; grid-template-columns: 90px 1fr auto; align-items: center; gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: none; }
+  .type-name { font-size: 12px; font-family:'JetBrains Mono',monospace; color: var(--fg-disabled); }
+  .type-sample { color: var(--fg); overflow: hidden; text-overflow: ellipsis; }
+  .type-specs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .spec-pill { font-size: 11px; font-family:'JetBrains Mono',monospace; padding: 2px 7px; border-radius: 5px; background: var(--surface); border: 1px solid var(--border); color: var(--fg-muted); white-space: nowrap; }
 
-.type-rows { display: flex; flex-direction: column; gap: 12px; }
-.type-row { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.type-label { font-size: 11px; color: var(--text-muted); width: 80px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; }
+  /* COMPONENTS */
+  .components-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .comp-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-disabled); margin-bottom: 16px; }
+  .btn-group { display: flex; flex-wrap: wrap; gap: 8px; align-items:center; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 500; padding: 0 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; height: 40px; display: inline-flex; align-items: center; gap: 7px; transition: filter 80ms, background 80ms; }
+  .btn-purple { background: var(--purple); color: #12061F; font-weight:600; }
+  .btn-purple:hover { filter: brightness(1.08); }
+  .btn-mint { background: var(--mint); color: #06231A; font-weight:600; }
+  .btn-mint:hover { filter: brightness(1.08); }
+  .btn-secondary { background: transparent; color: var(--fg); border-color: var(--border); }
+  .btn-secondary:hover { background: var(--elevated); }
+  .btn:disabled { opacity:.5; cursor:default; filter:none; }
 
-.comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-.comp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-.comp-card h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px; }
+  .input-group { display: flex; flex-direction: column; gap: 10px; }
+  .input { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 0 13px; font-family: inherit; font-size: 14px; color: var(--fg); height: 40px; transition: border-color 80ms, box-shadow 80ms; width: 100%; }
+  .input::placeholder { color: var(--fg-disabled); }
+  .input:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(182,100,255,.2); }
 
-/* Workflow Timeline */
-.timeline { display: flex; align-items: center; gap: 0; overflow-x: auto; padding: 8px 0; }
-.tl-node { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-.tl-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; border: 2px solid; }
-.tl-label { font-size: 10px; color: var(--text-muted); text-align: center; max-width: 64px; }
-.tl-dur { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
-.tl-line { flex: 1; height: 2px; min-width: 24px; }
+  .chip-group { display:flex; flex-wrap:wrap; gap:7px; }
+  .chip { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 9999px; display:inline-flex; align-items:center; gap:6px; border: 1px solid var(--border); background: var(--surface); color: var(--fg-muted); font-family:'JetBrains Mono',monospace; }
+  .chip .dot { width:7px;height:7px;border-radius:50%; }
 
-/* Workflow List */
-.wf-list { display: flex; flex-direction: column; gap: 4px; }
-.wf-row { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 6px; cursor: pointer; border: 1px solid transparent; }
-.wf-row:hover { background: var(--elevated); border-color: var(--border); }
-.wf-id { flex: 1; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--brand-light); }
-.wf-type { font-size: 11px; color: var(--text-muted); }
-.wf-dur { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-.status-badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; }
+  /* SIGNATURE: WORKFLOW EVENT HISTORY */
+  .wf { border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--surface); }
+  .wf-head { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .wf-mark { color:var(--purple); display:flex; }
+  .wf-id { font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--fg); font-weight:500; }
+  .wf-type { font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--fg-muted); }
+  .wf-status { margin-left:auto; font-size:12px; font-weight:600; padding:4px 11px; border-radius:9999px; display:inline-flex; align-items:center; gap:7px; }
+  .wf-status.running { background:rgba(109,116,240,.16); color:var(--indigo); }
+  .wf-status.completed { background:rgba(31,241,165,.14); color:var(--mint); }
+  .wf-status .sd { width:7px;height:7px;border-radius:50%;background:currentColor; }
+  .wf-body { padding:8px 0; min-height:260px; }
+  .ev { display:grid; grid-template-columns:34px 1fr auto; align-items:center; gap:12px; padding:9px 18px; opacity:0; transform:translateY(6px); transition:opacity .3s, transform .3s; }
+  .ev.show { opacity:1; transform:none; }
+  .ev-rail { display:flex; flex-direction:column; align-items:center; }
+  .ev-dot { width:11px;height:11px;border-radius:50%; border:2px solid var(--surface); box-shadow:0 0 0 1.5px currentColor; }
+  .ev-name { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--fg); }
+  .ev-sub { font-size:11.5px; color:var(--fg-muted); margin-top:1px; }
+  .ev-meta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--fg-disabled); text-align:right; white-space:nowrap; }
+  .ev-scheduled { color:#9CA3AF; } .ev-running { color:var(--indigo); } .ev-completed { color:var(--mint); } .ev-retry { color:#FF5555; } .ev-timer { color:var(--purple); }
+  .wf-foot { display:flex; align-items:center; gap:12px; padding:12px 16px; border-top:1px solid var(--border); }
+  .wf-foot .msg { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--fg-disabled); }
 
-/* Event History */
-.event-list { display: flex; flex-direction: column; gap: 2px; max-height: 240px; overflow-y: auto; }
-.event-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 8px; border-radius: 4px; }
-.event-row:hover { background: var(--elevated); }
-.event-seq { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 28px; flex-shrink: 0; }
-.event-type { font-size: 11px; font-weight: 500; padding: 1px 7px; border-radius: 3px; flex-shrink: 0; }
-.event-time { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; margin-left: auto; }
+  /* GUARDRAILS */
+  .guardrails-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .guardrails-col { display: flex; flex-direction: column; gap: 9px; }
+  .guardrails-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+  .guardrails-heading.do { color: var(--mint); }
+  .guardrails-heading.dont { color: #FF5555; }
+  .guardrail-item { font-size: 13px; color: var(--fg-muted); padding: 4px 0 4px 18px; position: relative; line-height: 1.5; }
+  .guardrail-item::before { content: ''; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; border-radius: 50%; }
+  .guardrail-item.do::before { background: var(--mint); }
+  .guardrail-item.dont::before { background: #FF5555; }
 
-/* Activity Card */
-.activity-card { background: var(--elevated); border: 1px solid var(--border); border-radius: 6px; padding: 12px; }
-.activity-name { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-.activity-meta { display: flex; flex-direction: column; gap: 5px; }
-.activity-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.activity-key { color: var(--text-muted); width: 90px; flex-shrink: 0; }
-.activity-val { font-family: 'JetBrains Mono', monospace; color: var(--text-secondary); }
-.attempt-badge { background: rgba(249,115,22,0.15); color: var(--timedout); border: 1px solid rgba(249,115,22,0.3); padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: 'JetBrains Mono', monospace; }
-
-/* Status badges */
-.badge-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-.sb { padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 500; }
-.sb-running { background: rgba(67,138,255,0.15); color: var(--running); }
-.sb-completed { background: rgba(34,197,94,0.12); color: var(--completed); }
-.sb-failed { background: rgba(239,68,68,0.12); color: var(--failed); }
-.sb-timedout { background: rgba(249,115,22,0.12); color: var(--timedout); }
-.sb-canceled { background: rgba(148,163,184,0.1); color: var(--canceled); border: 1px solid var(--border); }
-.sb-terminated { background: rgba(168,85,247,0.12); color: var(--terminated); }
-
-.spacing-bars { display: flex; flex-direction: column; gap: 10px; }
-.spacing-row { display: flex; align-items: center; gap: 12px; }
-.spacing-bar { background: var(--brand); border-radius: 3px; height: 14px; opacity: 0.8; }
-.spacing-label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; width: 36px; }
-.spacing-val { font-size: 11px; color: var(--text-secondary); }
-
-.guardrail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.guardrail-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.guardrail-card.do { border-top: 2px solid var(--completed); }
-.guardrail-card.dont { border-top: 2px solid var(--failed); }
-.guardrail-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.05em; }
-.guardrail-card.do h4 { color: var(--completed); }
-.guardrail-card.dont h4 { color: var(--failed); }
-.guardrail-card ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.guardrail-card ul li { font-size: 12px; color: var(--text-secondary); padding-left: 14px; position: relative; }
-.guardrail-card ul li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; }
-.guardrail-card.do ul li::before { background: var(--completed); }
-.guardrail-card.dont ul li::before { background: var(--failed); }
-:root[data-theme="dark"] .icon-moon{display:none}
-:root[data-theme="light"] .icon-sun{display:none}
+  @media (max-width: 720px) {
+    .guardrails-grid { grid-template-columns: 1fr; }
+    .type-row { grid-template-columns: 70px 1fr; }
+    .type-specs { display: none; }
+    .hero h1 { font-size: 36px; }
+    .ev-meta { display:none; }
+  }
+  :root[data-theme="dark"] .icon-moon{display:none}
+  :root[data-theme="light"] .icon-sun{display:none}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
-<div class="wrap">
+<button class="toggle-theme" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast">Copied!</div>
 
-  <!-- Hero -->
+<div class="container">
+
+  <!-- HERO -->
   <div class="hero">
-    <div class="logo-wrap">
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-        <circle cx="18" cy="18" r="13" stroke="#438AFF" stroke-width="2"/>
-        <circle cx="18" cy="18" r="2.5" fill="#438AFF"/>
-        <line x1="18" y1="8" x2="18" y2="18" stroke="#438AFF" stroke-width="2" stroke-linecap="round"/>
-        <line x1="18" y1="18" x2="24" y2="22" stroke="#76AAFF" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="18" cy="8" r="1.5" fill="#76AAFF"/>
-      </svg>
+    <div class="hero-logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--purple)" aria-label="Temporal"><path d="M16.206 7.794C15.64 3.546 14.204 0 12 0 9.796 0 8.361 3.546 7.794 7.794 3.546 8.36 0 9.796 0 12c0 2.204 3.546 3.639 7.794 4.206C8.36 20.453 9.796 24 12 24c2.204 0 3.639-3.546 4.206-7.794C20.454 15.64 24 14.204 24 12c0-2.204-3.547-3.64-7.794-4.206Zm-8.55 7.174c-4.069-.587-6.44-1.932-6.44-2.969 0-1.036 2.372-2.381 6.44-2.969-.09.98-.137 1.98-.137 2.97 0 .99.047 1.99.137 2.968zM12 1.215c1.036 0 2.381 2.372 2.969 6.44a32.718 32.718 0 0 0-5.938 0c.587-4.068 1.932-6.44 2.969-6.44Zm4.344 13.753c-.2.03-1.022.126-1.23.146-.02.209-.117 1.03-.145 1.23-.588 4.068-1.933 6.44-2.97 6.44-1.036 0-2.38-2.372-2.968-6.44-.03-.2-.126-1.022-.147-1.23a31.833 31.833 0 0 1 0-6.23 31.813 31.813 0 0 1 7.46.146c4.068.587 6.442 1.933 6.442 2.969-.001 1.036-2.374 2.382-6.442 2.97z"/></svg>
+      <span class="wordmark">Temporal</span>
     </div>
-    <div class="hero-text">
-      <h1>Temporal</h1>
-      <p>Durable workflow orchestration platform</p>
+    <h1>The world's best AI runs on Temporal</h1>
+    <p>Durable execution for mission-critical apps — write Workflows as code that survive failures, retries, and time.</p>
+    <div class="hero-cta">
+      <button class="btn btn-purple">Get started free</button>
+      <button class="btn btn-secondary">Talk to sales</button>
     </div>
-    <div class="hero-badge">WORKFLOW ENGINE</div>
   </div>
 
-  <!-- Colors -->
+  <!-- COLORS -->
   <div class="section">
     <div class="section-title">Colors</div>
-    <div class="color-groups">
-      <div>
-        <div class="color-group-label">Brand</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#438AFF')"><div class="swatch-block" style="background:#438AFF"></div><span>#438AFF</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#76AAFF')"><div class="swatch-block" style="background:#76AAFF"></div><span>#76AAFF</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#2060CC')"><div class="swatch-block" style="background:#2060CC"></div><span>#2060CC</span></div>
-        </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Primary</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#B664FF', this)"><div class="swatch-block" style="background:#B664FF"></div><div class="swatch-info"><div class="swatch-name">Purple</div><div class="swatch-hex">#B664FF</div><div class="swatch-usage">Brand, timers</div></div></div>
+        <div class="swatch" onclick="copyHex('#1FF1A5', this)"><div class="swatch-block" style="background:#1FF1A5"></div><div class="swatch-info"><div class="swatch-name">Mint</div><div class="swatch-hex">#1FF1A5</div><div class="swatch-usage">Completed, success</div></div></div>
+        <div class="swatch" onclick="copyHex('#444CE7', this)"><div class="swatch-block" style="background:#444CE7"></div><div class="swatch-info"><div class="swatch-name">Indigo</div><div class="swatch-hex">#444CE7</div><div class="swatch-usage">Running, started</div></div></div>
+        <div class="swatch" onclick="copyHex('#141414', this)"><div class="swatch-block" style="background:#141414"></div><div class="swatch-info"><div class="swatch-name">Ink</div><div class="swatch-hex">#141414</div><div class="swatch-usage">Page, surfaces</div></div></div>
       </div>
-      <div>
-        <div class="color-group-label">Workflow States</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#22C55E')"><div class="swatch-block" style="background:#22C55E"></div><span>Completed</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#EF4444')"><div class="swatch-block" style="background:#EF4444"></div><span>Failed</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#F97316')"><div class="swatch-block" style="background:#F97316"></div><span>TimedOut</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#A855F7')"><div class="swatch-block" style="background:#A855F7"></div><span>Terminated</span></div>
-        </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Accent Spectrum</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#FF6BFF', this)"><div class="swatch-block" style="background:#FF6BFF"></div><div class="swatch-info"><div class="swatch-name">Pink</div><div class="swatch-hex">#FF6BFF</div><div class="swatch-usage">Accent</div></div></div>
+        <div class="swatch" onclick="copyHex('#C3FF62', this)"><div class="swatch-block" style="background:#C3FF62"></div><div class="swatch-info"><div class="swatch-name">Lime</div><div class="swatch-hex">#C3FF62</div><div class="swatch-usage">Accent</div></div></div>
+        <div class="swatch" onclick="copyHex('#59FDA0', this)"><div class="swatch-block" style="background:#59FDA0"></div><div class="swatch-info"><div class="swatch-name">Mint Deep</div><div class="swatch-hex">#59FDA0</div><div class="swatch-usage">Success alt</div></div></div>
+        <div class="swatch" onclick="copyHex('#FF5555', this)"><div class="swatch-block" style="background:#FF5555"></div><div class="swatch-info"><div class="swatch-name">Red</div><div class="swatch-hex">#FF5555</div><div class="swatch-usage">Failed, retry</div></div></div>
       </div>
-      <div>
-        <div class="color-group-label">Event Types</div>
-        <div class="color-row">
-          <div class="swatch" onclick="navigator.clipboard.writeText('#438AFF')"><div class="swatch-block" style="background:#438AFF"></div><span>Activity</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#A78BFA')"><div class="swatch-block" style="background:#A78BFA"></div><span>Timer</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#FB923C')"><div class="swatch-block" style="background:#FB923C"></div><span>Signal</span></div>
-          <div class="swatch" onclick="navigator.clipboard.writeText('#34D399')"><div class="swatch-block" style="background:#34D399"></div><span>Child WF</span></div>
-        </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Surfaces — Dark (real near-black)</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#141414', this)"><div class="swatch-block" style="background:#141414"></div><div class="swatch-info"><div class="swatch-name">Page</div><div class="swatch-hex">#141414</div><div class="swatch-usage">Background</div></div></div>
+        <div class="swatch" onclick="copyHex('#1C1C1E', this)"><div class="swatch-block" style="background:#1C1C1E"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#1C1C1E</div><div class="swatch-usage">Cards</div></div></div>
+        <div class="swatch" onclick="copyHex('#26262A', this)"><div class="swatch-block" style="background:#26262A"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#26262A</div><div class="swatch-usage">Raised</div></div></div>
+        <div class="swatch" onclick="copyHex('#33333A', this)"><div class="swatch-block" style="background:#33333A"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#33333A</div><div class="swatch-usage">Dividers</div></div></div>
+      </div>
+    </div>
+    <div class="colors-group">
+      <div class="colors-group-title">Text &amp; Light</div>
+      <div class="colors-grid">
+        <div class="swatch" onclick="copyHex('#F8FAFC', this)"><div class="swatch-block" style="background:#F8FAFC"></div><div class="swatch-info"><div class="swatch-name">Text / Page-Light</div><div class="swatch-hex">#F8FAFC</div><div class="swatch-usage">Primary text</div></div></div>
+        <div class="swatch" onclick="copyHex('#9CA3AF', this)"><div class="swatch-block" style="background:#9CA3AF"></div><div class="swatch-info"><div class="swatch-name">Secondary</div><div class="swatch-hex">#9CA3AF</div><div class="swatch-usage">Muted</div></div></div>
+        <div class="swatch" onclick="copyHex('#6B7280', this)"><div class="swatch-block" style="background:#6B7280"></div><div class="swatch-info"><div class="swatch-name">Muted</div><div class="swatch-hex">#6B7280</div><div class="swatch-usage">Meta, disabled</div></div></div>
+        <div class="swatch" onclick="copyHex('#E5E7EB', this)"><div class="swatch-block" style="background:#E5E7EB"></div><div class="swatch-info"><div class="swatch-name">Border (light)</div><div class="swatch-hex">#E5E7EB</div><div class="swatch-usage">Dividers</div></div></div>
       </div>
     </div>
   </div>
 
-  <!-- Typography -->
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Typography</div>
-    <div class="type-rows">
-      <div class="type-row"><span class="type-label">2xl / 700</span><span style="font-size:28px;font-weight:700">Workflow Orchestration</span></div>
-      <div class="type-row"><span class="type-label">xl / 600</span><span style="font-size:22px;font-weight:600">Event History</span></div>
-      <div class="type-row"><span class="type-label">base / 400</span><span style="font-size:14px">Durable execution for long-running processes</span></div>
-      <div class="type-row"><span class="type-label">mono</span><span style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--brand-light)">ord-20240621-xk9p2m · 1h 23m 45s</span></div>
+    <div class="section-title">Typography — Aeonik · JetBrains Mono</div>
+    <div class="type-row">
+      <div class="type-name">h1</div>
+      <div class="type-sample" style="font-size:40px;font-weight:900;letter-spacing:-0.03em;">Durable Execution</div>
+      <div class="type-specs"><span class="spec-pill">40px</span><span class="spec-pill">900</span><span class="spec-pill">Aeonik</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h2</div>
+      <div class="type-sample" style="font-size:27px;font-weight:700;">Workflows as code</div>
+      <div class="type-specs"><span class="spec-pill">27px</span><span class="spec-pill">700</span><span class="spec-pill">lh 1.1</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">h3</div>
+      <div class="type-sample" style="font-size:20px;font-weight:500;">Event history &amp; replay</div>
+      <div class="type-specs"><span class="spec-pill">20px</span><span class="spec-pill">500</span><span class="spec-pill">lh 1.3</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">body</div>
+      <div class="type-sample" style="font-size:15px;font-weight:300;">Temporal preserves the complete state of your application so it can recover from any failure and resume exactly where it left off.</div>
+      <div class="type-specs"><span class="spec-pill">15px</span><span class="spec-pill">300</span><span class="spec-pill">lh 1.6</span></div>
+    </div>
+    <div class="type-row">
+      <div class="type-name">mono</div>
+      <div class="type-sample mono" style="font-size:13px;color:var(--purple);">await workflow.executeActivity(chargeCard)</div>
+      <div class="type-specs"><span class="spec-pill">13px</span><span class="spec-pill">JetBrains Mono</span></div>
     </div>
   </div>
 
-  <!-- Components -->
+  <!-- SIGNATURE: WORKFLOW EVENT HISTORY -->
+  <div class="section">
+    <div class="section-title">Signature — Workflow Event History</div>
+    <div class="wf">
+      <div class="wf-head">
+        <span class="wf-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.206 7.794C15.64 3.546 14.204 0 12 0 9.796 0 8.361 3.546 7.794 7.794 3.546 8.36 0 9.796 0 12c0 2.204 3.546 3.639 7.794 4.206C8.36 20.453 9.796 24 12 24c2.204 0 3.639-3.546 4.206-7.794C20.454 15.64 24 14.204 24 12c0-2.204-3.547-3.64-7.794-4.206Zm-8.55 7.174c-4.069-.587-6.44-1.932-6.44-2.969 0-1.036 2.372-2.381 6.44-2.969-.09.98-.137 1.98-.137 2.97 0 .99.047 1.99.137 2.968zM12 1.215c1.036 0 2.381 2.372 2.969 6.44a32.718 32.718 0 0 0-5.938 0c.587-4.068 1.932-6.44 2.969-6.44Zm4.344 13.753c-.2.03-1.022.126-1.23.146-.02.209-.117 1.03-.145 1.23-.588 4.068-1.933 6.44-2.97 6.44-1.036 0-2.38-2.372-2.968-6.44-.03-.2-.126-1.022-.147-1.23a31.833 31.833 0 0 1 0-6.23 31.813 31.813 0 0 1 7.46.146c4.068.587 6.442 1.933 6.442 2.969-.001 1.036-2.374 2.382-6.442 2.97z"/></svg></span>
+        <div>
+          <div class="wf-id">order-fulfillment-9f3a</div>
+          <div class="wf-type">OrderWorkflow · run 01HXQ…c7</div>
+        </div>
+        <span class="wf-status running" id="wf-status"><span class="sd"></span>Running</span>
+      </div>
+      <div class="wf-body" id="wf-body"></div>
+      <div class="wf-foot">
+        <button class="btn btn-purple" id="wf-btn" onclick="startWf()">Start Workflow</button>
+        <span class="msg" id="wf-msg">click to execute · retries included</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
   <div class="section">
     <div class="section-title">Components</div>
-    <div class="comp-grid">
-
-      <!-- Timeline -->
-      <div class="comp-card" style="grid-column: span 2;">
-        <h3>Workflow Timeline</h3>
-        <div class="timeline">
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(34,197,94,0.12);border-color:#22C55E;color:#22C55E">⊕</div>
-            <div class="tl-label">WorkflowStart</div>
-            <div class="tl-dur">0s</div>
-          </div>
-          <div class="tl-line" style="background:#438AFF;opacity:0.4"></div>
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(67,138,255,0.12);border-color:#438AFF;color:#438AFF">⚡</div>
-            <div class="tl-label">FetchUserData</div>
-            <div class="tl-dur">1.2s</div>
-          </div>
-          <div class="tl-line" style="background:#A78BFA;opacity:0.4"></div>
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(167,139,250,0.12);border-color:#A78BFA;color:#A78BFA">⏱</div>
-            <div class="tl-label">WaitTimer</div>
-            <div class="tl-dur">5m</div>
-          </div>
-          <div class="tl-line" style="background:#FB923C;opacity:0.4"></div>
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(251,146,60,0.12);border-color:#FB923C;color:#FB923C">~</div>
-            <div class="tl-label">Signal Received</div>
-            <div class="tl-dur">5m 3s</div>
-          </div>
-          <div class="tl-line" style="background:#438AFF;opacity:0.4"></div>
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(67,138,255,0.12);border-color:#438AFF;color:#438AFF">⚡</div>
-            <div class="tl-label">SendNotification</div>
-            <div class="tl-dur">200ms</div>
-          </div>
-          <div class="tl-line" style="background:#22C55E;opacity:0.4"></div>
-          <div class="tl-node">
-            <div class="tl-circle" style="background:rgba(34,197,94,0.12);border-color:#22C55E;color:#22C55E">✓</div>
-            <div class="tl-label">WorkflowCompleted</div>
-            <div class="tl-dur">5m 3.2s</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Workflow List -->
+    <div class="components-grid">
       <div class="comp-card">
-        <h3>Workflow Runs</h3>
-        <div class="wf-list">
-          <div class="wf-row">
-            <span class="status-badge sb-running">Running</span>
-            <span class="wf-id">ord-xk9p2m</span>
-            <span class="wf-type">OrderFlow</span>
-            <span class="wf-dur">12m</span>
-          </div>
-          <div class="wf-row">
-            <span class="status-badge sb-completed">Completed</span>
-            <span class="wf-id">pay-m3nq8x</span>
-            <span class="wf-type">PaymentFlow</span>
-            <span class="wf-dur">2m 4s</span>
-          </div>
-          <div class="wf-row">
-            <span class="status-badge sb-failed">Failed</span>
-            <span class="wf-id">notif-p7r2lk</span>
-            <span class="wf-type">NotifyFlow</span>
-            <span class="wf-dur">30s</span>
-          </div>
-          <div class="wf-row">
-            <span class="status-badge sb-timedout">TimedOut</span>
-            <span class="wf-id">sync-j4v9bq</span>
-            <span class="wf-type">SyncFlow</span>
-            <span class="wf-dur">1h</span>
-          </div>
-          <div class="wf-row">
-            <span class="status-badge sb-canceled">Canceled</span>
-            <span class="wf-id">batch-w2n5dp</span>
-            <span class="wf-type">BatchFlow</span>
-            <span class="wf-dur">4m 10s</span>
-          </div>
+        <div class="comp-card-title">Buttons</div>
+        <div class="btn-group">
+          <button class="btn btn-purple">Start Workflow</button>
+          <button class="btn btn-mint">Signal</button>
+          <button class="btn btn-secondary">Terminate</button>
         </div>
       </div>
-
-      <!-- Event History -->
       <div class="comp-card">
-        <h3>Event History</h3>
-        <div class="event-list">
-          <div class="event-row"><span class="event-seq">1</span><span class="event-type" style="background:rgba(34,197,94,0.1);color:#22C55E">WorkflowExecutionStarted</span><span class="event-time">00:00.000</span></div>
-          <div class="event-row"><span class="event-seq">2</span><span class="event-type" style="background:rgba(67,138,255,0.1);color:#438AFF">ActivityTaskScheduled</span><span class="event-time">00:00.012</span></div>
-          <div class="event-row"><span class="event-seq">3</span><span class="event-type" style="background:rgba(67,138,255,0.1);color:#438AFF">ActivityTaskStarted</span><span class="event-time">00:00.084</span></div>
-          <div class="event-row"><span class="event-seq">4</span><span class="event-type" style="background:rgba(34,197,94,0.1);color:#22C55E">ActivityTaskCompleted</span><span class="event-time">00:01.213</span></div>
-          <div class="event-row"><span class="event-seq">5</span><span class="event-type" style="background:rgba(167,139,250,0.1);color:#A78BFA">TimerStarted</span><span class="event-time">00:01.215</span></div>
-          <div class="event-row"><span class="event-seq">6</span><span class="event-type" style="background:rgba(251,146,60,0.1);color:#FB923C">SignalExternalWorkflow</span><span class="event-time">05:03.201</span></div>
-          <div class="event-row"><span class="event-seq">7</span><span class="event-type" style="background:rgba(34,197,94,0.1);color:#22C55E">WorkflowExecutionCompleted</span><span class="event-time">05:03.280</span></div>
+        <div class="comp-card-title">Search</div>
+        <div class="input-group">
+          <input class="input" type="text" placeholder="WorkflowId, WorkflowType…">
         </div>
       </div>
-
-      <!-- Activity Card + Status Badges -->
       <div class="comp-card">
-        <h3>Activity Detail</h3>
-        <div class="activity-card">
-          <div class="activity-name">SendEmailNotification <span class="attempt-badge">2 attempts</span></div>
-          <div class="activity-meta">
-            <div class="activity-row"><span class="activity-key">Schedule→Start</span><span class="activity-val">72ms</span></div>
-            <div class="activity-row"><span class="activity-key">Start→Close</span><span class="activity-val">1.14s</span></div>
-            <div class="activity-row"><span class="activity-key">Worker</span><span class="activity-val">worker-prod-3</span></div>
-            <div class="activity-row"><span class="activity-key">Task Queue</span><span class="activity-val">notifications</span></div>
-          </div>
+        <div class="comp-card-title">Workflow Status</div>
+        <div class="chip-group">
+          <span class="chip"><span class="dot" style="background:var(--indigo)"></span>Running</span>
+          <span class="chip"><span class="dot" style="background:var(--mint)"></span>Completed</span>
+          <span class="chip"><span class="dot" style="background:#FF5555"></span>Failed</span>
+          <span class="chip"><span class="dot" style="background:#9CA3AF"></span>Timed Out</span>
         </div>
       </div>
-
-      <!-- Status badges -->
       <div class="comp-card">
-        <h3>Status Badges</h3>
-        <div class="badge-grid">
-          <span class="sb sb-running">Running</span>
-          <span class="sb sb-completed">Completed</span>
-          <span class="sb sb-failed">Failed</span>
-          <span class="sb sb-timedout">TimedOut</span>
-          <span class="sb sb-canceled">Canceled</span>
-          <span class="sb sb-terminated">Terminated</span>
+        <div class="comp-card-title">Event Types</div>
+        <div class="chip-group">
+          <span class="chip ev-timer">Timer</span>
+          <span class="chip ev-completed">ActivityCompleted</span>
+          <span class="chip ev-retry">ActivityFailed</span>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- Spacing -->
-  <div class="section">
-    <div class="section-title">Spacing</div>
-    <div class="spacing-bars">
-      <div class="spacing-row"><span class="spacing-label">4px</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-val">Tight inline</span></div>
-      <div class="spacing-row"><span class="spacing-label">8px</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-val">Component xs</span></div>
-      <div class="spacing-row"><span class="spacing-label">16px</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-val">Base padding</span></div>
-      <div class="spacing-row"><span class="spacing-label">32px</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-val">Major section</span></div>
-      <div class="spacing-row"><span class="spacing-label">48px</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-val">Page section</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
+  <!-- GUARDRAILS -->
   <div class="section">
     <div class="section-title">Guardrails</div>
-    <div class="guardrail-grid">
-      <div class="guardrail-card do">
-        <h4>DO</h4>
-        <ul>
-          <li>Use status colors consistently across all workflow states</li>
-          <li>Always show workflow/run IDs in monospace</li>
-          <li>Show timing information prominently — duration is key</li>
-          <li>Color-code event types to aid quick scanning</li>
-          <li>Use the timeline for active workflows, list for history</li>
-        </ul>
+    <div class="guardrails-grid">
+      <div class="guardrails-col">
+        <div class="guardrails-heading do">DO</div>
+        <div class="guardrail-item do">Render the Temporal mark in brand purple #B664FF or a flat color</div>
+        <div class="guardrail-item do">Use Aeonik for display; the vivid spectrum as accents on near-black</div>
+        <div class="guardrail-item do">Color events by status — running indigo, completed mint, retry red</div>
+        <div class="guardrail-item do">Set Workflow IDs, event names, and run IDs in the mono stack</div>
+        <div class="guardrail-item do">Make durability visible — show retries and attempts</div>
       </div>
-      <div class="guardrail-card dont">
-        <h4>DON'T</h4>
-        <ul>
-          <li>Don't abbreviate workflow IDs — they're the primary identifier</li>
-          <li>Don't use blue (Running) for completed states</li>
-          <li>Don't show raw protobuf — always deserialize to JSON</li>
-          <li>Don't collapse event history for failed workflows</li>
-          <li>Don't use animation heavier than 200ms in event lists</li>
-        </ul>
+      <div class="guardrails-col">
+        <div class="guardrails-heading dont">DON'T</div>
+        <div class="guardrail-item dont">Don't reduce the brand to a single blue — Temporal leads with purple + mint</div>
+        <div class="guardrail-item dont">Don't invent dark surfaces; anchor on the real near-black #141414</div>
+        <div class="guardrail-item dont">Don't reuse a status color for an unrelated event type</div>
+        <div class="guardrail-item dont">Don't set IDs or event names in a proportional font</div>
+        <div class="guardrail-item dont">Don't hide failed attempts — the retry story is the product</div>
       </div>
     </div>
   </div>
 
 </div>
+
+<script>
+function copyHex(hex, el) {
+  navigator.clipboard.writeText(hex).catch(() => {});
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Copied ' + hex;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+const EVENTS = [
+  {n:'WorkflowExecutionStarted', s:'OrderWorkflow input: {orderId: 9f3a}', k:'running',   t:'0ms'},
+  {n:'ActivityTaskScheduled',    s:'reserveInventory',                       k:'scheduled', t:'2ms'},
+  {n:'ActivityTaskCompleted',    s:'reserveInventory → reserved',           k:'completed', t:'214ms'},
+  {n:'ActivityTaskScheduled',    s:'chargeCard',                            k:'scheduled', t:'220ms'},
+  {n:'ActivityTaskFailed',       s:'chargeCard → timeout (attempt 1)',      k:'retry',     t:'5.2s'},
+  {n:'ActivityTaskStarted',      s:'chargeCard retry (attempt 2)',          k:'running',   t:'6.1s'},
+  {n:'ActivityTaskCompleted',    s:'chargeCard → charged $128.00',          k:'completed', t:'6.4s'},
+  {n:'TimerStarted',             s:'awaitShipment · 24h',                    k:'timer',     t:'6.4s'},
+  {n:'TimerFired',               s:'awaitShipment elapsed',                 k:'timer',     t:'24h'},
+  {n:'WorkflowExecutionCompleted', s:'result: {status: fulfilled}',         k:'completed', t:'24h'}
+];
+let running = false;
+function startWf(){
+  if(running) return;
+  running = true;
+  const body = document.getElementById('wf-body');
+  const btn = document.getElementById('wf-btn');
+  const status = document.getElementById('wf-status');
+  const msg = document.getElementById('wf-msg');
+  body.innerHTML = ''; btn.disabled = true;
+  status.className = 'wf-status running'; status.innerHTML = '<span class="sd"></span>Running';
+  msg.textContent = 'executing…';
+  EVENTS.forEach((e,i) => {
+    const row = document.createElement('div');
+    row.className = 'ev';
+    row.innerHTML =
+      '<div class="ev-rail ev-'+e.k+'"><span class="ev-dot"></span></div>'+
+      '<div><div class="ev-name">'+e.n+'</div><div class="ev-sub">'+e.s+'</div></div>'+
+      '<div class="ev-meta">#'+(i+1)+' · '+e.t+'</div>';
+    body.appendChild(row);
+    setTimeout(() => row.classList.add('show'), 120 + i*260);
+  });
+  setTimeout(() => {
+    status.className = 'wf-status completed'; status.innerHTML = '<span class="sd"></span>Completed';
+    msg.textContent = '10 events · 1 retry · durable';
+    btn.disabled = false; running = false;
+  }, 120 + EVENTS.length*260 + 200);
+}
+startWf();
+</script>
 </body>
 </html>
