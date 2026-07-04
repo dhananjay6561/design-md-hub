@@ -1,141 +1,105 @@
 # Contentful Design System
 
 ## Brand Overview
-Contentful is the leading headless CMS platform. The visual identity is clean and editorial — deep navy backgrounds, vivid blue accents, and structured content hierarchy. UI feels like a professional editorial workspace for content teams and developers alike.
+Contentful is the composable content platform (now positioned as a **DXP** — digital experience platform) for headless content and AI-driven digital experiences. The current identity (post-rebrand) is bright, optimistic and editorial: a clean white canvas, one confident **electric blue**, soft pastel section washes, and the tri-color **orbit** mark. It reads as a modern content workspace built for both marketers and developers.
+
+> **Rebrand note (verify against live):** the legacy navy `#2536CC` / deep-blue identity is **retired**. The current brand blue is `#1770E6`, and the mark is a full-color orbit (blue + orange + yellow), never flat navy.
 
 ## Color Palette
 
 ### Primary
-- Brand Blue: `#2536CC`
-- Blue Light: `#4C62F5`
-- Blue Dark: `#1A2799`
+- Brand Blue: `#1770E6` — primary actions, links, focus (dominant on live site)
+- Blue Deep: `#2C407D` — headings-on-tint, deep accents
+- Ink: `#2B2D31` — wordmark, primary text on light
 
-### Backgrounds
-- Base: `#0B0E1A`
-- Surface: `#141828`
-- Elevated: `#1E2438`
-- Border: `#2A3050`
+### Orbit mark (fixed, never recolor)
+- Mark Blue: `#1773EB`
+- Mark Orange: `#E44F20`
+- Mark Yellow: `#FFDA00`
 
-### Semantic
-- Success: `#2EA44F`
-- Warning: `#F5A623`
-- Error: `#E34850`
-- Info: `#2536CC`
+### Section washes (pastel, light mode)
+- Purple wash: `#F4EAFD`
+- Orange wash: `#FCEDE9`
+- Green wash: `#D8F6E7`
+- Teal ink: `#4A6E70`
+
+### Backgrounds — Light (default)
+- Base: `#FFFFFF`
+- Surface: `#F7F7F8`
+- Elevated: `#FFFFFF`
+- Border: `#E6E6E9`
+
+### Backgrounds — Dark
+Contentful is light-first with no rich dark palette; dark surfaces are stepped within a neutral near-black hue (anchored on the ink), with translucent-white borders.
+- Base: `#17181A`
+- Surface: `#1F2023`
+- Elevated: `#27282B`
+- Border: `rgba(255,255,255,.09)`
 
 ### Text
-- Primary: `#F0F2FF`
-- Secondary: `#8B95C4`
-- Muted: `#5A6490`
-- On-blue: `#FFFFFF`
+- Primary (light): `#2B2D31` / (dark): `#F3F3F4`
+- Secondary: `#5C5F66` / `#A9ABB0`
+- Muted: `#8A8D93` / `#71747A`
 
-### Content Status
-- Published: `#2EA44F`
-- Draft: `#F5A623`
-- Changed: `#2536CC`
-- Archived: `#5A6490`
+### Content status (Contentful web app entry workflow)
+- Draft: `#C77700` (amber)
+- Changed: `#1770E6` (blue)
+- Published: `#0C8A5A` (green)
+- Archived: `#8A8D93` (gray)
+
+### Semantic
+- Success: `#0C8A5A`
+- Warning: `#C77700`
+- Error: `#E44F20`
+- Info: `#1770E6`
 
 ## Typography
 
 ### Font Stack
-- UI: `Plus Jakarta Sans, system-ui, sans-serif`
-- Code: `JetBrains Mono, monospace`
+- Display / UI: `Avenir Next` — the real brand font, self-hosted by Contentful (`avenirNextFont`, `.woff`, CORS-open), weights **400** and **600**. Fallback: `Avenir, Montserrat, system-ui, sans-serif`.
+- Code / IDs: `JetBrains Mono, monospace` (Contentful ships no branded mono).
 
 ### Scale
 - xs: 11px / 1.5
 - sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 20px / 1.4
-- xl: 24px / 1.3
-- 2xl: 32px / 1.2
+- base: 15px / 1.6
+- md: 17px / 1.4
+- lg: 22px / 1.3
+- xl: 30px / 1.2
+- 2xl: 44px / 1.05
 
 ### Weights
 - Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+- Semibold: 600 (headings, buttons, emphasis — Avenir Next ships only 400/600)
 
 ## Components
 
-### Entry List
-- Row: entry name, content type badge, status dot, last updated
-- Status dot: green (published), orange (draft), blue (changed), grey (archived)
-- Hover: slight surface elevation
-- Bulk select: checkbox on left
+### Buttons
+- Primary: brand blue `#1770E6`, white text, radius 8px — "Get started for free"
+- Secondary: transparent, 1px border, ink text — "Contact sales"
+- Ghost / link: brand blue text — "Explore Contentful Platform"
 
-### Content Type Editor
-- Field rows with drag handle, field name, field type icon
-- Field type shown as colored badge (Text=blue, Media=purple, Reference=teal)
-- Validation indicators: required asterisk, unique lock icon
-- Add field button: dashed border row at bottom
+### Entry status pill
+Rounded pill carrying the workflow state: Draft (amber), Changed (blue), Published (green), Archived (gray). Always paired with a colored dot.
 
-### Entry Editor
-- Two-panel: left content fields, right sidebar (info, links, references)
-- Rich text editor with toolbar (bold, italic, headings, embeds)
-- Field labels in secondary text, values in primary
-- Save/publish action bar: fixed bottom
+### Field row (content model)
+Label + field-type chip (`Short text`, `Rich text`, `Reference`, `Boolean`) + input. Structured, editorial spacing.
 
-### Asset Preview Card
-- Image thumbnail with aspect-ratio preserve
-- File name, type badge, file size
-- Processing state: skeleton + spinner overlay
-- Hover: action overlay (edit, delete, download)
-
-### Status Badges
-- Published: green filled pill
-- Draft: orange outline pill
-- Changed: blue filled pill
-- Archived: grey outline pill
-
-### Space Selector
-- Logo + space name dropdown
-- Environment indicator below (master / staging / development)
-- Color-coded environment: prod=red dot, staging=yellow, dev=green
-
-## Spacing
-
-```
-4px   — icon gap
-8px   — tight padding
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-64px  — hero/top spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (badges, chips), 6px (inputs, cards), 8px (modals, panels)
-- Border: `1px solid #2A3050`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 20px rgba(0,0,0,0.5)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Content type icons: distinct per field type (text, number, media, reference, etc.)
-- Entry status represented by dots, not icons
-
-## Motion
-- Transitions: 150ms ease
-- Entry row expand: 200ms ease-out
-- Status change: color transition 300ms
-- Modal open: fade + scale-up 200ms
+## Signature Component — Entry Editor
+Contentful's core value is **structured content + a publish workflow**. The signature is the web-app **Entry Editor**: a `blogPost` entry with typed fields (Title, Slug auto-generated, Rich-text body with a toolbar, a linked reference, a Boolean), and a right sidebar with the status pill + Publish button. Editing any field flips the status `Published → Changed`; pressing **Publish** commits it back to `Published`. This is the single UI most associated with Contentful.
 
 ## Guardrails
 
-### DO
-- Use status dots consistently — green/orange/blue/grey only
-- Keep the entry list scannable — name, type, status at a glance
-- Use blue for primary actions (Save, Publish)
-- Distinguish environments visually with color-coded dots
-- Show content types with icons in every context where entries appear
+**DO**
+- Use `#1770E6` as the one confident brand blue.
+- Keep the orbit mark full-color (blue/orange/yellow) — it's the identity.
+- Keep the canvas light and airy; use pastel washes to segment sections.
+- Use the real entry-status colors and the Draft → Changed → Published workflow.
+- Use Avenir Next (real font) for everything but code.
 
-### DON'T
-- Don't use green for anything except "published" state
-- Don't mix content type colors across contexts
-- Don't show raw API responses in the editor view
-- Don't use more than 2 actions visible on hover (keep it clean)
-- Don't render rich text as plain text — always preserve formatting
+**DON'T**
+- Don't use the legacy navy `#2536CC` or a dark-navy page background — that identity is retired.
+- Don't flatten or single-color the orbit mark.
+- Don't invent saturated dark-navy surfaces; dark mode is neutral near-black.
+- Don't use bold weights other than 600 (the brand font ships only 400/600).
+- Don't mix mono into body text — mono is for slugs, IDs, and code only.
