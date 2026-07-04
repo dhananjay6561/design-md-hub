@@ -1,143 +1,79 @@
 # Liveblocks Design System
 
 ## Brand Overview
-Liveblocks is the realtime collaboration infrastructure platform. The visual identity is modern and kinetic — near-black backgrounds, vibrant orange-red accents, and presence/cursor-centric UI metaphors. UI communicates live multiplayer state: who's here, what they're doing, and what changed.
+
+Liveblocks is realtime infrastructure for multiplayer apps and agents — presence, live cursors,
+comments, and collaborative editing as a service. The identity is clean and precise: near-black
+and off-white surfaces, a confident **brand blue `#0057FF`**, and a **rainbow presence palette**
+that colors every collaborator's cursor and avatar. Multiplayer is the whole story. Light-first.
+
+> "Realtime infrastructure for multiplayer apps and agents."
+
+## Typography
+
+- **Suisse Intl** (Regular / Medium / SemiBold) — the real brand typeface, self-hosted, CORS ✅
+  — **used directly** for display, headings, and UI.
+- **Inter** — secondary UI / long-form (Liveblocks ships it too).
+- **Mono** — code, IDs (here: **JetBrains Mono**).
 
 ## Color Palette
 
 ### Primary
-- Brand Orange: `#FF5C00`
-- Orange Light: `#FF8040`
-- Orange Dark: `#CC4A00`
+- Brand Blue: `#0057FF` — CTAs, links, focus
+- Blue Link: `#0090FF`
+- Black: `#000000`
+- Off-White: `#FDFCFD`
 
-### Backgrounds
-- Base: `#0C0C0C`
-- Surface: `#141414`
-- Elevated: `#1C1C1C`
-- Border: `#2C2C2C`
+### Presence — multiplayer cursors & avatars (the rainbow set)
+- `#EC5184` pink · `#51A1EC` blue · `#CDEC51` lime · `#C551EC` purple
+- `#EC9E51` orange · `#51ECC5` teal · `#7A51EC` violet · `#ECCA51` yellow
+- `#5160EC` indigo · `#EC5151` red · `#51ECB8` mint
 
-### Semantic
-- Online: `#22C55E`
-- Away: `#F59E0B`
-- Offline: `#525252`
-- Error: `#EF4444`
+### Surfaces — Light
+- Page: `#FDFCFD`
+- Sunken: `#F7F7F8`
+- Card: `#FFFFFF`
+- Border: `#EBECF0`
 
-### Presence Colors (User Cursors)
-- User 1: `#FF5C00`
-- User 2: `#3B82F6`
-- User 3: `#8B5CF6`
-- User 4: `#EC4899`
-- User 5: `#22C55E`
-- User 6: `#F59E0B`
+### Surfaces — Dark (real near-black)
+- Page: `#161618`
+- Surface: `#1C1C1F`
+- Elevated: `#232327`
+- Border: `#2C2C30`
 
 ### Text
-- Primary: `#F5F5F5`
-- Secondary: `#A0A0A0`
-- Muted: `#666666`
-- On-orange: `#FFFFFF`
+- Primary (light `#000000` / dark `#FDFCFD`)
+- Secondary: `#808080`
+- Muted: `#A0A0A5`
 
-## Typography
+### Accent & Semantic
+- Purple: `#8F6CEF` · Success: `#22C55E` · Error: `#F44E6B`
 
-### Font Stack
-- UI: `Plus Jakarta Sans, system-ui, sans-serif`
-- Code: `JetBrains Mono, monospace`
+## Logo
 
-### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+The **Liveblocks wordmark** (viewBox `0 0 128 24`, single-color path set) rendered in
+`currentColor` — black on light, off-white on dark. The product's signature motif is the
+**live cursor**: a pointer + name label in that collaborator's presence color.
 
-### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+## Signature Component — Live Cursors
 
-## Components
-
-### Presence Avatars
-- Circular crop, 28px default
-- Stack with -8px overlap, max 5 visible + "+N" overflow
-- Online: green ring border
-- Away: yellow ring border
-- Offline: no ring, desaturated
-- Hover: name tooltip
-
-### Cursor Overlay
-- SVG cursor icon in user's presence color
-- Name tag below cursor in same color
-- Smooth interpolated movement (60fps)
-- Fade out after 3s inactivity
-
-### Room Event Feed
-- Event rows: actor avatar + action + target + timestamp
-- Event types: joined, left, commented, changed, reacted
-- Timestamp in muted relative text
-- New events slide in from top
-
-### Comment Thread
-- Avatar + name + timestamp header
-- Body text with @mention highlights in orange
-- Reaction row: emoji + count
-- Reply count badge
-- Resolved: dimmed with strikethrough thread line
-
-### Notification Badge
-- Position: top-right of trigger element
-- Red filled circle with white count
-- Max display: "9+" for counts ≥ 10
-- Animate in: scale 0.5→1 with bounce
-
-### Connection Status Bar
-- Thin bar at top of collaborative area
-- Connected: hidden (no bar)
-- Connecting: orange animated bar
-- Disconnected: red solid bar + message
-- Reconnecting: orange pulsing bar
-
-## Spacing
-
-```
-4px   — cursor/avatar gap
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 50% (avatars), 6px (comment bubbles), 8px (panels)
-- Border: `1px solid #2C2C2C`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.5)`
-
-## Motion
-- Cursor movement: 60fps lerp interpolation
-- Avatar stack reorder: 250ms ease
-- Comment appear: 200ms slide + fade
-- Notification badge: 150ms scale bounce
-- Connection bar: 300ms fade in/out
+A shared multiplayer canvas: a presence **avatar stack** (each collaborator in a presence color)
+over a workspace where remote **cursors glide** along their own paths, each labelled with a name
+in its color. Your own cursor follows the pointer over the canvas — the exact Liveblocks
+"multiplayer in minutes" moment.
 
 ## Guardrails
 
-### DO
-- Assign each user a unique presence color and use it consistently
-- Show presence avatars whenever collaborative context is active
-- Animate cursor positions smoothly — choppy cursors break immersion
-- Use orange only for the brand's primary actions
-- Show connection status non-intrusively (bar only when degraded)
+**DO**
+- Give every collaborator a distinct presence color for cursor + avatar + selection.
+- Use brand blue `#0057FF` for CTAs, links, and focus.
+- Keep surfaces near-black / off-white so presence colors pop.
+- Pair a live cursor with a name label in the same presence color.
+- Use Suisse Intl for display; Inter for dense UI.
 
-### DON'T
-- Don't show offline users in presence avatars — hide or dim them
-- Don't reuse presence colors within the same session
-- Don't show raw user IDs — always resolve to display names
-- Don't stack more than 5 visible avatars without overflow count
-- Don't animate every realtime event — only meaningful state changes
+**DON'T**
+- Don't make the brand orange — Liveblocks is blue `#0057FF` with a rainbow presence set.
+- Don't reuse one presence color for two collaborators in the same room.
+- Don't invent dark surfaces; anchor on the real near-black `#161618`.
+- Don't show a cursor without an owner (name + color).
+- Don't let presence colors double as semantic status colors.
