@@ -91,6 +91,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 68 | [New Relic](brands/newrelic/DESIGN.md) | Observability | [preview](brands/newrelic/preview.html) |
 | 69 | [Tailwind CSS](brands/tailwindcss/DESIGN.md) | Dev Tools | [preview](brands/tailwindcss/preview.html) |
 | 70 | [Storybook](brands/storybook/DESIGN.md) | Dev Tools | [preview](brands/storybook/preview.html) |
+| 71 | [Zapier](brands/zapier/DESIGN.md) | Automation | [preview](brands/zapier/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
