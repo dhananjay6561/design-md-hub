@@ -1,66 +1,84 @@
 # Webflow Design System
 
 ## Brand Overview
-Webflow is a visual web development platform — design, build, and launch sites without writing code. The brand is bold, creative, and premium, built on a deep blue-indigo with dark surfaces.
+
+Webflow is the agentic web platform — design, build, and launch sites visually, then scale them
+with a real CMS and code-quality output. The 2024 rebrand pairs a confident **Webflow blue**
+`#146EF5` and near-black `#080808` with an editorial set of **pastels** (peach, mint, lavender,
+cream) used as section backgrounds. Marketing is light and expressive; the **Designer** product
+is a dark-chrome cockpit wrapped around a live canvas. Light-first.
+
+> "Make your website a growth engine."
+
+## Typography
+
+- **WF Visual Sans** — Webflow's proprietary brand typeface (display / UI). Proprietary sans;
+  **Inter** is used here as the ≈ fallback.
+- **WF Visual Sans Mono** — the real brand mono, self-hosted (CloudFront, CORS ✅) — **used
+  directly** for Designer labels, CSS values, class names, and breakpoints.
 
 ## Color Palette
 
 ### Primary
-- **Indigo**: `#4353FF` — primary brand, CTAs, active states
-- **Indigo Hover**: `#3343EE` — pressed states
-- **Indigo Light**: `#6B7AFF` — highlights, focus rings
+- Webflow Blue: `#146EF5` — brand, CTAs, Designer selection
+- Blue Deep: `#002A6A`
+- Ink: `#080808`
+- Page: `#FAFCFF`
 
-### Semantic
-- **Success**: `#12A150`
-- **Warning**: `#F5A623`
-- **Error**: `#E03E3E`
+### Pastels (section backgrounds — 2024 rebrand)
+- Lavender: `#CDBCF0`
+- Mint: `#A6DABF`
+- Peach: `#FFCA97`
+- Cream: `#FAFFE7`
+- Purple accent: `#7A3DFF`
 
-### Surfaces (Dark Mode)
-- **Background**: `#0E0E10`
-- **Surface**: `#1A1A1F`
-- **Elevated**: `#242429`
-- **Border**: `#34343C`
+### Designer Chrome (product UI — always dark)
+- Panel: `#2E2E2E`
+- Panel Deep: `#1E1E1E`
+- Input: `#383838`
+- Border: `#404040`
+- Selection: `#146EF5`
+
+### Surfaces — Dark (near-black, stepped from real `#080808`)
+- Page: `#080808`
+- Surface: `#141414`
+- Elevated: `#1E1E1E`
+- Border: `#2A2A2A`
 
 ### Text
-- **Primary**: `#F2F2F5`
-- **Secondary**: `#9090A0`
-- **Muted**: `#55556A`
+- Primary (light `#080808` / dark `#F2F2F2`)
+- Secondary: `#575757`
+- Muted: `#8A8A8A`
 
-## Typography
-- **Primary Font**: Inter (400, 500, 600, 700)
-- **Mono Font**: JetBrains Mono (for CSS values, class names, breakpoints)
+### Semantic
+- Success: `#00560D` · Warning: `#FFCA97` · Error: `#DD9A93`
 
-## Spacing
-4px base — 4, 8, 12, 16, 24, 32, 48, 64.
+## Logo
 
-## Border Radius
-- Buttons: 8px
-- Cards: 12px
-- Canvas elements: 4px
-- Inputs: 8px
+The **Webflow mark** — the interlocking-strokes glyph (viewBox `0 0 24 24`, single path),
+rendered in Webflow blue `#146EF5` (or `currentColor` in monochrome contexts). Pairs with the
+"Webflow" wordmark set in WF Visual Sans.
 
-## Components
+## Signature Component — Designer
 
-### Canvas Element
-- Dashed border when selected, indigo when active
-- Resize handles on corners
-- Label chip top-left with element type
-
-### Breakpoint Pills
-- Desktop / Tablet / Mobile — horizontal switcher
-- Active breakpoint highlighted in indigo
-
-### Class Badge
-- Indigo bg at 10% opacity, indigo text
-- Mono font for class names
-
-### Style Panel
-- Property name left, value right in mono
-- Hover reveals edit affordance
+The Webflow Designer: a dark-chrome workspace with a **breakpoint switcher** (desktop / tablet /
+mobile), a live **canvas** rendering a flex layout, and a right-hand **Style panel**. Adjusting
+Layout (flex direction, justify, align, gap) and Background repaints the selected element on the
+canvas in real time — the defining Webflow interaction of designing visually and seeing CSS
+apply instantly.
 
 ## Guardrails
-- CSS values and class names always in monospace
-- Canvas selection state must be unmistakably visible
-- Breakpoint indicators must be persistent — never hidden
-- Don't use indigo for warnings — keep semantics clean
-- Keep panels information-dense but scannable
+
+**DO**
+- Use Webflow blue `#146EF5` for brand, CTAs, and canvas selection.
+- Keep the Designer chrome dark regardless of the surrounding theme.
+- Use WF Visual Sans Mono for CSS values, class names, and breakpoints.
+- Use pastels as section backgrounds, not as UI control colors.
+- Show the selected element and its style values together (visual + code).
+
+**DON'T**
+- Don't use the pre-rebrand indigo `#4353FF` — the current brand blue is `#146EF5`.
+- Don't recolor the Webflow mark outside blue or a single flat color.
+- Don't put pastel fills on interactive controls (buttons, inputs).
+- Don't set CSS values or class names in a proportional font.
+- Don't invent dark surfaces; step within the real near-black `#080808`.
