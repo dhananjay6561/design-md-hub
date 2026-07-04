@@ -1,420 +1,410 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
-<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Airtable – Design System</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airtable — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root[data-theme="dark"] {
-  --bg: #18191A; --surface: #242526; --elevated: #2E2F30; --border: #3E3F40;
-  --primary: #2D7FF9; --primary-hover: #1D6FE9; --accent: #FCB400;
-  --text: #F0F0F0; --text-2: #A0A0A0; --text-3: #606060;
-  --success: #20C933; --danger: #F82B60;
+@font-face{font-family:'HaasDisp';src:url('https://static.airtable.com/font/Haas-Grot-Disp-R-55-Roman.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'HaasText';src:url('https://static.airtable.com/font/NeueHaasGrotTextRound-55Roman-Web.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'HaasText';src:url('https://static.airtable.com/font/NeueHaasGrotTextRound-65Medium-Web.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'HaasText';src:url('https://static.airtable.com/font/NeueHaasGrotTextRound-75Bold-Web.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --f-blue:#2D7FF9;--f-cyan:#18BFFF;--f-teal:#20D9D2;--f-green:#20C933;--f-yellow:#FCB400;
+  --f-orange:#FF6F2C;--f-red:#F82B60;--f-pink:#FF08C2;--f-purple:#8B46FF;--f-gray:#676B74;
 }
-:root[data-theme="light"] {
-  --bg: #F7F7F8; --surface: #FFFFFF; --elevated: #EBEBEC; --border: #DCDCDD;
-  --primary: #2D7FF9; --primary-hover: #1D6FE9; --accent: #FCB400;
-  --text: #18191A; --text-2: #505050; --text-3: #A0A0A0;
-  --success: #20C933; --danger: #F82B60;
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F4F6F8;--bg3:#EBEEF2;
+  --border:#DCE0E6;--border-strong:#C0C6D1;--grid-line:#E4E7EC;--row-hover:#F7F9FB;
+  --text:#181D26;--text2:#333840;--text3:#9297A0;
+  --brand:#254FAD;--brand-deep:#002D98;--link:#2684FF;--logo:#181D26;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.2s, color 0.2s; }
-.toggle { position:fixed;top:16px;right:16px;background:var(--surface);border:1px solid var(--border);color:var(--text-2);padding:8px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s; }
-.toggle:hover { border-color: var(--primary); }
-.toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#fff;padding:10px 22px;border-radius:9999px;font-size:13px;font-weight:500;opacity:0;transition:all 0.3s;pointer-events:none;z-index:1000; }
-.toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
-.container { max-width: 1100px; margin: 0 auto; padding: 48px 24px 80px; }
+:root[data-theme="dark"]{
+  --bg:#181D26;--bg2:#1F2530;--bg3:#262D3A;
+  --border:#2E3644;--border-strong:#3A4352;--grid-line:#2A313E;--row-hover:#232A36;
+  --text:#EDF0F4;--text2:#B7C0CE;--text3:#7A8494;
+  --brand:#458FFF;--brand-deep:#2684FF;--link:#5B9BFF;--logo:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'HaasText','Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
 
-/* Hero */
-.hero { display:flex;align-items:center;gap:20px;margin-bottom:64px;padding-bottom:32px;border-bottom:1px solid var(--border); }
-.hero-text h1 { font-size:32px;font-weight:700; }
-.hero-text p { color:var(--text-2);font-size:15px;margin-top:6px; }
+.hero{padding:76px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1120px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px}
+.hero h1{font-family:'HaasDisp','HaasText',system-ui,sans-serif;font-size:50px;font-weight:400;letter-spacing:-.03em;line-height:1.04;margin-bottom:14px;max-width:820px;margin-left:auto;margin-right:auto}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto}
 
-/* Sections */
-.section { margin-bottom:56px; }
-.section-title { font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:20px; }
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px 90px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:24px 0 10px}
 
-/* Colors */
-.color-group { margin-bottom:24px; }
-.color-group-label { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);margin-bottom:10px; }
-.colors-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px; }
-.swatch { display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color 0.15s;margin-bottom:6px; }
-.swatch:hover { border-color: var(--primary); }
-.swatch-dot { width:28px;height:28px;border-radius:5px;flex-shrink:0; }
-.swatch-info { display:flex;flex-direction:column;gap:2px; }
-.swatch-name { font-size:12px;font-weight:500;color:var(--text); }
-.swatch-hex { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2); }
+/* spectrum strip */
+.spectrum{display:flex;height:52px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.spectrum-slab{flex:1;cursor:pointer;transition:flex .2s}
+.spectrum-slab:hover{flex:2.2}
 
-/* Typography */
-.type-row { display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border); }
-.type-row:last-child { border-bottom:none; }
-.type-meta { display:flex;gap:8px;flex-shrink:0;width:200px; }
-.spec-pill { font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;background:var(--elevated);color:var(--text-2); }
+/* swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.18)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
 
-/* Grid table */
-.grid-table { width:100%;border-collapse:collapse;font-size:13px; }
-.grid-table th { background:var(--elevated);color:var(--text-2);font-size:11px;font-weight:600;padding:8px 12px;text-align:left;border:1px solid var(--border); }
-.grid-table td { padding:8px 12px;border:1px solid var(--border);color:var(--text);vertical-align:middle; }
-.grid-table tr:hover td { background:var(--elevated); }
-.grid-row-num { color:var(--text-3);font-size:10px;width:32px;text-align:center; }
-.sel-chip { display:inline-block;font-size:11px;font-weight:500;padding:2px 10px;border-radius:9999px;white-space:nowrap; }
-.add-row { font-size:12px;color:var(--text-3);padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;border-top:1px solid var(--border); }
-.add-row:hover { color:var(--primary); }
+/* typography */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text2);padding:2px 6px;border-radius:9999px;white-space:nowrap}
 
-/* View tabs */
-.view-tabs { display:flex;gap:4px;margin-bottom:12px; }
-.view-tab { display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:6px 12px;border-radius:6px;color:var(--text-2);cursor:pointer;transition:all 0.15s; }
-.view-tab.active { background:var(--elevated);color:var(--text); }
-.view-tab:hover:not(.active) { color:var(--text); }
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:500;font-size:13px;border-radius:8px;padding:0 14px;height:34px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:background .12s}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-deep)}
+.btn-secondary{background:transparent;border:1px solid var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:9999px;font-size:12px;font-weight:500;white-space:nowrap}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap}
+.ftype{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:4px;font-size:12px;font-weight:500;background:var(--bg3);color:var(--text2)}
+.ftype .ic{font-size:12px;line-height:1}
+.ft-row{display:flex;gap:8px;flex-wrap:wrap}
+.at-input{background:var(--bg);border:1px solid var(--border-strong);border-radius:8px;height:34px;padding:0 10px;font-size:13px;font-family:inherit;color:var(--text);outline:none;width:100%;transition:box-shadow .12s,border-color .12s}
+.at-input:focus{border-color:var(--link);box-shadow:0 0 0 3px rgba(38,132,255,.22)}
+.at-input::placeholder{color:var(--text3)}
 
-/* Record expand */
-.record-expand { background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden; }
-.record-expand-header { display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border); }
-.record-expand-title { font-size:15px;font-weight:600; }
-.record-expand-body { padding:0; }
-.record-field-row { display:flex;align-items:flex-start;gap:0;border-bottom:1px solid var(--border); }
-.record-field-row:last-child { border-bottom:none; }
-.record-field-label { width:160px;flex-shrink:0;padding:12px 16px;font-size:12px;font-weight:500;color:var(--text-3);display:flex;align-items:center;gap:6px;border-right:1px solid var(--border); }
-.record-field-value { flex:1;padding:12px 16px;font-size:13px;color:var(--text); }
-.field-icon { width:14px;height:14px;opacity:0.6;flex-shrink:0; }
+/* SIGNATURE — Grid / Table view */
+.gridcard{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg)}
+.grid-topbar{display:flex;align-items:center;gap:14px;padding:11px 14px;border-bottom:1px solid var(--border);background:var(--bg2);flex-wrap:wrap}
+.view-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--text)}
+.view-name .vdot{width:14px;height:14px;border-radius:3px;background:var(--f-blue);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:9px}
+.topbar-sep{width:1px;height:18px;background:var(--border);margin:0 2px}
+.filterchips{display:flex;gap:6px;flex-wrap:wrap}
+.fchip{font-size:12px;font-weight:500;padding:4px 10px;border-radius:9999px;border:1px solid var(--border-strong);background:transparent;color:var(--text2);cursor:pointer;transition:.12s}
+.fchip:hover{background:var(--bg3)}
+.fchip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.grid-spacer{flex:1}
+.reccount{font-size:12px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.tbl-scroll{overflow:auto;max-height:520px}
+table.grid{border-collapse:collapse;width:100%;font-size:13px;min-width:720px}
+.grid thead th{position:sticky;top:0;z-index:2;background:var(--bg2);text-align:left;font-weight:500;color:var(--text2);font-size:12px;padding:0;border-bottom:1px solid var(--border-strong);border-right:1px solid var(--grid-line);height:34px}
+.grid th .th-in{display:flex;align-items:center;gap:6px;padding:0 10px}
+.grid th .ic{color:var(--text3);font-size:11px}
+.grid td{padding:0 10px;height:38px;border-bottom:1px solid var(--grid-line);border-right:1px solid var(--grid-line);color:var(--text);vertical-align:middle;white-space:nowrap}
+.grid tbody tr:hover td{background:var(--row-hover)}
+.col-gutter{width:44px;text-align:right;color:var(--text3);font-family:'JetBrains Mono',monospace;font-size:11px;padding-right:8px !important;cursor:default;position:relative}
+.col-gutter .expand{display:none;position:absolute;left:6px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px}
+.grid tbody tr:hover .col-gutter .num{opacity:0}
+.grid tbody tr:hover .col-gutter .expand{display:inline}
+.cell-name{font-weight:500}
+.cell-mono{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)}
+.cell-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);text-align:right}
+.selpill{display:inline-flex;align-items:center;height:21px;padding:0 9px;border-radius:9999px;font-size:12px;font-weight:500;cursor:pointer;user-select:none}
+.collab{display:inline-flex;align-items:center;gap:7px}
+.avatar{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;flex-shrink:0}
+.chk{width:18px;height:18px;border-radius:4px;border:2px solid var(--border-strong);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:11px;transition:.12s}
+.chk.on{background:var(--f-green);border-color:var(--f-green)}
+.row-done .cell-name{color:var(--text3);text-decoration:line-through}
+.addrow{display:flex;align-items:center;gap:7px;padding:9px 12px;color:var(--text3);font-size:13px;cursor:pointer;border-top:1px solid var(--grid-line)}
+.addrow:hover{background:var(--row-hover);color:var(--link)}
+.hint{font-size:12px;color:var(--text3);margin-top:12px}
 
-/* Field types grid */
-.field-types-grid { display:flex;flex-wrap:wrap;gap:8px; }
-.field-badge { display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:6px;background:var(--surface);border:1px solid var(--border);color:var(--text-2); }
-.field-badge-dot { width:8px;height:8px;border-radius:2px;flex-shrink:0; }
+/* guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#20C933}
+.gr-heading.dont{color:#F82B60}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#20C933}
+.dont .gr-item::before{background:#F82B60}
 
-/* Views showcase */
-.views-row { display:flex;gap:10px;flex-wrap:wrap; }
-.view-card { display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:500;color:var(--text-2); }
-.view-card-icon { width:18px;height:18px;flex-shrink:0; }
-
-/* Base cards */
-.base-card { display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--elevated);border:1px solid var(--border);border-radius:8px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s; }
-.base-card:hover { border-color:var(--primary); }
-.base-icon { width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0; }
-.base-name { font-size:14px;font-weight:500; }
-.base-ws { font-size:11px;color:var(--text-3);margin-top:2px; }
-
-/* Buttons */
-.btn { display:inline-flex;align-items:center;height:36px;padding:0 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all 0.15s;font-family:'Inter',sans-serif; }
-.btn-primary { background:var(--primary);color:#fff; }
-.btn-primary:hover { background:var(--primary-hover); }
-.btn-ghost { background:transparent;color:var(--text-2);border-color:var(--border); }
-
-/* Components grid */
-.components-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px; }
-.comp-card { background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px; }
-.comp-card h3 { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);margin-bottom:16px; }
-
-/* Spacing */
-.spacing-list { display:flex;flex-direction:column;gap:10px; }
-.spacing-row { display:flex;align-items:center;gap:16px; }
-.spacing-bar { height:10px;background:var(--border);border-radius:3px; }
-.spacing-label { font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-2);width:64px;flex-shrink:0; }
-.spacing-value { font-size:11px;color:var(--text-3); }
-
-/* Guardrails */
-.guardrails-grid { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
-.guardrail-card { padding:0; }
-.guardrail-label { font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px; }
-.guardrail-card.do .guardrail-label { color:#20C933; } .guardrail-card.dont .guardrail-label { color:#F82B60; }
-.guardrail-card ul { list-style:none;display:flex;flex-direction:column;gap:8px; }
-.guardrail-card li { font-size:13px;color:var(--text-2);padding-left:16px;position:relative; }
-.guardrail-card li::before { content:'';position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%; }
-.guardrail-card.do li::before { background:#20C933; }
-.guardrail-card.dont li::before { background:#F82B60; }
-
-:root[data-theme="dark"] .icon-moon { display:none; }
-:root[data-theme="light"] .icon-sun { display:none; }
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:720px){.comp-grid,.gr-cols{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g>
-    <g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g>
-  </svg>
-</button>
-<div class="toast" id="toast">Copied!</div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
 
-<div class="container">
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width="52" height="44" viewBox="0 0 200 170" fill="var(--logo)" xmlns="http://www.w3.org/2000/svg" aria-label="Airtable logo">
+        <path d="M90.039 12.367 24.079 39.66c-3.667 1.519-3.63 6.729.062 8.192l66.235 26.266a24.58 24.58 0 0 0 18.12 0l66.236-26.266c3.69-1.463 3.729-6.673.06-8.191l-65.958-27.294a24.58 24.58 0 0 0-18.795 0M105.312 88.46v65.617c0 3.12 3.147 5.258 6.048 4.108l73.806-28.648a4.42 4.42 0 0 0 2.79-4.108V59.813c0-3.121-3.147-5.258-6.048-4.108l-73.806 28.648a4.42 4.42 0 0 0-2.79 4.108M88.078 91.846l-21.904 10.576-2.224 1.075-46.238 22.155c-2.93 1.414-6.672-.722-6.672-3.978V60.088c0-1.178.604-2.195 1.414-2.96a5 5 0 0 1 1.12-.84c1.104-.663 2.68-.84 4.02-.31L87.71 83.76c3.564 1.414 3.844 6.408.368 8.087"/>
+      </svg>
+    </div>
+    <h1>All your teams, all their workflows — connected in one workspace</h1>
+    <p>Build AI-powered workflows that unify data, maximize collaboration, and set your teams up for long-term success. No code required.</p>
+  </div>
+</div>
 
-  <!-- Hero -->
-  <div class="hero">
-    <svg width="52" height="52" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-label="Airtable logo">
-      <path d="M11.992 1.966c-.434 0-.87.086-1.28.257L1.779 5.917c-.503.208-.49.908.012 1.116l8.982 3.558a3.266 3.266 0 0 0 2.454 0l8.982-3.558c.503-.196.503-.908.012-1.116l-8.957-3.694a3.255 3.255 0 0 0-1.272-.257zM23.4 8.056a.589.589 0 0 0-.222.045l-10.012 3.877a.612.612 0 0 0-.38.564v8.896a.6.6 0 0 0 .821.552L23.62 18.1a.583.583 0 0 0 .38-.551V8.653a.6.6 0 0 0-.6-.596zM.676 8.095a.644.644 0 0 0-.48.19C.086 8.396 0 8.53 0 8.69v8.355c0 .442.515.737.908.54l6.27-3.006.307-.147 2.969-1.436c.466-.22.43-.908-.061-1.092L.883 8.138a.57.57 0 0 0-.207-.044z" fill="#18BFFF"/>
-    </svg>
-    <div class="hero-text">
-      <h1>Airtable</h1>
-      <p>Flexible database platform — build apps, grids, and workflows without code</p>
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="spectrum" title="Airtable field & single-select spectrum">
+      <div class="spectrum-slab" style="background:#2D7FF9" onclick="copyHex('#2D7FF9')" title="blue"></div>
+      <div class="spectrum-slab" style="background:#18BFFF" onclick="copyHex('#18BFFF')" title="cyan"></div>
+      <div class="spectrum-slab" style="background:#20D9D2" onclick="copyHex('#20D9D2')" title="teal"></div>
+      <div class="spectrum-slab" style="background:#20C933" onclick="copyHex('#20C933')" title="green"></div>
+      <div class="spectrum-slab" style="background:#FCB400" onclick="copyHex('#FCB400')" title="yellow"></div>
+      <div class="spectrum-slab" style="background:#FF6F2C" onclick="copyHex('#FF6F2C')" title="orange"></div>
+      <div class="spectrum-slab" style="background:#F82B60" onclick="copyHex('#F82B60')" title="red"></div>
+      <div class="spectrum-slab" style="background:#FF08C2" onclick="copyHex('#FF08C2')" title="pink"></div>
+      <div class="spectrum-slab" style="background:#8B46FF" onclick="copyHex('#8B46FF')" title="purple"></div>
+      <div class="spectrum-slab" style="background:#676B74" onclick="copyHex('#676B74')" title="gray"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#181D26')"><div class="swatch-color" style="background:#181D26"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#181D26</span><span class="swatch-use">Mark, wordmark, text</span></div></div>
+      <div class="swatch" onclick="copyHex('#254FAD')"><div class="swatch-color" style="background:#254FAD"></div><div class="swatch-info"><span class="swatch-name">brand-blue</span><span class="swatch-hex">#254FAD</span><span class="swatch-use">Primary buttons</span></div></div>
+      <div class="swatch" onclick="copyHex('#002D98')"><div class="swatch-color" style="background:#002D98"></div><div class="swatch-info"><span class="swatch-name">blue-deep</span><span class="swatch-hex">#002D98</span><span class="swatch-use">Pressed / hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#2684FF')"><div class="swatch-color" style="background:#2684FF"></div><div class="swatch-info"><span class="swatch-name">blue-bright</span><span class="swatch-hex">#2684FF</span><span class="swatch-use">Links, focus</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">bg</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Canvas</span></div></div>
+      <div class="swatch" onclick="copyHex('#F4F6F8')"><div class="swatch-color" style="background:#F4F6F8"></div><div class="swatch-info"><span class="swatch-name">bg-soft</span><span class="swatch-hex">#F4F6F8</span><span class="swatch-use">Panels, row hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#C0C6D1')"><div class="swatch-color" style="background:#C0C6D1"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#C0C6D1</span><span class="swatch-use">Hairlines, grid</span></div></div>
+      <div class="swatch" onclick="copyHex('#9297A0')"><div class="swatch-color" style="background:#9297A0"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#9297A0</span><span class="swatch-use">Secondary text</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#20C933')"><div class="swatch-color" style="background:#20C933"></div><div class="swatch-info"><span class="swatch-name">success</span><span class="swatch-hex">#20C933</span><span class="swatch-use">Done, healthy</span></div></div>
+      <div class="swatch" onclick="copyHex('#FCB400')"><div class="swatch-color" style="background:#FCB400"></div><div class="swatch-info"><span class="swatch-name">warning</span><span class="swatch-hex">#FCB400</span><span class="swatch-use">In review, pending</span></div></div>
+      <div class="swatch" onclick="copyHex('#F82B60')"><div class="swatch-color" style="background:#F82B60"></div><div class="swatch-info"><span class="swatch-name">error</span><span class="swatch-hex">#F82B60</span><span class="swatch-use">Blocked, destructive</span></div></div>
     </div>
   </div>
 
-  <!-- Colors -->
+  <!-- TYPOGRAPHY -->
   <div class="section">
-    <div class="section-title">Colors</div>
-    <div class="color-group">
-      <div class="color-group-label">Brand Palette</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#2D7FF9')"><div class="swatch-dot" style="background:#2D7FF9"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#2D7FF9</div></div></div>
-        <div class="swatch" onclick="copyHex('#FCB400')"><div class="swatch-dot" style="background:#FCB400"></div><div class="swatch-info"><div class="swatch-name">Yellow</div><div class="swatch-hex">#FCB400</div></div></div>
-        <div class="swatch" onclick="copyHex('#20C933')"><div class="swatch-dot" style="background:#20C933"></div><div class="swatch-info"><div class="swatch-name">Green</div><div class="swatch-hex">#20C933</div></div></div>
-        <div class="swatch" onclick="copyHex('#F82B60')"><div class="swatch-dot" style="background:#F82B60"></div><div class="swatch-info"><div class="swatch-name">Pink</div><div class="swatch-hex">#F82B60</div></div></div>
-        <div class="swatch" onclick="copyHex('#8B46FF')"><div class="swatch-dot" style="background:#8B46FF"></div><div class="swatch-info"><div class="swatch-name">Purple</div><div class="swatch-hex">#8B46FF</div></div></div>
-        <div class="swatch" onclick="copyHex('#FF6F2C')"><div class="swatch-dot" style="background:#FF6F2C"></div><div class="swatch-info"><div class="swatch-name">Orange</div><div class="swatch-hex">#FF6F2C</div></div></div>
-      </div>
-    </div>
-    <div class="color-group">
-      <div class="color-group-label">Surfaces — Dark</div>
-      <div class="colors-grid">
-        <div class="swatch" onclick="copyHex('#18191A')"><div class="swatch-dot" style="background:#18191A;border:1px solid #3E3F40"></div><div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#18191A</div></div></div>
-        <div class="swatch" onclick="copyHex('#242526')"><div class="swatch-dot" style="background:#242526;border:1px solid #3E3F40"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#242526</div></div></div>
-        <div class="swatch" onclick="copyHex('#2E2F30')"><div class="swatch-dot" style="background:#2E2F30"></div><div class="swatch-info"><div class="swatch-name">Elevated</div><div class="swatch-hex">#2E2F30</div></div></div>
-        <div class="swatch" onclick="copyHex('#3E3F40')"><div class="swatch-dot" style="background:#3E3F40"></div><div class="swatch-info"><div class="swatch-name">Border</div><div class="swatch-hex">#3E3F40</div></div></div>
-      </div>
+    <div class="section-label">Typography — Neue Haas Grotesk</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Haas Disp · −0.03em</div></div><div class="type-sample" style="font-family:'HaasDisp';font-size:40px;letter-spacing:-.03em;line-height:1.05">Connected in one workspace</div><div class="spec-pills"><span class="spec-pill">50px</span><span class="spec-pill">Disp</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">heading</div><div class="type-spec">Text · 700</div></div><div class="type-sample" style="font-size:26px;font-weight:700;letter-spacing:-.01em">Sophisticated workflows in minutes</div><div class="spec-pills"><span class="spec-pill">28px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">subhead</div><div class="type-spec">Text · 500</div></div><div class="type-sample" style="font-size:18px;font-weight:500">Don't just ask AI. Deploy it.</div><div class="spec-pills"><span class="spec-pill">18px</span><span class="spec-pill">500</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">Text · 400</div></div><div class="type-sample" style="font-size:15px">Trusted by over 500,000 forward-thinking organizations.</div><div class="spec-pills"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">cell-mono</div><div class="type-spec">JetBrains Mono</div></div><div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2)">recA7f2Qx · 2026-07-11 · fld9K2p</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
     </div>
   </div>
 
-  <!-- Typography -->
+  <!-- COMPONENTS -->
   <div class="section">
-    <div class="section-title">Typography — Inter + JetBrains Mono</div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">32px</span><span class="spec-pill">700</span></div><div style="font-size:32px;font-weight:700;">Display Heading</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">20px</span><span class="spec-pill">600</span></div><div style="font-size:20px;font-weight:600;">Base Title</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div><div style="font-size:14px;">Body — record content, descriptions, comments</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">12px</span><span class="spec-pill">400</span></div><div style="font-size:12px;color:var(--text-2);">Small — field labels, view names, metadata</div></div>
-    <div class="type-row"><div class="type-meta"><span class="spec-pill">11px</span><span class="spec-pill">mono</span></div><div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--primary);">IF({Status}="Done", DATEADD({Due Date}, 7, 'days'), "")</div></div>
-  </div>
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Sign up for free</button>
+          <button class="btn btn-secondary">Contact sales</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-secondary">+ Add record</button><button class="btn btn-secondary">Filter</button></div>
+      </div>
 
-  <!-- Grid View + Record Expand -->
-  <div class="section">
-    <div class="section-title">Grid View</div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
-      <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);">
-        <div class="view-tab active">
-          <svg class="view-card-icon" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="7" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="13" width="16" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
-          Grid
+      <div class="comp-card">
+        <div class="comp-title">Single-select options</div>
+        <div class="chip-row" style="margin-bottom:10px">
+          <span class="chip" style="background:#2D7FF9;color:#fff">In progress</span>
+          <span class="chip" style="background:#FCB400;color:#181D26">In review</span>
+          <span class="chip" style="background:#20C933;color:#0A2E0E">Done</span>
         </div>
-        <div class="view-tab">
-          <svg class="view-card-icon" viewBox="0 0 18 18" fill="none"><rect x="1" y="1" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="1" width="7" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="12" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="10" y="12" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-          Gallery
-        </div>
-        <div class="view-tab">
-          <svg class="view-card-icon" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="3" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="3" width="3" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="3" height="12" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
-          Kanban
-        </div>
-        <div class="view-tab">📅 Calendar</div>
-        <div style="margin-left:auto;display:flex;gap:8px;">
-          <button class="btn btn-ghost" style="height:30px;font-size:12px;">Filter</button>
-          <button class="btn btn-ghost" style="height:30px;font-size:12px;">Sort</button>
-          <button class="btn btn-primary" style="height:30px;font-size:12px;">+ New record</button>
+        <div class="chip-row">
+          <span class="chip" style="background:#F82B60;color:#fff">Blocked</span>
+          <span class="chip" style="background:#676B74;color:#fff">Not started</span>
+          <span class="chip" style="background:#8B46FF;color:#fff">Backlog</span>
         </div>
       </div>
-      <table class="grid-table">
-        <thead><tr>
-          <th class="grid-row-num"></th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Priority</th>
-          <th>Assignee</th>
-          <th>Due Date</th>
-          <th style="color:var(--primary)">+ Add field</th>
-        </tr></thead>
-        <tbody>
-          <tr>
-            <td class="grid-row-num">1</td>
-            <td style="font-weight:500;">Homepage redesign</td>
-            <td><span class="sel-chip" style="background:rgba(32,201,51,0.15);color:#20C933">✓ Done</span></td>
-            <td><span class="sel-chip" style="background:rgba(255,111,44,0.15);color:#FF6F2C">High</span></td>
-            <td style="font-size:12px;color:var(--text-2);">Sarah K.</td>
-            <td style="font-size:12px;color:var(--text-2);">Jun 10</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="grid-row-num">2</td>
-            <td style="font-weight:500;">API rate limiting</td>
-            <td><span class="sel-chip" style="background:rgba(45,127,249,0.15);color:#2D7FF9">In Progress</span></td>
-            <td><span class="sel-chip" style="background:rgba(248,43,96,0.15);color:#F82B60">Critical</span></td>
-            <td style="font-size:12px;color:var(--text-2);">Marcus T.</td>
-            <td style="font-size:12px;color:var(--text-2);">Jun 18</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="grid-row-num">3</td>
-            <td style="font-weight:500;">Write release notes</td>
-            <td><span class="sel-chip" style="background:rgba(139,70,255,0.15);color:#8B46FF">Review</span></td>
-            <td><span class="sel-chip" style="background:rgba(160,160,160,0.15);color:#A0A0A0">Low</span></td>
-            <td style="font-size:12px;color:var(--text-2);">Priya L.</td>
-            <td style="font-size:12px;color:var(--text-2);">Jun 25</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="grid-row-num">4</td>
-            <td style="font-weight:500;">Performance audit</td>
-            <td><span class="sel-chip" style="background:rgba(252,180,0,0.15);color:#FCB400">Todo</span></td>
-            <td><span class="sel-chip" style="background:rgba(255,111,44,0.15);color:#FF6F2C">High</span></td>
-            <td style="font-size:12px;color:var(--text-2);">Jin H.</td>
-            <td style="font-size:12px;color:var(--text-2);">Jul 2</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="add-row">+ Add record</div>
-    </div>
-  </div>
 
-  <!-- Record Expand -->
-  <div class="section">
-    <div class="section-title">Record Expand</div>
-    <div class="record-expand">
-      <div class="record-expand-header">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <span class="record-expand-title">Homepage redesign</span>
-          <span class="sel-chip" style="background:rgba(32,201,51,0.15);color:#20C933;font-size:11px;">✓ Done</span>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button class="btn btn-ghost" style="height:28px;font-size:12px;">Expand</button>
-          <button class="btn btn-ghost" style="height:28px;font-size:12px;">✕</button>
+      <div class="comp-card">
+        <div class="comp-title">Field types</div>
+        <div class="ft-row">
+          <span class="ftype"><span class="ic">A</span>Single line text</span>
+          <span class="ftype"><span class="ic">▾</span>Single select</span>
+          <span class="ftype"><span class="ic">#</span>Number</span>
+          <span class="ftype"><span class="ic">◷</span>Date</span>
+          <span class="ftype"><span class="ic">☑</span>Checkbox</span>
+          <span class="ftype"><span class="ic">◐</span>Collaborator</span>
         </div>
       </div>
-      <div class="record-expand-body">
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="2" rx="1"/><rect x="1" y="6" width="8" height="2" rx="1"/><rect x="1" y="10" width="10" height="2" rx="1"/></svg>
-            Name
-          </div>
-          <div class="record-field-value" style="font-weight:500;">Homepage redesign</div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 4v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-            Status
-          </div>
-          <div class="record-field-value"><span class="sel-chip" style="background:rgba(32,201,51,0.15);color:#20C933;">✓ Done</span></div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M2 11L7 3l5 8H2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            Priority
-          </div>
-          <div class="record-field-value"><span class="sel-chip" style="background:rgba(255,111,44,0.15);color:#FF6F2C;">High</span></div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><rect x="1" y="2" width="12" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1 5h12" stroke="currentColor" stroke-width="1.5"/><path d="M4 1v2M10 1v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Due Date
-          </div>
-          <div class="record-field-value" style="font-size:13px;">Jun 10, 2025</div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><circle cx="7" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1 13c0-3 2.7-5 6-5s6 2 6 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Assignee
-          </div>
-          <div class="record-field-value" style="display:flex;align-items:center;gap:8px;font-size:13px;">
-            <div style="width:22px;height:22px;border-radius:50%;background:#2D7FF9;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;flex-shrink:0;">SK</div>
-            Sarah K.
-          </div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M2 2h10v10H2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Reviewed
-          </div>
-          <div class="record-field-value">
-            <div style="width:16px;height:16px;border-radius:3px;background:#20C933;display:flex;align-items:center;justify-content:center;">
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-          </div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><path d="M2 2h10l-2 5H4L2 2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 7l-1 5h8l-1-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-            Score
-          </div>
-          <div class="record-field-value" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--primary);">IF({Reviewed}, {Priority Score} * 1.2, {Priority Score})</div>
-        </div>
-        <div class="record-field-row">
-          <div class="record-field-label">
-            <svg class="field-icon" viewBox="0 0 14 14" fill="currentColor"><rect x="2" y="2" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Notes
-          </div>
-          <div class="record-field-value" style="color:var(--text-2);font-size:13px;">Final mockups approved. Waiting for dev handoff.</div>
-        </div>
+
+      <div class="comp-card">
+        <div class="comp-title">Field input</div>
+        <input class="at-input" placeholder="Search records…" style="margin-bottom:10px">
+        <div class="chip-row"><span class="collab"><span class="avatar" style="background:#8B46FF">DA</span>Dhananjay A.</span><span class="collab"><span class="avatar" style="background:#20D9D2;color:#0A2E0E">MR</span>Maya R.</span></div>
       </div>
     </div>
   </div>
 
-  <!-- Field Types -->
+  <!-- SIGNATURE — GRID VIEW -->
   <div class="section">
-    <div class="section-title">Field Types</div>
-    <div class="field-types-grid">
-      <div class="field-badge"><div class="field-badge-dot" style="background:#A0A0A0"></div>Text</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#2D7FF9"></div>Number</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#FCB400"></div>Select</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#20C933"></div>Checkbox</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#F82B60"></div>Date</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#8B46FF"></div>Link to record</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#FF6F2C"></div>Attachment</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#2D7FF9"></div>Formula</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#FCB400"></div>Rollup</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#20C933"></div>Lookup</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#A0A0A0"></div>Collaborator</div>
-      <div class="field-badge"><div class="field-badge-dot" style="background:#F82B60"></div>Rating</div>
-    </div>
-  </div>
-
-  <!-- Spacing Scale -->
-  <div class="section">
-    <div class="section-title">Spacing Scale</div>
-    <div class="spacing-list">
-      <div class="spacing-row"><span class="spacing-label">space-1</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-value">4px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-2</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-value">8px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-3</span><div class="spacing-bar" style="width:12px"></div><span class="spacing-value">12px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-4</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-value">16px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-6</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-value">24px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-8</span><div class="spacing-bar" style="width:32px"></div><span class="spacing-value">32px</span></div>
-      <div class="spacing-row"><span class="spacing-label">space-12</span><div class="spacing-bar" style="width:48px"></div><span class="spacing-value">48px</span></div>
-    </div>
-  </div>
-
-  <!-- Guardrails -->
-  <div class="section">
-    <div class="section-title">Guardrails</div>
-    <div class="guardrails-grid">
-      <div class="guardrail-card do">
-        <div class="guardrail-label">Do</div>
-        <ul>
-          <li>Each select option gets a distinct color from the palette</li>
-          <li>Field type colors are semantic — use them consistently</li>
-          <li>Formulas and field references in monospace</li>
-          <li>Grid must show density — 20+ rows without forced scrolling</li>
-          <li>Row hover state clearly distinct from default</li>
-          <li>Collaborator avatars initials-based with brand colors</li>
-        </ul>
+    <div class="section-label">Signature — Grid (Table view)</div>
+    <div class="gridcard">
+      <div class="grid-topbar">
+        <span class="view-name"><span class="vdot">▤</span>Product roadmap</span>
+        <span class="topbar-sep"></span>
+        <div class="filterchips" id="filters">
+          <button class="fchip active" data-f="all" onclick="setFilter('all',this)">All</button>
+          <button class="fchip" data-f="In progress" onclick="setFilter('In progress',this)">In progress</button>
+          <button class="fchip" data-f="In review" onclick="setFilter('In review',this)">In review</button>
+          <button class="fchip" data-f="Blocked" onclick="setFilter('Blocked',this)">Blocked</button>
+          <button class="fchip" data-f="Done" onclick="setFilter('Done',this)">Done</button>
+        </div>
+        <span class="grid-spacer"></span>
+        <span class="reccount" id="reccount">0 records</span>
       </div>
-      <div class="guardrail-card dont">
-        <div class="guardrail-label">Don't</div>
-        <ul>
-          <li>Don't use two identical select option colors in one field</li>
-          <li>Don't repurpose field type colors for UI chrome</li>
-          <li>Don't add vertical separators inside grid cells</li>
-          <li>Don't close record expand without confirmation if edited</li>
-          <li>Don't truncate formula output in cell view</li>
-          <li>Don't show raw field IDs to end users</li>
-        </ul>
+      <div class="tbl-scroll">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th class="col-gutter"><div class="th-in">#</div></th>
+              <th><div class="th-in"><span class="ic">A</span>Feature</div></th>
+              <th><div class="th-in"><span class="ic">▾</span>Status</div></th>
+              <th><div class="th-in"><span class="ic">▾</span>Priority</div></th>
+              <th><div class="th-in"><span class="ic">◐</span>Owner</div></th>
+              <th><div class="th-in"><span class="ic">◷</span>Target</div></th>
+              <th><div class="th-in"><span class="ic">#</span>Est. wks</div></th>
+              <th><div class="th-in"><span class="ic">☑</span>Shipped</div></th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="addrow" onclick="addRecord()"><span style="font-size:16px;line-height:0">+</span> Add record</div>
+    </div>
+    <div class="hint">Click a <b>Status</b> or <b>Priority</b> pill to cycle its option · tick <b>Shipped</b> to complete a row · filter by status · add records (capped at 20).</div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the mark and wordmark monochrome ink #181D26 — the tricolor logo is legacy.</div>
+          <div class="gr-item">Reserve the bright field spectrum for the product (select options, field types).</div>
+          <div class="gr-item">Give every single-select option a distinct color; compute chip text for contrast.</div>
+          <div class="gr-item">Use deep navy #254FAD for primary actions, bright blue #2684FF for links & focus.</div>
+          <div class="gr-item">Use monospace for record IDs, field IDs, and dates.</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't resurrect the classic #2D7FF9 tricolor logo as the corporate brand blue.</div>
+          <div class="gr-item">Don't use marketing wash colors (terracotta, forest, cream) inside product UI.</div>
+          <div class="gr-item">Don't put two identical colors on different options of one select field.</div>
+          <div class="gr-item">Don't rely on color alone for field type — always pair with the type icon.</div>
+          <div class="gr-item">Don't exceed 20 rows in a demo grid without scroll containment.</div>
+        </div>
       </div>
     </div>
   </div>
 
 </div>
+
 <script>
-function copyHex(hex) {
-  navigator.clipboard.writeText(hex).catch(() => {});
-  const t = document.getElementById('toast');
-  t.textContent = 'Copied ' + hex;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 1800);
+const STATUS=[
+  {label:'Not started',bg:'#676B74',fg:'#fff'},
+  {label:'In progress',bg:'#2D7FF9',fg:'#fff'},
+  {label:'In review',bg:'#FCB400',fg:'#181D26'},
+  {label:'Blocked',bg:'#F82B60',fg:'#fff'},
+  {label:'Done',bg:'#20C933',fg:'#0A2E0E'}
+];
+const PRIORITY=[
+  {label:'Low',bg:'#20D9D2',fg:'#0A2E0E'},
+  {label:'Medium',bg:'#FF6F2C',fg:'#fff'},
+  {label:'High',bg:'#F82B60',fg:'#fff'}
+];
+const AV=['#2D7FF9','#8B46FF','#20D9D2','#FF6F2C','#18BFFF','#FF08C2','#20C933'];
+function person(name){const parts=name.split(' ');const init=(parts[0][0]+(parts[1]?parts[1][0]:'')).toUpperCase();
+  let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))>>>0;const bg=AV[h%AV.length];
+  const fg=(bg==='#20D9D2'||bg==='#18BFFF'||bg==='#20C933')?'#0A2E0E':'#fff';return {init,bg,fg,name};}
+
+let recs=[
+  {name:'AI Omni assistant',s:1,p:2,owner:'Dhananjay Aggarwal',due:'2026-07-18',wks:6,done:false},
+  {name:'Interface Designer 2.0',s:1,p:2,owner:'Maya Rios',due:'2026-07-25',wks:8,done:false},
+  {name:'Sync from Salesforce',s:2,p:1,owner:'Owen Park',due:'2026-08-01',wks:3,done:false},
+  {name:'Grid view perf pass',s:4,p:1,owner:'Lena Cho',due:'2026-06-30',wks:2,done:true},
+  {name:'Enterprise SCIM',s:3,p:2,owner:'Owen Park',due:'2026-08-14',wks:5,done:false},
+  {name:'Automations retry logic',s:1,p:1,owner:'Sam Devi',due:'2026-07-22',wks:2,done:false},
+  {name:'Mobile record cards',s:2,p:0,owner:'Maya Rios',due:'2026-09-02',wks:4,done:false},
+  {name:'Formula field editor',s:4,p:1,owner:'Lena Cho',due:'2026-06-20',wks:3,done:true},
+  {name:'Extensions marketplace',s:0,p:0,owner:'Sam Devi',due:'2026-10-01',wks:7,done:false},
+  {name:'Realtime presence',s:1,p:2,owner:'Dhananjay Aggarwal',due:'2026-07-30',wks:4,done:false}
+];
+const NEW_NAMES=['Webhook triggers','Report snapshots','Row-level permissions','Gantt timeline view','Data residency (EU)','Bulk import wizard','Kanban stack colors','API rate dashboard','Field description AI','Version history diff'];
+let filter='all';
+
+function selpill(arr,idx,kind,ri){const o=arr[idx];
+  return `<span class="selpill" style="background:${o.bg};color:${o.fg}" onclick="cycle(${ri},'${kind}')">${o.label}</span>`;}
+
+function render(){
+  const tb=document.getElementById('tbody');
+  let html='';let shown=0;
+  recs.forEach((r,i)=>{
+    if(filter!=='all' && STATUS[r.s].label!==filter) return;
+    shown++;
+    const pr=person(r.owner);
+    html+=`<tr class="${r.done?'row-done':''}">
+      <td class="col-gutter"><span class="num">${shown}</span><span class="expand" title="Expand record">⤢</span></td>
+      <td class="cell-name">${r.name}</td>
+      <td>${selpill(STATUS,r.s,'s',i)}</td>
+      <td>${selpill(PRIORITY,r.p,'p',i)}</td>
+      <td><span class="collab"><span class="avatar" style="background:${pr.bg};color:${pr.fg}">${pr.init}</span>${pr.name}</span></td>
+      <td class="cell-mono">${r.due}</td>
+      <td class="cell-num">${r.wks}</td>
+      <td><span class="chk ${r.done?'on':''}" onclick="toggle(${i})">${r.done?'✓':''}</span></td>
+    </tr>`;
+  });
+  tb.innerHTML=html;
+  document.getElementById('reccount').textContent=shown+(shown===1?' record':' records');
 }
+function cycle(i,kind){const arr=kind==='s'?STATUS:PRIORITY;
+  if(kind==='s'){recs[i].s=(recs[i].s+1)%STATUS.length; recs[i].done=(STATUS[recs[i].s].label==='Done');}
+  else recs[i].p=(recs[i].p+1)%PRIORITY.length;
+  render();}
+function toggle(i){recs[i].done=!recs[i].done; if(recs[i].done)recs[i].s=4; else if(recs[i].s===4)recs[i].s=1; render();}
+function setFilter(f,el){filter=f;document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));el.classList.add('active');render();}
+function addRecord(){
+  if(recs.length>=20){showToast('Grid capped at 20 records');return;}
+  const n=NEW_NAMES[(recs.length-10+NEW_NAMES.length)%NEW_NAMES.length];
+  const owners=['Dhananjay Aggarwal','Maya Rios','Owen Park','Lena Cho','Sam Devi'];
+  const day=(recs.length*7)%28+1;
+  recs.push({name:n,s:0,p:0,owner:owners[recs.length%owners.length],due:'2026-'+String(9+((recs.length)%3)).padStart(2,'0')+'-'+String(day).padStart(2,'0'),wks:(recs.length%6)+2,done:false});
+  if(filter!=='all'){filter='all';document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));document.querySelector('.fchip[data-f="all"]').classList.add('active');}
+  render();showToast('Record added · '+recs.length+' of 20');
+}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function copyHex(hex){navigator.clipboard.writeText(hex).catch(()=>{});showToast('Copied '+hex);}
+render();
 </script>
 </body>
 </html>
