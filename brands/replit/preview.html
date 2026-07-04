@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replit — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{ --orange:#FF3C00;--orange-lift:#FF5A2B;--peach:#FFB199;--coral:#F45D48;
+  --ide-bg:#1B1A19;--ide-top:#232120;--ide-border:#2E2B29;--ide-gutter:#615C58;--ide-text:#E2E2E2;--con-bg:#151413;
+  --kw:#FF5A2B;--fn:#49CCF9;--str:#B5E890;--num:#BE9BF8;--cmt:#767270; }
+:root[data-theme="light"]{
+  --bg:#FAF6F1;--panel:#FFFFFF;--raised:#F4EFE8;
+  --border:#E7E1D8;--border-strong:#D8D1C6;
+  --text:#191818;--text2:#57534E;--text3:#767270;
+  --accent:#FF3C00;--logo:#191818;--pos:#3E9E63;
+}
+:root[data-theme="dark"]{
+  --bg:#191818;--panel:#201F1E;--raised:#2A2827;
+  --border:rgba(255,255,255,.09);--border-strong:rgba(255,255,255,.16);
+  --text:#FAF6F1;--text2:#C4BEB6;--text3:#8A857F;
+  --accent:#FF5A2B;--logo:#FAF6F1;--pos:#5FC488;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:16px;right:16px;background:var(--panel);border:1px solid var(--border-strong);color:var(--text3);padding:8px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--accent)}
+
+.hero{padding:80px 0 54px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1120px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px}
+.hero h1{font-size:56px;font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px 90px}
+.section{padding:54px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'Silkscreen',monospace;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-color{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.16)}
+.swatch-info{padding:9px 11px;background:var(--panel)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{width:120px;flex-shrink:0}
+.type-name{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{flex:1;color:var(--text)}
+.spec-pills{flex-shrink:0;display:flex;gap:5px}
+.spec-pill{font-size:10px;background:var(--raised);color:var(--text2);padding:2px 6px;border-radius:9999px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* SIGNATURE — Replit workspace (always dark) */
+.ide{border-radius:14px;overflow:hidden;background:var(--ide-bg);border:1px solid var(--ide-border);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+.ide-top{display:flex;align-items:center;gap:12px;padding:9px 12px;background:var(--ide-top);border-bottom:1px solid var(--ide-border)}
+.ide-tab{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#E2E2E2;background:var(--ide-bg);padding:6px 12px;border-radius:7px}
+.ide-tab .fd{width:8px;height:8px;border-radius:2px;background:var(--orange)}
+.ide-dots{display:flex;gap:6px;margin-right:4px}
+.ide-dots i{width:11px;height:11px;border-radius:50%;display:block}
+.ide-spacer{flex:1}
+.run{display:inline-flex;align-items:center;gap:7px;background:var(--orange);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:.12s}
+.run:hover{background:#e63600}
+.run:disabled{opacity:.65;cursor:not-allowed}
+.ide-body{display:grid;grid-template-columns:1fr 1fr;min-height:300px}
+.editor{padding:14px 0;border-right:1px solid var(--ide-border);overflow:auto}
+.cline{display:flex;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7}
+.ln{width:40px;flex-shrink:0;text-align:right;padding-right:14px;color:var(--ide-gutter);user-select:none}
+.lc{white-space:pre;color:#E2E2E2}
+.kw{color:var(--kw)}.fn{color:var(--fn)}.str{color:var(--str)}.num{color:var(--num)}.cm{color:var(--cmt)}
+.console{background:var(--con-bg);padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;overflow:auto;display:flex;flex-direction:column}
+.con-head{color:var(--ide-gutter);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;font-family:'Silkscreen',monospace}
+.con-cmd{color:#8A857F}
+.con-out{color:#E2E2E2;white-space:pre-wrap}
+.con-exit{color:var(--pos);margin-top:6px}
+.con-cursor{display:inline-block;width:7px;height:14px;background:var(--orange);vertical-align:-2px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hint{font-size:12px;color:var(--text3);margin-top:14px}
+
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:700;font-size:13px;border-radius:8px;padding:0 15px;height:38px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{background:#e63600}
+.btn-secondary{background:transparent;border:1px solid var(--border-strong);color:var(--text)}
+.btn-secondary:hover{border-color:var(--orange)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tok-row{display:flex;gap:8px;flex-wrap:wrap}
+.tok{font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 9px;border-radius:6px;background:var(--raised);color:var(--text2)}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--pos)}
+.gr-heading.dont{color:#FF4D4D}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--pos)}
+.dont .gr-item::before{background:#FF4D4D}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:820px){.comp-grid,.gr-cols{grid-template-columns:1fr}.ide-body{grid-template-columns:1fr}.editor{border-right:none;border-bottom:1px solid var(--ide-border)}}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(245,179,1,.15);border:1px solid rgba(245,179,1,.5)}#dmh-bar .dmh-star:hover{background:rgba(245,179,1,.3);border-color:rgba(245,179,1,.85)}#dmh-bar .dmh-star svg{color:#F5B301;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg)}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/replit/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width="150" height="43" viewBox="0 0 122 35" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Replit" style="color:var(--logo)"><path d="M10.79 7.72365C10.79 7.85696 10.79 7.92361 10.7947 7.99122C10.8234 8.40818 11.0001 8.83473 11.2746 9.14987C11.3191 9.20098 11.3596 9.24141 11.4404 9.32227C11.8007 9.68251 12.2925 9.87793 12.802 9.87793H18.3224C19.4258 9.87793 19.9775 9.87793 20.3989 10.0927C20.7696 10.2815 21.071 10.5829 21.2599 10.9536C21.4746 11.3751 21.4746 11.9267 21.4746 13.0301V16.3635C21.4746 17.4668 21.4746 18.0185 21.2599 18.4399C21.071 18.8106 20.7696 19.112 20.3989 19.3009C19.9775 19.5156 19.4258 19.5156 18.3224 19.5156H12.7888C12.2847 19.5156 11.7979 19.709 11.4414 20.0654C11.3597 20.1471 11.3189 20.1879 11.2742 20.2393C11.0001 20.5542 10.8236 20.9803 10.7947 21.3968C10.79 21.4647 10.79 21.5314 10.79 21.6647V26.2599C10.79 27.3633 10.79 27.915 10.5753 28.3364C10.3864 28.7071 10.085 29.0085 9.71434 29.1974C9.29291 29.4121 8.74123 29.4121 7.63787 29.4121H3.15217C2.04881 29.4121 1.49713 29.4121 1.0757 29.1974C0.704998 29.0085 0.40361 28.7071 0.214729 28.3364C0 27.915 0 27.3633 0 26.2599V22.6981C0 21.5947 0 21.043 0.214729 20.6216C0.40361 20.2509 0.704998 19.9495 1.0757 19.7606C1.49713 19.5459 2.04881 19.5459 3.15217 19.5459H8.70118C8.72901 19.5459 8.74293 19.5459 8.75893 19.5456C9.24848 19.5377 9.74539 19.3319 10.0972 18.9913C10.1087 18.9802 10.1138 18.9751 10.124 18.9648C10.2195 18.8694 10.2672 18.8217 10.317 18.7635C10.5817 18.454 10.7525 18.0418 10.7841 17.6357C10.79 17.5594 10.79 17.4835 10.79 17.3319V12.0565C10.79 11.9048 10.79 11.829 10.784 11.7522C10.7523 11.3467 10.5818 10.9349 10.3174 10.6257C10.2674 10.5672 10.2193 10.5191 10.123 10.4229C9.76256 10.0624 9.27061 9.86621 8.76081 9.86621H3.15217C2.04881 9.86621 1.49713 9.86621 1.0757 9.65148C0.704998 9.4626 0.40361 9.16121 0.214729 8.79051C0 8.36908 0 7.8174 0 6.71404V3.15217C0 2.04881 0 1.49713 0.214729 1.0757C0.40361 0.704998 0.704998 0.40361 1.0757 0.214729C1.49713 0 2.04881 0 3.15217 0H7.63787C8.74123 0 9.29291 0 9.71434 0.214729C10.085 0.40361 10.3864 0.704998 10.5753 1.0757C10.79 1.49713 10.79 2.04881 10.79 3.15217V7.72365Z" fill="#FF3C00"></path><path d="M119.335 27.5684C118.159 27.5684 117.151 27.3764 116.311 26.9923C115.495 26.5843 114.871 25.9602 114.438 25.12C114.006 24.2799 113.79 23.2237 113.79 21.9515V12.9861H110.01V9.74558H113.79V3.55259H117.859V9.74558H122V12.9861H117.859V21.3754C117.859 21.9995 117.955 22.5276 118.147 22.9597C118.339 23.3678 118.615 23.6798 118.975 23.8958C119.359 24.1119 119.851 24.2199 120.451 24.2199C120.884 24.2199 121.328 24.1839 121.784 24.1119V27.2804C121.52 27.3524 121.16 27.4124 120.703 27.4604C120.247 27.5324 119.791 27.5684 119.335 27.5684Z" fill="currentColor"></path><path d="M103.947 9.74572H108.016V27.2445H103.947V9.74572ZM103.839 3.55183H108.16V7.90853H103.839V3.55183Z" fill="currentColor"></path><path d="M96.2725 2.04037H100.341V27.2444H96.2725V2.04037Z" fill="currentColor"></path><path d="M75.8896 9.74563H79.9583V10.6458C79.9583 11.1018 79.9223 11.6299 79.8503 12.23C80.4024 11.2699 81.1705 10.5258 82.1546 9.99767C83.1388 9.44558 84.291 9.16953 85.6112 9.16953C87.1715 9.16953 88.5397 9.5656 89.7159 10.3577C90.892 11.1499 91.7922 12.266 92.4163 13.7063C93.0644 15.1225 93.3884 16.7427 93.3884 18.567C93.3884 20.4153 93.0404 22.0476 92.3443 23.4638C91.6722 24.856 90.724 25.9362 89.4998 26.7043C88.2996 27.4725 86.9434 27.8565 85.4312 27.8565C84.087 27.8565 82.9708 27.5925 82.0826 27.0644C81.1945 26.5363 80.4504 25.7922 79.8503 24.832C79.9223 25.4321 79.9583 25.9722 79.9583 26.4523V34.6256H75.8896V9.74563ZM84.531 24.688C85.4672 24.688 86.2833 24.424 86.9794 23.8959C87.6995 23.3678 88.2516 22.6477 88.6357 21.7355C89.0197 20.7994 89.2118 19.7192 89.2118 18.495C89.2118 17.2948 89.0197 16.2387 88.6357 15.3265C88.2516 14.4144 87.6995 13.6943 86.9794 13.1662C86.2833 12.6381 85.4672 12.374 84.531 12.374C83.6189 12.374 82.8028 12.6261 82.0826 13.1302C81.3625 13.6342 80.7984 14.3424 80.3904 15.2545C79.9823 16.1667 79.7783 17.2468 79.7783 18.495C79.7783 19.7192 79.9823 20.7994 80.3904 21.7355C80.7984 22.6477 81.3505 23.3678 82.0466 23.8959C82.7667 24.424 83.5949 24.688 84.531 24.688Z" fill="currentColor"></path><path d="M64.9445 27.8565C63.2162 27.8565 61.6799 27.4965 60.3357 26.7764C59.0155 26.0322 57.9833 24.9521 57.2392 23.5358C56.4951 22.1196 56.123 20.4273 56.123 18.459C56.123 16.6347 56.4951 15.0265 57.2392 13.6342C57.9833 12.218 59.0155 11.1258 60.3357 10.3577C61.6559 9.5656 63.1442 9.16953 64.8004 9.16953C66.5527 9.16953 68.053 9.55359 69.3012 10.3217C70.5494 11.0898 71.4975 12.182 72.1456 13.5982C72.8177 15.0145 73.1538 16.6707 73.1538 18.567V19.4312H60.2637C60.2877 20.4393 60.4917 21.3395 60.8758 22.1316C61.2839 22.9237 61.836 23.5478 62.5321 24.0039C63.2522 24.46 64.0683 24.688 64.9805 24.688C66.0126 24.688 66.8888 24.424 67.6089 23.8959C68.329 23.3678 68.7731 22.6117 68.9411 21.6275H73.0458C72.9257 22.7797 72.5177 23.8359 71.8216 24.796C71.1495 25.7322 70.2253 26.4763 69.0491 27.0284C67.8729 27.5805 66.5047 27.8565 64.9445 27.8565ZM68.9771 16.5147C68.9291 15.2185 68.533 14.1863 67.7889 13.4182C67.0448 12.6261 66.0366 12.23 64.7644 12.23C63.5402 12.23 62.5081 12.6381 61.6679 13.4542C60.8518 14.2463 60.3837 15.2665 60.2637 16.5147H68.9771Z" fill="currentColor"></path><path d="M35.0693 2.04038H46.1231C48.5715 2.04038 50.5278 2.61648 51.992 3.76866C53.4563 4.89684 54.1884 6.5291 54.1884 8.66545C54.1884 10.2497 53.7203 11.5699 52.7842 12.6261C51.848 13.6822 50.7198 14.4144 49.3996 14.8224C50.7919 15.0385 51.86 15.6506 52.6041 16.6587C53.3723 17.6669 53.7563 18.9871 53.7563 20.6194V27.2444H49.3996V21.1955C49.3996 19.5632 49.0636 18.423 48.3915 17.7749C47.7434 17.1268 46.5912 16.8027 44.9349 16.8027H39.426V27.2444H35.0693V2.04038ZM45.259 13.0942C46.2191 13.0942 47.0353 12.9621 47.7074 12.6981C48.3795 12.41 48.8836 11.99 49.2196 11.4379C49.5557 10.8858 49.7237 10.2137 49.7237 9.42157C49.7237 8.19737 49.3396 7.27322 48.5715 6.64912C47.8034 6.02502 46.6992 5.71297 45.259 5.71297H39.426V13.0942H45.259Z" fill="currentColor"></path></svg>
+    </div>
+    <h1>What will you build?</h1>
+    <p>Replit is the browser IDE where you write, run, and ship software from anywhere — no setup, just a tab.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SIGNATURE — WORKSPACE -->
+  <div class="section">
+    <div class="section-label">Signature — Workspace</div>
+    <div class="ide">
+      <div class="ide-top">
+        <span class="ide-dots"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i></span>
+        <span class="ide-tab"><span class="fd"></span>main.py</span>
+        <span class="ide-spacer"></span>
+        <button class="run" id="runBtn" onclick="runCode()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg><span id="runLbl">Run</span></button>
+      </div>
+      <div class="ide-body">
+        <div class="editor">
+          <div class="cline"><span class="ln">1</span><span class="lc"><span class="kw">def</span> <span class="fn">greet</span>(name):</span></div>
+          <div class="cline"><span class="ln">2</span><span class="lc">    <span class="kw">return</span> <span class="str">f"Hello, {name}!"</span></span></div>
+          <div class="cline"><span class="ln">3</span><span class="lc"> </span></div>
+          <div class="cline"><span class="ln">4</span><span class="lc">names = [<span class="str">"Ada"</span>, <span class="str">"Linus"</span>, <span class="str">"Grace"</span>]</span></div>
+          <div class="cline"><span class="ln">5</span><span class="lc"> </span></div>
+          <div class="cline"><span class="ln">6</span><span class="lc"><span class="kw">for</span> n <span class="kw">in</span> names:</span></div>
+          <div class="cline"><span class="ln">7</span><span class="lc">    <span class="fn">print</span>(<span class="fn">greet</span>(n))</span></div>
+          <div class="cline"><span class="ln">8</span><span class="lc"> </span></div>
+          <div class="cline"><span class="ln">9</span><span class="lc"><span class="fn">print</span>(<span class="str">f"\n{</span><span class="fn">len</span><span class="str">(names)} greetings sent ✨"</span>)</span></div>
+        </div>
+        <div class="console" id="console">
+          <div class="con-head">Console</div>
+          <div id="conBody"><span class="con-cmd">Press <b style="color:#FF5A2B">Run</b> to execute main.py</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="hint">Hit <b>Run</b> — the console streams the program's stdout line-by-line, then the exit status (like a real Replit run).</div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FF3C00')"><div class="swatch-color" style="background:#FF3C00"></div><div class="swatch-info"><span class="swatch-name">orange</span><span class="swatch-hex">#FF3C00</span><span class="swatch-use">Run, CTAs, mark</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFB199')"><div class="swatch-color" style="background:#FFB199"></div><div class="swatch-info"><span class="swatch-name">peach</span><span class="swatch-hex">#FFB199</span><span class="swatch-use">Accent tint</span></div></div>
+      <div class="swatch" onclick="copyHex('#F45D48')"><div class="swatch-color" style="background:#F45D48"></div><div class="swatch-info"><span class="swatch-name">coral</span><span class="swatch-hex">#F45D48</span><span class="swatch-use">Secondary accent</span></div></div>
+      <div class="swatch" onclick="copyHex('#49CCF9')"><div class="swatch-color" style="background:#49CCF9"></div><div class="swatch-info"><span class="swatch-name">cyan</span><span class="swatch-hex">#49CCF9</span><span class="swatch-use">Syntax · funcs</span></div></div>
+    </div>
+    <div class="group-label">Surfaces — warm</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FAF6F1')"><div class="swatch-color" style="background:#FAF6F1"></div><div class="swatch-info"><span class="swatch-name">cream</span><span class="swatch-hex">#FAF6F1</span><span class="swatch-use">Marketing page</span></div></div>
+      <div class="swatch" onclick="copyHex('#191818')"><div class="swatch-color" style="background:#191818"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#191818</span><span class="swatch-use">Dark page</span></div></div>
+      <div class="swatch" onclick="copyHex('#1B1A19')"><div class="swatch-color" style="background:#1B1A19"></div><div class="swatch-info"><span class="swatch-name">editor</span><span class="swatch-hex">#1B1A19</span><span class="swatch-use">IDE panel</span></div></div>
+      <div class="swatch" onclick="copyHex('#312E2E')"><div class="swatch-color" style="background:#312E2E"></div><div class="swatch-info"><span class="swatch-name">warm-dark</span><span class="swatch-hex">#312E2E</span><span class="swatch-use">Raised</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography — Diatype ≈ Inter · Mono ≈ JetBrains · Pixel ≈ Silkscreen</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><div class="type-name">display</div><div class="type-spec">Inter · 800</div></div><div class="type-sample" style="font-size:38px;font-weight:800;letter-spacing:-.03em;line-height:1.02">What will you build?</div><div class="spec-pills"><span class="spec-pill">56px</span><span class="spec-pill">800</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">body</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-size:15px">Write, run, and deploy from the browser — no setup required.</div><div class="spec-pills"><span class="spec-pill">15px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">mono / code</div><div class="type-spec">JetBrains Mono</div></div><div class="type-sample" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent)">print(greet(n))  # main.py</div><div class="spec-pills"><span class="spec-pill">13px</span><span class="spec-pill">mono</span></div></div>
+      <div class="type-row"><div class="type-meta"><div class="type-name">pixel / label</div><div class="type-spec">Silkscreen</div></div><div class="type-sample" style="font-family:'Silkscreen',monospace;font-size:14px;color:var(--accent)">CONSOLE</div><div class="spec-pills"><span class="spec-pill">11px</span><span class="spec-pill">pixel</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Get started free</button>
+          <button class="btn btn-secondary">Try an example</button>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary">▶ Run</button><button class="btn btn-secondary">Deploy</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Syntax tokens</div>
+        <div class="tok-row">
+          <span class="tok" style="color:#FF5A2B">def / return</span>
+          <span class="tok" style="color:#49CCF9">print()</span>
+          <span class="tok" style="color:#B5E890">"string"</span>
+          <span class="tok" style="color:#BE9BF8">len()</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the mark orange #FF3C00 (fixed); let the wordmark adapt to the theme.</div>
+          <div class="gr-item">Keep the marketing canvas warm cream; keep the IDE/workspace panel dark on both themes.</div>
+          <div class="gr-item">Use orange for the Run button and primary actions — it's the one accent.</div>
+          <div class="gr-item">Set all code, filenames, and console output in the mono face.</div>
+          <div class="gr-item">Keep dark surfaces warm near-black #191818 — never a cool blue-black.</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't render the IDE panel light — the workspace is a dark cockpit.</div>
+          <div class="gr-item">Don't introduce a second saturated accent competing with orange.</div>
+          <div class="gr-item">Don't set code or console text in a proportional font.</div>
+          <div class="gr-item">Don't cool the neutrals — Replit's grays and darks are warm.</div>
+          <div class="gr-item">Don't recolor the orange mark.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const OUT=['Hello, Ada!','Hello, Linus!','Hello, Grace!','','3 greetings sent ✨'];
+let running=false;
+function runCode(){
+  if(running) return; running=true;
+  const btn=document.getElementById('runBtn'), lbl=document.getElementById('runLbl'), body=document.getElementById('conBody');
+  btn.disabled=true; lbl.textContent='Running…';
+  body.innerHTML='<div class="con-cmd">&gt; python main.py</div>';
+  let i=0;
+  (function next(){
+    if(i<OUT.length){
+      const d=document.createElement('div'); d.className='con-out'; d.textContent=OUT[i]===''?' ':OUT[i];
+      body.appendChild(d);
+      document.getElementById('console').scrollTop=99999;
+      i++; setTimeout(next,240);
+    } else {
+      const e=document.createElement('div'); e.className='con-exit'; e.textContent='✓ Process exited with code 0  ·  0.14s';
+      body.appendChild(e);
+      running=false; btn.disabled=false; lbl.textContent='Run';
+      showToast('Ran main.py · exit 0');
+    }
+  })();
+}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700);}
+function copyHex(h){navigator.clipboard.writeText(h).catch(()=>{});showToast('Copied '+h);}
+</script>
+</body>
+</html>
