@@ -68,6 +68,7 @@ a{color:inherit;text-decoration:none}
 :root[data-theme="light"] .card:hover{box-shadow:0 14px 40px rgba(0,0,0,.10)}
 .card-color{height:132px;position:relative;box-shadow:inset 0 0 0 1px var(--ring);display:flex;align-items:center;justify-content:center}
 .card-logo{height:42px;width:auto;max-width:58%;object-fit:contain}
+.card-logo.logo-chip{height:54px;width:54px;padding:10px;background:#fff;border-radius:13px;box-shadow:0 3px 12px rgba(0,0,0,.22)}
 .card-mono{font-size:44px;font-weight:700;letter-spacing:-.02em;line-height:1}
 .card-color .idx{position:absolute;top:11px;left:13px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;mix-blend-mode:difference;color:#fff;opacity:.85}
 .card-color .hex{position:absolute;bottom:11px;left:13px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;mix-blend-mode:difference;color:#fff;opacity:0;transition:opacity .16s}
@@ -194,8 +195,21 @@ const BRANDS=[
   ["workos","WorkOS","Auth","#6363F1"],
 ];
 
-// Simple Icons slug overrides where the icon slug != folder name (missing/renamed → onerror monogram fallback)
-const SI={wandb:'weightsandbiases',newrelic:'newrelic',lemonsqueezy:'lemonsqueezy'};
+// Simple Icons slug overrides where the icon slug != folder name
+const SI={wandb:'weightsandbiases'};
+// Brands not in Simple Icons (removed for trademark or never added) → fall back to the site favicon
+const DOMAIN={amplitude:'amplitude.com',dagster:'dagster.io',dbt:'getdbt.com',doppler:'doppler.com',infisical:'infisical.com',launchdarkly:'launchdarkly.com',liveblocks:'liveblocks.io',openai:'openai.com',pinecone:'pinecone.io',stytch:'stytch.com',twilio:'twilio.com',workos:'workos.com'};
+
+// logo chain: Simple Icons → site favicon (white chip) → letter monogram
+function logoFallback(img){
+  if(img.dataset.step!=='fav' && img.dataset.domain){
+    img.dataset.step='fav';
+    img.classList.add('logo-chip');
+    img.src='https://www.google.com/s2/favicons?domain='+img.dataset.domain+'&sz=128';
+    return;
+  }
+  const s=document.createElement('span');s.className='card-mono';s.textContent=img.dataset.letter;s.style.color='#'+img.dataset.fg;img.replaceWith(s);
+}
 
 function toggleTheme(){const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'}
 
@@ -235,7 +249,7 @@ function render(){
       <div class="card-color" style="background:${hex}">
         <span class="idx">${num}</span>
         <img class="card-logo" alt="${name}" src="https://cdn.simpleicons.org/${si}/${fg}"
-             onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'card-mono',textContent:'${name[0]}',style:'color:#${fg}'}))">
+             data-domain="${DOMAIN[slug]||''}" data-letter="${name[0]}" data-fg="${fg}" onerror="logoFallback(this)">
         <span class="hex">${hex.toUpperCase()}</span>
         <span class="go">open ↗</span>
       </div>
