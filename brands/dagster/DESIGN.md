@@ -1,155 +1,85 @@
 # Dagster Design System
 
 ## Brand Overview
-Dagster is the data orchestration platform for building data pipelines and software-defined assets. The visual identity is clean and graph-centric — dark surfaces, vivid purple accents, and asset lineage as the central UI metaphor. UI feels like a thoughtful engineering tool for data teams.
+Dagster is the data orchestration platform — the operational layer that structures how data is built, observed and delivered, "so both teams and AI agents can rely on it." The identity is a deep near-black **navy** canvas, a confident **indigo** brand color, a fresh **lime** highlight, and an asset-lineage graph as the central metaphor. It reads like a serious, modern control plane for data platforms.
+
+> **Rebrand note (verify against live):** the older stub's purple `#7B61FF` is superseded — the current brand is **indigo `#4F43DD`** with a blue-violet range (`#2D40EA` / `#4D65FF`) and a lime accent `#EAFFBB`.
 
 ## Color Palette
 
 ### Primary
-- Brand Purple: `#7B61FF`
-- Purple Light: `#A594FF`
-- Purple Dark: `#5A44CC`
+- Indigo (brand): `#4F43DD` — primary actions, materializing, links
+- Blue-violet: `#2D40EA` / `#4D65FF`
+- Indigo light: `#A7A0F8` / `#B9B4F1`
+- Lime accent: `#EAFFBB` — highlights, freshness
 
-### Backgrounds
-- Base: `#0A0A0F`
-- Surface: `#12121A`
-- Elevated: `#1A1A26`
-- Border: `#2A2A3A`
+### Backgrounds — Dark (default)
+- Base: `#0A0D12` — near-black navy page
+- Deep: `#040615` / `#030615` — deepest wells
+- Purple-black: `#1B0130`
+- Surface: `#101828`
+- Elevated: `#151D2E`
+- Border: `rgba(255,255,255,.09)`
 
-### Semantic
-- Success: `#22C55E`
-- Warning: `#F59E0B`
-- Error: `#EF4444`
-- Skipped: `#94A3B8`
-
-### Run Status
-- Success: `#22C55E`
-- Failure: `#EF4444`
-- In Progress: `#7B61FF`
-- Queued: `#60A5FA`
-- Canceled: `#94A3B8`
-- Skipped: `#71717A`
-
-### Asset Status
-- Materialized: `#22C55E`
-- Failed: `#EF4444`
-- Stale: `#F59E0B`
-- Missing: `#94A3B8`
-- Materializing: `#7B61FF`
+### Backgrounds — Light
+- Base: `#F7F7FF` — cool near-white
+- Surface: `#FFFFFF`
+- Alt: `#FAFAFA`
+- Border: `#E3E8EF`
 
 ### Text
-- Primary: `#F0F0FF`
-- Secondary: `#8B8BAA`
-- Muted: `#5C5C70`
-- On-purple: `#FFFFFF`
+- Primary (dark): `#F7F7FF` / (light): `#101828`
+- Secondary: `#CDD5DF` / `#475467`
+- Muted: `#758696`
+
+### Asset / run status
+- Materialized (success): `#22C55E`
+- Materializing / in progress: `#4F43DD` (indigo)
+- Stale (warning): `#F59E0B`
+- Failed: `#EF4444`
+- Queued: `#4D65FF`
+- Missing / skipped: `#758696`
 
 ## Typography
 
-### Font Stack
-- UI: `Space Grotesk, system-ui, sans-serif`
-- Code: `JetBrains Mono, monospace`
+### Font Stack (real Dagster fonts)
+- Display: **Aspekta** (proprietary geometric sans) — approximated in this reference by **Geist**, which Dagster also ships. `Geist, Aspekta, system-ui, sans-serif`.
+- UI / body: **Geist** (Google Fonts, real Dagster font).
+- Code / mono: **Geist Mono** (Google Fonts, real Dagster font) — asset keys, run IDs, code.
 
 ### Scale
-- xs: 11px / 1.5
-- sm: 13px / 1.5
-- base: 14px / 1.6
-- md: 16px / 1.5
-- lg: 18px / 1.4
-- xl: 22px / 1.3
-- 2xl: 28px / 1.2
+- xs 11 / sm 13 / base 15 / md 18 / lg 22 / xl 30 / 2xl 46
 
 ### Weights
-- Regular: 400
-- Medium: 500
-- Semibold: 600
-- Bold: 700
+Regular 400 · Medium 500 · Semibold 600 · Bold 700
 
 ## Components
 
-### Asset Graph Node
-- Rectangle with rounded corners (6px)
-- Asset key as title in bold
-- Status dot top-right (color per status)
-- Group/repository badge below name
-- Dependency arrows: thin lines, directional
-- Selected: purple outline 2px
+### Buttons
+- Primary: indigo `#4F43DD`, white text, radius 8px — "Get started for free"
+- Secondary: transparent, 1px border — "Talk to sales"
+- Ghost / link: indigo text — "Read the docs"
 
-### Job Run Row
-- Run ID in mono, truncated
-- Job name + tags
-- Status badge (color per status)
-- Start time + duration
-- Asset count materialized
-- Click to drill into step logs
+### Asset node
+A rounded card in the lineage graph: asset key (Geist Mono), a status dot, and metadata (last materialized, row count). Status color drives the left border / dot.
 
-### Partition Status Grid
-- Grid of colored cells per partition
-- Colors: green (success), red (failed), orange (stale), grey (missing)
-- X-axis: partitions, Y-axis: runs or time
-- Hover: partition key + last run timestamp
+### Status pill
+Rounded pill with a leading dot; colors map to the asset/run status table above.
 
-### Step Logs
-- Timestamp in muted mono
-- Log level tag (INFO/WARNING/ERROR)
-- Message in primary text
-- Step name as collapsible group header
-
-### Asset Catalog Row
-- Asset key (hierarchical: `schema/table`)
-- Last materialized timestamp
-- Owner tag
-- Freshness policy indicator
-- Compute kind badge (SQL, Python, dbt)
-
-### Sensor / Schedule Card
-- Name + cron expression
-- Status toggle: Running / Stopped
-- Last tick time + result
-- Target jobs as tags
-
-## Spacing
-
-```
-4px   — tight inline gaps
-8px   — component padding xs
-12px  — component padding sm
-16px  — base padding
-20px  — card padding
-24px  — section gap
-32px  — major section gap
-48px  — page section spacing
-```
-
-## Elevation & Borders
-
-- Border radius: 4px (tags, badges), 6px (nodes, cards), 8px (modals)
-- Border: `1px solid #2A2A3A`
-- Shadow sm: `0 1px 4px rgba(0,0,0,0.4)`
-- Shadow md: `0 4px 16px rgba(0,0,0,0.5)`
-
-## Iconography
-- Line icons, 16px and 20px
-- Asset, job, schedule, sensor, partition iconography
-- Graph/dag icons for pipeline visualization
-
-## Motion
-- Asset graph pan/zoom: 60fps GPU-composited
-- Node status change: 200ms color transition
-- Run log stream: append-only, no re-render flicker
-- Partition grid load: staggered 20ms per row
+## Signature Component — Asset Lineage Graph
+Dagster's core concept is **software-defined assets** and their lineage. The signature is the **Asset Graph**: a DAG of assets (`raw_orders` → `stg_orders` → `orders` → `order_metrics` / `customer_ltv` → `daily_report`) with dependency edges and per-asset status. Pressing **Materialize all** runs the DAG in topological order — each asset flips to `Materializing` (indigo pulse) then `Materialized` (green), edges light up, and a run-status footer updates. This is the single UI most associated with Dagster.
 
 ## Guardrails
 
-### DO
-- Use asset key hierarchy (`schema/table`) consistently
-- Color-code all statuses — users scan by color first
-- Show freshness policy violations prominently (orange/stale)
-- Always surface the last materialization timestamp
-- Use purple only for selected state and primary actions
+**DO**
+- Use indigo `#4F43DD` as the brand color; reserve lime `#EAFFBB` for highlights.
+- Keep the page a deep navy `#0A0D12` in dark mode (the default).
+- Use Geist for UI and Geist Mono for asset keys, run IDs, and code.
+- Map asset/run status to their fixed colors consistently.
+- Make lineage the hero metaphor — assets and edges, not generic dashboards.
 
-### DON'T
-- Don't flatten asset key hierarchies — nesting is intentional
-- Don't collapse failed run logs by default — visibility is critical
-- Don't use green for anything other than "Success/Materialized"
-- Don't hide partition count — it's key context for data assets
-- Don't auto-refresh the asset graph during materialization — it interrupts inspection
+**DON'T**
+- Don't use the legacy purple `#7B61FF` as the primary brand.
+- Don't render asset keys or run IDs in a proportional font — always mono.
+- Don't invent status colors; use the materialized/materializing/stale/failed set.
+- Don't overuse lime — it's an accent, not a surface.
