@@ -100,6 +100,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 77 | [Bun](brands/bun/DESIGN.md) | Dev Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/bun/preview.html) |
 | 78 | [Framer](brands/framer/DESIGN.md) | Design Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/framer/preview.html) |
 | 79 | [Arc](brands/arc/DESIGN.md) | Browser | [preview](https://dhananjay6561.github.io/design-md-hub/brands/arc/preview.html) |
+| 80 | [Hume](brands/hume/DESIGN.md) | AI/LLM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/hume/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
