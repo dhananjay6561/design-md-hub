@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runway — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ABC Normal — Runway's own self-hosted grotesque (CORS-open, access-control-allow-origin:* confirmed). Subset files. */
+@font-face{font-family:'abcNormal';src:url('https://runwayml.com/_next/static/media/ABCNormal_Book-s.p.39bhrra-599fh.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'abcNormal';src:url('https://runwayml.com/_next/static/media/ABCNormal_Normal-s.p.2jdih_vag200t.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'abcNormal';src:url('https://runwayml.com/_next/static/media/ABCNormal_Neutral-s.p.08h030ywpbiq5.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'abcNormal';src:url('https://runwayml.com/_next/static/media/ABCNormal_Neutral-s.p.08h030ywpbiq5.woff2') format('woff2');font-weight:600;font-style:normal;font-display:swap}
+
+:root{
+  --off-black:#0C0C0C;--off-white:#EFEEE6;--off-white-alt:#F6F6F6;
+  --sans:'abcNormal','Helvetica Neue',Arial,system-ui,sans-serif;
+  --serif:'PT Serif',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+:root[data-theme="light"]{
+  --bg:#EFEEE6;--bg2:#F6F6F6;--bg3:#E7E6DE;--frame:#FFFFFF;
+  --border:#DCDBD3;--border-strong:#C9C8C0;
+  --text:#0C0C0C;--text2:#5C5B54;--text3:#8C8B84;
+  --ink-btn:#0C0C0C;--ink-btn-text:#EFEEE6;--logo:#0C0C0C;
+}
+:root[data-theme="dark"]{
+  --bg:#0C0C0C;--bg2:#161615;--bg3:#1F1F1D;--frame:#111110;
+  --border:rgba(239,238,230,.12);--border-strong:rgba(239,238,230,.24);
+  --text:#EFEEE6;--text2:#9C9B94;--text3:#6B6A64;
+  --ink-btn:#EFEEE6;--ink-btn-text:#0C0C0C;--logo:#EFEEE6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);padding:8px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:88px 0 60px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:30px;display:flex;justify-content:center}
+.hero-logo svg{width:150px;height:auto;color:var(--logo)}
+.hero h1{font-family:var(--serif);font-size:56px;font-weight:400;letter-spacing:-.01em;line-height:1.02;margin-bottom:16px}
+.hero p{font-size:16px;color:var(--text2);max-width:500px;margin:0 auto;line-height:1.5}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px 96px}
+.section{padding:56px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:28px}
+.group-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:22px 0 10px}
+
+/* swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.swatch{border:1px solid var(--border);border-radius:7px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:var(--mono);color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:2px}
+
+/* type rows */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:110px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;font-family:var(--mono);color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;font-family:var(--mono);background:var(--bg3);color:var(--text2);padding:2px 7px;border-radius:5px;white-space:nowrap}
+
+/* buttons */
+.btn{font-family:var(--sans);font-weight:500;font-size:13px;border-radius:7px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .12s,background .12s,border-color .12s}
+.btn-primary{background:var(--ink-btn);color:var(--ink-btn-text)}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-ghost{background:transparent;color:var(--text2)}
+.btn-ghost:hover{color:var(--text)}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* badges */
+.badge{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:6px;font-size:11px;font-weight:500;border:1px solid var(--border-strong);background:var(--bg2);color:var(--text2)}
+.badge-row{display:flex;gap:7px;flex-wrap:wrap}
+
+/* components grid */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:20px}
+.comp-title{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+
+/* spacing */
+.sp-rows{display:flex;flex-direction:column;gap:11px}
+.sp-row{display:flex;align-items:center;gap:14px}
+.sp-label{font-size:11px;font-family:var(--mono);color:var(--text3);width:74px}
+.sp-bar{height:6px;background:var(--border-strong);border-radius:2px}
+.sp-val{font-size:11px;color:var(--text3);width:34px}
+
+/* guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+.gr-list{display:flex;flex-direction:column;gap:11px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%;background:var(--text)}
+@media(max-width:640px){.gr-cols,.comp-grid{grid-template-columns:1fr}.type-row{grid-template-columns:90px 1fr}.spec-pills{display:none}}
+
+/* ===== SIGNATURE: Generation panel ===== */
+.gen{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.gen-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.gen-head .t{font-size:13px;font-weight:500}
+.gen-head .m{font-size:11px;font-family:var(--mono);color:var(--text3)}
+.gen-body{display:grid;grid-template-columns:1.05fr 1fr;gap:0}
+@media(max-width:760px){.gen-body{grid-template-columns:1fr}}
+.gen-left{padding:18px;border-right:1px solid var(--border)}
+@media(max-width:760px){.gen-left{border-right:none;border-bottom:1px solid var(--border)}}
+.gen-prompt{width:100%;min-height:96px;resize:vertical;background:var(--frame);border:1px solid var(--border-strong);border-radius:8px;padding:12px 13px;font-family:var(--sans);font-size:14px;color:var(--text);line-height:1.5;outline:none;transition:border-color .12s}
+.gen-prompt:focus{border-color:var(--text)}
+.gen-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.ctrl label{display:block;font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px}
+.ctrl select,.seg{width:100%}
+.ctrl select{appearance:none;background:var(--frame);border:1px solid var(--border-strong);border-radius:7px;padding:8px 10px;font-family:var(--sans);font-size:13px;color:var(--text);cursor:pointer;outline:none}
+.ctrl select:focus{border-color:var(--text)}
+.seg{display:flex;border:1px solid var(--border-strong);border-radius:7px;overflow:hidden}
+.seg button{flex:1;background:var(--frame);border:none;border-right:1px solid var(--border);color:var(--text2);font-family:var(--sans);font-size:12px;padding:8px 0;cursor:pointer;transition:background .12s,color .12s}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--ink-btn);color:var(--ink-btn-text)}
+.gen-run{margin-top:16px;display:flex;align-items:center;gap:12px}
+.gen-run .btn-primary{flex:1;justify-content:center;height:42px}
+.gen-run .cost{font-size:11px;font-family:var(--mono);color:var(--text3);white-space:nowrap}
+
+.gen-right{padding:18px;display:flex;flex-direction:column}
+.stage{position:relative;aspect-ratio:16/9;background:var(--off-black);border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;transition:aspect-ratio .2s}
+.stage.r916{aspect-ratio:9/16;max-width:220px;margin:0 auto}
+.stage.r11{aspect-ratio:1/1;max-width:300px;margin:0 auto}
+.stage-empty{color:#6B6A64;font-size:12px;font-family:var(--mono);text-align:center;padding:0 20px;line-height:1.7}
+.stage-status{position:absolute;top:10px;left:10px;z-index:3;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#EFEEE6;background:rgba(12,12,12,.7);border:1px solid rgba(239,238,230,.2);padding:3px 8px;border-radius:5px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.stage-grid{position:absolute;inset:0;opacity:0;background-image:linear-gradient(rgba(239,238,230,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(239,238,230,.06) 1px,transparent 1px);background-size:32px 32px;transition:opacity .3s}
+.stage.working .stage-grid{opacity:1}
+.shimmer{position:absolute;inset:0;z-index:2;opacity:0;background:linear-gradient(100deg,transparent 20%,rgba(239,238,230,.14) 45%,rgba(239,238,230,.22) 50%,rgba(239,238,230,.14) 55%,transparent 80%);background-size:220% 100%;transition:opacity .3s}
+.stage.working .shimmer{opacity:1;animation:sweep 1.25s linear infinite}
+@keyframes sweep{0%{background-position:180% 0}100%{background-position:-80% 0}}
+.stage.done .frame-render{opacity:1}
+.frame-render{position:absolute;inset:0;opacity:0;transition:opacity .5s;background:radial-gradient(120% 90% at 30% 20%,#3a3a3a 0%,#1a1a1a 45%,#0c0c0c 100%)}
+.frame-render::after{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:0;height:0;border-left:18px solid #EFEEE6;border-top:11px solid transparent;border-bottom:11px solid transparent;opacity:.9}
+.pct{position:absolute;left:0;bottom:0;height:3px;background:#EFEEE6;width:0;z-index:4;transition:width .2s linear}
+.clip-card{margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:12px 14px;background:var(--frame);display:none}
+.clip-card.show{display:block}
+.clip-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.clip-name{font-size:13px;font-weight:500}
+.clip-meta{font-size:11px;font-family:var(--mono);color:var(--text3);display:flex;gap:12px;flex-wrap:wrap}
+.gen-hint{font-size:11px;color:var(--text3);margin-top:auto;padding-top:12px;line-height:1.5}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(245,179,1,.15);border:1px solid rgba(245,179,1,.5)}#dmh-bar .dmh-star:hover{background:rgba(245,179,1,.3);border-color:rgba(245,179,1,.85)}#dmh-bar .dmh-star svg{color:#F5B301;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg)}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/runway/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 84 19" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Runway">
+        <path d="M6.616 4.55643C5.07392 4.55643 4.24817 5.47958 4.24817 7.11515V14.1792H0V0.332031H2.38773L3.88006 1.92747C4.58643 0.893949 5.65096 0.332031 7.08359 0.332031H8.367V4.55643H6.616Z" fill="currentColor"/>
+        <path d="M9.39062 0.332031H13.6388V8.10853C13.6388 9.55346 14.574 10.5468 15.9469 10.5468C17.3199 10.5468 18.2352 9.55346 18.2352 8.10853V0.332031H22.4833V14.1792H20.0956L18.6431 12.6239C17.6581 13.808 16.2553 14.5003 14.6237 14.5003C11.5296 14.5003 9.39062 12.2226 9.39062 8.90124V0.332031Z" fill="currentColor"/>
+        <path d="M36.939 14.1683H32.6909V6.44196C32.6909 4.9569 31.7457 3.94344 30.323 3.94344C28.9003 3.94344 27.9552 4.9569 27.9552 6.44196V14.1683H23.707V0.321096H26.0948L27.5672 1.89646C28.5521 0.692359 29.9748 0 31.6462 0C34.7801 0 36.939 2.30787 36.939 5.66932V14.1583V14.1683Z" fill="currentColor"/>
+        <path d="M36.4727 0.332031H40.9099L42.9991 8.18881L45.5162 0.332031H48.6103L51.1273 8.21891L53.2166 0.332031H57.2956L52.9778 14.1792H49.2669L46.8294 6.5733L44.3721 14.1792H40.89L36.4926 0.332031H36.4727Z" fill="currentColor"/>
+        <path d="M63.0759 0.0117188C66.6873 0.0117188 68.8661 2.01856 68.8661 5.36998V14.18H66.4585L65.2149 12.8254C64.2797 13.9191 62.9466 14.5011 61.3249 14.5011C58.4397 14.5011 56.4102 12.6949 56.4102 10.1463C56.4102 7.59757 58.38 5.84159 61.8124 5.84159H64.7374V5.39005C64.7374 4.20601 64.0807 3.56382 62.857 3.56382C61.6333 3.56382 61.0463 4.12574 60.9767 5.06895H56.8181C57.0568 2.00852 59.5142 0.0117188 63.0759 0.0117188ZM64.7374 9.14284V8.54078H62.2601C61.1956 8.54078 60.5787 9.03246 60.5787 9.87534C60.5787 10.7182 61.305 11.3203 62.5188 11.3203C63.7325 11.3203 64.7374 10.5677 64.7374 9.14284Z" fill="currentColor"/>
+        <path d="M75.8421 18.7732H71.3552L73.7628 12.9634L68.1914 0.320312H73.1459L76.0311 7.85599L78.7471 0.320312H83.2341L75.8421 18.7732Z" fill="currentColor"/>
+      </svg>
+    </div>
+    <h1>Building AI to Simulate the World</h1>
+    <p>We are building AI to simulate the world through merging art and science.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Text-to-Video Generation</div>
+    <div class="gen">
+      <div class="gen-head">
+        <span class="t">New Generation</span>
+        <span class="m" id="genModelLabel">Gen-4.5</span>
+      </div>
+      <div class="gen-body">
+        <div class="gen-left">
+          <div class="ctrl" style="margin-bottom:2px">
+            <label>Prompt</label>
+            <textarea class="gen-prompt" id="prompt">Low-angle tracking shot of a lone figure walking through a rain-soaked neon alley at night, volumetric fog, cinematic 35mm, shallow depth of field.</textarea>
+          </div>
+          <div class="gen-controls">
+            <div class="ctrl">
+              <label>Model</label>
+              <select id="model" onchange="document.getElementById('genModelLabel').textContent=this.value">
+                <option>Gen-4.5</option>
+                <option>Gen-4</option>
+                <option>Gen-4 Turbo</option>
+                <option>Gen-3 Alpha</option>
+                <option>Gen-3 Alpha Turbo</option>
+              </select>
+            </div>
+            <div class="ctrl">
+              <label>Resolution</label>
+              <select id="res">
+                <option>1080p</option>
+                <option>720p</option>
+              </select>
+            </div>
+            <div class="ctrl">
+              <label>Aspect ratio</label>
+              <div class="seg" id="ratioSeg">
+                <button class="on" data-r="169" onclick="setRatio(this)">16:9</button>
+                <button data-r="916" onclick="setRatio(this)">9:16</button>
+                <button data-r="11" onclick="setRatio(this)">1:1</button>
+              </div>
+            </div>
+            <div class="ctrl">
+              <label>Duration</label>
+              <div class="seg" id="durSeg">
+                <button class="on" data-d="5" onclick="setDur(this)">5s</button>
+                <button data-d="10" onclick="setDur(this)">10s</button>
+              </div>
+            </div>
+          </div>
+          <div class="gen-run">
+            <button class="btn btn-primary" id="genBtn" onclick="generate()">Generate</button>
+            <span class="cost" id="credits">5s · 1080p · 5 credits</span>
+          </div>
+        </div>
+        <div class="gen-right">
+          <div class="stage r169" id="stage">
+            <div class="stage-status" id="status" style="display:none">Queued</div>
+            <div class="stage-grid"></div>
+            <div class="shimmer"></div>
+            <div class="frame-render"></div>
+            <div class="pct" id="pct"></div>
+            <div class="stage-empty" id="empty">Describe a shot, choose a model,<br>and Generate to render a clip.</div>
+          </div>
+          <div class="clip-card" id="clip">
+            <div class="clip-top">
+              <span class="clip-name" id="clipName">gen45_0001.mp4</span>
+              <span class="badge">Complete</span>
+            </div>
+            <div class="clip-meta" id="clipMeta"></div>
+          </div>
+          <div class="gen-hint">Deterministic preview. Real generations run on Runway's Gen-4 and Gen-4.5 models with Act-Two, Motion Brush and Frames.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Color</div>
+
+    <div class="group-label">Primary — ink &amp; paper</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0C0C0C')"><div class="swatch-block" style="background:#0C0C0C"></div><div class="swatch-info"><span class="swatch-name">offBlack</span><span class="swatch-hex">#0C0C0C</span><span class="swatch-use">Primary ink, dark surface</span></div></div>
+      <div class="swatch" onclick="copyHex('#EFEEE6')"><div class="swatch-block" style="background:#EFEEE6"></div><div class="swatch-info"><span class="swatch-name">offWhite</span><span class="swatch-hex">#EFEEE6</span><span class="swatch-use">Warm paper background</span></div></div>
+      <div class="swatch" onclick="copyHex('#000000')"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><span class="swatch-name">black</span><span class="swatch-hex">#000000</span><span class="swatch-use">Max-contrast fill</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-block" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">white</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">Media frames</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F6F6F6')"><div class="swatch-block" style="background:#F6F6F6"></div><div class="swatch-info"><span class="swatch-name">offWhiteAlt</span><span class="swatch-hex">#F6F6F6</span><span class="swatch-use">Cards, panels</span></div></div>
+      <div class="swatch" onclick="copyHex('#E5E5E5')"><div class="swatch-block" style="background:#E5E5E5"></div><div class="swatch-info"><span class="swatch-name">surface-line</span><span class="swatch-hex">#E5E5E5</span><span class="swatch-use">Hairline borders</span></div></div>
+      <div class="swatch" onclick="copyHex('#1A1A1A')"><div class="swatch-block" style="background:#1A1A1A"></div><div class="swatch-info"><span class="swatch-name">dark-800</span><span class="swatch-hex">#1A1A1A</span><span class="swatch-use">Elevated dark surface</span></div></div>
+      <div class="swatch" onclick="copyHex('#3A3A3A')"><div class="swatch-block" style="background:#3A3A3A"></div><div class="swatch-info"><span class="swatch-name">dark-700</span><span class="swatch-hex">#3A3A3A</span><span class="swatch-use">Border / control on dark</span></div></div>
+    </div>
+
+    <div class="group-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0C0C0C')"><div class="swatch-block" style="background:#0C0C0C"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#0C0C0C</span><span class="swatch-use">Primary text (light)</span></div></div>
+      <div class="swatch" onclick="copyHex('#7C7C7C')"><div class="swatch-block" style="background:#7C7C7C"></div><div class="swatch-info"><span class="swatch-name">ink-muted</span><span class="swatch-hex">#7C7C7C</span><span class="swatch-use">Secondary / caption</span></div></div>
+      <div class="swatch" onclick="copyHex('#9CA3AF')"><div class="swatch-block" style="background:#9CA3AF"></div><div class="swatch-info"><span class="swatch-name">on-dark-muted</span><span class="swatch-hex">#9CA3AF</span><span class="swatch-use">Secondary text (dark)</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic — monochrome by design</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#7C7C7C')"><div class="swatch-block" style="background:#F6F6F6"></div><div class="swatch-info"><span class="swatch-name">queued</span><span class="swatch-hex">#7C7C7C</span><span class="swatch-use">Neutral / queued</span></div></div>
+      <div class="swatch" onclick="copyHex('#0C0C0C')"><div class="swatch-block" style="background:#0C0C0C"></div><div class="swatch-info"><span class="swatch-name">active</span><span class="swatch-hex">#0C0C0C</span><span class="swatch-use">Generating (+ shimmer)</span></div></div>
+      <div class="swatch" onclick="copyHex('#0C0C0C')"><div class="swatch-block" style="background:#EFEEE6"></div><div class="swatch-info"><span class="swatch-name">complete</span><span class="swatch-hex">#0C0C0C</span><span class="swatch-use">Done — ink on paper</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row"><div><div class="type-name">display</div><div class="type-spec">Times Now ≈ · serif · 400</div></div><div class="type-sample" style="font-family:var(--serif);font-size:44px;font-weight:400;letter-spacing:-.01em;line-height:1.02">Simulate the World</div><div class="spec-pills"><span class="spec-pill">56px</span><span class="spec-pill">serif</span></div></div>
+      <div class="type-row"><div><div class="type-name">headline</div><div class="type-spec">ABC Normal · 500</div></div><div class="type-sample" style="font-size:28px;font-weight:500;letter-spacing:-.01em">A New Frontier for Generative Video</div><div class="spec-pills"><span class="spec-pill">32px</span><span class="spec-pill">500</span></div></div>
+      <div class="type-row"><div><div class="type-name">title</div><div class="type-spec">ABC Normal · 500</div></div><div class="type-sample" style="font-size:19px;font-weight:500">General World Models</div><div class="spec-pills"><span class="spec-pill">20px</span><span class="spec-pill">500</span></div></div>
+      <div class="type-row"><div><div class="type-name">body</div><div class="type-spec">ABC Normal · 400</div></div><div class="type-sample" style="font-size:16px">Runway is being used by the world's leading organizations across industries.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div><div class="type-name">ui</div><div class="type-spec">ABC Normal · 400</div></div><div class="type-sample" style="font-size:14px;color:var(--text2)">Try Runway · Get Started · Explore the Research</div><div class="spec-pills"><span class="spec-pill">14px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div><div class="type-name">meta</div><div class="type-spec">mono · 400</div></div><div class="type-sample" style="font-family:var(--mono);font-size:12px;color:var(--text2)">gen-4.5 · 1080p · 16:9 · 5s · 5 credits</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Try Runway</button>
+          <button class="btn btn-secondary">Get Started</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-secondary">Learn more</button>
+          <button class="btn btn-ghost">Login</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Model &amp; tool badges</div>
+        <div class="badge-row">
+          <span class="badge">Gen-4.5</span>
+          <span class="badge">Gen-4 Turbo</span>
+          <span class="badge">Act-Two</span>
+          <span class="badge">Aleph</span>
+          <span class="badge">Frames</span>
+          <span class="badge">Motion Brush</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Prompt input</div>
+        <textarea class="gen-prompt" style="min-height:70px" placeholder="Describe a shot…">Slow dolly toward an astronaut on a windswept dune at golden hour.</textarea>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Segmented control</div>
+        <div class="seg" style="margin-bottom:12px"><button class="on">16:9</button><button>9:16</button><button>1:1</button></div>
+        <div class="seg"><button class="on">5s</button><button>10s</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing</div>
+    <div class="sp-rows">
+      <div class="sp-row"><span class="sp-label">space-1</span><div class="sp-bar" style="width:4px"></div><span class="sp-val">4px</span></div>
+      <div class="sp-row"><span class="sp-label">space-2</span><div class="sp-bar" style="width:8px"></div><span class="sp-val">8px</span></div>
+      <div class="sp-row"><span class="sp-label">space-3</span><div class="sp-bar" style="width:12px"></div><span class="sp-val">12px</span></div>
+      <div class="sp-row"><span class="sp-label">space-4</span><div class="sp-bar" style="width:16px"></div><span class="sp-val">16px</span></div>
+      <div class="sp-row"><span class="sp-label">space-6</span><div class="sp-bar" style="width:24px"></div><span class="sp-val">24px</span></div>
+      <div class="sp-row"><span class="sp-label">space-8</span><div class="sp-bar" style="width:32px"></div><span class="sp-val">32px</span></div>
+      <div class="sp-row"><span class="sp-label">space-12</span><div class="sp-bar" style="width:48px"></div><span class="sp-val">48px</span></div>
+      <div class="sp-row"><span class="sp-label">space-16</span><div class="sp-bar" style="width:64px"></div><span class="sp-val">64px</span></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep surfaces monochrome — warm off-white #EFEEE6 paper and off-black #0C0C0C ink carry the brand.</div>
+          <div class="gr-item">Reserve the serif (Times Now ≈) for hero and display only; everything functional is ABC Normal.</div>
+          <div class="gr-item">Preserve the warm off-white tint #EFEEE6 — never flatten it to pure #FFFFFF.</div>
+          <div class="gr-item">Let generated media supply all the color; the chrome stays neutral.</div>
+          <div class="gr-item">Use real model names exactly — Gen-4.5, Gen-4 Turbo, Act-Two, Aleph.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Introduce a brand accent color — Runway has no green/blue/orange brand hue.</div>
+          <div class="gr-item">Recolor the wordmark or add a gradient to it.</div>
+          <div class="gr-item">Use the serif for body, labels, or UI text.</div>
+          <div class="gr-item">Default to pure #000 / #fff where the off-black / off-white tokens apply.</div>
+          <div class="gr-item">Communicate state with saturated color chips — use neutrals, motion, and copy.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  var t=document.getElementById('toast');
+  t.textContent='Copied '+hex;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show')},2000);
+}
+
+var ratio='169', dur=5;
+function setRatio(b){
+  document.querySelectorAll('#ratioSeg button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');ratio=b.dataset.r;
+  var s=document.getElementById('stage');
+  s.classList.remove('r169','r916','r11');
+  s.classList.add('r'+ratio);
+  updateCost();
+}
+function setDur(b){
+  document.querySelectorAll('#durSeg button').forEach(function(x){x.classList.remove('on')});
+  b.classList.add('on');dur=parseInt(b.dataset.d,10);updateCost();
+}
+function updateCost(){
+  var res=document.getElementById('res').value;
+  var credits=dur*(res==='1080p'?1:0.5)*(document.getElementById('model').value==='Gen-4 Turbo'?0.5:1);
+  document.getElementById('credits').textContent=dur+'s · '+res+' · '+(Math.round(credits*10)/10)+' credits';
+}
+document.getElementById('res').addEventListener('change',updateCost);
+document.getElementById('model').addEventListener('change',updateCost);
+
+var seq=0, busy=false;
+function generate(){
+  if(busy) return; busy=true;
+  seq++;
+  var btn=document.getElementById('genBtn');
+  var stage=document.getElementById('stage');
+  var status=document.getElementById('status');
+  var pct=document.getElementById('pct');
+  var empty=document.getElementById('empty');
+  var clip=document.getElementById('clip');
+  var model=document.getElementById('model').value;
+  var res=document.getElementById('res').value;
+
+  btn.textContent='Generating…';
+  empty.style.display='none';
+  clip.classList.remove('show');
+  stage.classList.remove('done');
+  status.style.display='block';
+  status.textContent='Queued';
+  pct.style.width='0';
+
+  // deterministic timeline (no Math.random)
+  setTimeout(function(){
+    status.textContent='Generating';
+    stage.classList.add('working');
+    var p=0;
+    var step=function(){
+      // deterministic eased increments keyed off current p
+      p += p<70 ? 7 : (p<92 ? 3 : 1);
+      if(p>100)p=100;
+      pct.style.width=p+'%';
+      status.textContent='Generating '+p+'%';
+      if(p<100){setTimeout(step,110);}
+      else{finish(model,res);}
+    };
+    step();
+  },520);
+
+  function finish(model,res){
+    var stage=document.getElementById('stage');
+    stage.classList.remove('working');
+    stage.classList.add('done');
+    document.getElementById('status').textContent='Done';
+    var ratL = ratio==='169'?'16:9':(ratio==='916'?'9:16':'1:1');
+    var dims = res==='1080p' ? (ratio==='169'?'1920×1080':ratio==='916'?'1080×1920':'1080×1080')
+                             : (ratio==='169'?'1280×720':ratio==='916'?'720×1280':'720×720');
+    var slug = model.toLowerCase().replace(/[^a-z0-9]/g,'');
+    var name = slug+'_'+String(seq).padStart(4,'0')+'.mp4';
+    document.getElementById('clipName').textContent=name;
+    document.getElementById('clipMeta').innerHTML =
+      '<span>'+model+'</span><span>'+dims+' '+res+'</span><span>'+ratL+'</span><span>'+dur+'s · 24fps</span>';
+    document.getElementById('clip').classList.add('show');
+    document.getElementById('genBtn').textContent='Generate';
+    busy=false;
+  }
+}
+updateCost();
+</script>
+</body>
+</html>

@@ -93,6 +93,10 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 70 | [Storybook](brands/storybook/DESIGN.md) | Dev Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/storybook/preview.html) |
 | 71 | [Zapier](brands/zapier/DESIGN.md) | Automation | [preview](https://dhananjay6561.github.io/design-md-hub/brands/zapier/preview.html) |
 | 72 | [Replit](brands/replit/DESIGN.md) | Dev Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/replit/preview.html) |
+| 73 | [Mistral AI](brands/mistral/DESIGN.md) | AI/LLM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/mistral/preview.html) |
+| 74 | [Groq](brands/groq/DESIGN.md) | AI/LLM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/groq/preview.html) |
+| 75 | [Runway](brands/runway/DESIGN.md) | AI/LLM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/runway/preview.html) |
+| 76 | [ElevenLabs](brands/elevenlabs/DESIGN.md) | AI/LLM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/elevenlabs/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

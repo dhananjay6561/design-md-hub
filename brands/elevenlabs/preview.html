@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElevenLabs — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* real Waldenburg — self-hosted on ElevenLabs CDN, CORS-open (access-control-allow-origin: *) */
+@font-face{font-family:'Waldenburg';font-weight:300;font-style:normal;font-display:swap;src:url('https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Buch-latin.1f7863d3c4317f3d.woff2') format('woff2')}
+@font-face{font-family:'Waldenburg';font-weight:400;font-style:normal;font-display:swap;src:url('https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Normal-latin.47fcefe5bf77b4e5.woff2') format('woff2')}
+@font-face{font-family:'Waldenburg';font-weight:700;font-style:normal;font-display:swap;src:url('https://eleven-public-cdn.elevenlabs.io/marketing_website/_next/static/chunks/src/app/_ui/fonts/waldenburg/KMR-Waldenburg-Fett-latin.e6b0db8ee0a63897.woff2') format('woff2')}
+:root{
+  /* categorical scale — family 500s, theme-invariant (tags / states / waveforms) */
+  --cat-blue:#2B7FFF;--cat-cyan:#19A2C1;--cat-green:#10B978;--cat-orange:#F36F1C;
+  --cat-red:#EB524B;--cat-purple:#C47DE5;--cat-magenta:#D65CC8;
+}
+:root[data-theme="light"]{
+  --bg:#FDFCFC;--bg2:#F5F3F1;--bg3:#EBE8E4;--sand:#E8DCC8;--bg-code:#F5F3F1;
+  --border:#E4E1DD;--border-strong:#D0CCC6;
+  --text:#000000;--text2:#1C1C1C;--text3:#767676;
+  --ink:#000000;/* monochrome brand — button fill */
+  --brand:#000000;--brand-hover:#1C1C1C;--brand-btn-text:#FFFFFF;
+  --link:#1C63E6;--green:#0E9E67;--danger:#C7382F;
+  --wave:#1C1C1C;--wave-off:#D0CCC6;
+  --logo:#000000;--ring:rgba(0,0,0,.14);
+}
+:root[data-theme="dark"]{
+  --bg:#0F1117;--bg2:#1C1C1C;--bg3:#2A2A2A;--sand:#3A3226;--bg-code:#17181d;
+  --border:#333;--border-strong:#4A4A4A;
+  --text:#FFFFFF;--text2:#E5E5E5;--text3:#949494;
+  --ink:#FFFFFF;
+  --brand:#FFFFFF;--brand-hover:#E5E5E5;--brand-btn-text:#0F1117;
+  --link:#5D8CF5;--green:#2CC98A;--danger:#F06A61;
+  --wave:#E5E5E5;--wave-off:#3D3D3D;
+  --logo:#FFFFFF;--ring:rgba(255,255,255,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Waldenburg','Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:11px;color:var(--logo)}
+.hero-logo .wm{font-size:26px;font-weight:700;letter-spacing:-.02em}
+.hero h1{font-size:56px;font-weight:400;letter-spacing:-.035em;line-height:1;margin-bottom:14px}
+.hero p{font-size:17px;color:var(--text3);max-width:540px;margin:0 auto}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+/* categorical strip */
+.cat{display:flex;height:44px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.cat-slab{flex:1;cursor:pointer;transition:flex .2s}
+.cat-slab:hover{flex:1.8}
+
+/* swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;font-family:'Geist Mono',monospace;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+/* type rows */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:110px 1fr auto;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;font-family:'Geist Mono',monospace;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;font-family:'Geist Mono',monospace;background:var(--bg3);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* signature: TTS studio */
+.tts{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+@media(max-width:820px){.tts{grid-template-columns:1fr}}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.panel-head{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.panel-title{font-size:12px;font-weight:600;color:var(--text2)}
+.tts-body{padding:14px}
+.tts-area{width:100%;min-height:96px;resize:none;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:11px 12px;font-family:'Waldenburg','Inter',sans-serif;font-size:14px;line-height:1.5;color:var(--text);outline:none}
+.tts-area:focus{border-color:var(--ink);box-shadow:0 0 0 3px var(--ring)}
+.tts-controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.sel{font-family:'Waldenburg','Inter',sans-serif;font-size:12px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;cursor:pointer;outline:none}
+.sel:focus{border-color:var(--ink);box-shadow:0 0 0 3px var(--ring)}
+.sliders{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:520px){.sliders{grid-template-columns:1fr}}
+.slider label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);display:flex;justify-content:space-between}
+.slider label b{font-family:'Geist Mono',monospace;font-weight:400;color:var(--text2);text-transform:none;letter-spacing:0}
+.slider input{width:100%;accent-color:var(--ink);margin-top:6px}
+.gen-row{display:flex;align-items:center;gap:12px;margin-top:16px}
+.gen-btn{font-family:'Waldenburg','Inter',sans-serif;font-weight:600;font-size:13px;background:var(--brand);color:var(--brand-btn-text);border:none;border-radius:9px;padding:9px 18px;cursor:pointer;transition:background .12s;display:inline-flex;align-items:center;gap:8px}
+.gen-btn:hover{background:var(--brand-hover)}
+.gen-btn:disabled{opacity:.55;cursor:default}
+.char-count{font-family:'Geist Mono',monospace;font-size:11px;color:var(--text3);margin-left:auto}
+/* player */
+.player{margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:13px 14px}
+.player-top{display:flex;align-items:center;gap:12px}
+.play{width:36px;height:36px;border-radius:50%;background:var(--ink);color:var(--brand-btn-text);border:none;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.play:disabled{opacity:.4;cursor:default}
+.wave{flex:1;display:flex;align-items:center;gap:2px;height:40px}
+.wave-bar{flex:1;background:var(--wave-off);border-radius:1px;transition:background .05s;min-height:3px}
+.wave-bar.on{background:var(--wave)}
+.player-time{font-family:'Geist Mono',monospace;font-size:11px;color:var(--text3);width:34px;text-align:right;flex-shrink:0}
+.player-meta{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;font-family:'Geist Mono',monospace;font-size:11px;color:var(--text3)}
+.player-meta b{color:var(--text2);font-weight:400}
+
+.code-block{font-family:'Geist Mono',monospace;font-size:11.5px;line-height:1.75;background:var(--bg-code);padding:14px 16px;color:var(--text2);white-space:pre;overflow-x:auto}
+.tok-key{color:var(--cat-purple)}.tok-str{color:var(--green)}.tok-com{color:var(--text3)}.tok-fn{color:var(--link)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'Waldenburg','Inter',sans-serif;font-weight:600;font-size:13px;border-radius:9px;padding:0 14px;height:34px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;transition:background .12s,border-color .12s}
+.btn-primary{background:var(--brand);color:var(--brand-btn-text)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-ghost{background:transparent;color:var(--text2)}
+.btn-ghost:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;height:22px;padding:0 9px;border-radius:9999px;font-size:11px;font-weight:500}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--bg);border:1px solid var(--border);border-radius:9px;height:34px;padding:0 12px;font-size:13px;font-family:'Waldenburg','Inter',sans-serif;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--ink);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+
+/* spacing */
+.sp-rows{display:flex;flex-direction:column;gap:10px}
+.sp-row{display:flex;align-items:center;gap:14px}
+.sp-label{font-size:11px;font-family:'Geist Mono',monospace;color:var(--text3);width:70px}
+.sp-bar{height:6px;background:var(--ink);opacity:.72;border-radius:2px}
+.sp-val{font-size:11px;font-family:'Geist Mono',monospace;color:var(--text3);width:44px}
+
+/* guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--green)}
+.gr-heading.dont{color:var(--danger)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:14px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--green)}
+.dont .gr-item::before{background:var(--danger)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:500;font-family:'Geist Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/elevenlabs/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="var(--logo)" xmlns="http://www.w3.org/2000/svg" aria-label="ElevenLabs logo"><path d="M4.6035 0v24h4.9317V0zm9.8613 0v24h4.9317V0z"/></svg>
+      <span class="wm">ElevenLabs</span>
+    </div>
+    <h1>Bringing technology to life</h1>
+    <p>Generate ultra-realistic speech, videos, music, and sound effects — the most realistic AI audio platform.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+
+    <div class="cat" title="The categorical color scale — used for voices, languages and states, never as a single brand accent">
+      <div class="cat-slab" style="background:#2B7FFF" onclick="copyHex('#2B7FFF')" title="blue-500"></div>
+      <div class="cat-slab" style="background:#19A2C1" onclick="copyHex('#19A2C1')" title="cyan-500"></div>
+      <div class="cat-slab" style="background:#10B978" onclick="copyHex('#10B978')" title="green-500"></div>
+      <div class="cat-slab" style="background:#F36F1C" onclick="copyHex('#F36F1C')" title="orange-500"></div>
+      <div class="cat-slab" style="background:#EB524B" onclick="copyHex('#EB524B')" title="red-500"></div>
+      <div class="cat-slab" style="background:#C47DE5" onclick="copyHex('#C47DE5')" title="purple-500"></div>
+      <div class="cat-slab" style="background:#D65CC8" onclick="copyHex('#D65CC8')" title="magenta-500"></div>
+    </div>
+
+    <div class="group-label">Primary (monochrome)</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#000000')"><div class="swatch-block" style="background:#000000"></div><div class="swatch-info"><span class="swatch-name">ink</span><span class="swatch-hex">#000000</span><span class="swatch-use">Text, buttons (light)</span></div></div>
+      <div class="swatch" onclick="copyHex('#FDFCFC')"><div class="swatch-block" style="background:#FDFCFC"></div><div class="swatch-info"><span class="swatch-name">eggshell</span><span class="swatch-hex">#FDFCFC</span><span class="swatch-use">Page (light)</span></div></div>
+      <div class="swatch" onclick="copyHex('#0F1117')"><div class="swatch-block" style="background:#0F1117"></div><div class="swatch-info"><span class="swatch-name">canvas-dark</span><span class="swatch-hex">#0F1117</span><span class="swatch-use">Page (dark)</span></div></div>
+    </div>
+
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#F5F3F1')"><div class="swatch-block" style="background:#F5F3F1"></div><div class="swatch-info"><span class="swatch-name">surface-muted</span><span class="swatch-hex">#F5F3F1</span><span class="swatch-use">Cards, panels</span></div></div>
+      <div class="swatch" onclick="copyHex('#EBE8E4')"><div class="swatch-block" style="background:#EBE8E4"></div><div class="swatch-info"><span class="swatch-name">surface-fill</span><span class="swatch-hex">#EBE8E4</span><span class="swatch-use">Fills, hover</span></div></div>
+      <div class="swatch" onclick="copyHex('#E8DCC8')"><div class="swatch-block" style="background:#E8DCC8"></div><div class="swatch-info"><span class="swatch-name">sand</span><span class="swatch-hex">#E8DCC8</span><span class="swatch-use">Warm accent block</span></div></div>
+      <div class="swatch" onclick="copyHex('#1C1C1C')"><div class="swatch-block" style="background:#1C1C1C"></div><div class="swatch-info"><span class="swatch-name">neutral-950</span><span class="swatch-hex">#1C1C1C</span><span class="swatch-use">Raised (dark)</span></div></div>
+      <div class="swatch" onclick="copyHex('#3D3D3D')"><div class="swatch-block" style="background:#3D3D3D"></div><div class="swatch-info"><span class="swatch-name">neutral-900</span><span class="swatch-hex">#3D3D3D</span><span class="swatch-use">Border (dark)</span></div></div>
+      <div class="swatch" onclick="copyHex('#E4E1DD')"><div class="swatch-block" style="background:#E4E1DD"></div><div class="swatch-info"><span class="swatch-name">border</span><span class="swatch-hex">#E4E1DD</span><span class="swatch-use">Dividers (light)</span></div></div>
+    </div>
+
+    <div class="group-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#1C1C1C')"><div class="swatch-block" style="background:#1C1C1C"></div><div class="swatch-info"><span class="swatch-name">text-primary</span><span class="swatch-hex">#1C1C1C</span><span class="swatch-use">neutral-950</span></div></div>
+      <div class="swatch" onclick="copyHex('#767676')"><div class="swatch-block" style="background:#767676"></div><div class="swatch-info"><span class="swatch-name">text-muted</span><span class="swatch-hex">#767676</span><span class="swatch-use">neutral-500</span></div></div>
+      <div class="swatch" onclick="copyHex('#949494')"><div class="swatch-block" style="background:#949494"></div><div class="swatch-info"><span class="swatch-name">text-tertiary</span><span class="swatch-hex">#949494</span><span class="swatch-use">neutral-400</span></div></div>
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-block" style="background:#FFFFFF"></div><div class="swatch-info"><span class="swatch-name">text-invert</span><span class="swatch-hex">#FFFFFF</span><span class="swatch-use">On dark / on ink</span></div></div>
+    </div>
+
+    <div class="group-label">Semantic (categorical endpoints)</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#2B7FFF')"><div class="swatch-block" style="background:#2B7FFF"></div><div class="swatch-info"><span class="swatch-name">blue-500</span><span class="swatch-hex">#2B7FFF</span><span class="swatch-use">Info, links</span></div></div>
+      <div class="swatch" onclick="copyHex('#10B978')"><div class="swatch-block" style="background:#10B978"></div><div class="swatch-info"><span class="swatch-name">green-500</span><span class="swatch-hex">#10B978</span><span class="swatch-use">Ready, success</span></div></div>
+      <div class="swatch" onclick="copyHex('#F36F1C')"><div class="swatch-block" style="background:#F36F1C"></div><div class="swatch-info"><span class="swatch-name">orange-500</span><span class="swatch-hex">#F36F1C</span><span class="swatch-use">Warning</span></div></div>
+      <div class="swatch" onclick="copyHex('#EB524B')"><div class="swatch-block" style="background:#EB524B"></div><div class="swatch-info"><span class="swatch-name">red-500</span><span class="swatch-hex">#EB524B</span><span class="swatch-use">Error, destructive</span></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography · Waldenburg (real, CDN CORS ✅) · Geist Mono</div>
+    <div class="type-rows">
+      <div class="type-row"><div><div class="type-name">display</div><div class="type-spec">400 · −0.035em</div></div><div class="type-sample" style="font-size:44px;font-weight:400;letter-spacing:-.035em;line-height:1">Bringing technology to life</div><div class="spec-pills"><span class="spec-pill">44px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div><div class="type-name">h2</div><div class="type-spec">700 · −0.02em</div></div><div class="type-sample" style="font-size:27px;font-weight:700;letter-spacing:-.02em">Two platforms built on the same research foundation</div><div class="spec-pills"><span class="spec-pill">28px</span><span class="spec-pill">700</span></div></div>
+      <div class="type-row"><div><div class="type-name">h3</div><div class="type-spec">400</div></div><div class="type-sample" style="font-size:21px;font-weight:400">Create, edit, and localize in one AI platform</div><div class="spec-pills"><span class="spec-pill">21px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div><div class="type-name">body</div><div class="type-spec">Inter · 400</div></div><div class="type-sample" style="font-family:'Inter',sans-serif;font-size:16px">Deploy agents that talk, type, and take action — trusted by leading developers and enterprises.</div><div class="spec-pills"><span class="spec-pill">16px</span><span class="spec-pill">400</span></div></div>
+      <div class="type-row"><div><div class="type-name">eyebrow</div><div class="type-spec">600 · uppercase</div></div><div class="type-sample" style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)">Text to Speech · Voices · Agents · Studio</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">600</span></div></div>
+      <div class="type-row"><div><div class="type-name">mono</div><div class="type-spec">Geist Mono · 400</div></div><div class="type-sample" style="font-family:'Geist Mono',monospace;font-size:12px;color:var(--text2)">model_id="eleven_multilingual_v2" · stability=0.50</div><div class="spec-pills"><span class="spec-pill">12px</span><span class="spec-pill">mono</span></div></div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE: TEXT TO SPEECH STUDIO -->
+  <div class="section">
+    <div class="section-label">Text to Speech · Voice studio</div>
+    <div class="tts">
+      <div class="panel">
+        <div class="panel-head"><span class="panel-title">Generate speech</span></div>
+        <div class="tts-body">
+          <textarea class="tts-area" id="tts-text" spellcheck="false">In the ancient halls of Eldoria, the storyteller's voice carried across the great chamber — calm, deliberate, alive.</textarea>
+          <div class="tts-controls">
+            <select class="sel" id="voice">
+              <option value="Aria">Aria — expressive, American</option>
+              <option value="Roger">Roger — confident, American</option>
+              <option value="Sarah">Sarah — soft, American</option>
+              <option value="Charlie">Charlie — natural, Australian</option>
+              <option value="George">George — warm, British</option>
+              <option value="River">River — calm, American</option>
+              <option value="Charlotte">Charlotte — seductive, Swedish</option>
+            </select>
+            <select class="sel" id="model">
+              <option value="eleven_multilingual_v2">Eleven Multilingual v2</option>
+              <option value="eleven_turbo_v2_5">Eleven Turbo v2.5</option>
+              <option value="eleven_flash_v2_5">Eleven Flash v2.5</option>
+              <option value="eleven_v3">Eleven v3 (alpha)</option>
+            </select>
+          </div>
+          <div class="sliders">
+            <div class="slider"><label>Stability <b id="stab-v">0.50</b></label><input type="range" id="stab" min="0" max="100" value="50"></div>
+            <div class="slider"><label>Similarity <b id="sim-v">0.75</b></label><input type="range" id="sim" min="0" max="100" value="75"></div>
+            <div class="slider"><label>Style <b id="style-v">0.00</b></label><input type="range" id="style" min="0" max="100" value="0"></div>
+          </div>
+          <div class="gen-row">
+            <button class="gen-btn" id="gen" onclick="generate()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3zm7 9a7 7 0 0 1-14 0H3a9 9 0 0 0 8 8.94V23h2v-3.06A9 9 0 0 0 21 11z"/></svg>
+              Generate speech
+            </button>
+            <span class="char-count"><span id="chars">0</span> / 10,000</span>
+          </div>
+          <div class="player">
+            <div class="player-top">
+              <button class="play" id="play" disabled aria-label="Play">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="wave" id="wave"></div>
+              <span class="player-time" id="time">0:00</span>
+            </div>
+            <div class="player-meta">
+              <span id="m-status">Idle</span>
+              <span>voice <b id="m-voice">Aria</b></span>
+              <span>model <b id="m-model">eleven_multilingual_v2</b></span>
+              <span id="m-credits" style="display:none">credits <b id="m-cr">—</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><span class="panel-title">Python · elevenlabs</span></div>
+<div class="code-block"><span class="tok-com"># pip install elevenlabs</span>
+<span class="tok-key">from</span> elevenlabs.client <span class="tok-key">import</span> ElevenLabs
+<span class="tok-key">from</span> elevenlabs <span class="tok-key">import</span> play
+
+client = <span class="tok-fn">ElevenLabs</span>(api_key=<span class="tok-str">API_KEY</span>)
+
+audio = client.text_to_speech.<span class="tok-fn">convert</span>(
+    voice_id=<span class="tok-str">"9BWtsMINqrJLrRacOk9x"</span>,  <span class="tok-com"># Aria</span>
+    model_id=<span class="tok-str">"eleven_multilingual_v2"</span>,
+    text=<span class="tok-str">"Bringing technology to life."</span>,
+    output_format=<span class="tok-str">"mp3_44100_128"</span>,
+)
+<span class="tok-fn">play</span>(audio)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row" style="margin-bottom:10px">
+          <button class="btn btn-primary">Sign up</button>
+          <button class="btn btn-secondary">Contact sales</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost">Explore docs</button>
+          <button class="btn btn-ghost">View pricing</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Input &amp; product tags</div>
+        <input class="m-input" placeholder="Search voices…" style="margin-bottom:12px">
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(43,127,255,.12);color:var(--link)">Text to Speech</span>
+          <span class="badge" style="background:rgba(16,185,120,.14);color:var(--green)">Ready</span>
+          <span class="badge" style="background:rgba(196,125,229,.16);color:var(--cat-purple)">Voice Cloning</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text3)">Dubbing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <div class="section-label">Spacing</div>
+    <div class="sp-rows">
+      <div class="sp-row"><span class="sp-label">space-1</span><div class="sp-bar" style="width:4px"></div><span class="sp-val">4px</span></div>
+      <div class="sp-row"><span class="sp-label">space-2</span><div class="sp-bar" style="width:8px"></div><span class="sp-val">8px</span></div>
+      <div class="sp-row"><span class="sp-label">space-3</span><div class="sp-bar" style="width:12px"></div><span class="sp-val">12px</span></div>
+      <div class="sp-row"><span class="sp-label">space-4</span><div class="sp-bar" style="width:16px"></div><span class="sp-val">16px</span></div>
+      <div class="sp-row"><span class="sp-label">space-6</span><div class="sp-bar" style="width:24px"></div><span class="sp-val">24px</span></div>
+      <div class="sp-row"><span class="sp-label">space-8</span><div class="sp-bar" style="width:32px"></div><span class="sp-val">32px</span></div>
+      <div class="sp-row"><span class="sp-label">space-12</span><div class="sp-bar" style="width:48px"></div><span class="sp-val">48px</span></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div class="do">
+        <div class="gr-heading do">DO</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the shell monochrome — ink #000/#1C1C1C on eggshell #FDFCFC (light) or #0F1117 (dark)</div>
+          <div class="gr-item">Use the categorical ramps for voices, languages, waveforms and states — not as one brand hue</div>
+          <div class="gr-item">Make primary buttons the ink color (black on light, white on dark), not a colored accent</div>
+          <div class="gr-item">Use Waldenburg for display and UI; Geist Mono only for model IDs, code and metrics</div>
+          <div class="gr-item">Use real model IDs (eleven_multilingual_v2, eleven_turbo_v2_5, eleven_v3) and real voice names</div>
+        </div>
+      </div>
+      <div class="dont">
+        <div class="gr-heading dont">DON'T</div>
+        <div class="gr-list">
+          <div class="gr-item">Invent a single "ElevenLabs brand color" — the brand is monochrome, the scale is categorical</div>
+          <div class="gr-item">Use #000 for text on the dark surface — flip to #FFFFFF</div>
+          <div class="gr-item">Over-saturate dark surfaces; step within the real neutral ramp (#0F1117 → #1C1C1C → #3D3D3D)</div>
+          <div class="gr-item">Mix Waldenburg into code/metadata or Geist Mono into headings</div>
+          <div class="gr-item">Derive the waveform from Math.random() — it must be deterministic from the input text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(hex){
+  navigator.clipboard.writeText(hex).catch(()=>{});
+  const t=document.getElementById('toast');
+  t.textContent='Copied '+hex;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// live slider readouts
+function bind(id,vid){const s=document.getElementById(id),v=document.getElementById(vid);
+  s.addEventListener('input',()=>v.textContent=(s.value/100).toFixed(2));}
+bind('stab','stab-v');bind('sim','sim-v');bind('style','style-v');
+
+const area=document.getElementById('tts-text');
+function updChars(){document.getElementById('chars').textContent=area.value.length.toLocaleString();}
+area.addEventListener('input',updChars);updChars();
+
+// deterministic waveform: bar heights hashed from the input text (no Math.random)
+const NBARS=56;
+function buildWave(text){
+  const wave=document.getElementById('wave');wave.innerHTML='';bars=[];
+  for(let i=0;i<NBARS;i++){
+    let h=0;
+    for(let j=0;j<text.length;j++){h=(h*31 + text.charCodeAt(j)*(i+7) + i*13)>>>0;}
+    const pct=14 + (h % 82); // 14%..96%
+    const b=document.createElement('div');b.className='wave-bar';b.style.height=pct+'%';
+    wave.appendChild(b);bars.push(b);
+  }
+}
+let bars=[];buildWave(area.value);
+
+let busy=false,playTimer=null;
+function fmt(s){const m=Math.floor(s/60);const r=Math.floor(s%60);return m+':'+String(r).padStart(2,'0');}
+
+function generate(){
+  if(busy)return;busy=true;
+  const voice=document.getElementById('voice').value;
+  const model=document.getElementById('model').value;
+  const text=area.value.trim()||'Bringing technology to life.';
+  buildWave(text);
+  document.getElementById('m-voice').textContent=voice;
+  document.getElementById('m-model').textContent=model;
+  document.getElementById('m-credits').style.display='none';
+  const gen=document.getElementById('gen'),play=document.getElementById('play');
+  const status=document.getElementById('m-status'),timeEl=document.getElementById('time');
+  gen.disabled=true;play.disabled=true;
+  status.textContent='Generating…';
+  bars.forEach(b=>b.classList.remove('on'));
+  // deterministic duration ≈ chars/15 chars-per-second, credits = char count
+  const dur=Math.max(2,Math.round(text.length/15));
+  const credits=text.length;
+  // fill bars progressively as the model "generates"
+  let k=0;
+  const genT=setInterval(()=>{
+    if(k>=NBARS){
+      clearInterval(genT);
+      status.textContent='Ready';
+      play.disabled=false;busy=false;gen.disabled=false;
+      document.getElementById('m-cr').textContent=credits+' chars';
+      document.getElementById('m-credits').style.display='';
+      timeEl.textContent=fmt(dur);
+      play.onclick=()=>playback(dur);
+      return;
+    }
+    bars[k].classList.add('on');k++;
+  },1000/NBARS*0.9);
+}
+
+function playback(dur){
+  if(playTimer)return;
+  const timeEl=document.getElementById('time'),status=document.getElementById('m-status');
+  status.textContent='Playing';
+  let step=0;const steps=NBARS;
+  bars.forEach(b=>b.classList.remove('on'));
+  playTimer=setInterval(()=>{
+    if(step>=steps){clearInterval(playTimer);playTimer=null;status.textContent='Ready';timeEl.textContent=fmt(dur);return;}
+    bars[step].classList.add('on');
+    timeEl.textContent=fmt(dur*step/steps);
+    step++;
+  },dur*1000/steps);
+}
+</script>
+</body>
+</html>

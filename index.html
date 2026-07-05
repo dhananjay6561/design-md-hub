@@ -148,11 +148,13 @@ const BRANDS=[
   ["digitalocean","DigitalOcean","Infra","#0069FF"],
   ["docker","Docker","Dev Tools","#1D63ED"],
   ["doppler","Doppler","Auth","#6B13F5"],
+  ["elevenlabs","ElevenLabs","AI","#111111"],
   ["expo","Expo","Dev Tools","#4630EB"],
   ["figma","Figma","Content","#0D99FF"],
   ["firebase","Firebase","Dev Tools","#FF9100"],
   ["github","GitHub","Dev Tools","#0969DA"],
   ["gitlab","GitLab","Dev Tools","#FC6D26"],
+  ["groq","Groq","AI","#F43E01"],
   ["hasura","Hasura","Data","#3970FD"],
   ["huggingface","Hugging Face","AI","#FFD21E"],
   ["infisical","Infisical","Auth","#EAB308"],
@@ -163,6 +165,7 @@ const BRANDS=[
   ["linear","Linear","Dev Tools","#5E6AD2"],
   ["liveblocks","Liveblocks","Dev Tools","#0057FF"],
   ["mintlify","Mintlify","Content","#0C8C5E"],
+  ["mistral","Mistral AI","AI","#FF5229"],
   ["mixpanel","Mixpanel","Analytics","#7856FF"],
   ["mongodb","MongoDB","Data","#00ED64"],
   ["neon","Neon","Data","#00E599"],
@@ -184,6 +187,7 @@ const BRANDS=[
   ["replit","Replit","Dev Tools","#FF3C00"],
   ["resend","Resend","Dev Tools","#0A0A0A"],
   ["retool","Retool","Dev Tools","#F05A28"],
+  ["runway","Runway","AI","#111111"],
   ["sanity","Sanity","Content","#F03E2F"],
   ["sentry","Sentry","Observability","#6A5FC1"],
   ["shopify","Shopify","Payments","#008060"],
@@ -205,9 +209,9 @@ const BRANDS=[
 ];
 
 // Simple Icons slug overrides where the icon slug != folder name
-const SI={wandb:'weightsandbiases'};
+const SI={wandb:'weightsandbiases',mistral:'mistralai'};
 // Brands not in Simple Icons (removed for trademark or never added) → fall back to the site favicon
-const DOMAIN={amplitude:'amplitude.com',dagster:'dagster.io',dbt:'getdbt.com',doppler:'doppler.com',infisical:'infisical.com',launchdarkly:'launchdarkly.com',liveblocks:'liveblocks.io',openai:'openai.com',pinecone:'pinecone.io',stytch:'stytch.com',twilio:'twilio.com',workos:'workos.com'};
+const DOMAIN={amplitude:'amplitude.com',dagster:'dagster.io',dbt:'getdbt.com',doppler:'doppler.com',infisical:'infisical.com',launchdarkly:'launchdarkly.com',liveblocks:'liveblocks.io',openai:'openai.com',pinecone:'pinecone.io',stytch:'stytch.com',twilio:'twilio.com',workos:'workos.com',groq:'groq.com',runway:'runwayml.com'};
 
 // logo chain: Simple Icons → site favicon (white chip) → letter monogram
 function logoFallback(img){
