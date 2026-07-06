@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* real Family typefaces — self-hosted, CORS-open (access-control-allow-origin: *) */
+@font-face{font-family:'Family';src:url('https://family.co/fonts/Family-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Family';src:url('https://family.co/fonts/Family-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Family';src:url('https://family.co/fonts/Family-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'LFESans';src:url('https://family.co/fonts/LFESans-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'LFESans';src:url('https://family.co/fonts/LFESans-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'LFESans';src:url('https://family.co/fonts/LFESans-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'LFESans';src:url('https://family.co/fonts/LFESans-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{
+  /* Family brand blue + accents — theme-invariant */
+  --app-blue:#018DFF;--blue:#3784F4;--anchor:#6187FE;--blue-alt:#4DAFFF;--blue-pale:#8ECCFF;
+  --gold:#FEBE44;--pink:#F966AC;
+  /* asset chip colors */
+  --eth:#627EEA;--usdc:#2775CA;--base:#0052FF;--op:#FF0420;--poly:#8247E5;--arb:#12AAFF;
+}
+:root[data-theme="light"]{
+  --bg:#FBFAF9;--bg2:#F6F4EF;--bg3:#EFEDE7;--bg-code:#F3F5F7;
+  --card:#FFFFFF;--border:#E8E8E8;--border-strong:#DAD8D4;
+  --text:#343433;--text2:#57544F;--text3:#848281;
+  --brand:#018DFF;--brand-hover:#0071D6;--brand-btn-text:#FFFFFF;
+  --green:#1FA854;--green-chip:#34C759;--danger:#FF4E4E;--warning:#F6C30F;--orange:#FF5310;
+  --ring:rgba(1,141,255,.18);
+  --shadow:0 12px 40px rgba(24,20,16,.10);
+}
+:root[data-theme="dark"]{
+  --bg:#171717;--bg2:#1F1F1E;--bg3:#282827;--bg-code:#121212;
+  --card:#201F1E;--border:#2E2D2B;--border-strong:#3B3A37;
+  --text:#FBFAF9;--text2:#B7B4AF;--text3:#848281;
+  --brand:#018DFF;--brand-hover:#3BA5FF;--brand-btn-text:#FFFFFF;
+  --green:#34C759;--green-chip:#34C759;--danger:#FF5C5C;--warning:#F6C30F;--orange:#FF6A38;
+  --ring:rgba(1,141,255,.30);
+  --shadow:0 12px 40px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Family',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.num{font-family:'LFESans','Family',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center;align-items:center;color:var(--text)}
+.hero-logo svg{height:34px;width:auto}
+.hero h1{font-size:47px;font-weight:600;letter-spacing:-.025em;line-height:1.06;margin-bottom:15px}
+.hero h1 .b{color:var(--app-blue)}
+.hero p{font-size:17px;color:var(--text3);max-width:520px;margin:0 auto}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:12px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.8}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:112px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text3);padding:2px 6px;border-radius:6px;white-space:nowrap}
+
+/* signature: Family wallet */
+.wallet-wrap{display:grid;grid-template-columns:340px 1fr;gap:34px;align-items:start}
+@media(max-width:820px){.wallet-wrap{grid-template-columns:1fr;max-width:360px;margin:0 auto}}
+.phone{background:var(--card);border:1px solid var(--border);border-radius:30px;padding:22px 20px 16px;box-shadow:var(--shadow)}
+.wtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.wallet-pill{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:9999px;padding:5px 12px 5px 6px;font-size:13px;font-weight:500;cursor:pointer}
+.wallet-av{width:22px;height:22px;border-radius:9999px;background:linear-gradient(150deg,var(--app-blue),var(--blue-pale));display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
+.wtop-ic{width:32px;height:32px;border-radius:9999px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--text2);cursor:pointer}
+.wtop-ic:hover{background:var(--border)}
+.balance{font-size:44px;font-weight:700;line-height:1;margin:2px 0 8px}
+.chg{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600}
+.chg .num{font-weight:600}
+.chg.up{color:var(--green)}.chg.down{color:var(--danger)}
+.chg .dot{width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent}
+.chg.up .dot{border-bottom:6px solid var(--green)}
+.chg.down .dot{border-top:6px solid var(--danger)}
+/* scrub chart */
+.chart{position:relative;margin:16px 0 6px;touch-action:none;cursor:ew-resize}
+.chart svg{display:block;width:100%;height:96px;overflow:visible}
+.chart .cursor-line{stroke:var(--text3);stroke-width:1;stroke-dasharray:3 3;opacity:0}
+.chart .cursor-dot{fill:var(--app-blue);stroke:var(--card);stroke-width:3;opacity:0}
+.chart.scrubbing .cursor-line,.chart.scrubbing .cursor-dot{opacity:1}
+.chart-times{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:2px}
+.timeframes{display:flex;gap:4px;justify-content:center;margin:10px 0 18px}
+.tf{font-size:12px;font-weight:600;color:var(--text3);padding:5px 12px;border-radius:9999px;cursor:pointer;font-variant-numeric:tabular-nums}
+.tf.on{background:var(--app-blue);color:#fff}
+/* segmented control */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--bg3);border-radius:9999px;padding:3px;margin-bottom:14px}
+.seg-thumb{position:absolute;top:3px;left:3px;height:calc(100% - 6px);width:calc((100% - 6px)/3);background:var(--card);border-radius:9999px;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.seg button{position:relative;z-index:1;background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--text3);padding:7px 0;cursor:pointer;border-radius:9999px}
+.seg button.on{color:var(--text)}
+.panel{display:none;flex-direction:column;gap:2px;min-height:196px}
+.panel.on{display:flex}
+/* token rows */
+.trow{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:14px;cursor:pointer;transition:background .12s}
+.trow:hover{background:var(--bg2)}
+.tchip{width:34px;height:34px;border-radius:9999px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+.tmeta{display:flex;flex-direction:column;gap:1px}
+.tname{font-size:14px;font-weight:500}
+.tsub{font-size:11.5px;color:var(--text3)}
+.tval{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:1px}
+.tfiat{font-size:14px;font-weight:600}
+.tamt{font-size:11.5px;color:var(--text3)}
+/* swap panel */
+.swap-card{background:var(--bg2);border-radius:18px;padding:4px;position:relative}
+.swap-leg{background:var(--card);border:1px solid var(--border);border-radius:15px;padding:13px 15px;display:flex;align-items:center;justify-content:space-between}
+.swap-leg+.swap-leg{margin-top:4px}
+.swap-lbl{font-size:11px;color:var(--text3);margin-bottom:4px}
+.swap-amt{font-size:23px;font-weight:700}
+.swap-tok{display:flex;align-items:center;gap:7px;background:var(--bg3);border-radius:9999px;padding:5px 11px 5px 6px;font-size:13px;font-weight:600;white-space:nowrap}
+.swap-flip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:9999px;background:var(--app-blue);color:#fff;border:3px solid var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.swap-rate{font-size:11.5px;color:var(--text3);text-align:center;margin:12px 0 6px}
+/* activity */
+.act{display:flex;align-items:center;gap:12px;padding:9px 8px}
+.act-ic{width:34px;height:34px;border-radius:9999px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.act-ic.in{background:rgba(52,199,89,.14);color:var(--green)}
+.act-ic.out{background:rgba(255,83,16,.14);color:var(--orange)}
+.act-ic.swp{background:rgba(1,141,255,.14);color:var(--app-blue)}
+.act-meta{display:flex;flex-direction:column;gap:1px}
+.act-t{font-size:13.5px;font-weight:500}
+.act-s{font-size:11.5px;color:var(--text3)}
+.act-v{margin-left:auto;font-size:13.5px;font-weight:600;text-align:right}
+.act-v.pos{color:var(--green)}
+.wsend{display:flex;gap:8px;margin-top:16px}
+.wsend .btn{flex:1;justify-content:center}
+/* right column notes */
+.sig-notes{display:flex;flex-direction:column;gap:16px}
+.note-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px 20px}
+.note-card h4{font-size:14px;font-weight:600;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.note-card p{font-size:13px;color:var(--text2);line-height:1.55}
+.note-dot{width:8px;height:8px;border-radius:9999px}
+.watch{display:flex;gap:8px;margin-top:12px}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:9999px;padding:0 17px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:transform .16s cubic-bezier(.34,1.56,.64,1),background .12s,border-color .12s}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--brand);color:var(--brand-btn-text)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:var(--bg3);border-color:transparent;color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+.btn-ghost{background:transparent;color:var(--app-blue)}
+.btn-ghost:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--card);border:1px solid var(--border);border-radius:12px;height:40px;padding:0 14px;font-size:13px;font-family:inherit;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:60px;height:60px;background:var(--app-blue);opacity:.9;margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3)}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--green)}
+.gr-heading.dont{color:var(--danger)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--green)}
+.dont .gr-item::before{background:var(--danger)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:9px 17px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/family/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg aria-label="Family" width="144" height="36" viewBox="0 0 72 18" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M15.9502 2.68053C15.95 1.97316 15.669 1.29482 15.1688 0.794634C14.6686 0.294447 13.9902 0.0133573 13.2829 0.0131584C11.9891 3.34419e-05 10.9204 0.924408 10.6552 2.13903H10.5892C10.4662 1.53766 10.1397 0.997068 9.66463 0.60835C9.18957 0.219633 8.59504 0.00655129 7.98121 0.0050099C7.36739 0.00346851 6.77179 0.213562 6.29479 0.599888C5.81778 0.986215 5.48852 1.52516 5.36249 2.12591H5.29649C5.19833 1.65187 4.97337 1.21336 4.64561 0.857102C4.31785 0.500846 3.89957 0.2402 3.43534 0.102946C2.97111 -0.034308 2.47834 -0.0430266 2.00955 0.0777195C1.54076 0.198466 1.11351 0.444151 0.773352 0.78859C0.433193 1.13303 0.192869 1.56331 0.0779936 2.03358C-0.0368817 2.50384 -0.0220025 2.99647 0.121045 3.45894C0.264093 3.92142 0.529948 4.33641 0.890275 4.65969C1.2506 4.98297 1.69189 5.20243 2.16712 5.29466V5.34753C1.55751 5.46642 1.00821 5.79356 0.613293 6.27293C0.218378 6.7523 0.00242551 7.35407 0.00242551 7.97516C0.00242551 8.59625 0.218378 9.19802 0.613293 9.67739C1.00821 10.1568 1.55751 10.4839 2.16712 10.6028V10.6553C1.69141 10.7457 1.24922 10.9637 0.887841 11.286C0.526461 11.6083 0.259487 12.0227 0.115472 12.485C-0.0285422 12.9473 -0.0441795 13.4401 0.0702328 13.9106C0.184645 14.3811 0.424803 14.8117 0.765021 15.1562C1.10524 15.5008 1.53272 15.7464 2.00174 15.8667C2.47076 15.9871 2.96368 15.9777 3.42777 15.8396C3.89187 15.7014 4.30968 15.4397 4.63653 15.0825C4.96338 14.7252 5.18696 14.2858 5.28337 13.8113H5.34937C5.60024 15.0259 6.68287 15.9488 7.96387 15.9488C8.58005 15.9516 9.178 15.7398 9.65503 15.3498C10.1321 14.9597 10.4584 14.4158 10.578 13.8113H10.644C10.8949 15.0259 11.9775 15.9488 13.2585 15.9488C13.9224 15.9472 14.5619 15.6985 15.0525 15.2512C15.5431 14.8039 15.8495 14.1899 15.9122 13.529C15.9748 12.868 15.7891 12.2074 15.3913 11.6759C14.9935 11.1444 14.412 10.78 13.7602 10.6538V10.6013C14.3699 10.4824 14.9192 10.1553 15.3141 9.67589C15.709 9.19652 15.9249 8.59475 15.9249 7.97366C15.9249 7.35257 15.709 6.7508 15.3141 6.27143C14.9192 5.79206 14.3699 5.46492 13.7602 5.34603V5.29316C14.3743 5.1849 14.9305 4.86358 15.3311 4.38572C15.7317 3.90786 15.9509 3.30407 15.9502 2.68053ZM12.2662 11.6457C12.2664 11.7272 12.2504 11.808 12.2193 11.8833C12.1882 11.9587 12.1425 12.0272 12.0848 12.0848C12.0271 12.1425 11.9587 12.1882 11.8833 12.2193C11.8079 12.2505 11.7272 12.2664 11.6456 12.2663H4.31774C4.2362 12.2664 4.15543 12.2505 4.08007 12.2193C4.0047 12.1882 3.93623 12.1425 3.87857 12.0848C3.82091 12.0272 3.7752 11.9587 3.74406 11.8833C3.71292 11.808 3.69697 11.7272 3.69712 11.6457V4.31778C3.69697 4.23624 3.71292 4.15547 3.74406 4.0801C3.7752 4.00474 3.82091 3.93626 3.87857 3.8786C3.93623 3.82094 4.0047 3.77524 4.08007 3.7441C4.15543 3.71296 4.2362 3.69701 4.31774 3.69716H11.6456C11.7272 3.69701 11.8079 3.71296 11.8833 3.7441C11.9587 3.77524 12.0271 3.82094 12.0848 3.8786C12.1425 3.93626 12.1882 4.00474 12.2193 4.0801C12.2504 4.15547 12.2664 4.23624 12.2662 4.31778V11.6457Z" fill="currentColor"></path></g><g><path d="M24.2421 4.81933H30.1308V2.79883H21.8785V14.326H24.2421V9.2822H29.2068V7.28833H24.2421V4.81933Z" fill="currentColor"></path><path d="M36.8649 6.74682C36.3369 5.95482 35.2674 5.43994 34.1713 5.43994C31.6363 5.43994 29.9199 7.19569 29.9199 9.95532C29.9199 12.7149 31.6363 14.4711 34.1713 14.4842C35.2674 14.4842 36.35 13.9431 36.8649 13.1773V14.3398H39.0699V5.58507H36.8649V6.74682ZM34.5024 12.5968C33.1149 12.5968 32.1519 11.5142 32.1399 9.95607C32.1399 8.37169 33.1172 7.31532 34.5024 7.31532C35.8877 7.31532 36.8649 8.37169 36.8649 9.95607C36.8649 11.5003 35.8877 12.5961 34.5002 12.5961L34.5024 12.5968Z" fill="currentColor"></path><path d="M51.006 5.43994C49.8435 5.43994 48.8685 5.95482 48.207 7.01082C47.7195 6.04707 46.728 5.43994 45.5003 5.43994C44.2853 5.43994 43.4798 6.03394 42.978 6.79969V5.58507H40.773V14.3248H42.978V9.22932C42.978 8.08069 43.6647 7.36744 44.721 7.36744C45.7774 7.36744 46.4625 8.18607 46.4625 9.22932V14.3391H48.6675V9.22932C48.6675 8.26519 49.155 7.36744 50.4105 7.36744C51.573 7.36744 52.1667 8.21269 52.1667 9.22932V14.3248H54.375V8.64844C54.375 6.66769 52.8413 5.43994 51.006 5.43994Z" fill="currentColor"></path><path d="M57.0531 4.4364C57.8771 4.4364 58.5452 3.76835 58.5452 2.94427C58.5452 2.1202 57.8771 1.45215 57.0531 1.45215C56.229 1.45215 55.5609 2.1202 55.5609 2.94427C55.5609 3.76835 56.229 4.4364 57.0531 4.4364Z" fill="currentColor"></path><path d="M58.1624 5.58496H55.9574V14.339H58.1624V5.58496Z" fill="currentColor"></path><path d="M61.9785 11.5533V2.79932H59.775V11.7911C59.775 14.0752 61.2802 14.6561 63.0375 14.4314V12.5302C62.4274 12.5831 61.9785 12.3719 61.9785 11.5533Z" fill="currentColor"></path><path d="M69.6499 5.58496L67.4449 11.2497L65.2924 5.58721H62.916L66.3375 14.1143L66.075 14.7616C65.7713 15.5273 65.1638 15.7385 64.596 15.7385C64.2 15.7385 63.6983 15.6196 63.0514 15.3027V17.2437C63.5799 17.4782 64.1474 17.6126 64.725 17.6401C66.4418 17.6401 67.4846 16.9651 68.079 15.4876L72 5.58496H69.6499Z" fill="currentColor"></path></g></svg>
+    </div>
+    <h1>Your favorite<br><span class="b">crypto wallet</span>.</h1>
+    <p>Explore Ethereum with the best wallet for iOS. Interacting with crypto has never been so simple.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Family's one confident blue on a warm beige canvas">
+      <div class="strip-slab" style="background:#FBFAF9" onclick="copyHex('#FBFAF9')" title="beige"></div>
+      <div class="strip-slab" style="background:#018DFF" onclick="copyHex('#018DFF')" title="app-blue"></div>
+      <div class="strip-slab" style="background:#4DAFFF" onclick="copyHex('#4DAFFF')" title="blue-alt"></div>
+      <div class="strip-slab" style="background:#34C759" onclick="copyHex('#34C759')" title="app-green"></div>
+      <div class="strip-slab" style="background:#FEBE44" onclick="copyHex('#FEBE44')" title="gold"></div>
+      <div class="strip-slab" style="background:#343433" onclick="copyHex('#343433')" title="text"></div>
+    </div>
+
+    <div class="group-label">Brand blue</div>
+    <div class="swatch-grid" id="g-blue"></div>
+    <div class="group-label">Surfaces</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid" id="g-sem"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Family / 600</div><div class="type-spec">Display · 47px</div></div>
+        <div class="type-sample" style="font-size:34px;font-weight:600;letter-spacing:-.025em">Your favorite crypto wallet</div>
+        <div class="spec-pills"><span class="spec-pill">Family</span><span class="spec-pill">-2.5%</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Family / 500</div><div class="type-spec">Heading · 22px</div></div>
+        <div class="type-sample" style="font-size:22px;font-weight:500">See everything clearly.</div>
+        <div class="spec-pills"><span class="spec-pill">Family</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">LFESans / 700</div><div class="type-spec">Balance · tabular</div></div>
+        <div class="type-sample num" style="font-size:30px;font-weight:700">$48,215.60</div>
+        <div class="spec-pills"><span class="spec-pill">LFESans</span><span class="spec-pill">tabular-nums</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Family / 400</div><div class="type-spec">Body · 14px</div></div>
+        <div class="type-sample" style="font-size:14px">Easily send tokens and collectibles with the fewest taps, or share your wallet address by scanning a personalized QR code.</div>
+        <div class="spec-pills"><span class="spec-pill">Family</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono</div><div class="type-spec">Address · 13px</div></div>
+        <div class="type-sample mono" style="font-size:13px">vitalik.eth · 0xd8dA…6045</div>
+        <div class="spec-pills"><span class="spec-pill">Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Wallet</div>
+    <div class="wallet-wrap">
+      <div class="phone">
+        <div class="wtop">
+          <div class="wallet-pill"><span class="wallet-av">D</span>Main Wallet
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <div class="wtop-ic" title="Scan to receive"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20h.01M20 20v.01M17 20h.01M20 17h.01"/></svg></div>
+        </div>
+        <div class="balance num" id="wbal">$48,215.60</div>
+        <div class="chg up" id="wchg"><span class="dot"></span><span class="num" id="wchgv">$1,204.18 · 2.56%</span><span style="color:var(--text3);font-weight:500" id="wchgt">Today</span></div>
+
+        <div class="chart" id="chart">
+          <svg viewBox="0 0 300 96" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="fillg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="var(--app-blue)" stop-opacity="0.20"/>
+                <stop offset="1" stop-color="var(--app-blue)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path id="area" fill="url(#fillg)"></path>
+            <path id="line" fill="none" stroke="var(--app-blue)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+            <line class="cursor-line" id="cline" x1="0" y1="0" x2="0" y2="96"></line>
+            <circle class="cursor-dot" id="cdot" r="4.5" cx="0" cy="0"></circle>
+          </svg>
+        </div>
+        <div class="chart-times"><span>00:00</span><span>Now</span></div>
+
+        <div class="timeframes" id="tfs">
+          <span class="tf" data-tf="1H">1H</span>
+          <span class="tf on" data-tf="1D">1D</span>
+          <span class="tf" data-tf="1W">1W</span>
+          <span class="tf" data-tf="1M">1M</span>
+          <span class="tf" data-tf="1Y">1Y</span>
+        </div>
+
+        <div class="seg" id="seg">
+          <div class="seg-thumb" id="segthumb"></div>
+          <button class="on" data-p="tokens">Wallet</button>
+          <button data-p="swap">Swap</button>
+          <button data-p="activity">Activity</button>
+        </div>
+
+        <div class="panel on" data-panel="tokens">
+          <div class="trow"><div class="tchip" style="background:var(--eth)">Ξ</div><div class="tmeta"><span class="tname">Ethereum</span><span class="tsub mono">12.84 ETH</span></div><div class="tval"><span class="tfiat num">$41,308.10</span><span class="tamt num" style="color:var(--green)">+2.7%</span></div></div>
+          <div class="trow"><div class="tchip" style="background:var(--usdc)">$</div><div class="tmeta"><span class="tname">USD Coin</span><span class="tsub mono">4,500.00 USDC</span></div><div class="tval"><span class="tfiat num">$4,500.00</span><span class="tamt num">0.0%</span></div></div>
+          <div class="trow"><div class="tchip" style="background:var(--base)">B</div><div class="tmeta"><span class="tname">Base ETH</span><span class="tsub mono">0.61 ETH · Base</span></div><div class="tval"><span class="tfiat num">$1,962.40</span><span class="tamt num" style="color:var(--green)">+2.7%</span></div></div>
+          <div class="trow"><div class="tchip" style="background:var(--op)">O</div><div class="tmeta"><span class="tname">Optimism</span><span class="tsub mono">120.5 OP</span></div><div class="tval"><span class="tfiat num">$285.60</span><span class="tamt num" style="color:var(--danger)">−1.1%</span></div></div>
+          <div class="trow"><div class="tchip" style="background:var(--arb)">A</div><div class="tmeta"><span class="tname">Arbitrum</span><span class="tsub mono">210.0 ARB</span></div><div class="tval"><span class="tfiat num">$159.50</span><span class="tamt num" style="color:var(--green)">+0.9%</span></div></div>
+        </div>
+
+        <div class="panel" data-panel="swap">
+          <div class="swap-card">
+            <div class="swap-leg">
+              <div><div class="swap-lbl">You pay</div><div class="swap-amt num">1.00</div></div>
+              <div class="swap-tok"><span class="tchip" style="width:22px;height:22px;font-size:10px;background:var(--eth)">Ξ</span>ETH</div>
+            </div>
+            <div class="swap-flip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
+            <div class="swap-leg">
+              <div><div class="swap-lbl">You receive</div><div class="swap-amt num">3,216.48</div></div>
+              <div class="swap-tok"><span class="tchip" style="width:22px;height:22px;font-size:10px;background:var(--usdc)">$</span>USDC</div>
+            </div>
+          </div>
+          <div class="swap-rate mono">1 ETH ≈ 3,216.48 USDC · best price from 14 sources</div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:6px">Review Swap</button>
+        </div>
+
+        <div class="panel" data-panel="activity">
+          <div class="act"><div class="act-ic in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div><div class="act-meta"><span class="act-t">Received ETH</span><span class="act-s mono">from vitalik.eth</span></div><div class="act-v pos num">+0.50 ETH</div></div>
+          <div class="act"><div class="act-ic out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><div class="act-meta"><span class="act-t">Sent USDC</span><span class="act-s mono">to 0x71C…9f2A</span></div><div class="act-v num">−250.00 USDC</div></div>
+          <div class="act"><div class="act-ic swp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l4 4-4 4M20 7H8M8 21l-4-4 4-4M4 17h12"/></svg></div><div class="act-meta"><span class="act-t">Swapped ETH → USDC</span><span class="act-s mono">on Base</span></div><div class="act-v num">1.00 ETH</div></div>
+          <div class="act"><div class="act-ic in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div><div class="act-meta"><span class="act-t">Received OP</span><span class="act-s mono">Optimism airdrop</span></div><div class="act-v pos num">+120.5 OP</div></div>
+        </div>
+
+        <div class="wsend">
+          <button class="btn btn-primary">Send</button>
+          <button class="btn btn-secondary">Receive</button>
+          <button class="btn btn-secondary">Swap</button>
+        </div>
+      </div>
+
+      <div class="sig-notes">
+        <div class="note-card">
+          <h4><span class="note-dot" style="background:var(--app-blue)"></span>Scrub the chart</h4>
+          <p>Drag across the price chart — the balance and change animate in real time as the cursor moves, then spring back to <em>Now</em> when you let go. Watching those numbers move is the Family signature.</p>
+        </div>
+        <div class="note-card">
+          <h4><span class="note-dot" style="background:var(--green-chip)"></span>Fewest taps</h4>
+          <p>Send, receive, and swap live one tap away. Family sources optimal prices across exchanges so you get the best rate, whenever you want it.</p>
+        </div>
+        <div class="note-card">
+          <h4><span class="note-dot" style="background:var(--gold)"></span>Watch any wallet</h4>
+          <p>Follow unlimited wallets in view-only mode — just enter an address or ENS name and get real-time notifications on new activity.</p>
+          <div class="watch">
+            <input class="m-input" value="vitalik.eth" spellcheck="false">
+            <button class="btn btn-primary" style="white-space:nowrap">Watch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Get Started</button><button class="btn btn-secondary">Receive</button><button class="btn btn-ghost">Explore Family</button></div>
+        <div class="btn-row" style="margin-top:12px"><button class="btn btn-primary" style="width:100%;justify-content:center">Download for iOS</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Badges</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(52,199,89,.15);color:var(--green)">● Confirmed</span>
+          <span class="badge" style="background:rgba(1,141,255,.14);color:var(--app-blue)">Self-Custody</span>
+          <span class="badge" style="background:rgba(246,195,15,.18);color:#a97f00">Pending</span>
+          <span class="badge" style="background:rgba(255,78,78,.14);color:var(--danger)">Failed</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">WalletConnect</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Ethereum</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Base</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Optimism</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Send To (input)</div>
+        <input class="m-input" placeholder="Address or ENS name" spellcheck="false">
+        <div style="font-size:11.5px;color:var(--text3);margin-top:8px" class="mono">Supports .eth · resolves on-chain</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:12px"></div><span>input · 12</span></div>
+          <div><div class="box" style="border-radius:16px"></div><span>tile · 16</span></div>
+          <div><div class="box" style="border-radius:20px"></div><span>card · 20</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill · full</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Lead with one blue (<span class="mono">#018DFF</span>) on the warm beige canvas — restraint is the look.</div>
+          <div class="gr-item">Make every number animate — balances count, charts scrub. Motion is the product.</div>
+          <div class="gr-item">Round generously; keep surfaces soft and shadows warm and low.</div>
+          <div class="gr-item">Use real tokens, networks & ENS — mainnet plus L2s (Optimism, Base, Arbitrum, Polygon, zkSync).</div>
+          <div class="gr-item">Keep flows to the fewest taps — send, receive, swap should feel effortless.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Introduce a second brand hue — no rainbow gradients competing with the blue.</div>
+          <div class="gr-item">Use hard, cold borders or pure black/white — the canvas is warm (<span class="mono">#FBFAF9</span>).</div>
+          <div class="gr-item">Ship linear, abrupt transitions — everything should spring.</div>
+          <div class="gr-item">Imply custody of funds — Family is fully self-custodial; only the user holds the keys.</div>
+          <div class="gr-item">Use sharp corners or dense, cramped layouts — the app breathes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  blue:[['app-blue','#018DFF','Primary actions, links'],['blue','#3784F4','Chart & secondary fills'],['anchor','#6187FE','Inline text links'],['blue-alt','#4DAFFF','Illustration / dark accent'],['blue-light','#EEFBFD','Info surface tint']],
+  surf:[['beige','#FBFAF9','App background (light)'],['beige-dark','#EAEAEA','Recessed surface'],['ink-900','#171717','App background (dark)'],['ink-950','#121212','Deepest surface'],['border','#E8E8E8','Hairline borders']],
+  text:[['text','#343433','Primary text'],['body','#494340','Body copy'],['muted','#848281','Secondary text']],
+  sem:[['app-green','#34C759','Positive / receive'],['invalid','#FF4E4E','Error / destructive'],['warning','#F6C30F','Warning'],['gold','#FEBE44','Highlight / rewards'],['orange','#FF5310','Send / outgoing'],['pink','#F966AC','Playful accent']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+fillSwatch('g-blue',SW.blue);fillSwatch('g-surf',SW.surf);fillSwatch('g-text',SW.text);fillSwatch('g-sem',SW.sem);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- deterministic price series per timeframe (no Math.random) ---- */
+const N=64;
+function series(seed,drift){
+  // smooth pseudo-noise from layered sines — deterministic, seed varies the shape
+  const a=[];
+  for(let i=0;i<N;i++){
+    const t=i/(N-1);
+    const v=Math.sin(i*0.45+seed)*0.9 + Math.sin(i*0.17+seed*1.7)*1.5 + Math.sin(i*0.09+seed*0.4)*0.7 + t*drift;
+    a.push(v);
+  }
+  return a;
+}
+const BASE=48215.60;
+const TF={
+  '1H':{s:series(1.2,0.6),span:'the last hour',t0:'−60m'},
+  '1D':{s:series(2.7,3.2),span:'Today',t0:'00:00'},
+  '1W':{s:series(4.1,5.0),span:'this week',t0:'Mon'},
+  '1M':{s:series(0.6,9.0),span:'this month',t0:'30d ago'},
+  '1Y':{s:series(3.3,22.0),span:'this year',t0:'1y ago'}
+};
+let curTF='1D';
+
+const chart=document.getElementById('chart'),svg=chart.querySelector('svg');
+const lineEl=document.getElementById('line'),areaEl=document.getElementById('area');
+const cline=document.getElementById('cline'),cdot=document.getElementById('cdot');
+const t0Label=document.querySelector('.chart-times span:first-child');
+
+function scaleData(arr){
+  // map raw series to a dollar path around BASE; last point == BASE (Now)
+  const min=Math.min(...arr),max=Math.max(...arr),rng=(max-min)||1;
+  // normalized 0..1
+  const norm=arr.map(v=>(v-min)/rng);
+  // dollars: swing ~ +/- span around BASE, anchored so final = BASE
+  const swing=BASE*0.06;
+  const rawVals=norm.map(n=>BASE - swing/2 + n*swing);
+  const shift=BASE-rawVals[rawVals.length-1];
+  return rawVals.map(v=>v+shift);
+}
+let VALS=[],PX=[],PY=[];
+function buildPath(){
+  const tf=TF[curTF];
+  VALS=scaleData(tf.s);
+  const min=Math.min(...VALS),max=Math.max(...VALS),rng=(max-min)||1;
+  PX=[];PY=[];
+  let d='',area='';
+  for(let i=0;i<N;i++){
+    const x=i/(N-1)*300;
+    const y=90-((VALS[i]-min)/rng)*80; // 6..90 within 96 viewbox
+    PX.push(x);PY.push(y);
+    d+=(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2)+' ';
+  }
+  area=d+`L300 96 L0 96 Z`;
+  lineEl.setAttribute('d',d.trim());
+  areaEl.setAttribute('d',area.trim());
+  t0Label.textContent=tf.t0;
+  setReadout(N-1,false); // Now
+}
+function money(v){return '$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function setReadout(i,scrubbing){
+  i=Math.max(0,Math.min(N-1,i));
+  const v=VALS[i], base=VALS[0], diff=v-base, pct=(diff/base)*100;
+  document.getElementById('wbal').textContent=money(v);
+  const chg=document.getElementById('wchg'),val=document.getElementById('wchgv'),tl=document.getElementById('wchgt');
+  const up=diff>=0;
+  chg.className='chg '+(up?'up':'down');
+  val.textContent=(up?'+':'−')+money(Math.abs(diff)).slice(1)+' · '+Math.abs(pct).toFixed(2)+'%';
+  tl.textContent = scrubbing ? (TF[curTF].t0==='00:00'?'at '+String(Math.floor(i/N*24)).padStart(2,'0')+':00':'past') : TF[curTF].span;
+  // cursor
+  cline.setAttribute('x1',PX[i]);cline.setAttribute('x2',PX[i]);
+  cdot.setAttribute('cx',PX[i]);cdot.setAttribute('cy',PY[i]);
+}
+function pointerToIndex(e){
+  const r=svg.getBoundingClientRect();
+  const clientX=(e.touches?e.touches[0].clientX:e.clientX);
+  const rel=(clientX-r.left)/r.width;
+  return Math.round(rel*(N-1));
+}
+function startScrub(e){chart.classList.add('scrubbing');setReadout(pointerToIndex(e),true);e.preventDefault();}
+function moveScrub(e){if(chart.classList.contains('scrubbing')){setReadout(pointerToIndex(e),true);e.preventDefault();}}
+function endScrub(){if(chart.classList.contains('scrubbing')){chart.classList.remove('scrubbing');setReadout(N-1,false);}}
+chart.addEventListener('mousedown',startScrub);
+window.addEventListener('mousemove',moveScrub);
+window.addEventListener('mouseup',endScrub);
+chart.addEventListener('touchstart',startScrub,{passive:false});
+chart.addEventListener('touchmove',moveScrub,{passive:false});
+window.addEventListener('touchend',endScrub);
+
+/* ---- timeframes ---- */
+document.getElementById('tfs').addEventListener('click',e=>{
+  const t=e.target.closest('.tf');if(!t)return;
+  document.querySelectorAll('.tf').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');curTF=t.dataset.tf;buildPath();
+});
+
+/* ---- segmented control ---- */
+const seg=document.getElementById('seg'),thumb=document.getElementById('segthumb');
+seg.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  const btns=[...seg.querySelectorAll('button')],idx=btns.indexOf(b);
+  btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  thumb.style.transform=`translateX(${idx*100}%)`;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.dataset.panel===b.dataset.p));
+});
+
+buildPath();
+</script>
+</body>
+</html>
