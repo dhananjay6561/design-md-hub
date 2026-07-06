@@ -104,6 +104,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 81 | [Family](brands/family/DESIGN.md) | Fintech | [preview](https://dhananjay6561.github.io/design-md-hub/brands/family/preview.html) |
 | 82 | [Turborepo](brands/turbo/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/turbo/preview.html) |
 | 83 | [Grafana](brands/grafana/DESIGN.md) | Observability | [preview](https://dhananjay6561.github.io/design-md-hub/brands/grafana/preview.html) |
+| 84 | [k6](brands/k6/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/k6/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
