@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolt — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Bolt's UI is Inter (real) + JetBrains Mono for the editor/terminal. The bolt wordmark is a heavy bold-italic set here in Inter 800 italic. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Bolt brand — theme-invariant */
+  --blue:#1488FC;--blue-hover:#1172E2;--blue-deep:#03305D;
+  /* functional workbench signals */
+  --success:#3FB950;--warn:#D29922;
+  --sx-key:#FF7B72;--sx-str:#7EE787;--sx-fn:#D2A8FF;--sx-var:#79C0FF;--sx-com:#6A737D;--sx-txt:#C9D1D9;
+  --code-bg:#0B0C0F;
+}
+:root[data-theme="dark"]{
+  --bg:#08090C;--panel:#101216;--subtle:#16181D;--raised:#1E2127;
+  --border:#23262D;--border-strong:#31353E;
+  --text:#EDEEF2;--text2:#9BA1AD;--text3:#6A707C;--logo-fade:#23262D;
+  --accent:#1488FC;--link:#1488FC;--btn-fg:#FFFFFF;
+  --ring:rgba(20,136,252,.28);--shadow:0 22px 56px rgba(0,0,0,.55);
+  --aurora:radial-gradient(60% 60% at 82% -8%,rgba(20,136,252,.28),transparent 60%);
+  --card-glow:0 0 0 1px rgba(20,136,252,.5),0 0 32px rgba(20,136,252,.22);
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--panel:#FFFFFF;--subtle:#F5F6F8;--raised:#EDEEF1;
+  --border:#E4E6EB;--border-strong:#D3D6DE;
+  --text:#0D0E12;--text2:#5A5F6B;--text3:#8A8F99;--logo-fade:#E4E6EB;
+  --accent:#1172E2;--link:#1172E2;--btn-fg:#FFFFFF;
+  --ring:rgba(20,136,252,.18);--shadow:0 16px 44px rgba(20,40,90,.10);
+  --aurora:radial-gradient(60% 60% at 82% -8%,rgba(20,136,252,.12),transparent 60%);
+  --card-glow:0 0 0 1px rgba(20,136,252,.35),0 8px 30px rgba(20,136,252,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.wm{font-weight:800;font-style:italic;letter-spacing:-.03em}
+.wm .n{font-weight:600;font-style:italic;color:var(--text2)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:80px 0 64px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden;background:var(--aurora)}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px;z-index:2}
+.hero-logo{margin-bottom:22px;font-size:34px}
+.hero h1{font-weight:700;font-size:50px;letter-spacing:-.03em;line-height:1.05;margin-bottom:14px}
+@media(max-width:640px){.hero h1{font-size:35px}}
+.hero p{font-size:18px;color:var(--text2);max-width:520px;margin:0 auto 24px;line-height:1.5}
+/* hero prompt box with streak + glow */
+.promptbox{position:relative;max-width:540px;margin:0 auto;background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--card-glow);padding:16px 16px 12px;text-align:left;overflow:hidden}
+.streak{position:absolute;top:0;left:8%;right:8%;height:2px;background:linear-gradient(90deg,transparent,#EAF2FF 45%,#8Fc3FF 55%,transparent);filter:blur(.4px);box-shadow:0 0 12px rgba(180,215,255,.9)}
+.promptbox .ph{color:var(--text3);font-size:15px;min-height:44px}
+.promptbox .row{display:flex;align-items:center;gap:10px;color:var(--text3);margin-top:8px}
+.promptbox .row .sp{margin-left:auto}
+.promptbox .send{width:30px;height:30px;border-radius:9px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:9px;height:9px;border-radius:2px;background:var(--blue);box-shadow:0 0 10px var(--blue)}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:12px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.10)}
+.swatch-info{padding:9px 11px;background:var(--subtle)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:170px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: workbench ===== */
+.wb{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.wb-prompt{position:relative;padding:15px 16px;border-bottom:1px solid var(--border);overflow:hidden}
+.wb-input{display:flex;align-items:center;gap:11px;background:var(--subtle);border:1px solid var(--border);border-radius:13px;padding:11px 13px}
+.wb-input .txt{flex:1;font-size:14px;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wb-input .txt.ph{color:var(--text3)}
+.wb-build{font-family:inherit;font-weight:600;font-size:13px;color:#fff;background:var(--accent);border:none;border-radius:10px;padding:9px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;flex-shrink:0;transition:background .12s,transform .1s}
+.wb-build:hover{background:var(--blue-hover)}
+.wb-build:active{transform:translateY(1px)}
+.wb-build:disabled{opacity:.55;cursor:default}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.pchip{font-size:12px;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9999px;padding:5px 12px;cursor:pointer;transition:all .12s}
+.pchip:hover{border-color:var(--border-strong)}
+.pchip.on{color:var(--text);border-color:var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent)}
+
+.wb-body{display:grid;grid-template-columns:0.82fr 1.18fr;min-height:432px}
+@media(max-width:860px){.wb-body{grid-template-columns:1fr}}
+.side{border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--subtle);min-width:0}
+@media(max-width:860px){.side{border-right:none;border-bottom:1px solid var(--border)}}
+.side-h{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:13px 15px 9px}
+.chat{padding:0 15px 12px;overflow:auto;flex:1}
+.msg-user{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:9px 12px;font-size:13px;color:var(--text);margin-bottom:12px;display:none}
+.step{display:flex;align-items:flex-start;gap:9px;padding:4px 0;font-size:12.5px;color:var(--text2);opacity:0;transform:translateY(3px);transition:opacity .22s,transform .22s;line-height:1.4}
+.step.show{opacity:1;transform:none}
+.step .ic{width:15px;height:15px;flex-shrink:0;margin-top:1px}
+.step .file{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sx-var);background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:1px 6px}
+.spin{width:14px;height:14px;border:2px solid color-mix(in srgb,var(--blue) 30%,transparent);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* terminal */
+.term{margin-top:6px;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.65;color:#C9D1D9;min-height:0;display:none}
+.term.on{display:block}
+.term .tline{opacity:0;transition:opacity .18s;white-space:pre-wrap}
+.term .tline.show{opacity:1}
+.term .pr{color:var(--blue)}
+.term .ok{color:var(--success)}
+.term .dim{color:#6A737D}
+
+/* right pane: code / preview tabs */
+.pane{display:flex;flex-direction:column;min-width:0}
+.tabs{display:flex;align-items:center;gap:4px;padding:9px 12px;border-bottom:1px solid var(--border)}
+.tab{font-family:inherit;font-size:12.5px;font-weight:500;color:var(--text3);background:transparent;border:none;border-radius:8px;padding:6px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .12s}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--text);background:var(--raised)}
+.tab .dotp{width:6px;height:6px;border-radius:50%;background:var(--success);opacity:0;transition:opacity .2s}
+.tab.on .dotp.live{opacity:1}
+.deploy{margin-left:auto;font-family:inherit;font-size:12px;font-weight:600;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9px;padding:6px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.deploy:hover{border-color:var(--border-strong);color:var(--text)}
+.pane-body{flex:1;position:relative;overflow:hidden}
+/* code view */
+.codeview{position:absolute;inset:0;display:grid;grid-template-columns:150px 1fr}
+.tree{background:var(--subtle);border-right:1px solid var(--border);padding:9px 7px;overflow:auto;font-size:12px}
+.tf{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:7px;color:var(--text2);cursor:pointer;white-space:nowrap}
+.tf:hover{background:var(--raised)}
+.tf.on{background:var(--raised);color:var(--text)}
+.tf.dir{color:var(--text3);font-weight:500}
+.tf svg{width:13px;height:13px;flex-shrink:0;opacity:.8}
+.editor{background:var(--code-bg);overflow:auto;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65}
+.editor pre{margin:0;color:var(--sx-txt);white-space:pre}
+.ln{color:#464b54;margin-right:16px;user-select:none}
+/* preview view */
+.previewview{position:absolute;inset:0;background:#fff;display:none;overflow:auto}
+.previewview.on{display:block}
+.codeview.off{display:none}
+/* generated todo app (scoped .tv-) */
+.tv-wrap{max-width:340px;margin:26px auto;font-family:'Inter',sans-serif}
+.tv-h{font-size:22px;font-weight:700;color:#0f172a;margin-bottom:3px}
+.tv-sub{font-size:12px;color:#94a3b8;margin-bottom:15px}
+.tv-add{display:flex;gap:8px;margin-bottom:14px}
+.tv-add input{flex:1;border:1px solid #e2e8f0;border-radius:9px;padding:9px 11px;font-size:13px;color:#0f172a;outline:none}
+.tv-add .b{background:#1488FC;color:#fff;border:none;border-radius:9px;padding:0 14px;font-weight:600;font-size:13px;cursor:pointer}
+.tv-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #eef2f7;border-radius:10px;margin-bottom:7px;cursor:pointer}
+.tv-box{width:18px;height:18px;border:2px solid #cbd5e1;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.tv-item.done .tv-box{background:#1488FC;border-color:#1488FC}
+.tv-item.done .tv-lbl{color:#94a3b8;text-decoration:line-through}
+.tv-lbl{font-size:13.5px;color:#0f172a}
+.tv-count{font-size:11px;color:#94a3b8;text-align:center;margin-top:12px}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
+.sig-hint strong{color:var(--text2)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:10px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--blue-hover)}
+.btn-ghost{background:var(--panel);border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.m-input{background:var(--subtle);border:1px solid var(--border-strong);border-radius:12px;height:42px;padding:0 14px;font-size:14px;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:var(--accent);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--blue)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:2px}
+.do .gr-item::before{background:var(--blue)}
+.dont .gr-item::before{background:var(--text3)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/bolt/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo wm">bolt<span class="n">.new</span></div>
+    <h1>Prompt, run &amp; deploy web apps</h1>
+    <p>An AI builder that doesn't just write code — it runs it, right in your browser.</p>
+    <div class="promptbox">
+      <div class="streak"></div>
+      <div class="ph">What do you want to build?</div>
+      <div class="row">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05 12.25 20.24a5 5 0 0 1-7.07-7.07l8.49-8.49a3 3 0 0 1 4.24 4.24l-8.49 8.49a1 1 0 0 1-1.41-1.41l7.78-7.78"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4m0 10v4M3 12h4m10 0h4"/><path d="m6.3 6.3 2.4 2.4m6.6 6.6 2.4 2.4m0-11.4-2.4 2.4m-6.6 6.6-2.4 2.4"/></svg>
+        <span class="sp"></span>
+        <span class="send"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Electric blue on near-black">
+      <div class="strip-slab" style="background:#1488FC;flex:2.6" onclick="copyHex('#1488FC')" title="bolt-blue"></div>
+      <div class="strip-slab" style="background:#1172E2" onclick="copyHex('#1172E2')" title="blue-hover"></div>
+      <div class="strip-slab" style="background:#03305D" onclick="copyHex('#03305D')" title="blue-deep"></div>
+      <div class="strip-slab" style="background:#08090C" onclick="copyHex('#08090C')" title="canvas"></div>
+      <div class="strip-slab" style="background:#16181D" onclick="copyHex('#16181D')" title="subtle"></div>
+      <div class="strip-slab" style="background:#3FB950" onclick="copyHex('#3FB950')" title="success"></div>
+    </div>
+
+    <div class="group-label">Brand · electric blue on black</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · dark-first</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Functional · workbench &amp; syntax (not brand)</div>
+    <div class="swatch-grid" id="g-fn"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Inter / 800 italic</div><div class="type-spec">Wordmark</div></div>
+        <div class="type-sample wm" style="font-size:30px">bolt<span class="n">.new</span></div>
+        <div class="spec-pills"><span class="spec-pill">bold italic</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 700</div><div class="type-spec">Display · 50px</div></div>
+        <div class="type-sample" style="font-size:30px;font-weight:700;letter-spacing:-.03em">Prompt, run &amp; deploy</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">UI · body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">It doesn't just write code — it runs it in the browser.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono / 400</div><div class="type-spec">Editor · terminal · 12.5px</div></div>
+        <div class="type-sample mono" style="font-size:13px"><span style="color:var(--blue)">$</span> npm run dev <span style="color:var(--success)">➜ localhost:5173</span></div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Prompt → run → preview</div>
+    <div class="wb">
+      <div class="wb-prompt">
+        <div class="streak"></div>
+        <div class="wb-input">
+          <span class="txt" id="promptTxt"></span>
+          <button class="wb-build" id="buildBtn" onclick="build()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Build</button>
+        </div>
+        <div class="chips" id="promptChips"></div>
+      </div>
+      <div class="wb-body">
+        <div class="side">
+          <div class="side-h">Bolt</div>
+          <div class="chat" id="chat">
+            <div class="msg-user" id="msgUser"></div>
+            <div id="steps"></div>
+            <div class="term" id="term"></div>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="tabs">
+            <button class="tab on" id="tabCode" onclick="showTab('code')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6"/></svg>Code</button>
+            <button class="tab" id="tabPreview" onclick="showTab('preview')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/></svg>Preview<span class="dotp"></span></button>
+            <button class="deploy"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Deploy</button>
+          </div>
+          <div class="pane-body">
+            <div class="codeview" id="codeview">
+              <div class="tree" id="tree"></div>
+              <div class="editor"><pre id="code"></pre></div>
+            </div>
+            <div class="previewview" id="previewview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">Pick a prompt, press <strong>Build</strong> — Bolt writes the files, then a <strong>terminal actually runs</strong> <span class="mono">npm install</span> &amp; <span class="mono">npm run dev</span>, and the pane flips to a live <strong>Preview</strong>. Toggle Code / Preview. Deterministic.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Build</button>
+          <button class="btn btn-ghost">Deploy</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Suggested prompts</div>
+        <div class="chip-row">
+          <span class="pchip on">Todo app</span>
+          <span class="pchip">Landing page</span>
+          <span class="pchip">Kanban board</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Prompt box</div>
+        <input class="m-input" placeholder="What do you want to build?" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:16px"></div><span>16 card</span></div>
+          <div><div class="box" style="border-radius:12px"></div><span>12 panel</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>10 btn</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>chip</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Anchor on a <strong>near-black canvas</strong> with one <strong>electric blue</strong> (<span class="mono" style="color:var(--blue)">#1488FC</span>) and a faint blue aurora.</div>
+          <div class="gr-item">Give the prompt box its <strong>blue glow</strong> and bright <strong>light-streak</strong> — the signature energy.</div>
+          <div class="gr-item">Make the flow <strong>prompt → run → preview</strong>: write files, actually run a <strong>terminal</strong>, flip to a live preview.</div>
+          <div class="gr-item">Set the <strong>bolt</strong> wordmark in <strong>bold italic</strong>; UI in Inter, code in JetBrains Mono.</div>
+          <div class="gr-item">Keep the editor &amp; terminal <strong>always dark</strong> with GitHub-style syntax colors.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Use a light canvas as the primary identity — Bolt is dark &amp; electric (light is secondary).</div>
+          <div class="gr-item">Introduce a second brand hue; blue is the only accent (syntax/status are functional).</div>
+          <div class="gr-item">Present Bolt as just a code generator — show that it <strong>runs &amp; deploys</strong>.</div>
+          <div class="gr-item">Over-glow everything — the streak + card glow are focal; the rest stays matte.</div>
+          <div class="gr-item">Set the wordmark upright or light — the forward <strong>italic</strong> lean is the character.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['bolt-blue','#1488FC','Primary · links · glow'],['blue-hover','#1172E2','Hover / pressed'],['blue-deep','#03305D','Deep tint · borders'],['streak','#EAF2FF','The light-flare']],
+  surf:[['canvas','#08090C','App background'],['panel','#101216','Cards, workbench'],['subtle','#16181D','Chat · sidebars'],['raised','#1E2127','Active rows'],['code-bg','#0B0C0F','Editor + terminal']],
+  text:[['primary','#EDEEF2','Primary (dark)'],['secondary','#9BA1AD','Body'],['muted','#6A707C','Meta'],['link','#1488FC','Links']],
+  fn:[['success','#3FB950','Dev server ready'],['keyword','#FF7B72','Code keyword'],['string','#7EE787','Code string'],['fn / var','#D2A8FF','Function / variable']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- workbench: prompt → run → preview (deterministic) ---- */
+const CODE_TODO=`<span class="ln"> 1</span><span style="color:var(--sx-key)">import</span> { useState } <span style="color:var(--sx-key)">from</span> <span style="color:var(--sx-str)">'react'</span>
+<span class="ln"> 2</span>
+<span class="ln"> 3</span><span style="color:var(--sx-key)">export default function</span> <span style="color:var(--sx-fn)">App</span>() {
+<span class="ln"> 4</span>  <span style="color:var(--sx-key)">const</span> [<span style="color:var(--sx-var)">todos</span>, <span style="color:var(--sx-var)">setTodos</span>] = <span style="color:var(--sx-fn)">useState</span>([
+<span class="ln"> 5</span>    { id: <span style="color:var(--sx-var)">1</span>, text: <span style="color:var(--sx-str)">'Design the UI'</span>, done: <span style="color:var(--sx-var)">true</span> },
+<span class="ln"> 6</span>    { id: <span style="color:var(--sx-var)">2</span>, text: <span style="color:var(--sx-str)">'Wire up state'</span>, done: <span style="color:var(--sx-var)">false</span> },
+<span class="ln"> 7</span>    { id: <span style="color:var(--sx-var)">3</span>, text: <span style="color:var(--sx-str)">'Ship it'</span>, done: <span style="color:var(--sx-var)">false</span> },
+<span class="ln"> 8</span>  ])
+<span class="ln"> 9</span>
+<span class="ln">10</span>  <span style="color:var(--sx-key)">const</span> <span style="color:var(--sx-fn)">toggle</span> = (id) =&gt;
+<span class="ln">11</span>    <span style="color:var(--sx-fn)">setTodos</span>(t =&gt; t.<span style="color:var(--sx-fn)">map</span>(x =&gt;
+<span class="ln">12</span>      x.id === id ? { ...x, done: !x.done } : x))
+<span class="ln">13</span>
+<span class="ln">14</span>  <span style="color:var(--sx-key)">return</span> (
+<span class="ln">15</span>    <span style="color:var(--sx-var)">&lt;div</span> className=<span style="color:var(--sx-str)">"todo"</span><span style="color:var(--sx-var)">&gt;</span>
+<span class="ln">16</span>      <span style="color:var(--sx-var)">&lt;h1&gt;</span>Tasks<span style="color:var(--sx-var)">&lt;/h1&gt;</span>
+<span class="ln">17</span>      {todos.<span style="color:var(--sx-fn)">map</span>(t =&gt; (
+<span class="ln">18</span>        <span style="color:var(--sx-var)">&lt;TodoItem</span> key={t.id} {...t} onToggle={toggle} <span style="color:var(--sx-var)">/&gt;</span>
+<span class="ln">19</span>      ))}
+<span class="ln">20</span>    <span style="color:var(--sx-var)">&lt;/div&gt;</span>
+<span class="ln">21</span>  )
+<span class="ln">22</span>}`;
+const TREE=[
+  {d:1,n:'src'},
+  {f:'App.tsx',on:1,ind:1},
+  {f:'TodoItem.tsx',ind:1},
+  {f:'index.css',ind:1},
+  {f:'package.json'},
+  {f:'vite.config.ts'},
+];
+const PRESETS={
+  todo:{label:'Todo app',prompt:'Build a todo app with React + Vite',
+    steps:[
+      {t:'Setting up a Vite + React project',file:''},
+      {t:'Creating',file:'App.tsx'},
+      {t:'Creating',file:'TodoItem.tsx'},
+      {t:'Styling',file:'index.css'},
+    ]},
+};
+const TERM=[
+  {txt:'<span class="pr">$</span> npm install',d:0},
+  {txt:'<span class="dim">added 312 packages in 4.2s</span>',d:1},
+  {txt:'<span class="pr">$</span> npm run dev',d:1},
+  {txt:'<span class="dim">VITE v5.4.2  ready in 380 ms</span>',d:1},
+  {txt:'  <span class="ok">➜</span>  Local:   <span style="color:var(--sx-var)">http://localhost:5173/</span>',d:0,ready:true},
+];
+let preset='todo', busy=false, timers=[], curTab='code';
+
+function renderChips(){
+  document.getElementById('promptChips').innerHTML=Object.keys(PRESETS).map(k=>
+    `<span class="pchip${k===preset?' on':''}" data-k="${k}">${PRESETS[k].label}</span>`+
+    `<span class="pchip">Landing page</span><span class="pchip">Kanban board</span>`).join('');
+}
+function syncPrompt(){document.getElementById('promptTxt').textContent=PRESETS[preset].prompt;document.getElementById('promptTxt').classList.remove('ph');}
+function renderTree(){
+  document.getElementById('tree').innerHTML=TREE.map(x=>{
+    if(x.d)return `<div class="tf dir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>${x.n}</div>`;
+    const pad=x.ind?'style="padding-left:20px"':'';
+    return `<div class="tf${x.on?' on':''}" ${pad}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>${x.f}</div>`;
+  }).join('');
+}
+function showTab(t){
+  curTab=t;
+  document.getElementById('tabCode').classList.toggle('on',t==='code');
+  document.getElementById('tabPreview').classList.toggle('on',t==='preview');
+  document.getElementById('codeview').classList.toggle('off',t!=='code');
+  document.getElementById('previewview').classList.toggle('on',t==='preview');
+}
+function resetWb(){
+  timers.forEach(clearTimeout);timers=[];
+  document.getElementById('steps').innerHTML='';
+  document.getElementById('msgUser').style.display='none';
+  const term=document.getElementById('term');term.classList.remove('on');term.innerHTML='';
+  document.getElementById('code').innerHTML='<span class="ln"> 1</span><span class="dim">// your generated code appears here…</span>';
+  document.getElementById('tabPreview').querySelector('.dotp').classList.remove('live');
+  showTab('code');
+}
+function renderPreview(){
+  document.getElementById('previewview').innerHTML=
+    `<div class="tv-wrap"><div class="tv-h">Tasks</div><div class="tv-sub">3 items · built with Bolt</div>`+
+    `<div class="tv-add"><input placeholder="Add a task…" disabled><button class="b">Add</button></div>`+
+    `<div id="tvList"></div><div class="tv-count" id="tvCount"></div></div>`;
+  const items=[{t:'Design the UI',done:true},{t:'Wire up state',done:false},{t:'Ship it',done:false}];
+  const list=document.getElementById('tvList');
+  window.__todos=items;
+  function draw(){
+    list.innerHTML=items.map((it,i)=>`<div class="tv-item${it.done?' done':''}" data-i="${i}"><span class="tv-box">${it.done?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>':''}</span><span class="tv-lbl">${it.t}</span></div>`).join('');
+    document.getElementById('tvCount').textContent=items.filter(x=>!x.done).length+' left';
+    list.querySelectorAll('.tv-item').forEach(el=>el.addEventListener('click',()=>{items[el.dataset.i].done=!items[el.dataset.i].done;draw();}));
+  }
+  draw();
+}
+
+function build(){
+  if(busy)return;
+  resetWb();busy=true;
+  const p=PRESETS[preset];
+  document.getElementById('buildBtn').disabled=true;
+  const mu=document.getElementById('msgUser');mu.style.display='block';mu.textContent=p.prompt;
+  const stepsEl=document.getElementById('steps');
+  let t=350;
+  // stream file steps + reveal code
+  p.steps.forEach((st,i)=>{
+    timers.push(setTimeout(()=>{
+      const div=document.createElement('div');div.className='step';div.id='bstep'+i;
+      div.innerHTML=`<span class="ic"><span class="spin"></span></span><span>${st.t}${st.file?' <span class="file">'+st.file+'</span>':''}</span>`;
+      stepsEl.appendChild(div);requestAnimationFrame(()=>div.classList.add('show'));
+      document.getElementById('chat').scrollTop=99999;
+      if(st.file==='App.tsx')document.getElementById('code').innerHTML=CODE_TODO;
+    },t));
+    timers.push(setTimeout(()=>{
+      const div=document.getElementById('bstep'+i);
+      if(div)div.querySelector('.ic').innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    },t+430));
+    t+=560;
+  });
+  // then run terminal
+  const term=document.getElementById('term');
+  timers.push(setTimeout(()=>{term.classList.add('on');},t));
+  let tt2=t+250;
+  TERM.forEach((ln)=>{
+    timers.push(setTimeout(()=>{
+      const d=document.createElement('div');d.className='tline';d.innerHTML=ln.txt;
+      term.appendChild(d);requestAnimationFrame(()=>d.classList.add('show'));
+      document.getElementById('chat').scrollTop=99999;
+      if(ln.ready){
+        renderPreview();
+        document.getElementById('tabPreview').querySelector('.dotp').classList.add('live');
+        showTab('preview');
+        busy=false;document.getElementById('buildBtn').disabled=false;
+        toast('Dev server ready · preview live');
+      }
+    },tt2));
+    tt2+= ln.d? 620:360;
+  });
+}
+
+renderChips();syncPrompt();renderTree();resetWb();
+</script>
+</body>
+</html>
