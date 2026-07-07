@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clay — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Clay's real faces — Roobert (geometric grotesque, UI+display) + Canela (editorial serif), self-hosted on Clay's Webflow CDN, CORS-open (access-control-allow-origin: *). Space Mono (Google) for data/meta, which Clay also uses. */
+@font-face{font-family:'Roobert';src:url('https://cdn.prod.website-files.com/61477f2c24a826836f969afe/66db6b52701d0cc108d8a17d_Roobert-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Roobert';src:url('https://cdn.prod.website-files.com/61477f2c24a826836f969afe/66db6b5277d9460bfdf91388_Roobert-Medium.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Roobert';src:url('https://cdn.prod.website-files.com/61477f2c24a826836f969afe/66db6b52aca9770fe39fc77e_Roobert-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Canela';src:url('https://cdn.prod.website-files.com/61477f2c24a826836f969afe/667bb913991b5a998bced836_Canela-Regular-Web.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Canela';src:url('https://cdn.prod.website-files.com/61477f2c24a826836f969afe/667bb9134331478c8a100510_Canela-Light-Web.woff2') format('woff2');font-weight:300;font-display:swap}
+:root{
+  /* Clay brand — theme-invariant */
+  --ink0:#0A0A0A;--plum:#4A0232;
+  --clay-blue:#5AD0E6;--clay-orange:#E3791D;--clay-pink:#EB6ABF;--clay-green:#56A088;--clay-yellow:#F5D93D;--clay-red:#D0421D;
+  /* functional enrichment signals */
+  --searching:#1E93C9;--found:#2F9E63;--notfound:#C0472E;--credit:#A8792A;
+}
+:root[data-theme="light"]{
+  --bg:#F9F8F6;--panel:#FFFFFF;--subtle:#F4F3F0;--raised:#EEE9DF;
+  --border:#E6E2D9;--border-strong:#D8D2C5;
+  --text:#1A1714;--text2:#6B655C;--text3:#9A9388;--logo-fade:#E6E2D9;
+  --accent:#0A0A0A;--link:#0A0A0A;--btn-fg:#FFFFFF;
+  --ring:rgba(10,10,10,.14);--shadow:0 18px 50px rgba(60,45,20,.12);
+  --hero-sky:linear-gradient(180deg,#7BDCEC 0%,#A6E7F2 45%,#CFF3F8 100%);
+  --hero-fg:#0A0A0A;
+}
+:root[data-theme="dark"]{
+  --bg:#14110D;--panel:#1E1A15;--subtle:#24201A;--raised:#2C2720;
+  --border:#38322A;--border-strong:#4A4235;
+  --text:#F4F1EA;--text2:#B4ADA0;--text3:#7E776B;--logo-fade:#38322A;
+  --accent:#F4F1EA;--link:#F4F1EA;--btn-fg:#14110D;
+  --ring:rgba(244,241,234,.18);--shadow:0 22px 56px rgba(0,0,0,.55);
+  --hero-sky:linear-gradient(180deg,#1c3f47 0%,#18332f 60%,#14110D 100%);
+  --hero-fg:#F4F1EA;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Roobert',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Canela',Georgia,serif;font-weight:400}
+.mono{font-family:'Space Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:72px 0 60px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden;background:var(--hero-sky)}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px;z-index:2}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:12px}
+.hero-logo .arch{width:58px;height:38px;filter:drop-shadow(0 5px 12px rgba(20,30,60,.22))}
+.hero-logo .wm{font-weight:600;font-size:34px;letter-spacing:-.02em;color:var(--hero-fg)}
+.hero h1{font-weight:600;font-size:54px;letter-spacing:-.025em;line-height:1.04;margin-bottom:16px;color:var(--hero-fg)}
+.hero h1 .s{font-family:'Canela',serif;font-weight:400;font-style:italic}
+@media(max-width:640px){.hero h1{font-size:37px}}
+.hero p{font-size:18px;color:var(--hero-fg);max-width:560px;margin:0 auto;line-height:1.5;opacity:.82}
+/* floating clay blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(.3px);box-shadow:0 8px 18px rgba(20,30,60,.18),inset 0 -6px 12px rgba(0,0,0,.12),inset 0 5px 9px rgba(255,255,255,.4);z-index:1}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:16px;height:9px;border-radius:9px 9px 0 0;background:linear-gradient(90deg,#24408E,#D0421D 45%,#E3791D 72%,#F5D93D)}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:12px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:11px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.10)}
+.swatch-info{padding:9px 11px;background:var(--subtle)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:170px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: enrichment waterfall table ===== */
+.app{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.app-bar{display:flex;align-items:center;gap:11px;padding:12px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.app-logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.app-logo .arch{width:26px;height:17px}
+.app-tbl{font-size:12.5px;color:var(--text3);padding-left:11px;margin-left:3px;border-left:1px solid var(--border);display:inline-flex;align-items:center;gap:6px}
+.app-spacer{flex:1}
+.credits{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9px;padding:5px 11px}
+.credits b{color:var(--credit)}
+.run{font-family:inherit;font-weight:600;font-size:13px;color:var(--btn-fg);background:var(--accent);border:none;border-radius:10px;padding:0 16px;height:35px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,transform .1s}
+.run:hover{filter:brightness(1.12)}
+.run:active{transform:translateY(1px)}
+.run:disabled{opacity:.5;cursor:default}
+
+.tbl-wrap{overflow-x:auto}
+table.grid{border-collapse:collapse;width:100%;min-width:640px}
+.grid th{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);text-align:left;padding:9px 14px;border-bottom:1px solid var(--border);background:var(--subtle);white-space:nowrap}
+.grid th.enrich{color:var(--text2)}
+.th-enrich{display:flex;align-items:center;gap:7px}
+.wf-badge{display:inline-flex;align-items:center;gap:4px;font-family:'Space Mono',monospace;font-size:9.5px;font-weight:700;color:var(--searching);background:color-mix(in srgb,var(--searching) 12%,transparent);border-radius:9999px;padding:1px 7px;text-transform:none;letter-spacing:0}
+.grid td{padding:0 14px;height:48px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);white-space:nowrap;vertical-align:middle}
+.grid tr:last-child td{border-bottom:none}
+.grid tr.active td{background:color-mix(in srgb,var(--clay-yellow) 12%,transparent)}
+.co{display:flex;align-items:center;gap:10px}
+.co-logo{width:24px;height:24px;border-radius:7px;color:#fff;font-weight:600;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.co-name{font-weight:500}
+.co-dom{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3)}
+.cell-num{font-family:'Space Mono',monospace;font-size:12px;color:var(--text2)}
+.tag{display:inline-block;font-size:11px;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9999px;padding:2px 10px}
+/* enrichment cell states */
+.ecell{display:flex;align-items:center;gap:8px;min-height:24px}
+.ecell.empty{color:var(--text3)}
+.ecell .dash{color:var(--text3);font-family:'Space Mono',monospace}
+.spin{width:14px;height:14px;border:2px solid color-mix(in srgb,var(--searching) 30%,transparent);border-top-color:var(--searching);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ecell .trying{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--searching)}
+.ecell.done .val{font-family:'Space Mono',monospace;font-size:12px;color:var(--text)}
+.ecell .chk{width:16px;height:16px;flex-shrink:0}
+.ecell.miss .val{color:var(--notfound);font-size:12.5px}
+.ecell .src{font-size:10px;color:var(--text3);background:var(--raised);border-radius:9999px;padding:1px 7px;margin-left:2px}
+
+.readout{display:grid;grid-template-columns:1fr 1.05fr;border-top:1px solid var(--border)}
+@media(max-width:760px){.readout{grid-template-columns:1fr}}
+.log{padding:14px 16px;border-right:1px solid var(--border);min-height:172px}
+@media(max-width:760px){.log{border-right:none;border-bottom:1px solid var(--border)}}
+.rhead{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}
+.log-line{display:flex;gap:9px;align-items:baseline;font-size:12.5px;color:var(--text2);padding:4px 0;opacity:0;transform:translateX(-5px);transition:opacity .25s,transform .25s;line-height:1.4}
+.log-line.show{opacity:1;transform:none}
+.log-line b{color:var(--text);font-weight:600}
+.log-line .em{font-family:'Space Mono',monospace;font-size:11.5px}
+.log-co{width:15px;height:15px;border-radius:4px;flex-shrink:0}
+/* waterfall panel */
+.wf{padding:14px 16px;background:var(--subtle);min-height:172px}
+.wf-title{font-family:'Space Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:11px}
+.wf-title b{color:var(--text)}
+.wf-empty{color:var(--text3);font-size:12.5px;display:flex;align-items:center;height:120px;justify-content:center;text-align:center}
+.wrow{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:12.5px;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s}
+.wrow.show{opacity:1;transform:none}
+.wrow .n{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3);width:16px;flex-shrink:0}
+.wrow .prov{font-weight:500;color:var(--text)}
+.wrow .res{margin-left:auto;font-family:'Space Mono',monospace;font-size:11px;display:flex;align-items:center;gap:6px}
+.wrow.ok .res{color:var(--found)}
+.wrow.no .res{color:var(--text3)}
+.wrow.pending .res{color:var(--searching)}
+.wrow .ic{width:14px;height:14px}
+.wf-final{margin-top:9px;padding-top:9px;border-top:1px dashed var(--border);font-family:'Space Mono',monospace;font-size:11.5px;opacity:0;transition:opacity .25s}
+.wf-final.show{opacity:1}
+.wf-final.ok{color:var(--found)}.wf-final.no{color:var(--notfound)}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
+.sig-hint strong{color:var(--text2)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:10px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--accent);color:var(--btn-fg)}
+.btn-primary:hover{filter:brightness(1.12)}
+.btn-ghost{background:var(--panel);border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--text2)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.pchip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9999px;padding:5px 11px}
+.pchip .pd{width:8px;height:8px;border-radius:50%}
+.m-input{background:var(--subtle);border:1px solid var(--border-strong);border-radius:10px;height:38px;padding:0 13px;font-size:13px;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--text2);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:linear-gradient(135deg,#E3791D,#F5D93D);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'Space Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--clay-orange)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--clay-orange)}
+.dont .gr-item::before{background:var(--text3)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink0);color:#fff;padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Space Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/clay/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="blob" style="width:46px;height:46px;background:radial-gradient(circle at 35% 30%,#F58A3A,#D0421D);left:12%;top:38px"></div>
+  <div class="blob" style="width:30px;height:30px;background:radial-gradient(circle at 35% 30%,#7CDCEF,#2FA9C9);left:20%;top:120px"></div>
+  <div class="blob" style="width:38px;height:38px;background:radial-gradient(circle at 35% 30%,#F6E15A,#E3B41D);right:14%;top:56px"></div>
+  <div class="blob" style="width:26px;height:26px;background:radial-gradient(circle at 35% 30%,#F58AC8,#D3489E);right:22%;top:150px"></div>
+  <div class="blob" style="width:34px;height:34px;background:radial-gradient(circle at 35% 30%,#7FD3AE,#3E8B6A);right:9%;top:180px"></div>
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg class="arch" viewBox="0 0 100 62" fill="none" aria-label="Clay"><g stroke-linecap="round"><path d="M8 54 A42 42 0 0 1 92 54" stroke="#24408E" stroke-width="10"/><path d="M22 54 A28 28 0 0 1 78 54" stroke="#D0421D" stroke-width="8"/><path d="M31 54 A19 19 0 0 1 69 54" stroke="#E3791D" stroke-width="8"/><path d="M39 54 A11 11 0 0 1 61 54" stroke="#F5D93D" stroke-width="8"/></g></svg>
+      <span class="wm">clay</span>
+    </div>
+    <h1>Build systems to <span class="s">grow revenue</span></h1>
+    <p>The all-in-one platform GTM engineers build on — pull in accounts, enrich every row from 100+ providers, and run outbound.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm cream + black, with a playful clay palette">
+      <div class="strip-slab" style="background:#24408E" onclick="copyHex('#24408E')" title="arch navy"></div>
+      <div class="strip-slab" style="background:#D0421D" onclick="copyHex('#D0421D')" title="clay-red"></div>
+      <div class="strip-slab" style="background:#E3791D" onclick="copyHex('#E3791D')" title="clay-orange"></div>
+      <div class="strip-slab" style="background:#F5D93D" onclick="copyHex('#F5D93D')" title="clay-yellow"></div>
+      <div class="strip-slab" style="background:#56A088" onclick="copyHex('#56A088')" title="clay-green"></div>
+      <div class="strip-slab" style="background:#5AD0E6" onclick="copyHex('#5AD0E6')" title="clay-blue"></div>
+      <div class="strip-slab" style="background:#EB6ABF" onclick="copyHex('#EB6ABF')" title="clay-pink"></div>
+      <div class="strip-slab" style="background:#4A0232" onclick="copyHex('#4A0232')" title="plum"></div>
+      <div class="strip-slab" style="background:#0A0A0A" onclick="copyHex('#0A0A0A')" title="ink"></div>
+      <div class="strip-slab" style="background:#F9F8F6" onclick="copyHex('#F9F8F6')" title="cream"></div>
+    </div>
+
+    <div class="group-label">Brand · cream, black &amp; the clay palette</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · light-first (warm cream)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Functional signals · enrichment status, not brand</div>
+    <div class="swatch-grid" id="g-fn"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Roobert / 600</div><div class="type-spec">Display · UI · 54px</div></div>
+        <div class="type-sample" style="font-size:32px;font-weight:600;letter-spacing:-.02em">Build systems to grow revenue</div>
+        <div class="spec-pills"><span class="spec-pill">Roobert</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Canela / 400 italic</div><div class="type-spec">Editorial serif · 34px</div></div>
+        <div class="type-sample serif" style="font-size:28px;font-style:italic">every account in your market</div>
+        <div class="spec-pills"><span class="spec-pill">Canela</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Roobert / 400</div><div class="type-spec">UI · body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Enrich every row from 100+ providers with a waterfall.</div>
+        <div class="spec-pills"><span class="spec-pill">Roobert</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Space Mono / 400</div><div class="type-spec">Data · meta · 12px</div></div>
+        <div class="type-sample mono" style="font-size:13px">datagma ✓ sarah@vercel.com · 1 credit</div>
+        <div class="spec-pills"><span class="spec-pill">Space Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Enrichment waterfall</div>
+    <div class="app">
+      <div class="app-bar">
+        <div class="app-logo"><svg class="arch" viewBox="0 0 100 62" fill="none"><g stroke-linecap="round"><path d="M8 54 A42 42 0 0 1 92 54" stroke="#24408E" stroke-width="10"/><path d="M22 54 A28 28 0 0 1 78 54" stroke="#D0421D" stroke-width="8"/><path d="M31 54 A19 19 0 0 1 69 54" stroke="#E3791D" stroke-width="8"/><path d="M39 54 A11 11 0 0 1 61 54" stroke="#F5D93D" stroke-width="8"/></g></svg>clay</div>
+        <span class="app-tbl"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>Target Accounts</span>
+        <div class="app-spacer"></div>
+        <span class="credits">Credits <b id="credits">0</b></span>
+        <button class="run" id="runBtn" onclick="run()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Run enrichment</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="grid">
+          <thead><tr>
+            <th>Company</th><th>Employees</th><th>Industry</th>
+            <th class="enrich"><span class="th-enrich">Work Email <span class="wf-badge"><svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>waterfall · 5</span></span></th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="readout">
+        <div class="log">
+          <div class="rhead"><span>Run log</span><span class="mono" id="runStatus" style="font-size:10.5px;color:var(--text3)">idle</span></div>
+          <div id="logList"><div class="log-line show"><span>Press <b>Run enrichment</b> — each row's email is filled by a provider <b>waterfall</b>.</span></div></div>
+        </div>
+        <div class="wf">
+          <div class="rhead"><span>Waterfall</span></div>
+          <div id="wfPanel"><div class="wf-empty">Providers tried in order appear here —<br>only the first hit spends a credit.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">Press <strong>Run enrichment</strong>. For each account, Clay tries data providers <strong>in sequence</strong> until one returns the email (✗ ✗ ✓) — spending a credit only on the hit. <strong>Retool</strong> exhausts all five. Deterministic.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Start free trial</button>
+          <button class="btn btn-ghost">Get a demo</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Data providers</div>
+        <div class="chip-row">
+          <span class="pchip"><span class="pd" style="background:#E3791D"></span>Prospeo</span>
+          <span class="pchip"><span class="pd" style="background:#56A088"></span>Hunter.io</span>
+          <span class="pchip"><span class="pd" style="background:#5AD0E6"></span>Datagma</span>
+          <span class="pchip"><span class="pd" style="background:#EB6ABF"></span>Apollo</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Add column / formula</div>
+        <input class="m-input mono" style="font-size:12.5px" value="/enrich-work-email(domain)" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:14px"></div><span>14 card</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>10 btn</span></div>
+          <div><div class="box" style="border-radius:0"></div><span>0 cell</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Anchor on a warm <strong>cream canvas</strong> with crisp <strong>black</strong> UI — color brings the joy.</div>
+          <div class="gr-item">Bring in the <strong>clay palette</strong> (blue, orange, pink, green, yellow, red) for illustration &amp; category color.</div>
+          <div class="gr-item">Set UI &amp; tables in <strong>Roobert</strong>; use <strong>Canela</strong> serif only for large editorial lines.</div>
+          <div class="gr-item">Make the <strong>enrichment waterfall</strong> legible — providers in order, ✓/✗, credits only on hits.</div>
+          <div class="gr-item">Keep the <strong>rainbow-arch</strong> logo and soft, tactile <strong>claymation</strong> style.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Reduce Clay to one flat accent — it's cream + black + a <strong>playful multi-color</strong> clay world.</div>
+          <div class="gr-item">Set dense tables or body in Canela — the serif is editorial display only.</div>
+          <div class="gr-item">Use hard, flat drop shadows on the clay art — it's sculpted and soft.</div>
+          <div class="gr-item">Present enrichment as a single API call — the point is the <strong>waterfall</strong>.</div>
+          <div class="gr-item">Make the palette neon or garish — warm, matte, clay-like tones.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['ink','#0A0A0A','Primary buttons · headings'],['clay-orange','#E3791D','Warm clay accent'],['clay-blue','#5AD0E6','Signature claymation sky'],['plum','#4A0232','Editorial dark']],
+  surf:[['canvas','#F9F8F6','App background (cream)'],['panel','#FFFFFF','Cards, table'],['subtle','#F4F3F0','Rows · wells'],['raised','#EEE9DF','Hover / selected'],['border','#E6E2D9','Cell grid']],
+  text:[['ink','#1A1714','Primary (light)'],['secondary','#6B655C','Body'],['muted','#9A9388','Meta'],['link','#0A0A0A','Links']],
+  fn:[['searching','#1E93C9','Waterfall running'],['found','#2F9E63','Data found'],['not found','#C0472E','Waterfall exhausted'],['credit','#A8792A','Credits on a hit']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m.length>34?'Copied gradient':m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- enrichment waterfall (deterministic) ---- */
+const PROVIDERS=['Prospeo','Hunter.io','Datagma','Apollo','FindyMail'];
+// hitAt = index of provider that returns the email; -1 = not found after all 5
+const ROWS=[
+  {co:'Ramp',dom:'ramp.com',clr:'#E3B41D',emp:'1,200',ind:'Fintech',hitAt:0,email:'maya@ramp.com'},
+  {co:'Notion',dom:'notion.so',clr:'#0A0A0A',emp:'800',ind:'Productivity',hitAt:1,email:'ivan@notion.so'},
+  {co:'Vercel',dom:'vercel.com',clr:'#111111',emp:'500',ind:'Dev Tools',hitAt:2,email:'sarah@vercel.com'},
+  {co:'Linear',dom:'linear.app',clr:'#5B63D3',emp:'90',ind:'Dev Tools',hitAt:0,email:'karri@linear.app'},
+  {co:'Figma',dom:'figma.com',clr:'#D0421D',emp:'1,500',ind:'Design',hitAt:3,email:'dylan@figma.com'},
+  {co:'Retool',dom:'retool.com',clr:'#E3791D',emp:'350',ind:'Dev Tools',hitAt:-1,email:null}
+];
+let timers=[], busy=false, credits=0;
+const chkGreen='<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="var(--found)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+const icOk='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="var(--found)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+const icNo='<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+
+function renderRows(){
+  document.getElementById('rows').innerHTML=ROWS.map((r,i)=>
+    `<tr data-i="${i}">
+      <td><div class="co"><span class="co-logo" style="background:${r.clr}">${r.co[0]}</span><span><span class="co-name">${r.co}</span> <span class="co-dom">${r.dom}</span></span></div></td>
+      <td class="cell-num">${r.emp}</td>
+      <td><span class="tag">${r.ind}</span></td>
+      <td><div class="ecell empty" id="e${i}"><span class="dash">—</span></div></td>
+    </tr>`).join('');
+}
+function resetAll(){
+  timers.forEach(clearTimeout);timers=[];busy=false;credits=0;
+  document.getElementById('credits').textContent='0';
+  document.getElementById('runStatus').textContent='idle';
+  document.querySelectorAll('.grid tr').forEach(tr=>tr.classList.remove('active'));
+  renderRows();
+  document.getElementById('logList').innerHTML='<div class="log-line show"><span>Press <b>Run enrichment</b> — each row’s email is filled by a provider <b>waterfall</b>.</span></div>';
+  document.getElementById('wfPanel').innerHTML='<div class="wf-empty">Providers tried in order appear here —<br>only the first hit spends a credit.</div>';
+}
+function logLine(html){
+  const l=document.getElementById('logList');const d=document.createElement('div');d.className='log-line';d.innerHTML=html;
+  l.appendChild(d);requestAnimationFrame(()=>d.classList.add('show'));l.scrollTop=l.scrollHeight;
+}
+
+function run(){
+  if(busy)return;
+  resetAll();busy=true;
+  const btn=document.getElementById('runBtn');btn.disabled=true;
+  document.getElementById('runStatus').textContent='running';
+  document.getElementById('logList').innerHTML='';
+  let t=250;
+  ROWS.forEach((r,i)=>{
+    // begin row
+    timers.push(setTimeout(()=>{
+      document.querySelectorAll('.grid tr').forEach(tr=>tr.classList.remove('active'));
+      const tr=document.querySelector(`.grid tr[data-i="${i}"]`);tr.classList.add('active');
+      const cell=document.getElementById('e'+i);cell.className='ecell';cell.innerHTML=`<span class="spin"></span><span class="trying">searching…</span>`;
+      // waterfall panel header
+      const wf=document.getElementById('wfPanel');
+      wf.innerHTML=`<div class="wf-title">Enriching <b>${r.co}</b> · Work Email</div><div id="wfRows"></div><div class="wf-final" id="wfFinal"></div>`;
+    },t));
+    t+=360;
+    // provider steps
+    const steps=(r.hitAt===-1)?PROVIDERS.length:(r.hitAt+1);
+    for(let j=0;j<steps;j++){
+      const isHit=(j===r.hitAt);
+      timers.push(setTimeout(()=>{
+        // update cell "trying provider"
+        const cell=document.getElementById('e'+i);
+        const t2=cell.querySelector('.trying');if(t2)t2.textContent=PROVIDERS[j].toLowerCase()+'…';
+        // waterfall row
+        const host=document.getElementById('wfRows');
+        const row=document.createElement('div');
+        row.className='wrow '+(isHit?'ok':'no');
+        row.innerHTML=`<span class="n">${j+1}</span><span class="prov">${PROVIDERS[j]}</span><span class="res">${isHit?icOk+' found':icNo+' no match'}</span>`;
+        host.appendChild(row);requestAnimationFrame(()=>row.classList.add('show'));
+      },t));
+      t+=340;
+    }
+    // resolve row
+    timers.push(setTimeout(()=>{
+      const cell=document.getElementById('e'+i);
+      const co=`<span class="co-logo" style="width:15px;height:15px;border-radius:4px;font-size:9px;background:${r.clr}">${r.co[0]}</span>`;
+      const fin=document.getElementById('wfFinal');
+      if(r.hitAt>=0){
+        credits++;document.getElementById('credits').textContent=credits;
+        cell.className='ecell done';
+        cell.innerHTML=`${chkGreen}<span class="val">${r.email}</span><span class="src">${PROVIDERS[r.hitAt].toLowerCase()}</span>`;
+        if(fin){fin.className='wf-final ok';fin.innerHTML=`✓ ${r.email} — via ${PROVIDERS[r.hitAt]} · 1 credit`;requestAnimationFrame(()=>fin.classList.add('show'));}
+        logLine(`<span class="log-co" style="background:${r.clr}"></span><span><b>${r.co}</b> → <span class="em" style="color:var(--found)">${r.email}</span> <span style="color:var(--text3)">via ${PROVIDERS[r.hitAt]} · 1 credit</span></span>`);
+      }else{
+        cell.className='ecell miss';
+        cell.innerHTML=`<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="var(--notfound)" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg><span class="val">Not found</span>`;
+        if(fin){fin.className='wf-final no';fin.innerHTML=`✗ all 5 providers exhausted · 0 credits`;requestAnimationFrame(()=>fin.classList.add('show'));}
+        logLine(`<span class="log-co" style="background:${r.clr}"></span><span><b>${r.co}</b> → <span class="em" style="color:var(--notfound)">Not found</span> <span style="color:var(--text3)">· 0 credits</span></span>`);
+      }
+      // finish
+      if(i===ROWS.length-1){
+        document.querySelector('.grid tr[data-i="'+i+'"]').classList.remove('active');
+        document.getElementById('runStatus').textContent='done · '+credits+' credits';
+        logLine(`<span style="width:15px"></span><span><b>Done</b> · 5 of 6 enriched · <span class="em" style="color:var(--credit)">${credits} credits</span> spent</span>`);
+        busy=false;btn.disabled=false;
+      }
+    },t));
+    t+=420;
+  });
+}
+
+renderRows();
+</script>
+</body>
+</html>
