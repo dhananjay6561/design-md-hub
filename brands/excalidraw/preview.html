@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Excalidraw — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Excalidraw's UI font is Assistant (real, Google) + Nunito for the wordmark. Its hand-drawn face Excalifont (successor to Virgil) is CORS-locked on its CDN → documented ≈ Shantell Sans (Google), same casual hand-drawn feel. -->
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Nunito:wght@700;800&family=Shantell+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Excalidraw brand — theme-invariant */
+  --violet:#6965DB;--violet-deep:#5B57D1;--indigo-ink:#030064;
+  /* sketch palette (drawing content, not brand chrome) */
+  --sk-ink:#1E1E1E;--sk-red:#E03131;--sk-green:#2F9E44;--sk-blue:#1971C2;--sk-orange:#F08C00;
+  --bg-red:#FFC9C9;--bg-green:#B2F2BB;--bg-blue:#A5D8FF;--bg-yellow:#FFEC99;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--canvas:#FBFBFC;--panel:#FFFFFF;--subtle:#F1F0FF;--raised:#ECECF4;
+  --border:#E9E9EE;--border-strong:#D9D9E0;
+  --text:#1B1B1F;--text2:#6B6B75;--text3:#9B9BA5;--logo-fade:#E9E9EE;
+  --accent:#6965DB;--link:#6965DB;--btn-fg:#FFFFFF;--sel:#E0DFFF;--sel-ink:#030064;
+  --ring:rgba(105,101,219,.18);--shadow:0 2px 12px rgba(0,0,0,.10);--island:0 2px 14px rgba(20,20,40,.10);
+  --sketch-default:#1E1E1E;
+}
+:root[data-theme="dark"]{
+  --bg:#121212;--canvas:#121212;--panel:#232329;--subtle:#2E2D3A;--raised:#363442;
+  --border:#33333A;--border-strong:#45454F;
+  --text:#E3E3E8;--text2:#A8A8B3;--text3:#6E6E78;--logo-fade:#33333A;
+  --accent:#A8A5FF;--link:#A8A5FF;--btn-fg:#1B1B1F;--sel:#403E6A;--sel-ink:#E0DFFF;
+  --ring:rgba(168,165,255,.24);--shadow:0 2px 12px rgba(0,0,0,.5);--island:0 2px 16px rgba(0,0,0,.5);
+  --sketch-default:#E3E3E8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Assistant',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.hand{font-family:'Shantell Sans','Comic Sans MS',cursive}
+.wm{font-family:'Nunito',sans-serif;font-weight:800;letter-spacing:.01em}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:80px 0 60px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 0%,var(--subtle),transparent 70%);pointer-events:none}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:11px;color:var(--violet)}
+.hero-logo svg{width:44px;height:44px}
+.hero-logo .wm{font-size:33px;color:var(--text)}
+.hero h1{font-family:'Shantell Sans',cursive;font-weight:700;font-size:52px;letter-spacing:-.01em;line-height:1.08;margin-bottom:18px;color:var(--text)}
+.hero h1 .v{color:var(--violet)}
+@media(max-width:640px){.hero h1{font-size:36px}}
+.hero p{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--violet)}
+.group-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:12px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.10)}
+.swatch-info{padding:9px 11px;background:var(--subtle)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:180px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: hand-drawn canvas ===== */
+.editor{position:relative;background:var(--canvas);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);height:560px;background-image:radial-gradient(var(--border) 1px,transparent 1px);background-size:22px 22px}
+/* top toolbar island */
+.toolbar{position:absolute;top:14px;left:50%;transform:translateX(-50%);z-index:6;display:flex;align-items:center;gap:3px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:5px;box-shadow:var(--island)}
+.tool{width:34px;height:34px;border:none;background:transparent;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);position:relative;transition:background .1s}
+.tool:hover{background:var(--subtle)}
+.tool.on{background:var(--sel);color:var(--sel-ink)}
+.tool svg{width:17px;height:17px}
+.tool .kbd{position:absolute;right:3px;bottom:1px;font-size:8px;color:var(--text3);font-family:'Assistant'}
+.tool.on .kbd{color:var(--sel-ink);opacity:.6}
+.tsep{width:1px;height:22px;background:var(--border);margin:0 3px}
+/* top-right share */
+.top-right{position:absolute;top:14px;right:14px;z-index:6;display:flex;gap:8px}
+.share{font-family:'Assistant';font-weight:700;font-size:13px;color:var(--btn-fg);background:var(--violet);border:none;border-radius:10px;padding:8px 15px;cursor:pointer;box-shadow:var(--island)}
+/* top-left menu */
+.menu-btn{position:absolute;top:14px;left:14px;z-index:6;width:36px;height:36px;background:var(--panel);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--text);box-shadow:var(--island);cursor:pointer}
+/* properties panel */
+.props{position:absolute;top:64px;left:14px;z-index:5;width:196px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:13px;box-shadow:var(--island);opacity:0;transform:translateX(-8px);pointer-events:none;transition:opacity .16s,transform .16s}
+.props.on{opacity:1;transform:none;pointer-events:auto}
+.prop{margin-bottom:12px}
+.prop:last-child{margin-bottom:0}
+.prop-lbl{font-size:10.5px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.sw-row{display:flex;gap:6px}
+.sw{width:22px;height:22px;border-radius:6px;cursor:pointer;border:1px solid rgba(0,0,0,.12);position:relative;padding:0;background:none}
+.sw .in{position:absolute;inset:2px;border-radius:4px}
+.sw.on{outline:2px solid var(--violet);outline-offset:1px}
+.sw.transp{background:repeating-conic-gradient(#0000 0 25%,#0002 0 50%) 0 0/10px 10px}
+.opt-row{display:flex;gap:5px}
+.opt{flex:1;height:28px;border:1px solid var(--border);background:var(--subtle);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .1s;padding:0}
+.opt:hover{border-color:var(--border-strong)}
+.opt.on{background:var(--sel);border-color:var(--violet);color:var(--sel-ink)}
+.opt svg{width:15px;height:15px}
+.opt.txt{font-size:11px;font-weight:600}
+/* zoom + hint */
+.zoom{position:absolute;bottom:14px;left:14px;z-index:6;display:flex;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:10px;box-shadow:var(--island);overflow:hidden}
+.zoom button{width:32px;height:32px;border:none;background:transparent;color:var(--text);cursor:pointer;font-size:16px}
+.zoom .z{font-size:12px;color:var(--text2);min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
+.canvas-hint{position:absolute;bottom:16px;right:16px;z-index:6;font-family:'Shantell Sans',cursive;font-size:13px;color:var(--text3);max-width:180px;text-align:right;line-height:1.35}
+.scene{position:absolute;inset:0;z-index:1}
+.selbox{stroke:var(--violet);stroke-width:1.2;stroke-dasharray:5 4;fill:none}
+.selhandle{fill:var(--panel);stroke:var(--violet);stroke-width:1.4}
+.shape-hit{cursor:pointer}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
+.sig-hint strong{color:var(--text2)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'Assistant';font-weight:700;font-size:13px;border-radius:10px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--violet);color:var(--btn-fg)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:var(--panel);border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--violet);color:var(--violet)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mini-tools{display:flex;gap:4px}
+.mini-tools .tool{border:1px solid var(--border)}
+.m-input{background:var(--subtle);border:1px solid var(--border-strong);border-radius:10px;height:38px;padding:0 13px;font-size:13px;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--violet);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:var(--violet);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3)}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--violet)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--violet)}
+.dont .gr-item::before{background:var(--text3)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:700;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="exc-mark" viewBox="0 0 24 24"><path d="M23.9428 19.8058a.1962.1962 0 0 0-.1679-.0337c-1.26-1.8552-2.8727-3.6104-4.4186-5.3152l-.2521-.284c-.0016-.0732-.0667-.1207-.1342-.1504-.0284-.0277-.0562-.0558-.0843-.0837-.0505-.1005-.1685-.1673-.2858-.1005-.4706.2347-.9068.5855-1.3274.9195-.5536.4345-1.1085.8695-1.6296 1.354a5.0577 5.0577 0 0 0-.5879.6185c-.0842.1168-.0168.2172.0843.2672-.3701.3677-.7402.736-1.109 1.1198a.1896.1896 0 0 0-.0506.1342c0 .05.0337.1.0668.1168l.6559.5012v.0169c.9237.9194 2.5538 2.1729 4.2844 3.5268.2515.201.5205.4014.7727.6017.1173.1342.2346.2847.3357.4182.0506.0662.1685.0837.2353.0331.0337.0337.0843.0668.118.1005a.2395.2395 0 0 0 .1004.0337.1534.1534 0 0 0 .1348-.0668.2371.2371 0 0 0 .0331-.1004c.0175 0 .0169.0168.0337.0168a.1915.1915 0 0 0 .1348-.0505l3.058-3.3265c.1198-.1159.0135-.2668-.0005-.2672zm-7.6277-.1336-1.5459-1.1704-.151-.0998c-.0337-.0169-.0674-.0506-.1011-.0668l-.1174-.1005c.6597-.659 1.3297-1.3074 1.9996-1.9557-.4874.4844-1.4622 1.9057-1.2606 2.3733.0023 0 .0186.0419.0674.0842.3704.311.7398.6232 1.109.9357zm4.0997 3.1261-1.277-.97a26.9056 26.9056 0 0 0-1.5795-1.5044c.689.5181 1.2769.9694 1.3611 1.053.6722.585.6379.485 1.0922.8696l.5542.4008c-.0735.103-.151.1477-.151.151zm.3357.2503-.0337-.0168c.0506-.0331.1011-.0668.1517-.1168zM.5885 3.4751c.0331.2172.0843.4344.1174.6354.2015 1.103.4031 2.1061.7726 2.8583l.1516.568c.0506.2173.1342.485.2185.5519.8568.7521 2.1674 1.8714 3.5785 2.9419a.1775.1775 0 0 0 .2185 0s0 .0162.0168.0162a.1528.1528 0 0 0 .118.0506.1912.1912 0 0 0 .1341-.0506c1.798-1.9887 3.1418-3.6267 4.0997-4.9974.0674-.0668.0843-.1673.0843-.251.0668-.0668.1173-.1504.1847-.2004.0668-.0668.0668-.184 0-.2346l-.0168-.0163c0-.033-.0169-.0836-.0506-.1005-.42-.4007-.722-.6848-1.0416-.9856A93.5546 93.5546 0 0 1 6.822 1.9876c-.0169-.0169-.0337-.0337-.0674-.0337-.3358-.1168-1.0248-.2341-1.8817-.3845C3.596 1.3527 1.865 1.0519.3027.583c0 0-.1011 0-.118.0169L.1348.6505C.0498.7139.0222.7058 0 .7167.017.8172.017.884.0506 1.0013c0 .0331.0673.3009.0673.334zm7.1909 4.7802-.0337.0337a.0362.0362 0 0 1 .0337-.0337zM6.553 2.238c.101.1005.5211.5019.6216.5855-.4369-.201-1.5284-.7022-2.0333-.8695.5043.1005 1.1933.201 1.4117.284ZM.7901 1.4027c.2521.4344.4537 1.9388.6553 3.4095-.118-.4682-.2016-.9357-.3027-1.3708C.9917 2.673.84 1.9876.6385 1.3858c.1232 0 .1516.0212.1516.0169zm-.2858-.3683c0-.0162 0-.033-.0169-.033.0843 0 .1342.0168.2016.0499.0006.0057-.1448-.0169-.1847-.0169zM23.6738.8172c.0169-.0662-.3358-.367-.2184-.3845.2527-.0163.2527-.4008 0-.4008-.3358.0169-.6884.0999-1.008.1504-.5878.1168-1.1926.2341-1.781.3671-1.327.2846-2.6375.5855-3.9481.937-.4032.1167-.857.2003-1.2432.4007-.1348.0668-.118.2004-.0506.284-.0337.0169-.0505.0169-.0842.0337-.1174.0169-.2185.0337-.3358.05-.1011.0168-.1516.1004-.1348.201 0 .0162.0169.0499.0169.0661-.7059.9363-1.4954 1.9226-2.3523 2.9757-.84.9694-1.7306 1.9893-2.6212 3.0424-2.8396 3.3096-6.0487 7.0705-9.5936 10.38a.1613.1613 0 0 0 0 .2341c.0169.0163.0337.0331.0506.0331-.0506.0506-.1011.0843-.1517.1336-.0337.0337-.0505.0668-.0505.1005a.364.364 0 0 0-.0668.0837c-.0674.0667-.0674.1835.0169.234.0667.0662.1847.0662.2346-.0168.0175-.0169.0175-.0337.0337-.0337a.2648.2648 0 0 1 .3701 0c.2016.2178.4032.435.588.6186l-.4201-.3508c-.0674-.0668-.1847-.05-.2347.0168-.068.0662-.0511.1835.0163.234l4.4691 3.7273c.0337.0337.0674.0337.118.0337.0505 0 .0842-.0169.1173-.0506l.101-.0999c.017.0163.05.0163.0669.0163.0505 0 .0842-.0163.118-.05 6.0486-6.0505 10.9216-10.6141 16.4997-14.6927.05-.0331.0668-.1.0668-.1505.0674 0 .118-.05.151-.1167 1.0254-3.1255 1.227-5.9007 1.2938-7.2709 0-.0579.0169-.0371.0169-.0668.0168-.0337.0168-.0505.0168-.0505a.9784.9784 0 0 0-.0668-.6186zm-10.82 4.9144c.2684-.3008.5374-.6186.8064-.9026-1.7306 2.2734-4.6033 5.7665-8.67 9.9288C7.7626 11.699 10.5517 8.54 12.854 5.7316ZM5.1414 23.4662c-.0162-.0168-.0162-.0168 0-.0168zm2.5033-2.156c.1348-.1505.2695-.284.4206-.4345 0 0 0 .0163.0168.0163-.2236.1978-.4334.4182-.4374.4182zm.6896-.6686c.0994-.0993.14-.1724.2852-.3177.9917-1.0193 2.0164-2.0393 3.058-3.0755l.0169-.0168c.2521-.2004.5542-.4177.8232-.6186a228.0627 228.0627 0 0 0-4.1833 4.0286zm6.5187-16.732c-.5543.719-1.1759 1.6716-1.697 2.4238-1.6463 2.3733-6.9393 8.1735-7.0566 8.274A1189.6473 1189.6473 0 0 1 1.26 19.204l-.1005.1005c-.0843-.1005-.0843-.251.0168-.3346 7.476-7.0037 12.0132-12.837 13.845-15.3944-.0506.1167-.0843.2166-.1685.334zm2.9064 3.4269c-.6716-.3851-.9905-.9869-.8064-1.5712l.0506-.201a.7753.7753 0 0 1 .0842-.1666c.1848-.301.4538-.5518.7564-.7023.0163 0 .0331 0 .05-.0168-.0169-.0337-.0169-.0837-.0169-.1336.0169-.1005.0843-.1673.2016-.1673.2016 0 .8238.1841 1.059.3845.0669.05.1343.1168.2017.1836.0842.1004.2184.2677.2852.4013.0337.0169.0674.1841.118.2678.0336.1336.0667.284.0505.4176-.0169.0169 0 .1167-.0169.1167a1.6055 1.6055 0 0 1-.2184.6186c-.0307.0307.0064.0119-.0505.0668-.0843.1342-.2016.251-.319.3346-.3869.2672-.8238.3508-1.2606.234-.1105-.0473-.1672-.0667-.1685-.0667zm4.3692 1.4039c0 .0168-.0168.0499 0 .0667-.0337 0-.0505.0169-.0842.0337-1.3274.9689-2.6212 1.9888-3.915 3.0256 1.109-.9868 2.218-1.9894 3.3776-2.9756.3358-.3009.5711-.6854.6379-1.1199l.1685-1.003v-.0332c.0842-.201.4032-.1173.3526.1-.0042-.0012-.1731.795-.5374 1.9057z"/></symbol>
+</defs></svg>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/excalidraw/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo"><svg aria-label="Excalidraw"><use href="#exc-mark"/></svg><span class="wm">Excalidraw</span></div>
+    <h1>Sketch diagrams with a <span class="v">hand-drawn feel</span></h1>
+    <p>An open-source virtual whiteboard — draw boxes, arrows and text that look scrawled by hand.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="One friendly violet + a neutral canvas and the sketch palette">
+      <div class="strip-slab" style="background:#6965DB;flex:2.4" onclick="copyHex('#6965DB')" title="violet"></div>
+      <div class="strip-slab" style="background:#E0DFFF" onclick="copyHex('#E0DFFF')" title="selected"></div>
+      <div class="strip-slab" style="background:#1E1E1E" onclick="copyHex('#1E1E1E')" title="sketch ink"></div>
+      <div class="strip-slab" style="background:#E03131" onclick="copyHex('#E03131')" title="sketch red"></div>
+      <div class="strip-slab" style="background:#2F9E44" onclick="copyHex('#2F9E44')" title="sketch green"></div>
+      <div class="strip-slab" style="background:#1971C2" onclick="copyHex('#1971C2')" title="sketch blue"></div>
+      <div class="strip-slab" style="background:#F08C00" onclick="copyHex('#F08C00')" title="sketch orange"></div>
+    </div>
+
+    <div class="group-label">Brand · one friendly violet</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · floating islands on a canvas</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Sketch palette · the drawing (content, not chrome)</div>
+    <div class="swatch-grid" id="g-sk"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Excalifont ≈ Shantell / 700</div><div class="type-spec">Hand-drawn display · 52px</div></div>
+        <div class="type-sample hand" style="font-size:30px;font-weight:700">Sketch it out!</div>
+        <div class="spec-pills"><span class="spec-pill">≈ Shantell</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Excalifont ≈ Shantell / 400</div><div class="type-spec">Canvas text · labels</div></div>
+        <div class="type-sample hand" style="font-size:19px">user → server → database</div>
+        <div class="spec-pills"><span class="spec-pill">hand-drawn</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Assistant / 400</div><div class="type-spec">UI · body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">The interface stays crisp so the sketchiness lives on the canvas.</div>
+        <div class="spec-pills"><span class="spec-pill">Assistant</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Nunito / 800</div><div class="type-spec">Wordmark</div></div>
+        <div class="type-sample wm" style="font-size:22px">EXCALIDRAW</div>
+        <div class="spec-pills"><span class="spec-pill">Nunito</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Hand-drawn canvas</div>
+    <div class="editor" id="editor">
+      <div class="menu-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></div>
+      <div class="toolbar" id="toolbar"></div>
+      <div class="top-right"><button class="share">Share</button></div>
+      <div class="props" id="props">
+        <div class="prop">
+          <div class="prop-lbl">Stroke</div>
+          <div class="sw-row" id="strokeRow"></div>
+        </div>
+        <div class="prop">
+          <div class="prop-lbl">Background</div>
+          <div class="sw-row" id="bgRow"></div>
+        </div>
+        <div class="prop">
+          <div class="prop-lbl">Fill</div>
+          <div class="opt-row" id="fillRow"></div>
+        </div>
+        <div class="prop">
+          <div class="prop-lbl">Sloppiness</div>
+          <div class="opt-row" id="slopRow"></div>
+        </div>
+        <div class="prop">
+          <div class="prop-lbl">Edges</div>
+          <div class="opt-row" id="edgeRow"></div>
+        </div>
+      </div>
+      <svg class="scene" id="scene" viewBox="0 0 900 560" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="zoom"><button onclick="zoomBy(-10)">−</button><span class="z" id="zoomLbl">100%</span><button onclick="zoomBy(10)">+</button></div>
+      <div class="canvas-hint hand">click a shape to edit it →<br>drag Sloppiness to re-sketch</div>
+    </div>
+    <div class="sig-hint">Pick a <strong>tool</strong>, then <strong>click a shape</strong> to select it — change its <strong>stroke</strong>, <strong>fill</strong> or <strong>sloppiness</strong> and the whole drawing re-sketches with real hand-drawn (rough) strokes. Deterministic — seeded roughness.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Share</button>
+          <button class="btn btn-ghost">Live collaboration</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Tool tiles</div>
+        <div class="mini-tools">
+          <button class="tool on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 4 7 17 2.5-7L21 11z"/></svg></button>
+          <button class="tool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="14" rx="2"/></svg></button>
+          <button class="tool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/></svg></button>
+          <button class="tool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12h14m0 0-5-5m5 5-5 5"/></svg></button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Command</div>
+        <input class="m-input" placeholder="Search shapes, actions…" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:12px"></div><span>12 island</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>10 tool</span></div>
+          <div><div class="box" style="border-radius:6px"></div><span>6 swatch</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Render shapes with the <strong>hand-drawn, rough</strong> look — wobbly double strokes &amp; hachure fills.</div>
+          <div class="gr-item">Keep one friendly <strong>violet</strong> for active tool, selection &amp; CTAs; let the canvas stay neutral.</div>
+          <div class="gr-item">Use <strong>hand-drawn type</strong> (≈ Shantell) on the canvas; keep <strong>UI in Assistant</strong> &amp; legible.</div>
+          <div class="gr-item">Float the UI as rounded <strong>islands</strong> over a full-bleed canvas; support a true dark canvas.</div>
+          <div class="gr-item">Offer <strong>sloppiness</strong> — the roughness is the point; keep it deterministic per drawing.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Render shapes as crisp precise vectors — that kills the hand-drawn identity.</div>
+          <div class="gr-item">Add a second brand hue; violet is the only chrome accent.</div>
+          <div class="gr-item">Set dense UI or long body in the hand-drawn font — it belongs on the canvas.</div>
+          <div class="gr-item">Crowd the canvas with heavy chrome — the islands float; the drawing leads.</div>
+          <div class="gr-item">Make the violet loud or gradient-y — it's one flat, friendly indigo-violet.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['violet','#6965DB','Active tool · selection · CTA'],['violet-deep','#5B57D1','Hover / pressed'],['selected','#E0DFFF','Selected chip (light)'],['indigo-ink','#030064','Active-tool icon']],
+  surf:[['canvas','#FFFFFF','Drawing canvas'],['panel','#FFFFFF','Floating islands'],['subtle','#F1F0FF','Hover · wells'],['raised','#ECECF4','Rows'],['border','#E9E9EE','Island hairlines']],
+  sk:[['ink','#1E1E1E','Default stroke'],['red','#E03131','+ bg #FFC9C9'],['green','#2F9E44','+ bg #B2F2BB'],['blue','#1971C2','+ bg #A5D8FF'],['orange','#F08C00','+ bg #FFEC99']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* =========================================================
+   Hand-drawn (rough) SVG renderer — deterministic
+   ========================================================= */
+function mkRand(seed){let s=seed*1000+1;return ()=>{s=Math.sin(s)*43758.5453;return s-Math.floor(s);};}
+function jit(rand,a){return (rand()-0.5)*2*a;}
+function rlineD(x1,y1,x2,y2,a,rand){
+  const mx=(x1+x2)/2,my=(y1+y2)/2,nx=-(y2-y1),ny=(x2-x1),len=Math.hypot(nx,ny)||1;
+  const off=jit(rand,a*1.1);
+  const cx=mx+nx/len*off+jit(rand,a*.7),cy=my+ny/len*off+jit(rand,a*.7);
+  const sx=x1+jit(rand,a),sy=y1+jit(rand,a),ex=x2+jit(rand,a),ey=y2+jit(rand,a);
+  return `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+}
+function P(d,stroke,sw,extra){return `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${extra||''}/>`;}
+function roughLine(x1,y1,x2,y2,a,rand,stroke,sw){return P(rlineD(x1,y1,x2,y2,a,rand),stroke,sw)+P(rlineD(x1,y1,x2,y2,a,rand),stroke,sw);}
+function roughRectPath(x,y,w,h,a,rand){ // single continuous-ish outline (2 pass via caller)
+  return rlineD(x,y,x+w,y,a,rand)+' '+rlineD(x+w,y,x+w,y+h,a,rand)+' '+rlineD(x+w,y+h,x,y+h,a,rand)+' '+rlineD(x,y+h,x,y,a,rand);
+}
+function roughRect(x,y,w,h,a,rand,stroke,sw){
+  let o='';for(let p=0;p<2;p++){o+=P(roughRectPath(x,y,w,h,a,rand),stroke,sw);}return o;
+}
+function roughDiamond(cx,cy,w,h,a,rand,stroke,sw){
+  const t=[cx,cy-h/2],r=[cx+w/2,cy],b=[cx,cy+h/2],l=[cx-w/2,cy];
+  let o='';for(let p=0;p<2;p++){o+=P(rlineD(t[0],t[1],r[0],r[1],a,rand)+' '+rlineD(r[0],r[1],b[0],b[1],a,rand)+' '+rlineD(b[0],b[1],l[0],l[1],a,rand)+' '+rlineD(l[0],l[1],t[0],t[1],a,rand),stroke,sw);}
+  return o;
+}
+function ellipsePts(cx,cy,rx,ry,a,rand){
+  const N=20,pts=[];for(let i=0;i<=N;i++){const t=i/N*2*Math.PI;pts.push([cx+Math.cos(t)*rx+jit(rand,a),cy+Math.sin(t)*ry+jit(rand,a)]);}return pts;
+}
+function smoothPath(pts){ // catmull-rom-ish through points
+  let d=`M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[i>0?i-1:i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
+    const c1x=p1[0]+(p2[0]-p0[0])/6,c1y=p1[1]+(p2[1]-p0[1])/6;
+    const c2x=p2[0]-(p3[0]-p1[0])/6,c2y=p2[1]-(p3[1]-p1[1])/6;
+    d+=` C ${c1x.toFixed(1)} ${c1y.toFixed(1)} ${c2x.toFixed(1)} ${c2y.toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+function roughEllipse(cx,cy,rx,ry,a,rand,stroke,sw){
+  let o='';for(let p=0;p<2;p++){o+=P(smoothPath(ellipsePts(cx,cy,rx,ry,a,rand)),stroke,sw);}return o;
+}
+function hachure(x,y,w,h,gap,a,rand,fill){ // 45° down-right lines, clip handles bounds
+  let out='';
+  for(let i=-h;i<w;i+=gap){
+    out+=P(rlineD(x+i,y,x+i+h,y+h,a*.6,rand),fill,1.1,'opacity="0.9"');
+  }
+  return out;
+}
+function antiHachure(x,y,w,h,gap,a,rand,fill){ // 45° down-left lines
+  let out='';
+  for(let i=0;i<w+h;i+=gap){
+    out+=P(rlineD(x+i,y,x+i-h,y+h,a*.6,rand),fill,1.1,'opacity="0.9"');
+  }
+  return out;
+}
+function fillArea(cid,clipDef,bx,by,bw,bh,s,a,randF){
+  let inner;
+  if(s.fill==='solid')inner=`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" fill="${s.bg}" opacity="0.92"/>`;
+  else if(s.fill==='cross')inner=hachure(bx,by,bw,bh,8,a,randF,s.bg)+antiHachure(bx,by,bw,bh,8,a,mkRand(s.seed+911),s.bg);
+  else inner=hachure(bx,by,bw,bh,7,a,randF,s.bg);
+  return clipDef+`<g clip-path="url(#${cid})">${inner}</g>`;
+}
+function arrowHead(x2,y2,ang,a,rand,stroke,sw){
+  const L=13;
+  const a1=ang+Math.PI*0.82,a2=ang-Math.PI*0.82;
+  return P(rlineD(x2,y2,x2+Math.cos(a1)*L,y2+Math.sin(a1)*L,a,rand),stroke,sw)+
+         P(rlineD(x2,y2,x2+Math.cos(a2)*L,y2+Math.sin(a2)*L,a,rand),stroke,sw);
+}
+function roughArrow(x1,y1,x2,y2,a,rand,stroke,sw){
+  const ang=Math.atan2(y2-y1,x2-x1);
+  return roughLine(x1,y1,x2,y2,a,rand,stroke,sw)+arrowHead(x2,y2,ang,a,rand,stroke,sw);
+}
+
+/* =========================================================
+   Scene + interactions
+   ========================================================= */
+const SLOP={architect:1.1,artist:2.2,cartoonist:4.0};
+let sloppiness='artist';
+const STROKES=['#1E1E1E','#E03131','#2F9E44','#1971C2','#F08C00'];
+const BGS=['transparent','#FFC9C9','#B2F2BB','#A5D8FF','#FFEC99'];
+const FILLS=['hachure','cross','solid'];
+// scene shapes (deterministic seeds)
+let shapes=[
+  {id:'ui',type:'rect',x:70,y:150,w:190,h:110,stroke:'#1971C2',bg:'#A5D8FF',fill:'hachure',edge:'round',seed:7,label:'Frontend'},
+  {id:'srv',type:'diamond',cx:470,cy:205,w:200,h:150,stroke:'#1E1E1E',bg:'transparent',fill:'hachure',edge:'sharp',seed:23,label:'API server'},
+  {id:'db',type:'ellipse',cx:740,cy:205,rx:105,ry:70,stroke:'#2F9E44',bg:'#B2F2BB',fill:'hachure',edge:'round',seed:41,label:'Database'},
+  {id:'note',type:'rect',x:250,y:400,w:230,h:96,stroke:'#F08C00',bg:'#FFEC99',fill:'hachure',edge:'round',seed:59,label:'cache layer?'},
+];
+const arrows=[
+  {from:'ui',to:'srv',seed:101},
+  {from:'srv',to:'db',seed:113},
+];
+let selId='ui', curTool='select', zoom=100;
+
+const TOOLS=[
+  {id:'lock',ic:'<path d="M7 11V7a5 5 0 0 1 10 0v4"/><rect x="5" y="11" width="14" height="10" rx="2"/>',kbd:''},
+  {id:'hand',ic:'<path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2a8 8 0 0 1-7-4l-2.5-4"/>',kbd:'',sep:1},
+  {id:'select',ic:'<path d="m4 4 7 17 2.5-7L21 11z"/>',kbd:'1'},
+  {id:'rect',ic:'<rect x="4" y="5" width="16" height="14" rx="2"/>',kbd:'2'},
+  {id:'diamond',ic:'<path d="M12 3 21 12 12 21 3 12z"/>',kbd:'3'},
+  {id:'ellipse',ic:'<circle cx="12" cy="12" r="8.5"/>',kbd:'4'},
+  {id:'arrow',ic:'<path d="M4 12h14m0 0-5-5m5 5-5 5"/>',kbd:'5'},
+  {id:'line',ic:'<path d="M4 18 20 6"/>',kbd:'6'},
+  {id:'draw',ic:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',kbd:'7'},
+  {id:'text',ic:'<path d="M4 6h16M4 6v-.5M9 6v13m6-13v13M12 6V4"/>',kbd:'8'},
+  {id:'image',ic:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m4 18 5-5 4 4 3-3 4 4"/>',kbd:'9'},
+  {id:'eraser',ic:'<path d="M20 20H7L3 16a2 2 0 0 1 0-3l9-9a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-8 8"/>',kbd:'0'},
+];
+function renderToolbar(){
+  document.getElementById('toolbar').innerHTML=TOOLS.map(t=>
+    (t.sep?'<span class="tsep"></span>':'')+
+    `<button class="tool${t.id===curTool?' on':''}" data-t="${t.id}" title="${t.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${t.ic}</svg>${t.kbd?`<span class="kbd">${t.kbd}</span>`:''}</button>`
+  ).join('');
+  document.querySelectorAll('#toolbar .tool').forEach(el=>el.addEventListener('click',()=>{
+    curTool=el.dataset.t;renderToolbar();
+    if(curTool!=='select'&&curTool!=='hand'&&curTool!=='lock'){toast('“'+curTool+'” tool — click a shape to style it');}
+  }));
+}
+
+function centerOf(s){
+  if(s.type==='rect')return [s.x+s.w/2,s.y+s.h/2];
+  return [s.cx,s.cy];
+}
+function edgeAnchor(s,tx,ty){ // point on shape boundary toward (tx,ty)
+  const [cx,cy]=centerOf(s);const ang=Math.atan2(ty-cy,tx-cx);
+  if(s.type==='rect'||s.type==='diamond'){
+    const hw=(s.type==='rect'?s.w:s.w)/2, hh=(s.type==='rect'?s.h:s.h)/2;
+    const dx=Math.cos(ang),dy=Math.sin(ang);
+    const t=Math.min(Math.abs(hw/(dx||1e-6)),Math.abs(hh/(dy||1e-6)));
+    return [cx+dx*t,cy+dy*t];
+  }
+  return [cx+Math.cos(ang)*s.rx,cy+Math.sin(ang)*s.ry];
+}
+function drawShape(s){
+  const a=SLOP[sloppiness],rand=mkRand(s.seed),randF=mkRand(s.seed+500);
+  let g='<g class="shape-hit" data-id="'+s.id+'">';
+  // invisible hit area
+  if(s.type==='rect'){g+=`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" fill="transparent"/>`;}
+  else if(s.type==='diamond'){g+=`<rect x="${s.cx-s.w/2}" y="${s.cy-s.h/2}" width="${s.w}" height="${s.h}" fill="transparent"/>`;}
+  else {g+=`<ellipse cx="${s.cx}" cy="${s.cy}" rx="${s.rx}" ry="${s.ry}" fill="transparent"/>`;}
+  const sw=2;
+  // fill (uniform clip-path approach for all shape types)
+  if(s.bg&&s.bg!=='transparent'){
+    const cid='clip-'+s.id;
+    let clip,bx,by,bw,bh;
+    if(s.type==='rect'){bx=s.x;by=s.y;bw=s.w;bh=s.h;clip=`<clipPath id="${cid}"><rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="${s.edge==='round'?12:2}"/></clipPath>`;}
+    else if(s.type==='diamond'){bx=s.cx-s.w/2;by=s.cy-s.h/2;bw=s.w;bh=s.h;clip=`<clipPath id="${cid}"><path d="M ${s.cx} ${s.cy-s.h/2} L ${s.cx+s.w/2} ${s.cy} L ${s.cx} ${s.cy+s.h/2} L ${s.cx-s.w/2} ${s.cy} Z"/></clipPath>`;}
+    else {bx=s.cx-s.rx;by=s.cy-s.ry;bw=s.rx*2;bh=s.ry*2;clip=`<clipPath id="${cid}"><ellipse cx="${s.cx}" cy="${s.cy}" rx="${s.rx}" ry="${s.ry}"/></clipPath>`;}
+    g+=fillArea(cid,clip,bx,by,bw,bh,s,a,randF);
+  }
+  // stroke
+  if(s.type==='rect')g+=roughRect(s.x,s.y,s.w,s.h,a,rand,s.stroke,sw);
+  else if(s.type==='diamond')g+=roughDiamond(s.cx,s.cy,s.w,s.h,a,rand,s.stroke,sw);
+  else g+=roughEllipse(s.cx,s.cy,s.rx,s.ry,a,rand,s.stroke,sw);
+  // label
+  const [lx,ly]=centerOf(s);
+  g+=`<text x="${lx}" y="${ly+5}" text-anchor="middle" font-family="'Shantell Sans',cursive" font-size="17" fill="${s.stroke}">${s.label}</text>`;
+  g+='</g>';
+  return g;
+}
+function drawArrow(ar){
+  const s1=shapes.find(s=>s.id===ar.from),s2=shapes.find(s=>s.id===ar.to);
+  const [c1x,c1y]=centerOf(s1),[c2x,c2y]=centerOf(s2);
+  const a1=edgeAnchor(s1,c2x,c2y),a2=edgeAnchor(s2,c1x,c1y);
+  return roughArrow(a1[0],a1[1],a2[0],a2[1],SLOP[sloppiness],mkRand(ar.seed),'var(--sketch-default)',1.8);
+}
+function selectionOverlay(){
+  const s=shapes.find(x=>x.id===selId);if(!s)return '';
+  let x,y,w,h;
+  if(s.type==='rect'){x=s.x;y=s.y;w=s.w;h=s.h;}
+  else if(s.type==='diamond'){x=s.cx-s.w/2;y=s.cy-s.h/2;w=s.w;h=s.h;}
+  else {x=s.cx-s.rx;y=s.cy-s.ry;w=s.rx*2;h=s.ry*2;}
+  const pad=7;x-=pad;y-=pad;w+=pad*2;h+=pad*2;
+  let hs='';[[x,y],[x+w,y],[x,y+h],[x+w,y+h]].forEach(([hx,hy])=>{hs+=`<rect class="selhandle" x="${hx-4}" y="${hy-4}" width="8" height="8" rx="2"/>`;});
+  return `<rect class="selbox" x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>${hs}`;
+}
+function renderScene(){
+  let h='';
+  arrows.forEach(a=>h+=drawArrow(a));
+  shapes.forEach(s=>h+=drawShape(s));
+  h+=selectionOverlay();
+  const scene=document.getElementById('scene');
+  scene.innerHTML=h;
+  scene.querySelectorAll('.shape-hit').forEach(el=>el.addEventListener('click',()=>{selId=el.dataset.id;curTool='select';renderToolbar();renderScene();renderProps();openProps();}));
+}
+
+/* ---- properties panel ---- */
+function openProps(){document.getElementById('props').classList.add('on');}
+function renderProps(){
+  const s=shapes.find(x=>x.id===selId);if(!s)return;
+  document.getElementById('strokeRow').innerHTML=STROKES.map(c=>`<button class="sw${c===s.stroke?' on':''}" data-c="${c}" data-k="stroke"><span class="in" style="background:${c}"></span></button>`).join('');
+  document.getElementById('bgRow').innerHTML=BGS.map(c=>`<button class="sw${c==='transparent'?' transp':''}${c===s.bg?' on':''}" data-c="${c}" data-k="bg">${c==='transparent'?'':`<span class="in" style="background:${c}"></span>`}</button>`).join('');
+  const fillIcons={hachure:'<path d="M4 16 16 4M9 20 20 9M4 9 9 4M14 20 20 14"/>',cross:'<path d="M4 14 14 4M9 20 20 9M4 20 20 4M4 8 8 4M16 20 20 16"/>',solid:'<rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" stroke="none"/>'};
+  document.getElementById('fillRow').innerHTML=FILLS.map(f=>`<button class="opt${f===s.fill?' on':''}" data-f="${f}" title="${f}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">${fillIcons[f]}</svg></button>`).join('');
+  const slops=[['architect','S'],['artist','M'],['cartoonist','L']];
+  document.getElementById('slopRow').innerHTML=slops.map(([k,l])=>`<button class="opt txt${k===sloppiness?' on':''}" data-slop="${k}" title="${k}">${l}</button>`).join('');
+  document.getElementById('edgeRow').innerHTML=[['sharp','◻'],['round','▢']].map(([k])=>`<button class="opt${k===s.edge?' on':''}" data-edge="${k}" title="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">${k==='sharp'?'<rect x="5" y="5" width="14" height="14"/>':'<rect x="5" y="5" width="14" height="14" rx="5"/>'}</svg></button>`).join('');
+  bindProps();
+}
+function bindProps(){
+  document.querySelectorAll('#strokeRow .sw,#bgRow .sw').forEach(el=>el.addEventListener('click',()=>{
+    const s=shapes.find(x=>x.id===selId);s[el.dataset.k]=el.dataset.c;renderScene();renderProps();
+  }));
+  document.querySelectorAll('#fillRow .opt').forEach(el=>el.addEventListener('click',()=>{const s=shapes.find(x=>x.id===selId);s.fill=el.dataset.f;renderScene();renderProps();}));
+  document.querySelectorAll('#edgeRow .opt').forEach(el=>el.addEventListener('click',()=>{const s=shapes.find(x=>x.id===selId);s.edge=el.dataset.edge;renderScene();renderProps();}));
+  document.querySelectorAll('#slopRow .opt').forEach(el=>el.addEventListener('click',()=>{sloppiness=el.dataset.slop;renderScene();renderProps();toast('Sloppiness: '+sloppiness);}));
+}
+function zoomBy(d){zoom=Math.max(50,Math.min(200,zoom+d));document.getElementById('zoomLbl').textContent=zoom+'%';const s=document.getElementById('scene');s.style.transform=`scale(${zoom/100})`;s.style.transformOrigin='center';}
+
+renderToolbar();renderScene();renderProps();openProps();
+</script>
+</body>
+</html>
