@@ -107,6 +107,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 84 | [k6](brands/k6/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/k6/preview.html) |
 | 85 | [Cal.com](brands/cal/DESIGN.md) | Productivity | [preview](https://dhananjay6561.github.io/design-md-hub/brands/cal/preview.html) |
 | 86 | [Warp](brands/warp/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/warp/preview.html) |
+| 87 | [Inngest](brands/inngest/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/inngest/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
