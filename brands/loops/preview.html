@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loops — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Loops' real faces — Newsreader (editorial serif display) + Inter (UI/body) + IBM Plex Mono (code/meta). Loops self-hosts equivalents via Framer (CORS-open); Google Fonts used here for complete glyphs. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Loops brand — theme-invariant */
+  --orange:#FC5200;--ember:#FC671F;--coral:#FD8C57;
+  --grad:linear-gradient(135deg,#FC5200 0%,#FD8C57 100%);
+  /* functional node/status signals (product only) */
+  --amber:#E0A03A;--violet:#7C6BDB;--green:#2E9E5B;--slate:#8A8681;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--panel:#FFFFFF;--subtle:#F7F6F4;--raised:#F0EEEA;
+  --border:#E8E6E1;--border-strong:#DAD7D0;
+  --text:#1A1917;--text2:#6B6863;--text3:#9B978F;--logo-fade:#E8E6E1;
+  --accent:#FC5200;--link:#FC5200;--btn-fg:#FFFFFF;
+  --ring:rgba(252,82,0,.16);--shadow:0 18px 50px rgba(40,30,10,.10);--glow:0 0 0 3px rgba(252,82,0,.14),0 6px 18px rgba(252,82,0,.22);
+  --serif-fill:#1A1917;
+}
+:root[data-theme="dark"]{
+  --bg:#141310;--panel:#1C1A16;--subtle:#221F19;--raised:#2A2721;
+  --border:#322E26;--border-strong:#413B30;
+  --text:#F7F5F0;--text2:#B4AFA4;--text3:#7E796E;--logo-fade:#322E26;
+  --accent:#FF5C0A;--link:#FF7A33;--btn-fg:#FFFFFF;
+  --ring:rgba(255,92,10,.22);--shadow:0 22px 56px rgba(0,0,0,.5);--glow:0 0 0 3px rgba(255,92,10,.18),0 6px 20px rgba(255,92,10,.30);
+  --serif-fill:#F7F5F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.disp{font-family:'Newsreader',Georgia,serif;font-weight:600}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:84px 0 58px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(70% 80% at 50% -6%,rgba(252,82,0,.10),transparent 60%);pointer-events:none}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:12px}
+.hero-logo .mark{width:44px;height:44px;filter:drop-shadow(0 4px 14px rgba(252,82,0,.35))}
+.hero-logo .wm{font-family:'Inter',sans-serif;font-weight:600;font-size:34px;letter-spacing:-.03em}
+.hero h1{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:56px;letter-spacing:-.015em;line-height:1.05;margin-bottom:18px}
+.hero h1 .u{border-bottom:2.5px solid var(--orange);padding-bottom:1px}
+@media(max-width:640px){.hero h1{font-size:37px}}
+.hero p{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto;line-height:1.5}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--grad)}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip .grad-slab{flex:2.2;background:var(--grad);cursor:pointer}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.12)}
+.swatch-info{padding:9px 11px;background:var(--subtle)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:170px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: lifecycle loop builder ===== */
+.app{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.app-bar{display:flex;align-items:center;gap:12px;padding:12px 15px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.app-logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:15px;letter-spacing:-.02em}
+.app-logo .mark{width:22px;height:22px}
+.loop-pill{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:9px;padding:5px 11px}
+.loop-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.app-spacer{flex:1}
+.contacts{display:flex;align-items:center;gap:6px}
+.clbl{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-right:2px}
+.cchip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--text2);background:var(--panel);border:1px solid var(--border-strong);border-radius:9999px;padding:3px 11px 3px 4px;cursor:pointer;transition:all .13s}
+.cchip:hover{border-color:var(--text3)}
+.cchip.sel{color:var(--text);border-color:var(--orange);background:color-mix(in srgb,var(--orange) 7%,transparent)}
+.cav{width:20px;height:20px;border-radius:50%;color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.run{font-family:inherit;font-weight:600;font-size:13px;color:var(--btn-fg);background:var(--orange);border:none;border-radius:9px;padding:0 16px;height:34px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,box-shadow .12s}
+.run:hover{filter:brightness(1.06);box-shadow:0 4px 14px rgba(252,82,0,.32)}
+.run:disabled{opacity:.5;cursor:default;box-shadow:none;filter:none}
+
+.canvas{position:relative;padding:22px 22px 8px;background:var(--subtle)}
+.cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:34px;position:relative;z-index:2}
+@media(max-width:760px){.cols{grid-template-columns:1fr;gap:16px}}
+.col-head{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:11px;padding-left:2px}
+.node{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:11px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.node::before{content:'';position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px;background:transparent;transition:background .2s}
+.node.active{border-color:var(--orange);box-shadow:var(--glow);transform:translateY(-1px)}
+.node.active::before{background:var(--grad)}
+.node.visited{border-color:color-mix(in srgb,var(--orange) 26%,var(--border))}
+.node.visited::before{background:color-mix(in srgb,var(--orange) 38%,transparent)}
+.node.done{border-color:color-mix(in srgb,var(--green) 45%,var(--border))}
+.node.done::before{background:var(--green)}
+.node.exited{border-color:color-mix(in srgb,var(--slate) 55%,var(--border))}
+.node.exited::before{background:var(--slate)}
+.node.dim{opacity:.42}
+.node-top{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-bottom:5px}
+.node-ic{width:15px;height:15px;flex-shrink:0}
+.node-val{font-size:14px;font-weight:500;color:var(--text)}
+.node-sub{font-size:11px;color:var(--text3);margin-top:2px;font-family:'IBM Plex Mono',monospace}
+.node .tok{position:absolute;right:9px;bottom:9px;width:22px;height:22px;border-radius:50%;color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25);transform:scale(0);transition:transform .28s cubic-bezier(.34,1.56,.64,1);z-index:3}
+.node .tok.in{transform:scale(1)}
+.node-wait{font-size:10.5px;color:var(--amber);font-family:'IBM Plex Mono',monospace;margin-top:5px;height:0;overflow:hidden;opacity:0;transition:opacity .2s,height .2s}
+.node.active .node-wait.on{height:14px;opacity:1}
+/* connector rails between columns */
+.rails{position:absolute;inset:0;z-index:1;pointer-events:none}
+.rail{stroke:var(--border-strong);stroke-width:2;fill:none;transition:stroke .3s,stroke-width .3s}
+.rail.hot{stroke:var(--orange);stroke-width:2.6}
+.rail.yes{stroke-dasharray:none}
+.branch-tag{font-size:10px;font-weight:600;font-family:'IBM Plex Mono',monospace;padding:1px 6px;border-radius:5px}
+.branch-tag.yes{color:var(--green);background:color-mix(in srgb,var(--green) 14%,transparent)}
+.branch-tag.no{color:var(--slate);background:color-mix(in srgb,var(--slate) 16%,transparent)}
+
+.readout{display:grid;grid-template-columns:1.15fr 1fr;gap:0;border-top:1px solid var(--border)}
+@media(max-width:760px){.readout{grid-template-columns:1fr}}
+.log{padding:15px 18px;border-right:1px solid var(--border);min-height:190px}
+@media(max-width:760px){.log{border-right:none;border-bottom:1px solid var(--border)}}
+.log-head{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}
+.log-status{font-size:10.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;padding:2px 8px;border-radius:9999px}
+.log-status.running{color:var(--orange);background:color-mix(in srgb,var(--orange) 12%,transparent)}
+.log-status.active{color:var(--green);background:color-mix(in srgb,var(--green) 13%,transparent)}
+.log-status.removed{color:var(--slate);background:color-mix(in srgb,var(--slate) 16%,transparent)}
+.log-status.idle{color:var(--text3);background:var(--subtle)}
+.log-line{display:flex;gap:9px;font-size:12.5px;color:var(--text2);padding:4px 0;opacity:0;transform:translateX(-5px);transition:opacity .25s,transform .25s;line-height:1.4}
+.log-line.show{opacity:1;transform:none}
+.log-t{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);flex-shrink:0;width:56px}
+.log-line b{color:var(--text);font-weight:600}
+.log-ic{flex-shrink:0;margin-top:1px}
+
+.mailer{padding:15px 18px;min-height:190px}
+.mail-head{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:11px}
+.mail{border:1px solid var(--border);border-radius:10px;overflow:hidden;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
+.mail.show{opacity:1;transform:none}
+.mail-bar{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--subtle);border-bottom:1px solid var(--border)}
+.mail-from{width:26px;height:26px;border-radius:50%;background:var(--grad);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mail-meta{font-size:11px;color:var(--text3);line-height:1.3}
+.mail-meta b{color:var(--text);font-weight:600;font-size:12.5px;display:block}
+.mail-body{padding:15px 16px}
+.mail-subj{font-family:'Newsreader',serif;font-weight:600;font-size:19px;letter-spacing:-.01em;margin-bottom:8px;line-height:1.2}
+.mail-copy{font-size:12.5px;color:var(--text2);line-height:1.55;margin-bottom:13px}
+.mail-cta{display:inline-flex;font-size:12px;font-weight:600;color:#fff;background:var(--orange);border-radius:8px;padding:8px 15px}
+.mail-empty{display:flex;align-items:center;justify-content:center;height:150px;color:var(--text3);font-size:12.5px;text-align:center;border:1px dashed var(--border);border-radius:10px}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:9px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,box-shadow .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--orange);color:#fff}
+.btn-primary:hover{filter:brightness(1.06);box-shadow:0 5px 16px rgba(252,82,0,.3)}
+.btn-ghost{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.node-legend{display:flex;flex-direction:column;gap:9px}
+.nl{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text2)}
+.nl .node-ic{width:16px;height:16px}
+.m-input{background:var(--subtle);border:1px solid var(--border-strong);border-radius:9px;height:38px;padding:0 13px;font-size:13px;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:var(--grad);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--orange)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--grad)}
+.dont .gr-item::before{background:var(--text3)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<!-- shared gradient defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="loopg" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#FC5200"/><stop offset="1" stop-color="#FD8C57"/></linearGradient>
+</defs></svg>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'IBM Plex Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/loops/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg class="mark" viewBox="0 0 100 100" fill="none" aria-label="Loops"><path d="M 50 8 C 71 8 86 26 86 49 C 86 66 74 78 58 78 C 45 78 35 68 35 55 C 35 45 43 37 53 37 C 61 37 67 43 67 51 C 67 57 62 61 57 61" stroke="url(#loopg)" stroke-width="9" stroke-linecap="round"/></svg>
+      <span class="wm">Loops</span>
+    </div>
+    <h1>One platform, <span class="u">every email</span></h1>
+    <p>Email marketing software for SaaS teams — send marketing, lifecycle and transactional email from one product.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="One hot orange on a bright, warm canvas">
+      <div class="grad-slab" onclick="copyHex('linear-gradient(135deg,#FC5200,#FD8C57)')" title="flow gradient"></div>
+      <div class="strip-slab" style="background:#FC5200" onclick="copyHex('#FC5200')" title="orange"></div>
+      <div class="strip-slab" style="background:#FD8C57" onclick="copyHex('#FD8C57')" title="coral"></div>
+      <div class="strip-slab" style="background:#1A1917" onclick="copyHex('#1A1917')" title="ink"></div>
+      <div class="strip-slab" style="background:#F7F6F4" onclick="copyHex('#F7F6F4')" title="subtle"></div>
+      <div class="strip-slab" style="background:#FFFFFF" onclick="copyHex('#FFFFFF')" title="canvas"></div>
+    </div>
+
+    <div class="group-label">Brand · one orange</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · light-first</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Functional signals · product only, not brand</div>
+    <div class="swatch-grid" id="g-fn"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Newsreader / 600</div><div class="type-spec">Display · serif · 56px</div></div>
+        <div class="type-sample disp" style="font-size:34px;letter-spacing:-.015em">One platform, every email</div>
+        <div class="spec-pills"><span class="spec-pill">Newsreader</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Newsreader / 600</div><div class="type-spec">Email subject · 19px</div></div>
+        <div class="type-sample disp" style="font-size:22px;letter-spacing:-.01em">Welcome to Acme — let's get you set up</div>
+        <div class="spec-pills"><span class="spec-pill">serif</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">UI · body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Every product, lifecycle and transactional email in one place.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">IBM Plex Mono / 400</div><div class="type-spec">Code · meta · 12px</div></div>
+        <div class="type-sample mono" style="font-size:13px">POST app.loops.so/api/v1/contacts/create</div>
+        <div class="spec-pills"><span class="spec-pill">Plex Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Lifecycle loop builder</div>
+    <div class="app">
+      <div class="app-bar">
+        <div class="app-logo"><svg class="mark" viewBox="0 0 100 100" fill="none"><path d="M 50 8 C 71 8 86 26 86 49 C 86 66 74 78 58 78 C 45 78 35 68 35 55 C 35 45 43 37 53 37 C 61 37 67 43 67 51 C 67 57 62 61 57 61" stroke="url(#loopg)" stroke-width="9" stroke-linecap="round"/></svg>Loops</div>
+        <span class="loop-pill"><span class="dot"></span>Onboarding loop</span>
+        <div class="app-spacer"></div>
+        <div class="contacts">
+          <span class="clbl">Contact</span>
+          <span class="cchip sel" id="chip-ana" onclick="pick('ana')"><span class="cav" style="background:#7C6BDB">AR</span>Ana Rivera</span>
+          <span class="cchip" id="chip-ben" onclick="pick('ben')"><span class="cav" style="background:#2E9E5B">BC</span>Ben Cole</span>
+        </div>
+        <button class="run" id="runBtn" onclick="run()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Run contact</button>
+      </div>
+
+      <div class="canvas">
+        <svg class="rails" id="rails" viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="cols">
+          <div>
+            <div class="col-head">Start</div>
+            <div class="node" id="n-trigger">
+              <div class="node-top"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Trigger</div>
+              <div class="node-val">userCreated</div>
+              <div class="node-sub">event · signup</div>
+            </div>
+            <div class="node" id="n-wait1">
+              <div class="node-top"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Timer</div>
+              <div class="node-val">5 mins</div>
+              <div class="node-wait" id="w-wait1">waiting…</div>
+            </div>
+            <div class="node" id="n-welcome">
+              <div class="node-top"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Send</div>
+              <div class="node-val">welcome email</div>
+              <div class="node-sub">broadcast · v2</div>
+            </div>
+          </div>
+          <div>
+            <div class="col-head">Branch</div>
+            <div class="node" id="n-wait2">
+              <div class="node-top"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Timer</div>
+              <div class="node-val">3 days</div>
+              <div class="node-wait" id="w-wait2">waiting…</div>
+            </div>
+            <div class="node" id="n-filter">
+              <div class="node-top"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg>Filter</div>
+              <div class="node-val">activated?</div>
+              <div class="node-sub" id="filter-out">event · projectCreated</div>
+            </div>
+          </div>
+          <div>
+            <div class="col-head">Finish</div>
+            <div class="node" id="n-setup">
+              <div class="node-top" style="justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:7px"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Send</span><span class="branch-tag yes">activated</span></div>
+              <div class="node-val">setup guide</div>
+              <div class="node-sub">→ Active user 🎉</div>
+            </div>
+            <div class="node" id="n-exit">
+              <div class="node-top" style="justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:7px"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Exit</span><span class="branch-tag no">!activated</span></div>
+              <div class="node-val">Remove from flow</div>
+              <div class="node-sub">after 14d</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="readout">
+        <div class="log">
+          <div class="log-head"><span>Contact journey</span><span class="log-status idle" id="logStatus">idle</span></div>
+          <div id="logList"><div class="log-line show"><span class="log-t">—</span><span>Pick a contact and press <b>Run</b> to watch them flow through the loop.</span></div></div>
+        </div>
+        <div class="mailer">
+          <div class="mail-head">Email preview</div>
+          <div id="mailSlot"><div class="mail-empty">Emails sent by the loop<br>appear here.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">Pick <strong>Ana</strong> (activates → gets the setup guide) or <strong>Ben</strong> (never activates → removed) and press <strong>Run</strong>. The contact token flows the loop; the <strong>branch</strong> routes it. Deterministic — fixed journey per contact.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Get started</button>
+          <button class="btn btn-ghost">Start with an agent</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Node types</div>
+        <div class="node-legend">
+          <div class="nl"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg><span><b style="color:var(--text)">Trigger</b> · event starts the loop</span></div>
+          <div class="nl"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b style="color:var(--text)">Timer</b> · wait / delay</span></div>
+          <div class="nl"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg><span><b style="color:var(--text)">Filter</b> · branch on a condition</span></div>
+          <div class="nl"><svg class="node-ic" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg><span><b style="color:var(--text)">Exit</b> · remove from flow</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Audience search</div>
+        <input class="m-input" placeholder="Filter contacts by property or event…" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:12px"></div><span>12 card</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>10 node</span></div>
+          <div><div class="box" style="border-radius:9px"></div><span>9 btn</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep a bright <strong>white, warm canvas</strong> with a warm near-black ink — light is primary.</div>
+          <div class="gr-item">Use <strong>one orange</strong> (<span class="mono" style="color:var(--orange)">#FC5200</span>) for logo, CTAs, links and the active flow path.</div>
+          <div class="gr-item">Set marketing <strong>display headings in Newsreader</strong> (serif); keep UI &amp; body in Inter.</div>
+          <div class="gr-item">Make lifecycle <strong>loops literal</strong> — Trigger → Timer → Send → Filter → Exit, a contact flowing through.</div>
+          <div class="gr-item">Treat amber / violet / green / slate as <strong>functional signals only</strong>.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Lead with a dark or cold canvas, or a second brand hue competing with the orange.</div>
+          <div class="gr-item">Set UI, labels or node cards in the serif — the serif is marketing display only.</div>
+          <div class="gr-item">Render the loop as a flat list — the value is the <strong>branch</strong> and its paths.</div>
+          <div class="gr-item">Make orange neon or garish — it's one confident hot-orange, warmed by coral.</div>
+          <div class="gr-item">Swap the spiral <strong>loop mark</strong> for a generic envelope.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['orange','#FC5200','Primary accent · CTAs · flow'],['ember','#FC671F','Hover / lighter tint'],['coral','#FD8C57','Soft tint · glow · gradient end'],['flow','#FC5200→#FD8C57','Logo · run button · path']],
+  surf:[['canvas','#FFFFFF','App background'],['panel','#FFFFFF','Cards, node cards'],['subtle','#F7F6F4','Column wells'],['raised','#F0EEEA','Hover / selected'],['border','#E8E6E1','Hairlines']],
+  text:[['ink','#1A1917','Primary (light)'],['secondary','#6B6863','Body'],['muted','#9B978F','Meta'],['link','#FC5200','Links']],
+  fn:[['timer amber','#E0A03A','Wait / delay'],['filter violet','#7C6BDB','Branch / condition'],['success green','#2E9E5B','Activated · delivered'],['exit slate','#8A8681','Removed from flow']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>{
+    const isGrad=r[1].includes('→');
+    const bg=isGrad?'linear-gradient(135deg,#FC5200,#FD8C57)':r[1];
+    const cp=isGrad?'linear-gradient(135deg,#FC5200,#FD8C57)':r[1];
+    return `<div class="swatch" onclick="copyHex('${cp}')"><div class="swatch-block" style="background:${bg}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`;
+  }).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m.length>34?'Copied gradient':m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- lifecycle loop builder (deterministic) ---- */
+const EMAILS={
+  welcome:{from:'Acme',subj:"Welcome to Acme — let's get you set up",copy:'Thanks for signing up! Create your first project to unlock the good stuff. It takes about two minutes.',cta:'Create a project'},
+  setup:{from:'Acme',subj:'Your setup guide is ready',copy:"Nice — you're up and running. Here's a short guide to the three features teams use most in their first week.",cta:'Open the guide'}
+};
+// each contact = fixed, predetermined journey of steps
+const CONTACTS={
+  ana:{name:'Ana Rivera',mono:'AR',color:'#7C6BDB',activated:true,
+    steps:[
+      {node:'n-trigger',t:'00:00',ic:'flag',log:'<b>Ana Rivera</b> entered · <span class="mono">userCreated</span>'},
+      {node:'n-wait1',t:'00:00',wait:'w-wait1',waitText:'waiting 5 mins…',log:'Timer · wait <b>5 mins</b>'},
+      {node:'n-welcome',t:'00:05',ic:'mail',email:'welcome',log:'Sent <b>welcome email</b> · delivered'},
+      {node:'n-wait2',t:'00:05',wait:'w-wait2',waitText:'waiting 3 days…',log:'Timer · wait <b>3 days</b>'},
+      {node:'n-filter',t:'3d',ic:'branch',filter:'projectCreated ✓',log:'Filter · <b>activated</b> → <span style="color:var(--green)">true</span>'},
+      {node:'n-setup',t:'3d',ic:'mail',email:'setup',done:true,log:'Sent <b>setup guide</b> · delivered'}
+    ],
+    outcome:{cls:'active',txt:'Active user 🎉'}},
+  ben:{name:'Ben Cole',mono:'BC',color:'#2E9E5B',activated:false,
+    steps:[
+      {node:'n-trigger',t:'00:00',ic:'flag',log:'<b>Ben Cole</b> entered · <span class="mono">userCreated</span>'},
+      {node:'n-wait1',t:'00:00',wait:'w-wait1',waitText:'waiting 5 mins…',log:'Timer · wait <b>5 mins</b>'},
+      {node:'n-welcome',t:'00:05',ic:'mail',email:'welcome',log:'Sent <b>welcome email</b> · delivered'},
+      {node:'n-wait2',t:'00:05',wait:'w-wait2',waitText:'waiting 3 days…',log:'Timer · wait <b>3 days</b>'},
+      {node:'n-filter',t:'3d',ic:'branch',filter:'projectCreated ✗',log:'Filter · <b>activated</b> → <span style="color:var(--slate)">false</span>'},
+      {node:'n-exit',t:'17d',ic:'exit',done:true,exit:true,log:'No activity · <b>removed from flow</b> after 14d'}
+    ],
+    outcome:{cls:'removed',txt:'Removed from flow'}}
+};
+
+let sel='ana', running=false, timers=[];
+const NODES=['n-trigger','n-wait1','n-welcome','n-wait2','n-filter','n-setup','n-exit'];
+
+function ic(kind){
+  const s='width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  if(kind==='flag')return `<svg ${s} stroke="var(--orange)"><path d="M4 15V4h13l-2 3 2 3H4"/><path d="M4 21v-6"/></svg>`;
+  if(kind==='mail')return `<svg ${s} stroke="var(--orange)"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>`;
+  if(kind==='branch')return `<svg ${s} stroke="var(--violet)"><path d="M6 3v6a3 3 0 0 0 3 3h6"/><circle cx="6" cy="3" r="0"/><path d="M18 9V6"/></svg>`;
+  if(kind==='exit')return `<svg ${s} stroke="var(--slate)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>`;
+  return '';
+}
+
+function reset(){
+  timers.forEach(clearTimeout);timers=[];
+  NODES.forEach(id=>{const n=document.getElementById(id);n.className='node';const t=n.querySelector('.tok');if(t)t.remove();});
+  document.querySelectorAll('.node-wait').forEach(w=>{w.classList.remove('on');w.textContent='waiting…';});
+  document.querySelectorAll('.rail').forEach(r=>r.classList.remove('hot'));
+  document.getElementById('filter-out').textContent='event · projectCreated';
+  document.getElementById('logList').innerHTML='<div class="log-line show"><span class="log-t">—</span><span>Pick a contact and press <b>Run</b> to watch them flow through the loop.</span></div>';
+  setStatus('idle','idle');
+  document.getElementById('mailSlot').innerHTML='<div class="mail-empty">Emails sent by the loop<br>appear here.</div>';
+}
+function setStatus(cls,txt){const s=document.getElementById('logStatus');s.className='log-status '+cls;s.textContent=txt;}
+function pick(id){if(running)return;sel=id;
+  document.getElementById('chip-ana').classList.toggle('sel',id==='ana');
+  document.getElementById('chip-ben').classList.toggle('sel',id==='ben');
+  reset();
+}
+
+/* rails: connectors between the three columns (drawn in viewBox 0..1000 x 0..400) */
+function drawRails(){
+  const svg=document.getElementById('rails');
+  // approximate node anchor points per column (percent-based x, fixed y bands)
+  const R=[
+    // start col internal (trigger->wait1->welcome) implicit vertical; draw col->col links
+    {id:'r-welcome-wait2',d:'M 300 300 C 360 300 360 70 420 70',path:['n-welcome','n-wait2']},
+    {id:'r-wait2-filter',d:'M 500 70 C 500 70 500 200 500 200',hide:true},
+    {id:'r-filter-setup',d:'M 700 200 C 760 200 760 70 820 70',path:['n-filter','n-setup'],tag:'yes'},
+    {id:'r-filter-exit',d:'M 700 200 C 760 200 760 300 820 300',path:['n-filter','n-exit'],tag:'no'}
+  ];
+  svg.innerHTML=R.filter(r=>!r.hide).map(r=>`<path class="rail" id="${r.id}" d="${r.d}"/>`).join('');
+}
+
+function run(){
+  if(running)return;
+  reset();
+  running=true;
+  document.getElementById('runBtn').disabled=true;
+  const c=CONTACTS[sel];
+  setStatus('running','running');
+  const list=document.getElementById('logList');list.innerHTML='';
+  let delay=260;
+  c.steps.forEach((st,i)=>{
+    timers.push(setTimeout(()=>{
+      // the node the token just left keeps a faint 'visited' trail
+      document.querySelectorAll('.node.active').forEach(n=>{n.classList.remove('active');n.classList.add('visited');});
+      const node=document.getElementById(st.node);
+      node.classList.remove('visited');
+      node.classList.add('active');
+      // move token
+      document.querySelectorAll('.node .tok').forEach(t=>t.remove());
+      const tok=document.createElement('div');tok.className='tok';tok.style.background=c.color;tok.textContent=c.mono;
+      node.appendChild(tok);requestAnimationFrame(()=>tok.classList.add('in'));
+      // wait rows
+      if(st.wait){const w=document.getElementById(st.wait);w.classList.add('on');w.textContent=st.waitText;}
+      // filter readout
+      if(st.filter)document.getElementById('filter-out').textContent='event · '+st.filter;
+      // rails
+      if(st.node==='n-welcome')hot('r-welcome-wait2');
+      if(st.node==='n-filter'){/* branch pending */}
+      if(st.node==='n-setup')hot('r-filter-setup');
+      if(st.node==='n-exit')hot('r-filter-exit');
+      // log line
+      const ln=document.createElement('div');ln.className='log-line';
+      ln.innerHTML=`<span class="log-t">${st.t}</span>${st.ic?'<span class="log-ic">'+ic(st.ic)+'</span>':''}<span>${st.log}</span>`;
+      list.appendChild(ln);requestAnimationFrame(()=>ln.classList.add('show'));
+      // email
+      if(st.email)showMail(st.email,c);
+      // final
+      if(st.done){
+        node.classList.remove('active');
+        node.classList.add(st.exit?'exited':'done');
+        setStatus(c.outcome.cls,c.outcome.txt);
+        const fin=document.createElement('div');fin.className='log-line';
+        fin.innerHTML=`<span class="log-t">→</span><span><b>${c.name}</b> · ${c.outcome.txt}</span>`;
+        list.appendChild(fin);requestAnimationFrame(()=>fin.classList.add('show'));
+        running=false;document.getElementById('runBtn').disabled=false;
+      }
+    },delay));
+    delay+= st.wait?1050:820;
+  });
+}
+function hot(id){const r=document.getElementById(id);if(r)r.classList.add('hot');}
+function showMail(key,c){
+  const e=EMAILS[key];
+  document.getElementById('mailSlot').innerHTML=
+    `<div class="mail"><div class="mail-bar"><div class="mail-from">${e.from[0]}</div><div class="mail-meta"><b>${e.from}</b>to ${c.name.split(' ')[0].toLowerCase()}@example.com</div></div>`+
+    `<div class="mail-body"><div class="mail-subj disp">${e.subj}</div><div class="mail-copy">${e.copy}</div><span class="mail-cta">${e.cta}</span></div></div>`;
+  requestAnimationFrame(()=>document.querySelector('#mailSlot .mail').classList.add('show'));
+}
+
+drawRails();
+reset();
+window.addEventListener('resize',drawRails);
+</script>
+</body>
+</html>

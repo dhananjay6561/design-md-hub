@@ -111,6 +111,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 88 | [Chronicle](brands/chronicle/DESIGN.md) | Productivity | [preview](https://dhananjay6561.github.io/design-md-hub/brands/chronicle/preview.html) |
 | 89 | [Modal](brands/modal/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/modal/preview.html) |
 | 90 | [Reflect](brands/reflect/DESIGN.md) | Productivity | [preview](https://dhananjay6561.github.io/design-md-hub/brands/reflect/preview.html) |
+| 91 | [Loops](brands/loops/DESIGN.md) | Comms | [preview](https://dhananjay6561.github.io/design-md-hub/brands/loops/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
