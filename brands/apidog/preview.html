@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apidog — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Apidog's real faces — Poppins (geometric display, used on apidog.com) + Inter (product UI) + JetBrains Mono (code/response). All Google Fonts. -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Apidog brand — theme-invariant */
+  --blue:#1A66FF;--azure:#2B6EF6;--cyan:#00AAFF;--sky:#7CB2FF;
+  --grad:linear-gradient(115deg,#1A66FF 0%,#00AAFF 100%);
+  /* functional method / status signals (product only) */
+  --get:#16A34A;--post:#E8863A;--put:#2B6EF6;--del:#E5484D;--patch:#8B5CF6;
+  --ok:#16A34A;--err:#E5484D;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--panel:#FFFFFF;--subtle:#F5F8FC;--raised:#EAF1FB;
+  --border:#E4EAF2;--border-strong:#D3DCEA;
+  --text:#1D2447;--text2:#5B6478;--text3:#8A93A8;--logo-fade:#E4EAF2;
+  --accent:#1A66FF;--link:#1A66FF;--btn-fg:#FFFFFF;
+  --ring:rgba(26,102,255,.16);--shadow:0 16px 44px rgba(20,40,90,.10);--glow:0 6px 18px rgba(26,102,255,.32);
+  --hero-wash:linear-gradient(180deg,#EEF4FE 0%,#F7FAFE 60%,#FFFFFF 100%);
+}
+:root[data-theme="dark"]{
+  --bg:#0E1220;--panel:#161B2E;--subtle:#1B2136;--raised:#232A42;
+  --border:#2C3350;--border-strong:#3A4266;
+  --text:#EEF2FB;--text2:#A6AEC6;--text3:#6C7492;--logo-fade:#2C3350;
+  --accent:#5B9BFF;--link:#5B9BFF;--btn-fg:#FFFFFF;
+  --ring:rgba(91,155,255,.22);--shadow:0 22px 56px rgba(0,0,0,.5);--glow:0 6px 20px rgba(26,102,255,.4);
+  --hero-wash:radial-gradient(70% 80% at 50% -6%,rgba(26,102,255,.16),transparent 62%);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.disp{font-family:'Poppins',sans-serif;font-weight:600}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:84px 0 58px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden;background:var(--hero-wash)}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center;align-items:center;gap:11px}
+.hero-logo .mark{width:46px;height:46px;filter:drop-shadow(0 4px 14px rgba(26,102,255,.32))}
+.hero-logo .wm{font-family:'Poppins',sans-serif;font-weight:700;font-size:33px;letter-spacing:-.02em}
+.hero h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:54px;letter-spacing:-.02em;line-height:1.06;margin-bottom:18px}
+.hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@media(max-width:640px){.hero h1{font-size:37px}}
+.hero p{font-size:18px;color:var(--text2);max-width:580px;margin:0 auto;line-height:1.5}
+.hero .eq{margin-top:16px;font-size:13px;color:var(--text3)}
+.hero .eq b{color:var(--accent);font-weight:600}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--grad)}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip .grad-slab{flex:2.2;background:var(--grad);cursor:pointer}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.10)}
+.swatch-info{padding:9px 11px;background:var(--subtle)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:170px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: design-first API client ===== */
+.app{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.app-bar{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.app-logo{display:flex;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.app-logo .mark{width:22px;height:22px}
+.app-proj{font-size:12.5px;color:var(--text3);padding-left:11px;margin-left:3px;border-left:1px solid var(--border)}
+.app-spacer{flex:1}
+.mode{display:inline-flex;background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:2px}
+.mode button{font-family:inherit;font-size:12px;font-weight:500;color:var(--text3);background:transparent;border:none;border-radius:6px;padding:4px 11px;cursor:pointer;transition:all .12s}
+.mode button.on{color:var(--btn-fg);background:var(--azure)}
+.env{font-size:12px;color:var(--text2);background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:5px 11px;display:inline-flex;align-items:center;gap:6px}
+.env .dot{width:7px;height:7px;border-radius:50%;background:var(--get)}
+
+.client{display:grid;grid-template-columns:210px 1fr;min-height:520px}
+@media(max-width:800px){.client{grid-template-columns:1fr}}
+.side{border-right:1px solid var(--border);background:var(--subtle);padding:12px 10px;overflow:auto}
+@media(max-width:800px){.side{border-right:none;border-bottom:1px solid var(--border)}}
+.side-h{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:4px 8px 9px}
+.ep{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:8px;cursor:pointer;margin-bottom:2px;transition:background .12s}
+.ep:hover{background:var(--raised)}
+.ep.sel{background:var(--raised)}
+.ep.sel .ep-path{color:var(--text)}
+.meth{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.02em;width:44px;flex-shrink:0;text-align:right}
+.m-get{color:var(--get)}.m-post{color:var(--post)}.m-put{color:var(--put)}.m-del{color:var(--del)}.m-patch{color:var(--patch)}
+.ep-path{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.main{display:flex;flex-direction:column;min-width:0}
+.reqbar{display:flex;align-items:center;gap:9px;padding:13px 15px;border-bottom:1px solid var(--border)}
+.meth-chip{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;padding:6px 10px;border-radius:7px;flex-shrink:0}
+.bg-get{background:var(--get)}.bg-post{background:var(--post)}.bg-put{background:var(--put)}.bg-del{background:var(--del)}.bg-patch{background:var(--patch)}
+.url{flex:1;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text);background:var(--subtle);border:1px solid var(--border);border-radius:9px;padding:8px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.url .host{color:var(--text3)}
+.url .param{color:var(--accent)}
+.send{font-family:inherit;font-weight:600;font-size:13px;color:#fff;background:var(--grad);border:none;border-radius:9px;padding:0 18px;height:36px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;flex-shrink:0;transition:filter .12s,box-shadow .12s}
+.send:hover{filter:brightness(1.05);box-shadow:var(--glow)}
+.send:disabled{opacity:.7;cursor:default}
+
+.tabs{display:flex;gap:2px;padding:0 15px;border-bottom:1px solid var(--border)}
+.tab{font-size:12.5px;font-weight:500;color:var(--text3);padding:10px 12px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .12s,border-color .12s}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tab .badge{font-size:9.5px;background:var(--raised);color:var(--text3);border-radius:9999px;padding:1px 6px;margin-left:5px}
+.reqbody{padding:13px 15px;border-bottom:1px solid var(--border);min-height:74px}
+.kv{display:flex;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:3px 0}
+.kv .k{color:var(--accent);min-width:110px}
+.kv .v{color:var(--text2)}
+.reqbody .none{font-size:12.5px;color:var(--text3);font-style:italic}
+.codeblock{background:#0E1220;border:1px solid #232A42;border-radius:9px;padding:11px 13px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;overflow:auto;color:#C6CEE6;white-space:pre}
+.j-key{color:#7CB2FF}.j-str{color:#5CD98A}.j-num{color:#FBBF24}.j-bool{color:#C084FC}.j-punc{color:#6C7492}
+
+.resp{flex:1;display:flex;flex-direction:column;min-height:210px}
+.resp-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text3);gap:9px;font-size:13px;text-align:center;padding:24px}
+.resp-empty .mark{width:34px;height:34px;opacity:.5}
+.resp-head{display:flex;align-items:center;gap:12px;padding:11px 15px;border-bottom:1px solid var(--border)}
+.resp-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3)}
+.status{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;padding:3px 9px;border-radius:7px;display:inline-flex;align-items:center;gap:6px}
+.status.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 13%,transparent)}
+.status.err{color:var(--err);background:color-mix(in srgb,var(--err) 13%,transparent)}
+.status .d{width:6px;height:6px;border-radius:50%;background:currentColor}
+.resp-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-left:auto;display:flex;gap:13px}
+.resp-meta b{color:var(--text2);font-weight:500}
+.resp-body{display:grid;grid-template-columns:1.25fr 1fr;gap:0;flex:1}
+@media(max-width:800px){.resp-body{grid-template-columns:1fr}}
+.resp-json{padding:13px 15px;border-right:1px solid var(--border);overflow:auto}
+@media(max-width:800px){.resp-json{border-right:none;border-bottom:1px solid var(--border)}}
+.validate{padding:13px 15px;background:var(--subtle);overflow:auto}
+.val-h{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:11px;display:flex;align-items:center;gap:7px}
+.val-sum{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:9999px}
+.val-sum.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 13%,transparent)}
+.val-sum.err{color:var(--err);background:color-mix(in srgb,var(--err) 13%,transparent)}
+.vrow{display:flex;align-items:flex-start;gap:9px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:5px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateX(-5px);transition:opacity .22s,transform .22s}
+.vrow:last-child{border-bottom:none}
+.vrow.show{opacity:1;transform:none}
+.vrow .vc{flex-shrink:0;margin-top:1px;width:14px;height:14px}
+.vrow .vf{color:var(--text)}
+.vrow .vt{color:var(--text3);margin-left:auto;padding-left:8px}
+.vrow.bad .vf{color:var(--err)}
+.vrow.bad .vt{color:var(--err)}
+.vmsg{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--err);padding:2px 0 6px 23px;opacity:0;transition:opacity .22s}
+.vmsg.show{opacity:1}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
+.sig-hint strong{color:var(--text2)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:inherit;font-weight:600;font-size:13px;border-radius:9px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,box-shadow .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--grad);color:#fff}
+.btn-primary:hover{filter:brightness(1.05);box-shadow:var(--glow)}
+.btn-ghost{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.mchip{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#fff;padding:5px 9px;border-radius:7px}
+.m-input{background:var(--subtle);border:1px solid var(--border-strong);border-radius:9px;height:38px;padding:0 13px;font-size:13px;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.m-input::placeholder{color:var(--text3)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:var(--grad);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--accent)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:6px;width:6px;height:6px;border-radius:50%}
+.do .gr-item::before{background:var(--grad)}
+.dont .gr-item::before{background:var(--text3)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<!-- shared gradient defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="adx" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse"><stop stop-color="#8FC0FF"/><stop offset="1" stop-color="#5B9BFF"/></linearGradient>
+  <linearGradient id="adb" x1="24" y1="50" x2="76" y2="50" gradientUnits="userSpaceOnUse"><stop stop-color="#1A66FF"/><stop offset="1" stop-color="#00AAFF"/></linearGradient>
+</defs></svg>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/apidog/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg class="mark" viewBox="0 0 100 100" fill="none" aria-label="Apidog"><g stroke="url(#adx)" stroke-width="16" stroke-linecap="round"><line x1="30" y1="30" x2="70" y2="70"/><line x1="70" y1="30" x2="30" y2="70"/></g><line x1="27" y1="50" x2="73" y2="50" stroke="url(#adb)" stroke-width="21" stroke-linecap="round"/></svg>
+      <span class="wm">Apidog</span>
+    </div>
+    <h1>Design, Build, and Test APIs<br><span class="g">All in One Place</span></h1>
+    <p>An all-in-one API platform — design, debug, automated testing, docs and mocking in a single tool.</p>
+    <div class="eq"><b>Apidog</b> = Postman + Swagger + Stoplight + ReadMe + JMeter + Mock…</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="One blue→cyan gradient on a bright, navy-inked canvas">
+      <div class="grad-slab" onclick="copyHex('linear-gradient(115deg,#1A66FF,#00AAFF)')" title="brand gradient"></div>
+      <div class="strip-slab" style="background:#1A66FF" onclick="copyHex('#1A66FF')" title="blue"></div>
+      <div class="strip-slab" style="background:#00AAFF" onclick="copyHex('#00AAFF')" title="cyan"></div>
+      <div class="strip-slab" style="background:#7CB2FF" onclick="copyHex('#7CB2FF')" title="sky"></div>
+      <div class="strip-slab" style="background:#1D2447" onclick="copyHex('#1D2447')" title="ink navy"></div>
+      <div class="strip-slab" style="background:#F5F8FC" onclick="copyHex('#F5F8FC')" title="subtle"></div>
+    </div>
+
+    <div class="group-label">Brand · the blue→cyan gradient</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · light-first</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Functional signals · HTTP method & status, not brand</div>
+    <div class="swatch-grid" id="g-fn"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Poppins / 700</div><div class="type-spec">Display · 54px</div></div>
+        <div class="type-sample disp" style="font-size:32px;font-weight:700;letter-spacing:-.02em">Design, Build, and Test APIs</div>
+        <div class="spec-pills"><span class="spec-pill">Poppins</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Poppins / 600</div><div class="type-spec">Section heading · 30px</div></div>
+        <div class="type-sample disp" style="font-size:22px;font-weight:600;letter-spacing:-.01em">One workflow for your entire API lifecycle</div>
+        <div class="spec-pills"><span class="spec-pill">Poppins</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">UI · body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Every request, response and its schema, checked in one place.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono / 400</div><div class="type-spec">Code · response · 12.5px</div></div>
+        <div class="type-sample mono" style="font-size:13px">GET /v1/users/{id} → 200 OK · 84ms</div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Design-first API client</div>
+    <div class="app">
+      <div class="app-bar">
+        <div class="app-logo"><svg class="mark" viewBox="0 0 100 100" fill="none"><g stroke="url(#adx)" stroke-width="16" stroke-linecap="round"><line x1="30" y1="30" x2="70" y2="70"/><line x1="70" y1="30" x2="30" y2="70"/></g><line x1="27" y1="50" x2="73" y2="50" stroke="url(#adb)" stroke-width="21" stroke-linecap="round"/></svg>Apidog</div>
+        <span class="app-proj">User Service API</span>
+        <div class="app-spacer"></div>
+        <div class="mode"><button>Design</button><button class="on">Debug</button><button>Test</button></div>
+        <span class="env"><span class="dot"></span>Production</span>
+      </div>
+      <div class="client">
+        <div class="side">
+          <div class="side-h">Endpoints</div>
+          <div id="epList"></div>
+        </div>
+        <div class="main">
+          <div class="reqbar">
+            <span class="meth-chip" id="methChip">GET</span>
+            <div class="url" id="urlBar"></div>
+            <button class="send" id="sendBtn" onclick="send()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>Send</button>
+          </div>
+          <div class="tabs" id="reqTabs">
+            <span class="tab on">Params<span class="badge" id="paramCount">0</span></span>
+            <span class="tab">Headers<span class="badge">2</span></span>
+            <span class="tab">Body</span>
+          </div>
+          <div class="reqbody" id="reqBody"></div>
+          <div class="resp" id="resp">
+            <div class="resp-empty" id="respEmpty">
+              <svg class="mark" viewBox="0 0 100 100" fill="none"><g stroke="url(#adx)" stroke-width="16" stroke-linecap="round"><line x1="30" y1="30" x2="70" y2="70"/><line x1="70" y1="30" x2="30" y2="70"/></g><line x1="27" y1="50" x2="73" y2="50" stroke="url(#adb)" stroke-width="21" stroke-linecap="round"/></svg>
+              Press <strong style="color:var(--text2)">&nbsp;Send&nbsp;</strong> to run the request &amp; validate the response against its designed schema.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">Pick an endpoint, press <strong>Send</strong>. The response returns <em>and</em> is validated against the endpoint's designed schema — try <strong>GET /users/{id}</strong>, whose live response drifted from the spec. Deterministic.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>Send request</button>
+          <button class="btn btn-ghost">Launch Web App</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">HTTP method chips</div>
+        <div class="chip-row">
+          <span class="mchip bg-get">GET</span>
+          <span class="mchip bg-post">POST</span>
+          <span class="mchip bg-put">PUT</span>
+          <span class="mchip bg-patch">PATCH</span>
+          <span class="mchip bg-del">DELETE</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Request URL</div>
+        <input class="m-input mono" style="font-size:12.5px" value="https://api.acme.dev/v1/users/{id}" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:12px"></div><span>12 card</span></div>
+          <div><div class="box" style="border-radius:9px"></div><span>9 btn</span></div>
+          <div><div class="box" style="border-radius:7px"></div><span>7 chip</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep a bright <strong>white / pale-blue canvas</strong> with deep <strong>navy ink</strong> — light is primary.</div>
+          <div class="gr-item">Use one <strong>blue→cyan gradient</strong> (<span class="mono" style="color:var(--accent)">#1A66FF→#00AAFF</span>) for mark, hero, Send and active states.</div>
+          <div class="gr-item">Set marketing <strong>display in Poppins</strong>; keep dense product UI in Inter, code in JetBrains Mono.</div>
+          <div class="gr-item">Make <strong>schema validation</strong> visible — responses checked against the designed spec (the design-first edge).</div>
+          <div class="gr-item">Color HTTP methods &amp; statuses as <strong>functional signals only</strong>.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Present Apidog as just a request-runner — it's <strong>design + test in one</strong>.</div>
+          <div class="gr-item">Introduce a competing brand hue; blue→cyan is the only brand family (navy is the ink).</div>
+          <div class="gr-item">Set body or dense tables in Poppins — the rounded display is for headings/wordmark.</div>
+          <div class="gr-item">Make the gradient neon or muddy — clean royal-blue warming to cyan.</div>
+          <div class="gr-item">Swap the X-and-bone mark for a generic API / globe icon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['blue','#1A66FF','Primary · gradient start · links'],['cyan','#00AAFF','Gradient end · highlights'],['sky','#7CB2FF','Soft tint · secondary'],['gradient','#1A66FF→#00AAFF','Mark · hero · Send']],
+  surf:[['canvas','#FFFFFF','App background'],['panel','#FFFFFF','Cards, panels'],['subtle','#F5F8FC','Sidebar · wells'],['raised','#EAF1FB','Hover / selected'],['code','#141A2E','Response console (always dark)']],
+  text:[['ink navy','#1D2447','Primary (light)'],['secondary','#5B6478','Body'],['muted','#8A93A8','Meta'],['link','#1A66FF','Links']],
+  fn:[['GET green','#16A34A','GET · schema match'],['POST amber','#E8863A','POST'],['DELETE red','#E5484D','DELETE · mismatch'],['PATCH purple','#8B5CF6','PATCH']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>{
+    const isGrad=r[1].includes('→');
+    const bg=isGrad?'linear-gradient(115deg,#1A66FF,#00AAFF)':r[1];
+    const cp=isGrad?'linear-gradient(115deg,#1A66FF,#00AAFF)':r[1];
+    return `<div class="swatch" onclick="copyHex('${cp}')"><div class="swatch-block" style="background:${bg}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`;
+  }).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m.length>34?'Copied gradient':m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- design-first API client (deterministic) ---- */
+const HOST='https://api.acme.dev';
+// each endpoint: method, path, params, body, response {status,text,ms,size,json(highlighted html)}, validation rows
+const EP={
+  list:{m:'GET',path:'/v1/users',params:[['page','1'],['limit','20']],
+    resp:{code:200,text:'OK',ms:72,size:'1.2 KB',ok:true,
+      json:`<span class="j-punc">{</span>
+  <span class="j-key">"data"</span><span class="j-punc">:</span> <span class="j-punc">[</span>
+    <span class="j-punc">{</span> <span class="j-key">"id"</span><span class="j-punc">:</span> <span class="j-str">"usr_8f2c"</span><span class="j-punc">,</span> <span class="j-key">"name"</span><span class="j-punc">:</span> <span class="j-str">"Ada Lovelace"</span> <span class="j-punc">},</span>
+    <span class="j-punc">{</span> <span class="j-key">"id"</span><span class="j-punc">:</span> <span class="j-str">"usr_1a9d"</span><span class="j-punc">,</span> <span class="j-key">"name"</span><span class="j-punc">:</span> <span class="j-str">"Alan Turing"</span> <span class="j-punc">}</span>
+  <span class="j-punc">],</span>
+  <span class="j-key">"total"</span><span class="j-punc">:</span> <span class="j-num">2</span><span class="j-punc">,</span>
+  <span class="j-key">"page"</span><span class="j-punc">:</span> <span class="j-num">1</span>
+<span class="j-punc">}</span>`,
+      val:[['data','array',true],['data[].id','string',true],['data[].name','string',true],['total','integer',true],['page','integer',true]]}},
+  get:{m:'GET',path:'/v1/users/{id}',params:[['id','usr_8f2c']],
+    resp:{code:200,text:'OK',ms:84,size:'236 B',ok:true,schemaFail:true,
+      json:`<span class="j-punc">{</span>
+  <span class="j-key">"id"</span><span class="j-punc">:</span> <span class="j-str">"usr_8f2c"</span><span class="j-punc">,</span>
+  <span class="j-key">"name"</span><span class="j-punc">:</span> <span class="j-str">"Ada Lovelace"</span><span class="j-punc">,</span>
+  <span class="j-key">"email"</span><span class="j-punc">:</span> <span class="j-str">"ada@acme.dev"</span><span class="j-punc">,</span>
+  <span class="j-key">"role"</span><span class="j-punc">:</span> <span class="j-str">"admin"</span><span class="j-punc">,</span>
+  <span class="j-key">"active"</span><span class="j-punc">:</span> <span class="j-bool">true</span><span class="j-punc">,</span>
+  <span class="j-key">"age"</span><span class="j-punc">:</span> <span class="j-str">"36"</span>
+<span class="j-punc">}</span>`,
+      val:[['id','string',true],['name','string',true],['email','string · email',true],['role','enum',true],['active','boolean',true],['age','integer',false,'expected integer, got string']]}},
+  create:{m:'POST',path:'/v1/users',body:`<span class="j-punc">{</span>
+  <span class="j-key">"name"</span><span class="j-punc">:</span> <span class="j-str">"Grace Hopper"</span><span class="j-punc">,</span>
+  <span class="j-key">"email"</span><span class="j-punc">:</span> <span class="j-str">"grace@acme.dev"</span><span class="j-punc">,</span>
+  <span class="j-key">"role"</span><span class="j-punc">:</span> <span class="j-str">"editor"</span>
+<span class="j-punc">}</span>`,
+    resp:{code:201,text:'Created',ms:118,size:'198 B',ok:true,
+      json:`<span class="j-punc">{</span>
+  <span class="j-key">"id"</span><span class="j-punc">:</span> <span class="j-str">"usr_new1"</span><span class="j-punc">,</span>
+  <span class="j-key">"name"</span><span class="j-punc">:</span> <span class="j-str">"Grace Hopper"</span><span class="j-punc">,</span>
+  <span class="j-key">"email"</span><span class="j-punc">:</span> <span class="j-str">"grace@acme.dev"</span><span class="j-punc">,</span>
+  <span class="j-key">"role"</span><span class="j-punc">:</span> <span class="j-str">"editor"</span><span class="j-punc">,</span>
+  <span class="j-key">"active"</span><span class="j-punc">:</span> <span class="j-bool">true</span>
+<span class="j-punc">}</span>`,
+      val:[['id','string',true],['name','string',true],['email','string · email',true],['role','enum',true],['active','boolean',true]]}},
+  del:{m:'DELETE',path:'/v1/users/{id}',params:[['id','usr_1a9d']],
+    resp:{code:204,text:'No Content',ms:61,size:'0 B',ok:true,noBody:true,
+      json:`<span class="j-punc">// 204 No Content — empty body</span>`,
+      val:[['(no content)','matches 204 spec',true]]}}
+};
+const ORDER=['list','get','create','del'];
+let cur='get', timers=[], busy=false;
+
+function methClass(m){return {GET:'get',POST:'post',PUT:'put',DELETE:'del',PATCH:'patch'}[m];}
+function renderSidebar(){
+  document.getElementById('epList').innerHTML=ORDER.map(k=>{
+    const e=EP[k];const mc='m-'+methClass(e.m);
+    return `<div class="ep${k===cur?' sel':''}" data-k="${k}"><span class="meth ${mc}">${e.m}</span><span class="ep-path">${e.path}</span></div>`;
+  }).join('');
+  document.querySelectorAll('.ep').forEach(el=>el.addEventListener('click',()=>select(el.dataset.k)));
+}
+function urlHtml(e){
+  const path=e.path.replace(/\{(\w+)\}/g,'<span class="param">{$1}</span>');
+  const qs=(e.m==='GET'&&e.params&&e.path.indexOf('{')<0)?'':'';
+  return `<span class="host">${HOST}</span>${path}`;
+}
+function renderReq(){
+  const e=EP[cur];
+  const mc='bg-'+methClass(e.m);
+  const chip=document.getElementById('methChip');
+  chip.className='meth-chip '+mc;chip.textContent=e.m;
+  document.getElementById('urlBar').innerHTML=urlHtml(e);
+  // tabs + body
+  const nParams=e.params?e.params.length:0;
+  document.getElementById('paramCount').textContent=nParams;
+  const tabs=document.getElementById('reqTabs');
+  const hasBody=!!e.body;
+  tabs.innerHTML=`<span class="tab${hasBody?'':' on'}">Params<span class="badge">${nParams}</span></span>`+
+    `<span class="tab">Headers<span class="badge">2</span></span>`+
+    `<span class="tab${hasBody?' on':''}">Body${hasBody?'<span class="badge">json</span>':''}</span>`;
+  const rb=document.getElementById('reqBody');
+  if(hasBody){rb.innerHTML=`<div class="codeblock">${e.body}</div>`;}
+  else if(nParams){rb.innerHTML=e.params.map(p=>`<div class="kv"><span class="k">${p[0]}</span><span class="v">${p[1]}</span></div>`).join('');}
+  else{rb.innerHTML=`<div class="none">No query params · no body</div>`;}
+}
+function clearResp(){
+  timers.forEach(clearTimeout);timers=[];
+  document.getElementById('resp').innerHTML=`<div class="resp-empty" id="respEmpty"><svg class="mark" viewBox="0 0 100 100" fill="none"><g stroke="url(#adx)" stroke-width="16" stroke-linecap="round"><line x1="30" y1="30" x2="70" y2="70"/><line x1="70" y1="30" x2="30" y2="70"/></g><line x1="27" y1="50" x2="73" y2="50" stroke="url(#adb)" stroke-width="21" stroke-linecap="round"/></svg>Press <strong style="color:var(--text2)">&nbsp;Send&nbsp;</strong> to run the request &amp; validate the response against its designed schema.</div>`;
+}
+function select(k){if(busy)return;cur=k;renderSidebar();renderReq();clearResp();}
+
+function send(){
+  if(busy)return;
+  const e=EP[cur];const r=e.resp;
+  busy=true;
+  const btn=document.getElementById('sendBtn');
+  btn.disabled=true;btn.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9"/></svg>Sending…`;
+  timers.push(setTimeout(()=>{
+    const okCls=r.code<400?'ok':'err';
+    const failing=(r.val||[]).filter(v=>v[2]===false).length;
+    const allOk=failing===0;
+    const resp=document.getElementById('resp');
+    resp.innerHTML=
+      `<div class="resp-head">
+        <span class="resp-title">Response</span>
+        <span class="status ${okCls}"><span class="d"></span>${r.code} ${r.text}</span>
+        <span class="resp-meta"><span>Time <b>${r.ms} ms</b></span><span>Size <b>${r.size}</b></span></span>
+      </div>
+      <div class="resp-body">
+        <div class="resp-json"><div class="codeblock">${r.json}</div></div>
+        <div class="validate">
+          <div class="val-h">Schema validation <span class="val-sum ${allOk?'ok':'err'}" id="valSum">checking…</span></div>
+          <div id="valRows"></div>
+        </div>
+      </div>`;
+    // stream validation rows
+    const rows=r.val||[];const host=document.getElementById('valRows');
+    rows.forEach((v,i)=>{
+      timers.push(setTimeout(()=>{
+        const bad=v[2]===false;
+        const div=document.createElement('div');
+        div.className='vrow'+(bad?' bad':'');
+        const check=bad
+          ? `<svg class="vc" viewBox="0 0 24 24" fill="none" stroke="var(--err)" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`
+          : `<svg class="vc" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2.4" stroke-linecap="round"><path d="M20 6 9 17l-5-5"/></svg>`;
+        div.innerHTML=`${check}<span class="vf">${v[0]}</span><span class="vt">${v[1]}</span>`;
+        host.appendChild(div);
+        requestAnimationFrame(()=>div.classList.add('show'));
+        if(bad&&v[3]){
+          const msg=document.createElement('div');msg.className='vmsg';msg.textContent='⚠ '+v[3];
+          host.appendChild(msg);requestAnimationFrame(()=>msg.classList.add('show'));
+        }
+        if(i===rows.length-1){
+          const sum=document.getElementById('valSum');
+          if(allOk){sum.className='val-sum ok';sum.textContent=rows.length+'/'+rows.length+' match spec';}
+          else{sum.className='val-sum err';sum.textContent=failing+' field'+(failing>1?'s':'')+' off spec';}
+          busy=false;btn.disabled=false;btn.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>Send`;
+        }
+      },180+i*230));
+    });
+    if(!rows.length){busy=false;btn.disabled=false;btn.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>Send`;}
+  },560));
+}
+
+renderSidebar();
+renderReq();
+</script>
+</body>
+</html>
