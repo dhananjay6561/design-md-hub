@@ -15,28 +15,27 @@
 @font-face{font-family:'CircularXX';src:url('https://fonts-cdn.inngest.com/Circular/CircularXXWeb-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
 @font-face{font-family:'CircularXXMono';src:url('https://fonts-cdn.inngest.com/CircularMono/CircularXXMonoWeb-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 :root{
-  /* Inngest brand — theme-invariant */
-  --matcha:#027A48;--matcha2:#2C9B63;--matcha3:#66BD8B;--matcha-tint:#DFF5E6;
-  --honey:#FCC43F;--honey2:#D56B13;--breeze:#2389F1;--ruby:#F54A3F;--ruby2:#CB2A1D;
-  --grad:linear-gradient(120deg,#027A48,#2C9B63);
+  /* Inngest brand — theme-invariant. Flame accent on a dark editorial canvas. */
+  --flame:#F75536;--ember:#FF7A5C;--coral:#FF8C80;--deep:#E0402E;
+  --grad:linear-gradient(120deg,#F75536,#FF8C80);
 }
 :root[data-theme="dark"]{
-  --bg:#0A0B0D;--panel:#121212;--subtle:#181818;--raised:#1E1E1E;
-  --border:#2A2A2A;--border-strong:#3A3A3A;
-  --text:#F6F6F6;--text2:#B0B0B0;--text3:#7C7C7C;--logo-fade:#353535;
-  --accent:#2C9B63;--btn-bg:#027A48;--btn-fg:#FFFFFF;
+  --bg:#0A0A0A;--panel:#141414;--subtle:#1A1A1A;--raised:#1F1F1F;
+  --border:#282828;--border-strong:#3A3A3A;
+  --text:#F7F7F7;--text2:#B0B0B0;--text3:#7C7C7C;--logo-fade:#353535;
+  --accent:#F75536;--btn-bg:#F75536;--btn-fg:#FFFFFF;
   --ok:#39B871;--run:#FCC43F;--fail:#FF6B5E;--wait:#4FA9F5;
-  --ring:rgba(44,155,99,.32);--shadow:0 16px 44px rgba(0,0,0,.55);
-  --code-bg:#0E0F11;
+  --ring:rgba(247,85,54,.30);--shadow:0 16px 44px rgba(0,0,0,.6);
+  --code-bg:#0E0E0E;--hero-glow:radial-gradient(62% 70% at 50% -8%,rgba(247,85,54,.12),transparent 68%);
 }
 :root[data-theme="light"]{
-  --bg:#FEFEFE;--panel:#FFFFFF;--subtle:#F6F6F6;--raised:#F0F0F0;
-  --border:#E6E6E6;--border-strong:#D4D4D4;
-  --text:#121212;--text2:#4B4B4B;--text3:#7C7C7C;--logo-fade:#E2E2E2;
-  --accent:#027A48;--btn-bg:#027A48;--btn-fg:#FFFFFF;
+  --bg:#FBFAF9;--panel:#FFFFFF;--subtle:#F4F3F2;--raised:#EFEEED;
+  --border:#E6E4E2;--border-strong:#D6D4D2;
+  --text:#0A0A0A;--text2:#4B4B4B;--text3:#7C7C7C;--logo-fade:#E2E2E2;
+  --accent:#E0402E;--btn-bg:#F75536;--btn-fg:#FFFFFF;
   --ok:#027A48;--run:#D56B13;--fail:#CB2A1D;--wait:#1365D6;
-  --ring:rgba(2,122,72,.18);--shadow:0 16px 44px rgba(20,40,30,.12);
-  --code-bg:#FAFAFA;
+  --ring:rgba(247,85,54,.18);--shadow:0 16px 44px rgba(60,30,20,.12);
+  --code-bg:#FAFAF9;--hero-glow:radial-gradient(62% 70% at 50% -8%,rgba(247,85,54,.08),transparent 68%);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -46,20 +45,27 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 .toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
 .toggle:hover{border-color:var(--border-strong)}
 
-.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
-.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
-.hero-logo{margin-bottom:26px;display:flex;justify-content:center;align-items:center;gap:12px}
-.hero-logo .mk{height:34px;width:auto;color:var(--accent)}
+.hero{position:relative;padding:82px 0 58px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:var(--hero-glow);pointer-events:none}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:12px}
+.hero-logo .mk{height:34px;width:auto;color:var(--flame)}
 .hero-logo .wm{font-weight:700;font-size:34px;letter-spacing:-.02em}
-.hero h1{font-size:50px;font-weight:700;letter-spacing:-.025em;line-height:1.05;margin-bottom:16px}
+.hero h1{font-size:60px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:20px;text-transform:uppercase}
 .hero h1 .g{color:var(--accent)}
-.hero p{font-size:17.5px;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.5}
+.hero h1 .out{color:transparent;-webkit-text-stroke:1.5px var(--text);text-stroke:1.5px var(--text)}
+@media(max-width:640px){.hero h1{font-size:40px}}
+.hero p{font-size:17.5px;color:var(--text2);max-width:600px;margin:0 auto 22px;line-height:1.5}
 .hero p .mono{color:var(--text);font-size:15px}
+.hero-marquee{display:inline-flex;gap:20px;flex-wrap:wrap;justify-content:center;font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--text3)}
+.hero-marquee span{display:inline-flex;align-items:center;gap:7px}
+.hero-marquee .sq{width:8px;height:8px;background:var(--flame);border-radius:2px;flex-shrink:0}
 
 .wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
 .section{padding:52px 0;border-bottom:1px solid var(--border)}
 .section:last-child{border-bottom:none}
-.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:8px;height:8px;background:var(--flame);border-radius:2px}
 .group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
 
 .strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
@@ -108,15 +114,14 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 .code pre{font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:12.5px;line-height:1.7;color:var(--text2);white-space:pre;margin:0}
 .code .k{color:var(--accent);font-weight:500}
 .code .fn{color:var(--wait)}
-.code .s{color:var(--honey2)}
-:root[data-theme="dark"] .code .s{color:var(--honey)}
+.code .s{color:var(--ok)}
 .code .c{color:var(--text3);font-style:italic}
-.code .step-hl{color:var(--text)}
+.code .num{color:var(--wait)}
 
 /* trace side */
 .trace{padding:18px 20px 20px}
 .event-pill{display:inline-flex;align-items:center;gap:8px;background:var(--subtle);border:1px solid var(--border);border-radius:9999px;padding:6px 13px;font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:11.5px;color:var(--text);margin-bottom:6px}
-.event-pill .ev-dot{width:7px;height:7px;border-radius:50%;background:var(--matcha3)}
+.event-pill .ev-sq{width:8px;height:8px;border-radius:2px;background:var(--flame)}
 .event-pill .ev-id{color:var(--text3)}
 .trigger-lbl{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:9px}
 .steps{position:relative;margin-top:14px}
@@ -139,8 +144,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 .type-badge{font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:10px;color:var(--text3);background:var(--subtle);border:1px solid var(--border);border-radius:6px;padding:1px 6px}
 .step-dur{margin-left:auto;font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:11px;color:var(--text3);opacity:0;transition:opacity .2s}
 .step.show-dur .step-dur{opacity:1}
-.attempts{font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:10px;color:var(--honey2);background:rgba(213,107,19,.12);border-radius:6px;padding:1px 6px;display:none}
-:root[data-theme="dark"] .attempts{color:var(--honey)}
+.attempts{font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:10px;color:var(--flame);background:rgba(247,85,54,.12);border-radius:6px;padding:1px 6px;display:none}
 .step.retried .attempts{display:inline-block}
 .step-note{font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:11px;margin-top:5px;line-height:1.5;min-height:0;color:var(--text3)}
 .step-note.fail{color:var(--fail)}
@@ -148,8 +152,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 .step-note.ok{color:var(--ok)}
 .run-summary{margin-top:18px;padding-top:15px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;font-family:'CircularXXMono','JetBrains Mono',monospace;font-size:12px;color:var(--text2);opacity:0;transition:opacity .25s}
 .run-summary.show{opacity:1}
-.run-summary .rs-badge{display:inline-flex;align-items:center;gap:6px;background:var(--matcha-tint);color:var(--matcha);border-radius:9999px;padding:3px 11px;font-weight:600;font-size:11px}
-:root[data-theme="dark"] .run-summary .rs-badge{background:rgba(44,155,99,.14);color:var(--matcha3)}
+.run-summary .rs-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(44,155,99,.14);color:var(--ok);border-radius:9999px;padding:3px 11px;font-weight:600;font-size:11px}
 .rs-badge .rs-tick{font-size:11px}
 .sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center}
 @keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
@@ -209,8 +212,13 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
       <svg class="mk" viewBox="0 0 29 17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Inngest"><path d="M0.300312 13.6542C-0.399794 11.4611 0.11671 9.62711 1.92851 7.88391C1.93053 7.88189 9.08392 1.11488 9.08392 1.11488C10.2158 0.025382 11.8763 -0.264143 13.3138 0.376443C15.5554 1.38524 15.6371 3.58744 15.5997 4.3047C15.5937 4.4308 15.5947 5.45069 14.6031 5.59495C13.9151 5.69482 13.2563 5.25902 13.2634 4.37027C13.2735 2.95997 12.8427 2.75216 12.3686 2.47777C12.1486 2.37991 11.3356 2.13276 10.6909 2.77133C10.6879 2.77435 3.53351 9.54136 3.53351 9.54136C2.36835 10.6642 2.08084 11.6215 2.50655 12.9541C2.70024 13.5604 2.3633 14.2081 1.75399 14.4007C1.02564 14.6297 0.456675 14.1435 0.300312 13.6532V13.6542Z"></path><path d="M15.539 16.6567C12.8697 15.4664 13.2732 12.5842 13.2732 12.5842C13.3428 11.9406 13.7917 11.4322 14.4303 11.4322C15.0689 11.4322 15.544 11.8549 15.5884 12.5842C15.5884 12.5842 15.5309 14.163 16.4842 14.5544C16.7041 14.6523 17.4769 14.9206 18.1618 14.2608L25.2476 7.49182C26.4158 6.36802 26.7165 5.38343 26.2817 4.09621C26.0779 3.49295 26.4047 2.84026 27.01 2.63749C27.6163 2.43472 28.27 2.81907 28.4768 3.3618C29.2021 5.50852 28.6715 7.40204 26.8547 9.15028L19.7689 15.9183C19.0385 16.6224 17.4022 17.495 15.539 16.6557V16.6567Z"></path><path d="M3.3943 16.6536C2.80012 16.4186 2.50959 15.7498 2.74565 15.1576C2.98171 14.5664 3.65457 14.2779 4.24876 14.512C5.18391 14.8812 6.2714 14.6623 7.01992 13.9531L20.1696 1.49143C21.1582 0.555266 23.1375 -0.546341 25.3891 0.306092C25.943 0.537107 26.2587 1.2241 26.0136 1.81223C25.7684 2.39935 25.0936 2.58295 24.5004 2.43364C23.3211 2.16026 22.3224 2.63238 21.7665 3.15998L8.61685 15.6216C7.67262 16.5175 5.71555 17.5525 3.3943 16.6536H3.3943Z"></path></svg>
       <span class="wm">Inngest</span>
     </div>
-    <h1>Durable execution<br>for <span class="g">workflows &amp; AI</span></h1>
-    <p>Write ordinary functions, split them into <span class="mono">steps</span>, and ship reliable background jobs, workflows, and AI agents — with automatic retries and step-level observability, no queues to manage.</p>
+    <h1><span class="out">Unbreakable</span><br>agents<span class="g">.</span></h1>
+    <p>Durable execution for workflows &amp; AI. Write ordinary functions, split them into <span class="mono">steps</span>, and ship reliable background jobs, workflows and agents — with automatic retries and step-level observability.</p>
+    <div class="hero-marquee">
+      <span><i class="sq"></i>No workers</span>
+      <span><i class="sq"></i>No queues</span>
+      <span><i class="sq"></i>No refactoring</span>
+    </div>
   </div>
 </div>
 
@@ -219,22 +227,22 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
   <!-- COLORS -->
   <div class="section">
     <div class="section-label">Colors</div>
-    <div class="strip" title="Near-monochrome carbon canvas with one matcha green">
-      <div class="grad-slab" onclick="copyHex('linear-gradient(120deg,#027A48,#2C9B63)')" title="matcha gradient"></div>
-      <div class="strip-slab" style="background:#2C9B63" onclick="copyHex('#2C9B63')" title="matcha-500"></div>
-      <div class="strip-slab" style="background:#FCC43F" onclick="copyHex('#FCC43F')" title="honey · running"></div>
-      <div class="strip-slab" style="background:#2389F1" onclick="copyHex('#2389F1')" title="breeze · sleep/wait"></div>
-      <div class="strip-slab" style="background:#F54A3F" onclick="copyHex('#F54A3F')" title="ruby · failed"></div>
-      <div class="strip-slab" style="background:#121212" onclick="copyHex('#121212')" title="carbon panel"></div>
+    <div class="strip" title="Hot flame accent on a dark editorial canvas">
+      <div class="grad-slab" onclick="copyHex('linear-gradient(120deg,#F75536,#FF8C80)')" title="flame gradient"></div>
+      <div class="strip-slab" style="background:#F75536" onclick="copyHex('#F75536')" title="flame"></div>
+      <div class="strip-slab" style="background:#FF8C80" onclick="copyHex('#FF8C80')" title="coral"></div>
+      <div class="strip-slab" style="background:#2C9B63" onclick="copyHex('#2C9B63')" title="completed"></div>
+      <div class="strip-slab" style="background:#4FA9F5" onclick="copyHex('#4FA9F5')" title="waiting"></div>
+      <div class="strip-slab" style="background:#0A0A0A" onclick="copyHex('#0A0A0A')" title="canvas"></div>
     </div>
 
-    <div class="group-label">Brand · matcha</div>
+    <div class="group-label">Brand · flame</div>
     <div class="swatch-grid" id="g-brand"></div>
-    <div class="group-label">Step-state semantics</div>
+    <div class="group-label">Step-state semantics (run dashboard)</div>
     <div class="swatch-grid" id="g-sem"></div>
-    <div class="group-label">Surfaces</div>
+    <div class="group-label">Surfaces · dark-first</div>
     <div class="swatch-grid" id="g-surf"></div>
-    <div class="group-label">Text · carbon</div>
+    <div class="group-label">Text</div>
     <div class="swatch-grid" id="g-text"></div>
   </div>
 
@@ -243,8 +251,8 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
     <div class="section-label">Typography</div>
     <div class="type-rows">
       <div class="type-row">
-        <div><div class="type-name">CircularXX / 700</div><div class="type-spec">Display · 50px</div></div>
-        <div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.02em">Durable execution engine</div>
+        <div><div class="type-name">CircularXX / 700</div><div class="type-spec">Display · 60px</div></div>
+        <div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.02em;text-transform:uppercase">Invisible infra<span style="color:var(--accent)">.</span></div>
         <div class="spec-pills"><span class="spec-pill">CircularXX</span></div>
       </div>
       <div class="type-row">
@@ -259,13 +267,13 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
       </div>
       <div class="type-row">
         <div><div class="type-name">CircularXXMono</div><div class="type-spec">Code · 12.5px</div></div>
-        <div class="type-sample mono" style="font-size:13px"><span style="color:var(--wait)">step.run</span>(<span style="color:var(--honey2)">"create-stripe-customer"</span>)</div>
+        <div class="type-sample mono" style="font-size:13px"><span style="color:var(--wait)">step.run</span>(<span style="color:var(--ok)">"create-stripe-customer"</span>)</div>
         <div class="spec-pills"><span class="spec-pill">CircularXXMono</span></div>
       </div>
       <div class="type-row">
-        <div><div class="type-name">CircularXXMono</div><div class="type-spec">Event · 11.5px</div></div>
-        <div class="type-sample mono" style="font-size:12.5px"><span style="color:var(--accent)">▸</span> user/signed.up <span style="color:var(--text3)">· evt_01H8Z…</span></div>
-        <div class="spec-pills"><span class="spec-pill">event</span></div>
+        <div><div class="type-name">CircularXXMono</div><div class="type-spec">Marquee · 11px</div></div>
+        <div class="type-sample mono" style="font-size:12px;text-transform:uppercase;letter-spacing:.08em"><span style="color:var(--flame)">▪</span> No workers · No queues · No refactoring</div>
+        <div class="spec-pills"><span class="spec-pill">uppercase</span></div>
       </div>
     </div>
   </div>
@@ -275,7 +283,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
     <div class="section-label">Signature · Durable function run</div>
     <div class="run-window">
       <div class="rw-bar">
-        <span class="rw-dot" style="background:#F54A3F"></span><span class="rw-dot" style="background:#FCC43F"></span><span class="rw-dot" style="background:#2C9B63"></span>
+        <span class="rw-dot" style="background:#F75536"></span><span class="rw-dot" style="background:#FCC43F"></span><span class="rw-dot" style="background:#2C9B63"></span>
         <span class="rw-file">onboard-user.ts</span>
         <div class="rw-status">
           <span class="rw-state idle" id="rwState"><span class="sd"></span><span id="rwStateTxt">Idle</span></span>
@@ -288,7 +296,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 <span class="k">const</span> inngest = <span class="k">new</span> Inngest({ id: <span class="s">"acme-app"</span> });
 
 <span class="k">export default</span> inngest.<span class="fn">createFunction</span>(
-  { id: <span class="s">"onboard-user"</span>, retries: <span style="color:var(--wait)">4</span> },
+  { id: <span class="s">"onboard-user"</span>, retries: <span class="num">4</span> },
   { event: <span class="s">"user/signed.up"</span> },
   <span class="k">async</span> ({ event, step }) => {
     <span class="c">// each step is checkpointed &amp; retried on its own</span>
@@ -314,7 +322,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 );</pre></div>
         <div class="trace">
           <div class="trigger-lbl">Triggered by</div>
-          <div class="event-pill"><span class="ev-dot"></span>user/signed.up<span class="ev-id">· evt_01H8ZK</span></div>
+          <div class="event-pill"><span class="ev-sq"></span>user/signed.up<span class="ev-id">· evt_01H8ZK</span></div>
           <div class="steps" id="steps">
             <div class="step" data-state="queued" data-i="0">
               <div class="rail"><span class="glyph"></span></div>
@@ -369,8 +377,8 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
       <div class="comp-card">
         <div class="comp-title">Buttons</div>
         <div class="btn-row">
-          <button class="btn btn-primary">Deploy function</button>
-          <button class="btn btn-secondary">View run</button>
+          <button class="btn btn-primary">Start building</button>
+          <button class="btn btn-secondary">Book a demo</button>
         </div>
       </div>
       <div class="comp-card">
@@ -394,7 +402,7 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
           <div><div class="box" style="border-radius:12px"></div><span>12 card</span></div>
           <div><div class="box" style="border-radius:9px"></div><span>9 step</span></div>
           <div><div class="box" style="border-radius:8px"></div><span>8 btn</span></div>
-          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+          <div><div class="box" style="border-radius:2px"></div><span>2 mark</span></div>
         </div>
       </div>
     </div>
@@ -407,21 +415,21 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
       <div>
         <div class="gr-heading do">Do</div>
         <div class="gr-list">
+          <div class="gr-item">Anchor on a <strong>dark, near-black</strong> canvas with one hot <strong>flame</strong> (#F75536) accent — bold and editorial.</div>
           <div class="gr-item">Model work as <strong>steps</strong> on a <strong>timeline</strong> — a run is an ordered trace, not one opaque spinner.</div>
-          <div class="gr-item">Keep the canvas near-monochrome carbon; let one <strong>matcha</strong> green carry action &amp; success.</div>
-          <div class="gr-item">Color steps by state: matcha completed, amber running, ruby failed, breeze sleep/wait.</div>
+          <div class="gr-item">Set display type oversized in CircularXX; lean into the blunt voice (<em>Unbreakable agents.</em>).</div>
+          <div class="gr-item">Keep green / amber / blue strictly as <strong>step-state</strong> signals — functional, never brand chrome.</div>
           <div class="gr-item">Show durability out loud — a failed attempt that <strong>retries and succeeds</strong>, a sleep that resumes.</div>
-          <div class="gr-item">Use real SDK vocabulary: <span class="mono">createFunction</span>, <span class="mono">step.run</span>, <span class="mono">step.sleep</span>, <span class="mono">step.waitForEvent</span>.</div>
         </div>
       </div>
       <div>
         <div class="gr-heading dont">Don't</div>
         <div class="gr-list">
+          <div class="gr-item">Make green (the completed-step color) the brand accent — the brand is <strong>flame on black</strong>.</div>
           <div class="gr-item">Reduce a run to one status — the point is per-step observability.</div>
-          <div class="gr-item">Add a second bright brand hue; matcha is the accent, the rest are functional state colors.</div>
-          <div class="gr-item">Use heavy shadows or large consumer radii — Inngest is quiet, tightly-rounded infrastructure.</div>
+          <div class="gr-item">Use a light/pastel canvas as the primary identity — Inngest is dark and confident.</div>
           <div class="gr-item">Set body or code in the display weight, or hide retries — durability is the story.</div>
-          <div class="gr-item">Invent status colors — reuse matcha / honey / breeze / ruby from the product system.</div>
+          <div class="gr-item">Invent status colors — reuse the run-dashboard green / amber / blue / red.</div>
         </div>
       </div>
     </div>
@@ -432,10 +440,10 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 <script>
 /* ---- swatches ---- */
 const SW={
-  brand:[['matcha-600','#027A48','Primary · completed (light)'],['matcha-500','#2C9B63','Success · accent (dark)'],['matcha-400','#66BD8B','Bright accent / connector'],['matcha-100','#DFF5E6','Success tint']],
-  sem:[['honey-300','#FCC43F','Running / in-progress'],['honey-500','#D56B13','Throttled / retry'],['breeze-500','#2389F1','sleep · waitForEvent'],['ruby-500','#F54A3F','Failed attempt / error']],
-  surf:[['canvas','#0A0B0D','App background'],['panel','#121212','Cards & panels'],['subtle','#181818','Muted rows'],['raised','#1E1E1E','Hover / selected'],['border','#2A2A2A','Hairlines']],
-  text:[['primary','#F6F6F6','Primary (dark)'],['secondary','#B0B0B0','Secondary'],['faint','#7C7C7C','Tertiary / meta']]
+  brand:[['flame','#F75536','Primary accent · CTAs, links, marks'],['coral','#FF8C80','Light tint / on-dark secondary'],['ember','#FF7A5C','Hover / bright highlight'],['deep','#E0402E','Pressed / deeper flame']],
+  sem:[['completed','#2C9B63','Completed step ✓ (matcha)'],['running','#FCC43F','In-progress · pulsing'],['waiting','#4FA9F5','sleep · waitForEvent (breeze)'],['failed','#FF6B5E','Failed attempt / error (ruby)']],
+  surf:[['canvas','#0A0A0A','App background (textured)'],['panel','#141414','Cards & panels'],['subtle','#1A1A1A','Muted rows'],['raised','#1F1F1F','Hover / selected'],['border','#282828','Hairlines']],
+  text:[['primary','#F7F7F7','Primary (dark)'],['secondary','#B0B0B0','Secondary'],['faint','#7C7C7C','Tertiary / meta']]
 };
 function fillSwatch(id,rows){
   document.getElementById(id).innerHTML=rows.map(r=>
@@ -476,10 +484,10 @@ function resetRun(){
     s.querySelector('.step-dur').textContent='';
     const n=s.querySelector('.step-note');n.textContent='';n.className='step-note';
   });
-  const sm=document.getElementById('summary');sm.classList.remove('show');
+  document.getElementById('summary').classList.remove('show');
 }
 function setState(txt,cls){
-  const el=document.getElementById('rwState');el.className='rw-state '+cls;
+  document.getElementById('rwState').className='rw-state '+cls;
   document.getElementById('rwStateTxt').textContent=txt;
 }
 function applyFrame(f){
