@@ -114,6 +114,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 91 | [Loops](brands/loops/DESIGN.md) | Comms | [preview](https://dhananjay6561.github.io/design-md-hub/brands/loops/preview.html) |
 | 92 | [Apidog](brands/apidog/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/apidog/preview.html) |
 | 93 | [Clay](brands/clay/DESIGN.md) | Data | [preview](https://dhananjay6561.github.io/design-md-hub/brands/clay/preview.html) |
+| 94 | [Mercury](brands/mercury/DESIGN.md) | Fintech | [preview](https://dhananjay6561.github.io/design-md-hub/brands/mercury/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
