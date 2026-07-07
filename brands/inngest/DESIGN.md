@@ -49,11 +49,12 @@ The identity is bold and editorial: a **dark, near-black textured canvas** scatt
 
 | Role | Family | Notes |
 |---|---|---|
-| Display / headings | **CircularXX** (`700`) | Lineto geometric sans — Inngest's core face. Oversized, tight tracking; hero words are sometimes set as hollow outlines. Self-hosted, CORS-open, loaded straight from `fonts-cdn.inngest.com`. |
-| UI / body | **CircularXX** (`400 / 500`) | Product UI, body, labels, step names, buttons. Fallback: Inter. |
+| Display (hero) | **Whyte Inktrap** (`400`) | ABC Dinamo's inktrap grotesque — the editorial hero face (`text-v1-display-hero`). Its heft is in the letterforms, not weight: set at `400`, huge, `-0.01em` tracking, uppercase, some words as hollow outlines. Self-hosted, CORS-open. |
+| Headings | **Whyte** (`400`) | ABC Whyte (`WhyteV1`) for section headings (`font-v1Heading`). Self-hosted `/assets/v1/fonts`, CORS-open. Fallback: CircularXX → Inter. |
+| UI / body | **CircularXX** (`400 / 500`) | Lineto geometric sans — the base/body face (confirmed via WhatFont on the live site: `CircularXX 400`). UI, labels, step names, buttons. Fallback: Inter. |
 | Code / mono | **CircularXXMono** | SDK source, event names, step IDs, durations, the blunt uppercase marquee (`NO WORKERS · NO QUEUES`). Fallback: JetBrains Mono. |
 
-Scale: hero 52–64px (CircularXX 700), section 22px, step name 13.5px, code 12.5px mono, body 14.5px, mono marquee/labels 11px uppercase (`.08em` tracking).
+Scale: hero 64px (Whyte Inktrap 400), section heading 22px (Whyte), step name 13.5px, code 12.5px mono, body 14.5px (CircularXX), mono marquee/labels 11px uppercase (`.08em` tracking).
 
 ---
 

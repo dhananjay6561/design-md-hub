@@ -14,6 +14,9 @@
 @font-face{font-family:'CircularXX';src:url('https://fonts-cdn.inngest.com/Circular/CircularXXWeb-Medium.woff2') format('woff2');font-weight:600;font-display:swap}
 @font-face{font-family:'CircularXX';src:url('https://fonts-cdn.inngest.com/Circular/CircularXXWeb-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
 @font-face{font-family:'CircularXXMono';src:url('https://fonts-cdn.inngest.com/CircularMono/CircularXXMonoWeb-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+/* Whyte Inktrap = the editorial display face (hero); Whyte = headings. Both self-hosted, CORS-open. */
+@font-face{font-family:'Whyte Inktrap';src:url('https://fonts-cdn.inngest.com/Whyte%20Inktrap/ABCWhyteInktrap-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Whyte';src:url('https://www.inngest.com/assets/v1/fonts/ABCWhyte-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 :root{
   /* Inngest brand — theme-invariant. Flame accent on a dark editorial canvas. */
   --flame:#F75536;--ember:#FF7A5C;--coral:#FF8C80;--deep:#E0402E;
@@ -40,6 +43,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
 .mono{font-family:'CircularXXMono','JetBrains Mono',ui-monospace,monospace}
+.disp{font-family:'Whyte Inktrap','Whyte','CircularXX','Inter',sans-serif}
+.head{font-family:'Whyte','CircularXX','Inter',sans-serif}
 :root[data-theme="dark"] .icon-moon{display:none}
 :root[data-theme="light"] .icon-sun{display:none}
 .toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
@@ -50,8 +55,8 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
 .hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px}
 .hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;gap:12px}
 .hero-logo .mk{height:34px;width:auto;color:var(--flame)}
-.hero-logo .wm{font-weight:700;font-size:34px;letter-spacing:-.02em}
-.hero h1{font-size:60px;font-weight:700;letter-spacing:-.03em;line-height:1;margin-bottom:20px;text-transform:uppercase}
+.hero-logo .wm{font-family:'Whyte','CircularXX',sans-serif;font-weight:400;font-size:32px;letter-spacing:-.01em}
+.hero h1{font-family:'Whyte Inktrap','Whyte','CircularXX',sans-serif;font-size:64px;font-weight:400;letter-spacing:-.01em;line-height:.92;margin-bottom:20px;text-transform:uppercase}
 .hero h1 .g{color:var(--accent)}
 .hero h1 .out{color:transparent;-webkit-text-stroke:1.5px var(--text);text-stroke:1.5px var(--text)}
 @media(max-width:640px){.hero h1{font-size:40px}}
@@ -251,17 +256,17 @@ body{font-family:'CircularXX','Inter',-apple-system,BlinkMacSystemFont,system-ui
     <div class="section-label">Typography</div>
     <div class="type-rows">
       <div class="type-row">
-        <div><div class="type-name">CircularXX / 700</div><div class="type-spec">Display · 60px</div></div>
-        <div class="type-sample" style="font-size:32px;font-weight:700;letter-spacing:-.02em;text-transform:uppercase">Invisible infra<span style="color:var(--accent)">.</span></div>
-        <div class="spec-pills"><span class="spec-pill">CircularXX</span></div>
+        <div><div class="type-name">Whyte Inktrap / 400</div><div class="type-spec">Display · 64px</div></div>
+        <div class="type-sample disp" style="font-size:34px;font-weight:400;letter-spacing:-.01em;text-transform:uppercase;line-height:.95">Invisible infra<span style="color:var(--accent)">.</span></div>
+        <div class="spec-pills"><span class="spec-pill">Whyte Inktrap</span></div>
       </div>
       <div class="type-row">
-        <div><div class="type-name">CircularXX / 600</div><div class="type-spec">Heading · 22px</div></div>
-        <div class="type-sample" style="font-size:22px;font-weight:600">Steps that never lose their place</div>
-        <div class="spec-pills"><span class="spec-pill">CircularXX</span></div>
+        <div><div class="type-name">Whyte / 400</div><div class="type-spec">Heading · 22px</div></div>
+        <div class="type-sample head" style="font-size:22px;font-weight:400;letter-spacing:-.01em">Steps that never lose their place</div>
+        <div class="spec-pills"><span class="spec-pill">Whyte</span></div>
       </div>
       <div class="type-row">
-        <div><div class="type-name">CircularXX / 500</div><div class="type-spec">UI · 14.5px</div></div>
+        <div><div class="type-name">CircularXX / 500</div><div class="type-spec">UI · body · 14.5px</div></div>
         <div class="type-sample" style="font-size:15px;font-weight:500">Automatic retries, flow control, and observability</div>
         <div class="spec-pills"><span class="spec-pill">CircularXX</span></div>
       </div>
