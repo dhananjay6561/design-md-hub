@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shadcn/ui — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* shadcn/ui uses Geist + Geist Mono (Vercel's faces) — both on Google Fonts, CORS-open, used directly. The system is token-driven: semantic CSS variables (shadcn's real names) are the product. Default base color = zinc. */
+:root{
+  /* base-color presets (primary swap) — theme-invariant */
+  --rose:#E11D48;--blue:#2563EB;--green:#16A34A;--orange:#F97316;--violet:#7C3AED;--zinc:#18181B;
+  --radius:0.5rem;
+}
+:root[data-theme="light"]{
+  --background:#FFFFFF;--foreground:#09090B;
+  --card:#FFFFFF;--card-foreground:#09090B;
+  --muted:#F4F4F5;--muted-foreground:#71717A;
+  --border:#E4E4E7;--input:#E4E4E7;--ring:#A1A1AA;
+  --primary:#18181B;--primary-foreground:#FAFAFA;
+  --secondary:#F4F4F5;--secondary-foreground:#18181B;
+  --accent:#F4F4F5;--accent-foreground:#18181B;
+  --destructive:#EF4444;--destructive-foreground:#FAFAFA;
+  --shadow:0 1px 2px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.05);
+}
+:root[data-theme="dark"]{
+  --background:#09090B;--foreground:#FAFAFA;
+  --card:#101013;--card-foreground:#FAFAFA;
+  --muted:#1C1C1F;--muted-foreground:#A1A1AA;
+  --border:#27272A;--input:#27272A;--ring:#52525B;
+  --primary:#FAFAFA;--primary-foreground:#18181B;
+  --secondary:#27272A;--secondary-foreground:#FAFAFA;
+  --accent:#27272A;--accent-foreground:#FAFAFA;
+  --destructive:#EF4444;--destructive-foreground:#FAFAFA;
+  --shadow:0 1px 2px rgba(0,0,0,.4);--shadow-md:0 8px 26px rgba(0,0,0,.55)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Geist',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--background);color:var(--foreground);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--muted-foreground);padding:8px;border-radius:calc(var(--radius) - 2px);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{color:var(--foreground)}
+
+.hero{position:relative;padding:76px 0 60px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center;align-items:center;gap:11px}
+.hero-logo svg{width:34px;height:34px;color:var(--foreground)}
+.hero-logo .wm{font-weight:600;font-size:26px;letter-spacing:-.02em}
+.hero-logo .wm span{color:var(--muted-foreground)}
+.hero h1{font-weight:600;font-size:48px;letter-spacing:-.03em;line-height:1.05;margin-bottom:18px}
+@media(max-width:640px){.hero h1{font-size:32px}}
+.hero p{font-size:18px;color:var(--muted-foreground);max-width:620px;margin:0 auto 24px;line-height:1.55}
+.hero .oss{color:var(--foreground);font-weight:500}
+.install{display:inline-flex;align-items:center;gap:10px;background:var(--muted);border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);padding:9px 14px;font-family:'Geist Mono',monospace;font-size:13px;color:var(--foreground)}
+.install .pr{color:var(--muted-foreground)}
+.install .cp{cursor:pointer;color:var(--muted-foreground);line-height:0}
+.install .cp:hover{color:var(--foreground)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:14px;height:14px;border-radius:4px;background:var(--foreground)}
+.group-label{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-foreground);margin:22px 0 10px}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:calc(var(--radius) + 2px);overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--muted-foreground)}
+.swatch-block{height:70px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.20)}
+.swatch-info{padding:9px 11px;background:var(--card)}
+.swatch-name{font-size:11px;font-weight:500;display:block}
+.swatch-hex{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted-foreground);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--muted-foreground);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:180px 1fr auto;align-items:baseline;gap:20px;padding:16px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-family:'Geist Mono',monospace;font-size:11px;color:var(--muted-foreground)}
+.type-spec{font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted-foreground);margin-top:3px}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-family:'Geist Mono',monospace;font-size:10px;background:var(--muted);color:var(--muted-foreground);padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+/* ===== SIGNATURE: theme customizer ===== */
+.cust{border:1px solid var(--border);border-radius:calc(var(--radius) + 4px);overflow:hidden;background:var(--card);box-shadow:var(--shadow-md)}
+.cust-bar{display:flex;align-items:center;gap:11px;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.cust-title{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px}
+.cust-title svg{width:16px;height:16px;color:var(--foreground)}
+.cust-cli{font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--muted-foreground);background:var(--muted);border:1px solid var(--border);border-radius:calc(var(--radius) - 4px);padding:4px 9px}
+.cust-cli b{color:var(--foreground);font-weight:400}
+.cust-spacer{flex:1}
+.cust-body{display:grid;grid-template-columns:236px 1fr}
+@media(max-width:760px){.cust-body{grid-template-columns:1fr}}
+.cust-panel{padding:20px;border-right:1px solid var(--border);background:var(--background)}
+@media(max-width:760px){.cust-panel{border-right:none;border-bottom:1px solid var(--border)}}
+.cust-preview{padding:24px;background:var(--background)}
+.ctrl-label{font-family:'Geist Mono',monospace;font-size:10.5px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-foreground);margin:0 0 10px}
+.ctrl-group{margin-bottom:22px}
+.color-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.color-opt{display:flex;align-items:center;gap:8px;height:34px;padding:0 10px;border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);background:var(--background);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--foreground);transition:border-color .12s}
+.color-opt:hover{border-color:var(--muted-foreground)}
+.color-opt.on{border-color:var(--foreground);box-shadow:inset 0 0 0 1px var(--foreground)}
+.color-dot{width:15px;height:15px;border-radius:9999px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.color-dot svg{width:10px;height:10px;color:#fff}
+.radius-row{display:flex;gap:7px;flex-wrap:wrap}
+.radius-opt{min-width:44px;height:34px;padding:0 8px;border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);background:var(--background);cursor:pointer;font-family:'Geist Mono',monospace;font-size:12px;color:var(--foreground);transition:border-color .12s}
+.radius-opt:hover{border-color:var(--muted-foreground)}
+.radius-opt.on{border-color:var(--foreground);box-shadow:inset 0 0 0 1px var(--foreground)}
+.copy-btn{width:100%;height:36px;border:none;border-radius:calc(var(--radius) - 2px);background:var(--primary);color:var(--primary-foreground);font-family:'Geist',sans-serif;font-weight:500;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:opacity .12s}
+.copy-btn:hover{opacity:.9}
+.code-out{margin-top:12px;background:var(--muted);border:1px solid var(--border);border-radius:calc(var(--radius) - 2px);padding:12px;font-family:'Geist Mono',monospace;font-size:11px;line-height:1.65;color:var(--foreground);overflow-x:auto;white-space:pre}
+.code-out .tk{color:var(--muted-foreground)}
+
+/* --- preview components (scoped tokens) --- */
+#scPreview{--primary:var(--_p,#18181B);--primary-foreground:var(--_pf,#FAFAFA);--ring:var(--_ring,#A1A1AA)}
+.pv-grid{display:grid;gap:18px}
+.sc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.sc-card h3{font-size:16px;font-weight:600;letter-spacing:-.01em}
+.sc-card .desc{font-size:13.5px;color:var(--muted-foreground);margin-top:4px;margin-bottom:18px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:12.5px;font-weight:500;margin-bottom:6px}
+.sc-input{width:100%;height:36px;padding:0 12px;background:var(--background);border:1px solid var(--input);border-radius:calc(var(--radius) - 2px);font:400 13px 'Geist';color:var(--foreground);outline:none;transition:box-shadow .12s,border-color .12s}
+.sc-input:focus{border-color:var(--ring);box-shadow:0 0 0 3px color-mix(in srgb,var(--ring) 40%,transparent)}
+.sc-input::placeholder{color:var(--muted-foreground)}
+.oauth-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.divider{display:flex;align-items:center;gap:12px;color:var(--muted-foreground);font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-family:'Geist Mono',monospace;margin-bottom:16px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.sc-btn{height:36px;padding:0 16px;border-radius:calc(var(--radius) - 2px);font:500 13.5px 'Geist';cursor:pointer;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:opacity .12s,background .12s,border-color .12s;white-space:nowrap}
+.sc-btn svg{width:15px;height:15px}
+.sc-btn.default{background:var(--primary);color:var(--primary-foreground)}
+.sc-btn.default:hover{opacity:.9}
+.sc-btn.secondary{background:var(--secondary);color:var(--secondary-foreground)}
+.sc-btn.secondary:hover{opacity:.85}
+.sc-btn.outline{background:var(--background);border-color:var(--border);color:var(--foreground)}
+.sc-btn.outline:hover{background:var(--accent)}
+.sc-btn.ghost{background:transparent;color:var(--foreground)}
+.sc-btn.ghost:hover{background:var(--accent)}
+.sc-btn.destructive{background:var(--destructive);color:var(--destructive-foreground)}
+.sc-btn.destructive:hover{opacity:.9}
+.sc-btn.full{width:100%}
+.sc-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.sc-badge{display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:9999px;font-size:11.5px;font-weight:600;border:1px solid transparent}
+.sc-badge.default{background:var(--primary);color:var(--primary-foreground)}
+.sc-badge.secondary{background:var(--secondary);color:var(--secondary-foreground)}
+.sc-badge.outline{border-color:var(--border);color:var(--foreground)}
+.sc-badge.destructive{background:var(--destructive);color:var(--destructive-foreground)}
+.pv-block-label{font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-foreground);margin-bottom:9px}
+/* tabs */
+.sc-tabs{display:inline-flex;background:var(--muted);border-radius:calc(var(--radius) - 2px);padding:3px;gap:2px}
+.sc-tab{border:none;background:none;font:500 12.5px 'Geist';color:var(--muted-foreground);padding:5px 14px;border-radius:calc(var(--radius) - 4px);cursor:pointer;transition:color .12s,background .12s}
+.sc-tab.on{background:var(--background);color:var(--foreground);box-shadow:var(--shadow)}
+/* switch */
+.sc-switch-row{display:flex;align-items:center;gap:11px}
+.sc-switch{width:38px;height:21px;border-radius:9999px;background:var(--muted);border:1px solid var(--border);position:relative;cursor:pointer;transition:background .16s,border-color .16s;flex-shrink:0}
+.sc-switch.on{background:var(--primary);border-color:var(--primary)}
+.sc-switch .knob{position:absolute;top:1.5px;left:1.5px;width:16px;height:16px;border-radius:9999px;background:var(--background);transition:transform .16s}
+.sc-switch.on .knob{transform:translateX(17px)}
+.sc-switch-row .lbl{font-size:13px;font-weight:500}
+.sc-switch-row .sub{font-size:12px;color:var(--muted-foreground)}
+.sig-hint{font-size:12px;color:var(--muted-foreground);margin-top:14px;text-align:center;line-height:1.6}
+.sig-hint strong{color:var(--foreground);font-weight:500}
+
+/* components section */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.comp-title{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground);margin-bottom:14px}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:52px;height:52px;background:var(--foreground);margin-bottom:7px}
+.radii span{font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted-foreground)}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-family:'Geist Mono',monospace;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--foreground)}
+.gr-heading.dont{color:var(--muted-foreground)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted-foreground);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:2px}
+.do .gr-item::before{background:var(--foreground)}
+.dont .gr-item::before{background:var(--border)}
+.gr-item strong{color:var(--foreground);font-weight:500}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--foreground);color:var(--background);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:500;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Geist Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/shadcn/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-label="shadcn/ui"><path d="M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z"/></svg>
+      <span class="wm">shadcn<span>/ui</span></span>
+    </div>
+    <h1>The Foundation for your Design System</h1>
+    <p>A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. <span class="oss">Open Source. Open Code.</span></p>
+    <div class="install"><span class="pr">$</span><span class="mono">npx shadcn@latest add button card</span><span class="cp" onclick="copyText('npx shadcn@latest add button card')" title="Copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors · semantic tokens</div>
+    <div class="group-label">Core (Zinc default)</div>
+    <div class="swatch-grid" id="g-core"></div>
+    <div class="group-label">Primary · Secondary · Semantic</div>
+    <div class="swatch-grid" id="g-prim"></div>
+    <div class="group-label">Base-color presets (swap <span class="mono">--primary</span>)</div>
+    <div class="swatch-grid" id="g-base"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Geist / 600</div><div class="type-spec">Display · hero · 48px · -.03em</div></div>
+        <div style="font-size:30px;font-weight:600;letter-spacing:-.03em">The Foundation for your Design System</div>
+        <div class="spec-pills"><span class="spec-pill">Geist</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Geist / 600</div><div class="type-spec">Card title · 16px</div></div>
+        <div style="font-size:16px;font-weight:600">Create an account</div>
+        <div class="spec-pills"><span class="spec-pill">Geist</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Geist / 400</div><div class="type-spec">Body · muted-foreground · 14px</div></div>
+        <div style="font-size:14px;color:var(--muted-foreground)">Enter your email below to create your account.</div>
+        <div class="spec-pills"><span class="spec-pill">Geist</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Geist Mono / 400</div><div class="type-spec">Code · tokens · CLI · 13px</div></div>
+        <div class="mono" style="font-size:13px">npx shadcn@latest add button</div>
+        <div class="spec-pills"><span class="spec-pill">Geist Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Theme customizer</div>
+    <div class="cust">
+      <div class="cust-bar">
+        <div class="cust-title">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z"/></svg>
+          Customize
+        </div>
+        <span class="cust-cli">Pick a color &amp; radius — <b>then copy the CSS</b></span>
+      </div>
+      <div class="cust-body">
+        <div class="cust-panel">
+          <div class="ctrl-group">
+            <div class="ctrl-label">Color</div>
+            <div class="color-grid" id="colorGrid"></div>
+          </div>
+          <div class="ctrl-group">
+            <div class="ctrl-label">Radius</div>
+            <div class="radius-row" id="radiusRow"></div>
+          </div>
+          <button class="copy-btn" id="copyBtn" onclick="copyTheme()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy code</button>
+          <div class="code-out" id="codeOut"></div>
+        </div>
+
+        <div class="cust-preview" id="scPreview">
+          <div class="pv-grid">
+            <div class="sc-card">
+              <h3>Create an account</h3>
+              <div class="desc">Enter your email below to create your account.</div>
+              <div class="oauth-row">
+                <button class="sc-btn outline"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.07.78 2.16v3.2c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>GitHub</button>
+                <button class="sc-btn outline"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.85 3.18-1.73 4.1-1.08 1.08-2.76 2.26-5.71 2.26-4.55 0-8.11-3.67-8.11-8.22s3.56-8.22 8.11-8.22c2.46 0 4.25.97 5.57 2.21l2.31-2.31C18.84 1.44 16.33.5 13.48.5 6.86.5 1.5 5.86 1.5 12.5s5.36 12 11.98 12c3.58 0 6.29-1.18 8.4-3.38 2.17-2.17 2.85-5.23 2.85-7.69 0-.76-.05-1.46-.17-2.05h-11.1Z"/></svg>Google</button>
+              </div>
+              <div class="divider">Or continue with</div>
+              <div class="field"><label>Email</label><input class="sc-input" value="m@example.com" spellcheck="false"></div>
+              <div class="field"><label>Password</label><input class="sc-input" type="password" value="password"></div>
+              <button class="sc-btn default full" style="margin-top:6px">Create account</button>
+            </div>
+
+            <div>
+              <div class="pv-block-label">Button</div>
+              <div class="sc-row">
+                <button class="sc-btn default">Primary</button>
+                <button class="sc-btn secondary">Secondary</button>
+                <button class="sc-btn outline">Outline</button>
+                <button class="sc-btn ghost">Ghost</button>
+                <button class="sc-btn destructive">Destructive</button>
+              </div>
+              <div class="pv-block-label" style="margin-top:18px">Badge</div>
+              <div class="sc-row">
+                <span class="sc-badge default">Default</span>
+                <span class="sc-badge secondary">Secondary</span>
+                <span class="sc-badge outline">Outline</span>
+                <span class="sc-badge destructive">Destructive</span>
+              </div>
+              <div class="pv-block-label" style="margin-top:18px">Tabs</div>
+              <div class="sc-tabs" id="scTabs">
+                <button class="sc-tab on" onclick="setTab(this,0)">Account</button>
+                <button class="sc-tab" onclick="setTab(this,1)">Password</button>
+                <button class="sc-tab" onclick="setTab(this,2)">Team</button>
+              </div>
+              <div class="pv-block-label" style="margin-top:18px">Switch</div>
+              <div class="sc-switch-row">
+                <div class="sc-switch on" id="scSwitch" onclick="this.classList.toggle('on')"><div class="knob"></div></div>
+                <div><div class="lbl">Email notifications</div><div class="sub">Receive emails about your account activity.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">Pick a <strong>base color</strong> and <strong>radius</strong> — every component re-skins live from scoped CSS variables (<span class="mono">--primary</span>, <span class="mono">--ring</span>, <span class="mono">--radius</span>). Hit <strong>Copy code</strong> for the tokens to paste into your project. Toggle light/dark with the switch, top-right.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Button variants</div>
+        <div class="sc-row">
+          <button class="sc-btn default">Button</button>
+          <button class="sc-btn secondary">Secondary</button>
+          <button class="sc-btn outline">Outline</button>
+          <button class="sc-btn ghost">Ghost</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Input · focus ring</div>
+        <input class="sc-input" placeholder="Search documentation…" spellcheck="false">
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Badges</div>
+        <div class="sc-row">
+          <span class="sc-badge default">Default</span>
+          <span class="sc-badge secondary">Secondary</span>
+          <span class="sc-badge outline">Outline</span>
+          <span class="sc-badge destructive">Destructive</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius scale · <span class="mono">--radius</span></div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:0"></div><span>0</span></div>
+          <div><div class="box" style="border-radius:4px"></div><span>.25</span></div>
+          <div><div class="box" style="border-radius:8px"></div><span>.5</span></div>
+          <div><div class="box" style="border-radius:12px"></div><span>.75</span></div>
+          <div><div class="box" style="border-radius:16px"></div><span>1.0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep surfaces <strong>monochrome (zinc)</strong>; let a single <strong>--primary</strong> carry any color.</div>
+          <div class="gr-item">Drive everything from <strong>semantic tokens</strong> — never hardcode a hex on a component.</div>
+          <div class="gr-item">Separate with <strong>1px --border</strong>, not shadows; scale corners with one <strong>--radius</strong>.</div>
+          <div class="gr-item">Use <strong>--muted-foreground</strong> for descriptions, <strong>--foreground</strong> for content.</div>
+          <div class="gr-item">Set primary-button text to <strong>--primary-foreground</strong> (Zinc flips, Orange goes dark).</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't add a loud default brand hue — <strong>neutrality is the identity</strong>.</div>
+          <div class="gr-item">Don't lean on drop shadows for hierarchy — borders and spacing do the work.</div>
+          <div class="gr-item">Don't mix font roles — <strong>Geist</strong> for UI, <strong>Geist Mono</strong> for code/tokens.</div>
+          <div class="gr-item">Don't hardcode button text color, or a theme breaks in one mode.</div>
+          <div class="gr-item">Don't use <strong>Math.random()</strong> — the customizer presets are deterministic.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  core:[['--background','#FFFFFF','Page canvas'],['--foreground','#09090B','Primary text'],['--muted','#F4F4F5','Subtle fills'],['--muted-foreground','#71717A','Descriptions'],['--border','#E4E4E7','Hairlines · inputs'],['--card','#FFFFFF','Card surface']],
+  prim:[['--primary','#18181B','Primary action'],['--primary-foreground','#FAFAFA','On primary'],['--secondary','#F4F4F5','Secondary btn'],['--accent','#F4F4F5','Hover fills'],['--ring','#A1A1AA','Focus ring'],['--destructive','#EF4444','Danger']],
+  base:[['zinc','#18181B','Default · monochrome'],['rose','#E11D48','Rose'],['blue','#2563EB','Blue'],['green','#16A34A','Green'],['orange','#F97316','Orange'],['violet','#7C3AED','Violet']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyText('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name mono">${r[0]}</span><span class="swatch-hex">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1500);}
+function copyText(s){navigator.clipboard&&navigator.clipboard.writeText(s);toast('Copied '+(s.length>30?'to clipboard':s));}
+
+/* ================= SIGNATURE: theme customizer ================= */
+// zinc is theme-flipping (primary = foreground); color presets are fixed
+const COLORS=[
+  {key:'zinc',name:'Zinc',dot:'#18181B',flip:true},
+  {key:'rose',name:'Rose',p:'#E11D48',pf:'#FFFFFF'},
+  {key:'blue',name:'Blue',p:'#2563EB',pf:'#FFFFFF'},
+  {key:'green',name:'Green',p:'#16A34A',pf:'#FFFFFF'},
+  {key:'orange',name:'Orange',p:'#F97316',pf:'#1A1A1A'},
+  {key:'violet',name:'Violet',p:'#7C3AED',pf:'#FFFFFF'}
+];
+const RADII=[['0','0rem'],['0.25','0.25rem'],['0.5','0.5rem'],['0.75','0.75rem'],['1.0','1rem']];
+let cur={color:'zinc',radius:2}; // radius index (0.5rem default)
+const check='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+function renderColorGrid(){
+  document.getElementById('colorGrid').innerHTML=COLORS.map(c=>{
+    const swatch=c.flip?'#71717A':c.p;
+    const on=cur.color===c.key;
+    return `<div class="color-opt ${on?'on':''}" onclick="setColor('${c.key}')"><span class="color-dot" style="background:${swatch}">${on?check:''}</span>${c.name}</div>`;
+  }).join('');
+}
+function renderRadiusRow(){
+  document.getElementById('radiusRow').innerHTML=RADII.map((r,i)=>
+    `<button class="radius-opt ${cur.radius===i?'on':''}" onclick="setRadius(${i})">${r[0]}</button>`).join('');
+}
+function applyTheme(){
+  const pv=document.getElementById('scPreview');
+  const c=COLORS.find(x=>x.key===cur.color);
+  if(c.flip){ pv.style.removeProperty('--_p'); pv.style.removeProperty('--_pf'); pv.style.removeProperty('--_ring'); }
+  else { pv.style.setProperty('--_p',c.p); pv.style.setProperty('--_pf',c.pf); pv.style.setProperty('--_ring',c.p); }
+  pv.style.setProperty('--radius',RADII[cur.radius][1]);
+  renderCode();
+}
+function setColor(k){cur.color=k;renderColorGrid();applyTheme();}
+function setRadius(i){cur.radius=i;renderRadiusRow();applyTheme();}
+function setTab(el,i){el.parentNode.querySelectorAll('.sc-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');}
+
+function renderCode(){
+  const c=COLORS.find(x=>x.key===cur.color);
+  const rad=RADII[cur.radius][1];
+  let body;
+  if(c.flip){
+    body=`<span class="tk">:root</span> {\n  --primary: #18181B;\n  --primary-foreground: #FAFAFA;\n  --ring: #A1A1AA;\n  --radius: ${rad};\n}\n<span class="tk">.dark</span> {\n  --primary: #FAFAFA;\n  --primary-foreground: #18181B;\n}`;
+  }else{
+    body=`<span class="tk">:root</span> {\n  --primary: ${c.p};\n  --primary-foreground: ${c.pf};\n  --ring: ${c.p};\n  --radius: ${rad};\n}`;
+  }
+  document.getElementById('codeOut').innerHTML=body;
+}
+function copyTheme(){
+  const c=COLORS.find(x=>x.key===cur.color);
+  const rad=RADII[cur.radius][1];
+  const txt=c.flip
+    ? `:root {\n  --primary: #18181B;\n  --primary-foreground: #FAFAFA;\n  --ring: #A1A1AA;\n  --radius: ${rad};\n}\n.dark {\n  --primary: #FAFAFA;\n  --primary-foreground: #18181B;\n}`
+    : `:root {\n  --primary: ${c.p};\n  --primary-foreground: ${c.pf};\n  --ring: ${c.p};\n  --radius: ${rad};\n}`;
+  navigator.clipboard&&navigator.clipboard.writeText(txt);
+  toast('Copied '+c.name+' theme');
+}
+
+renderColorGrid();renderRadiusRow();applyTheme();
+</script>
+</body>
+</html>
