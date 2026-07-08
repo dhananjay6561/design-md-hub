@@ -58,8 +58,8 @@ body{font-family:'Inter MD',-apple-system,BlinkMacSystemFont,system-ui,sans-seri
 .hero p{font-size:18px;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.55}
 .hero p b{color:var(--text);font-weight:600}
 /* floating clouds + duck */
-.cloud{position:absolute;background:var(--cloud-fill);border-radius:100px;z-index:1;box-shadow:0 6px 20px rgba(56,56,56,.06)}
-.cloud::before,.cloud::after{content:'';position:absolute;background:var(--cloud-fill);border-radius:50%}
+.hero .cloud{position:absolute;background:var(--cloud-fill);border-radius:100px;z-index:1;box-shadow:0 6px 20px rgba(56,56,56,.06)}
+.hero .cloud::before,.hero .cloud::after{content:'';position:absolute;background:var(--cloud-fill);border-radius:50%}
 
 .wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
 .section{padding:52px 0;border-bottom:1px solid var(--border)}
@@ -141,15 +141,21 @@ pre.sql{font-family:'Aeonik Mono',monospace;font-size:12.5px;line-height:1.65;co
 .plan{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2)}
 .plan-head{font-family:'Aeonik Mono',monospace;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
 .plan-head .badge{color:var(--text2);display:inline-flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:11px}
-.plan-bar{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--border);opacity:0;transition:opacity .3s}
+.plan-bar{display:flex;align-items:stretch;height:14px;border-radius:7px;overflow:hidden;border:1px solid var(--border);opacity:0;transition:opacity .3s}
 .plan-bar.show{opacity:1}
-.plan-seg{display:flex;align-items:center;gap:7px;padding:0 11px;color:#fff;font-family:'Aeonik Mono',monospace;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden}
-.plan-seg .lbl2{font-weight:400;opacity:.9;overflow:hidden;text-overflow:ellipsis}
+.plan-seg{height:14px;flex:0 0 auto;min-width:0}
 .plan-seg.cloud{background:linear-gradient(90deg,#2BA5FF,#2589e6)}
-.plan-seg.local{background:linear-gradient(90deg,#FF9538,#f0851f);color:#2A2115}
-.plan-legend{display:flex;gap:16px;margin-top:9px;font-family:'Aeonik Mono',monospace;font-size:11px;color:var(--text2);flex-wrap:wrap}
-.plan-legend span{display:inline-flex;align-items:center;gap:6px}
-.plan-legend .dot{width:9px;height:9px;border-radius:3px}
+.plan-seg.local{background:linear-gradient(90deg,#FFA24F,#f0851f)}
+.plan-rows{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.plan-row{display:flex;align-items:center;gap:10px;font-family:'Aeonik Mono',monospace;font-size:11.5px;color:var(--text2)}
+.plan-row b{color:var(--text);font-weight:700}
+.plan-row .dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.plan-row .dot.cloud{background:var(--cloud)}
+.plan-row .dot.local{background:var(--local)}
+.plan-row .pl-label{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan-row .stage{color:var(--text3)}
+.plan-row .ms{flex-shrink:0;color:var(--text);font-weight:700;font-size:12px}
+:root[data-theme="dark"] .plan-seg.local{background:linear-gradient(90deg,#FF9538,#f0851f)}
 
 /* results */
 .res-wrap{overflow-x:auto}
@@ -327,10 +333,7 @@ table.res{border-collapse:collapse;width:100%;min-width:560px}
       <div class="plan" id="planPanel" style="display:none">
         <div class="plan-head"><span>Query plan</span><span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6-1.6A4 4 0 0 0 6 19z"/></svg>Hybrid execution</span></div>
         <div class="plan-bar" id="planBar"></div>
-        <div class="plan-legend">
-          <span><span class="dot" style="background:var(--cloud)"></span>Cloud — MotherDuck (scan &amp; aggregate the big table)</span>
-          <span><span class="dot" style="background:var(--local)"></span>Local — DuckDB-WASM in your client (join &amp; sort)</span>
-        </div>
+        <div class="plan-rows" id="planRows"></div>
       </div>
 
       <div class="res-wrap">
@@ -582,13 +585,14 @@ function runQuery(){
   // 1) hybrid plan
   timers.push(setTimeout(()=>{
     const total=Q.cloudMs+Q.localMs;
-    const cW=Math.max(18,Math.round(100*Q.cloudMs/total));
+    const cW=Math.round(100*Q.cloudMs/total);
     const lW=100-cW;
     document.getElementById('planPanel').style.display='block';
     const bar=document.getElementById('planBar');
-    bar.innerHTML=
-      `<div class="plan-seg cloud" style="width:${cW}%"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18h11a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9 4 4 0 0 0 6 18z"/></svg>Cloud <span class="lbl2">${Q.cloudLbl} · ${Q.cloudMs}ms</span></div>`+
-      `<div class="plan-seg local" style="width:${lW}%"><span>🦆</span>Local <span class="lbl2">${Q.localLbl} · ${Q.localMs}ms</span></div>`;
+    bar.innerHTML=`<div class="plan-seg cloud" style="width:${cW}%"></div><div class="plan-seg local" style="width:${lW}%"></div>`;
+    document.getElementById('planRows').innerHTML=
+      `<div class="plan-row"><span class="dot cloud"></span><span class="pl-label"><b>Cloud</b> · MotherDuck <span class="stage">— ${Q.cloudLbl} · scanned ${Q.scanned} rows</span></span><span class="ms">${Q.cloudMs}ms</span></div>`+
+      `<div class="plan-row"><span class="dot local"></span><span class="pl-label"><b>Local</b> · DuckDB-WASM <span class="stage">— ${Q.localLbl} in your client</span></span><span class="ms">${Q.localMs}ms</span></div>`;
     requestAnimationFrame(()=>bar.classList.add('show'));
   },260));
 
