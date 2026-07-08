@@ -41,17 +41,17 @@ a{color:inherit;text-decoration:none}
 .hero h1 em{font-style:normal;color:var(--text3)}
 .hero p{margin-top:22px;font-size:clamp(15px,1.6vw,19px);color:var(--text2);max-width:56ch;line-height:1.55}
 .hero p code{font-family:'JetBrains Mono',monospace;font-size:.85em;background:var(--bg3);padding:2px 7px;border-radius:5px;color:var(--text)}
-.star-cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;background:#FFC21E;color:#15130c;font-weight:700;font-size:15.5px;padding:15px 28px;border-radius:13px;text-decoration:none;box-shadow:0 6px 28px rgba(255,194,30,.55),0 0 0 1px rgba(255,194,30,.35);transition:transform .14s,box-shadow .14s}
-.star-cta:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(255,194,30,.7),0 0 0 1px rgba(255,194,30,.5)}
-.star-cta svg{width:19px;height:19px}
-.star-cta .star-sub{font-weight:600;opacity:.78}
-@media(max-width:520px){.star-cta .star-sub{display:none}}
+.star-cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;background:var(--accent);color:var(--bg);font-weight:600;font-size:15px;padding:13px 22px;border-radius:11px;text-decoration:none;transition:transform .14s,opacity .14s;box-shadow:0 6px 22px rgba(0,0,0,.20)}
+.star-cta:hover{transform:translateY(-2px);opacity:.9}
+.star-cta svg{width:18px;height:18px}
+.star-cta .star-div{width:1px;height:18px;background:var(--bg);opacity:.22;margin:0 3px}
+.star-cta .star-sub{font-weight:500;opacity:.62;font-size:14px}
+@media(max-width:520px){.star-cta .star-div,.star-cta .star-sub{display:none}}
 
-/* Spectrum strip — every real brand accent, one hairline each */
-.spectrum{display:flex;height:26px;border-radius:9px;overflow:hidden;margin:40px 0 0;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.18)}
-.spectrum i{flex:1;transition:flex .35s cubic-bezier(.2,.7,.3,1);cursor:pointer}
-.spectrum:hover i{flex:.5}
-.spectrum i:hover{flex:6}
+/* Spectrum strip — a curated handful of iconic brand accents */
+.spectrum{display:flex;gap:7px;height:14px;margin:38px 0 0}
+.spectrum i{flex:1;border-radius:7px;cursor:pointer;transition:flex .3s cubic-bezier(.2,.7,.3,1),transform .2s;box-shadow:0 2px 10px rgba(0,0,0,.14)}
+.spectrum i:hover{flex:2;transform:translateY(-2px)}
 
 /* Controls */
 .controls{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:16px 0;margin-top:44px}
@@ -105,7 +105,7 @@ a{color:inherit;text-decoration:none}
     <div class="kicker">design-md-hub</div>
     <h1>Design systems, <em>as plain text for agents.</em></h1>
     <p>A curated wall of <code>DESIGN.md</code> files — each one describes a real brand's colors, type, components and guardrails so a coding agent can generate on-brand UI. Every card is painted with that brand's actual accent. Open one to see the live specimen.</p>
-    <a class="star-cta" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg> Star on GitHub <span class="star-sub">— it helps a ton</span></a>
+    <a class="star-cta" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17 4.7 18 5 18 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z"/></svg> Star on GitHub <span class="star-div"></span><span class="star-sub">it helps a ton</span></a>
     <div class="spectrum" id="spectrum" aria-hidden="true"></div>
   </header>
 </div>
@@ -251,8 +251,12 @@ function logoFallback(img){
 
 function toggleTheme(){const r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'}
 
-// spectrum strip
-document.getElementById('spectrum').innerHTML=BRANDS.map(b=>`<i style="background:${b[3]}" title="${b[1]}"></i>`).join('');
+// spectrum strip — a curated rainbow of iconic brand accents (not all 100)
+const SPECTRUM=[
+  ['#F22F46','Twilio'],['#FF4F00','Zapier'],['#F9BD2B','PostHog'],
+  ['#3ECF8E','Supabase'],['#0D99FF','Figma'],['#635BFF','Stripe'],['#FF4785','Storybook']
+];
+document.getElementById('spectrum').innerHTML=SPECTRUM.map(c=>`<i style="background:${c[0]}" title="${c[1]}"></i>`).join('');
 
 // category chips
 const cats=['All',...[...new Set(BRANDS.map(b=>b[2]))].sort()];
