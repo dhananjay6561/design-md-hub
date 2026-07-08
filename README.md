@@ -118,6 +118,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 95 | [Excalidraw](brands/excalidraw/DESIGN.md) | Content | [preview](https://dhananjay6561.github.io/design-md-hub/brands/excalidraw/preview.html) |
 | 96 | [Lovable](brands/lovable/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/lovable/preview.html) |
 | 97 | [Bolt](brands/bolt/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/bolt/preview.html) |
+| 98 | [MotherDuck](brands/motherduck/DESIGN.md) | Data | [preview](https://dhananjay6561.github.io/design-md-hub/brands/motherduck/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MotherDuck — Design System</title>
+<style>
+/* MotherDuck's real faces — Aeonik Fono (display/UI), Aeonik Mono (R+B, code), Inter (body). All self-hosted on motherduck.com and CORS-open (access-control-allow-origin: *), used directly. */
+@font-face{font-family:'Aeonik Fono';src:url('https://motherduck.com/fonts/AeonikMono/AeonikFono-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Aeonik Mono';src:url('https://motherduck.com/fonts/AeonikMono/AeonikMono-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Aeonik Mono';src:url('https://motherduck.com/fonts/AeonikMono/AeonikMono-Bold.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:'Inter MD';src:url('https://motherduck.com/fonts/Inter/inter-300.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:'Inter MD';src:url('https://motherduck.com/fonts/Inter/inter-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Inter MD';src:url('https://motherduck.com/fonts/Inter/inter-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Inter MD';src:url('https://motherduck.com/fonts/Inter/inter-700.woff2') format('woff2');font-weight:700;font-display:swap}
+:root{
+  /* MotherDuck brand — theme-invariant */
+  --ink:#383838;--yellow:#FFDE00;--orange:#FF9538;--orange-dk:#f0851f;
+  --sky:#6FC2FF;--blue:#2BA5FF;--teal:#53DBC9;--coral:#FF7169;
+  --ok:#2BA36B;--warn:#F5B161;
+  --cloud:#2BA5FF;--local:#FF9538;
+}
+:root[data-theme="light"]{
+  --bg:#F4EFEA;--surface:#FFFFFF;--surface-2:#F8F8F7;--raised:#EFE8E0;
+  --border:#E1D6CB;--border-strong:#D3C6B7;
+  --text:#383838;--text2:#666666;--text3:#8F8880;
+  --link:#1478C4;--btn-fg:#2A2115;--logo-wm:#383838;
+  --ring:rgba(255,149,56,.26);
+  --shadow:0 1px 3px rgba(56,56,56,.10),0 12px 40px rgba(56,56,56,.08);
+  --hero-wash:radial-gradient(120% 90% at 50% -10%,#EAF6FF 0%,#F4EFEA 60%);
+  --cloud-fill:#FFFFFF;--code-bg:#FBFAF8;
+}
+:root[data-theme="dark"]{
+  --bg:#171613;--surface:#211F1B;--surface-2:#2A2823;--raised:#332F28;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.17);
+  --text:#F4EFEA;--text2:#A9A29A;--text3:#7C766E;
+  --link:#6FC2FF;--btn-fg:#2A2115;--logo-wm:#F4EFEA;
+  --ring:rgba(255,149,56,.32);
+  --shadow:0 1px 3px rgba(0,0,0,.4),0 20px 54px rgba(0,0,0,.5);
+  --hero-wash:radial-gradient(120% 90% at 50% -10%,#20304a 0%,#171613 62%);
+  --cloud-fill:rgba(255,255,255,.06);--code-bg:#1B1A16;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter MD',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.fono{font-family:'Aeonik Fono','Segoe UI',sans-serif}
+.mono{font-family:'Aeonik Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--surface);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{position:relative;padding:74px 0 60px;border-bottom:1px solid var(--border);text-align:center;overflow:hidden;background:var(--hero-wash)}
+.hero-inner{position:relative;max-width:1080px;margin:0 auto;padding:0 40px;z-index:3}
+.hero-logo{margin-bottom:26px;display:flex;justify-content:center}
+.hero-logo svg{height:38px;width:auto;filter:drop-shadow(0 4px 10px rgba(56,56,56,.14))}
+.hero h1{font-family:'Aeonik Fono',sans-serif;font-weight:400;font-size:50px;letter-spacing:.05em;line-height:1.06;margin-bottom:18px;text-transform:uppercase;color:var(--text)}
+@media(max-width:640px){.hero h1{font-size:31px}}
+.hero p{font-size:18px;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.55}
+.hero p b{color:var(--text);font-weight:600}
+/* floating clouds + duck */
+.cloud{position:absolute;background:var(--cloud-fill);border-radius:100px;z-index:1;box-shadow:0 6px 20px rgba(56,56,56,.06)}
+.cloud::before,.cloud::after{content:'';position:absolute;background:var(--cloud-fill);border-radius:50%}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'Aeonik Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px;display:flex;align-items:center;gap:9px}
+.section-label::before{content:'';width:16px;height:10px;border-radius:10px 10px 0 0;background:linear-gradient(90deg,var(--blue),var(--teal) 40%,var(--yellow) 72%,var(--orange))}
+.group-label{font-family:'Aeonik Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:12px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:11px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.20)}
+.swatch-info{padding:9px 11px;background:var(--surface-2)}
+.swatch-name{font-size:11px;font-weight:600;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;display:block}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px;display:block}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:180px 1fr auto;align-items:baseline;gap:20px;padding:16px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3);font-family:'Aeonik Mono',monospace}
+.type-spec{font-size:10px;color:var(--text3);margin-top:3px;font-family:'Aeonik Mono',monospace}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--surface-2);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Aeonik Mono',monospace}
+
+/* ===== SIGNATURE: hybrid-execution notebook ===== */
+.nb{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.nb-bar{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.nb-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;letter-spacing:-.01em}
+.nb-logo svg{height:16px;width:auto}
+.db-chip{font-family:'Aeonik Mono',monospace;font-size:11.5px;color:var(--text2);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:4px 9px;display:inline-flex;align-items:center;gap:6px}
+.db-chip b{color:var(--text)}
+.nb-spacer{flex:1}
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:9px;padding:3px;gap:2px}
+.seg button{font-family:'Aeonik Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:.02em;color:var(--text3);background:none;border:none;border-radius:6px;padding:5px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:color .12s,background .12s}
+.seg button.on{color:var(--text);background:var(--surface);box-shadow:0 1px 2px rgba(56,56,56,.12)}
+:root[data-theme="dark"] .seg button.on{box-shadow:0 1px 2px rgba(0,0,0,.4)}
+
+/* Ask AI mode */
+.ask{padding:15px 16px;border-bottom:1px solid var(--border);background:var(--code-bg)}
+.ask-row{display:flex;gap:9px;align-items:center}
+.ask-star{color:var(--orange);flex-shrink:0}
+.ask-input{flex:1;background:var(--surface);border:1px solid var(--border-strong);border-radius:9px;height:40px;padding:0 13px;font-size:14px;color:var(--text);outline:none;font-family:inherit;transition:border .12s,box-shadow .12s}
+.ask-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--ring)}
+.ask-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.ask-chip{font-size:12px;color:var(--text2);background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:5px 12px;cursor:pointer;transition:border-color .12s,color .12s}
+.ask-chip:hover{border-color:var(--orange);color:var(--text)}
+.ask-note{font-family:'Aeonik Mono',monospace;font-size:11.5px;color:var(--text3);margin-top:11px;display:flex;align-items:center;gap:7px;min-height:16px}
+.ask-note b{color:var(--ok)}
+
+/* code cell */
+.cell{position:relative;background:var(--code-bg);padding:15px 16px 15px 46px;border-bottom:1px solid var(--border)}
+.gutter{position:absolute;left:0;top:15px;width:34px;text-align:right;padding-right:9px;font-family:'Aeonik Mono',monospace;font-size:12.5px;line-height:1.65;color:var(--text3);opacity:.6;user-select:none}
+pre.sql{font-family:'Aeonik Mono',monospace;font-size:12.5px;line-height:1.65;color:var(--text);white-space:pre;overflow-x:auto;min-height:1.65em}
+.sql .kw{color:var(--blue);font-weight:700}
+:root[data-theme="light"] .sql .kw{color:#1478C4}
+.sql .fn{color:var(--orange-dk)}
+.sql .str{color:var(--ok)}
+.sql .com{color:var(--text3);font-style:italic}
+.sql .com .cl{color:var(--cloud);font-style:normal;font-weight:700}
+.sql .com .lo{color:var(--local);font-style:normal;font-weight:700}
+.cursor{display:inline-block;width:7px;height:1.05em;background:var(--orange);vertical-align:text-bottom;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+.run-bar{display:flex;align-items:center;gap:11px;padding:11px 14px;border-bottom:1px solid var(--border)}
+.run{font-family:'Aeonik Mono',monospace;font-weight:700;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--btn-fg);background:var(--orange);border:none;border-radius:8px;padding:0 15px;height:35px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,transform .1s}
+.run:hover{filter:brightness(1.06)}
+.run:active{transform:translateY(1px)}
+.run:disabled{opacity:.5;cursor:default}
+.run-meta{font-family:'Aeonik Mono',monospace;font-size:11.5px;color:var(--text3);display:flex;align-items:center;gap:7px}
+.kbd{font-family:'Aeonik Mono',monospace;font-size:10.5px;color:var(--text3);border:1px solid var(--border);border-radius:5px;padding:2px 6px;background:var(--surface-2)}
+
+/* hybrid plan */
+.plan{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.plan-head{font-family:'Aeonik Mono',monospace;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.plan-head .badge{color:var(--text2);display:inline-flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0;font-size:11px}
+.plan-bar{display:flex;height:34px;border-radius:8px;overflow:hidden;border:1px solid var(--border);opacity:0;transition:opacity .3s}
+.plan-bar.show{opacity:1}
+.plan-seg{display:flex;align-items:center;gap:7px;padding:0 11px;color:#fff;font-family:'Aeonik Mono',monospace;font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden}
+.plan-seg .lbl2{font-weight:400;opacity:.9;overflow:hidden;text-overflow:ellipsis}
+.plan-seg.cloud{background:linear-gradient(90deg,#2BA5FF,#2589e6)}
+.plan-seg.local{background:linear-gradient(90deg,#FF9538,#f0851f);color:#2A2115}
+.plan-legend{display:flex;gap:16px;margin-top:9px;font-family:'Aeonik Mono',monospace;font-size:11px;color:var(--text2);flex-wrap:wrap}
+.plan-legend span{display:inline-flex;align-items:center;gap:6px}
+.plan-legend .dot{width:9px;height:9px;border-radius:3px}
+
+/* results */
+.res-wrap{overflow-x:auto}
+table.res{border-collapse:collapse;width:100%;min-width:560px}
+.res th{font-family:'Aeonik Mono',monospace;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);text-align:left;padding:9px 16px;border-bottom:1px solid var(--border);background:var(--surface-2);white-space:nowrap}
+.res th.num{text-align:right}
+.res td{padding:0 16px;height:42px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);white-space:nowrap;vertical-align:middle}
+.res tr:last-child td{border-bottom:none}
+.res tbody tr{opacity:0;transform:translateY(3px);transition:opacity .22s,transform .22s}
+.res tbody tr.show{opacity:1;transform:none}
+.res tbody tr:hover td{background:var(--raised)}
+.res .cat{font-weight:600}
+.res .num{text-align:right;font-family:'Aeonik Mono',monospace;font-size:12.5px;color:var(--text2)}
+.res .rev{text-align:right;font-family:'Aeonik Mono',monospace;font-size:12.5px;color:var(--text);position:relative}
+.rev-bar{position:absolute;left:0;top:50%;transform:translateY(-50%);height:20px;border-radius:4px;background:color-mix(in srgb,var(--teal) 30%,transparent);z-index:0}
+.rev-val{position:relative;z-index:1;padding-right:16px}
+.res-empty{padding:40px 16px;text-align:center;color:var(--text3);font-size:13px}
+.res-empty svg{opacity:.5;margin-bottom:10px}
+.res-foot{padding:10px 16px;font-family:'Aeonik Mono',monospace;font-size:11px;color:var(--text3);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.res-foot b{color:var(--text2)}
+.res-foot .hy{color:var(--text);display:inline-flex;align-items:center;gap:6px}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:14px;text-align:center;line-height:1.6}
+.sig-hint strong{color:var(--text2)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-family:'Aeonik Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'Aeonik Mono',monospace;font-weight:700;font-size:12px;letter-spacing:.03em;text-transform:uppercase;border-radius:8px;padding:0 15px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:filter .12s,border-color .12s,color .12s}
+.btn-primary{background:var(--orange);color:var(--btn-fg)}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ghost{background:var(--surface);border-color:var(--border-strong);color:var(--text)}
+.btn-ghost:hover{border-color:var(--text2)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.pchip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--text2);background:var(--surface-2);border:1px solid var(--border);border-radius:9999px;padding:5px 11px}
+.pchip .pd{width:8px;height:8px;border-radius:3px}
+.marquee{background:var(--yellow);color:#383838;border-radius:10px;overflow:hidden;height:44px;display:flex;align-items:center;border:1px solid #e1c427}
+.marquee-in{font-family:'Aeonik Fono',sans-serif;font-size:16px;letter-spacing:.06em;white-space:nowrap;padding-left:16px}
+.marquee-in span{margin-right:34px}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:52px;height:52px;background:linear-gradient(135deg,var(--orange),var(--yellow));margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'Aeonik Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-family:'Aeonik Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--orange-dk)}
+.gr-heading.dont{color:var(--text3)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:2px}
+.do .gr-item::before{background:var(--orange)}
+.dont .gr-item::before{background:var(--text3)}
+.gr-item strong{color:var(--text)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:#fff;padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;transition:transform .2s;z-index:200;pointer-events:none}
+:root[data-theme="dark"] .toast{background:#000;border:1px solid var(--border-strong)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Aeonik Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/motherduck/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="cloud" style="width:120px;height:26px;left:8%;top:60px"></div>
+  <div class="cloud" style="width:80px;height:20px;left:16%;top:150px"></div>
+  <div class="cloud" style="width:150px;height:30px;right:9%;top:80px"></div>
+  <div class="cloud" style="width:90px;height:22px;right:18%;top:170px"></div>
+  <div class="hero-inner">
+    <div class="hero-logo" id="heroLogo"></div>
+    <h1>Infrastructure for Answers</h1>
+    <p>The cloud data warehouse built for answers, in <b>SQL</b> or <b>natural language</b>. Fast, serverless analytics powered by <b>DuckDB</b> — from production apps to internal insights.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm paper + soft ink, one signature yellow, and a duck-cloud palette">
+      <div class="strip-slab" style="background:#383838" onclick="copyHex('#383838')" title="ink"></div>
+      <div class="strip-slab" style="background:#FFDE00" onclick="copyHex('#FFDE00')" title="yellow"></div>
+      <div class="strip-slab" style="background:#FF9538" onclick="copyHex('#FF9538')" title="orange"></div>
+      <div class="strip-slab" style="background:#2BA5FF" onclick="copyHex('#2BA5FF')" title="blue"></div>
+      <div class="strip-slab" style="background:#6FC2FF" onclick="copyHex('#6FC2FF')" title="sky"></div>
+      <div class="strip-slab" style="background:#53DBC9" onclick="copyHex('#53DBC9')" title="teal"></div>
+      <div class="strip-slab" style="background:#FF7169" onclick="copyHex('#FF7169')" title="coral"></div>
+      <div class="strip-slab" style="background:#F4EFEA" onclick="copyHex('#F4EFEA')" title="paper"></div>
+    </div>
+
+    <div class="group-label">Brand · paper, ink &amp; the duck-cloud palette</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces · light-first (warm paper)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Semantic · result &amp; execution states</div>
+    <div class="swatch-grid" id="g-fn"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Aeonik Fono / 400</div><div class="type-spec">Display · uppercase · .10em · 50px</div></div>
+        <div class="type-sample fono" style="font-size:30px;letter-spacing:.06em;text-transform:uppercase">Infrastructure for Answers</div>
+        <div class="spec-pills"><span class="spec-pill">Aeonik Fono</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · UI · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">The cloud data warehouse built on DuckDB — from laptop to petabytes.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">Labels · nav · buttons</div></div>
+        <div class="type-sample" style="font-size:15px;font-weight:600">Start free · Book a demo · Read the docs</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Aeonik Mono / 400</div><div class="type-spec">SQL · headers · chips · 12.5px</div></div>
+        <div class="type-sample mono" style="font-size:13px">SELECT category, sum(amount) FROM md:orders</div>
+        <div class="spec-pills"><span class="spec-pill">Aeonik Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Hybrid-execution notebook</div>
+    <div class="nb">
+      <div class="nb-bar">
+        <div class="nb-logo" id="nbLogo"></div>
+        <span class="db-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>md:<b>sample_data.ecommerce</b></span>
+        <div class="nb-spacer"></div>
+        <div class="seg">
+          <button id="mSql" class="on" onclick="setMode('sql')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 6 3 12 8 18"/><polyline points="16 6 21 12 16 18"/></svg>SQL</button>
+          <button id="mAsk" onclick="setMode('ask')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.3L19 9l-5.1 1.7L12 16l-1.9-5.3L5 9l5.1-1.7z"/></svg>Ask AI</button>
+        </div>
+      </div>
+
+      <div class="ask" id="askPanel" style="display:none">
+        <div class="ask-row">
+          <span class="ask-star"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 5.3L19 9l-5.1 1.7L12 16l-1.9-5.3L5 9l5.1-1.7z"/></svg></span>
+          <input class="ask-input" id="askInput" spellcheck="false" value="What are our top product categories by revenue this year?">
+        </div>
+        <div class="ask-chips">
+          <span class="ask-chip" onclick="askQ('cat')">Top product categories by revenue</span>
+          <span class="ask-chip" onclick="askQ('tier')">Revenue by customer tier</span>
+        </div>
+        <div class="ask-note" id="askNote">Pick a question — MotherDuck turns it into <b style="color:var(--text2)">traceable SQL</b> you can run &amp; edit.</div>
+      </div>
+
+      <div class="cell">
+        <div class="gutter" id="gutter"></div>
+        <pre class="sql" id="sqlPre"></pre>
+      </div>
+
+      <div class="run-bar">
+        <button class="run" id="runBtn" onclick="runQuery()"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Run</button>
+        <span class="kbd">⌘↵</span>
+        <div class="nb-spacer"></div>
+        <span class="run-meta" id="runMeta">ready</span>
+      </div>
+
+      <div class="plan" id="planPanel" style="display:none">
+        <div class="plan-head"><span>Query plan</span><span class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6-1.6A4 4 0 0 0 6 19z"/></svg>Hybrid execution</span></div>
+        <div class="plan-bar" id="planBar"></div>
+        <div class="plan-legend">
+          <span><span class="dot" style="background:var(--cloud)"></span>Cloud — MotherDuck (scan &amp; aggregate the big table)</span>
+          <span><span class="dot" style="background:var(--local)"></span>Local — DuckDB-WASM in your client (join &amp; sort)</span>
+        </div>
+      </div>
+
+      <div class="res-wrap">
+        <table class="res">
+          <thead id="resHead"></thead>
+          <tbody id="resBody"></tbody>
+        </table>
+      </div>
+      <div class="res-foot" id="resFoot" style="display:none"></div>
+    </div>
+    <div class="sig-hint">Toggle <strong>Ask AI</strong> to turn a question into SQL, or edit the SQL directly, then press <strong>Run</strong>. The query spans <strong>local + cloud</strong>: the huge <strong class="mono">orders</strong> scan runs in MotherDuck's cloud, the small join &amp; sort run locally in DuckDB-WASM — <strong>hybrid execution</strong>. Deterministic.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row">
+          <button class="btn btn-primary">Start free</button>
+          <button class="btn btn-ghost">Book a demo</button>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Compute location</div>
+        <div class="chip-row">
+          <span class="pchip"><span class="pd" style="background:var(--cloud)"></span>Cloud</span>
+          <span class="pchip"><span class="pd" style="background:var(--local)"></span>Local (WASM)</span>
+          <span class="pchip"><span class="pd" style="background:var(--teal)"></span>Hybrid</span>
+          <span class="pchip"><span class="pd" style="background:var(--ok)"></span>Cached</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Marquee band</div>
+        <div class="marquee"><div class="marquee-in fono"><span>DATA WAREHOUSE + AI</span><span>DATA WAREHOUSE + AI</span></div></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:12px"></div><span>12 card</span></div>
+          <div><div class="box" style="border-radius:8px"></div><span>8 btn</span></div>
+          <div><div class="box" style="border-radius:6px"></div><span>6 chip</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Anchor on warm paper <strong>#F4EFEA</strong> + soft ink <strong>#383838</strong> — keep pure black/white out of the base.</div>
+          <div class="gr-item">Use <strong>orange</strong> for actions, <strong>yellow</strong> for marquee/highlight blocks only, <strong>sky-blue</strong> for data &amp; links.</div>
+          <div class="gr-item">Set the hero in <strong>Aeonik Fono</strong>, uppercase, wide tracking; SQL in <strong>Aeonik Mono</strong>, body in <strong>Inter</strong>.</div>
+          <div class="gr-item">Let the <strong>duck-and-cloud</strong> mascot carry the play; keep the working UI calm.</div>
+          <div class="gr-item">Show <strong>where compute ran</strong> — the local + cloud hybrid split is the point.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't use <strong>#FFDE00</strong> for text — it fails contrast; it's a block color.</div>
+          <div class="gr-item">Don't mix the font roles (Fono display / Mono code / Inter body).</div>
+          <div class="gr-item">Don't invent evenly-lightened dark tints — the dark canvas is warm near-black <strong>#171613</strong>, borders translucent white.</div>
+          <div class="gr-item">Don't make table hover equal the base surface after the light swap.</div>
+          <div class="gr-item">Don't reduce MotherDuck to a plain query box — the <strong>hybrid + AI</strong> story is the identity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- logos ---- */
+const LOGO='<svg viewBox="0 0 210 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M116.381 14.698c-.717-.408-1.584-.642-2.57-.642-1.075 0-1.972.234-2.689.7-.717.467-1.225 1.108-1.553 1.924h-.18V9.654h-3.824V28.08h3.914V20.09c0-.583.119-1.108.358-1.516a2.32 2.32 0 0 1 .957-.962c.418-.233.896-.32 1.434-.32.807 0 1.434.233 1.852.7.449.466.658 1.136.658 1.982v8.105h3.914v-8.805c0-1.079-.209-2.011-.598-2.77-.358-.787-.926-1.37-1.673-1.807ZM90.356 14.99c-1.046-.613-2.27-.904-3.705-.904-1.434 0-2.66.291-3.705.903-1.046.583-1.853 1.429-2.42 2.508-.568 1.078-.837 2.303-.837 3.731 0 1.429.269 2.653.837 3.732.567 1.079 1.374 1.895 2.42 2.507 1.046.583 2.27.904 3.705.904 1.434 0 2.66-.291 3.705-.904 1.046-.612 1.853-1.428 2.42-2.507.568-1.079.837-2.303.837-3.732 0-1.428-.27-2.682-.837-3.731-.567-1.079-1.374-1.925-2.42-2.508Zm-1.046 8.367c-.209.641-.538 1.137-.986 1.486-.448.35-.986.554-1.643.554-.658 0-1.225-.174-1.674-.553-.448-.38-.776-.875-1.015-1.487a6.838 6.838 0 0 1-.33-2.158c0-.816.12-1.516.33-2.157.239-.642.567-1.137 1.015-1.487.449-.379 1.016-.554 1.674-.554.657 0 1.195.175 1.643.554.448.379.777.875.986 1.487.24.641.329 1.34.329 2.157s-.12 1.516-.329 2.158ZM143.273 14.057c-.807 0-1.494.233-2.092.67-.598.437-1.046 1.079-1.285 1.953h-.149v-2.42h-3.795v13.82h3.914v-7.814c0-.554.12-1.05.389-1.486.269-.438.627-.759 1.075-1.02a3.303 3.303 0 0 1 1.554-.38c.269 0 .568.03.897.058.328.03.567.088.776.146v-3.382c-.179-.029-.358-.087-.597-.087-.299-.03-.508-.058-.687-.058ZM132.068 15.835a5.863 5.863 0 0 0-2.122-1.312 7.587 7.587 0 0 0-2.599-.437c-1.375 0-2.6.291-3.645.903-1.016.613-1.823 1.429-2.391 2.508-.567 1.078-.836 2.332-.836 3.731 0 1.458.269 2.712.836 3.79.568 1.05 1.375 1.895 2.42 2.479 1.046.583 2.301.874 3.765.874 1.166 0 2.211-.175 3.078-.525.896-.35 1.613-.845 2.181-1.486.568-.642.956-1.604 1.136-2.479h-3.646c-.149.35-.328.642-.597.875a3.224 3.224 0 0 1-.927.554 3.8 3.8 0 0 1-1.195.175c-.657 0-1.225-.146-1.703-.408a2.735 2.735 0 0 1-1.105-1.137c-.269-.496-.389-1.079-.389-1.779h9.651v-1.078c0-1.166-.179-2.187-.508-3.09a6.06 6.06 0 0 0-1.404-2.158Zm-7.709 3.936c.03-.496.149-.962.388-1.37a3.139 3.139 0 0 1 1.076-1.08 3.11 3.11 0 0 1 1.584-.407c.567 0 1.075.116 1.494.379.448.233.777.583 1.016.99.239.438.358.905.358 1.459h-5.916v.029Z" fill="var(--logo-wm)"/><path d="M2.779 25.66S17.03 35.6 17.898 36.097c.837.495 2.062.612 3.137.204 1.076-.408 1.883-1.341 2.122-2.274.269-.933 3.526-17.726 3.526-17.726.03-.233.119-.903-.24-1.545-.508-.874-1.643-1.34-2.659-1.05a2.352 2.352 0 0 0-1.344 1.021c-.18.32-.508.846-1.106 1.312-.448.35-.896.554-1.105.641-1.823.73-3.855.117-5.02-1.34-.717-.904-2.002-1.254-3.138-.817a2.688 2.688 0 0 0-1.703 2.711c.21 1.808-.836 3.615-2.689 4.344a4.49 4.49 0 0 1-2.958.088c-.21-.059-.956-.233-1.703.175-.926.466-1.404 1.574-1.165 2.565.179.67.717 1.108.926 1.254Z" fill="#FF9538"/><path d="M67.618 22.045h-.21L62.21 9.655h-4.93V28.08h3.885V16.039h.149l4.87 11.953h2.66l4.87-11.895h.15V28.08h3.884V9.654h-4.93l-5.2 12.39ZM204.526 28.08h4.601l-5.527-7.843 5.259-5.976h-4.512l-4.542 5.247h-.209V9.654h-3.914V28.08h3.914v-4.403l1.076-1.166 3.854 5.569ZM174.676 22.19c0 .613-.119 1.137-.388 1.546-.239.408-.598.729-.986.962-.419.204-.867.32-1.315.32-.747 0-1.345-.233-1.793-.7-.448-.466-.657-1.107-.687-1.923V14.26h-3.914v8.804c0 1.079.209 2.012.597 2.77.419.787.957 1.37 1.674 1.778.717.408 1.553.642 2.51.642 1.075 0 1.972-.234 2.689-.73.747-.495 1.284-1.136 1.583-1.953h.15v2.508h3.765V14.26h-3.885v7.93ZM185.821 17.555c.448-.32.986-.496 1.584-.496.717 0 1.285.204 1.733.642.448.408.717.962.837 1.662h3.705c-.06-1.08-.359-1.983-.897-2.8-.538-.816-1.285-1.399-2.211-1.836-.926-.437-2.002-.67-3.257-.67-1.434 0-2.659.291-3.705.903-1.046.612-1.852 1.429-2.42 2.508-.568 1.078-.837 2.303-.837 3.731 0 1.4.269 2.624.837 3.703.568 1.078 1.344 1.924 2.39 2.507 1.046.612 2.301.904 3.735.904 1.255 0 2.361-.233 3.287-.67a5.12 5.12 0 0 0 2.151-1.867c.538-.816.837-1.72.897-2.798h-3.705c-.06.495-.239.903-.478 1.253-.239.35-.538.612-.897.787a2.657 2.657 0 0 1-1.195.263 2.684 2.684 0 0 1-1.584-.496c-.448-.32-.806-.787-1.045-1.4-.239-.612-.359-1.37-.359-2.244 0-.875.12-1.603.388-2.216.24-.583.598-1.05 1.046-1.37ZM159.258 10.762c-1.374-.729-3.018-1.108-4.9-1.108h-6.753V28.08h6.693c1.913 0 3.556-.38 4.93-1.108a7.476 7.476 0 0 0 3.168-3.178c.747-1.37 1.105-3.032 1.105-4.956 0-1.924-.358-3.557-1.105-4.927a7.341 7.341 0 0 0-3.138-3.149Zm-.328 11.458c-.419.874-1.016 1.516-1.823 1.924-.807.408-1.793.612-2.988.612h-2.54V13.007h2.54c1.165 0 2.181.204 2.988.612.807.408 1.404 1.05 1.823 1.895.418.875.627 1.983.627 3.324 0 1.37-.209 2.507-.627 3.382ZM102.278 24.931h-.538c-.657 0-1.195-.525-1.195-1.166v-6.618h2.659V14.26h-2.659v-3.295h-3.914v3.324h-1.942v2.886h1.942v7.318c0 1.982 1.643 3.586 3.675 3.586h3.107v-3.178l-1.135.029Z" fill="var(--logo-wm)"/><path d="M26.533 3.882s5.08 16.384 5.438 17.259c.359.904 1.255 1.72 2.36 2.04 1.106.321 2.331.059 3.108-.524.777-.583 13.894-11.924 13.894-11.924a2.38 2.38 0 0 0 .777-1.37c.15-.991-.478-2.041-1.434-2.42a2.472 2.472 0 0 0-1.703 0c-.329.146-.927.35-1.674.379-.597.03-1.045-.087-1.284-.146-1.883-.525-3.138-2.215-3.138-4.052A2.69 2.69 0 0 0 40.905.617c-1.195-.321-2.42.175-3.047 1.137-.987 1.574-2.929 2.361-4.841 1.836-1.016-.291-1.853-.903-2.39-1.69-.15-.176-.628-.759-1.464-.904-1.016-.175-2.122.408-2.54 1.312-.329.7-.15 1.34-.09 1.574Z" fill="#FF9538"/></svg>';
+document.getElementById('heroLogo').innerHTML=LOGO;
+document.getElementById('nbLogo').innerHTML=LOGO;
+
+/* ---- swatches ---- */
+const SW={
+  brand:[['ink','#383838','Text · wordmark'],['yellow','#FFDE00','Marquee · highlight blocks'],['orange','#FF9538','Primary CTA · local compute'],['blue','#2BA5FF','Links · cloud compute']],
+  surf:[['paper','#F4EFEA','App background (warm)'],['surface','#FFFFFF','Cards · notebook'],['surface-2','#F8F8F7','Insets · headers · code'],['raised','#EFE8E0','Hover'],['border','#E1D6CB','Hairlines']],
+  text:[['ink','#383838','Primary (light)'],['muted','#666666','Secondary'],['faint','#818181','Meta'],['link','#1478C4','Links / data (light)']],
+  fn:[['ok','#2BA36B','Success · cache hit'],['cloud','#2BA5FF','Cloud compute'],['local','#FF9538','Local (WASM)'],['danger','#FF7169','Error · neg. delta']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ================= SIGNATURE: hybrid-execution notebook ================= */
+const fmt=n=>n.toLocaleString('en-US');
+const usd=n=>'$'+n.toLocaleString('en-US');
+const usd2=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+const QUERIES={
+  cat:{
+    question:'What are our top product categories by revenue this year?',
+    sql:
+`-- Revenue by product category, 2026 YTD
+SELECT
+    p.category,
+    count(*)                AS orders,
+    sum(o.amount)           AS revenue,
+    round(avg(o.amount), 2) AS aov
+FROM sample_data.ecommerce.orders o   -- ☁ cloud · 2.4B rows
+JOIN local.products p                 -- 🦆 local · products.csv
+  ON o.product_id = p.id
+WHERE o.order_date >= '2026-01-01'
+GROUP BY p.category
+ORDER BY revenue DESC;`,
+    cols:['category','orders','revenue','aov'],
+    head:['Category','Orders','Revenue','AOV'],
+    rows:[
+      ['Electronics',482910,84201556,174.36],
+      ['Home & Kitchen',391204,41882190,107.05],
+      ['Apparel',512668,38447120,74.99],
+      ['Sports & Outdoors',208551,27110884,130.00],
+      ['Beauty',331092,19884552,60.06],
+      ['Books',289417,8102676,28.00],
+      ['Toys',176300,7981900,45.28]
+    ],
+    scanned:'2.4B',cloudMs:380,localMs:34,
+    cloudLbl:'scan · filter · aggregate',localLbl:'join · sort'
+  },
+  tier:{
+    question:'How does revenue break down by customer tier?',
+    sql:
+`-- Revenue & AOV by customer tier
+SELECT
+    c.tier,
+    count(DISTINCT o.customer_id) AS customers,
+    sum(o.amount)                 AS revenue,
+    round(avg(o.amount), 2)       AS aov
+FROM sample_data.ecommerce.orders o   -- ☁ cloud · 2.4B rows
+JOIN local.customers c                -- 🦆 local · customers.csv
+  ON o.customer_id = c.id
+GROUP BY c.tier
+ORDER BY revenue DESC;`,
+    cols:['tier','customers','revenue','aov'],
+    head:['Tier','Customers','Revenue','AOV'],
+    rows:[
+      ['Enterprise',4182,98410220,612.44],
+      ['Growth',28904,72118660,214.08],
+      ['Pro',91552,41900120,88.51],
+      ['Free',402118,12204880,19.90]
+    ],
+    scanned:'2.4B',cloudMs:402,localMs:28,
+    cloudLbl:'scan · filter · aggregate',localLbl:'join · sort'
+  }
+};
+
+let state={q:'cat',mode:'sql',busy:false};
+let timers=[];
+function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+
+/* --- SQL syntax highlight (escape first, then tokens) --- */
+const KW=/\b(SELECT|FROM|JOIN|LEFT|RIGHT|INNER|ON|WHERE|GROUP BY|ORDER BY|DESC|ASC|AS|DISTINCT|IN|AND|OR|LIMIT|QUALIFY|HAVING)\b/g;
+const FN=/\b(count|sum|avg|round|min|max|lag|lead|date_trunc|coalesce)\b(?=\()/g;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hl(line){
+  // comments (whole-line -- ...) with cloud/local coloring
+  const cm=line.match(/^(\s*)(--.*)$/);
+  if(cm){
+    let c=esc(cm[2]).replace('☁','<span class="cl">☁</span>').replace('🦆','<span class="lo">🦆</span>');
+    return esc(cm[1])+'<span class="com">'+c+'</span>';
+  }
+  // inline trailing comment
+  let code=line, tail='';
+  const ci=line.indexOf('--');
+  if(ci>=0){code=line.slice(0,ci);let t=esc(line.slice(ci)).replace('☁','<span class="cl">☁</span>').replace('🦆','<span class="lo">🦆</span>');tail='<span class="com">'+t+'</span>';}
+  let h=esc(code);
+  h=h.replace(/('[^']*')/g,'<span class="str">$1</span>');
+  h=h.replace(KW,'<span class="kw">$1</span>');
+  h=h.replace(FN,'<span class="fn">$1</span>');
+  return h+tail;
+}
+function renderSQL(sql){
+  const lines=sql.split('\n');
+  document.getElementById('gutter').innerHTML=lines.map((_,i)=>i+1).join('<br>');
+  document.getElementById('sqlPre').innerHTML=lines.map(hl).join('\n');
+}
+
+/* --- mode toggle --- */
+function setMode(m){
+  state.mode=m;
+  document.getElementById('mSql').classList.toggle('on',m==='sql');
+  document.getElementById('mAsk').classList.toggle('on',m==='ask');
+  document.getElementById('askPanel').style.display=m==='ask'?'block':'none';
+}
+
+/* --- Ask AI: stream generated SQL line-by-line --- */
+function askQ(q){
+  if(state.busy)return;
+  clearTimers();state.q=q;
+  document.getElementById('askInput').value=QUERIES[q].question;
+  const note=document.getElementById('askNote');
+  note.innerHTML='<span class="cursor" style="height:12px"></span> Generating SQL from your question…';
+  resetResults();
+  const lines=QUERIES[q].sql.split('\n');
+  const gutter=document.getElementById('gutter'), pre=document.getElementById('sqlPre');
+  gutter.innerHTML='';pre.innerHTML='';
+  let shown=[];
+  lines.forEach((ln,i)=>{
+    timers.push(setTimeout(()=>{
+      shown.push(ln);
+      gutter.innerHTML=shown.map((_,j)=>j+1).join('<br>');
+      pre.innerHTML=shown.map(hl).join('\n')+'<span class="cursor"></span>';
+    },110*(i+1)));
+  });
+  timers.push(setTimeout(()=>{
+    renderSQL(QUERIES[q].sql);
+    note.innerHTML='<b>✓ Generated</b> — traceable SQL, ready to run &amp; edit. Press <b style="color:var(--text2)">Run</b>.';
+    setMode('sql');
+  },110*(lines.length+1)+120));
+}
+
+/* --- reset results --- */
+function resetResults(){
+  document.getElementById('planPanel').style.display='none';
+  document.getElementById('planBar').classList.remove('show');
+  document.getElementById('resHead').innerHTML='';
+  document.getElementById('resBody').innerHTML='';
+  document.getElementById('resFoot').style.display='none';
+  document.getElementById('runMeta').textContent='ready';
+}
+
+/* --- run the query (deterministic) --- */
+function runQuery(){
+  if(state.busy)return;
+  const Q=QUERIES[state.q];
+  clearTimers();resetResults();
+  state.busy=true;
+  const btn=document.getElementById('runBtn');btn.disabled=true;
+  document.getElementById('runMeta').innerHTML='<span class="cursor" style="height:11px"></span> running…';
+
+  // 1) hybrid plan
+  timers.push(setTimeout(()=>{
+    const total=Q.cloudMs+Q.localMs;
+    const cW=Math.max(18,Math.round(100*Q.cloudMs/total));
+    const lW=100-cW;
+    document.getElementById('planPanel').style.display='block';
+    const bar=document.getElementById('planBar');
+    bar.innerHTML=
+      `<div class="plan-seg cloud" style="width:${cW}%"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18h11a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 9 4 4 0 0 0 6 18z"/></svg>Cloud <span class="lbl2">${Q.cloudLbl} · ${Q.cloudMs}ms</span></div>`+
+      `<div class="plan-seg local" style="width:${lW}%"><span>🦆</span>Local <span class="lbl2">${Q.localLbl} · ${Q.localMs}ms</span></div>`;
+    requestAnimationFrame(()=>bar.classList.add('show'));
+  },260));
+
+  // 2) header
+  timers.push(setTimeout(()=>{
+    document.getElementById('resHead').innerHTML='<tr>'+Q.head.map((h,i)=>`<th class="${i===0?'':'num'}">${h}</th>`).join('')+'</tr>';
+  },560));
+
+  // 3) rows stream in
+  const maxRev=Math.max(...Q.rows.map(r=>r[2]));
+  Q.rows.forEach((r,i)=>{
+    timers.push(setTimeout(()=>{
+      const barW=Math.round(100*r[2]/maxRev);
+      const tr=document.createElement('tr');
+      tr.innerHTML=
+        `<td class="cat">${r[0]}</td>`+
+        `<td class="num">${fmt(r[1])}</td>`+
+        `<td class="rev"><span class="rev-bar" style="width:${barW}%"></span><span class="rev-val">${usd(r[2])}</span></td>`+
+        `<td class="num">${usd2(r[3])}</td>`;
+      document.getElementById('resBody').appendChild(tr);
+      requestAnimationFrame(()=>tr.classList.add('show'));
+    },700+i*90));
+  });
+
+  // 4) footer meta
+  timers.push(setTimeout(()=>{
+    const total=Q.cloudMs+Q.localMs;
+    document.getElementById('runMeta').innerHTML=`<span style="color:var(--ok)">●</span> ${Q.rows.length} rows · ${total}ms`;
+    const foot=document.getElementById('resFoot');
+    foot.style.display='flex';
+    foot.innerHTML=`<span>${Q.rows.length} rows</span><span>·</span><span>scanned <b>${Q.scanned}</b> rows</span><span>·</span><span>${total}ms</span><span>·</span><span class="hy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 0-9 6 6 0 0 0-11.6-1.6A4 4 0 0 0 6 19z"/></svg>ran on <b style="color:var(--text)">Hybrid</b> (local + cloud)</span>`;
+    state.busy=false;btn.disabled=false;
+  },700+Q.rows.length*90+220));
+}
+
+/* init */
+renderSQL(QUERIES.cat.sql);
+</script>
+</body>
+</html>
