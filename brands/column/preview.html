@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Column — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=column.com&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter (≈ Suisse Intl UI) + JetBrains Mono (≈ Suisse Intl Mono — amounts/code). Google-hosted. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Column — theme-invariant brand + ledger state */
+  --teal:#167E6C;--teal-tint:#E6F1EC;--navy:#011821;
+  --settled:#167E6C;--pending:#C98A2C;--returned:#D80027;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--card:#F6F6F8;--field:#F0F2F5;--surface-2:#EAEDF1;
+  --border:#E3E9F2;--border-strong:#D3DAE4;
+  --ink:#011821;--slate:#465962;--muted:#575A64;--faint:#A9ACB6;
+  --logo-wm:#011821;--teal-txt:#167E6C;--btn-bg:#011821;--btn-text:#FFFFFF;
+  --ring:rgba(22,126,108,.16);--shadow:0 16px 44px rgba(1,24,33,.10);
+  --code-bg:#041A22;
+}
+:root[data-theme="dark"]{
+  --bg:#011821;--card:#0A1E27;--field:#0E2731;--surface-2:#123039;
+  --border:#172C34;--border-strong:#284049;
+  --ink:#E3E9F2;--slate:#A9ACB6;--muted:#8E9AA1;--faint:#5A6B73;
+  --logo-wm:#E3E9F2;--teal-txt:#3BAF97;--btn-bg:#167E6C;--btn-text:#FFFFFF;
+  --ring:rgba(59,175,151,.28);--shadow:0 20px 54px rgba(0,0,0,.6);
+  --code-bg:#02222C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace}
+.tab{font-variant-numeric:tabular-nums}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center}
+.hero-logo svg{height:34px;width:auto;display:block}
+.hero h1{font-weight:600;font-size:50px;letter-spacing:-.03em;line-height:1.05;margin-bottom:16px}
+.hero h1 .b{color:var(--teal-txt)}
+.hero p{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+.fdic{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;color:var(--slate);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:5px 11px;margin-bottom:22px}
+.fdic b{font-family:'JetBrains Mono',monospace;color:var(--ink)}
+.hero-cli{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 13px}
+.hero-cli .pr{color:var(--teal-txt)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--card)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--ink);display:block}
+.swatch-hex{font-size:11px;color:var(--faint);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--faint);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--faint)}
+.type-spec{font-size:10px;color:var(--faint);margin-top:2px}
+.type-sample{color:var(--ink)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--field);color:var(--muted);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* ---- signature: money movement / ledger ---- */
+.led{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.led-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg)}
+.led-title{font-weight:600;font-size:14px;display:flex;align-items:center;gap:9px}
+.led-title .ns{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint)}
+.led-total{margin-left:auto;text-align:right}
+.led-total .v{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--ink)}
+.led-total .k{font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+.led-body{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr)}
+@media(max-width:820px){.led-body{grid-template-columns:1fr}}
+/* code (always dark) */
+.code{background:var(--code-bg);border-right:1px solid var(--border);overflow:hidden}
+@media(max-width:820px){.code{border-right:none;border-bottom:1px solid var(--border)}}
+.code-tab{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#6f8992}
+.code-tab .m{font-weight:700;color:#3BAF97}
+.code pre{margin:0;padding:13px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.65;color:#CDE3E0;overflow-x:auto;min-height:150px}
+.code .ln{color:#2f5560;user-select:none;display:inline-block;width:16px;text-align:right;margin-right:13px}
+.kw{color:#7FB2FF}.fn{color:#3BAF97}.st{color:#E0B978}.nu{color:#E88C6A}.pu{color:#6f8992}.cm{color:#4c6b74}
+/* ledger */
+.led-r{padding:15px 16px;display:flex;flex-direction:column;gap:14px}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.acct{background:var(--field);border:1px solid var(--border);border-radius:10px;padding:12px 13px}
+.acct .an{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:7px}
+.acct .an .dot{width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.acct .anum{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:2px}
+.acct .bal{font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;color:var(--ink);margin-top:9px;transition:color .2s}
+.acct .bal.flash{color:var(--teal-txt)}
+.ledger-list-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);display:flex;justify-content:space-between;align-items:center}
+.tfr{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
+.tfr:last-child{border-bottom:none}
+.tfr .arw{width:26px;height:26px;border-radius:7px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--slate);flex-shrink:0}
+.tfr .tmeta{flex:1;min-width:0}
+.tfr .tn{font-size:12.5px;font-weight:500;color:var(--ink)}
+.tfr .tsub{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint)}
+.tfr .ty{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--surface-2);color:var(--slate);letter-spacing:.03em}
+.tfr .tamt{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);text-align:right}
+.tfr .tst{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;width:74px;justify-content:flex-end}
+.tfr .tst .d{width:7px;height:7px;border-radius:50%}
+.tfr .tst.settled{color:var(--teal-txt)}.tfr .tst.settled .d{background:var(--settled)}
+.tfr .tst.pending{color:#a8761d}.tfr .tst.pending .d{background:var(--pending);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.tfr.new{animation:slidein .35s ease}
+@keyframes slidein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.send-bar{display:flex;align-items:center;gap:10px;padding-top:4px;flex-wrap:wrap}
+.send-btn{background:var(--teal);color:#fff;border:none;border-radius:8px;font-family:'Inter';font-weight:600;font-size:13px;padding:9px 15px;cursor:pointer;transition:.12s}
+.send-btn:hover{filter:brightness(1.06)}
+.send-btn:disabled{opacity:.5;cursor:default}
+.reset-btn{background:transparent;border:1px solid var(--border-strong);color:var(--slate);border-radius:8px;font-family:'Inter';font-weight:600;font-size:12.5px;padding:9px 12px;cursor:pointer}
+.reset-btn:hover{background:var(--field)}
+.sig-hint{font-size:11.5px;color:var(--faint);margin-top:12px;text-align:center}
+.sig-hint b{color:var(--ink)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--btn-bg);color:var(--btn-text)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--ink)}
+.btn-secondary:hover{background:var(--field)}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{filter:brightness(1.06)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--field);border:1px solid var(--border-strong);border-radius:8px;height:40px;padding:0 13px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--ink);outline:none;width:100%;transition:.12s}
+.m-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--teal);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--faint);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--teal-txt)}
+.gr-heading.dont{color:var(--returned)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--teal)}
+.dont .gr-item::before{background:var(--returned)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/column/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 179 41" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Column"><path d="M20.814 30.116a7.2 7.2 0 0 1-2.662 2.576c-1.116.629-2.38.947-3.755.947-1.41 0-2.716-.354-3.883-1.053a7.34 7.34 0 0 1-2.74-2.893c-.654-1.225-.986-2.629-.986-4.174 0-1.508.34-2.902 1.012-4.146.67-1.242 1.594-2.235 2.744-2.95s2.464-1.078 3.907-1.078c1.234 0 2.392.283 3.44.84a7.96 7.96 0 0 1 2.668 2.32l.142.193 4.986-4.256-.14-.174a14.2 14.2 0 0 0-4.9-3.883c-1.921-.932-4.024-1.404-6.25-1.404-2.62 0-5.06.649-7.251 1.928a14.2 14.2 0 0 0-5.224 5.286C.647 20.425 0 22.888 0 25.52s.647 5.087 1.922 7.297a14.25 14.25 0 0 0 5.224 5.26c2.19 1.278 4.63 1.927 7.251 1.927 2.404 0 4.662-.547 6.71-1.625a14.46 14.46 0 0 0 5.087-4.432l.134-.187-5.39-3.85zM50.125 12.908c-2.21-1.279-4.675-1.927-7.33-1.927-2.621 0-5.061.649-7.252 1.928a14.2 14.2 0 0 0-5.224 5.286c-1.275 2.23-1.922 4.693-1.922 7.324s.647 5.087 1.922 7.297a14.25 14.25 0 0 0 5.224 5.26c2.191 1.278 4.63 1.927 7.251 1.927 2.656 0 5.122-.648 7.331-1.927a14.2 14.2 0 0 0 5.251-5.26c1.275-2.212 1.922-4.667 1.922-7.297s-.647-5.093-1.922-7.324a14.15 14.15 0 0 0-5.251-5.287m-.626 16.783a7.54 7.54 0 0 1-2.769 2.895c-1.166.699-2.49 1.053-3.936 1.053-1.41 0-2.716-.354-3.883-1.053a7.34 7.34 0 0 1-2.74-2.893c-.654-1.225-.986-2.629-.986-4.174 0-1.508.34-2.902 1.012-4.146.67-1.242 1.594-2.235 2.744-2.95s2.464-1.078 3.907-1.078c1.441 0 2.756.362 3.906 1.077 1.15.717 2.074 1.71 2.745 2.951.67 1.243 1.011 2.638 1.011 4.146 0 1.544-.34 2.947-1.01 4.172M93.192 26.222c0 1.58-.304 2.947-.905 4.065-.599 1.114-1.394 1.959-2.364 2.512a6.4 6.4 0 0 1-3.221.839c-1.163 0-2.183-.254-3.032-.756-.847-.499-1.527-1.226-2.02-2.16-.494-.937-.745-2.05-.745-3.307V11.63H74.17v17.14c0 2.125.457 4.059 1.359 5.746a10.16 10.16 0 0 0 3.84 4.018C81.013 39.508 82.925 40 85.05 40c2.233 0 4.298-.576 6.138-1.713.85-.526 1.63-1.164 2.324-1.902v2.965h6.415V11.63h-6.735zM142.014 12.365c-1.625-.918-3.454-1.384-5.437-1.384-2.055 0-3.957.502-5.653 1.494-1.3.76-2.406 1.75-3.29 2.947a9.7 9.7 0 0 0-3.089-3.08 8.95 8.95 0 0 0-4.805-1.361c-1.883 0-3.609.514-5.132 1.528a10.2 10.2 0 0 0-2.318 2.139v-3.016h-6.149v27.72h6.789V23.134c0-1.078.233-2.072.693-2.956a5.3 5.3 0 0 1 1.891-2.081 4.87 4.87 0 0 1 2.627-.752c.981 0 1.874.252 2.651.75.781.501 1.409 1.202 1.867 2.083.46.884.693 1.878.693 2.956v16.218h6.735V23.134c0-1.078.242-2.071.719-2.953.476-.883 1.113-1.584 1.894-2.085.778-.499 1.67-.751 2.652-.751s1.884.253 2.68.752a5.1 5.1 0 0 1 1.863 2.077c.443.887.668 1.883.668 2.96v16.218h6.788V21.4c0-1.911-.486-3.684-1.445-5.269a10.6 10.6 0 0 0-3.892-3.765M177.642 16.52a10.34 10.34 0 0 0-3.867-4.044c-1.662-.992-3.564-1.495-5.655-1.495-2.27 0-4.353.586-6.192 1.741a11.9 11.9 0 0 0-2.27 1.858v-2.948h-6.468v27.72h6.788V24.76c0-1.546.296-2.896.88-4.013.581-1.113 1.376-1.966 2.364-2.538a6.4 6.4 0 0 1 3.246-.864c1.127 0 2.137.263 3.004.781.866.518 1.554 1.255 2.048 2.188.495.939.746 2.033.746 3.253v15.785h6.735V22.267c0-2.124-.458-4.057-1.359-5.747M58.306 0v4.602h1.142c1.243 0 2.252 1.025 2.252 2.29V39.35h6.789V0z" fill="var(--logo-wm)"/></svg>
+    </div>
+    <span class="fdic">🏛 <b>Column N.A.</b> · Member FDIC</span>
+    <h1>Move, hold, and lend<br>the <span class="b">dollar</span> at scale</h1>
+    <p>The only nationally chartered bank designed to help you build and fund new financial products.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Sign up</button>
+      <button class="btn btn-secondary">Documentation</button>
+      <span class="hero-cli"><span class="pr">›</span> column.transfers.create()</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Clean white, deep navy ink, one signature teal + slate structure">
+      <div class="strip-slab" style="background:#167E6C" onclick="copyHex('#167E6C')" title="teal-600"></div>
+      <div class="strip-slab" style="background:#011821" onclick="copyHex('#011821')" title="navy"></div>
+      <div class="strip-slab" style="background:#354A50" onclick="copyHex('#354A50')" title="slate-dark"></div>
+      <div class="strip-slab" style="background:#465962" onclick="copyHex('#465962')" title="slate"></div>
+      <div class="strip-slab" style="background:#E3E9F2" onclick="copyHex('#E3E9F2')" title="border"></div>
+      <div class="strip-slab" style="background:#FFFFFF" onclick="copyHex('#FFFFFF')" title="canvas"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (light)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text (navy + slate)</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Ledger / transfer state</div>
+    <div class="swatch-grid" id="g-state"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">≈ Suisse Intl · Display · 50px</div></div>
+        <div class="type-sample" style="font-size:31px;font-weight:600;letter-spacing:-.03em">Move, hold, and lend the <span style="color:var(--teal-txt)">dollar</span></div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">Heading · 20px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">Bank accounts, ACH, wire, and book transfers</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Build and fund new financial products on a chartered bank.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono</div><div class="type-spec">≈ Suisse Mono · Amounts · 13px (tabular)</div></div>
+        <div class="type-sample mono tab" style="font-size:13px">$1,284,932.00 → acct_5f3a…c19 · <span style="color:var(--teal-txt)">settled</span></div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Move money via API</div>
+    <div class="led">
+      <div class="led-head">
+        <div class="led-title">Ledger <span class="ns">/ acme-corp</span></div>
+        <div class="led-total"><div class="v tab" id="ledTotal">$1,284,932.00</div><div class="k">total balance</div></div>
+      </div>
+      <div class="led-body">
+        <div class="code">
+          <div class="code-tab"><span class="m">POST</span> /transfers</div>
+          <pre id="codePre"></pre>
+        </div>
+        <div class="led-r">
+          <div class="acct-grid">
+            <div class="acct">
+              <div class="an"><span class="dot"></span> Operating</div>
+              <div class="anum mono">acct_5f3a…c19</div>
+              <div class="bal tab" id="balOp">$842,110.00</div>
+            </div>
+            <div class="acct">
+              <div class="an"><span class="dot"></span> Reserve</div>
+              <div class="anum mono">acct_9b7d…f04</div>
+              <div class="bal tab" id="balRe">$442,822.00</div>
+            </div>
+          </div>
+          <div>
+            <div class="ledger-list-label">Recent transfers <span style="font-weight:500;text-transform:none;letter-spacing:0" id="tfrCount">4 transfers</span></div>
+            <div id="tfrList"></div>
+          </div>
+          <div class="send-bar">
+            <button class="send-btn" id="sendBtn" onclick="sendTransfer()">Send $25,000 book transfer</button>
+            <button class="reset-btn" onclick="resetLedger()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint"><b>A bank you program.</b> Send a book transfer — Column debits Operating, credits Reserve, and posts a ledger entry that moves <span class="mono">pending → settled</span> while balances update in tabular figures.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Sign up</button><button class="btn btn-teal">Send transfer</button><button class="btn btn-secondary">Docs</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Transfer state</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(22,126,108,.14);color:#116353">● settled</span>
+          <span class="badge" style="background:rgba(201,138,44,.16);color:#a8761d">● pending</span>
+          <span class="badge" style="background:rgba(216,0,39,.12);color:#c30020">● returned</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--field);color:var(--slate)">ACH</span>
+          <span class="badge" style="background:var(--field);color:var(--slate)">WIRE</span>
+          <span class="badge" style="background:var(--field);color:var(--slate)">BOOK</span>
+          <span class="badge" style="background:var(--field);color:var(--slate)">RTP</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">API key (input)</div>
+        <input class="m-input" value="test_key_2b8f…  ·  api.column.com/v1" spellcheck="false">
+        <div style="font-size:11px;color:var(--faint);margin-top:8px" class="mono">accounts → transfers → ledger</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:8px"></div><span>btn · 8</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>card · 10</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>panel · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas clean white (or navy <b>#011821</b>) with navy ink and one <b>teal</b> for accents &amp; settled state.</div>
+          <div class="gr-item">Set every amount, account number, and API value in mono with <b>tabular figures</b>.</div>
+          <div class="gr-item">Color transfer state by meaning: teal settled, amber pending, red returned.</div>
+          <div class="gr-item">Keep the tone institutional and precise — this is regulated banking infrastructure.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Introduce a second bright accent — teal is the only brand color; navy &amp; slate carry structure.</div>
+          <div class="gr-item">Render money in a proportional sans — amounts are mono and tabular.</div>
+          <div class="gr-item">Use flag/currency spectrum colors as UI accents — they're illustrative only.</div>
+          <div class="gr-item">Recolor the wordmark — it's monochrome (<span class="mono">--logo-wm</span>).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['teal-600','#167E6C','Accents · settled · surfaces'],['teal-tint','#E6F1EC','Wash'],['navy','#011821','Ink · button · logo']],
+  surf:[['canvas','#FFFFFF','App background'],['card','#F6F6F8','Panels'],['field','#F0F2F5','Rows / inputs'],['border','#E3E9F2','Hairlines']],
+  text:[['ink','#011821','Primary'],['slate','#465962','Secondary'],['muted','#575A64','Meta'],['faint','#A9ACB6','Captions']],
+  state:[['settled','#167E6C','Settled · credit'],['pending','#C98A2C','In flight'],['returned','#D80027','Returned / failed']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: money movement / ledger (deterministic) ---- */
+const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const BASE_TFRS=[
+  {arw:'↙',tn:'Stripe payout',tsub:'acct_5f3a…c19',ty:'ACH',amt:48250,st:'settled'},
+  {arw:'↗',tn:'Payroll · Gusto',tsub:'ext_ach_88…',ty:'ACH',amt:-72400,st:'settled'},
+  {arw:'↗',tn:'Vendor wire · Acme LLC',tsub:'ext_wire_2f…',ty:'WIRE',amt:-15000,st:'settled'},
+  {arw:'↙',tn:'Customer deposit',tsub:'acct_9b7d…f04',ty:'BOOK',amt:12800,st:'settled'}
+];
+let opBal=842110, reBal=442822, sent=false, tfrs=BASE_TFRS.slice();
+const CODE_IDLE=[
+  '<span class="cm">// move funds between your own accounts</span>',
+  '<span class="kw">const</span> transfer = <span class="kw">await</span> column.transfers.<span class="fn">book</span>({',
+  '  amount: <span class="nu">2500000</span>, <span class="cm">// cents</span>',
+  '  currency: <span class="st">"usd"</span>,',
+  '  bank_account_id: <span class="st">"acct_5f3a…c19"</span>,',
+  '  counterparty_account_id: <span class="st">"acct_9b7d…f04"</span>',
+  '})'
+];
+function renderCode(lines){
+  document.getElementById('codePre').innerHTML=lines.map((l,i)=>`<span class="ln">${i+1}</span>${l}`).join('\n');
+}
+function renderTfrs(newTop){
+  document.getElementById('tfrList').innerHTML=tfrs.map((t,i)=>
+    `<div class="tfr${newTop&&i===0?' new':''}">
+       <span class="arw">${t.arw}</span>
+       <div class="tmeta"><div class="tn">${t.tn}</div><div class="tsub mono">${t.tsub}</div></div>
+       <span class="ty">${t.ty}</span>
+       <span class="tamt tab">${t.amt<0?'-':'+'}${fmt(Math.abs(t.amt)).replace('$','$')}</span>
+       <span class="tst ${t.st}"><span class="d"></span>${t.st}</span>
+     </div>`).join('');
+  document.getElementById('tfrCount').textContent=tfrs.length+' transfers';
+}
+function setBalances(flash){
+  document.getElementById('balOp').textContent=fmt(opBal);
+  document.getElementById('balRe').textContent=fmt(reBal);
+  document.getElementById('ledTotal').textContent=fmt(opBal+reBal);
+  if(flash){
+    ['balOp','balRe'].forEach(id=>{const e=document.getElementById(id);e.classList.add('flash');setTimeout(()=>e.classList.remove('flash'),600);});
+  }
+}
+function sendTransfer(){
+  if(sent)return;sent=true;
+  const btn=document.getElementById('sendBtn');btn.disabled=true;
+  // debit operating, credit reserve
+  opBal-=25000; reBal+=25000;
+  tfrs.unshift({arw:'⇄',tn:'Book transfer · Operating → Reserve',tsub:'tfr_'+'a1c8f2',ty:'BOOK',amt:25000,st:'pending'});
+  renderTfrs(true);setBalances(true);
+  renderCode([
+    '<span class="cm">// ✓ 201 Created</span>',
+    '<span class="kw">const</span> transfer = <span class="kw">await</span> column.transfers.<span class="fn">book</span>({',
+    '  amount: <span class="nu">2500000</span>,',
+    '  currency: <span class="st">"usd"</span>,',
+    '  bank_account_id: <span class="st">"acct_5f3a…c19"</span>,',
+    '  counterparty_account_id: <span class="st">"acct_9b7d…f04"</span>',
+    '})',
+    '<span class="cm">// → id: "tfr_a1c8f2"  status: "pending"</span>'
+  ]);
+  toast('Book transfer created · pending');
+  setTimeout(()=>{
+    tfrs[0].st='settled';renderTfrs(false);
+    document.getElementById('codePre').innerHTML=document.getElementById('codePre').innerHTML.replace('status: "pending"','status: "settled"');
+    btn.textContent='Settled ✓';
+    toast('Transfer settled');
+  },900);
+}
+function resetLedger(){
+  opBal=842110;reBal=442822;sent=false;tfrs=BASE_TFRS.slice();
+  const btn=document.getElementById('sendBtn');btn.disabled=false;btn.textContent='Send $25,000 book transfer';
+  renderCode(CODE_IDLE);renderTfrs(false);setBalances(false);
+}
+/* initial deterministic render */
+renderCode(CODE_IDLE);renderTfrs(false);setBalances(false);
+</script>
+</body>
+</html>
