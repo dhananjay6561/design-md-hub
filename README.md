@@ -121,6 +121,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 98 | [MotherDuck](brands/motherduck/DESIGN.md) | Data | [preview](https://dhananjay6561.github.io/design-md-hub/brands/motherduck/preview.html) |
 | 99 | [shadcn/ui](brands/shadcn/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/shadcn/preview.html) |
 | 100 | [Krea](brands/krea/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/krea/preview.html) |
+| 101 | [Zed](brands/zed/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/zed/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zed — Design System</title>
+<link rel="icon" type="image/svg+xml" href="https://cdn.simpleicons.org/zedindustries/1348DC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- IBM Plex Sans/Serif = Zed's real UI+display faces (self-hosted CORS-locked → Google here). JetBrains Mono ≈ Lilex, Zed's editor font. -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,500;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Zed brand — theme-invariant */
+  --accent:#1348DC;--blue-bright:#3080FF;--blue-300:#90C5FF;--dither:#0751CF;--motif:#1E69F6;
+  --offgray:#727A89;
+  /* editor "One" theme — always dark */
+  --ed-bg:#282C34;--ed-gutter:#21252B;--ed-line:#2C313A;--ed-border:#181A1F;--ed-text:#ABB2BF;--ed-faint:#636D83;
+  --kw:#C678DD;--str:#98C379;--fn:#61AFEF;--type:#E5C07B;--num:#D19A66;--op:#56B6C2;--var:#E06C75;--cmt:#5C6370;
+  --p-blue:#54A2FF;--p-green:#7BF1A8;--add:#98C379;
+}
+:root[data-theme="light"]{
+  --bg:#F7F7F2;--bg2:#FFFFFF;--bg3:#EFF1F0;--panel:#FFFFFF;
+  --border:#DADDE2;--border-strong:#C4C8CE;
+  --text:#101828;--text2:#4A5565;--text3:#727A89;
+  --brand:#1348DC;--brand-btn-text:#FFFFFF;
+  --logo-mark:#1348DC;--logo-wm:#101828;
+  --grid:rgba(114,122,137,.10);--ring:rgba(19,72,220,.16);--shadow:0 18px 50px rgba(20,30,60,.13);
+}
+:root[data-theme="dark"]{
+  --bg:#121417;--bg2:#1A1D21;--bg3:#22262B;--panel:#1A1D21;
+  --border:#27272A;--border-strong:#3A3E44;
+  --text:#F7F7F2;--text2:#D1D5DC;--text3:#727A89;
+  --brand:#90C5FF;--brand-btn-text:#0B1220;
+  --logo-mark:#4A93F0;--logo-wm:#F7F7F2;
+  --grid:rgba(255,255,255,.04);--ring:rgba(144,197,255,.22);--shadow:0 18px 50px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px}
+.serif{font-family:'IBM Plex Serif',Georgia,serif}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:80px 0 58px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px;display:flex;justify-content:center;align-items:center}
+.hero-logo .mk{height:30px;width:auto}
+.hero h1{font-family:'IBM Plex Serif',Georgia,serif;font-style:italic;font-weight:500;font-size:56px;letter-spacing:-.015em;line-height:1.04;margin-bottom:17px;color:var(--brand)}
+.hero p{font-size:17px;color:var(--text2);max-width:540px;margin:0 auto}
+.hero p .mono{color:var(--text);font-size:15px}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+/* feature columns */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-bottom:8px}
+@media(max-width:700px){.feat{grid-template-columns:1fr}}
+.feat h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.feat p{font-size:13px;color:var(--text2);line-height:1.5}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* ---- signature: Zed editor (always One-dark) ---- */
+.zed{background:var(--ed-bg);border:1px solid var(--ed-border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);color:var(--ed-text)}
+.zed-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--ed-gutter);border-bottom:1px solid var(--ed-border)}
+.tdot{width:11px;height:11px;border-radius:50%}
+.zed-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ed-faint);margin-left:8px}
+.zed-title b{color:var(--ed-text);font-weight:500}
+.collab{margin-left:auto;display:flex;align-items:center;gap:8px}
+.avatars{display:flex}
+.av{width:22px;height:22px;border-radius:50%;border:2px solid var(--ed-gutter);margin-left:-7px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0B1220;font-family:'IBM Plex Sans'}
+.av:first-child{margin-left:0}
+.share{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--p-green);border:1px solid #34424a;background:#2b3138;border-radius:6px;padding:4px 9px;display:flex;align-items:center;gap:5px}
+.zed-body{display:grid;grid-template-columns:158px 1fr 250px;min-height:392px}
+@media(max-width:760px){.zed-body{grid-template-columns:1fr}.tree,.agent{display:none}}
+
+.tree{background:var(--ed-gutter);border-right:1px solid var(--ed-border);padding:10px 6px;font-family:'JetBrains Mono',monospace;font-size:12px}
+.tree-h{color:var(--ed-faint);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:2px 8px 8px}
+.tnode{padding:3px 8px;border-radius:5px;color:var(--ed-text);display:flex;align-items:center;gap:6px;cursor:default;white-space:nowrap}
+.tnode.dir{color:var(--ed-faint)}
+.tnode.active{background:#2f3540;color:#fff}
+.tnode.ind{padding-left:20px}
+.tnode.ind2{padding-left:32px}
+.tnode .dot{color:var(--num)}
+
+.editor{display:flex;flex-direction:column;min-width:0}
+.tabs{display:flex;background:var(--ed-gutter);border-bottom:1px solid var(--ed-border);font-family:'JetBrains Mono',monospace;font-size:12px}
+.tab{padding:8px 14px;color:var(--ed-faint);border-right:1px solid var(--ed-border);display:flex;align-items:center;gap:7px;white-space:nowrap}
+.tab.active{background:var(--ed-bg);color:var(--ed-text)}
+.tab .cd{width:6px;height:6px;border-radius:50%;background:var(--op)}
+.buf{flex:1;padding:10px 0;overflow:hidden;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.62}
+.ln{display:flex;align-items:flex-start;padding:0 12px 0 0;position:relative;white-space:pre}
+.ln .g{width:34px;flex-shrink:0;text-align:right;padding-right:14px;color:var(--ed-faint);user-select:none}
+.ln.add{background:rgba(152,195,121,.10)}
+.ln.add .g{color:var(--add)}
+.ln.add .g::after{content:'+';position:absolute;left:6px;color:var(--add)}
+.ln .code{flex:1;min-width:0}
+.kw{color:var(--kw)}.str{color:var(--str)}.fn{color:var(--fn)}.ty{color:var(--type)}.nu{color:var(--num)}.op{color:var(--op)}.va{color:var(--var)}.cm{color:var(--cmt);font-style:italic}.pn{color:var(--ed-text)}
+/* multiplayer cursor */
+.cur{display:inline-block;width:2px;height:15px;vertical-align:-3px;margin:0 -1px;position:relative;border-radius:1px;animation:blink 1.1s step-end infinite}
+.cur .flag{position:absolute;top:-16px;left:-1px;font-family:'IBM Plex Sans';font-size:9.5px;font-weight:600;color:#0B1220;padding:1px 5px;border-radius:4px 4px 4px 0;white-space:nowrap;line-height:1.35}
+.cur.nathan{background:var(--p-blue)}.cur.nathan .flag{background:var(--p-blue)}
+.cur.max{background:var(--p-green)}.cur.max .flag{background:var(--p-green)}
+@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.25}}
+
+.agent{background:var(--ed-gutter);border-left:1px solid var(--ed-border);display:flex;flex-direction:column;min-width:0}
+.agent-h{padding:9px 13px;border-bottom:1px solid var(--ed-border);font-family:'IBM Plex Sans';font-size:12px;font-weight:600;color:var(--ed-text);display:flex;align-items:center;gap:7px}
+.agent-h .spark{color:var(--blue-300)}
+.agent-h .mdl{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ed-faint);font-weight:400}
+.thread{flex:1;padding:11px;display:flex;flex-direction:column;gap:9px;overflow:hidden;font-size:12px}
+.msg{border-radius:8px;padding:8px 10px;line-height:1.5}
+.msg.user{background:#2f3540;color:var(--ed-text)}
+.msg.asst{background:transparent;padding:2px 2px}
+.astep{display:flex;gap:8px;align-items:flex-start;color:#9aa4b2;padding:2px 0;font-size:11.5px;line-height:1.45}
+.astep .gl{flex-shrink:0;width:13px;text-align:center}
+.astep .gl.run{color:var(--blue-300)}
+.astep .gl.done{color:var(--add)}
+.astep code{font-family:'JetBrains Mono',monospace;color:var(--fn);font-size:11px}
+.astep .df{font-family:'JetBrains Mono',monospace;font-size:11px}.df .p{color:var(--add)}.df .m{color:var(--var)}
+.agent-in{border-top:1px solid var(--ed-border);padding:10px}
+.chip{font-family:'IBM Plex Sans';font-size:11px;color:var(--blue-300);background:rgba(84,162,255,.12);border:1px solid rgba(84,162,255,.28);border-radius:7px;padding:5px 9px;cursor:pointer;margin-bottom:8px;display:inline-block;line-height:1.3}
+.chip:hover{background:rgba(84,162,255,.2)}
+.prompt{display:flex;align-items:center;gap:8px;background:var(--ed-bg);border:1px solid #363c46;border-radius:8px;padding:7px 9px}
+.prompt input{flex:1;background:none;border:none;outline:none;color:var(--ed-text);font-family:'IBM Plex Sans';font-size:12px;min-width:0}
+.prompt input::placeholder{color:var(--ed-faint)}
+.send{background:var(--accent);color:#fff;border:none;border-radius:6px;width:26px;height:26px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px}
+.send:hover{background:var(--blue-bright)}
+.send:disabled{opacity:.5;cursor:default}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:12px;text-align:center}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'IBM Plex Sans',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .12s,background .12s,border-color .12s}
+.btn-primary{background:var(--brand);color:var(--brand-btn-text)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--bg);border:1px solid var(--border-strong);border-radius:8px;height:38px;padding:0 13px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--accent);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#16853b}
+:root[data-theme="dark"] .gr-heading.do{color:var(--add)}
+.gr-heading.dont{color:#c1382f}
+:root[data-theme="dark"] .gr-heading.dont{color:var(--var)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#16853b}
+:root[data-theme="dark"] .do .gr-item::before{background:var(--add)}
+.dont .gr-item::before{background:#c1382f}
+:root[data-theme="dark"] .dont .gr-item::before{background:var(--var)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/zed/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg class="mk" viewBox="0 0 95 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Zed"><path fill-rule="evenodd" clip-rule="evenodd" fill="var(--logo-mark)" d="M2.93144 1.95429C2.39177 1.95429 1.95429 2.39177 1.95429 2.93144V24.4286H0V2.93144C0 1.31245 1.31245 0 2.93144 0H29.112C30.4178 0 31.0718 1.57879 30.1484 2.50214L14.0237 18.6268H18.5658V16.6115H20.5201V19.1154C20.5201 19.9249 19.8638 20.5811 19.0543 20.5811H12.0694L8.71049 23.9401H23.9401V11.7257H25.8944V23.9401C25.8944 25.0194 25.0194 25.8944 23.9401 25.8944H6.7562L3.33618 29.3144H28.3372C28.8769 29.3144 29.3144 28.8769 29.3144 28.3372V6.84002H31.2687V28.3372C31.2687 29.9562 29.9562 31.2687 28.3372 31.2687H2.15667C0.850848 31.2687 0.196896 29.6899 1.12024 28.7665L17.1839 12.7029H12.7029V14.6572H10.7486V12.2143C10.7486 11.4048 11.4048 10.7486 12.2143 10.7486H19.1382L22.5582 7.32859H7.32859V19.5429H5.3743V7.32859C5.3743 6.24927 6.24927 5.3743 7.32859 5.3743H24.5125L27.9325 1.95429H2.93144Z"/><path fill="var(--logo-wm)" d="M92.454 22.9431C92.454 23.2044 92.6658 23.4162 92.9271 23.4162H94.384C94.6453 23.4162 94.8571 23.628 94.8571 23.8893V25.3755C94.8571 25.6368 94.6453 25.8486 94.384 25.8486H90.0551C89.7938 25.8486 89.582 25.6368 89.582 25.3755V25.1913C89.582 24.7066 88.8297 24.4659 88.4665 24.7869C87.3853 25.7424 85.8983 26.2882 84.1311 26.2882C80.0283 26.2882 77.0098 23.1524 77.0098 18.1704C77.0098 13.1298 80.0576 9.96477 84.1897 9.96477C85.8979 9.96477 87.3987 10.5232 88.5273 11.5576C88.8785 11.8794 89.582 11.6501 89.582 11.1737V6.77462C89.582 6.51334 89.3702 6.30153 89.1089 6.30153H85.7764C85.5151 6.30153 85.3033 6.08972 85.3033 5.82845V4.34223C85.3033 4.08095 85.5151 3.86914 85.7764 3.86914H91.9809C92.2422 3.86914 92.454 4.08095 92.454 4.34223V22.9431ZM84.8638 23.6799C87.6771 23.6799 89.582 21.3648 89.582 18.0825C89.582 14.7416 87.7357 12.573 84.8638 12.573C82.0211 12.573 80.1748 14.7709 80.1748 18.1118C80.1748 21.3941 82.0797 23.6799 84.8638 23.6799Z"/><path fill="var(--logo-wm)" d="M67.3121 26.3175C62.2714 26.3175 59.2236 23.0646 59.2236 18.2291C59.2236 13.6574 62.2714 9.96484 67.2535 9.96484C72.0889 9.96484 74.9316 13.4522 74.9316 17.9947V18.3714C74.9316 18.6327 74.7198 18.8445 74.4585 18.8445H62.8C62.5287 18.8445 62.3111 19.0727 62.3475 19.3415C62.6831 21.8156 64.5057 23.6214 67.2828 23.6214C69.6852 23.6214 71.0449 22.4769 71.5988 20.9462C71.6712 20.7461 71.8554 20.6029 72.0682 20.6029H74.3363C74.6312 20.6029 74.8552 20.8703 74.7817 21.1559C74.0166 24.1308 71.5104 26.3175 67.3121 26.3175ZM62.547 15.8369C62.4621 16.1177 62.686 16.3828 62.9793 16.3828H71.2105C71.4918 16.3828 71.713 16.1377 71.6476 15.8641C71.2387 14.1516 69.7251 12.6024 67.1948 12.6024C64.5755 12.6024 63.055 14.155 62.547 15.8369Z"/><path fill="var(--logo-wm)" d="M54.0124 23.2985C54.2737 23.2985 54.4855 23.0867 54.4855 22.8254V18.2621C54.4855 18.0008 54.6973 17.789 54.9586 17.789H56.7086C56.9699 17.789 57.1817 18.0008 57.1817 18.2621V25.375C57.1817 25.6363 56.9699 25.8481 56.7086 25.8481H41.7416C41.4804 25.8481 41.2686 25.6363 41.2686 25.375V23.4295C41.2686 23.3255 41.3028 23.2245 41.366 23.1419L52.4671 8.6443C52.7054 8.33304 52.4835 7.8836 52.0914 7.8836H44.7015C44.4403 7.8836 44.2285 8.09541 44.2285 8.35668V12.0995C44.2285 12.3607 44.0166 12.5725 43.7554 12.5725H42.0054C41.7441 12.5725 41.5323 12.3607 41.5323 12.0995V5.80707C41.5323 5.54579 41.7441 5.33398 42.0054 5.33398H56.2104C56.4717 5.33398 56.6835 5.54579 56.6835 5.80707V7.75163C56.6835 7.85619 56.6488 7.95781 56.585 8.0406L45.4024 22.5365C45.1625 22.8475 45.3842 23.2985 45.777 23.2985H54.0124Z"/></svg>
+    </div>
+    <h1>Your last next editor</h1>
+    <p>Zed is a minimal code editor crafted for <span class="mono">speed</span> and collaboration with humans and AI.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Download now</button>
+      <button class="btn btn-secondary">Clone source</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="section-label">What it is</div>
+    <div class="feat">
+      <div><h3>Fast</h3><p>Written from scratch in Rust to efficiently leverage multiple CPU cores and your GPU.</p></div>
+      <div><h3>Agentic</h3><p>Run agents in parallel to smoothly edit files, navigate code, and run tools at native speed.</p></div>
+      <div><h3>Collaborative</h3><p>Chat with teammates, code together, and share your screen and project.</p></div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm paper canvas with one cobalt-blue accent">
+      <div class="strip-slab" style="background:#1348DC" onclick="copyHex('#1348DC')" title="accent-blue"></div>
+      <div class="strip-slab" style="background:#3080FF" onclick="copyHex('#3080FF')" title="blue-bright"></div>
+      <div class="strip-slab" style="background:#90C5FF" onclick="copyHex('#90C5FF')" title="blue-300"></div>
+      <div class="strip-slab" style="background:#0751CF" onclick="copyHex('#0751CF')" title="dithering"></div>
+      <div class="strip-slab" style="background:#282C34" onclick="copyHex('#282C34')" title="editor-bg"></div>
+      <div class="strip-slab" style="background:#F7F7F2" onclick="copyHex('#F7F7F2')" title="canvas"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (light)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Editor — the "One" theme</div>
+    <div class="swatch-grid" id="g-ed"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">IBM Plex Serif / italic 500</div><div class="type-spec">Display · 56px</div></div>
+        <div class="type-sample serif" style="font-style:italic;font-size:34px;font-weight:500;color:var(--brand)">Your last next editor</div>
+        <div class="spec-pills"><span class="spec-pill">Plex Serif</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">IBM Plex Sans / 600</div><div class="type-spec">Heading · 15px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">Code at the speed of thought</div>
+        <div class="spec-pills"><span class="spec-pill">Plex Sans</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">IBM Plex Sans / 400</div><div class="type-spec">Body · 14px</div></div>
+        <div class="type-sample" style="font-size:15px">Run agents in parallel to smoothly edit files and navigate code.</div>
+        <div class="spec-pills"><span class="spec-pill">Plex Sans</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Lilex ≈ JetBrains Mono</div><div class="type-spec">Editor · 12.5px</div></div>
+        <div class="type-sample mono" style="font-size:13px"><span class="kw" style="color:#8250df">pub fn</span> <span class="fn" style="color:#1348dc">open_buffer</span>(&<span class="kw" style="color:#8250df">mut</span> self) -> <span class="ty" style="color:#b5820a">Result</span>&lt;<span class="ty" style="color:#b5820a">Buffer</span>&gt;</div>
+        <div class="spec-pills"><span class="spec-pill">Lilex</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The editor</div>
+    <div class="zed">
+      <div class="zed-bar">
+        <span class="tdot" style="background:#FF5F57"></span><span class="tdot" style="background:#FEBC2E"></span><span class="tdot" style="background:#28C840"></span>
+        <span class="zed-title">zed — <b>editor.rs</b></span>
+        <div class="collab">
+          <div class="avatars">
+            <div class="av" style="background:#54A2FF" title="Nathan Sobo">N</div>
+            <div class="av" style="background:#7BF1A8" title="Max Brunsfeld">M</div>
+          </div>
+          <span class="share">● Sharing</span>
+        </div>
+      </div>
+      <div class="zed-body">
+        <!-- file tree -->
+        <div class="tree">
+          <div class="tree-h">zed / crates</div>
+          <div class="tnode dir">▾ editor</div>
+          <div class="tnode dir ind">▾ src</div>
+          <div class="tnode ind2 active"><span class="dot">◆</span> editor.rs</div>
+          <div class="tnode ind2"><span class="dot">◆</span> element.rs</div>
+          <div class="tnode ind2"><span class="dot">◆</span> movement.rs</div>
+          <div class="tnode dir">▸ project</div>
+          <div class="tnode dir">▸ gpui</div>
+          <div class="tnode dir">▸ agent</div>
+        </div>
+        <!-- editor -->
+        <div class="editor">
+          <div class="tabs">
+            <div class="tab active"><span class="cd"></span>editor.rs</div>
+            <div class="tab">project.rs</div>
+            <div class="tab">agent.rs</div>
+          </div>
+          <div class="buf" id="buf"></div>
+        </div>
+        <!-- agent panel -->
+        <div class="agent">
+          <div class="agent-h"><span class="spark">✦</span> Agent <span class="mdl">claude-opus</span></div>
+          <div class="thread" id="thread">
+            <div class="msg asst" style="color:var(--ed-faint)">Ask the agent to edit <code style="color:var(--fn)">editor.rs</code>. It reads the buffer, plans a change, and applies it inline.</div>
+          </div>
+          <div class="agent-in">
+            <span class="chip" id="chip" onclick="fillPrompt()">Retry open_local when the file is briefly locked</span>
+            <div class="prompt">
+              <input id="pin" placeholder="Message the agent…" spellcheck="false">
+              <button class="send" id="send" onclick="runAgent()" aria-label="Send">▸</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">A One-dark buffer with <b>live multiplayer cursors</b> (Nathan, Max) and an <b>agent</b> that edits alongside you — send the prompt to apply a diff.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Download now</button><button class="btn btn-secondary">Clone source</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Collaboration &amp; status</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(84,162,255,.16);color:#1348DC">● Nathan</span>
+          <span class="badge" style="background:rgba(123,241,168,.20);color:#127a3f">● Max</span>
+          <span class="badge" style="background:rgba(19,72,220,.12);color:#1348DC">✦ Agent editing</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:rgba(152,195,121,.22);color:#127a3f">+3</span>
+          <span class="badge" style="background:rgba(224,108,117,.20);color:#c1382f">−1</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Rust · rust-analyzer</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Command palette (input)</div>
+        <input class="m-input" value="editor: toggle inlay hints" spellcheck="false">
+        <div style="font-size:11px;color:var(--text3);margin-top:8px" class="mono">⌘⇧P · fuzzy actions</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:6px"></div><span>btn · 6</span></div>
+          <div><div class="box" style="border-radius:8px"></div><span>input · 8</span></div>
+          <div><div class="box" style="border-radius:12px"></div><span>window · 12</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the marketing canvas warm paper <b>#F7F7F2</b> with the graph-paper grid; reserve blue for the headline, primary action &amp; active state.</div>
+          <div class="gr-item">Set the hero headline in IBM Plex <b>Serif italic</b> — it's the brand's voice.</div>
+          <div class="gr-item">Lighten blue to <b>#90C5FF</b> on the dark canvas so it stays legible.</div>
+          <div class="gr-item">Render code in the <b>One</b> theme with real Rust — Zed is written in Rust and dogfoods it.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Flood the UI with blue — it's an accent, not a fill.</div>
+          <div class="gr-item">Set body or UI text in the serif — that face is display-only.</div>
+          <div class="gr-item">Invent editor syntax colors — use the shipped One palette.</div>
+          <div class="gr-item">Drop the multiplayer cursors or agent panel — collaboration is the whole thesis.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['accent-blue','#1348DC','Headline · primary · links'],['blue-bright','#3080FF','Secondary / hover'],['blue-300','#90C5FF','Dark-mode accent'],['dithering','#0751CF','Marketing motif']],
+  surf:[['canvas','#F7F7F2','Warm paper'],['panel','#FFFFFF','Cards / panels'],['raised','#EFF1F0','Hover'],['border','#DADDE2','Hairlines']],
+  text:[['primary','#101828','Primary'],['secondary','#4A5565','Secondary'],['offgray','#727A89','Meta (both themes)']],
+  ed:[['editor-bg','#282C34','Buffer'],['keyword','#C678DD','fn / let / pub'],['string','#98C379','Literals'],['function','#61AFEF','Fn names'],['type','#E5C07B','Types'],['number','#D19A66','Constants'],['variable','#E06C75','Vars / tags'],['comment','#5C6370','Comments']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- editor buffer (One-dark, real Rust; multiplayer cursors) ---- */
+const NATHAN='<span class="cur nathan"><span class="flag">Nathan</span></span>';
+const MAX='<span class="cur max"><span class="flag">Max</span></span>';
+const BASE=[
+ {c:'<span class="kw">use</span> <span class="pn">crate</span>::{<span class="ty">Buffer</span>, <span class="ty">Editor</span>, <span class="ty">Pane</span>};'},
+ {c:'<span class="kw">use</span> <span class="pn">anyhow</span>::{<span class="ty">Context</span> <span class="kw">as</span> _, <span class="ty">Result</span>};'},
+ {c:''},
+ {c:'<span class="kw">impl</span> <span class="ty">Editor</span> {'},
+ {c:'    <span class="cm">/// Open a buffer for `path` in this pane.</span>'},
+ {c:'    <span class="kw">pub fn</span> <span class="fn">open_buffer</span>(&<span class="kw">mut</span> <span class="kw">self</span>, path: &<span class="ty">Path</span>, cx: &<span class="kw">mut</span> <span class="ty">Context</span>&lt;<span class="ty">Self</span>&gt;) -> <span class="ty">Result</span>&lt;<span class="ty">Buffer</span>&gt; {'},
+ {c:'        <span class="kw">let</span> buffer = <span class="kw">self</span>.project.<span class="fn">open_local</span>(path, cx)<span class="op">?</span>;',edit:true},
+ {c:'        <span class="kw">self</span>.<span class="fn">push_tab</span>(buffer.<span class="fn">clone</span>(), cx);',cur:NATHAN},
+ {c:'        cx.<span class="fn">notify</span>();',cur:MAX},
+ {c:'        <span class="op">Ok</span>(buffer)'},
+ {c:'    }'},
+ {c:'}'}
+];
+/* the agent's applied edit: replace the single open_local line (index-marked edit:true) with a 3-attempt retry */
+const PATCH=[
+ {c:'        <span class="kw">let</span> buffer = (<span class="nu">0</span>..<span class="nu">3</span>)',add:true},
+ {c:'            .<span class="fn">find_map</span>(|_| <span class="kw">self</span>.project.<span class="fn">open_local</span>(path, cx).<span class="fn">ok</span>())',add:true},
+ {c:'            .<span class="fn">context</span>(<span class="str">"open_local failed after 3 retries"</span>)<span class="op">?</span>;',add:true}
+];
+function renderBuf(lines){
+  document.getElementById('buf').innerHTML=lines.map((l,i)=>
+    `<div class="ln${l.add?' add':''}"><span class="g">${i+1}</span><span class="code">${l.c||' '}${l.cur||''}</span></div>`).join('');
+}
+function baseLines(){return BASE.map(l=>({c:l.c,cur:l.cur}));}
+renderBuf(baseLines());
+
+/* ---- agent (deterministic streaming + applied edit) ---- */
+const STEPS=[
+ ['run','Reading <code>editor.rs</code> — <span style="color:#abb2bf">open_buffer</span> opens the file once.'],
+ ['run','A brief file lock can make <code>open_local</code> fail on first try.'],
+ ['run','Wrapping it in a 3-attempt retry with an <code>anyhow</code> context.'],
+ ['apply',''],
+ ['done','Applied to <code>editor.rs</code> · <span class="df"><span class="p">+3</span> <span class="m">−1</span></span>']
+];
+let running=false;
+function fillPrompt(){document.getElementById('pin').value='Retry open_local when the file is briefly locked';}
+function applyEdit(){
+  const out=[];
+  BASE.forEach(l=>{ if(l.edit){PATCH.forEach(p=>out.push({c:p.c,add:true}));} else out.push({c:l.c,cur:l.cur}); });
+  renderBuf(out);
+}
+function runAgent(){
+  if(running)return;running=true;
+  const pin=document.getElementById('pin');
+  const text=pin.value.trim()||'Retry open_local when the file is briefly locked';
+  pin.value='';document.getElementById('send').disabled=true;document.getElementById('chip').style.display='none';
+  const thread=document.getElementById('thread');
+  thread.innerHTML='';
+  const u=document.createElement('div');u.className='msg user';u.textContent=text;thread.appendChild(u);
+  const a=document.createElement('div');a.className='msg asst';thread.appendChild(a);
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i>=STEPS.length){clearInterval(iv);running=false;document.getElementById('send').disabled=false;return;}
+    const s=STEPS[i];
+    if(s[0]==='apply'){applyEdit();i++;return;}
+    const row=document.createElement('div');row.className='astep';
+    const gl=s[0]==='done'?'<span class="gl done">✓</span>':'<span class="gl run">▸</span>';
+    row.innerHTML=gl+'<span>'+s[1]+'</span>';
+    a.appendChild(row);
+    i++;
+  },720);
+}
+</script>
+</body>
+</html>
