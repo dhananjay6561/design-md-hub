@@ -138,6 +138,7 @@ Every spec is built from the brand's **live production site** — real fonts, ex
 | 109 | [Medusa](brands/medusa/DESIGN.md) | Commerce | [preview](https://dhananjay6561.github.io/design-md-hub/brands/medusa/preview.html) |
 | 110 | [incident.io](brands/incidentio/DESIGN.md) | Observability | [preview](https://dhananjay6561.github.io/design-md-hub/brands/incidentio/preview.html) |
 | 111 | [GitBook](brands/gitbook/DESIGN.md) | Content | [preview](https://dhananjay6561.github.io/design-md-hub/brands/gitbook/preview.html) |
+| 112 | [Momentic](brands/momentic/DESIGN.md) | Dev Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/momentic/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

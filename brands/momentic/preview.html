@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momentic — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=momentic.ai&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Space Grotesk (≈ BDO Grotesk display) + Inter (body) + Space Mono (≈ Basically A Mono). Google-hosted. -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Momentic — theme-invariant brand + test state */
+  --lime:#87F700;--lime-600:#6FE000;--olive:#7F806F;
+  --pass:#22C55E;--running:#BD8A2C;--fail:#C0584F;--bug:#E35A3A;
+}
+:root[data-theme="light"]{
+  --bg:#F5F3F2;--card:#FBFBFB;--subtle:#EEECEA;--field:#F0EEEC;
+  --border:#E1DFDC;--border-strong:#D2CFCB;
+  --ink:#1C1C1C;--muted:#57574F;--faint:#7F806F;
+  --logo:#1C1C1C;--btn-text:#0F1400;
+  --ring:rgba(135,247,0,.28);--shadow:0 16px 44px rgba(40,38,34,.10);
+  --code-bg:#141410;
+}
+:root[data-theme="dark"]{
+  --bg:#171716;--card:#1C1C1C;--subtle:#232322;--field:#26261F;
+  --border:#33322F;--border-strong:#45443F;
+  --ink:#F5F3F2;--muted:#B4B3AC;--faint:#83837A;
+  --logo:#F5F3F2;--btn-text:#0F1400;
+  --ring:rgba(135,247,0,.34);--shadow:0 20px 54px rgba(0,0,0,.6);
+  --code-bg:#0F0F0C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.gk{font-family:'Space Grotesk',sans-serif}
+.mono{font-family:'Space Mono',ui-monospace,SFMono-Regular,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center;align-items:center;color:var(--logo)}
+.hero-logo svg{height:22px;width:auto;display:block}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:56px;letter-spacing:-.035em;line-height:1.02;margin-bottom:16px}
+.hero h1 .b{color:var(--olive)}
+.hero p{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+.hero-cli{font-family:'Space Mono',monospace;font-size:12.5px;color:var(--ink);background:var(--lime);border-radius:9px;padding:10px 14px;font-weight:700;text-transform:uppercase;letter-spacing:.02em}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:26px}
+.group-label{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--card)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--ink);display:block}
+.swatch-hex{font-size:11px;color:var(--faint);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--faint);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--faint)}
+.type-spec{font-size:10px;color:var(--faint);margin-top:2px}
+.type-sample{color:var(--ink)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--subtle);color:var(--muted);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Space Mono',monospace}
+
+/* ---- signature: plain-english test ---- */
+.test{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.test-head{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.test-file{font-family:'Space Mono',monospace;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:8px}
+.test-file .dt{width:9px;height:9px;border-radius:2px;background:var(--lime)}
+.test-flows{display:inline-flex;background:var(--subtle);border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px;margin-left:4px}
+.test-flows button{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;color:var(--faint);background:none;border:none;padding:5px 10px;border-radius:6px;cursor:pointer;transition:.12s}
+.test-flows button.on{background:var(--card);color:var(--ink)}
+.test-result{margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:7px;color:var(--faint)}
+.test-result .d{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.test-result.pass{color:var(--pass)}.test-result.pass .d{background:var(--pass)}
+.test-result.fail{color:var(--bug)}.test-result.fail .d{background:var(--bug)}
+.test-result.run{color:var(--running)}.test-result.run .d{background:var(--running);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.test-body{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+@media(max-width:820px){.test-body{grid-template-columns:1fr}}
+.steps{padding:12px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:2px}
+@media(max-width:820px){.steps{border-right:none;border-bottom:1px solid var(--border)}}
+.step{display:flex;align-items:flex-start;gap:11px;padding:9px 10px;border-radius:9px;transition:background .18s}
+.step.active{background:var(--subtle)}
+.step .ic{width:18px;height:18px;flex-shrink:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px;background:var(--field);color:var(--faint);border:1px solid var(--border)}
+.step.pass .ic{background:var(--pass);color:#fff;border-color:var(--pass)}
+.step.fail .ic{background:var(--bug);color:#fff;border-color:var(--bug)}
+.step.running .ic{background:none;border:2px solid var(--running);border-right-color:transparent;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.step .txt{flex:1;min-width:0}
+.step .kw{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--olive);letter-spacing:.04em}
+.step .desc{font-size:13px;color:var(--ink);line-height:1.4;margin-top:1px}
+.step .desc b{font-weight:600}
+.step .heal{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--running);margin-top:4px;display:none}
+.step.healed .heal{display:block}
+.step .diff{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--bug);margin-top:4px;display:none;white-space:pre-wrap}
+.step.fail .diff{display:block}
+/* browser preview */
+.preview{background:var(--subtle);display:flex;flex-direction:column}
+.pv-bar{display:flex;align-items:center;gap:6px;padding:9px 13px;border-bottom:1px solid var(--border)}
+.pv-bar .dot{width:9px;height:9px;border-radius:50%;background:var(--border-strong)}
+.pv-url{margin-left:8px;font-family:'Space Mono',monospace;font-size:10.5px;color:var(--faint);background:var(--card);border:1px solid var(--border);border-radius:6px;padding:3px 9px;flex:1}
+.pv-screen{flex:1;padding:22px 20px;display:flex;flex-direction:column;gap:12px;min-height:230px;justify-content:center;transition:opacity .2s}
+.pv-card{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:18px;max-width:280px;margin:0 auto;width:100%}
+.pv-h{font-family:'Space Grotesk';font-weight:600;font-size:17px;margin-bottom:12px}
+.pv-in{background:var(--field);border:1px solid var(--border);border-radius:7px;height:34px;margin-bottom:9px;display:flex;align-items:center;padding:0 11px;font-size:12px;color:var(--faint);font-family:'Space Mono',monospace}
+.pv-btn{background:var(--lime);color:#0F1400;border-radius:7px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;font-family:'Space Grotesk'}
+.pv-dash{text-align:center}
+.pv-dash .pvt{font-family:'Space Grotesk';font-weight:600;font-size:19px;margin-bottom:6px}
+.pv-dash .pvs{font-size:12px;color:var(--muted)}
+.pv-badge{display:inline-flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;padding:5px 11px;border-radius:9999px;background:rgba(34,197,94,.14);color:#128a3e;margin-top:10px}
+.pv-badge.bugb{background:rgba(227,90,58,.14);color:#c33d20}
+.runbar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--border);grid-column:1/-1}
+.run-btn{background:var(--lime);color:#0F1400;border:none;border-radius:8px;font-family:'Space Grotesk';font-weight:700;font-size:13px;padding:10px 18px;cursor:pointer;transition:.12s}
+.run-btn:hover{background:var(--lime-600)}
+.run-btn:disabled{opacity:.5;cursor:default}
+.run-note{font-family:'Space Mono',monospace;font-size:11px;color:var(--faint)}
+.sig-hint{font-size:11.5px;color:var(--faint);margin-top:12px;text-align:center}
+.sig-hint b{color:var(--ink)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.btn{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--lime);color:#0F1400}
+.btn-primary:hover{background:var(--lime-600)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--ink)}
+.btn-secondary:hover{background:var(--subtle)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:700;font-family:'Space Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--field);border:1px solid var(--border-strong);border-radius:8px;height:40px;padding:0 13px;font-size:13px;font-family:'Space Mono',monospace;color:var(--ink);outline:none;width:100%;transition:.12s}
+.m-input:focus{border-color:var(--lime-600);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--lime);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--faint);font-family:'Space Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#128a3e}
+.gr-heading.dont{color:var(--bug)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--pass)}
+.dont .gr-item::before{background:var(--bug)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:700;font-family:'Space Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Space Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/momentic/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width='114' height='16' viewBox='0 0 114 16' fill='none' xmlns='http://www.w3.org/2000/svg' aria-label='momentic'><path d='M35.7003 3.68638C34.1841 3.68638 32.858 4.47665 32.2059 5.86263C31.6498 4.41848 30.4197 3.68638 28.9415 3.68638C27.6553 3.68638 26.4452 4.2841 25.7151 5.5738L25.5611 3.87893H23.5449V14.8164H25.7911V8.424C25.8111 6.84546 26.8092 5.67008 28.3454 5.67008C29.7096 5.67008 30.3037 6.59474 30.3037 7.98072V14.8164H32.5499V8.52027C32.5499 6.72912 33.606 5.67008 35.1422 5.67008C36.4104 5.67008 37.0825 6.4784 37.0825 7.84634V14.8164H39.3287V7.40306C39.3287 5.16864 38.0426 3.68638 35.7003 3.68638Z' fill='currentColor'/><path d='M46.2012 3.68638C43.0128 3.68638 40.9405 5.93885 40.9405 9.36671C40.9405 12.7946 42.9948 15.0089 46.2012 15.0089C49.4075 15.0089 51.4238 12.7745 51.4238 9.36671C51.4238 5.95891 49.3695 3.68638 46.2012 3.68638ZM46.1832 13.1416C44.2829 13.1416 43.1688 11.7556 43.1688 9.36671C43.1688 6.97784 44.2829 5.55375 46.2032 5.55375C48.1234 5.55375 49.1995 6.93973 49.1995 9.34665C49.1995 11.7536 48.0854 13.1396 46.1852 13.1396L46.1832 13.1416Z' fill='currentColor'/><path d='M65.1914 3.68638C63.6752 3.68638 62.349 4.47665 61.6969 5.86263C61.1409 4.41848 59.9107 3.68638 58.4325 3.68638C57.1464 3.68638 55.9363 4.2841 55.2062 5.5738L55.0522 3.87893H53.0359V14.8164H55.2822V8.424C55.3022 6.84546 56.3003 5.67008 57.8365 5.67008C59.2006 5.67008 59.7947 6.59474 59.7947 7.98072V14.8164H62.041V8.52027C62.041 6.72912 63.0971 5.67008 64.6333 5.67008C65.9014 5.67008 66.5735 6.4784 66.5735 7.84634V14.8164H68.8198V7.40306C68.8198 5.16864 67.5336 3.68638 65.1914 3.68638Z' fill='currentColor'/><path d='M75.5402 3.68638C72.3918 3.68638 70.4316 5.93885 70.4316 9.36671C70.4316 12.7946 72.5818 15.0089 75.6742 15.0089C78.1705 15.0089 79.9187 13.7774 80.4548 11.8699L78.4966 11.3885C78.1125 12.5057 77.1724 13.2178 75.7122 13.2178C73.946 13.2178 72.7359 12.1206 72.7159 9.92431H80.5308C80.7808 6.22768 78.8986 3.68638 75.5382 3.68638H75.5402ZM72.7179 8.38589C72.7939 6.48041 73.928 5.42137 75.5022 5.42137C77.0764 5.42137 78.2285 6.59674 78.2485 8.38589H72.7179Z' fill='currentColor'/><path d='M87.8296 3.68638C86.3514 3.68638 85.2373 4.24398 84.3352 5.49558L84.2192 3.87893H82.1649V14.8164H84.4112V8.32772C84.4312 6.67096 85.6593 5.67008 87.1375 5.67008C88.6157 5.67008 89.3258 6.46035 89.3258 7.75006V14.8164H91.554V7.47928C91.554 4.93798 90.0179 3.68638 87.8296 3.68638Z' fill='currentColor'/><path d='M94.6059 0.990787V3.89915L93.1658 3.87909V5.57396L94.6059 5.55391V12.9472C94.6059 14.275 95.4321 14.9489 97.0262 14.9489C97.4683 14.9489 98.0063 14.9108 98.5624 14.7764V13.0053C98.3504 13.0815 98.0824 13.1016 97.7183 13.1016C96.9882 13.1016 96.7962 12.9091 96.7962 12.1188V5.55591L98.5824 5.57597V3.8811L96.7962 3.90115V0.990787H94.6059Z' fill='currentColor'/><path d='M102.423 0.990651H100.194V2.87407H102.423V0.990651Z' fill='currentColor'/><path d='M102.423 3.87882H100.194V14.8163H102.423V3.87882Z' fill='currentColor'/><path d='M111.83 10.9071C111.658 12.3132 110.678 13.1014 109.237 13.1014C107.413 13.1014 106.319 11.6573 106.319 9.34665C106.319 7.03601 107.451 5.59186 109.237 5.59186C110.658 5.59186 111.638 6.36207 111.81 7.74806L113.98 7.47928C113.692 5.16864 111.868 3.68638 109.295 3.68638C106.127 3.68638 104.035 5.9208 104.035 9.34665C104.035 12.7725 106.089 14.9889 109.257 14.9889C111.888 14.9889 113.712 13.4866 114 11.196L111.83 10.9071Z' fill='currentColor'/><path d='M12.7775 0.00401153L6.87681 0C5.24262 0 3.89846 1.21349 3.74844 2.82211C3.72444 3.08888 3.72244 3.3376 3.72044 3.60035C3.72044 3.6525 3.72044 3.70465 3.72044 3.75881H3.11837C1.40817 3.75881 0.0140017 5.09665 0.0100012 6.73938L0 11.2644C0 11.9724 0.51206 12.4959 0.988117 12.6845C1.19214 12.7647 1.40417 12.8068 1.61219 12.8068C2.02624 12.8068 2.41228 12.6444 2.70432 12.3495L4.54654 10.4861C5.1046 9.92253 5.41264 9.17839 5.41664 8.39012L5.42864 5.46772L9.17908 5.48176C9.84316 5.48377 10.4512 6.09954 10.4512 6.77347L10.4592 10.5403L7.6169 10.5443L7.54289 10.5483C6.7468 10.5684 6.01271 10.8773 5.47265 11.4228L3.57242 13.3404C3.14037 13.7776 3.04236 14.4816 3.32839 15.0934C3.54042 15.5447 4.05648 15.998 4.73256 16H9.08307C10.7573 16 12.1354 14.6601 12.1554 13.0134L12.1654 12.2452L12.8415 12.2372C14.5617 12.2171 15.9079 10.8392 15.9059 9.09816L15.8979 3.08086C15.8959 1.38398 14.4957 0.00401153 12.7775 0.00200577V0.00401153ZM5.00659 14.2951L6.70279 12.5902C6.89481 12.3976 7.20285 12.2793 7.6209 12.2392H10.4612L10.4412 13.0656C10.4252 13.7315 9.79316 14.2951 9.05907 14.2951H5.00459H5.00659ZM11.2593 4.68948C10.6693 4.09176 9.86716 3.76081 9.00306 3.76081L5.42864 3.7568V3.11696C5.42864 2.34274 6.05271 1.71292 6.81881 1.71292H12.7775C13.5716 1.71092 14.1957 2.31265 14.1957 3.08086L14.2057 9.05203C14.2057 9.89044 13.6256 10.5122 12.8235 10.5303L12.7255 10.5343L12.1634 10.5463L12.1694 6.958C12.1694 6.08951 11.8474 5.28319 11.2593 4.68748V4.68948ZM3.03036 5.47975L3.72444 5.46772V8.33998C3.72444 8.64485 3.62443 8.93368 3.4184 9.22653L1.6942 10.9475L1.6882 6.89984C1.6882 6.11959 2.27627 5.4958 3.03036 5.48176V5.47975Z' fill='currentColor'/></svg>
+    </div>
+    <h1>Catch <span class="b">real bugs</span><br>before they ship.</h1>
+    <p>Write end-to-end tests for web and mobile in plain English. Momentic builds, runs, and maintains them as your product changes.</p>
+    <div class="hero-cta">
+      <span class="hero-cli">npx @momentic/wizard@latest</span>
+      <button class="btn btn-secondary">Contact sales →</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm off-white paper, near-black ink, one electric lime">
+      <div class="strip-slab" style="background:#87F700" onclick="copyHex('#87F700')" title="lime-500"></div>
+      <div class="strip-slab" style="background:#6FE000" onclick="copyHex('#6FE000')" title="lime-600"></div>
+      <div class="strip-slab" style="background:#1C1C1C" onclick="copyHex('#1C1C1C')" title="ink"></div>
+      <div class="strip-slab" style="background:#7F806F" onclick="copyHex('#7F806F')" title="olive"></div>
+      <div class="strip-slab" style="background:#EEECEA" onclick="copyHex('#EEECEA')" title="subtle"></div>
+      <div class="strip-slab" style="background:#F5F3F2" onclick="copyHex('#F5F3F2')" title="paper"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (light)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Test state</div>
+    <div class="swatch-grid" id="g-state"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Space Grotesk / 500</div><div class="type-spec">≈ BDO Grotesk · Display · 56px</div></div>
+        <div class="type-sample gk" style="font-size:34px;font-weight:500;letter-spacing:-.035em">Catch <span style="color:var(--olive)">real bugs</span> before they ship</div>
+        <div class="spec-pills"><span class="spec-pill">Space Grotesk</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Space Grotesk / 500</div><div class="type-spec">Heading · 20px</div></div>
+        <div class="type-sample gk" style="font-size:20px;font-weight:500">Tests written in plain English</div>
+        <div class="spec-pills"><span class="spec-pill">Space Grotesk</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Momentic builds, runs, and maintains your tests as the product changes.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Space Mono</div><div class="type-spec">≈ Basically A Mono · Code · 13px</div></div>
+        <div class="type-sample mono" style="font-size:13px;text-transform:uppercase">npx @momentic/wizard@latest</div>
+        <div class="spec-pills"><span class="spec-pill">Space Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The plain-English test</div>
+    <div class="test">
+      <div class="test-head">
+        <span class="test-file"><span class="dt"></span> <span id="testFile">login.spec</span></span>
+        <span class="test-flows">
+          <button data-f="0" class="on" onclick="pickFlow(0)">Login</button>
+          <button data-f="1" onclick="pickFlow(1)">Checkout</button>
+        </span>
+        <span class="test-result" id="testResult"><span class="d"></span><span id="testResultT">Ready</span></span>
+      </div>
+      <div class="test-body">
+        <div class="steps" id="steps"></div>
+        <div class="preview">
+          <div class="pv-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="pv-url mono" id="pvUrl">acme.app/login</span></div>
+          <div class="pv-screen" id="pvScreen"></div>
+        </div>
+        <div class="runbar">
+          <button class="run-btn" id="runBtn" onclick="runTest()">▶ Run test</button>
+          <span class="run-note" id="runNote">4 steps · chrome · plain English</span>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint"><b>Tests in plain English, maintained by AI.</b> Run the flow — steps pass green one by one. When a selector drifts, Momentic <b>self-heals</b> it; the Checkout flow catches a real bug.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Start testing</button><button class="btn btn-secondary">Contact sales</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Test state</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(34,197,94,.14);color:#128a3e">✓ Passed</span>
+          <span class="badge" style="background:rgba(189,138,44,.16);color:#8a6417">● Running</span>
+          <span class="badge" style="background:rgba(192,88,79,.15);color:#a5433a">✕ Failed</span>
+          <span class="badge" style="background:rgba(227,90,58,.15);color:#c33d20">🐞 Bug</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--subtle);color:var(--muted)">Web</span>
+          <span class="badge" style="background:var(--subtle);color:var(--muted)">Mobile</span>
+          <span class="badge" style="background:var(--subtle);color:var(--muted)">Self-heal</span>
+          <span class="badge" style="background:var(--subtle);color:var(--muted)">CI</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">CLI (input)</div>
+        <input class="m-input" value="momentic run login.spec --headed" spellcheck="false">
+        <div style="font-size:11px;color:var(--faint);margin-top:8px" class="mono">write → run → maintain</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:8px"></div><span>btn · 8</span></div>
+          <div><div class="box" style="border-radius:9px"></div><span>step · 9</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>panel · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas warm off-white <b>#F5F3F2</b> with near-black ink and one electric <b>lime</b> for action.</div>
+          <div class="gr-item">Put <b>black</b> text on the lime button — never white.</div>
+          <div class="gr-item">Write test steps &amp; CLI in Space Mono; the CTA is an uppercase mono command.</div>
+          <div class="gr-item">Color test state by meaning: green pass, amber running, red fail/bug.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Use white text on the lime button, or dull the lime toward yellow-green.</div>
+          <div class="gr-item">Swap the warm paper for a cold grey — the warmth is part of the identity.</div>
+          <div class="gr-item">Set test steps or selectors in a proportional sans — they're mono.</div>
+          <div class="gr-item">Add a second saturated accent — lime is the only one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['lime-500','#87F700','Primary · CTA · links'],['lime-600','#6FE000','Gradient / hover'],['olive','#7F806F','Muted warm text']],
+  surf:[['paper','#F5F3F2','Canvas (warm)'],['card','#FBFBFB','Panels'],['subtle','#EEECEA','Wells / rows'],['border','#E1DFDC','Hairlines']],
+  text:[['ink','#1C1C1C','Primary'],['muted','#57574F','Secondary'],['faint','#7F806F','Meta']],
+  state:[['pass','#22C55E','Passed'],['running','#BD8A2C','Executing'],['fail','#C0584F','Assertion failed'],['bug','#E35A3A','Real bug found']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: plain-english test (deterministic) ---- */
+const FLOWS=[
+  {file:'login.spec',url:'acme.app/login',note:'4 steps · chrome · plain English',
+   steps:[
+     {kw:'GO TO',desc:'Navigate to <b>/login</b>',screen:'login'},
+     {kw:'TYPE',desc:'Type <b>ada@acme.com</b> into the Email field',screen:'login',heal:'AI re-located "Email" field (id changed)'},
+     {kw:'CLICK',desc:'Click the <b>Sign in</b> button',screen:'login'},
+     {kw:'ASSERT',desc:'The <b>Dashboard</b> heading is visible',screen:'dash'}
+   ],result:'pass'},
+  {file:'checkout.spec',url:'acme.app/cart',note:'4 steps · chrome · plain English',
+   steps:[
+     {kw:'GO TO',desc:'Navigate to <b>/cart</b> with 2 items',screen:'cart'},
+     {kw:'CLICK',desc:'Click <b>Apply</b> for promo code SAVE20',screen:'cart'},
+     {kw:'ASSERT',desc:'Order total shows <b>$63.99</b> (20% off)',screen:'cartbug',
+      fail:'expected  "$63.99"\nreceived  "$79.99"  ← discount not applied'},
+     {kw:'ASSERT',desc:'Proceed to checkout is enabled',screen:'cart'}
+   ],result:'fail',failAt:2}
+];
+let curFlow=0, busy=false;
+const SCREENS={
+  login:`<div class="pv-card"><div class="pv-h">Sign in to Acme</div><div class="pv-in">ada@acme.com</div><div class="pv-in">••••••••</div><div class="pv-btn">Sign in</div></div>`,
+  dash:`<div class="pv-card pv-dash"><div class="pvt">Dashboard</div><div class="pvs">Welcome back, Ada</div><span class="pv-badge">✓ ASSERTION PASSED</span></div>`,
+  cart:`<div class="pv-card"><div class="pv-h">Your cart · 2 items</div><div class="pv-in">Promo code  SAVE20</div><div class="pv-btn">Apply</div></div>`,
+  cartbug:`<div class="pv-card pv-dash"><div class="pvt">Total: $79.99</div><div class="pvs">promo SAVE20 — not applied</div><span class="pv-badge bugb">🐞 BUG CAUGHT</span></div>`
+};
+function renderSteps(){
+  const f=FLOWS[curFlow];
+  document.getElementById('steps').innerHTML=f.steps.map((s,i)=>
+    `<div class="step" id="st${i}">
+       <span class="ic">${i+1}</span>
+       <div class="txt"><div class="kw">${s.kw}</div><div class="desc">${s.desc}</div>
+         ${s.heal?`<div class="heal">⚡ ${s.heal}</div>`:''}
+         ${s.fail?`<div class="diff">${s.fail}</div>`:''}
+       </div>
+     </div>`).join('');
+}
+function setScreen(key){document.getElementById('pvScreen').innerHTML=SCREENS[key];}
+function setResult(cls,txt){const r=document.getElementById('testResult');r.className='test-result '+cls;document.getElementById('testResultT').textContent=txt;}
+function pickFlow(i){
+  if(busy)return;curFlow=i;
+  [...document.querySelectorAll('.test-flows button')].forEach(b=>b.classList.toggle('on',+b.dataset.f===i));
+  const f=FLOWS[i];
+  document.getElementById('testFile').textContent=f.file;
+  document.getElementById('pvUrl').textContent=f.url;
+  document.getElementById('runNote').textContent=f.note;
+  renderSteps();setScreen(f.steps[0].screen);setResult('','Ready');
+}
+function runTest(){
+  if(busy)return;busy=true;
+  const f=FLOWS[curFlow];const btn=document.getElementById('runBtn');btn.disabled=true;
+  renderSteps();setResult('run','Running…');
+  let i=0;
+  function step(){
+    // clear previous active
+    f.steps.forEach((_,k)=>{const el=document.getElementById('st'+k);if(el&&el.classList.contains('running'))el.classList.remove('running');});
+    if(i>0){
+      const prev=document.getElementById('st'+(i-1));
+      if(f.result==='fail'&&(i-1)===f.failAt){prev.classList.add('fail');}
+      else{prev.classList.add('pass');if(f.steps[i-1].heal)prev.classList.add('healed');}
+    }
+    if(f.result==='fail'&&(i-1)===f.failAt){
+      // stop at the failed step
+      setScreen('cartbug');setResult('fail','Bug caught · step '+(i));
+      btn.disabled=false;busy=false;return;
+    }
+    if(i>=f.steps.length){
+      setScreen(f.steps[f.steps.length-1].screen);
+      setResult('pass',f.steps.length+'/'+f.steps.length+' passed');
+      btn.disabled=false;busy=false;return;
+    }
+    const el=document.getElementById('st'+i);el.classList.add('running','active');
+    setScreen(f.steps[i].screen);
+    // remove active from others
+    f.steps.forEach((_,k)=>{if(k!==i)document.getElementById('st'+k).classList.remove('active');});
+    i++;
+    setTimeout(step,620);
+  }
+  step();
+}
+/* initial deterministic render */
+pickFlow(0);
+</script>
+</body>
+</html>
