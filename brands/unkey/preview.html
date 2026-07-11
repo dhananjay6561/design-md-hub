@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unkey — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=unkey.com&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter (≈ Articulat CF, Unkey's Adobe Typekit UI face) + JetBrains Mono (keys/code/labels). Google-hosted. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Unkey accent spectrum — categorical, theme-invariant */
+  --blue:#476CFF;--cyan:#3DC5FA;--mint:#3CEEAE;--lime:#DEF135;--gold:#FFD55D;--red:#FB1048;
+  --valid:#3CEEAE;--limited:#FFD55D;--invalid:#FB1048;
+}
+:root[data-theme="dark"]{
+  --bg:#040406;--panel:#121317;--surface:#18181B;--surface-2:#1F1F23;
+  --border:#27272A;--border-strong:#3A3A40;
+  --ink:#FAFAFA;--muted:#A1A1AA;--faint:#71717A;
+  --logo-mark:#FAFAFA;--btn-bg:#FAFAFA;--btn-text:#09090B;
+  --ring:rgba(250,250,250,.14);--shadow:0 20px 54px rgba(0,0,0,.66);
+  --code-bg:#0B0B0E;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--panel:#FFFFFF;--surface:#FAFAFA;--surface-2:#F4F4F5;
+  --border:#E4E4E7;--border-strong:#D4D4D8;
+  --ink:#09090B;--muted:#52525B;--faint:#8A8A93;
+  --logo-mark:#09090B;--btn-bg:#09090B;--btn-text:#FAFAFA;
+  --ring:rgba(9,9,11,.12);--shadow:0 18px 50px rgba(20,20,25,.10);
+  --code-bg:#0B0B0E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:22px;display:flex;justify-content:center;align-items:center;gap:12px}
+.hero-logo svg{height:38px;width:auto;display:block}
+.hero-logo .wm{font-weight:600;font-size:30px;letter-spacing:-.03em;color:var(--ink)}
+.hero h1{font-weight:600;font-size:50px;letter-spacing:-.03em;line-height:1.04;margin-bottom:16px}
+.hero p{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+.hero-cli{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:9px 13px}
+.hero-cli .pr{color:var(--mint)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--panel)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--ink);display:block}
+.swatch-hex{font-size:11px;color:var(--faint);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--faint);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--faint)}
+.type-spec{font-size:10px;color:var(--faint);margin-top:2px}
+.type-sample{color:var(--ink)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--surface);color:var(--muted);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* ---- signature: API key control plane ---- */
+.cp{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.cp-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.cp-title{font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.cp-title .ns{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--faint)}
+.cp-head .apiChip{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:3px 9px;border-radius:6px}
+.cp-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+@media(max-width:820px){.cp-body{grid-template-columns:1fr}}
+.keys{border-right:1px solid var(--border);padding:12px}
+@media(max-width:820px){.keys{border-right:none;border-bottom:1px solid var(--border)}}
+.keys-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:0 4px}
+.keys-top .lb{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
+.new-key{background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:7px;font-family:'Inter';font-weight:600;font-size:11.5px;padding:5px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .12s}
+.new-key:hover{opacity:.85}
+.krow{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;cursor:pointer;border:1px solid transparent;transition:.12s}
+.krow:hover{background:var(--surface)}
+.krow.on{background:var(--surface);border-color:var(--border-strong)}
+.krow .sd{width:8px;height:8px;border-radius:50%;background:var(--mint);flex-shrink:0;box-shadow:0 0 0 3px rgba(60,238,174,.14)}
+.krow.off .sd{background:var(--faint);box-shadow:none}
+.krow .kmeta{min-width:0;flex:1}
+.krow .kname{font-size:12.5px;font-weight:500;color:var(--ink)}
+.krow .kkey{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.krow .krl{text-align:right;flex-shrink:0}
+.krow .krl .rl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.krow .krl .rq{font-size:10px;color:var(--faint)}
+
+.console{background:var(--code-bg);padding:0;color:#E4E4E7}
+.con-tab{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11px;color:#8A8A93}
+.con-tab .fd{width:8px;height:8px;border-radius:2px;background:var(--mint)}
+.con-code{padding:13px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;border-bottom:1px solid rgba(255,255,255,.06)}
+.con-code .kw{color:#c084fc}.con-code .fn{color:var(--cyan)}.con-code .st{color:var(--mint)}.con-code .pr{color:#71717A}
+.verify-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.06)}
+.verify-btn{background:var(--mint);color:#06251A;border:none;border-radius:7px;font-family:'Inter';font-weight:700;font-size:12.5px;padding:8px 14px;cursor:pointer;transition:.12s}
+.verify-btn:hover{filter:brightness(1.08)}
+.verify-btn:disabled{opacity:.5;cursor:default}
+.reset-btn{background:transparent;color:#A1A1AA;border:1px solid rgba(255,255,255,.16);border-radius:7px;font-family:'Inter';font-weight:600;font-size:12px;padding:8px 12px;cursor:pointer}
+.reset-btn:hover{color:#E4E4E7;border-color:rgba(255,255,255,.3)}
+.meter-wrap{margin-left:auto;text-align:right;min-width:130px}
+.meter-lb{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#8A8A93;margin-bottom:4px}
+.meter{height:7px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--mint);border-radius:4px;transition:width .25s,background .25s}
+.resp{padding:13px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.62;white-space:pre;overflow-x:auto;min-height:150px}
+.jk{color:var(--cyan)}.jb{color:#c084fc}.js{color:var(--mint)}.jn{color:var(--gold)}.jp{color:#71717A}.jf{color:var(--red)}
+.sig-hint{font-size:11.5px;color:var(--faint);margin-top:12px;text-align:center}
+.sig-hint b{color:var(--ink)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--btn-bg);color:var(--btn-text)}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--ink)}
+.btn-secondary:hover{background:var(--surface)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;height:38px;padding:0 13px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--ink);outline:none;width:100%;transition:.12s}
+.m-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--ink);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--faint);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--mint)}
+.gr-heading.dont{color:var(--red)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--mint)}
+.dont .gr-item::before{background:var(--red)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/unkey/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Unkey"><path d="M170.8 115V340.6H341.2L284.4 397H170.8C139.418 397 114 371.761 114 340.6V115H170.8Z" fill="var(--logo-mark)"/><path d="M398 284.2L341.2 340.6V115H398V284.2Z" fill="var(--logo-mark)"/></svg>
+      <span class="wm">unkey</span>
+    </div>
+    <h1>The Developer Platform<br>for Modern APIs</h1>
+    <p>API keys, rate limiting, and gateways. Deploy in minutes, roll back in seconds, and ship with confidence at any scale.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Start for free</button>
+      <button class="btn btn-secondary">Book a Call</button>
+      <span class="hero-cli"><span class="pr">$</span> npm install @unkey/api</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Monochrome near-black + a categorical accent spectrum">
+      <div class="strip-slab" style="background:#040406" onclick="copyHex('#040406')" title="black"></div>
+      <div class="strip-slab" style="background:#27272A" onclick="copyHex('#27272A')" title="zinc-800"></div>
+      <div class="strip-slab" style="background:#3CEEAE" onclick="copyHex('#3CEEAE')" title="mint · valid"></div>
+      <div class="strip-slab" style="background:#476CFF" onclick="copyHex('#476CFF')" title="blue"></div>
+      <div class="strip-slab" style="background:#FFD55D" onclick="copyHex('#FFD55D')" title="gold · limited"></div>
+      <div class="strip-slab" style="background:#FB1048" onclick="copyHex('#FB1048')" title="red · invalid"></div>
+    </div>
+
+    <div class="group-label">Neutral (the brand)</div>
+    <div class="swatch-grid" id="g-neutral"></div>
+    <div class="group-label">Accent spectrum (categorical · data &amp; state)</div>
+    <div class="swatch-grid" id="g-spectrum"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">≈ Articulat CF · Display · 50px</div></div>
+        <div class="type-sample" style="font-size:32px;font-weight:600;letter-spacing:-.03em">The Developer Platform for APIs</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">Heading · 20px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">Manage API keys and rate limits</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Start for free, integrate in minutes, and scale when you need to.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono</div><div class="type-spec">Keys / code · 13px</div></div>
+        <div class="type-sample mono" style="font-size:13px"><span style="color:var(--faint)">await</span> unkey.keys.<span style="color:var(--cyan)">verify</span>({ key: <span style="color:var(--mint)">'sk_live_…'</span> })</div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · API key control plane</div>
+    <div class="cp">
+      <div class="cp-head">
+        <div class="cp-title">API Keys <span class="ns">/ api_prod_checkout</span></div>
+        <span class="apiChip">POST /v1/keys.verifyKey</span>
+      </div>
+      <div class="cp-body">
+        <div class="keys">
+          <div class="keys-top">
+            <span class="lb">Keys · 4 active</span>
+            <button class="new-key" onclick="newKey()">+ Create key</button>
+          </div>
+          <div id="keyList"></div>
+        </div>
+        <div class="console">
+          <div class="con-tab"><span class="fd"></span> verify.ts</div>
+          <div class="con-code"><span class="pr">const</span> res = <span class="kw">await</span> unkey.keys.<span class="fn">verifyKey</span>({<br>&nbsp;&nbsp;key: <span class="st" id="conKey">"sk_live_3af2…c19"</span><br>})</div>
+          <div class="verify-bar">
+            <button class="verify-btn" id="verifyBtn" onclick="verify()">Verify request</button>
+            <button class="reset-btn" onclick="resetWindow()">Reset window</button>
+            <div class="meter-wrap">
+              <div class="meter-lb" id="meterLb">ratelimit · 100 / 100</div>
+              <div class="meter"><i id="meterBar" style="width:100%"></i></div>
+            </div>
+          </div>
+          <div class="resp" id="resp"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint"><b>Create keys, then verify them under a rate limit.</b> Each Verify decrements the window and returns <span class="mono">valid: true</span> — until it hits zero and flips to <span class="mono">RATE_LIMITED</span>.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Start for free</button><button class="btn btn-secondary">Read the docs</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Key state</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(60,238,174,.16);color:#1f9c72">● valid</span>
+          <span class="badge" style="background:rgba(255,213,93,.18);color:#a8801f">● rate-limited</span>
+          <span class="badge" style="background:rgba(251,16,72,.16);color:#e0113f">● invalid</span>
+          <span class="badge" style="background:var(--surface);color:var(--muted)">● disabled</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--surface);color:var(--muted)">keys</span>
+          <span class="badge" style="background:var(--surface);color:var(--muted)">ratelimit</span>
+          <span class="badge" style="background:var(--surface);color:var(--muted)">gateways</span>
+          <span class="badge" style="background:var(--surface);color:var(--muted)">analytics</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Root key (input)</div>
+        <input class="m-input" value="unkey_3Za5f… · unkey.keys.create()" spellcheck="false">
+        <div style="font-size:11px;color:var(--faint);margin-top:8px" class="mono">create → verify → analytics</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:7px"></div><span>btn · 7</span></div>
+          <div><div class="box" style="border-radius:9px"></div><span>row · 9</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>panel · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas true near-black <b>#040406</b> with a zinc scale; make white the primary action.</div>
+          <div class="gr-item">Set every key, endpoint, and JSON value in <b>JetBrains Mono</b>.</div>
+          <div class="gr-item">Use the spectrum for meaning: <b>mint</b> valid, <b>gold</b> rate-limited, <b>red</b> invalid.</div>
+          <div class="gr-item">Show the core loop — a key list beside a live verify + rate-limit response.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Promote one spectrum color to "the brand accent" — Unkey is monochrome.</div>
+          <div class="gr-item">Add gradients or shadows to the primary button — it's flat white / near-black.</div>
+          <div class="gr-item">Show a full raw key in a proportional sans — mono, and prefix-only.</div>
+          <div class="gr-item">Recolor the logo mark — it's monochrome (<span class="mono">--logo-mark</span>).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  neutral:[['black','#040406','Canvas (dark)'],['zinc-950','#121317','Panels'],['zinc-900','#18181B','Rows'],['zinc-800','#27272A','Borders']],
+  spectrum:[['blue','#476CFF','Links / info'],['cyan','#3DC5FA','Series'],['mint','#3CEEAE','Valid · success'],['lime','#DEF135','Positive delta'],['gold','#FFD55D','Rate-limited'],['red','#FB1048','Invalid · blocked']],
+  text:[['white','#FAFAFA','Primary · button'],['zinc-400','#A1A1AA','Secondary'],['zinc-500','#71717A','Meta'],['ink-light','#09090B','Primary (light)']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: API key control plane (deterministic) ---- */
+let KEYS=[
+  {name:'checkout-api',key:'sk_live_3af2…c19',rl:'100 / 60s',limit:100,rq:'48.2k',on:true},
+  {name:'mobile-app',key:'sk_live_9b7d…f04',rl:'60 / 60s',limit:60,rq:'12.9k',on:true},
+  {name:'partner-webhook',key:'sk_live_1c5e…a88',rl:'20 / 60s',limit:20,rq:'3.1k',on:true},
+  {name:'internal-cron',key:'sk_live_e02a…7d3',rl:'500 / 60s',limit:500,rq:'204k',on:false}
+];
+const NEW_QUEUE=[
+  {name:'analytics-svc',key:'sk_live_77c1…b2e',rl:'120 / 60s',limit:120,rq:'0',on:true},
+  {name:'edge-gateway',key:'sk_live_ab90…d51',rl:'240 / 60s',limit:240,rq:'0',on:true},
+  {name:'billing-worker',key:'sk_live_4fe6…09c',rl:'80 / 60s',limit:80,rq:'0',on:true}
+];
+let cur=0, remaining=100, busy=false;
+function renderKeys(){
+  document.getElementById('keyList').innerHTML=KEYS.map((k,i)=>
+    `<div class="krow ${i===cur?'on':''} ${k.on?'':'off'}" onclick="pickKey(${i})">
+       <span class="sd"></span>
+       <div class="kmeta"><div class="kname">${k.name}</div><div class="kkey mono">${k.key}</div></div>
+       <div class="krl"><div class="rl mono">${k.rl}</div><div class="rq">${k.rq} req</div></div>
+     </div>`).join('');
+}
+function pickKey(i){
+  if(busy)return;cur=i;
+  document.getElementById('conKey').textContent='"'+KEYS[i].key+'"';
+  resetWindow();renderKeys();
+}
+function newKey(){
+  if(busy||!NEW_QUEUE.length)return;
+  const k=NEW_QUEUE.shift();
+  KEYS.unshift(k);cur=0;
+  document.getElementById('conKey').textContent='"'+k.key+'"';
+  document.querySelector('.keys-top .lb').textContent='Keys · '+KEYS.filter(x=>x.on).length+' active';
+  resetWindow();renderKeys();
+  toast('Created '+k.name);
+}
+function setMeter(){
+  const lim=KEYS[cur].limit;
+  const pct=Math.max(0,remaining/lim*100);
+  const bar=document.getElementById('meterBar');
+  bar.style.width=pct+'%';
+  bar.style.background=remaining===0?'var(--red)':pct<25?'var(--gold)':'var(--mint)';
+  document.getElementById('meterLb').textContent='ratelimit · '+remaining+' / '+lim;
+}
+function renderResp(ok){
+  const k=KEYS[cur];const lim=k.limit;
+  let s;
+  if(ok){
+    s=`{
+  <span class="jk">"valid"</span><span class="jp">:</span> <span class="jb">true</span>,
+  <span class="jk">"code"</span><span class="jp">:</span> <span class="js">"VALID"</span>,
+  <span class="jk">"keyId"</span><span class="jp">:</span> <span class="js">"key_${k.key.slice(8,12)}"</span>,
+  <span class="jk">"permissions"</span><span class="jp">:</span> [<span class="js">"api.read"</span>, <span class="js">"api.write"</span>],
+  <span class="jk">"ratelimit"</span><span class="jp">:</span> {
+    <span class="jk">"limit"</span><span class="jp">:</span> <span class="jn">${lim}</span>,
+    <span class="jk">"remaining"</span><span class="jp">:</span> <span class="jn">${remaining}</span>,
+    <span class="jk">"reset"</span><span class="jp">:</span> <span class="jn">60000</span>
+  }
+}`;
+  }else{
+    s=`{
+  <span class="jk">"valid"</span><span class="jp">:</span> <span class="jf">false</span>,
+  <span class="jk">"code"</span><span class="jp">:</span> <span class="jf">"RATE_LIMITED"</span>,
+  <span class="jk">"keyId"</span><span class="jp">:</span> <span class="js">"key_${k.key.slice(8,12)}"</span>,
+  <span class="jk">"ratelimit"</span><span class="jp">:</span> {
+    <span class="jk">"limit"</span><span class="jp">:</span> <span class="jn">${lim}</span>,
+    <span class="jk">"remaining"</span><span class="jp">:</span> <span class="jn">0</span>,
+    <span class="jk">"reset"</span><span class="jp">:</span> <span class="jn">60000</span>
+  }
+}`;
+  }
+  document.getElementById('resp').innerHTML=s;
+}
+function verify(){
+  if(busy)return;busy=true;
+  const btn=document.getElementById('verifyBtn');btn.disabled=true;
+  setTimeout(()=>{
+    if(remaining>0){remaining--;renderResp(true);}
+    else{renderResp(false);}
+    setMeter();
+    btn.disabled=false;busy=false;
+  },170);
+}
+function resetWindow(){
+  remaining=KEYS[cur].limit;setMeter();renderResp(true);
+}
+/* initial deterministic render */
+renderKeys();remaining=KEYS[0].limit;setMeter();renderResp(true);
+</script>
+</body>
+</html>
