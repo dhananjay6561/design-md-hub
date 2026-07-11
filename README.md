@@ -1,6 +1,10 @@
 # design-md-hub
 
-A curated collection of `DESIGN.md` files — plain-text design system documents that AI agents read to generate consistent, on-brand UI.
+**A specimen wall of real brand design systems — as plain text for AI agents.**
+
+100+ brands, each reverse-engineered from its live production site: the real colors, fonts, components and guardrails, captured in a single `DESIGN.md` (plus a self-contained `preview.html` you can open to *feel* the identity). 100% open source. No paywalls, no sign-up, no API keys. Point your coding agent at one and ship on-brand UI.
+
+**[→ Browse the live gallery](https://dhananjay6561.github.io/design-md-hub/)**
 
 Drop a `DESIGN.md` into your project and let coding agents generate a matching interface.
 
@@ -15,7 +19,9 @@ A `DESIGN.md` is a single markdown file that describes a brand's visual language
 - Layout principles & responsive behavior
 - Tone, guardrails & dos/don'ts
 
-AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI that looks and feels like the real thing.
+AI coding agents (Cursor, Claude Code, v0, Copilot, etc.) read this file to generate UI that looks and feels like the real thing.
+
+Every spec is built from the brand's **live production site** — real fonts, exact hex values, real logos and copy. If a value can't be confirmed from the live source, it's left out rather than guessed.
 
 ## Browse the Collection
 
@@ -141,6 +147,14 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 
 Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding a new brand.
 
+## Disclaimer
+
+These are **unofficial references** built for education and prototyping — reverse-engineered from public brand sites, not endorsed by or affiliated with any brand. All trademarks and logos belong to their respective owners.
+
 ## License
 
 MIT — see [LICENSE](LICENSE)
+
+---
+
+Built by [Dhananjay Aggarwal](https://github.com/dhananjay6561) · [LinkedIn](https://www.linkedin.com/in/dhananjay6561) · [Portfolio](https://linktr.ee/Dj6561)
