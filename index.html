@@ -34,10 +34,16 @@ a{color:inherit;text-decoration:none}
 .topbar{position:fixed;top:18px;right:18px;z-index:100;display:flex;gap:10px;align-items:center}
 .toggle{background:var(--bg2);border:1px solid var(--border-strong);color:var(--text2);width:40px;height:40px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .toggle:hover{color:var(--text)}
-.nav-star{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 15px;background:var(--bg2);border:1px solid var(--border-strong);color:var(--text2);border-radius:10px;font-weight:600;font-size:13.5px;text-decoration:none;transition:color .13s,border-color .13s,background .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.nav-star:hover{color:var(--text);border-color:var(--text3);background:var(--bg3)}
+@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}
+.nav-star{position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 15px;background:var(--bg2);color:var(--text2);border-radius:10px;font-weight:600;font-size:13.5px;text-decoration:none;transition:color .13s,background .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+/* moving border: a conic gradient masked to a 1px ring, with a warm gold arc sweeping the edge */
+.nav-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),var(--border-strong) 0deg,var(--border-strong) 232deg,#FFC21E 300deg,#FFE7A6 322deg,var(--border-strong) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}
+.nav-star:hover{color:var(--text);background:var(--bg3)}
+.nav-star:hover::before{animation-duration:1.4s}
 .nav-star svg{width:16px;height:16px;flex-shrink:0}
 .nav-star .star-ico{color:var(--accent)}
+@keyframes starspin{to{--sa:360deg}}
+@media(prefers-reduced-motion:reduce){.nav-star::before{animation:none}}
 @media(max-width:520px){.nav-star .lbl{display:none}.nav-star{padding:0 12px}}
 
 /* Hero */
