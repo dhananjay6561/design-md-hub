@@ -126,6 +126,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 103 | [Trigger.dev](brands/triggerdotdev/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/triggerdotdev/preview.html) |
 | 104 | [Turso](brands/turso/DESIGN.md) | Data | [preview](https://dhananjay6561.github.io/design-md-hub/brands/turso/preview.html) |
 | 105 | [Devin](brands/devin/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/devin/preview.html) |
+| 106 | [v0](brands/v0/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/v0/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
