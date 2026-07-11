@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turso — Design System</title>
+<link rel="icon" type="image/svg+xml" href="https://cdn.simpleicons.org/turso/4FF7D1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter (UI) + IBM Plex Mono (brand labels) + Geist Mono (SQL/data) — Turso's real faces, Google-hosted, used directly. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Turso brand — theme-invariant */
+  --teal:#4FF7D1;--teal-alt:#4FF8D2;--teal-deep:#0F4F62;--orange:#E0953C;--red:#FF6663;
+  /* SQL console — always dark (the turso shell is dark) */
+  --c-bg:#0D1318;--c-panel:#121B22;--c-raised:#18222B;--c-border:#232E36;--c-line:#293945;
+  --c-text:#E6EDF0;--c-mut:#9CA3AF;--c-faint:#6B7280;
+  --sql-kw:#4FF7D1;--sql-fn:#82AAFF;--sql-str:#E0953C;--sql-num:#FF8FA3;--sql-id:#C5CACE;--sql-punct:#6B7280;
+}
+:root[data-theme="dark"]{
+  --bg:#0F1419;--bg2:#121B22;--bg3:#18222B;--bg4:#1B252D;--panel:#121B22;
+  --border:#232E36;--border-strong:#293945;
+  --text:#FAFAFA;--text2:#C5CACE;--text3:#9CA3AF;--text4:#6B7280;
+  --teal-text:#4FF7D1;--brand-btn-text:#0F1419;--logo-wm:#FAFAFA;
+  --ring:rgba(79,247,209,.25);--shadow:0 18px 50px rgba(0,0,0,.55);
+}
+:root[data-theme="light"]{
+  --bg:#F7FAF9;--bg2:#FFFFFF;--bg3:#F0F4F3;--bg4:#E9EEED;--panel:#FFFFFF;
+  --border:#E2E8E6;--border-strong:#D0D8D6;
+  --text:#0F1419;--text2:#3B4650;--text3:#5F6C73;--text4:#8A959B;
+  --teal-text:#0C8A6E;--brand-btn-text:#0F1419;--logo-wm:#0F1419;
+  --ring:rgba(12,138,110,.18);--shadow:0 18px 50px rgba(20,40,36,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono',ui-monospace,monospace}
+.plex{font-family:'IBM Plex Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:78px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:24px;display:flex;justify-content:center}
+.hero-logo svg{height:32px;width:auto}
+.hero .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--teal-text);margin-bottom:20px}
+.hero h1{font-weight:800;font-size:52px;letter-spacing:-.03em;line-height:1.04;margin-bottom:16px}
+.hero h1 .t{color:var(--teal-text)}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto}
+.hero p .mono{color:var(--text);font-size:15px}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px;font-family:'Geist Mono',monospace}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:160px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Geist Mono',monospace}
+
+/* ---- signature: database explorer ---- */
+.dbx{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.dbx-top{display:flex;align-items:center;gap:14px;padding:13px 17px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.dbx-grp{font-family:'Geist Mono',monospace;font-size:13px;font-weight:500;display:flex;align-items:center;gap:8px}
+.dbx-grp .g{color:var(--text3)}
+.dbx-metrics{margin-left:auto;display:flex;gap:20px}
+.dbx-metrics .m{text-align:right}
+.dbx-metrics .mv{font-family:'Geist Mono',monospace;font-size:15px;font-weight:600;color:var(--teal-text);font-variant-numeric:tabular-nums}
+.dbx-metrics .mk{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text4);text-transform:uppercase;letter-spacing:.05em}
+.dbx-body{display:grid;grid-template-columns:262px 1fr}
+@media(max-width:820px){.dbx-body{grid-template-columns:1fr}}
+
+.dblist{border-right:1px solid var(--border);background:var(--bg2);display:flex;flex-direction:column;min-width:0}
+.dblist-h{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border)}
+.dblist-h .t{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
+.newdb{background:var(--teal);color:#0F1419;border:none;border-radius:7px;font-family:'Inter';font-weight:600;font-size:11.5px;padding:5px 9px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;transition:opacity .12s}
+.newdb:hover{opacity:.9}
+.dblist-body{padding:6px;display:flex;flex-direction:column;gap:2px;overflow:auto;max-height:340px}
+.dbrow{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:8px;cursor:pointer;border:1px solid transparent;transition:background .12s}
+.dbrow:hover{background:var(--bg3)}
+.dbrow.sel{background:var(--bg3);border-color:var(--border-strong)}
+.dbrow.sel .dbn{color:var(--teal-text)}
+.dbrow .sd{width:7px;height:7px;border-radius:50%;background:var(--teal);flex-shrink:0;box-shadow:0 0 0 3px rgba(79,247,209,.13)}
+.dbrow.fresh{animation:flash 1s ease-out}
+@keyframes flash{0%{background:rgba(79,247,209,.22)}100%{background:var(--bg3)}}
+.dbmeta{min-width:0;flex:1}
+.dbn{font-family:'Geist Mono',monospace;font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dbsub{font-family:'Geist Mono',monospace;font-size:10px;color:var(--text3);display:flex;gap:7px;margin-top:1px}
+.dbsub .rg{color:var(--text3)}
+.dbsize{font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--text3);flex-shrink:0}
+
+/* SQL console (always dark) */
+.sqlc{background:var(--c-bg);color:var(--c-text);display:flex;flex-direction:column;min-width:0}
+.sqlc-h{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--c-border);font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--c-mut)}
+.sqlc-h .pr{color:var(--teal)}
+.sqlc-h .db{color:var(--c-text)}
+.sql{padding:13px 15px;border-bottom:1px solid var(--c-border)}
+.sql pre{margin:0;font-family:'Geist Mono',monospace;font-size:12.5px;line-height:1.6;color:var(--c-text);white-space:pre-wrap}
+.k{color:var(--sql-kw)}.f{color:var(--sql-fn)}.s{color:var(--sql-str)}.n{color:var(--sql-num)}.i{color:var(--sql-id)}.p{color:var(--sql-punct)}
+.sql-run{display:flex;align-items:center;gap:11px;padding:9px 15px;border-bottom:1px solid var(--c-border)}
+.runq{background:var(--teal);color:#0F1419;border:none;border-radius:7px;font-family:'Inter';font-weight:600;font-size:12px;padding:6px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:opacity .12s}
+.runq:hover{opacity:.9}
+.runq:disabled{opacity:.55;cursor:default}
+.qnote{font-family:'Geist Mono',monospace;font-size:11px;color:var(--c-faint)}
+.result{padding:11px 15px;overflow:auto;min-height:150px}
+table.res{width:100%;border-collapse:collapse;font-family:'Geist Mono',monospace;font-size:12px}
+table.res th{text-align:left;color:var(--c-mut);font-weight:500;padding:6px 10px;border-bottom:1px solid var(--c-line);text-transform:none;font-size:11px}
+table.res td{padding:6px 10px;border-bottom:1px solid var(--c-border);color:var(--c-text);font-variant-numeric:tabular-nums;white-space:nowrap}
+table.res tr:last-child td{border-bottom:none}
+table.res td.num{color:var(--teal)}
+.empty-res{font-family:'Geist Mono',monospace;font-size:12px;color:var(--c-mut);padding:8px 2px}
+.empty-res .ok{color:var(--teal)}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:12px;text-align:center}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .12s,background .12s,border-color .12s}
+.btn-primary{background:var(--teal);color:#0F1419}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'Geist Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--bg);border:1px solid var(--border-strong);border-radius:8px;height:38px;padding:0 13px;font-size:13px;font-family:'Geist Mono',monospace;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--teal);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'Geist Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:#0C8A6E}
+:root[data-theme="dark"] .gr-heading.do{color:var(--teal)}
+.gr-heading.dont{color:var(--red)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:#0C8A6E}
+:root[data-theme="dark"] .do .gr-item::before{background:var(--teal)}
+.dont .gr-item::before{background:var(--red)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'Geist Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Geist Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/turso/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg fill="none" height="34" viewBox="0 0 114 34" xmlns="http://www.w3.org/2000/svg" aria-label="Turso"><g stroke="var(--logo-wm)" stroke-width="1.16026"><circle cx="16.6532" cy="16.9999" r="14.0966"></circle><ellipse cx="16.6533" cy="17" rx="14.0966" ry="9.45478" transform="matrix(.70710678 .70710678 -.70710678 .70710678 16.898454 -6.796477)"></ellipse><path d="m10.8984 17.0508h11.5846"></path><path d="m13.748 19.9932 5.8859-5.8858"></path><path d="m19.6328 19.9932-5.8858-5.8858"></path></g><path clip-rule="evenodd" d="m7.00863 10.796c-2.44679 1.6411-3.8718 3.8456-3.8718 6.2038 0 2.3581 1.42501 4.5626 3.8718 6.2037 2.44306 1.6386 5.85127 2.6709 9.64467 2.6709s7.2015-1.0323 9.6446-2.6709c2.4468-1.6411 3.8718-3.8456 3.8718-6.2037 0-2.3582-1.425-4.5627-3.8718-6.2038-2.4431-1.63858-5.8512-2.67089-9.6446-2.67089s-7.20161 1.03231-9.64467 2.67089zm-.64629-.96358c2.6589-1.78336 6.29896-2.86758 10.29096-2.86758 3.9919 0 7.632 1.08422 10.2909 2.86758 2.6552 1.78088 4.3858 4.30378 4.3858 7.16738 0 2.8635-1.7306 5.3864-4.3858 7.1673-2.6589 1.7834-6.299 2.8676-10.2909 2.8676-3.992 0-7.63206-1.0842-10.29096-2.8676-2.65516-1.7809-4.38578-4.3038-4.38578-7.1673 0-2.8636 1.73062-5.3865 4.38578-7.16738z" fill="var(--logo-wm)" fill-rule="evenodd"></path><path d="m43.6244 11.5538h2.2887v2.4505c.6242-1.8263 2.0806-2.728 3.8376-2.728 1.8033 0 3.3984.971 4.0688 2.9592.6474-1.9882 2.2656-2.9592 4.092-2.9592 2.4043 0 4.4156 1.6646 4.4156 5.1554v8.0683h-2.3119v-7.8833c0-1.9882-.9016-3.3291-2.8204-3.3291-2.0806 0-3.0516 1.549-3.0516 3.6758v7.5366h-2.3118v-7.8833c0-1.9882-.9016-3.3291-2.8436-3.3291-2.0806 0-3.0516 1.549-3.0516 3.6758v7.5366h-2.3118zm20.8041 9.7328c0-1.757 1.1328-3.0748 3.1903-3.7221l4.3463-1.4102c-.1156-1.9882-1.0635-2.7742-2.9361-2.7742-1.0865 0-2.2656.2543-3.9532.9016v-2.2193c1.4565-.4624 2.8898-.7861 4.2306-.7861 3.4447 0 4.9705 2.15 4.9705 5.2479v7.9758h-2.2656v-1.8957c-.7167 1.3409-2.1038 2.1731-3.8145 2.1731-2.3581 0-3.7683-1.5258-3.7683-3.4908zm2.3349-.185c0 1.0403.8323 1.8264 2.1038 1.8264 1.572 0 3.0979-1.1791 3.0979-2.9361v-1.9419l-3.4447 1.1097c-1.2021.3699-1.757 1.0634-1.757 1.9419zm13.1683 3.6758c-.9248 0-2.0113-.1618-3.306-.6704v-2.1962c1.2484.5548 2.3812.8091 3.306.8091 1.4795 0 2.1268-.7398 2.1268-1.6645 0-1.0635-.8553-1.5027-2.15-2.1038-1.6414-.7629-3.4908-1.572-3.4908-3.9532 0-2.1963 1.5951-3.7221 4.4387-3.7221.9016 0 1.965.1388 3.1903.5086v2.15c-1.179-.3698-2.2887-.601-3.1903-.601-1.4565 0-2.1038.7398-2.1038 1.6182 0 .971.8554 1.364 2.1269 1.9651 1.6645.7629 3.514 1.6414 3.514 4.0919 0 2.2425-1.5952 3.7683-4.4618 3.7683zm11.6729-.1387c-2.5893 0-3.6989-1.2253-3.6989-3.6989v-7.3054h-1.9651v-2.0806h1.9651v-2.61241l2.3118-.67043v3.28284h3.3752v2.0806h-3.3752v6.9586c0 1.5721.4855 1.9188 1.7107 1.9188.578 0 1.1559-.0693 1.6645-.1618v2.1038c-.6704.1156-1.3177.1849-1.9881.1849zm4.0811-13.0849h2.2887v3.0285c.6935-2.0113 2.2886-3.1904 4.6006-3.1904v2.3812c-.254-.0231-.486-.0462-.74-.0462-2.3348 0-3.8375 1.4564-3.8375 4.3925v6.3806h-2.3118zm7.8453 9.7328c0-1.757 1.133-3.0748 3.19-3.7221l4.346-1.4102c-.115-1.9882-1.063-2.7742-2.936-2.7742-1.086 0-2.265.2543-3.953.9016v-2.2193c1.457-.4624 2.89-.7861 4.231-.7861 3.444 0 4.97 2.15 4.97 5.2479v7.9758h-2.265v-1.8957c-.717 1.3409-2.104 2.1731-3.815 2.1731-2.358 0-3.768-1.5258-3.768-3.4908zm2.335-.185c0 1.0403.832 1.8264 2.104 1.8264 1.572 0 3.097-1.1791 3.097-2.9361v-1.9419l-3.444 1.1097c-1.202.3699-1.757 1.0634-1.757 1.9419z" fill="var(--logo-wm)"></path></svg>
+    </div>
+    <div class="eyebrow">The database for the age of AI agents</div>
+    <h1><span class="t">Millions of Databases.</span><br>One Architecture.</h1>
+    <p>Built on SQLite. Lightweight enough to multiply, fast enough to run anywhere — spin a database for every <span class="mono">user, agent &amp; tenant</span>.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Start for free now</button>
+      <button class="btn btn-secondary">Read the docs</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Deep ink-navy canvas lit by one signature mint-teal">
+      <div class="strip-slab" style="background:#4FF7D1" onclick="copyHex('#4FF7D1')" title="teal"></div>
+      <div class="strip-slab" style="background:#0F4F62" onclick="copyHex('#0F4F62')" title="teal-deep"></div>
+      <div class="strip-slab" style="background:#E0953C" onclick="copyHex('#E0953C')" title="orange"></div>
+      <div class="strip-slab" style="background:#FF6663" onclick="copyHex('#FF6663')" title="red"></div>
+      <div class="strip-slab" style="background:#18222B" onclick="copyHex('#18222B')" title="raised"></div>
+      <div class="strip-slab" style="background:#0F1419" onclick="copyHex('#0F1419')" title="canvas"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces — ink (dark)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Accents &amp; state</div>
+    <div class="swatch-grid" id="g-sem"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Inter / 800</div><div class="type-spec">Display · 52px</div></div>
+        <div class="type-sample" style="font-size:32px;font-weight:800;letter-spacing:-.03em">Millions of Databases.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">IBM Plex Mono / 500</div><div class="type-spec">Eyebrow · 11px</div></div>
+        <div class="type-sample plex" style="font-size:13px;letter-spacing:.11em;text-transform:uppercase;color:var(--teal-text)">The database for the age of AI agents</div>
+        <div class="spec-pills"><span class="spec-pill">IBM Plex Mono</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 14px</div></div>
+        <div class="type-sample" style="font-size:15px">A full SQLite drop-in — deploy databases everywhere, just like files.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Geist Mono</div><div class="type-spec">SQL · 12.5px</div></div>
+        <div class="type-sample mono" style="font-size:13px"><span style="color:#25a37f">SELECT</span> plan, <span style="color:#3b82f6">count</span>(*) <span style="color:#25a37f">FROM</span> users;</div>
+        <div class="spec-pills"><span class="spec-pill">Geist Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The database explorer</div>
+    <div class="dbx">
+      <div class="dbx-top">
+        <div class="dbx-grp"><span class="g">group</span> / acme-prod</div>
+        <div class="dbx-metrics">
+          <div class="m"><div class="mv" id="dbCount">1,284,932</div><div class="mk">databases</div></div>
+          <div class="m"><div class="mv">34</div><div class="mk">regions</div></div>
+          <div class="m"><div class="mv">libSQL</div><div class="mk">engine</div></div>
+        </div>
+      </div>
+      <div class="dbx-body">
+        <div class="dblist">
+          <div class="dblist-h">
+            <span class="t">Databases</span>
+            <button class="newdb" id="newBtn" onclick="newDB()">+ New database</button>
+          </div>
+          <div class="dblist-body" id="dblist"></div>
+        </div>
+        <div class="sqlc">
+          <div class="sqlc-h"><span class="pr">turso</span> db shell <span class="db" id="shellDb">tenant_acme</span></div>
+          <div class="sql" id="sqlBlock"></div>
+          <div class="sql-run">
+            <button class="runq" id="runBtn" onclick="runQuery()">▶ Run</button>
+            <span class="qnote" id="qnote">3 rows · 4ms · read replica us-east-1</span>
+          </div>
+          <div class="result" id="result"></div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint">A <b>group</b> holding millions of tiny per-tenant databases beside a <span class="mono">turso db shell</span>. Pick one to load its query &amp; results — or <b>+ New database</b> to spin one up like a file.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Start for free now</button><button class="btn btn-secondary">Read the docs</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Database &amp; state</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(79,247,209,.16);color:#0C8A6E">● Active</span>
+          <span class="badge" style="background:rgba(224,149,60,.18);color:#a56a1e">● Syncing</span>
+          <span class="badge" style="background:rgba(255,102,99,.16);color:#d3453f">● Error</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">read replica</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">SQLite</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">libSQL</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">embedded replica</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Turso CLI (input)</div>
+        <input class="m-input" value="turso db create tenant_acme --group acme-prod" spellcheck="false">
+        <div style="font-size:11px;color:var(--text3);margin-top:8px" class="mono">created in 8ms · like a file</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:7px"></div><span>row · 7</span></div>
+          <div><div class="box" style="border-radius:8px"></div><span>btn · 8</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>panel · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas deep ink-navy <b>#0F1419</b>; reserve <b>teal</b> for CTA, active DB, links &amp; headline metrics.</div>
+          <div class="gr-item">Treat databases as cheap &amp; plural — many small per-tenant DBs, spun up like files.</div>
+          <div class="gr-item">Show SQL in Geist Mono; use IBM Plex Mono for short uppercase brand labels.</div>
+          <div class="gr-item">Report real numbers — database counts, regions, sizes; density is the story.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Use the legacy <b>purple</b> identity — Turso is teal-on-ink now.</div>
+          <div class="gr-item">Add a second bright accent — teal carries it; orange/red are state-only.</div>
+          <div class="gr-item">Set body copy in a mono — Inter carries sentences.</div>
+          <div class="gr-item">Render one monolithic database — the many-database architecture is the point.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['teal','#4FF7D1','CTA · active · metrics'],['teal-alt','#4FF8D2','Hover / gradient'],['teal-deep','#0F4F62','Tinted surface'],['orange','#E0953C','Secondary / warning']],
+  surf:[['canvas','#0F1419','App background'],['surface','#121B22','Panels'],['raised','#18222B','Cards / rows'],['border','#232E36','Hairlines']],
+  text:[['primary','#FAFAFA','Primary'],['secondary','#C5CACE','Secondary'],['muted','#9CA3AF','Muted'],['faint','#6B7280','Faint']],
+  sem:[['teal','#4FF7D1','Active database'],['orange','#E0953C','Syncing / warning'],['red','#FF6663','Error'],['border-strong','#293945','Inputs / dividers']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: database explorer (deterministic) ---- */
+let DBS=[
+  {name:'tenant_acme',region:'us-east-1',size:'4.2 MB',ms:4,
+   sql:'<span class="k">SELECT</span> plan, <span class="f">count</span>(<span class="p">*</span>) <span class="k">AS</span> users\n<span class="k">FROM</span> <span class="i">users</span> <span class="k">GROUP BY</span> plan;',
+   cols:['plan','users'],rows:[['free','18,204',1],['pro','3,918',1],['enterprise','142',1]]},
+  {name:'tenant_globex',region:'eu-west-1',size:'1.8 MB',ms:6,
+   sql:'<span class="k">SELECT</span> id, total, status <span class="k">FROM</span> <span class="i">orders</span>\n<span class="k">ORDER BY</span> total <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="n">4</span>;',
+   cols:['id','total','status'],rows:[['#4821','$1,299.00','paid'],['#4790','$980.00','paid'],['#4772','$540.00','refunded'],['#4765','$420.00','paid']]},
+  {name:'agent_042',region:'ap-south-1',size:'128 KB',ms:2,
+   sql:'<span class="k">SELECT</span> role, content <span class="k">FROM</span> <span class="i">messages</span>\n<span class="k">ORDER BY</span> ts <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="n">3</span>;',
+   cols:['role','content'],rows:[['user','summarize the Q3 report'],['assistant','Revenue up 24% QoQ…'],['tool','fetch_report(q3)']]},
+  {name:'user_a8f3c1',region:'us-west-2',size:'64 KB',ms:2,
+   sql:'<span class="k">SELECT</span> key, value <span class="k">FROM</span> <span class="i">kv</span>;',
+   cols:['key','value'],rows:[['theme','dark'],['locale','en-US'],['seen_intro','true']]}
+];
+const NEW_QUEUE=[
+  {name:'tenant_initech',region:'eu-central-1'},
+  {name:'tenant_hooli',region:'ap-northeast-1'},
+  {name:'agent_108',region:'sa-east-1'},
+  {name:'tenant_umbrella',region:'us-east-1'}
+];
+let sel=0,newIdx=0,dbCount=1284932;
+function isNumCol(c){return c==='users'||c==='total';}
+function renderList(){
+  document.getElementById('dblist').innerHTML=DBS.map((d,i)=>
+    `<div class="dbrow${i===sel?' sel':''}${d.fresh?' fresh':''}" onclick="selectDB(${i})">`+
+    `<span class="sd" ${d.region==='error'?'style="background:var(--red);box-shadow:none"':''}></span>`+
+    `<div class="dbmeta"><div class="dbn">${d.name}</div><div class="dbsub"><span class="rg">${d.region}</span></div></div>`+
+    `<span class="dbsize">${d.size}</span></div>`).join('');
+}
+function renderConsole(){
+  const d=DBS[sel];
+  document.getElementById('shellDb').textContent=d.name;
+  document.getElementById('sqlBlock').innerHTML='<pre>'+d.sql+'</pre>';
+  if(d.fresh){
+    document.getElementById('result').innerHTML='<div class="empty-res"><span class="ok">✓ Query OK</span> · 0 rows returned · database created in 6ms</div>';
+    document.getElementById('qnote').textContent='0 rows · 6ms · primary '+d.region;
+  }else{
+    const head='<tr>'+d.cols.map(c=>`<th>${c}</th>`).join('')+'</tr>';
+    const body=d.rows.map(r=>'<tr>'+d.cols.map((c,ci)=>`<td class="${isNumCol(c)?'num':''}">${r[ci]}</td>`).join('')+'</tr>').join('');
+    document.getElementById('result').innerHTML=`<table class="res"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+    document.getElementById('qnote').textContent=`${d.rows.length} rows · ${d.ms}ms · read replica ${d.region}`;
+  }
+}
+function selectDB(i){sel=i;DBS.forEach(d=>d.fresh=false);renderList();renderConsole();}
+let running=false;
+function runQuery(){
+  if(running)return;running=true;
+  const btn=document.getElementById('runBtn');btn.disabled=true;
+  const note=document.getElementById('qnote');note.textContent='running…';
+  setTimeout(()=>{renderConsole();btn.disabled=false;running=false;},500);
+}
+function newDB(){
+  const q=NEW_QUEUE[newIdx%NEW_QUEUE.length];newIdx++;
+  dbCount++;
+  document.getElementById('dbCount').textContent=dbCount.toLocaleString('en-US');
+  DBS.unshift({name:q.name,region:q.region,size:'0 KB',ms:6,fresh:true,
+    sql:'<span class="k">CREATE TABLE</span> <span class="i">items</span> (\n  id <span class="k">INTEGER PRIMARY KEY</span>,\n  name <span class="k">TEXT</span> <span class="k">NOT NULL</span>\n);',
+    cols:[],rows:[]});
+  sel=0;renderList();renderConsole();
+  toast('Created '+q.name+' · 6ms');
+}
+renderList();renderConsole();
+</script>
+</body>
+</html>
