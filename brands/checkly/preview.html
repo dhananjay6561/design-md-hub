@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkly — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=checklyhq.com&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Inter (whole UI) + JetBrains Mono (code/metrics) — Checkly's real faces, Google-hosted, used directly. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Checkly brand — theme-invariant */
+  --accent:#0075FF;--blue-600:#036CED;--blue-deep:#1D4ED8;
+  --pass:#20DF6F;--fail:#FF5C5C;--degraded:#FFB86C;--running:#0075FF;
+  /* Dracula code (Checkly's documented code theme) */
+  --code-bg:#0B1B34;--code-fg:#F8F8F2;--c-kw:#FF79C6;--c-str:#50FA7B;--c-fn:#8BE9FD;--c-const:#BD93F9;--c-num:#FFB86C;--c-cmt:#6272A4;
+}
+:root[data-theme="dark"]{
+  --bg:#041734;--bg2:#071F42;--bg3:#0E2A54;--panel:#071F42;
+  --border:#163157;--border-strong:#24436E;
+  --text:#EAF1F8;--text2:#A7BABE;--text3:#6B8296;
+  --logo-wm:#FFFFFF;--brand-btn-text:#FFFFFF;
+  --ring:rgba(0,117,255,.28);--shadow:0 18px 50px rgba(0,0,0,.5);
+}
+:root[data-theme="light"]{
+  --bg:#F8F9FB;--bg2:#FFFFFF;--bg3:#EEF4FB;--panel:#FFFFFF;
+  --border:#E5E7EB;--border-strong:#D3DCE6;
+  --text:#041734;--text2:#454F52;--text3:#6B7A85;
+  --logo-wm:#041734;--brand-btn-text:#FFFFFF;
+  --ring:rgba(0,117,255,.18);--shadow:0 18px 50px rgba(20,40,80,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--text3);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:80px 0 58px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px;display:flex;justify-content:center;align-items:center}
+.hero-logo .mk{height:30px;width:auto}
+.hero h1{font-weight:800;font-size:52px;letter-spacing:-.03em;line-height:1.04;margin-bottom:16px}
+.hero h1 .b{color:var(--accent)}
+.hero p{font-size:17px;color:var(--text2);max-width:560px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+.hero-cli{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text2);background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:9px 13px}
+.hero-cli .pr{color:var(--accent)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--text);display:block}
+.swatch-hex{font-size:11px;color:var(--text3);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--text3);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--text3)}
+.type-spec{font-size:10px;color:var(--text3);margin-top:2px}
+.type-sample{color:var(--text)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--bg3);color:var(--text3);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* ---- signature: check monitor ---- */
+.mon{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.mon-head{display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.mon-title{font-weight:700;font-size:15px;display:flex;align-items:center;gap:9px}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:5px;background:rgba(0,117,255,.14);color:var(--accent);border:1px solid rgba(0,117,255,.3)}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600}
+.status .d{width:8px;height:8px;border-radius:50%}
+.status.pass{color:var(--pass)}.status.pass .d{background:var(--pass);box-shadow:0 0 0 3px rgba(32,223,111,.18)}
+.status.run{color:var(--running)}.status.run .d{background:var(--running);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.mon-meta{margin-left:auto;display:flex;gap:18px}
+.metric{text-align:right}
+.metric .v{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--text)}
+.metric .k{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.mon-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)}
+@media(max-width:800px){.mon-body{grid-template-columns:1fr}}
+
+/* code editor (Dracula) */
+.code{background:var(--code-bg);border-right:1px solid var(--border);padding:0;overflow:hidden}
+.code-tab{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07);font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8095b8}
+.code-tab .fdot{width:8px;height:8px;border-radius:2px;background:var(--c-const)}
+.code pre{margin:0;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.62;color:var(--code-fg);overflow-x:auto}
+.code .ln{color:#3f5170;user-select:none;display:inline-block;width:20px;text-align:right;margin-right:14px}
+.kw{color:var(--c-kw)}.st{color:var(--c-str)}.fn{color:var(--c-fn)}.co{color:var(--c-const)}.nu{color:var(--c-num)}.cm{color:var(--c-cmt)}
+
+/* results */
+.res{padding:15px 17px;display:flex;flex-direction:column;gap:15px}
+.res-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.res-label .legend{display:flex;gap:10px;font-weight:500;text-transform:none;letter-spacing:0}
+.res-label .lg{display:inline-flex;align-items:center;gap:4px;color:var(--text2)}
+.res-label .lg i{width:8px;height:2px;border-radius:2px;display:inline-block}
+.chart{background:var(--bg3);border:1px solid var(--border);border-radius:9px;height:96px;padding:6px}
+.chart svg{width:100%;height:100%;display:block}
+.regions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rgn{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:9px}
+.rgn .fl{font-size:15px}
+.rgn .rn{font-size:11.5px;font-weight:600;color:var(--text)}
+.rgn .rc{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.rgn .rl{margin-left:auto;text-align:right}
+.rgn .rl .ms{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--text)}
+.rgn .sd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.rgn.ok .sd{background:var(--pass)}.rgn.deg .sd{background:var(--degraded)}.rgn.down .sd{background:var(--fail)}
+.rgn.deg .ms{color:var(--degraded)}.rgn.down .ms{color:var(--fail)}
+/* heartbeat */
+.heart{display:flex;gap:3px;align-items:flex-end;height:34px}
+.tick{flex:1;border-radius:2px;min-width:0;transition:height .2s}
+.tick.p{background:var(--pass)}.tick.d{background:var(--degraded)}.tick.f{background:var(--fail)}
+.runbar{display:flex;align-items:center;gap:12px;margin-top:2px}
+.run-check{background:var(--accent);color:#fff;border:none;border-radius:8px;font-family:'Inter';font-weight:600;font-size:13px;padding:9px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .12s}
+.run-check:hover{background:var(--blue-600)}
+.run-check:disabled{opacity:.6;cursor:default}
+.run-note{font-size:11.5px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+.sig-hint{font-size:11.5px;color:var(--text3);margin-top:12px;text-align:center}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:8px;padding:0 16px;height:38px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:opacity .12s,background .12s,border-color .12s}
+.btn-primary{background:var(--accent);color:var(--brand-btn-text)}
+.btn-primary:hover{background:var(--blue-600)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn-secondary:hover{background:var(--bg3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--bg);border:1px solid var(--border-strong);border-radius:8px;height:38px;padding:0 13px;font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--text);outline:none;width:100%;transition:border .12s,box-shadow .12s}
+.m-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--accent);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--pass)}
+.gr-heading.dont{color:var(--fail)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--text2);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--pass)}
+.dont .gr-item::before{background:var(--fail)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--text);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/checkly/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 100 30" fill="none" xmlns="http://www.w3.org/2000/svg" class="mk" aria-label="Checkly"><path d="M18.596 7.62499H14.1765C14.0958 7.05322 13.931 6.54536 13.6821 6.10139C13.4332 5.65071 13.1137 5.26728 12.7235 4.95113C12.3334 4.63497 11.8827 4.39281 11.3715 4.22465C10.867 4.05648 10.3188 3.9724 9.7268 3.9724C8.65726 3.9724 7.72561 4.2381 6.93186 4.76951C6.13811 5.29419 5.52262 6.06103 5.08538 7.07004C4.64815 8.07232 4.42953 9.28985 4.42953 10.7226C4.42953 12.1958 4.64815 13.4335 5.08538 14.4358C5.52935 15.438 6.1482 16.1948 6.94195 16.706C7.7357 17.2173 8.6539 17.4729 9.69653 17.4729C10.2818 17.4729 10.8233 17.3955 11.321 17.2408C11.8255 17.0861 12.2729 16.8607 12.663 16.5648C13.0532 16.2621 13.376 15.8955 13.6317 15.465C13.894 15.0344 14.0756 14.5434 14.1765 13.9918L18.596 14.012C18.4816 14.9605 18.1957 15.8753 17.7383 16.7565C17.2876 17.6309 16.6788 18.4146 15.912 19.1075C15.1519 19.7936 14.2438 20.3384 13.1877 20.742C12.1383 21.1389 10.9511 21.3374 9.62591 21.3374C7.78279 21.3374 6.13475 20.9203 4.68178 20.0862C3.23554 19.2521 2.092 18.0446 1.25117 16.4639C0.417055 14.8831 0 12.9693 0 10.7226C0 8.46919 0.423782 6.55208 1.27135 4.97131C2.11891 3.39054 3.26918 2.18646 4.72214 1.35908C6.17511 0.524965 7.8097 0.10791 9.62591 0.10791C10.8233 0.10791 11.9332 0.276077 12.9556 0.612412C13.9848 0.948747 14.8963 1.4398 15.69 2.08556C16.4838 2.72459 17.1295 3.50825 17.6273 4.43654C18.1318 5.36482 18.4547 6.42764 18.596 7.62499Z" fill="var(--logo-wm)"></path><path d="M23.9576 12.0949V21.0548H19.6592V0.390431H23.8365V8.29093H24.0181C24.3679 7.3761 24.933 6.65971 25.7133 6.14175C26.4936 5.61707 27.4723 5.35473 28.6495 5.35473C29.7257 5.35473 30.6641 5.59017 31.4646 6.06103C32.2718 6.52518 32.8974 7.19448 33.3414 8.06895C33.792 8.9367 34.014 9.97597 34.0073 11.1868V21.0548H29.7089V11.9536C29.7157 10.9984 29.4735 10.2551 28.9825 9.72372C28.4981 9.19231 27.8187 8.92661 26.9443 8.92661C26.359 8.92661 25.8411 9.05105 25.3904 9.29994C24.9464 9.54883 24.5966 9.91207 24.341 10.3897C24.0921 10.8605 23.9643 11.4289 23.9576 12.0949Z" fill="var(--logo-wm)"></path><path d="M42.4641 21.3575C40.8698 21.3575 39.4976 21.0347 38.3473 20.3889C37.2038 19.7364 36.3226 18.8148 35.7037 17.6242C35.0849 16.4269 34.7754 15.0109 34.7754 13.3763C34.7754 11.7821 35.0849 10.3829 35.7037 9.17886C36.3226 7.97478 37.1937 7.0364 38.3171 6.36373C39.4471 5.69107 40.7723 5.35473 42.2925 5.35473C43.315 5.35473 44.2668 5.51954 45.148 5.84914C46.0359 6.17203 46.8095 6.65971 47.4687 7.3122C48.1347 7.96469 48.6526 8.78535 49.0226 9.77417C49.3926 10.7563 49.5775 11.9065 49.5775 13.225V14.4055H36.4908V11.7417H45.5314C45.5314 11.1229 45.3969 10.5746 45.1278 10.0971C44.8588 9.61946 44.4854 9.24612 44.0078 8.97706C43.537 8.70126 42.9887 8.56336 42.3632 8.56336C41.7107 8.56336 41.1322 8.71472 40.6277 9.01742C40.1299 9.31339 39.7397 9.71363 39.4572 10.2181C39.1747 10.7159 39.0301 11.2709 39.0234 11.883V14.4156C39.0234 15.1824 39.1646 15.845 39.4471 16.4033C39.7364 16.9616 40.1434 17.3922 40.668 17.6949C41.1927 17.9976 41.8149 18.1489 42.5347 18.1489C43.0123 18.1489 43.4495 18.0816 43.8464 17.9471C44.2433 17.8126 44.583 17.6108 44.8655 17.3417C45.148 17.0726 45.3633 16.743 45.5113 16.3529L49.4867 16.6152C49.2849 17.5704 48.8712 18.4045 48.2457 19.1175C47.6268 19.8239 46.8263 20.3754 45.8442 20.7723C44.8689 21.1625 43.7421 21.3575 42.4641 21.3575Z" fill="var(--logo-wm)"></path><path d="M57.3961 21.3575C55.8086 21.3575 54.4431 21.0212 53.2996 20.3485C52.1627 19.6691 51.2883 18.7274 50.6762 17.5233C50.0707 16.3192 49.768 14.9335 49.768 13.3662C49.768 11.7787 50.0741 10.3863 50.6862 9.18895C51.3051 7.98487 52.1829 7.04649 53.3197 6.37382C54.4566 5.69443 55.8086 5.35473 57.3759 5.35473C58.728 5.35473 59.9119 5.60026 60.9276 6.0913C61.9434 6.58235 62.7472 7.27184 63.3392 8.15976C63.9311 9.04769 64.2574 10.0903 64.3179 11.2877H60.2617C60.1473 10.5141 59.8446 9.89189 59.3536 9.42102C58.8693 8.94342 58.2336 8.70463 57.4466 8.70463C56.7806 8.70463 56.1988 8.88625 55.701 9.24949C55.2099 9.606 54.8265 10.1273 54.5507 10.8134C54.2749 11.4996 54.137 12.3303 54.137 13.3057C54.137 14.2945 54.2716 15.1353 54.5406 15.8282C54.8164 16.521 55.2032 17.0491 55.701 17.4123C56.1988 17.7756 56.7806 17.9572 57.4466 17.9572C57.9376 17.9572 58.3782 17.8563 58.7684 17.6545C59.1652 17.4527 59.4915 17.1601 59.7471 16.7767C60.0094 16.3865 60.181 15.919 60.2617 15.3741H64.3179C64.2506 16.558 63.9277 17.6007 63.3493 18.5021C62.7775 19.3967 61.9871 20.0963 60.9781 20.6008C59.9691 21.1053 58.7751 21.3575 57.3961 21.3575Z" fill="var(--logo-wm)"></path><path d="M68.9758 16.595L68.9858 11.439H69.6114L74.5757 5.55653H79.5098L72.8403 13.346H71.8212L68.9758 16.595ZM65.081 21.0548V0.390431H69.3794V21.0548H65.081ZM74.7674 21.0548L70.2067 14.3046L73.0723 11.2675L79.8024 21.0548H74.7674Z" fill="var(--logo-wm)"></path><path d="M83.928 0.390431V21.0548H79.6296V0.390431H83.928Z" fill="var(--logo-wm)"></path><path d="M84.1513 5.55668L88.6716 19.8227L90.9644 13.346L88.6716 5.55668H84.1513Z" fill="var(--logo-wm)"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M90.7 29.8922H86.1742L79.1699 23.4988L85.1166 23.4988L88.0132 26.019L95.208 5.49805H100.001L90.7 29.8922Z" fill="var(--accent)"></path></svg>
+    </div>
+    <h1>The <span class="b">active</span> reliability layer<br>for developers &amp; agents.</h1>
+    <p>The only monitoring platform built from the ground up to be operated by developers and agents — a clear signal of application health.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Start for free</button>
+      <button class="btn btn-secondary">Book a demo</button>
+      <span class="hero-cli"><span class="pr">$</span> npx checkly init</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Deep navy canvas lit by one electric Checkly blue">
+      <div class="strip-slab" style="background:#0075FF" onclick="copyHex('#0075FF')" title="checkly-blue"></div>
+      <div class="strip-slab" style="background:#036CED" onclick="copyHex('#036CED')" title="blue-600"></div>
+      <div class="strip-slab" style="background:#20DF6F" onclick="copyHex('#20DF6F')" title="passing"></div>
+      <div class="strip-slab" style="background:#FF5C5C" onclick="copyHex('#FF5C5C')" title="failing"></div>
+      <div class="strip-slab" style="background:#071F42" onclick="copyHex('#071F42')" title="panel"></div>
+      <div class="strip-slab" style="background:#041734" onclick="copyHex('#041734')" title="canvas"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (dark)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Check state &amp; code (Dracula)</div>
+    <div class="swatch-grid" id="g-sem"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Inter / 800</div><div class="type-spec">Display · 52px</div></div>
+        <div class="type-sample" style="font-size:32px;font-weight:800;letter-spacing:-.03em">The <span style="color:var(--accent)">active</span> reliability layer</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">Heading · 15px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">Monitoring as Code, run everywhere</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 14px</div></div>
+        <div class="type-sample" style="font-size:15px">A clear signal of application health for developers and agents.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono</div><div class="type-spec">Code · 12px</div></div>
+        <div class="type-sample mono" style="font-size:13px"><span class="kw" style="color:#c026a8">new</span> <span class="fn" style="color:#0369a1">ApiCheck</span>(<span class="st" style="color:#15803d">'checkout-api'</span>, { frequency: <span class="nu" style="color:#c2410c">1</span> })</div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The check monitor</div>
+    <div class="mon">
+      <div class="mon-head">
+        <div class="mon-title"><span class="tag">API</span> Checkout API</div>
+        <span class="status pass" id="mstatus"><span class="d"></span><span id="mstatus-t">Passing</span></span>
+        <div class="mon-meta">
+          <div class="metric"><div class="v" id="m-p95">274<span style="font-size:11px;color:var(--text3)">ms</span></div><div class="k">p95</div></div>
+          <div class="metric"><div class="v">99.98<span style="font-size:11px;color:var(--text3)">%</span></div><div class="k">uptime 24h</div></div>
+          <div class="metric"><div class="v">1<span style="font-size:11px;color:var(--text3)">m</span></div><div class="k">every</div></div>
+        </div>
+      </div>
+      <div class="mon-body">
+        <!-- monitoring as code -->
+        <div class="code">
+          <div class="code-tab"><span class="fdot"></span> __checks__/checkout.check.ts</div>
+<pre><span class="ln">1</span><span class="kw">import</span> { ApiCheck, AssertionBuilder } <span class="kw">from</span> <span class="st">'checkly/constructs'</span>
+<span class="ln">2</span>
+<span class="ln">3</span><span class="kw">new</span> <span class="fn">ApiCheck</span>(<span class="st">'checkout-api'</span>, {
+<span class="ln">4</span>  name: <span class="st">'Checkout API'</span>,
+<span class="ln">5</span>  frequency: <span class="nu">1</span>,
+<span class="ln">6</span>  locations: [<span class="st">'us-east-1'</span>, <span class="st">'eu-central-1'</span>,
+<span class="ln">7</span>    <span class="st">'ap-southeast-1'</span>, <span class="st">'sa-east-1'</span>],
+<span class="ln">8</span>  degradedResponseTime: <span class="nu">300</span>,
+<span class="ln">9</span>  maxResponseTime: <span class="nu">1000</span>,
+<span class="ln">10</span>  request: {
+<span class="ln">11</span>    method: <span class="st">'POST'</span>,
+<span class="ln">12</span>    url: <span class="st">'https://api.acme.co/checkout'</span>,
+<span class="ln">13</span>    assertions: [
+<span class="ln">14</span>      <span class="fn">AssertionBuilder</span>.<span class="fn">statusCode</span>().<span class="fn">equals</span>(<span class="nu">200</span>),
+<span class="ln">15</span>      <span class="fn">AssertionBuilder</span>.<span class="fn">jsonBody</span>(<span class="st">'$.status'</span>).<span class="fn">equals</span>(<span class="st">'ok'</span>),
+<span class="ln">16</span>    ],
+<span class="ln">17</span>  },
+<span class="ln">18</span>})</pre>
+        </div>
+        <!-- results -->
+        <div class="res">
+          <div>
+            <div class="res-label">Response time · last 24h
+              <span class="legend"><span class="lg"><i style="background:#0075FF"></i>p95</span><span class="lg"><i style="background:#20DF6F"></i>avg</span></span>
+            </div>
+            <div class="chart"><svg viewBox="0 0 300 84" preserveAspectRatio="none" id="chart"></svg></div>
+          </div>
+          <div>
+            <div class="res-label">Locations</div>
+            <div class="regions" id="regions"></div>
+          </div>
+          <div>
+            <div class="res-label">Check results · last 34 runs</div>
+            <div class="heart" id="heart"></div>
+          </div>
+          <div class="runbar">
+            <button class="run-check" id="runBtn" onclick="runCheck()">▶ Run check</button>
+            <span class="run-note" id="runNote">last run 38s ago · exit 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint"><b>Monitoring as Code</b> — a real <span class="mono">ApiCheck</span> construct beside its live result: global latency, per-region status, and the pass/fail heartbeat. Run the check to execute it.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Start for free</button><button class="btn btn-secondary">Book a demo</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Check state</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(32,223,111,.16);color:#0e9b4c">● Passing</span>
+          <span class="badge" style="background:rgba(255,184,108,.18);color:#b56f1e">● Degraded</span>
+          <span class="badge" style="background:rgba(255,92,92,.16);color:#d33">● Failing</span>
+          <span class="badge" style="background:rgba(0,117,255,.14);color:#0075FF">● Running</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">API</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Browser</span>
+          <span class="badge" style="background:var(--bg3);color:var(--text2)">Playwright</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Checkly CLI (input)</div>
+        <input class="m-input" value="npx checkly test --record" spellcheck="false">
+        <div style="font-size:11px;color:var(--text3);margin-top:8px" class="mono">test → deploy → monitor</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:8px"></div><span>btn · 8</span></div>
+          <div><div class="box" style="border-radius:9px"></div><span>card · 9</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>panel · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas deep navy <b>#041734</b> with one electric <b>checkly-blue</b> for action &amp; active state.</div>
+          <div class="gr-item">Show checks as <b>code</b> — Monitoring as Code is the whole thesis.</div>
+          <div class="gr-item">Color check state by meaning: green passing, orange degraded, red failing.</div>
+          <div class="gr-item">Report real global regions &amp; latency — the heartbeat bar is the signal.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Use a <b>purple</b> accent — Checkly is blue (correct the old assumption).</div>
+          <div class="gr-item">Add a second bright accent — green/red/orange are state-only.</div>
+          <div class="gr-item">Render checks as opaque config UI without the code.</div>
+          <div class="gr-item">Set code in the UI sans — code is JetBrains Mono in the Dracula palette.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['checkly-blue','#0075FF','Action · active · links'],['blue-600','#036CED','Hover / pressed'],['blue-deep','#1D4ED8','Chart line']],
+  surf:[['canvas','#041734','App background'],['panel','#071F42','Cards / panels'],['raised','#0E2A54','Hover'],['border','#163157','Hairlines']],
+  text:[['primary','#EAF1F8','Primary (dark)'],['secondary','#A7BABE','Secondary'],['faint','#6B8296','Tertiary']],
+  sem:[['passing','#20DF6F','Healthy check'],['failing','#FF5C5C','Failed check'],['degraded','#FFB86C','Degraded'],['code-bg','#0B1B34','Editor'],['keyword','#FF79C6','Dracula pink'],['string','#50FA7B','Dracula green'],['function','#8BE9FD','Dracula cyan'],['constant','#BD93F9','Dracula purple']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: deterministic check monitor ---- */
+const REGIONS=[
+  {fl:'🇺🇸',rn:'N. Virginia',rc:'us-east-1'},
+  {fl:'🇩🇪',rn:'Frankfurt',rc:'eu-central-1'},
+  {fl:'🇸🇬',rn:'Singapore',rc:'ap-southeast-1'},
+  {fl:'🇧🇷',rn:'São Paulo',rc:'sa-east-1'}
+];
+/* deterministic frames cycled on each Run — index-based, no RNG */
+const FRAMES=[
+  {p95:274,lat:[188,201,266,232,299,241,278],st:['ok','ok','ok','ok'],tick:'p',note:'exit 0 · 200 OK'},
+  {p95:318,lat:[210,244,281,352,404,338,296],st:['ok','ok','deg','ok'],tick:'d',note:'sg degraded · 352ms'},
+  {p95:262,lat:[176,199,238,221,257,209,244],st:['ok','ok','ok','ok'],tick:'p',note:'exit 0 · 200 OK'},
+  {p95:291,lat:[204,231,262,248,318,276,255],st:['ok','deg','ok','ok'],tick:'p',note:'exit 0 · recovered'}
+];
+/* series used to draw the smooth latency area — one per frame, 13 points */
+function seriesFor(base){
+  const pts=[];for(let i=0;i<13;i++){pts.push(base[i%base.length]);}return pts;
+}
+function drawChart(base){
+  const svg=document.getElementById('chart');const W=300,H=84,pad=6;
+  const s=seriesFor(base);const n=s.length;
+  const min=150,max=460;
+  const x=i=>pad+i*((W-2*pad)/(n-1));
+  const y=v=>H-pad-((v-min)/(max-min))*(H-2*pad);
+  let line='',area='';
+  s.forEach((v,i)=>{line+=(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)+' ';});
+  area=line+`L${x(n-1).toFixed(1)} ${H-pad} L${x(0).toFixed(1)} ${H-pad} Z`;
+  // avg line (green) slightly below
+  let aline='';s.forEach((v,i)=>{aline+=(i?'L':'M')+x(i).toFixed(1)+' '+y(v*0.78).toFixed(1)+' ';});
+  svg.innerHTML=`<defs><linearGradient id="cfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0075FF" stop-opacity=".34"/><stop offset="1" stop-color="#0075FF" stop-opacity="0"/></linearGradient></defs>`+
+    `<path d="${area}" fill="url(#cfill)"/>`+
+    `<path d="${aline}" fill="none" stroke="#20DF6F" stroke-width="1.5" stroke-opacity=".8" stroke-linejoin="round"/>`+
+    `<path d="${line}" fill="none" stroke="#0075FF" stroke-width="2" stroke-linejoin="round"/>`;
+}
+function drawRegions(frame){
+  document.getElementById('regions').innerHTML=REGIONS.map((r,i)=>{
+    const st=frame.st[i];const base=frame.lat[(i*2)%frame.lat.length];
+    const ms=st==='deg'?base+90:st==='down'?'—':base;
+    const cls=st==='deg'?'deg':st==='down'?'down':'ok';
+    return `<div class="rgn ${cls}"><span class="sd"></span><div><div class="rn">${r.rn}</div><div class="rc">${r.rc}</div></div><div class="rl"><div class="ms">${ms}${st==='down'?'':'ms'}</div></div></div>`;
+  }).join('');
+}
+/* heartbeat — 34 ticks, deterministic base with fixed degraded/fail marks */
+let HEART=[];
+(function initHeart(){
+  for(let i=0;i<34;i++){
+    let s='p';
+    if(i===9||i===23)s='d';
+    if(i===16)s='f';
+    HEART.push(s);
+  }
+})();
+function heartHeight(s){return s==='f'?100:s==='d'?72:100;}
+function drawHeart(){
+  document.getElementById('heart').innerHTML=HEART.map(s=>`<div class="tick ${s}" style="height:${heartHeight(s)}%"></div>`).join('');
+}
+let frameIdx=0,running=false;
+function applyFrame(f){
+  document.getElementById('m-p95').innerHTML=f.p95+'<span style="font-size:11px;color:var(--text3)">ms</span>';
+  drawChart(f.lat);drawRegions(f);
+  HEART.push(f.tick);HEART.shift();drawHeart();
+  document.getElementById('runNote').textContent='last run just now · '+f.note;
+}
+function runCheck(){
+  if(running)return;running=true;
+  const btn=document.getElementById('runBtn');btn.disabled=true;
+  const st=document.getElementById('mstatus');st.className='status run';
+  document.getElementById('mstatus-t').textContent='Running…';
+  document.getElementById('runNote').textContent='executing from 4 locations…';
+  setTimeout(()=>{
+    const f=FRAMES[frameIdx%FRAMES.length];frameIdx++;
+    applyFrame(f);
+    st.className='status pass';document.getElementById('mstatus-t').textContent='Passing';
+    btn.disabled=false;running=false;
+  },900);
+}
+/* initial deterministic render */
+drawChart(FRAMES[0].lat);drawRegions(FRAMES[0]);drawHeart();
+</script>
+</body>
+</html>
