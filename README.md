@@ -123,6 +123,7 @@ AI coding agents (Cursor, Copilot, Windsurf, etc.) read this file to generate UI
 | 100 | [Krea](brands/krea/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/krea/preview.html) |
 | 101 | [Zed](brands/zed/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/zed/preview.html) |
 | 102 | [Checkly](brands/checkly/DESIGN.md) | Observability | [preview](https://dhananjay6561.github.io/design-md-hub/brands/checkly/preview.html) |
+| 103 | [Trigger.dev](brands/triggerdotdev/DESIGN.md) | Developer Tools | [preview](https://dhananjay6561.github.io/design-md-hub/brands/triggerdotdev/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
