@@ -135,6 +135,7 @@ Every spec is built from the brand's **live production site** — real fonts, ex
 | 106 | [v0](brands/v0/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/v0/preview.html) |
 | 107 | [Firecrawl](brands/firecrawl/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/firecrawl/preview.html) |
 | 108 | [Unkey](brands/unkey/DESIGN.md) | Auth | [preview](https://dhananjay6561.github.io/design-md-hub/brands/unkey/preview.html) |
+| 109 | [Medusa](brands/medusa/DESIGN.md) | Commerce | [preview](https://dhananjay6561.github.io/design-md-hub/brands/medusa/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
