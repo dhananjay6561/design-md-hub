@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>incident.io — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=incident.io&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Newsreader (≈ STK Bureau Serif display) + Inter (≈ Untitled Sans UI) + Geist Mono + Kalam (handwritten). Google-hosted. -->
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,500&family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* incident.io — theme-invariant brand + status */
+  --alarmalade:#F25533;--alarmalade-bright:#FF492C;--alarmalade-deep:#5A0A17;
+  --triage:#9A9488;--investigating:#E9A23B;--fixing:#F25533;--monitoring:#4B73FF;--resolved:#10B981;
+  --sev1:#E50914;--sev2:#FE7B02;
+}
+:root[data-theme="light"]{
+  --bg:#F8F5EF;--panel:#FFFFFF;--sand:#F1EBE2;--beige:#EDE4D6;--field:#F4F0E8;
+  --border:#E7E1D6;--border-strong:#D9D1C2;
+  --fg:#161618;--muted:#6B675E;--subtle:#9A9488;
+  --logo-wm:#161618;--logo-flame:#F25533;--btn-text:#FFFFFF;
+  --ring:rgba(242,85,51,.18);--shadow:0 16px 44px rgba(60,40,20,.12);
+}
+:root[data-theme="dark"]{
+  --bg:#161618;--panel:#1D1D20;--sand:#26262A;--beige:#2A2A2E;--field:#232327;
+  --border:#2E2E32;--border-strong:#3C3C42;
+  --fg:#F5F3EE;--muted:#A7A399;--subtle:#726E66;
+  --logo-wm:#F5F3EE;--logo-flame:#F25533;--btn-text:#FFFFFF;
+  --ring:rgba(242,85,51,.32);--shadow:0 20px 54px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--fg);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono',ui-monospace,SFMono-Regular,monospace}
+.serif{font-family:'Newsreader',Georgia,serif}
+.hand{font-family:'Kalam',cursive}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--border-strong)}
+
+.hero{padding:76px 0 54px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px;display:flex;justify-content:center;align-items:center}
+.hero-logo .wm-svg{height:34px;width:auto;display:block}
+.hero h1{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:60px;letter-spacing:-.02em;line-height:1.02;margin-bottom:18px}
+.hero h1 .it{font-style:italic}
+.hero p{font-size:17px;color:var(--muted);max-width:560px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:26px;align-items:center;flex-wrap:wrap}
+.hero-cli{font-family:'Geist Mono',monospace;font-size:13px;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:9999px;padding:9px 15px}
+.hero-cli .pr{color:var(--alarmalade)}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--subtle);margin-bottom:26px}
+.group-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--subtle);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--panel)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--fg);display:block}
+.swatch-hex{font-size:11px;color:var(--subtle);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--subtle);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:150px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--subtle)}
+.type-spec{font-size:10px;color:var(--subtle);margin-top:2px}
+.type-sample{color:var(--fg)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--field);color:var(--muted);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Geist Mono',monospace}
+
+/* ---- signature: the incident ---- */
+.inc{background:var(--panel);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);position:relative}
+.inc-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.inc-title{font-family:'Newsreader',Georgia,serif;font-weight:500;font-size:21px;letter-spacing:-.01em;flex:1;min-width:200px}
+.inc-chan{font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--subtle);margin-top:3px}
+.sev{font-family:'Geist Mono',monospace;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;color:#fff}
+.sev.s2{background:var(--sev2)}
+.statuspill{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:5px 12px;border-radius:9999px}
+.statuspill .d{width:8px;height:8px;border-radius:50%}
+.statuspill.investigating{background:rgba(233,162,59,.16);color:#a8761d}.statuspill.investigating .d{background:var(--investigating)}
+.statuspill.fixing{background:rgba(242,85,51,.15);color:#c33d20}.statuspill.fixing .d{background:var(--fixing)}
+.statuspill.monitoring{background:rgba(75,115,255,.15);color:#3452c9}.statuspill.monitoring .d{background:var(--monitoring)}
+.statuspill.resolved{background:rgba(16,185,129,.16);color:#0c8f63}.statuspill.resolved .d{background:var(--resolved)}
+.inc-body{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1fr)}
+@media(max-width:820px){.inc-body{grid-template-columns:1fr}}
+.inc-meta{padding:16px 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:13px}
+@media(max-width:820px){.inc-meta{border-right:none;border-bottom:1px solid var(--border)}}
+.mrow{display:flex;flex-direction:column;gap:3px}
+.mrow .ml{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--subtle)}
+.mrow .mv{font-size:13px;color:var(--fg);display:flex;align-items:center;gap:7px}
+.mrow .av{width:20px;height:20px;border-radius:50%;background:var(--sand);border:1px solid var(--border);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--muted)}
+.annot{font-family:'Kalam',cursive;font-size:14px;color:var(--alarmalade);line-height:1.35;margin-top:2px;transform:rotate(-1.5deg)}
+.annot .arr{display:inline-block;margin-right:4px}
+/* timeline */
+.tl-wrap{padding:16px 18px}
+.tl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tl-top .lb{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--subtle)}
+.timeline{display:flex;flex-direction:column;position:relative;padding-left:6px}
+.tl-item{display:flex;gap:12px;padding-bottom:15px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-item::before{content:'';position:absolute;left:5px;top:16px;bottom:-2px;width:2px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:3px;z-index:1;border:2px solid var(--panel)}
+.tl-dot.declared{background:var(--subtle)}
+.tl-dot.investigating{background:var(--investigating)}
+.tl-dot.fixing{background:var(--fixing)}
+.tl-dot.monitoring{background:var(--monitoring)}
+.tl-dot.resolved{background:var(--resolved)}
+.tl-body{flex:1;min-width:0}
+.tl-msg{font-size:13px;color:var(--fg);line-height:1.5}
+.tl-msg b{font-weight:600}
+.tl-meta{font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--subtle);margin-top:2px}
+.tl-new{animation:fadein .35s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.advance-bar{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
+.advance-btn{background:var(--alarmalade);color:var(--btn-text);border:none;border-radius:9999px;font-family:'Inter';font-weight:600;font-size:13px;padding:9px 16px;cursor:pointer;transition:background .12s}
+.advance-btn:hover{background:var(--alarmalade-bright)}
+.advance-btn:disabled{opacity:.5;cursor:default}
+.dur-note{font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--subtle)}
+.sig-hint{font-size:11.5px;color:var(--subtle);margin-top:12px;text-align:center}
+.sig-hint b{color:var(--fg)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px}
+.comp-title{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--subtle);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;border-radius:9999px;padding:0 18px;height:40px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s}
+.btn-primary{background:var(--alarmalade);color:var(--btn-text)}
+.btn-primary:hover{background:var(--alarmalade-bright)}
+.btn-secondary{background:transparent;border-color:var(--border-strong);color:var(--fg)}
+.btn-secondary:hover{background:var(--sand)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:5px;height:23px;padding:0 10px;border-radius:9999px;font-size:11px;font-weight:600;font-family:'Geist Mono',monospace}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--field);border:1px solid var(--border-strong);border-radius:9px;height:40px;padding:0 13px;font-size:13px;font-family:'Geist Mono',monospace;color:var(--fg);outline:none;width:100%;transition:.12s}
+.m-input:focus{border-color:var(--alarmalade);box-shadow:0 0 0 3px var(--ring)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:var(--alarmalade);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--subtle);font-family:'Geist Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--resolved)}
+.gr-heading.dont{color:var(--sev1)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--resolved)}
+.dont .gr-item::before{background:var(--sev1)}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:600;font-family:'Geist Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar{position:fixed;top:14px;left:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'Geist Mono',SFMono-Regular,Menlo,monospace}#dmh-bar a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover{transform:translateY(-1px)}#dmh-bar .dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}#dmh-bar .dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}#dmh-bar .dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}#dmh-bar .dmh-md:hover svg{opacity:1;transform:translateY(1px)}#dmh-bar .dmh-star{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}#dmh-bar .dmh-star:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}#dmh-bar .dmh-star svg{opacity:.82;transition:transform .3s}#dmh-bar .dmh-star:hover svg{transform:rotate(72deg);opacity:1}@media(max-width:600px){#dmh-bar .lbl{display:none}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/incidentio/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg>DESIGN.md</a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1000 248" class="wm-svg" aria-label="incident.io"><g clip-path="url(#workmark__black_svg__a)"><g clip-path="url(#workmark__black_svg__b)"><path fill="var(--logo-flame)" fill-rule="evenodd" d="M48.803 140.978v23.429C20.788 157.71 0 133.023 0 103.594 0 86.626 7.168 73.165 18.131 59.96 27.222 49.01 49.67 20.01 56.735 4.009c1.716-3.885 6.09-3.735 7.976-1.647 6.033 6.677 13.47 21.26 15.902 37.802.496 3.37.7 6.123.862 8.309.348 4.691.502 6.777 2.93 6.777 3.816 0 6.313-5.795 6.861-11.776.352-3.833 4.148-5.115 6.765-3.833 12.59 6.17 25.437 35.537 28.543 49.949.974 4.52 1.609 9.19 1.609 14.004 0 29.363-20.695 54.006-48.616 60.768v-23.384zm15.289-9.338c9.845 0 17.826-7.567 17.826-16.901 0-14.888-10.959-25.526-16.42-28.76-.369-.218-.553-.328-1.055-.314-.367.01-.91.24-1.172.498-.358.351-.453.752-.643 1.552-.968 4.078-4.015 6.986-7.222 10.045-4.42 4.217-9.141 8.723-9.141 16.979 0 9.334 7.981 16.901 17.827 16.901" clip-rule="evenodd"></path><path fill="var(--logo-wm)" d="M158.057 138.153c-13.535 0-23.788 4.919-29.325 12.503v-9.633h-30.76v102.48h30.76v-55.954c0-14.552 7.793-21.111 19.071-21.111 9.843 0 17.841 5.944 17.841 18.651v58.414h30.76V180.58c0-27.67-17.636-42.427-38.347-42.427M262.641 246.373c20.097 0 37.527-10.454 46.346-26.44l-26.864-15.372c-3.281 7.173-10.869 11.477-19.892 11.477-13.329 0-23.172-9.632-23.172-23.775s9.843-23.775 23.172-23.775c9.023 0 16.406 4.303 19.892 11.477l26.864-15.577c-8.819-15.782-26.454-26.235-46.346-26.235-31.169 0-54.342 23.571-54.342 54.11s23.173 54.11 54.342 54.11M332.645 132.005c10.047 0 18.456-8.404 18.456-18.448 0-10.042-8.409-18.446-18.456-18.446-10.049 0-18.456 8.404-18.456 18.446 0 10.044 8.407 18.448 18.456 18.448m-15.38 111.498h30.76v-102.48h-30.76zM440.871 100.031v50.625c-6.767-7.788-16.815-12.503-30.555-12.503-26.863 0-49.01 23.571-49.01 54.11s22.147 54.11 49.01 54.11c13.74 0 23.788-4.714 30.555-12.503v9.634h30.76V100.031zm-24.402 117.238c-14.15 0-24.403-9.634-24.403-25.006s10.253-25.005 24.403-25.005 24.402 9.633 24.402 25.005-10.253 25.006-24.402 25.006M517.576 204.561h72.799q1.23-5.841 1.23-12.298c0-30.949-22.147-54.11-52.086-54.11-32.401 0-54.548 23.571-54.548 54.11s21.736 54.11 56.803 54.11c19.482 0 34.656-7.174 44.705-21.111l-24.609-14.143c-4.101 4.509-11.278 7.789-19.686 7.789-11.278 0-20.711-3.69-24.608-14.347m-.615-22.956c2.871-10.453 10.663-16.192 22.352-16.192 9.228 0 18.456 4.304 21.737 16.192zM665.034 138.153c-13.534 0-23.787 4.919-29.324 12.503v-9.633h-30.76v102.48h30.76v-55.954c0-14.552 7.793-21.111 19.071-21.111 9.843 0 17.841 5.944 17.841 18.651v58.414h30.76V180.58c0-27.67-17.636-42.427-38.348-42.427M780.49 170.537v-29.514h-21.123v-28.695l-30.759 9.224v19.471h-16.407v29.514h16.407v36.278c0 28.695 11.689 40.787 51.882 36.688v-27.875c-13.535.82-21.123 0-21.123-8.813v-36.278zM813.237 246.373c10.663 0 19.48-8.813 19.48-19.472 0-10.657-8.817-19.471-19.48-19.471s-19.482 8.814-19.482 19.471c0 10.659 8.818 19.472 19.482 19.472M862.014 132.005c10.047 0 18.455-8.404 18.455-18.448 0-10.042-8.408-18.446-18.455-18.446-10.049 0-18.456 8.404-18.456 18.446 0 10.044 8.407 18.448 18.456 18.448m-15.381 111.498h30.761v-102.48h-30.761zM945.017 246.373c30.144 0 54.343-23.571 54.343-54.11s-24.199-54.11-54.343-54.11-54.342 23.571-54.342 54.11 24.197 54.11 54.342 54.11m0-29.925c-13.329 0-23.582-9.633-23.582-24.185 0-14.553 10.253-24.185 23.582-24.185s23.583 9.632 23.583 24.185-10.253 24.185-23.583 24.185M48.804 243.508h30.76v-78.701s-30.76 5.525-30.76 34.995z"></path></g></g><defs><clipPath id="workmark__black_svg__a"><path fill="#fff" d="M0 0h1000v248H0z"></path></clipPath><clipPath id="workmark__black_svg__b"><path fill="#fff" d="M0 .91h1000v246.18H0z"></path></clipPath></defs></svg>
+    </div>
+    <h1>Move <span class="it">fast</span> when<br>you break things</h1>
+    <p>The all-in-one AI platform for on-call, incident response, and status pages — built for fast-moving teams.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Get a demo</button>
+      <button class="btn btn-secondary">Start a free trial</button>
+      <span class="hero-cli"><span class="pr">/</span>incident declare</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm cream paper, near-black ink, one alarmalade coral">
+      <div class="strip-slab" style="background:#F25533" onclick="copyHex('#F25533')" title="alarmalade-500"></div>
+      <div class="strip-slab" style="background:#FF492C" onclick="copyHex('#FF492C')" title="alarmalade-bright"></div>
+      <div class="strip-slab" style="background:#161618" onclick="copyHex('#161618')" title="ink"></div>
+      <div class="strip-slab" style="background:#E4D9C8" onclick="copyHex('#E4D9C8')" title="beige"></div>
+      <div class="strip-slab" style="background:#F1EBE2" onclick="copyHex('#F1EBE2')" title="sand"></div>
+      <div class="strip-slab" style="background:#F8F5EF" onclick="copyHex('#F8F5EF')" title="paper"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (light)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Incident status &amp; severity</div>
+    <div class="swatch-grid" id="g-status"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Newsreader / 500</div><div class="type-spec">≈ STK Bureau Serif · Display · 60px</div></div>
+        <div class="type-sample serif" style="font-size:34px;font-weight:500;letter-spacing:-.02em">Move <span style="font-style:italic">fast</span> when you break things</div>
+        <div class="spec-pills"><span class="spec-pill">Newsreader</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 600</div><div class="type-spec">≈ Untitled Sans · Heading · 20px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">On-call, incident response, status pages</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Inter / 400</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Declare an incident in Slack and drive it to resolution.</div>
+        <div class="spec-pills"><span class="spec-pill">Inter</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Geist Mono</div><div class="type-spec">IDs / code · 13px</div></div>
+        <div class="type-sample mono" style="font-size:13px">#inc-7450-user-service-high-error-rate</div>
+        <div class="spec-pills"><span class="spec-pill">Geist Mono</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Kalam / 400</div><div class="type-spec">Annotation · 15px</div></div>
+        <div class="type-sample hand" style="font-size:17px;color:var(--alarmalade)">keep the humans in the loop ✎</div>
+        <div class="spec-pills"><span class="spec-pill">Kalam</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The incident</div>
+    <div class="inc">
+      <div class="inc-head">
+        <div>
+          <div class="inc-title">User service high error rate</div>
+          <div class="inc-chan">#inc-7450-user-service-high-error-rate</div>
+        </div>
+        <span class="sev s2">SEV2</span>
+        <span class="statuspill investigating" id="statusPill"><span class="d"></span><span id="statusTxt">Investigating</span></span>
+      </div>
+      <div class="inc-body">
+        <div class="inc-meta">
+          <div class="mrow"><span class="ml">Incident Lead</span><span class="mv"><span class="av">ED</span> Ed Dean</span></div>
+          <div class="mrow"><span class="ml">Comms Lead</span><span class="mv"><span class="av">PR</span> Pete Hamilton</span></div>
+          <div class="mrow"><span class="ml">Affected</span><span class="mv">User Service · Auth API</span></div>
+          <div class="mrow"><span class="ml">Started</span><span class="mv mono" style="font-family:'Geist Mono',monospace;font-size:12px">12:28 PM · 7 min ago</span></div>
+          <div class="annot"><span class="arr">↳</span> auto-paged the on-call from Datadog</div>
+        </div>
+        <div class="tl-wrap">
+          <div class="tl-top"><span class="lb">Timeline</span><span class="dur-note" id="durNote">open · 7m</span></div>
+          <div class="timeline" id="timeline"></div>
+          <div class="advance-bar">
+            <button class="advance-btn" id="advBtn" onclick="advance()">Update status →</button>
+            <span class="dur-note" id="advNote">next: Identified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sig-hint"><b>Declare, then drive to resolution.</b> Update the status to walk the lifecycle — Investigating → Identified → Monitoring → Resolved — each step posts to the timeline and recolors the incident.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Get a demo</button><button class="btn btn-secondary">Start a free trial</button></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Incident status</div>
+        <div class="badge-row">
+          <span class="badge" style="background:rgba(233,162,59,.16);color:#a8761d">● Investigating</span>
+          <span class="badge" style="background:rgba(242,85,51,.15);color:#c33d20">● Fixing</span>
+          <span class="badge" style="background:rgba(75,115,255,.15);color:#3452c9">● Monitoring</span>
+          <span class="badge" style="background:rgba(16,185,129,.16);color:#0c8f63">● Resolved</span>
+        </div>
+        <div class="badge-row" style="margin-top:10px">
+          <span class="badge" style="background:var(--sev1);color:#fff">SEV1</span>
+          <span class="badge" style="background:var(--sev2);color:#fff">SEV2</span>
+          <span class="badge" style="background:var(--investigating);color:#3d2c08">SEV3</span>
+          <span class="badge" style="background:var(--beige);color:var(--muted)">SEV4</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Slack command (input)</div>
+        <input class="m-input" value="/incident declare User service high error rate" spellcheck="false">
+        <div style="font-size:11px;color:var(--subtle);margin-top:8px" class="mono">declare → respond → resolve</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:9999px"></div><span>btn · pill</span></div>
+          <div><div class="box" style="border-radius:12px"></div><span>card · 12</span></div>
+          <div><div class="box" style="border-radius:16px"></div><span>panel · 16</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas warm cream <b>#F8F5EF</b> (or ink) with near-black text and one <b>alarmalade</b> coral.</div>
+          <div class="gr-item">Set the hero &amp; editorial headings in the <b>serif</b>; product UI in Inter.</div>
+          <div class="gr-item">Color incident status by meaning: amber investigating, coral fixing, blue monitoring, green resolved.</div>
+          <div class="gr-item">Use Geist Mono for incident IDs &amp; channels; a light Kalam annotation is on-brand.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Swap the warm cream for a cold grey — the paper tint is part of the identity.</div>
+          <div class="gr-item">Add a second saturated accent beside coral — the spectrum is status-only.</div>
+          <div class="gr-item">Set incident IDs or timestamps in a proportional sans — they're mono.</div>
+          <div class="gr-item">Recolor the flame — it's always <b>alarmalade</b> coral.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['alarmalade-500','#F25533','Primary · flame · links'],['alarmalade-bright','#FF492C','Hover'],['alarmalade-deep','#5A0A17','Deep coral surface']],
+  surf:[['paper','#F8F5EF','Canvas (cream)'],['card','#FFFFFF','Panels'],['sand','#F1EBE2','Insets'],['beige','#E4D9C8','Warm dividers']],
+  text:[['fg','#161618','Primary'],['muted','#6B675E','Secondary'],['subtle','#9A9488','Meta']],
+  status:[['investigating','#E9A23B','Investigating'],['fixing','#F25533','Identified · fixing'],['monitoring','#4B73FF','Monitoring'],['resolved','#10B981','Resolved'],['SEV1','#E50914','Critical'],['SEV2','#FE7B02','Major']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: the incident (deterministic) ---- */
+const TL0=[
+  {dot:'declared',msg:'<b>incident.io</b> declared this incident and paged the on-call.',meta:'12:28 PM · automation'},
+  {dot:'investigating',msg:'<b>Ed Dean</b> The user service is throwing a high number of 503s — about half of auth requests are failing.',meta:'12:29 PM · Incident Lead'}
+];
+/* each advance step: new status + timeline entry */
+const STEPS=[
+  {status:'fixing',label:'Identified',dot:'fixing',msg:'<b>Ed Dean</b> Root cause identified — a bad deploy on the platform team. Rolling back now.',meta:'12:34 PM · Incident Lead',dur:'open · 12m',next:'Monitoring'},
+  {status:'monitoring',label:'Monitoring',dot:'monitoring',msg:'<b>incident.io</b> Rollback complete. Error rate dropping — watching to confirm recovery.',meta:'12:39 PM · automation',dur:'open · 17m',next:'Resolved'},
+  {status:'resolved',label:'Resolved',dot:'resolved',msg:'<b>Pete Hamilton</b> Error rate back to baseline for 10 minutes. Marking resolved and posting the status-page update.',meta:'12:49 PM · Comms Lead',dur:'resolved · 27m',next:'—'}
+];
+let stepIdx=0, TL=TL0.slice();
+function renderTimeline(newest){
+  document.getElementById('timeline').innerHTML=TL.map((e,i)=>
+    `<div class="tl-item ${newest&&i===TL.length-1?'tl-new':''}">
+       <span class="tl-dot ${e.dot}"></span>
+       <div class="tl-body"><div class="tl-msg">${e.msg}</div><div class="tl-meta">${e.meta}</div></div>
+     </div>`).join('');
+}
+function setStatus(cls,label){
+  document.getElementById('statusPill').className='statuspill '+cls;
+  document.getElementById('statusTxt').textContent=label;
+}
+function advance(){
+  if(stepIdx>=STEPS.length)return;
+  const s=STEPS[stepIdx];stepIdx++;
+  TL.push({dot:s.dot,msg:s.msg,meta:s.meta});
+  renderTimeline(true);
+  setStatus(s.status,s.label);
+  document.getElementById('durNote').textContent=s.dur;
+  document.getElementById('advNote').textContent=stepIdx<STEPS.length?'next: '+s.next:'incident resolved';
+  toast('Status → '+s.label);
+  if(stepIdx>=STEPS.length){
+    const b=document.getElementById('advBtn');b.disabled=true;b.textContent='Resolved ✓';
+  }
+}
+/* initial deterministic render */
+renderTimeline(false);
+</script>
+</body>
+</html>
