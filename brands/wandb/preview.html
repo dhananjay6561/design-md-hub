@@ -7,12 +7,14 @@
 <link rel="icon" type="image/svg+xml" href="https://cdn.simpleicons.org/weightsandbiases">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inconsolata:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inconsolata:wght@400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --gold:#FFCC33;--gold-orange:#FFAD33;--teal:#00AFC2;--magenta:#FF0E65;--mint:#5EEAD4;--peach:#FFB666;--lavender:#EDE8FF;
   --run1:#FFCC33;--run2:#00AFC2;--run3:#FF0E65;--run4:#FFAD33;--run5:#5EEAD4;
   --ok:#34D399;
+  /* code panels stay dark in both themes (mirrors the live hero) */
+  --code-bg:#181B20;--code-top:#1F242B;--code-hair:#2C313A;--code-fg:#E6E8EC;--code-num:#5A616B;
 }
 :root[data-theme="dark"]{
   --bg:#1A1C1F;--bg2:#212429;--bg3:#2B3038;--elev:#212429;--hair:#34373C;
@@ -36,15 +38,34 @@ body{font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color
 .toggle{position:fixed;top:16px;right:16px;background:var(--bg2);border:1px solid var(--border-strong);color:var(--text2);width:38px;height:38px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100}
 
 /* Hero */
-.hero{padding:76px 0 56px;border-bottom:1px solid var(--border)}
-.hero-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hero{padding:70px 0 52px;border-bottom:1px solid var(--border);text-align:center}
+.hero-logo{display:flex;align-items:center;gap:11px;margin-bottom:44px;justify-content:flex-start}
 .hero-logo svg{width:30px;height:30px}
-.hero-logo span{font-size:22px;font-weight:700;letter-spacing:-.01em}
-.hero h1{font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1.02;max-width:640px;margin-bottom:18px}
-.hero h1 .gold{color:var(--gold)}
-:root[data-theme="light"] .hero h1 .gold{color:#C99400}
-.hero p{font-size:18px;color:var(--text2);max-width:540px;margin-bottom:28px}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero-logo .wm{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.hero-logo .wm b{font-size:21px;font-weight:700;letter-spacing:-.01em}
+.hero-logo .wm small{font-size:11px;font-weight:400;color:var(--text3);margin-top:3px;letter-spacing:.01em}
+.hero h1{font-size:54px;font-weight:700;letter-spacing:-.02em;line-height:1.04;max-width:760px;margin:0 auto 20px;position:relative}
+.hero h1 .strike{position:relative;color:var(--text3)}
+.hero h1 .strike::after{content:"";position:absolute;left:-2%;right:-2%;top:52%;height:3px;background:var(--gold);border-radius:3px;transform:rotate(-3deg)}
+.hero h1 .hand{font-family:'Caveat',cursive;color:var(--gold);font-weight:700;font-size:.72em;position:absolute;transform:rotate(-7deg);margin-left:-.9em;margin-top:-.62em;line-height:1}
+:root[data-theme="light"] .hero h1 .hand{color:#C99400}
+:root[data-theme="light"] .hero h1 .strike::after{background:#C99400}
+.hero p{font-size:18px;color:var(--text2);max-width:560px;margin:0 auto 26px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:44px}
+
+/* Hero dual code lockup (Weave + Models) */
+.hero-code{display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left}
+@media(max-width:760px){.hero-code{grid-template-columns:1fr}}
+.hcode{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--code-bg)}
+.hcode-top{display:flex;align-items:center;gap:9px;padding:11px 14px;border-bottom:1px solid var(--code-hair);background:var(--code-top)}
+.hcode-dots{display:flex;gap:5px}
+.hcode-dots i{width:9px;height:9px;border-radius:50%;display:block}
+.hcode-title{font-family:'Inconsolata',monospace;font-size:12.5px;font-weight:600;color:var(--code-fg)}
+.hcode pre{margin:0;padding:14px 16px;font-family:'Inconsolata',monospace;font-size:12.5px;line-height:1.75;overflow-x:auto;color:var(--code-fg)}
+.hcode .ln{display:block;white-space:pre}
+.hcode .c-num{color:var(--code-num);user-select:none;display:inline-block;width:16px}
+.hcode-foot{padding:12px 14px;border-top:1px solid var(--code-hair)}
+.tok-kw{color:#FF8FB3}.tok-fn{color:#4FD3E3}.tok-str{color:#FFCC33}.tok-num{color:#9CE0A0}.tok-com{color:#6B7078}.tok-var{color:var(--code-fg)}
 
 /* Buttons */
 .btn{font-family:inherit;font-weight:600;font-size:14px;border-radius:8px;padding:0 18px;height:44px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.14s}
@@ -138,14 +159,25 @@ svg.chart{width:100%;height:250px;display:block}
   <header class="hero">
     <div class="hero-logo">
       <svg viewBox="0 0 24 24" fill="var(--logo)" xmlns="http://www.w3.org/2000/svg" aria-label="Weights & Biases"><path d="M2.48 0a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zm19.04 0a1.55 1.55 0 1 0 0 3.101 1.55 1.55 0 0 0 0-3.101zM12 2.295a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM2.48 5.272a2.48 2.48 0 1 0 0 4.96 2.48 2.48 0 0 0 0-4.96zm19.04 0a2.48 2.48 0 1 0 0 4.96 2.48 2.48 0 0 0 0-4.96zM12 8.496a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zm-9.52 3.907a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zm19.04 0a1.55 1.55 0 1 0 0 3.102 1.55 1.55 0 0 0 0-3.102zM12 13.767a2.48 2.48 0 1 0 0 4.962 2.48 2.48 0 0 0 0-4.962zm-9.52 3.907a2.48 2.48 0 1 0 .001 4.962 2.48 2.48 0 0 0 0-4.962zm19.04.93a1.55 1.55 0 1 0 0 3.102 1.55 1.55 0 0 0 0-3.101zM12 20.9a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1Z"/></svg>
-      <span>Weights &amp; Biases</span>
+      <span class="wm"><b>Weights &amp; Biases</b><small>by CoreWeave</small></span>
     </div>
-    <h1>The <span class="gold">AI developer</span> platform</h1>
-    <p>Track experiments, visualize metrics, and ship models — the tooling trusted by the world's leading AI teams.</p>
+    <h1>AI is <span class="strike">hard</span><span class="hand">easy</span> to productionize</h1>
+    <p>The AI developer platform to build AI agents, applications, and models with confidence.</p>
     <div class="hero-cta">
       <button class="btn btn-primary">Sign up</button>
       <button class="btn btn-secondary">Contact sales</button>
-      <button class="btn btn-ghost">Get started with one line of code →</button>
+    </div>
+    <div class="hero-code">
+      <div class="hcode">
+        <div class="hcode-top"><span class="hcode-dots"><i style="background:#00AFC2"></i><i style="background:#4FD3E3"></i><i style="background:#5EEAD4"></i></span><span class="hcode-title">W&amp;B Weave: Build agentic AI applications</span></div>
+        <pre><span class="ln"><span class="c-num">1</span><span class="tok-kw">import</span> <span class="tok-var">weave</span></span><span class="ln"><span class="c-num">2</span><span class="tok-var">weave</span>.<span class="tok-fn">init</span>(<span class="tok-str">"quickstart"</span>)</span><span class="ln"><span class="c-num">3</span><span class="tok-fn">@weave.op</span>()</span><span class="ln"><span class="c-num">4</span><span class="tok-kw">def</span> <span class="tok-fn">llm_app</span>(<span class="tok-var">prompt</span>):</span><span class="ln"><span class="c-num">5</span>    <span class="tok-kw">pass</span>  <span class="tok-com"># Track LLM calls, retrieval, agent steps</span></span></pre>
+        <div class="hcode-foot"><button class="btn btn-ghost btn-sm" style="padding:0">Get started with Weave →</button></div>
+      </div>
+      <div class="hcode">
+        <div class="hcode-top"><span class="hcode-dots"><i style="background:#FF0E65"></i><i style="background:#FFAD33"></i><i style="background:#FFCC33"></i></span><span class="hcode-title">W&amp;B Models: Build AI models</span></div>
+        <pre><span class="ln"><span class="c-num">1</span><span class="tok-kw">import</span> <span class="tok-var">wandb</span></span><span class="ln"><span class="c-num">2</span><span class="tok-var">run</span> = <span class="tok-var">wandb</span>.<span class="tok-fn">init</span>(<span class="tok-var">project</span>=<span class="tok-str">"my-training-project"</span>)</span><span class="ln"><span class="c-num">3</span><span class="tok-var">run</span>.<span class="tok-var">config</span> = {<span class="tok-str">"epochs"</span>: <span class="tok-num">1337</span>, <span class="tok-str">"lr"</span>: <span class="tok-num">3e-4</span>}</span><span class="ln"><span class="c-num">4</span><span class="tok-var">run</span>.<span class="tok-fn">log</span>({<span class="tok-str">"metric"</span>: <span class="tok-num">42</span>})</span><span class="ln"><span class="c-num">5</span><span class="tok-var">artifact</span> = <span class="tok-var">run</span>.<span class="tok-fn">log_artifact</span>(<span class="tok-str">"./model.pt"</span>)</span></pre>
+        <div class="hcode-foot"><button class="btn btn-ghost btn-sm" style="padding:0" onclick="document.querySelector('.runs').scrollIntoView({behavior:'smooth'})">Get started with Models →</button></div>
+      </div>
     </div>
   </header>
 
