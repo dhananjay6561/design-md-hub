@@ -48,14 +48,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .hero h1{font-size:42px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-bottom:12px;color:var(--text)}
 .hero p{font-size:16px;color:var(--text2);line-height:1.7;max-width:520px}
 
-/* COLORS */
-.color-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
-.color-chip{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg-callout);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:background .1s}
-.color-chip:hover{background:var(--bg-hover)}
-.color-dot{width:20px;height:20px;border-radius:4px;flex-shrink:0;border:1px solid rgba(0,0,0,.06)}
-.color-info{}
-.color-name{font-size:12px;font-weight:500;color:var(--text)}
-.color-hex{font-size:11px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;color:var(--text3)}
+/* COLORS — tall block swatches */
+.swatch-group-label{margin-bottom:12px;font-size:12px;color:var(--text3);font-weight:500}
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:28px}
+.swatch{border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch-color{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.18)}
+.swatch-info{padding:9px 11px;background:var(--bg-callout)}
+.swatch-name{font-size:11px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;color:var(--text2)}
+.swatch-hex{font-size:12px;font-family:'SFMono-Regular',Consolas,'Liberation Mono',Menlo,Courier,monospace;color:var(--text);margin-top:3px}
+.swatch-use{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
 
 /* TYPOGRAPHY */
 .type-rows{display:flex;flex-direction:column}
@@ -137,6 +139,62 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
 .g-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
 .do .g-item::before{background:var(--success)}
 .dont .g-item::before{background:var(--danger)}
+
+/* ─── SIGNATURE: Notion workspace ─── */
+.ws{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;height:560px;background:var(--bg);box-shadow:0 1px 3px rgba(15,15,15,.06)}
+/* sidebar */
+.ws-side{width:220px;flex-shrink:0;background:var(--bg-sidebar);border-right:1px solid var(--border);display:flex;flex-direction:column;font-size:14px}
+.ws-side-top{padding:12px 12px 8px;display:flex;align-items:center;gap:8px;color:var(--text);font-weight:500}
+.ws-avatar{width:20px;height:20px;border-radius:5px;background:var(--text);color:var(--bg);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ws-chev{margin-left:auto;color:var(--text3);font-size:11px}
+.ws-search{margin:2px 8px 8px;padding:5px 9px;border-radius:6px;background:var(--bg-hover);color:var(--text3);font-size:13px;display:flex;align-items:center;gap:7px}
+.ws-tree{padding:2px 8px;overflow-y:auto;flex:1}
+.ws-page{display:flex;align-items:center;gap:7px;padding:5px 8px;border-radius:5px;cursor:pointer;color:var(--text2)}
+.ws-page:hover{background:var(--bg-hover)}
+.ws-page.active{background:var(--bg-hover);color:var(--text);font-weight:500}
+.ws-page .pi{width:18px;text-align:center;flex-shrink:0}
+.ws-page .pc{margin-left:auto;font-size:12px;color:var(--text3)}
+.ws-new{padding:6px 16px;border-top:1px solid var(--border);color:var(--text3);font-size:13px;cursor:pointer}
+.ws-new:hover{color:var(--text2)}
+/* main */
+.ws-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.ws-crumb{padding:9px 22px;font-size:13px;color:var(--text3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.ws-body{padding:26px 30px;overflow-y:auto;flex:1}
+.ws-emoji{font-size:38px;line-height:1;margin-bottom:10px}
+.ws-title{font-size:32px;font-weight:700;letter-spacing:-.02em;color:var(--text);margin-bottom:16px}
+.ws-p{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:8px}
+.ws-callout{display:flex;gap:10px;background:var(--bg-callout);border-radius:6px;padding:12px 14px;font-size:14px;color:var(--text2);margin:6px 0 22px}
+.ws-callout .ce{font-size:16px;flex-shrink:0}
+/* inline database */
+.db-head{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.db-name{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px}
+.db-views{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.db-view{padding:6px 10px;font-size:13px;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:5px}
+.db-view:hover{color:var(--text2)}
+.db-view.active{color:var(--text);border-bottom-color:var(--text)}
+.db-add{margin-left:auto;font-size:13px;color:var(--text3);cursor:pointer;padding:6px 8px}
+.db-add:hover{color:var(--cta)}
+/* table view */
+.nt-table{width:100%;border-collapse:collapse;font-size:13px}
+.nt-table th{text-align:left;padding:7px 12px;color:var(--text3);font-weight:500;font-size:12px;border-bottom:1px solid var(--border);border-top:1px solid var(--border)}
+.nt-table th:first-child{border-left:1px solid var(--border)}
+.nt-table th:last-child{border-right:1px solid var(--border)}
+.nt-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text);border-left:1px solid var(--border)}
+.nt-table td:last-child{border-right:1px solid var(--border)}
+.nt-table tr:hover td{background:var(--bg-hover)}
+.nt-name{font-weight:500}
+.nt-muted{color:var(--text2);font-size:12px}
+/* board view */
+.nt-board{display:flex;gap:12px;align-items:flex-start}
+.nt-col{flex:1;min-width:0}
+.nt-col-head{display:flex;align-items:center;gap:7px;padding:4px 4px 10px;font-size:13px;font-weight:500;color:var(--text2)}
+.nt-col-count{color:var(--text3);font-weight:400}
+.nt-cards{display:flex;flex-direction:column;gap:8px}
+.nt-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px 11px;box-shadow:0 1px 2px rgba(15,15,15,.05);cursor:pointer;transition:background .1s}
+.nt-card:hover{background:var(--bg-hover)}
+.nt-card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.4}
+.nt-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nt-avatar{width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -158,27 +216,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   <!-- COLORS -->
   <div class="section">
     <div class="section-label">Colors</div>
-    <div style="margin-bottom:16px;font-size:12px;color:var(--text3);font-weight:500">Surfaces</div>
-    <div class="color-row">
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#FFFFFF')"><div class="color-dot" style="background:#FFFFFF"></div><div class="color-info"><div class="color-name">bg-primary</div><div class="color-hex">#FFFFFF</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#F7F6F3')"><div class="color-dot" style="background:#F7F6F3"></div><div class="color-info"><div class="color-name">bg-sidebar</div><div class="color-hex">#F7F6F3</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#F1F1EF')"><div class="color-dot" style="background:#F1F1EF"></div><div class="color-info"><div class="color-name">bg-callout</div><div class="color-hex">#F1F1EF</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#E9E9E7')"><div class="color-dot" style="background:#E9E9E7"></div><div class="color-info"><div class="color-name">border</div><div class="color-hex">#E9E9E7</div></div></div>
+    <div class="swatch-group-label">Surfaces</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><div class="swatch-name">bg-primary</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-use">Page canvas</div></div></div>
+      <div class="swatch" onclick="copyHex('#F7F6F3')"><div class="swatch-color" style="background:#F7F6F3"></div><div class="swatch-info"><div class="swatch-name">bg-sidebar</div><div class="swatch-hex">#F7F6F3</div><div class="swatch-use">Warm off-white sidebar</div></div></div>
+      <div class="swatch" onclick="copyHex('#F1F1EF')"><div class="swatch-color" style="background:#F1F1EF"></div><div class="swatch-info"><div class="swatch-name">bg-callout</div><div class="swatch-hex">#F1F1EF</div><div class="swatch-use">Callouts, code, hover</div></div></div>
+      <div class="swatch" onclick="copyHex('#E9E9E7')"><div class="swatch-color" style="background:#E9E9E7"></div><div class="swatch-info"><div class="swatch-name">border</div><div class="swatch-hex">#E9E9E7</div><div class="swatch-use">Dividers, hairlines</div></div></div>
     </div>
-    <div style="margin-bottom:16px;font-size:12px;color:var(--text3);font-weight:500">Text</div>
-    <div class="color-row">
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#37352F')"><div class="color-dot" style="background:#37352F"></div><div class="color-info"><div class="color-name">text-primary</div><div class="color-hex">#37352F</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#787774')"><div class="color-dot" style="background:#787774"></div><div class="color-info"><div class="color-name">text-secondary</div><div class="color-hex">#787774</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#9B9A97')"><div class="color-dot" style="background:#9B9A97"></div><div class="color-info"><div class="color-name">text-tertiary</div><div class="color-hex">#9B9A97</div></div></div>
-      <div class="color-chip" onclick="navigator.clipboard.writeText('#097FE8')"><div class="color-dot" style="background:#097FE8"></div><div class="color-info"><div class="color-name">cta / link</div><div class="color-hex">#097FE8</div></div></div>
+    <div class="swatch-group-label">Text</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#37352F')"><div class="swatch-color" style="background:#37352F"></div><div class="swatch-info"><div class="swatch-name">text-primary</div><div class="swatch-hex">#37352F</div><div class="swatch-use">Body — warm near-black</div></div></div>
+      <div class="swatch" onclick="copyHex('#787774')"><div class="swatch-color" style="background:#787774"></div><div class="swatch-info"><div class="swatch-name">text-secondary</div><div class="swatch-hex">#787774</div><div class="swatch-use">Secondary text</div></div></div>
+      <div class="swatch" onclick="copyHex('#9B9A97')"><div class="swatch-color" style="background:#9B9A97"></div><div class="swatch-info"><div class="swatch-name">text-tertiary</div><div class="swatch-hex">#9B9A97</div><div class="swatch-use">Metadata, placeholders</div></div></div>
+      <div class="swatch" onclick="copyHex('#097FE8')"><div class="swatch-color" style="background:#097FE8"></div><div class="swatch-info"><div class="swatch-name">cta / link</div><div class="swatch-hex">#097FE8</div><div class="swatch-use">Primary button, links</div></div></div>
     </div>
-    <div style="margin-bottom:16px;font-size:12px;color:var(--text3);font-weight:500">Content tags</div>
-    <div class="color-row">
-      <div class="color-chip"><div class="color-dot" style="background:#EDF3EC"></div><div class="color-info"><div class="color-name">green</div><div class="color-hex">#448361</div></div></div>
-      <div class="color-chip"><div class="color-dot" style="background:#FAECEC"></div><div class="color-info"><div class="color-name">red</div><div class="color-hex">#C4554D</div></div></div>
-      <div class="color-chip"><div class="color-dot" style="background:#FBF3DB"></div><div class="color-info"><div class="color-name">yellow</div><div class="color-hex">#CB912F</div></div></div>
-      <div class="color-chip"><div class="color-dot" style="background:#E9F3F7"></div><div class="color-info"><div class="color-name">blue</div><div class="color-hex">#487CA5</div></div></div>
-      <div class="color-chip"><div class="color-dot" style="background:#F6F3F8"></div><div class="color-info"><div class="color-name">purple</div><div class="color-hex">#8A67AB</div></div></div>
+    <div class="swatch-group-label">Content tags</div>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#448361')"><div class="swatch-color" style="background:#448361"></div><div class="swatch-info"><div class="swatch-name">green</div><div class="swatch-hex">#448361</div><div class="swatch-use">Done · bg #EDF3EC</div></div></div>
+      <div class="swatch" onclick="copyHex('#C4554D')"><div class="swatch-color" style="background:#C4554D"></div><div class="swatch-info"><div class="swatch-name">red</div><div class="swatch-hex">#C4554D</div><div class="swatch-use">Blocked · bg #FAECEC</div></div></div>
+      <div class="swatch" onclick="copyHex('#CB912F')"><div class="swatch-color" style="background:#CB912F"></div><div class="swatch-info"><div class="swatch-name">yellow</div><div class="swatch-hex">#CB912F</div><div class="swatch-use">In progress · bg #FBF3DB</div></div></div>
+      <div class="swatch" onclick="copyHex('#487CA5')"><div class="swatch-color" style="background:#487CA5"></div><div class="swatch-info"><div class="swatch-name">blue</div><div class="swatch-hex">#487CA5</div><div class="swatch-use">Info · bg #E9F3F7</div></div></div>
+      <div class="swatch" onclick="copyHex('#8A67AB')"><div class="swatch-color" style="background:#8A67AB"></div><div class="swatch-info"><div class="swatch-name">purple</div><div class="swatch-hex">#8A67AB</div><div class="swatch-use">Draft · bg #F6F3F8</div></div></div>
     </div>
   </div>
 
@@ -279,6 +337,44 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
     </div>
   </div>
 
+  <!-- SIGNATURE: Notion workspace -->
+  <div class="section">
+    <div class="section-label">Signature — Workspace &amp; inline database</div>
+    <p style="font-size:14px;color:var(--text2);margin:-12px 0 20px;line-height:1.6">A page is a canvas of blocks; a database is the same data seen many ways. Switch the <b style="color:var(--text)">Tasks</b> database between <b style="color:var(--text)">Table</b> and <b style="color:var(--text)">Board</b> — one source of truth, two views.</p>
+    <div class="ws">
+      <!-- Sidebar -->
+      <div class="ws-side">
+        <div class="ws-side-top"><span class="ws-avatar">A</span>Acme HQ<span class="ws-chev">▾</span></div>
+        <div class="ws-search">🔍 Search</div>
+        <div class="ws-tree" id="wsTree">
+          <div class="ws-page active" onclick="selectPage(this)"><span class="pi">🚀</span><span>Product Roadmap</span></div>
+          <div class="ws-page" onclick="selectPage(this)"><span class="pi">📋</span><span>Q4 Planning</span><span class="pc">12</span></div>
+          <div class="ws-page" onclick="selectPage(this)"><span class="pi">📝</span><span>Meeting notes</span></div>
+          <div class="ws-page" onclick="selectPage(this)"><span class="pi">🗂</span><span>Design system</span><span class="pc">4</span></div>
+          <div class="ws-page" onclick="selectPage(this)"><span class="pi">⚙️</span><span>Engineering</span></div>
+        </div>
+        <div class="ws-new">+ New page</div>
+      </div>
+      <!-- Main -->
+      <div class="ws-main">
+        <div class="ws-crumb">Acme HQ<span style="color:var(--text3)">/</span><span style="color:var(--text2)">🚀 Product Roadmap</span></div>
+        <div class="ws-body">
+          <div class="ws-emoji">🚀</div>
+          <div class="ws-title">Product Roadmap</div>
+          <p class="ws-p">Everything the team is shipping this quarter, in one place.</p>
+          <div class="ws-callout"><span class="ce">💡</span><span>Group by <b style="color:var(--text)">Status</b> to run standup from the board — drag a card to move a task along.</span></div>
+          <div class="db-head"><div class="db-name">▦ Tasks</div></div>
+          <div class="db-views">
+            <div class="db-view active" id="viewTable" onclick="setView('table')">☰ Table</div>
+            <div class="db-view" id="viewBoard" onclick="setView('board')">▦ Board</div>
+            <div class="db-add" onclick="addTask()">+ New</div>
+          </div>
+          <div id="dbView"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SPACING -->
   <div class="section">
     <div class="section-label">Spacing</div>
@@ -321,5 +417,95 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);font-
   </div>
 
 </div>
+
+<script>
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h)}
+
+function selectPage(el){
+  document.querySelectorAll('#wsTree .ws-page').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* Status + priority + people metadata (real Notion tag palette) */
+var STATUS={
+  notstarted:{label:'Not started',bg:'var(--bg-callout)',fg:'var(--text3)'},
+  inprogress:{label:'In progress',bg:'var(--warn-bg)',fg:'var(--warn)'},
+  done:{label:'Done',bg:'var(--success-bg)',fg:'var(--success)'}
+};
+var STATUS_ORDER=['notstarted','inprogress','done'];
+var PRIORITY={
+  High:{bg:'var(--danger-bg)',fg:'var(--danger)'},
+  Medium:{bg:'var(--warn-bg)',fg:'var(--warn)'},
+  Low:{bg:'var(--success-bg)',fg:'var(--success)'}
+};
+var PEOPLE={
+  'Ana Torres':'#C4554D','Marcus Chen':'#487CA5','Priya Shah':'#8A67AB','Leo Park':'#448361'
+};
+
+var TASKS=[
+  {name:'Auth flow redesign',   status:'done',       who:'Ana Torres',  due:'Jun 10', pri:'High'},
+  {name:'Design system docs',   status:'inprogress', who:'Marcus Chen', due:'Jun 28', pri:'Medium'},
+  {name:'Mobile nav patterns',  status:'notstarted', who:'',            due:'Jul 5',  pri:'Low'},
+  {name:'Billing webhooks',     status:'inprogress', who:'Priya Shah',  due:'Jul 2',  pri:'High'},
+  {name:'Onboarding checklist', status:'done',       who:'Ana Torres',  due:'Jun 22', pri:'Medium'},
+  {name:'Search indexing',      status:'notstarted', who:'Marcus Chen', due:'Jul 9',  pri:'Medium'}
+];
+/* deterministic additions for "+ New" */
+var NEW_QUEUE=[
+  {name:'API rate limits',  status:'notstarted', who:'Leo Park',   due:'Jul 12', pri:'Medium'},
+  {name:'Dark mode audit',  status:'notstarted', who:'Priya Shah', due:'Jul 15', pri:'Low'},
+  {name:'Export to PDF',    status:'notstarted', who:'',           due:'Jul 18', pri:'Medium'}
+];
+var addIdx=0, view='table';
+
+function tag(bg,fg,txt){return '<span class="tag" style="background:'+bg+';color:'+fg+'">'+txt+'</span>';}
+function statusTag(s){return tag(STATUS[s].bg,STATUS[s].fg,STATUS[s].label);}
+function priTag(p){return tag(PRIORITY[p].bg,PRIORITY[p].fg,p);}
+function avatar(who){
+  if(!who) return '<span class="nt-muted">—</span>';
+  var ini=who.split(' ').map(function(w){return w[0]}).join('');
+  return '<span class="nt-avatar" style="background:'+PEOPLE[who]+'">'+ini+'</span>';
+}
+
+function setView(v){
+  view=v;
+  document.getElementById('viewTable').classList.toggle('active',v==='table');
+  document.getElementById('viewBoard').classList.toggle('active',v==='board');
+  renderDb();
+}
+
+function addTask(){
+  if(addIdx<NEW_QUEUE.length){TASKS.push(NEW_QUEUE[addIdx]);addIdx++;renderDb();}
+}
+
+function renderDb(){
+  var el=document.getElementById('dbView');
+  if(view==='table'){
+    var rows=TASKS.map(function(t){
+      return '<tr><td class="nt-name">'+t.name+'</td>'+
+             '<td>'+statusTag(t.status)+'</td>'+
+             '<td>'+(t.who?'<span style="display:inline-flex;align-items:center;gap:6px">'+avatar(t.who)+'<span class="nt-muted">'+t.who+'</span></span>':'<span class="nt-muted">—</span>')+'</td>'+
+             '<td class="nt-muted">'+t.due+'</td>'+
+             '<td>'+priTag(t.pri)+'</td></tr>';
+    }).join('');
+    el.innerHTML='<table class="nt-table"><thead><tr><th>Name</th><th>Status</th><th>Assignee</th><th>Due</th><th>Priority</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }else{
+    var cols=STATUS_ORDER.map(function(s){
+      var items=TASKS.filter(function(t){return t.status===s;});
+      var cards=items.map(function(t){
+        return '<div class="nt-card"><div class="nt-card-title">'+t.name+'</div>'+
+               '<div class="nt-card-meta">'+priTag(t.pri)+
+               (t.who?avatar(t.who):'')+
+               '<span class="nt-muted">'+t.due+'</span></div></div>';
+      }).join('');
+      return '<div class="nt-col"><div class="nt-col-head">'+statusTag(s)+
+             '<span class="nt-col-count">'+items.length+'</span></div>'+
+             '<div class="nt-cards">'+cards+'</div></div>';
+    }).join('');
+    el.innerHTML='<div class="nt-board">'+cols+'</div>';
+  }
+}
+renderDb();
+</script>
 </body>
 </html>
