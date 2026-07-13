@@ -143,6 +143,7 @@ Every spec is built from the brand's **live production site** — real fonts, ex
 | 114 | [Heroku](brands/heroku/DESIGN.md) | Infra | [preview](https://dhananjay6561.github.io/design-md-hub/brands/heroku/preview.html) |
 | 115 | [Runable](brands/runable/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/runable/preview.html) |
 | 116 | [RunAnywhere](brands/runanywhere/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/runanywhere/preview.html) |
+| 117 | [n8n](brands/n8n/DESIGN.md) | Automation | [preview](https://dhananjay6561.github.io/design-md-hub/brands/n8n/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 

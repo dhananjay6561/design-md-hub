@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>n8n — Design System</title>
+<link rel="icon" type="image/svg+xml" href="https://cdn.simpleicons.org/n8n/FF3B21">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#0E0918;--bg2:#16111F;--surface:#1A1624;--panel:#1B1728;--border:#2A2440;--border2:#362E52;
+  --text:#ECEAF5;--text2:#A7A0C0;--text3:#6E6690;
+  --brand:#FF3B21;--brand-hot:#FF2B09;--orange:#FD8925;--brand-ink:#FF5A42;
+  --grad:linear-gradient(100deg,#FD8925,#FF2B09);
+  --grid:rgba(255,255,255,.05);--conn:#4A4266;--green:#2FBE6E;
+  --brand-tint:rgba(255,59,33,.14);
+  --btn-text:#FFFFFF;--logo-text:#ECEAF5;--toggle-bg:#1A1624;
+}
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F7F6FB;--surface:#FFFFFF;--panel:#F7F6FB;--border:#E7E4F0;--border2:#D8D3E8;
+  --text:#1A1624;--text2:#5B5470;--text3:#8B84A5;
+  --brand:#E8330F;--brand-hot:#FF2B09;--orange:#E5760C;--brand-ink:#D2470A;
+  --grad:linear-gradient(100deg,#FD8925,#FF3B21);
+  --grid:rgba(20,10,40,.06);--conn:#C7C0DC;--green:#1E9E5A;
+  --brand-tint:rgba(232,51,15,.09);
+  --btn-text:#FFFFFF;--logo-text:#1A1624;--toggle-bg:#F1EFF8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Manrope',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--brand-ink);text-decoration:none}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 96px}
+.toggle{position:fixed;top:16px;right:16px;background:var(--toggle-bg);border:1px solid var(--border);color:var(--text2);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--brand)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+
+/* Hero */
+.hero{padding:118px 0 58px;border-bottom:1px solid var(--border)}
+.hero-logo{display:flex;align-items:center;gap:11px;margin-bottom:30px}
+.hero-logo svg{height:24px;width:auto;display:block}
+.hero h1{font-size:48px;font-weight:800;letter-spacing:-.03em;line-height:1.05;max-width:720px;margin-bottom:18px}
+.hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:var(--text2);max-width:560px;line-height:1.6;margin-bottom:30px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:15px;font-weight:600;padding:11px 22px;border-radius:8px;border:none;cursor:pointer;transition:background .15s,border-color .15s,opacity .15s}
+.btn-primary{background:var(--brand);color:var(--btn-text)}
+.btn-primary:hover{background:var(--brand-hot)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--brand)}
+
+/* Section */
+.section{padding-top:56px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink);margin-bottom:8px}
+.section-title{font-size:24px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.section-sub{font-size:15px;color:var(--text2);margin-bottom:26px;max-width:660px;line-height:1.6}
+.grp{font-size:12px;font-weight:500;color:var(--text3);margin:0 0 12px}
+
+/* Swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:12px;margin-bottom:30px}
+.swatch{border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch-c{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.14)}
+.swatch-i{padding:10px 12px;background:var(--surface)}
+.swatch-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2)}
+.swatch-h{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);margin-top:3px}
+.swatch-u{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
+
+/* Type rows */
+.type-rows{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.type-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{padding:18px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.type-meta b{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--brand-ink)}
+.type-meta span{font-size:11px;color:var(--text3)}
+.type-spec{padding:20px 24px;display:flex;align-items:center;overflow:hidden}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.comp-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+.card-t{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:16px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;border-radius:8px;border:1px solid var(--border2);color:var(--text2);background:var(--surface)}
+.chip.expr{color:var(--brand-ink);background:var(--brand-tint);border-color:transparent}
+.state{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%}
+
+/* ── Signature: workflow canvas ── */
+.editor{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--surface)}
+.editor-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.editor-title{font-weight:700;font-size:14px}
+.editor-title .muted{color:var(--text3);font-weight:500}
+.exec-btn{margin-left:auto;font-family:inherit;font-size:13px;font-weight:600;background:var(--brand);color:var(--btn-text);border:none;border-radius:8px;padding:8px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.exec-btn:hover{background:var(--brand-hot)}
+.exec-btn:disabled{opacity:.55;cursor:default}
+.canvas-scroll{overflow-x:auto}
+.canvas{position:relative;width:700px;height:360px;background:var(--bg2);
+  background-image:radial-gradient(var(--grid) 1.4px,transparent 1.4px);background-size:19px 19px;background-position:-2px -2px}
+.conns{position:absolute;inset:0;width:700px;height:360px;pointer-events:none;overflow:visible}
+.conn{fill:none;stroke:var(--conn);stroke-width:2}
+.conn.flow{stroke:var(--brand);stroke-dasharray:6 6;animation:dash .5s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-12}}
+.node{position:absolute;width:145px;background:var(--surface);border:1.5px solid var(--border2);border-radius:11px;padding:10px 11px;cursor:pointer;transition:border-color .15s,box-shadow .15s;z-index:2}
+.node:hover{border-color:var(--text3)}
+.node.trigger{border-top-left-radius:24px;border-bottom-left-radius:24px}
+.node.sel{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-tint)}
+.node.running{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-tint),0 0 18px rgba(255,59,33,.4);animation:pulse .7s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 5px var(--brand-tint),0 0 24px rgba(255,59,33,.55)}}
+.node.done{border-color:var(--green)}
+.node-top{display:flex;align-items:center;gap:8px}
+.node-ic{width:26px;height:26px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff}
+.node-name{font-size:12.5px;font-weight:600;line-height:1.2}
+.node-sub{font-size:10.5px;color:var(--text3);margin-top:5px;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node-pill{position:absolute;top:-9px;right:8px;font-size:9.5px;font-weight:700;color:#fff;background:var(--green);padding:1px 7px;border-radius:9px;opacity:0;transition:opacity .25s}
+.node-pill.show{opacity:1}
+.node-check{position:absolute;bottom:-8px;right:-8px;width:18px;height:18px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:.2s}
+.node.done .node-check{opacity:1;transform:none}
+.node-check svg{width:11px;height:11px}
+.node.dim{opacity:.45}
+/* param panel */
+.params{border-top:1px solid var(--border);padding:14px 18px;font-size:13px;min-height:64px}
+.params-h{display:flex;align-items:center;gap:8px;font-weight:600;margin-bottom:8px}
+.params-h .pic{width:18px;height:18px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff}
+.params-row{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text2);margin-bottom:4px}
+.params-row b{color:var(--text);font-weight:500}
+.params-row .k{color:var(--text3)}
+
+/* Guardrails */
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:620px){.g-grid{grid-template-columns:1fr}}
+.g-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.g-h.do{color:var(--green)}.g-h.dont{color:var(--brand-hot)}
+.g-item{font-size:13.5px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5;margin-bottom:9px}
+.g-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .g-item::before{background:var(--green)}.dont .g-item::before{background:var(--brand-hot)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/n8n/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg viewBox="0 0 87 24" aria-label="n8n"><path fill-rule="evenodd" clip-rule="evenodd" d="M47.9855 4.8C47.9855 7.45098 45.8365 9.6 43.1855 9.6C40.949 9.6 39.0696 8.0703 38.5368 6H31.8352C30.662 6 29.6607 6.84822 29.4678 8.00544L29.2706 9.18912C29.0832 10.313 28.5147 11.2911 27.7108 12C28.5147 12.7089 29.0832 13.687 29.2706 14.8109L29.4678 15.9946C29.6607 17.1518 30.662 18 31.8352 18H33.7368C34.2696 15.9297 36.149 14.4 38.3855 14.4C41.0365 14.4 43.1855 16.549 43.1855 19.2C43.1855 21.851 41.0365 24 38.3855 24C36.149 24 34.2696 22.4703 33.7368 20.4H31.8352C29.4888 20.4 27.4863 18.7036 27.1005 16.3891L26.9032 15.2054C26.7104 14.0482 25.7091 13.2 24.5359 13.2H22.5782C21.979 15.1681 20.1495 16.6 17.9855 16.6C15.8216 16.6 13.9921 15.1681 13.3929 13.2H10.5782C9.97901 15.1681 8.14949 16.6 5.98554 16.6C3.33458 16.6 1.18555 14.4509 1.18555 11.8C1.18555 9.14904 3.33458 7.00002 5.98554 7.00002C8.29361 7.00002 10.2212 8.62902 10.6812 10.8H13.2899C13.7499 8.62902 15.6775 7.00002 17.9855 7.00002C20.2936 7.00002 22.2212 8.62902 22.6812 10.8H24.5359C25.7091 10.8 26.7104 9.95178 26.9032 8.79456L27.1005 7.61088C27.4863 5.29638 29.4888 3.6 31.8352 3.6H38.5368C39.0696 1.52973 40.949 0 43.1855 0C45.8365 0 47.9855 2.14903 47.9855 4.8ZM45.5855 4.8C45.5855 6.12546 44.511 7.2 43.1855 7.2C41.8601 7.2 40.7855 6.12546 40.7855 4.8C40.7855 3.47452 41.8601 2.4 43.1855 2.4C44.511 2.4 45.5855 3.47452 45.5855 4.8ZM5.98554 14.2C7.31105 14.2 8.38553 13.1255 8.38553 11.8C8.38553 10.4745 7.31105 9.40002 5.98554 9.40002C4.66006 9.40002 3.58554 10.4745 3.58554 11.8C3.58554 13.1255 4.66006 14.2 5.98554 14.2ZM17.9855 14.2C19.311 14.2 20.3855 13.1255 20.3855 11.8C20.3855 10.4745 19.311 9.40002 17.9855 9.40002C16.6601 9.40002 15.5855 10.4745 15.5855 11.8C15.5855 13.1255 16.6601 14.2 17.9855 14.2ZM38.3855 21.6C39.711 21.6 40.7855 20.5255 40.7855 19.2C40.7855 17.8745 39.711 16.8 38.3855 16.8C37.0601 16.8 35.9855 17.8745 35.9855 19.2C35.9855 20.5255 37.0601 21.6 38.3855 21.6Z" fill="var(--brand)"/><path fill-rule="evenodd" clip-rule="evenodd" d="M71.7381 11.4027V11.2852C72.5997 10.8544 73.4613 10.1104 73.4613 8.64206C73.4613 6.52754 71.7183 5.25488 69.3105 5.25488C66.8433 5.25488 65.0811 6.60584 65.0811 8.68118C65.0811 10.0909 65.9037 10.8544 66.8043 11.2852V11.4027C65.8059 11.7551 64.6113 12.8124 64.6113 14.5744C64.6113 16.7086 66.3735 18.1966 69.2907 18.1966C72.2079 18.1966 73.9113 16.7086 73.9113 14.5744C73.9113 12.8124 72.7365 11.7747 71.7381 11.4027ZM69.2907 7.05614C70.2699 7.05614 70.9941 7.68266 70.9941 8.73992C70.9941 9.79718 70.2501 10.4238 69.2907 10.4238C68.3313 10.4238 67.5285 9.79718 67.5285 8.73992C67.5285 7.6631 68.2923 7.05614 69.2907 7.05614ZM69.2907 16.317C68.1549 16.317 67.2351 15.5926 67.2351 14.3591C67.2351 13.2431 67.9983 12.4012 69.2709 12.4012C70.5243 12.4012 71.2881 13.2235 71.2881 14.3983C71.2881 15.5926 70.4067 16.317 69.2907 16.317ZM52.7871 18.0004H55.2933V12.6945C55.2933 10.952 56.3505 10.1884 57.5448 10.1884C58.7195 10.1884 59.6398 10.9715 59.6398 12.577V18.0004H62.1456V12.068C62.1456 9.50314 60.6576 8.01514 58.328 8.01514C56.8596 8.01514 56.0372 8.60248 55.4498 9.36604H55.2933L55.0779 8.21092H52.7871V18.0004ZM78.9632 18.0004H76.457V8.21092H78.7478L78.9632 9.36604H79.1198C79.7072 8.60248 80.5298 8.01514 81.998 8.01514C84.3278 8.01514 85.8158 9.50314 85.8158 12.068V18.0004H83.3096V12.577C83.3096 10.9715 82.3898 10.1884 81.215 10.1884C80.0204 10.1884 78.9632 10.952 78.9632 12.6945V18.0004Z" fill="var(--logo-text)"/></svg>
+    </div>
+    <h1>AI agents and workflows you can <span class="g">see and control</span>.</h1>
+    <p>The source-available workflow automation platform that combines AI with 400+ integrations — on a canvas you own.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Get started free</button>
+      <button class="btn btn-secondary">Talk to sales</button>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">01 / Color</div>
+    <div class="section-title">Palette</div>
+    <div class="section-sub">A deep purple-black canvas lit by the signature orange→red gradient. Green marks a node that executed successfully.</div>
+    <p class="grp">Signature — orange → red</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FF3B21')"><div class="swatch-c" style="background:#FF3B21"></div><div class="swatch-i"><div class="swatch-n">--brand</div><div class="swatch-h">#FF3B21</div><div class="swatch-u">Primary — buttons, active nodes</div></div></div>
+      <div class="swatch" onclick="copyHex('#FF2B09')"><div class="swatch-c" style="background:#FF2B09"></div><div class="swatch-i"><div class="swatch-n">--brand-hot</div><div class="swatch-h">#FF2B09</div><div class="swatch-u">Hover, run pulse (live CTA)</div></div></div>
+      <div class="swatch" onclick="copyHex('#FD8925')"><div class="swatch-c" style="background:linear-gradient(100deg,#FD8925,#FF2B09)"></div><div class="swatch-i"><div class="swatch-n">--grad</div><div class="swatch-h">orange→red</div><div class="swatch-u">Hero energy, accents</div></div></div>
+      <div class="swatch" onclick="copyHex('#2FBE6E')"><div class="swatch-c" style="background:#2FBE6E"></div><div class="swatch-i"><div class="swatch-n">--green</div><div class="swatch-h">#2FBE6E</div><div class="swatch-u">Node executed successfully</div></div></div>
+    </div>
+    <p class="grp">Purple-black canvas &amp; text</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#0E0918')"><div class="swatch-c" style="background:#0E0918"></div><div class="swatch-i"><div class="swatch-n">--ink-950</div><div class="swatch-h">#0E0918</div><div class="swatch-u">Main canvas — the n8n signal</div></div></div>
+      <div class="swatch" onclick="copyHex('#1A1624')"><div class="swatch-c" style="background:#1A1624"></div><div class="swatch-i"><div class="swatch-n">--ink-850</div><div class="swatch-h">#1A1624</div><div class="swatch-u">Cards, node bodies</div></div></div>
+      <div class="swatch" onclick="copyHex('#262149')"><div class="swatch-c" style="background:#262149"></div><div class="swatch-i"><div class="swatch-n">--ink-border</div><div class="swatch-h">#262149</div><div class="swatch-u">Purple borders</div></div></div>
+      <div class="swatch" onclick="copyHex('#A7A0C0')"><div class="swatch-c" style="background:#A7A0C0"></div><div class="swatch-i"><div class="swatch-n">--text2</div><div class="swatch-h">#A7A0C0</div><div class="swatch-u">Muted purple-grey</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">02 / Type</div>
+    <div class="section-title">Typography</div>
+    <div class="section-sub">Geomanist (≈ Manrope) — n8n's geometric brand sans — carries display and UI; JetBrains Mono owns node params, expressions, and JSON.</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><b>Manrope</b><span>48px · 800</span></div><div class="type-spec" style="font-size:40px;font-weight:800;letter-spacing:-.03em">see and control</div></div>
+      <div class="type-row"><div class="type-meta"><b>Manrope</b><span>16px · 400</span></div><div class="type-spec" style="font-size:16px;color:var(--text2)">Build visually, go deep with code, connect to anything.</div></div>
+      <div class="type-row"><div class="type-meta"><b>JetBrains Mono</b><span>13px · 400</span></div><div class="type-spec"><span class="mono" style="font-size:13px;color:var(--brand-ink)">{{ $json.status }} === "active"</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">03 / Components</div>
+    <div class="section-title">Building blocks</div>
+    <div class="section-sub">Buttons, expression chips, and the node-execution states that drive the canvas.</div>
+    <div class="comp-grid">
+      <div class="card">
+        <div class="card-t">Buttons &amp; expressions</div>
+        <div class="row" style="margin-bottom:14px"><button class="btn btn-primary">Get started free</button><button class="btn btn-secondary">Talk to sales</button></div>
+        <div class="row"><span class="chip expr">{{ $json.email }}</span><span class="chip expr">{{ $now }}</span><span class="chip">$node["HTTP"]</span></div>
+      </div>
+      <div class="card">
+        <div class="card-t">Node execution state</div>
+        <div class="row" style="gap:16px">
+          <span class="state" style="color:var(--brand-ink)"><span class="dot" style="background:var(--brand)"></span>Running</span>
+          <span class="state" style="color:var(--green)"><span class="dot" style="background:var(--green)"></span>Success</span>
+          <span class="state" style="color:var(--brand-hot)"><span class="dot" style="background:var(--brand-hot)"></span>Error</span>
+          <span class="state" style="color:var(--text3)"><span class="dot" style="background:var(--text3)"></span>Waiting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">04 / Signature</div>
+    <div class="section-title">The workflow canvas</div>
+    <div class="section-sub">Wire nodes on a dotted-grid canvas and run them left-to-right. Click a node to inspect it; press Execute to watch data flow through.</div>
+    <div class="editor">
+      <div class="editor-bar">
+        <span class="editor-title">Order alerts <span class="muted">· my-workflow</span></span>
+        <button class="exec-btn" id="execBtn" onclick="execute()">▶ Execute workflow</button>
+      </div>
+      <div class="canvas-scroll">
+        <div class="canvas" id="canvas">
+          <svg class="conns" viewBox="0 0 700 360" preserveAspectRatio="none">
+            <path class="conn" id="c0" d="M155 177 C175 177 172 177 190 177"/>
+            <path class="conn" id="c1" d="M335 177 C355 177 352 177 372 177"/>
+            <path class="conn" id="c2" d="M517 166 C534 166 525 82 542 82"/>
+            <path class="conn" id="c3" d="M517 188 C534 188 527 272 542 272"/>
+          </svg>
+          <div class="node trigger" id="n0" style="left:10px;top:150px" onclick="pick(0)">
+            <div class="node-top"><span class="node-ic" style="background:#FD8925">⏱</span><span class="node-name">Schedule<br>Trigger</span></div>
+            <span class="node-pill" id="p0">1 item</span><span class="node-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          </div>
+          <div class="node" id="n1" style="left:190px;top:150px" onclick="pick(1)">
+            <div class="node-top"><span class="node-ic" style="background:#6E8BFF">◇</span><span class="node-name">HTTP Request</span></div>
+            <div class="node-sub">GET /orders</div>
+            <span class="node-pill" id="p1">1 item</span><span class="node-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          </div>
+          <div class="node" id="n2" style="left:372px;top:150px" onclick="pick(2)">
+            <div class="node-top"><span class="node-ic" style="background:#FF6D5A">⑂</span><span class="node-name">IF</span></div>
+            <div class="node-sub">status = active</div>
+            <span class="node-pill" id="p2">1 item</span><span class="node-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          </div>
+          <div class="node" id="n3" style="left:542px;top:55px" onclick="pick(3)">
+            <div class="node-top"><span class="node-ic" style="background:#7B61FF">✉</span><span class="node-name">Send Slack</span></div>
+            <div class="node-sub">#orders</div>
+            <span class="node-pill" id="p3">1 item</span><span class="node-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          </div>
+          <div class="node" id="n4" style="left:542px;top:245px" onclick="pick(4)">
+            <div class="node-top"><span class="node-ic" style="background:#2FBE6E">▤</span><span class="node-name">Google Sheets</span></div>
+            <div class="node-sub">Append · Archive</div>
+            <span class="node-pill" id="p4">0 items</span><span class="node-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+          </div>
+        </div>
+      </div>
+      <div class="params" id="params"></div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">05 / Guardrails</div>
+    <div class="section-title">Do &amp; Don't</div>
+    <div class="g-grid" style="margin-top:8px">
+      <div class="do">
+        <div class="g-h do">Do</div>
+        <div class="g-item">Anchor on the purple-black canvas #0E0918; light it with the orange→red gradient</div>
+        <div class="g-item">Darken orange-red to #E8330F for text/links on light surfaces</div>
+        <div class="g-item">Set the UI in Geomanist (≈ Manrope); reserve mono for expressions</div>
+        <div class="g-item">Color nodes by type; mark execution with green + item counts</div>
+      </div>
+      <div class="dont">
+        <div class="g-h dont">Don't</div>
+        <div class="g-item">Don't use a plain black/grey canvas — purple-black is the n8n signal</div>
+        <div class="g-item">Don't put orange text on the orange button</div>
+        <div class="g-item">Don't invent node data — use real n8n language (Trigger, IF, items, {{ }})</div>
+        <div class="g-item">Don't use Math.random — keep the execution deterministic</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h)}
+
+var NODES=[
+  {ic:'⏱',c:'#FD8925',name:'Schedule Trigger',rows:[['Trigger interval','Every 15 minutes'],['Mode','cron']]},
+  {ic:'◇',c:'#6E8BFF',name:'HTTP Request',rows:[['Method','GET'],['URL','https://api.example.com/orders']]},
+  {ic:'⑂',c:'#FF6D5A',name:'IF',rows:[['Condition','{{ $json.status }} == "active"'],['Combine','AND']]},
+  {ic:'✉',c:'#7B61FF',name:'Send Slack message',rows:[['Channel','#orders'],['Text','New active order {{ $json.id }}']]},
+  {ic:'▤',c:'#2FBE6E',name:'Google Sheets',rows:[['Operation','Append'],['Sheet','Archive']]}
+];
+function showParams(i){
+  var n=NODES[i];
+  document.getElementById('params').innerHTML=
+    '<div class="params-h"><span class="pic" style="background:'+n.c+'">'+n.ic+'</span>'+n.name+'</div>'+
+    n.rows.map(function(r){return '<div class="params-row"><span class="k">'+r[0]+':</span> <b>'+r[1]+'</b></div>';}).join('');
+}
+function pick(i){
+  document.querySelectorAll('.node').forEach(function(el){el.classList.remove('sel');});
+  document.getElementById('n'+i).classList.add('sel');
+  showParams(i);
+}
+
+/* deterministic execution: n0 -> n1 -> n2 -> (true) n3 ; n4 stays 0 items */
+var SEQ=[
+  {node:'n0',conn:null,pill:'p0'},
+  {node:'n1',conn:'c0',pill:'p1'},
+  {node:'n2',conn:'c1',pill:'p2'},
+  {node:'n3',conn:'c2',pill:'p3'}
+];
+var execTimer=null;
+function resetExec(){
+  clearTimeout(execTimer);
+  document.querySelectorAll('.node').forEach(function(el){el.classList.remove('running','done','sel');el.classList.remove('dim');});
+  document.querySelectorAll('.node-pill').forEach(function(el){el.classList.remove('show');});
+  document.querySelectorAll('.conn').forEach(function(el){el.classList.remove('flow');});
+  document.getElementById('n4').classList.add('dim'); /* false branch: no items */
+}
+function execute(){
+  resetExec();
+  document.getElementById('execBtn').disabled=true;
+  var i=0;
+  function stepRun(){
+    if(i>=SEQ.length){
+      document.getElementById('execBtn').disabled=false;
+      showParams(2);document.getElementById('n2').classList.add('sel');
+      return;
+    }
+    var s=SEQ[i];
+    if(s.conn)document.getElementById(s.conn).classList.add('flow');
+    var node=document.getElementById(s.node);
+    node.classList.add('running');
+    execTimer=setTimeout(function(){
+      node.classList.remove('running');node.classList.add('done');
+      document.getElementById(s.pill).classList.add('show');
+      i++;stepRun();
+    },560);
+  }
+  stepRun();
+}
+
+/* initial state: fully executed so the panel reads immediately */
+(function(){
+  SEQ.forEach(function(s){document.getElementById(s.node).classList.add('done');document.getElementById(s.pill).classList.add('show');if(s.conn)document.getElementById(s.conn).classList.add('flow');});
+  document.getElementById('n4').classList.add('dim');
+  pick(2);
+})();
+</script>
+</body>
+</html>
