@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heroku — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=heroku.com&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'BentonSans';src:url('https://www.heroku.com/wp-content/uploads/2025/03/bentonsans-regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'BentonSans';src:url('https://www.heroku.com/wp-content/uploads/2025/01/bentonsans-medium-707aee2a59a7364edde03afc7a5c1dab53cda95864b5a283795369fcf2c30787-1.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'BentonSans';src:url('https://www.heroku.com/wp-content/uploads/2025/01/bentonsans-medium-707aee2a59a7364edde03afc7a5c1dab53cda95864b5a283795369fcf2c30787-1.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F7F5FB;--surface:#FFFFFF;--border:#E7E2F1;--border2:#D6CEE8;
+  --text:#1B1B29;--text2:#55506B;--text3:#8A85A0;
+  --brand:#5A1BA9;--brand-hover:#48158A;--brand-deep:#300B60;--mark:#6762A6;
+  --brand-tint:rgba(90,27,169,.08);--brand-tint2:rgba(90,27,169,.13);
+  --teal:#5EEAD4;--teal-ink:#0E9A87;--teal-bg:#E2FBF5;
+  --coral:#EE643F;--gold:#F7B500;
+  --btn-text:#FFFFFF;--logo-text:#1B1B29;--toggle-bg:#F1EDF9;
+}
+:root[data-theme="dark"]{
+  --bg:#1A1523;--bg2:#211A2E;--surface:#241D33;--border:#372B4D;--border2:#463763;
+  --text:#F2EEF9;--text2:#B8AECC;--text3:#7E7594;
+  --brand:#A78BEA;--brand-hover:#BBA3F1;--brand-deep:#C9B8F4;--mark:#6762A6;
+  --brand-tint:rgba(167,139,234,.14);--brand-tint2:rgba(167,139,234,.2);
+  --teal:#5EEAD4;--teal-ink:#5EEAD4;--teal-bg:rgba(94,234,212,.12);
+  --coral:#F5835F;--gold:#F7B500;
+  --btn-text:#1A1523;--logo-text:#F2EEF9;--toggle-bg:#241D33;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BentonSans',Arial,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--brand);text-decoration:none}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 96px}
+.toggle{position:fixed;top:16px;right:16px;background:var(--toggle-bg);border:1px solid var(--border);color:var(--text2);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--brand)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+
+/* Hero */
+.hero{padding:120px 0 60px;border-bottom:1px solid var(--border)}
+.hero-logo{display:flex;align-items:center;gap:13px;margin-bottom:28px}
+.hero-logo svg{height:38px;width:auto;display:block}
+.hero-logo .wm{font-weight:500;font-size:29px;letter-spacing:-.01em;color:var(--logo-text)}
+.hero h1{font-size:46px;font-weight:500;letter-spacing:-.02em;line-height:1.1;max-width:760px;margin-bottom:18px}
+.hero h1 .g{background:linear-gradient(90deg,var(--brand),var(--coral));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:var(--text2);max-width:560px;line-height:1.6;margin-bottom:30px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:15px;font-weight:500;padding:11px 22px;border-radius:6px;border:none;cursor:pointer;transition:background .15s,border-color .15s}
+.btn-primary{background:var(--brand);color:var(--btn-text)}
+.btn-primary:hover{background:var(--brand-hover)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Section */
+.section{padding-top:56px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin-bottom:8px}
+.section-title{font-size:24px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+.section-sub{font-size:15px;color:var(--text2);margin-bottom:26px;max-width:620px;line-height:1.6}
+.grp{font-size:12px;font-weight:500;color:var(--text3);margin:0 0 12px;letter-spacing:.02em}
+
+/* Swatches — tall block */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:12px;margin-bottom:30px}
+.swatch{border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch-c{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.16)}
+.swatch-i{padding:10px 12px;background:var(--surface)}
+.swatch-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2)}
+.swatch-h{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);margin-top:3px}
+.swatch-u{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
+
+/* Type rows */
+.type-rows{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.type-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{padding:18px 18px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.type-meta b{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--brand)}
+.type-meta span{font-size:11px;color:var(--text3)}
+.type-spec{padding:20px 24px;display:flex;align-items:center;overflow:hidden}
+
+/* Components grid */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.comp-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px}
+.card-t{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:16px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);background:var(--bg2)}
+.chip.teal{color:var(--teal-ink);background:var(--teal-bg);border-color:transparent}
+.chip.purple{color:var(--brand);background:var(--brand-tint);border-color:transparent}
+.state{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:5px;font-size:12px;font-weight:500}
+
+/* ── Signature ── */
+.sig{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+@media(max-width:820px){.sig{grid-template-columns:1fr}}
+.term{background:#17141F;border:1px solid #2C2540;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:430px}
+.term-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid #2C2540}
+.tl{width:11px;height:11px;border-radius:50%}
+.term-title{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8B84A0}
+.term-body{padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.65;color:#D8D2E6;overflow-y:auto;flex:1;white-space:pre-wrap}
+.term-body .cmd{color:#F2EEF9}
+.term-body .cmd b{color:#5EEAD4;font-weight:400}
+.term-body .arrow{color:#A78BEA}
+.term-body .ok{color:#5EEAD4}
+.term-body .muted{color:#8B84A0}
+.term-body .url{color:#5EEAD4;text-decoration:underline}
+.cursor{display:inline-block;width:8px;height:15px;background:#5EEAD4;vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.term-foot{padding:11px 14px;border-top:1px solid #2C2540;display:flex;align-items:center;gap:10px}
+.deploy-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;background:var(--brand);color:#fff;border:none;border-radius:6px;padding:8px 15px;cursor:pointer}
+.deploy-btn:hover{background:#6B29BE}
+.deploy-btn:disabled{opacity:.5;cursor:default}
+.deploy-status{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8B84A0}
+
+/* Dyno formation */
+.formation{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column}
+.app-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.app-name{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:500;color:var(--text)}
+.app-sub{font-size:12px;color:var(--text3);margin-bottom:20px}
+.proc{padding:14px 0;border-top:1px solid var(--border)}
+.proc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.proc-name{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:var(--text)}
+.proc-cmd{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--border2);border-radius:7px;overflow:hidden}
+.stepper button{width:28px;height:26px;border:none;background:var(--bg2);color:var(--text);font-size:15px;cursor:pointer;font-family:inherit;line-height:1}
+.stepper button:hover{background:var(--brand-tint)}
+.stepper button:disabled{opacity:.4;cursor:default}
+.stepper .n{min-width:30px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500}
+.dynos{display:flex;gap:5px;flex-wrap:wrap;min-height:22px}
+.dyno{width:26px;height:22px;border-radius:4px;background:var(--brand);box-shadow:inset 0 -3px 0 rgba(0,0,0,.14);transition:transform .12s}
+.dyno.off{background:transparent;border:1px dashed var(--border2);box-shadow:none}
+.ps-echo{margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 11px}
+.ps-echo b{color:var(--teal-ink);font-weight:500}
+.cost{margin-top:12px;font-size:13px;color:var(--text2)}
+.cost b{color:var(--text);font-weight:500}
+
+/* Guardrails */
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:620px){.g-grid{grid-template-columns:1fr}}
+.g-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.g-h.do{color:var(--teal-ink)}.g-h.dont{color:var(--coral)}
+.g-item{font-size:13.5px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5;margin-bottom:9px}
+.g-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .g-item::before{background:var(--teal-ink)}.dont .g-item::before{background:var(--coral)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/heroku/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg viewBox="0 0 5.12 5.12" aria-label="Heroku"><path d="M4.12 5.12H.968a.49.49 0 0 1-.488-.488V.488A.49.49 0 0 1 .968 0H4.12a.49.49 0 0 1 .488.488v4.144a.49.49 0 0 1-.488.488z" fill="var(--mark)"/><path d="M3.068 4.415V2.382s.132-.487-1.63.2C1.436 2.6 1.436.7 1.436.7L2.01.697v1.2s1.61-.635 1.61.48v2.026h-.555zm.328-2.986h-.6c.22-.27.42-.73.42-.73h.63s-.108.3-.44.73zm-1.95 2.982V3.254l.58.58-.58.58z" fill="#fff"/></svg>
+      <span class="wm">Heroku</span>
+    </div>
+    <h1>The cloud application platform for building, deploying, and <span class="g">scaling apps</span>.</h1>
+    <p>Deploy, manage, and scale apps on Heroku — a PaaS built on a managed container system of dynos, buildpacks, and add-ons.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Get Started Now</button>
+      <button class="btn btn-secondary">View Documentation</button>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">01 / Color</div>
+    <div class="section-title">Palette</div>
+    <div class="section-sub">Brand purple leads; a bright mint-teal is the signature accent. Coral and gold appear only in illustration and badges.</div>
+    <p class="grp">Primary — purple</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#5A1BA9')"><div class="swatch-c" style="background:#5A1BA9"></div><div class="swatch-i"><div class="swatch-n">--brand</div><div class="swatch-h">#5A1BA9</div><div class="swatch-u">Buttons, links, build arrows</div></div></div>
+      <div class="swatch" onclick="copyHex('#300B60')"><div class="swatch-c" style="background:#300B60"></div><div class="swatch-i"><div class="swatch-n">--brand-deep</div><div class="swatch-h">#300B60</div><div class="swatch-u">Gradients, deep surfaces</div></div></div>
+      <div class="swatch" onclick="copyHex('#6762A6')"><div class="swatch-c" style="background:#6762A6"></div><div class="swatch-i"><div class="swatch-n">--mark</div><div class="swatch-h">#6762A6</div><div class="swatch-u">Logomark square</div></div></div>
+    </div>
+    <p class="grp">Accent</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#5EEAD4')"><div class="swatch-c" style="background:#5EEAD4"></div><div class="swatch-i"><div class="swatch-n">--teal</div><div class="swatch-h">#5EEAD4</div><div class="swatch-u">Signature mint — highlights, success</div></div></div>
+      <div class="swatch" onclick="copyHex('#0E9A87')"><div class="swatch-c" style="background:#0E9A87"></div><div class="swatch-i"><div class="swatch-n">--teal-ink</div><div class="swatch-h">#0E9A87</div><div class="swatch-u">Teal as text on light (contrast)</div></div></div>
+      <div class="swatch" onclick="copyHex('#EE643F')"><div class="swatch-c" style="background:#EE643F"></div><div class="swatch-i"><div class="swatch-n">--coral</div><div class="swatch-h">#EE643F</div><div class="swatch-u">Illustration, crashed state</div></div></div>
+      <div class="swatch" onclick="copyHex('#F7B500')"><div class="swatch-c" style="background:#F7B500"></div><div class="swatch-i"><div class="swatch-n">--gold</div><div class="swatch-h">#F7B500</div><div class="swatch-u">Badges, sparingly</div></div></div>
+    </div>
+    <p class="grp">Surfaces &amp; text</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-c" style="background:#FFFFFF"></div><div class="swatch-i"><div class="swatch-n">--bg</div><div class="swatch-h">#FFFFFF</div><div class="swatch-u">Page canvas (light)</div></div></div>
+      <div class="swatch" onclick="copyHex('#F7F5FB')"><div class="swatch-c" style="background:#F7F5FB"></div><div class="swatch-i"><div class="swatch-n">--bg2</div><div class="swatch-h">#F7F5FB</div><div class="swatch-u">Subtle purple-tinted fill</div></div></div>
+      <div class="swatch" onclick="copyHex('#1A1523')"><div class="swatch-c" style="background:#1A1523"></div><div class="swatch-i"><div class="swatch-n">--bg (dark)</div><div class="swatch-h">#1A1523</div><div class="swatch-u">Deep purple-black canvas</div></div></div>
+      <div class="swatch" onclick="copyHex('#1B1B29')"><div class="swatch-c" style="background:#1B1B29"></div><div class="swatch-i"><div class="swatch-n">--text</div><div class="swatch-h">#1B1B29</div><div class="swatch-u">Body ink</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">02 / Type</div>
+    <div class="section-title">Typography</div>
+    <div class="section-sub">BentonSans — Heroku's brand humanist sans, self-hosted &amp; CORS-open — carries display, UI, and body. JetBrains Mono is reserved for the CLI, terminal, and dyno counts.</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><b>BentonSans</b><span>46px · 500</span></div><div class="type-spec" style="font-size:40px;font-weight:500;letter-spacing:-.02em">Scale apps</div></div>
+      <div class="type-row"><div class="type-meta"><b>BentonSans</b><span>24px · 500</span></div><div class="type-spec" style="font-size:24px;font-weight:500">Deploy from a git push</div></div>
+      <div class="type-row"><div class="type-meta"><b>BentonSans</b><span>16px · 400</span></div><div class="type-spec" style="font-size:16px;color:var(--text2)">Heroku runs your apps inside dynos — smart, secure containers on a fully managed runtime.</div></div>
+      <div class="type-row"><div class="type-meta"><b>JetBrains Mono</b><span>13px · 400</span></div><div class="type-spec"><span class="mono" style="font-size:13px;color:var(--brand)">$ git push heroku main</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">03 / Components</div>
+    <div class="section-title">Building blocks</div>
+    <div class="section-sub">Real Heroku primitives — dyno &amp; build states, process-type chips, add-ons, buttons.</div>
+    <div class="comp-grid">
+      <div class="card">
+        <div class="card-t">Buttons</div>
+        <div class="row"><button class="btn btn-primary">Get Started Now</button><button class="btn btn-secondary">View Documentation</button></div>
+      </div>
+      <div class="card">
+        <div class="card-t">Dyno &amp; build state</div>
+        <div class="row" style="gap:16px">
+          <span class="state" style="color:var(--brand)"><span class="dot" style="background:var(--brand)"></span>Building</span>
+          <span class="state" style="color:var(--teal-ink)"><span class="dot" style="background:var(--teal-ink)"></span>Up</span>
+          <span class="state" style="color:var(--coral)"><span class="dot" style="background:var(--coral)"></span>Crashed</span>
+          <span class="state" style="color:var(--text3)"><span class="dot" style="background:var(--text3)"></span>Idle</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-t">Process types</div>
+        <div class="row"><span class="chip purple">web</span><span class="chip purple">worker</span><span class="chip">clock</span><span class="chip">release</span></div>
+      </div>
+      <div class="card">
+        <div class="card-t">Add-ons</div>
+        <div class="row"><span class="chip teal">heroku-postgresql</span><span class="chip teal">heroku-redis</span><span class="chip teal">papertrail</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">04 / Signature</div>
+    <div class="section-title">git push heroku main</div>
+    <div class="section-sub">Push code, watch the remote build stream, then scale dynos — the whole Heroku loop in one view.</div>
+    <div class="sig">
+      <!-- Deploy terminal -->
+      <div class="term">
+        <div class="term-bar"><span class="tl" style="background:#ff5f57"></span><span class="tl" style="background:#febc2e"></span><span class="tl" style="background:#28c840"></span><span class="term-title">~/apps/calm-river — zsh</span></div>
+        <div class="term-body" id="termBody"></div>
+        <div class="term-foot"><button class="deploy-btn" id="deployBtn" onclick="deploy()">$ git push heroku main</button><span class="deploy-status" id="deployStatus">ready</span></div>
+      </div>
+      <!-- Dyno formation -->
+      <div class="formation">
+        <div class="app-head"><svg viewBox="0 0 5.12 5.12" style="height:18px" aria-hidden="true"><path d="M4.12 5.12H.968a.49.49 0 0 1-.488-.488V.488A.49.49 0 0 1 .968 0H4.12a.49.49 0 0 1 .488.488v4.144a.49.49 0 0 1-.488.488z" fill="var(--mark)"/><path d="M3.068 4.415V2.382s.132-.487-1.63.2C1.436 2.6 1.436.7 1.436.7L2.01.697v1.2s1.61-.635 1.61.48v2.026h-.555zm.328-2.986h-.6c.22-.27.42-.73.42-.73h.63s-.108.3-.44.73zm-1.95 2.982V3.254l.58.58-.58.58z" fill="#fff"/></svg><span class="app-name">calm-river-4823</span></div>
+        <div class="app-sub">Dyno formation · Standard-1X</div>
+        <div class="proc">
+          <div class="proc-head"><div><div class="proc-name">web</div><div class="proc-cmd">gunicorn app:app</div></div><div class="stepper"><button onclick="scale('web',-1)">−</button><span class="n" id="n-web">2</span><button onclick="scale('web',1)">+</button></div></div>
+          <div class="dynos" id="d-web"></div>
+        </div>
+        <div class="proc">
+          <div class="proc-head"><div><div class="proc-name">worker</div><div class="proc-cmd">celery -A app worker</div></div><div class="stepper"><button onclick="scale('worker',-1)">−</button><span class="n" id="n-worker">1</span><button onclick="scale('worker',1)">+</button></div></div>
+          <div class="dynos" id="d-worker"></div>
+        </div>
+        <div class="ps-echo" id="psEcho"></div>
+        <div class="cost" id="cost"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">05 / Guardrails</div>
+    <div class="section-title">Do &amp; Don't</div>
+    <div class="g-grid" style="margin-top:8px">
+      <div class="do">
+        <div class="g-h do">Do</div>
+        <div class="g-item">Lead with brand purple #5A1BA9; use teal #5EEAD4 as the bright accent</div>
+        <div class="g-item">Darken teal to #0E9A87 for teal text on light surfaces</div>
+        <div class="g-item">Keep the build terminal dark in both themes</div>
+        <div class="g-item">Call the runtime units “dynos”; use real buildpack language</div>
+      </div>
+      <div class="dont">
+        <div class="g-h dont">Don't</div>
+        <div class="g-item">Don't use teal #5EEAD4 as small text on white — it fails contrast</div>
+        <div class="g-item">Don't put purple text on the purple primary button</div>
+        <div class="g-item">Don't invent deploy copy — mirror real “-----&gt; …” log phrasing</div>
+        <div class="g-item">Don't use Math.random — keep the deploy deterministic</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h)}
+
+/* ── Deploy log (deterministic) ── */
+var LINES=[
+ {t:'cmd',h:'$ <b>git push heroku main</b>'},
+ {t:'muted',h:'Enumerating objects: 27, done.'},
+ {t:'muted',h:'Writing objects: 100% (14/14), 3.24 KiB, done.'},
+ {t:'plain',h:'remote: Compressing source files... done.'},
+ {t:'plain',h:'remote: Building source:'},
+ {t:'arrow',h:'remote: -----> Building on the Heroku-24 stack'},
+ {t:'arrow',h:'remote: -----> Using buildpack: heroku/python'},
+ {t:'arrow',h:'remote: -----> Python app detected'},
+ {t:'arrow',h:'remote: -----> Installing python-3.12.4'},
+ {t:'arrow',h:'remote: -----> Installing dependencies using pip'},
+ {t:'plain',h:'remote:        Successfully installed Flask-3.0.3 gunicorn-22.0.0 celery-5.4.0'},
+ {t:'arrow',h:'remote: -----> Discovering process types'},
+ {t:'plain',h:'remote:        Procfile declares types -> web, worker'},
+ {t:'arrow',h:'remote: -----> Compressing...'},
+ {t:'plain',h:'remote:        Done: 62.4M'},
+ {t:'arrow',h:'remote: -----> Launching...'},
+ {t:'ok',h:'remote:        Released v23'},
+ {t:'url',h:'remote:        https://calm-river-4823.herokuapp.com/ deployed to Heroku'},
+ {t:'ok',h:'remote: Verifying deploy... done.'}
+];
+var termBody=document.getElementById('termBody'),deployBtn=document.getElementById('deployBtn'),deployStatus=document.getElementById('deployStatus');
+var dTimer=null;
+function esc(s){return s;}
+function renderLine(l){
+  var cls=l.t==='cmd'?'cmd':l.t==='arrow'?'arrow':l.t==='ok'?'ok':l.t==='url'?'url':l.t==='muted'?'muted':'';
+  return '<span class="'+cls+'">'+l.h+'</span>\n';
+}
+function showAll(){
+  clearInterval(dTimer);
+  termBody.innerHTML=LINES.map(renderLine).join('')+'<span class="ok">$ </span><span class="cursor"></span>';
+  deployStatus.textContent='deployed · v23';deployBtn.disabled=false;
+}
+function deploy(){
+  clearInterval(dTimer);
+  deployBtn.disabled=true;deployStatus.textContent='deploying…';
+  var i=0;termBody.innerHTML='';
+  dTimer=setInterval(function(){
+    if(i>=LINES.length){clearInterval(dTimer);termBody.innerHTML+='<span class="ok">$ </span><span class="cursor"></span>';deployStatus.textContent='deployed · v23';deployBtn.disabled=false;return;}
+    termBody.innerHTML+=renderLine(LINES[i]);termBody.scrollTop=termBody.scrollHeight;i++;
+  },230);
+}
+
+/* ── Dyno formation (deterministic) ── */
+var COST_PER=25; // Standard-1X $/mo
+var procs={web:2,worker:1};
+function scale(p,delta){
+  procs[p]=Math.max(0,Math.min(10,procs[p]+delta));
+  renderFormation();
+}
+function renderFormation(){
+  ['web','worker'].forEach(function(p){
+    document.getElementById('n-'+p).textContent=procs[p];
+    var host=document.getElementById('d-'+p);
+    var html='';
+    var shown=Math.max(procs[p],1);
+    for(var i=0;i<shown;i++){html+='<div class="dyno'+(i>=procs[p]?' off':'')+'"></div>';}
+    host.innerHTML=html;
+  });
+  document.getElementById('psEcho').innerHTML='$ heroku ps:scale <b>web='+procs.web+' worker='+procs.worker+'</b>';
+  var total=procs.web+procs.worker;
+  document.getElementById('cost').innerHTML=total+' dyno'+(total===1?'':'s')+' running · <b>$'+(total*COST_PER)+'/mo</b> est.';
+}
+
+showAll();
+renderFormation();
+</script>
+</body>
+</html>
