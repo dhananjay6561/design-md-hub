@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RunAnywhere — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=runanywhere.ai&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="light"]{
+  --bg:#FBF9F9;--bg2:#F3F0ED;--surface:#FFFFFF;--border:#E8E3DE;--border2:#DAD3CB;
+  --text:#1C1A17;--text2:#63605A;--text3:#97938C;
+  --orange:#FF6900;--orange-ink:#D2470A;--red:#FB2C36;
+  --grad:linear-gradient(100deg,#FF6900,#FB2C36);
+  --green:#1B9E77;--green-ink:#16815F;
+  --orange-tint:rgba(255,105,0,.10);--orange-tint2:rgba(255,105,0,.16);
+  --btn-text:#FFFFFF;--logo-text:#1C1A17;--toggle-bg:#F1EDEA;
+}
+:root[data-theme="dark"]{
+  --bg:#141210;--bg2:#1D1A16;--surface:#211E19;--border:#332E27;--border2:#453E34;
+  --text:#F5F1EA;--text2:#B0A99E;--text3:#7A746B;
+  --orange:#FF7A1A;--orange-ink:#FF7A1A;--red:#FB4A52;
+  --grad:linear-gradient(100deg,#FF7A1A,#FB4A52);
+  --green:#3FBE93;--green-ink:#3FBE93;
+  --orange-tint:rgba(255,122,26,.15);--orange-tint2:rgba(255,122,26,.22);
+  --btn-text:#1C1206;--logo-text:#F5F1EA;--toggle-bg:#211E19;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--orange-ink);text-decoration:none}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 96px}
+.toggle{position:fixed;top:16px;right:16px;background:var(--toggle-bg);border:1px solid var(--border);color:var(--text2);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--orange)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+
+/* Hero */
+.hero{padding:118px 0 58px;border-bottom:1px solid var(--border)}
+.hero-logo{display:flex;align-items:center;gap:11px;margin-bottom:30px}
+.hero-logo svg{height:28px;width:auto;display:block}
+.hero-logo .wm{font-weight:600;font-size:22px;letter-spacing:-.01em;color:var(--logo-text)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text3);margin-bottom:18px}
+.hero h1{font-family:'Newsreader',Georgia,serif;font-size:66px;font-weight:400;letter-spacing:-.02em;line-height:1.02;margin-bottom:22px}
+.hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.hero p{font-size:18px;color:var(--text2);max-width:600px;line-height:1.62;margin-bottom:30px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{font-family:inherit;font-size:15px;font-weight:500;padding:11px 22px;border-radius:999px;border:none;cursor:pointer;transition:background .15s,border-color .15s,opacity .15s}
+.btn-primary{background:var(--orange);color:var(--btn-text)}
+.btn-primary:hover{opacity:.9}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--orange)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:44px}
+@media(max-width:620px){.stats{grid-template-columns:1fr 1fr}}
+.stat{border:1px solid var(--border);border-radius:12px;padding:16px 18px;background:var(--surface)}
+.stat b{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;display:block;letter-spacing:-.02em}
+.stat span{font-size:12px;color:var(--text3);margin-top:4px;display:block}
+
+/* Section */
+.section{padding-top:56px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-ink);margin-bottom:8px}
+.section-title{font-family:'Newsreader',Georgia,serif;font-size:30px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+.section-sub{font-size:15px;color:var(--text2);margin-bottom:26px;max-width:640px;line-height:1.6}
+.grp{font-size:12px;font-weight:500;color:var(--text3);margin:0 0 12px}
+
+/* Swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:12px;margin-bottom:30px}
+.swatch{border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch-c{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.14)}
+.swatch-i{padding:10px 12px;background:var(--surface)}
+.swatch-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2)}
+.swatch-h{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);margin-top:3px}
+.swatch-u{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
+
+/* Type rows */
+.type-rows{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.type-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{padding:18px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.type-meta b{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--orange-ink)}
+.type-meta span{font-size:11px;color:var(--text3)}
+.type-spec{padding:20px 24px;display:flex;align-items:center;overflow:hidden}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.comp-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+.card-t{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:16px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 12px;border-radius:8px;border:1px solid var(--border2);color:var(--text2);background:var(--surface)}
+.chip.on{color:var(--orange-ink);background:var(--orange-tint);border-color:transparent}
+.state{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%}
+
+/* ── Signature: run anywhere ── */
+.bench{display:grid;grid-template-columns:1fr 1.05fr;gap:16px}
+@media(max-width:820px){.bench{grid-template-columns:1fr}}
+.bench-left{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px}
+.sdk{background:#17140F;border:1px solid #322A20;border-radius:10px;padding:13px 15px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#EDE6DA;overflow-x:auto;margin-bottom:16px}
+.sdk .kw{color:#FF9A4D}.sdk .st{color:#7FD6A9}.sdk .cm{color:#7A746B}.sdk .fn{color:#FFC599}
+.sel-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:2px 0 10px}
+.platforms{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.plat{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border:1px solid var(--border2);border-radius:10px;cursor:pointer;transition:all .13s;background:var(--bg)}
+.plat:hover{border-color:var(--orange)}
+.plat.on{border-color:transparent;background:var(--orange-tint);box-shadow:inset 0 0 0 1.5px var(--orange)}
+.plat-name{font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:9px}
+.plat-ic{font-size:15px}
+.plat-chip{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)}
+.run-btn{width:100%;font-family:inherit;font-size:14px;font-weight:600;background:var(--orange);color:var(--btn-text);border:none;border-radius:10px;padding:12px;cursor:pointer}
+.run-btn:hover{opacity:.92}.run-btn:disabled{opacity:.5;cursor:default}
+
+.bench-right{display:flex;flex-direction:column;gap:14px}
+.console{background:#17140F;border:1px solid #322A20;border-radius:14px;padding:15px 16px;flex:1;min-height:200px;display:flex;flex-direction:column}
+.console-cmd{font-family:'JetBrains Mono',monospace;font-size:12px;color:#8B8272;margin-bottom:10px}
+.console-cmd b{color:#FF9A4D;font-weight:400}
+.console-out{font-family:'JetBrains Mono',monospace;font-size:12.5px;line-height:1.6;color:#EDE6DA;flex:1;white-space:pre-wrap;overflow:hidden}
+.cursor{display:inline-block;width:7px;height:14px;background:#FF6900;vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;text-align:center}
+.metric b{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;display:block;letter-spacing:-.02em}
+.metric b.tps{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.metric span{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;display:block}
+.platbar{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.platbar-t{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:12px}
+.pb-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px}
+.pb-name{width:96px;flex-shrink:0;color:var(--text2)}
+.pb-track{flex:1;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.pb-fill{height:100%;border-radius:4px;background:var(--border2);transition:width .5s ease}
+.pb-fill.on{background:var(--grad)}
+.pb-val{width:52px;text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text2)}
+
+/* Guardrails */
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:620px){.g-grid{grid-template-columns:1fr}}
+.g-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.g-h.do{color:var(--green-ink)}.g-h.dont{color:var(--red)}
+.g-item{font-size:13.5px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5;margin-bottom:9px}
+.g-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .g-item::before{background:var(--green-ink)}.dont .g-item::before{background:var(--red)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/runanywhere/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg viewBox="0 0 41 45" aria-label="RunAnywhere"><defs><linearGradient id="ra-mark" gradientUnits="userSpaceOnUse" x1="6" y1="6" x2="38.8354" y2="35.7082"><stop stop-color="#FF6900"/><stop offset="1" stop-color="#FB2C36"/></linearGradient></defs><path d="M35.8571 39L30.0156 35.549C27.2722 37.5125 23.9801 38.5686 20.6029 38.5686H11.6253C11.6268 38.56 11.9774 36.628 12.3825 35.4412C12.7844 34.2639 13.6795 32.5314 13.6806 32.5294H23.5248C27.1095 32.5294 30.0156 29.6323 30.0156 26.0588V16.6765C30.0156 16.6765 31.57 14.8691 32.7201 13.8725C33.8592 12.8855 35.8484 11.6134 35.8571 11.6078V39Z" fill="url(#ra-mark)"/><path d="M11.8416 9.45101C14.5849 7.48752 17.877 6.4314 21.2542 6.43139H30.2319C30.2304 6.4397 29.8797 8.372 29.4746 9.55889C29.0725 10.7369 28.1766 12.4706 28.1766 12.4706H18.3323C14.7476 12.4706 11.8416 15.3677 11.8416 18.9412V28.3235C11.8416 28.3235 10.2871 30.1309 9.13708 31.1275C7.99791 32.1146 6.0086 33.3867 6 33.3922V6L11.8416 9.45101Z" fill="url(#ra-mark)"/></svg>
+      <span class="wm">RunAnywhere</span>
+    </div>
+    <div class="eyebrow">A research-first inference lab</div>
+    <h1>Inference,<span class="g">from the metal up.</span></h1>
+    <p>We hand-write the GPU and NPU kernels that make consumer silicon fast — and open-source the SDKs, infrastructure, and console that run models on every platform.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Talk to us →</button>
+      <button class="btn btn-secondary">Use the SDKs</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>658</b><span>tok/s peak · M3</span></div>
+      <div class="stat"><b>6.6<span style="font-size:14px">ms</span></b><span>time to first token</span></div>
+      <div class="stat"><b>12,540</b><span>SDK downloads / wk</span></div>
+      <div class="stat"><b>6</b><span>platforms supported</span></div>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">01 / Color</div>
+    <div class="section-title">Palette</div>
+    <div class="section-sub">A warm cream canvas with a signature orange→red gradient for display; green marks passing inference. The gradient is the brand — solid orange carries controls.</div>
+    <p class="grp">Signature — orange → red</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FF6900')"><div class="swatch-c" style="background:#FF6900"></div><div class="swatch-i"><div class="swatch-n">--orange</div><div class="swatch-h">#FF6900</div><div class="swatch-u">Primary — buttons, links, gradient start</div></div></div>
+      <div class="swatch" onclick="copyHex('#FB2C36')"><div class="swatch-c" style="background:#FB2C36"></div><div class="swatch-i"><div class="swatch-n">--red</div><div class="swatch-h">#FB2C36</div><div class="swatch-u">Gradient end, hot accent, error</div></div></div>
+      <div class="swatch" onclick="copyHex('#FF6900')"><div class="swatch-c" style="background:linear-gradient(100deg,#FF6900,#FB2C36)"></div><div class="swatch-i"><div class="swatch-n">--grad</div><div class="swatch-h">orange→red</div><div class="swatch-u">Hero display, logo mark</div></div></div>
+      <div class="swatch" onclick="copyHex('#D2470A')"><div class="swatch-c" style="background:#D2470A"></div><div class="swatch-i"><div class="swatch-n">--orange-ink</div><div class="swatch-h">#D2470A</div><div class="swatch-u">Orange text on cream (contrast)</div></div></div>
+    </div>
+    <p class="grp">Semantic &amp; surfaces</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#1B9E77')"><div class="swatch-c" style="background:#1B9E77"></div><div class="swatch-i"><div class="swatch-n">--green</div><div class="swatch-h">#1B9E77</div><div class="swatch-u">Passing / success</div></div></div>
+      <div class="swatch" onclick="copyHex('#FBF9F9')"><div class="swatch-c" style="background:#FBF9F9"></div><div class="swatch-i"><div class="swatch-n">--bg</div><div class="swatch-h">#FBF9F9</div><div class="swatch-u">Warm cream canvas (light)</div></div></div>
+      <div class="swatch" onclick="copyHex('#141210')"><div class="swatch-c" style="background:#141210"></div><div class="swatch-i"><div class="swatch-n">--bg (dark)</div><div class="swatch-h">#141210</div><div class="swatch-u">Warm near-black canvas</div></div></div>
+      <div class="swatch" onclick="copyHex('#1C1A17')"><div class="swatch-c" style="background:#1C1A17"></div><div class="swatch-i"><div class="swatch-n">--text</div><div class="swatch-h">#1C1A17</div><div class="swatch-u">Warm near-black ink</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">02 / Type</div>
+    <div class="section-title">Typography</div>
+    <div class="section-sub">A high-contrast serif (≈ Newsreader) carries the editorial display; Inter handles UI &amp; body; JetBrains Mono owns every number, kernel name, and the console.</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><b>Newsreader</b><span>serif · display</span></div><div class="type-spec" style="font-family:'Newsreader',serif;font-size:40px;font-weight:400;letter-spacing:-.02em">from the metal up.</div></div>
+      <div class="type-row"><div class="type-meta"><b>Inter</b><span>18px · 400</span></div><div class="type-spec" style="font-size:17px;color:var(--text2)">Hand-written kernels that run models fast on every platform.</div></div>
+      <div class="type-row"><div class="type-meta"><b>JetBrains Mono</b><span>13px · 500</span></div><div class="type-spec"><span class="mono" style="font-size:13px;color:var(--orange-ink)">llama-3.2-3b · 96 tok/s · TTFT 90ms</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">03 / Components</div>
+    <div class="section-title">Building blocks</div>
+    <div class="section-sub">Platform &amp; model chips, inference states, and the CTAs behind the console.</div>
+    <div class="comp-grid">
+      <div class="card">
+        <div class="card-t">Buttons &amp; model chips</div>
+        <div class="row" style="margin-bottom:14px"><button class="btn btn-primary">Talk to us →</button><button class="btn btn-secondary">Use the SDKs</button></div>
+        <div class="row"><span class="chip on">Llama-3.2-3B</span><span class="chip">Qwen2.5-1.5B</span><span class="chip">Phi-3.5</span></div>
+      </div>
+      <div class="card">
+        <div class="card-t">Inference state</div>
+        <div class="row" style="gap:16px">
+          <span class="state" style="color:var(--orange-ink)"><span class="dot" style="background:var(--orange)"></span>Running</span>
+          <span class="state" style="color:var(--green-ink)"><span class="dot" style="background:var(--green)"></span>Passing</span>
+          <span class="state" style="color:var(--red)"><span class="dot" style="background:var(--red)"></span>OOM</span>
+          <span class="state" style="color:var(--text3)"><span class="dot" style="background:var(--text3)"></span>Idle</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">04 / Signature</div>
+    <div class="section-title">Run anywhere</div>
+    <div class="section-sub">One model, hand-tuned kernels, running on any device. Pick a target and run — watch tokens stream with live tok/s, first-token latency, and memory.</div>
+    <div class="bench">
+      <div class="bench-left">
+        <div class="sdk"><span class="cm"># one SDK, every platform</span>
+<span class="kw">import</span> runanywhere <span class="kw">as</span> ra
+model = ra.<span class="fn">load</span>(<span class="st">"llama-3.2-3b"</span>)
+out = model.<span class="fn">generate</span>(prompt, target=<span class="st">"<span id="sdkTarget">ios</span>"</span>)</div>
+        <div class="sel-label">Target device</div>
+        <div class="platforms" id="platforms"></div>
+        <button class="run-btn" id="runBtn" onclick="runBench()">▶ Run inference</button>
+      </div>
+      <div class="bench-right">
+        <div class="console">
+          <div class="console-cmd">$ runanywhere run llama-3.2-3b --target <b id="cmdTarget">ios</b></div>
+          <div class="console-out" id="consoleOut"></div>
+        </div>
+        <div class="metrics">
+          <div class="metric"><b class="tps" id="mTps">—</b><span>tokens / sec</span></div>
+          <div class="metric"><b id="mTtft">—</b><span>TTFT</span></div>
+          <div class="metric"><b id="mMem">—</b><span>peak mem</span></div>
+        </div>
+        <div class="platbar">
+          <div class="platbar-t">tok/s across platforms</div>
+          <div id="platBars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">05 / Guardrails</div>
+    <div class="section-title">Do &amp; Don't</div>
+    <div class="g-grid" style="margin-top:8px">
+      <div class="do">
+        <div class="g-h do">Do</div>
+        <div class="g-item">Use the orange→red gradient for display; solid orange #FF6900 for controls</div>
+        <div class="g-item">Darken orange to #D2470A for orange text/links on cream</div>
+        <div class="g-item">Set hero &amp; section display in the serif; body/UI in the sans</div>
+        <div class="g-item">Keep the inference console dark in both themes</div>
+      </div>
+      <div class="dont">
+        <div class="g-h dont">Don't</div>
+        <div class="g-item">Don't set body text in the serif — it's display-only</div>
+        <div class="g-item">Don't put orange text on the orange button</div>
+        <div class="g-item">Don't invent metrics — use real inference language (tok/s, TTFT, kernels)</div>
+        <div class="g-item">Don't use Math.random — keep the benchmark deterministic</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h)}
+
+/* deterministic per-platform benchmark data */
+var PLAT=[
+  {id:'ios',   name:'iPhone 16 Pro', ic:'', chip:'A18 · NPU',       tps:62, ttft:'180ms', mem:'1.9 GB'},
+  {id:'android',name:'Pixel 9',      ic:'', chip:'Tensor G4',       tps:41, ttft:'240ms', mem:'2.1 GB'},
+  {id:'mac',   name:'M3 MacBook',    ic:'', chip:'M3 · GPU',        tps:96, ttft:'90ms',  mem:'3.2 GB'},
+  {id:'web',   name:'WebGPU',        ic:'', chip:'browser',         tps:34, ttft:'320ms', mem:'2.4 GB'},
+  {id:'jetson',name:'Jetson Orin',   ic:'', chip:'edge · CUDA',     tps:58, ttft:'150ms', mem:'2.0 GB'}
+];
+var SAMPLE='Kernels are compiled per-device: we fuse attention, quantize to 4-bit, and schedule on the NPU when present. Same weights, native speed everywhere.';
+var cur='mac', benchTimer=null;
+function P(id){return PLAT.filter(function(p){return p.id===id})[0];}
+
+function renderPlatforms(){
+  document.getElementById('platforms').innerHTML=PLAT.map(function(p){
+    return '<div class="plat'+(p.id===cur?' on':'')+'" onclick="pickPlat(\''+p.id+'\')"><span class="plat-name">'+p.name+'</span><span class="plat-chip">'+p.chip+'</span></div>';
+  }).join('');
+  document.getElementById('sdkTarget').textContent=cur;
+  document.getElementById('cmdTarget').textContent=cur;
+  var max=Math.max.apply(null,PLAT.map(function(p){return p.tps;}));
+  document.getElementById('platBars').innerHTML=PLAT.map(function(p){
+    return '<div class="pb-row"><span class="pb-name">'+p.name+'</span><span class="pb-track"><span class="pb-fill'+(p.id===cur?' on':'')+'" style="width:'+Math.round(p.tps/max*100)+'%"></span></span><span class="pb-val">'+p.tps+'</span></div>';
+  }).join('');
+}
+function pickPlat(id){cur=id;renderPlatforms();resetMetrics();}
+function resetMetrics(){
+  document.getElementById('consoleOut').innerHTML='<span class="cursor"></span>';
+  document.getElementById('mTps').textContent='—';
+  document.getElementById('mTtft').textContent='—';
+  document.getElementById('mMem').textContent='—';
+}
+function runBench(){
+  clearTimeout(benchTimer);
+  var p=P(cur);
+  document.getElementById('runBtn').disabled=true;
+  document.getElementById('mTtft').textContent=p.ttft;
+  document.getElementById('mMem').textContent=p.mem;
+  var words=SAMPLE.split(' '), i=0, out=document.getElementById('consoleOut');
+  out.textContent='';
+  var tpsEl=document.getElementById('mTps');
+  function step(){
+    if(i>=words.length){
+      out.innerHTML=SAMPLE+' <span class="cursor"></span>';
+      tpsEl.textContent=p.tps;
+      document.getElementById('runBtn').disabled=false;
+      return;
+    }
+    out.textContent=words.slice(0,i+1).join(' ');
+    tpsEl.textContent=Math.round(p.tps*(i+1)/words.length);
+    i++;
+    benchTimer=setTimeout(step, 900/words.length*1.4);
+  }
+  step();
+}
+
+renderPlatforms();
+/* initial: show a completed M3 run so the panel reads immediately */
+(function(){
+  var p=P(cur);
+  document.getElementById('consoleOut').innerHTML=SAMPLE+' <span class="cursor"></span>';
+  document.getElementById('mTps').textContent=p.tps;
+  document.getElementById('mTtft').textContent=p.ttft;
+  document.getElementById('mMem').textContent=p.mem;
+})();
+</script>
+</body>
+</html>
