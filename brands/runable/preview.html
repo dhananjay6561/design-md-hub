@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Runable — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=runable.com&sz=128">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="light"]{
+  --bg:#FFFFFF;--bg2:#F6F7F7;--surface:#FFFFFF;--border:#E7EAE9;--border2:#D6DBDA;
+  --text:#1A1A1A;--text2:#5F6368;--text3:#9AA0A6;
+  --brand:#00B7CA;--brand-deep:#00828C;--brand-ink:#047B86;--brand-bright:#00C4D4;
+  --brand-tint:rgba(0,183,202,.10);--brand-tint2:rgba(0,183,202,.16);
+  --mint:#3FB984;--mint-soft:#76E5A9;--mint-2:#6DC696;--orange:#F0A23C;--err:#E5573D;
+  --btn-text:#FFFFFF;--logo-text:#1A1A1A;--toggle-bg:#F1F3F2;
+}
+:root[data-theme="dark"]{
+  --bg:#061A1C;--bg2:#0D2427;--surface:#10292C;--border:#1E3B3E;--border2:#2A4C4F;
+  --text:#EAF2F1;--text2:#9FB4B2;--text3:#6C8280;
+  --brand:#2FD6E2;--brand-deep:#00A9B7;--brand-ink:#2FD6E2;--brand-bright:#33E0EC;
+  --brand-tint:rgba(47,214,226,.14);--brand-tint2:rgba(47,214,226,.2);
+  --mint:#76E5A9;--mint-soft:#76E5A9;--mint-2:#6DC696;--orange:#F0A23C;--err:#F27A64;
+  --btn-text:#03211F;--logo-text:#EAF2F1;--toggle-bg:#10292C;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+a{color:var(--brand-ink);text-decoration:none}
+code,.mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 32px 96px}
+.toggle{position:fixed;top:16px;right:16px;background:var(--toggle-bg);border:1px solid var(--border);color:var(--text2);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0;transition:border-color .15s}
+.toggle:hover{border-color:var(--brand)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+
+/* Hero */
+.hero{padding:118px 0 56px;border-bottom:1px solid var(--border);text-align:center}
+.hero-logo{display:inline-flex;align-items:center;gap:11px;margin-bottom:30px}
+.hero-logo svg{height:26px;width:auto;display:block}
+.hero-logo .wm{font-weight:600;font-size:24px;letter-spacing:-.01em;color:var(--logo-text)}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:500;color:var(--orange);background:rgba(240,162,60,.12);border:1px solid rgba(240,162,60,.28);padding:5px 12px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:42px;font-weight:600;letter-spacing:-.02em;line-height:1.12;margin-bottom:12px}
+.hero p{font-size:17px;color:var(--text2);max-width:520px;margin:0 auto 30px;line-height:1.6}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{font-family:inherit;font-size:15px;font-weight:600;padding:11px 24px;border-radius:10px;border:none;cursor:pointer;transition:background .15s,border-color .15s,opacity .15s}
+.btn-primary{background:var(--brand);color:var(--btn-text)}
+.btn-primary:hover{background:var(--brand-deep)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{border-color:var(--brand)}
+
+/* Section */
+.section{padding-top:56px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink);margin-bottom:8px}
+.section-title{font-size:24px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
+.section-sub{font-size:15px;color:var(--text2);margin-bottom:26px;max-width:640px;line-height:1.6}
+.grp{font-size:12px;font-weight:500;color:var(--text3);margin:0 0 12px}
+
+/* Swatches */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:12px;margin-bottom:30px}
+.swatch{border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s}
+.swatch:hover{transform:translateY(-2px)}
+.swatch-c{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.14)}
+.swatch-i{padding:10px 12px;background:var(--surface)}
+.swatch-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2)}
+.swatch-h{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);margin-top:3px}
+.swatch-u{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.4}
+
+/* Type rows */
+.type-rows{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.type-row{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-meta{padding:18px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.type-meta b{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;color:var(--brand-ink)}
+.type-meta span{font-size:11px;color:var(--text3)}
+.type-spec{padding:20px 24px;display:flex;align-items:center;overflow:hidden}
+
+/* Components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.comp-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:22px}
+.card-t{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:16px}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);background:var(--surface);cursor:pointer;transition:all .13s}
+.chip:hover{border-color:var(--brand)}
+.chip.on{color:var(--brand-ink);background:var(--brand-tint);border-color:transparent}
+.state{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%}
+
+/* ── Signature: Runable agent ── */
+.agent{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--surface)}
+.agent-prompt{padding:20px 20px 16px}
+.prompt-box{display:flex;align-items:center;gap:10px;border:1.5px solid var(--border2);border-radius:14px;padding:13px 15px;background:var(--bg)}
+.prompt-box.focus{border-color:var(--brand)}
+.prompt-box input{flex:1;border:none;background:transparent;font-family:inherit;font-size:15px;color:var(--text);outline:none}
+.prompt-box input::placeholder{color:var(--text3)}
+.send{width:34px;height:34px;border-radius:9px;border:none;background:var(--brand);color:var(--btn-text);font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.send:hover{background:var(--brand-deep)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.agent-run{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);min-height:300px}
+@media(max-width:760px){.agent-run{grid-template-columns:1fr}}
+.console{padding:16px 18px;border-right:1px solid var(--border);background:var(--bg2)}
+@media(max-width:760px){.console{border-right:none;border-bottom:1px solid var(--border)}}
+.console-h{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.steps{display:flex;flex-direction:column;gap:11px}
+.step{display:flex;align-items:flex-start;gap:10px;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text2);opacity:.4;transition:opacity .25s}
+.step.active{opacity:1;color:var(--text)}
+.step.done{opacity:1}
+.step-ico{width:16px;height:16px;flex-shrink:0;margin-top:1px;border-radius:50%;border:2px solid var(--text3);position:relative}
+.step.active .step-ico{border-color:var(--brand);border-top-color:transparent;animation:spin .7s linear infinite}
+.step.done .step-ico{border-color:var(--mint);background:var(--mint)}
+.step.done .step-ico::after{content:'';position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+:root[data-theme="dark"] .step.done .step-ico::after{border-color:#03211F}
+@keyframes spin{to{transform:rotate(360deg)}}
+.preview{padding:16px 18px;background:var(--surface);overflow:hidden}
+.preview-h{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.artifact{opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.artifact.show{opacity:1;transform:none}
+/* generic mini artifact bits */
+.mini{border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:12px}
+.mini-bar{display:flex;align-items:center;gap:5px;padding:8px 10px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.mini-d{width:8px;height:8px;border-radius:50%;background:var(--border2)}
+.mini-body{padding:12px}
+.hrow{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;background:var(--bg)}
+.hcheck{width:16px;height:16px;border-radius:5px;background:var(--brand);flex-shrink:0}
+.hcheck.off{background:transparent;border:1.5px solid var(--border2)}
+.slidegrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+.slide{aspect-ratio:16/10;border:1px solid var(--border);border-radius:7px;background:var(--bg2);padding:7px;display:flex;flex-direction:column;gap:4px}
+.slide .sl-t{height:6px;width:70%;background:var(--brand);border-radius:3px}
+.slide .sl-l{height:4px;width:100%;background:var(--border2);border-radius:2px}
+.slide.hero-slide{background:var(--grad,linear-gradient(135deg,#00B7CA,#6DC696))}
+.frames{display:flex;gap:6px;margin-bottom:9px}
+.frame{flex:1;aspect-ratio:16/10;border-radius:6px;background:linear-gradient(135deg,var(--brand),var(--mint-2));position:relative;opacity:.9}
+.frame.sel{outline:2px solid var(--brand);outline-offset:1px}
+.playbar{height:6px;background:var(--bg2);border-radius:3px;position:relative}
+.playbar::after{content:'';position:absolute;left:0;top:0;height:100%;width:38%;background:var(--brand);border-radius:3px}
+.web-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid var(--border)}
+.web-hero{padding:20px 12px;text-align:center;background:var(--brand-tint)}
+.web-hero .wh-t{font-weight:700;font-size:15px;color:var(--text);margin-bottom:5px}
+.web-hero .wh-s{font-size:11px;color:var(--text2);margin-bottom:10px}
+.web-cta{display:inline-block;font-size:11px;font-weight:600;color:var(--btn-text);background:var(--brand);padding:6px 14px;border-radius:7px}
+.done-note{margin-top:12px;font-size:12px;color:var(--mint);font-weight:500;display:flex;align-items:center;gap:6px;opacity:0;transition:opacity .3s}
+.done-note.show{opacity:1}
+
+/* Guardrails */
+.g-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:620px){.g-grid{grid-template-columns:1fr}}
+.g-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.g-h.do{color:var(--brand-ink)}.g-h.dont{color:var(--err)}
+.g-item{font-size:13.5px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5;margin-bottom:9px}
+.g-item::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%}
+.do .g-item::before{background:var(--brand-ink)}.dont .g-item::before{background:var(--err)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/runable/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-logo">
+      <svg viewBox="0 0 737 665" aria-label="Runable"><path d="M499.606 664.888C558.427 664.888 606.111 617.204 606.111 558.383C606.111 499.562 558.427 451.878 499.606 451.878C460.545 451.879 426.395 472.907 407.859 504.26L405.405 507.185C385.812 530.537 349.863 530.472 330.355 507.048L327.193 503.253C308.526 472.458 274.692 451.878 236.051 451.878C177.23 451.878 129.546 499.562 129.546 558.383C129.546 617.204 177.23 664.888 236.051 664.888C274.174 664.888 307.619 644.857 326.435 614.746L330.694 609.744C350.176 586.858 385.497 586.794 405.062 609.608L408.589 613.72C427.282 644.401 461.051 664.888 499.606 664.888Z" fill="var(--logo-text)"/><path d="M331.503 160.669C360.913 109.728 343.46 44.5908 292.519 15.1804C241.579 -14.23 176.441 3.22348 147.031 54.1639C127.499 87.9947 128.636 128.088 146.526 159.818L147.83 163.398C158.257 192.042 140.225 223.142 110.185 228.324L105.305 229.167C69.3056 229.939 34.5711 248.95 15.2522 282.411C-14.1583 333.352 3.29535 398.489 54.2357 427.9C105.176 457.31 170.314 439.857 199.724 388.916C218.782 355.907 218.161 316.936 201.502 285.588L199.292 279.378C189.213 251.064 206.818 220.443 236.358 214.906L241.682 213.909C277.599 213.06 312.225 194.058 331.503 160.669Z" fill="var(--logo-text)"/><path d="M537.284 388.915C566.695 439.855 631.832 457.309 682.773 427.898C733.713 398.488 751.166 333.35 721.756 282.41C702.224 248.58 666.935 229.52 630.512 229.146L626.759 228.484C596.739 223.193 578.821 192.027 589.353 163.421L591.065 158.769C608.394 127.207 609.295 87.6227 589.978 54.1632C560.567 3.22282 495.43 -14.2307 444.489 15.1797C393.549 44.5902 376.095 109.728 405.506 160.668C424.565 193.679 458.628 212.627 494.107 213.872L500.586 215.062C530.146 220.491 547.862 251.047 537.887 279.398L536.092 284.498C518.864 316.029 518.005 355.522 537.284 388.915Z" fill="var(--logo-text)"/></svg>
+      <span class="wm">Runable</span>
+    </div>
+    <div class="badge">❤ Loved by 1M+ customers</div>
+    <h1>What needs to be done?</h1>
+    <p>The best way to work with AI. Describe a task — Runable's agent plans it, runs the tools, and ships the result.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Sign Up</button>
+      <button class="btn btn-secondary">Sign In</button>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">01 / Color</div>
+    <div class="section-title">Palette</div>
+    <div class="section-sub">A clean white canvas with a confident cyan-teal primary and a mint-green success accent. (The Google-blue in the live DOM is an embedded Sign-In widget — not brand.)</div>
+    <p class="grp">Primary — cyan-teal</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#00B7CA')"><div class="swatch-c" style="background:#00B7CA"></div><div class="swatch-i"><div class="swatch-n">--brand</div><div class="swatch-h">#00B7CA</div><div class="swatch-u">Primary — buttons, links, run</div></div></div>
+      <div class="swatch" onclick="copyHex('#00828C')"><div class="swatch-c" style="background:#00828C"></div><div class="swatch-i"><div class="swatch-n">--brand-deep</div><div class="swatch-h">#00828C</div><div class="swatch-u">Gradient base, hover</div></div></div>
+      <div class="swatch" onclick="copyHex('#047B86')"><div class="swatch-c" style="background:#047B86"></div><div class="swatch-i"><div class="swatch-n">--brand-ink</div><div class="swatch-h">#047B86</div><div class="swatch-u">Teal text on white (contrast)</div></div></div>
+    </div>
+    <p class="grp">Accent — mint &amp; gradient</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#76E5A9')"><div class="swatch-c" style="background:#76E5A9"></div><div class="swatch-i"><div class="swatch-n">--mint-soft</div><div class="swatch-h">#76E5A9</div><div class="swatch-u">Success, gradient highlight</div></div></div>
+      <div class="swatch" onclick="copyHex('#6DC696')"><div class="swatch-c" style="background:#6DC696"></div><div class="swatch-i"><div class="swatch-n">--mint-2</div><div class="swatch-h">#6DC696</div><div class="swatch-u">Gradient mid</div></div></div>
+      <div class="swatch" onclick="copyHex('#00B7CA')"><div class="swatch-c" style="background:linear-gradient(135deg,#00B7CA,#00828C 55%,#6DC696)"></div><div class="swatch-i"><div class="swatch-n">--grad</div><div class="swatch-h">teal→mint</div><div class="swatch-u">Signature section band</div></div></div>
+      <div class="swatch" onclick="copyHex('#F0A23C')"><div class="swatch-c" style="background:#F0A23C"></div><div class="swatch-i"><div class="swatch-n">--orange</div><div class="swatch-h">#F0A23C</div><div class="swatch-u">"Loved by 1M+" badge only</div></div></div>
+    </div>
+    <p class="grp">Surfaces &amp; text</p>
+    <div class="swatch-grid">
+      <div class="swatch" onclick="copyHex('#FFFFFF')"><div class="swatch-c" style="background:#FFFFFF"></div><div class="swatch-i"><div class="swatch-n">--bg</div><div class="swatch-h">#FFFFFF</div><div class="swatch-u">Page canvas (light)</div></div></div>
+      <div class="swatch" onclick="copyHex('#061A1C')"><div class="swatch-c" style="background:#061A1C"></div><div class="swatch-i"><div class="swatch-n">--bg (dark)</div><div class="swatch-h">#061A1C</div><div class="swatch-u">Deep teal-black canvas</div></div></div>
+      <div class="swatch" onclick="copyHex('#1A1A1A')"><div class="swatch-c" style="background:#1A1A1A"></div><div class="swatch-i"><div class="swatch-n">--text</div><div class="swatch-h">#1A1A1A</div><div class="swatch-u">Body ink</div></div></div>
+      <div class="swatch" onclick="copyHex('#5F6368')"><div class="swatch-c" style="background:#5F6368"></div><div class="swatch-i"><div class="swatch-n">--text2</div><div class="swatch-h">#5F6368</div><div class="swatch-u">Secondary text</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">02 / Type</div>
+    <div class="section-title">Typography</div>
+    <div class="section-sub">Runable ships no custom webfont — Tailwind's system-ui stack. Inter is the neutral stand-in; JetBrains Mono is reserved for the agent console and generated code.</div>
+    <div class="type-rows">
+      <div class="type-row"><div class="type-meta"><b>Inter</b><span>42px · 600</span></div><div class="type-spec" style="font-size:38px;font-weight:600;letter-spacing:-.02em">What needs to be done?</div></div>
+      <div class="type-row"><div class="type-meta"><b>Inter</b><span>24px · 600</span></div><div class="type-spec" style="font-size:24px;font-weight:600">Build apps, slides &amp; sites</div></div>
+      <div class="type-row"><div class="type-meta"><b>Inter</b><span>16px · 400</span></div><div class="type-spec" style="font-size:16px;color:var(--text2)">Describe a task and Runable's agent plans it, runs the tools, and ships the result.</div></div>
+      <div class="type-row"><div class="type-meta"><b>JetBrains Mono</b><span>13px · 400</span></div><div class="type-spec"><span class="mono" style="font-size:13px;color:var(--brand-ink)">agent › scaffolding react + tailwind…</span></div></div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">03 / Components</div>
+    <div class="section-title">Building blocks</div>
+    <div class="section-sub">The prompt bar, task chips, and agent-run states that make up the product.</div>
+    <div class="comp-grid">
+      <div class="card">
+        <div class="card-t">Buttons &amp; task chips</div>
+        <div class="row" style="margin-bottom:14px"><button class="btn btn-primary">Sign Up</button><button class="btn btn-secondary">Sign In</button></div>
+        <div class="row"><span class="chip on">Build Apps</span><span class="chip">Create Slides</span><span class="chip">Generate Videos</span></div>
+      </div>
+      <div class="card">
+        <div class="card-t">Agent run state</div>
+        <div class="row" style="gap:16px">
+          <span class="state" style="color:var(--brand-ink)"><span class="dot" style="background:var(--brand)"></span>Running</span>
+          <span class="state" style="color:var(--mint)"><span class="dot" style="background:var(--mint)"></span>Done</span>
+          <span class="state" style="color:var(--err)"><span class="dot" style="background:var(--err)"></span>Error</span>
+          <span class="state" style="color:var(--text3)"><span class="dot" style="background:var(--text3)"></span>Queued</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">04 / Signature</div>
+    <div class="section-title">The Runable agent</div>
+    <div class="section-sub">Pick a task — the agent plans it, runs its tools step by step, and assembles the artifact. Try each: apps, slides, videos, sites.</div>
+    <div class="agent">
+      <div class="agent-prompt">
+        <div class="prompt-box"><input id="promptInput" readonly value="Build a habit tracker app"><button class="send" id="sendBtn" onclick="run()" aria-label="Run">→</button></div>
+        <div class="chips" id="taskChips">
+          <span class="chip on" data-task="apps" onclick="pick('apps',this)">Build Apps</span>
+          <span class="chip" data-task="slides" onclick="pick('slides',this)">Create Slides</span>
+          <span class="chip" data-task="videos" onclick="pick('videos',this)">Generate Videos</span>
+          <span class="chip" data-task="sites" onclick="pick('sites',this)">Build Websites</span>
+        </div>
+      </div>
+      <div class="agent-run">
+        <div class="console">
+          <div class="console-h"><span>◆</span> Agent</div>
+          <div class="steps" id="steps"></div>
+        </div>
+        <div class="preview">
+          <div class="preview-h">Preview</div>
+          <div class="artifact" id="artifact"></div>
+          <div class="done-note" id="doneNote">✓ Task complete</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">05 / Guardrails</div>
+    <div class="section-title">Do &amp; Don't</div>
+    <div class="g-grid" style="margin-top:8px">
+      <div class="do">
+        <div class="g-h do">Do</div>
+        <div class="g-item">Lead with cyan-teal #00B7CA; use the teal→mint gradient for hero bands</div>
+        <div class="g-item">Darken teal to #047B86 for teal text on white</div>
+        <div class="g-item">Keep the canvas white; let the agent's work carry the color</div>
+        <div class="g-item">Frame everything as a task the agent does</div>
+      </div>
+      <div class="dont">
+        <div class="g-h dont">Don't</div>
+        <div class="g-item">Don't treat Google Sign-In blue #1a73e8 as a brand color — it's a widget</div>
+        <div class="g-item">Don't put teal text on the teal button</div>
+        <div class="g-item">Don't invent agent output — mirror real task types</div>
+        <div class="g-item">Don't use Math.random — keep runs deterministic</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h)}
+
+var TASKS={
+  apps:{prompt:'Build a habit tracker app',
+    steps:['Planning app structure','Scaffolding React + Tailwind','Writing components','Wiring state + local storage','Preview ready'],
+    art:'<div class="mini"><div class="mini-bar"><span class="mini-d"></span><span class="mini-d"></span><span class="mini-d"></span></div><div class="mini-body"><div style="font-weight:700;margin-bottom:10px">Daily Habits · 3-day streak 🔥</div><div class="hrow"><span>Drink water</span><span class="hcheck"></span></div><div class="hrow"><span>Read 20 min</span><span class="hcheck"></span></div><div class="hrow"><span>Workout</span><span class="hcheck off"></span></div></div></div>'},
+  slides:{prompt:'Create a pitch deck for a coffee brand',
+    steps:['Researching the topic','Outlining 6 slides','Designing the layout','Generating visuals','Preview ready'],
+    art:'<div class="mini"><div class="mini-body"><div style="font-weight:700;margin-bottom:10px">Bean & Brew — Pitch Deck</div><div class="slidegrid"><div class="slide hero-slide"></div><div class="slide"><div class="sl-t"></div><div class="sl-l"></div><div class="sl-l" style="width:80%"></div></div><div class="slide"><div class="sl-t"></div><div class="sl-l"></div><div class="sl-l" style="width:60%"></div></div><div class="slide"><div class="sl-t"></div><div class="sl-l"></div></div><div class="slide"><div class="sl-t"></div><div class="sl-l"></div><div class="sl-l" style="width:70%"></div></div><div class="slide"><div class="sl-t"></div><div class="sl-l"></div></div></div></div></div>'},
+  videos:{prompt:'Generate a 30s product teaser',
+    steps:['Writing the script','Storyboarding scenes','Rendering frames','Adding captions','Preview ready'],
+    art:'<div class="mini"><div class="mini-body"><div style="font-weight:700;margin-bottom:10px">Teaser · 0:30 · 6 scenes</div><div class="frames"><div class="frame sel"></div><div class="frame"></div><div class="frame"></div><div class="frame"></div></div><div class="playbar"></div><div style="font-size:11px;color:var(--text2);margin-top:8px">Scene 2 — "Meet your new workflow"</div></div></div>'},
+  sites:{prompt:'Build a landing page for a SaaS',
+    steps:['Planning sections','Writing the copy','Designing the hero','Building sections','Preview ready'],
+    art:'<div class="mini"><div class="web-nav"><span style="font-weight:700">◍ Nimbus</span><span style="font-size:11px;color:var(--text2)">Features · Pricing · Docs</span></div><div class="web-hero"><div class="wh-t">Ship faster with Nimbus</div><div class="wh-s">The all-in-one platform for modern teams.</div><span class="web-cta">Get started free</span></div></div>'}
+};
+var cur='apps', timer=null;
+
+function pick(t,el){
+  cur=t;
+  document.querySelectorAll('#taskChips .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('promptInput').value=TASKS[t].prompt;
+  resetRun();
+}
+function resetRun(){
+  clearInterval(timer);
+  var steps=document.getElementById('steps');
+  steps.innerHTML=TASKS[cur].steps.map(function(s){return '<div class="step"><span class="step-ico"></span><span>'+s+'</span></div>';}).join('');
+  document.getElementById('artifact').classList.remove('show');
+  document.getElementById('artifact').innerHTML=TASKS[cur].art;
+  document.getElementById('doneNote').classList.remove('show');
+}
+function run(){
+  resetRun();
+  var els=[].slice.call(document.querySelectorAll('#steps .step'));
+  var n=els.length, i=0;
+  document.getElementById('sendBtn').disabled=true;
+  function tick(){
+    if(i>0){els[i-1].classList.remove('active');els[i-1].classList.add('done');}
+    if(i>=n){
+      document.getElementById('artifact').classList.add('show');
+      document.getElementById('doneNote').classList.add('show');
+      document.getElementById('sendBtn').disabled=false;
+      return;
+    }
+    els[i].classList.add('active');
+    // reveal artifact one step before the end
+    if(i===n-1){document.getElementById('artifact').classList.add('show');}
+    i++;
+    timer=setTimeout(tick,620);
+  }
+  tick();
+}
+
+/* initial: show completed apps run so the panel isn't empty */
+resetRun();
+(function(){
+  var els=[].slice.call(document.querySelectorAll('#steps .step'));
+  els.forEach(function(e){e.classList.add('done');});
+  document.getElementById('artifact').classList.add('show');
+  document.getElementById('doneNote').classList.add('show');
+})();
+</script>
+</body>
+</html>
