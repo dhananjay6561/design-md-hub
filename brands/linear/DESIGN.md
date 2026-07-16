@@ -1,166 +1,100 @@
-# Linear DESIGN.md
+# Linear — Design System
 
-> The product development system for teams and agents.
+> The system for product development.
+> Purpose-built for planning and building products with AI agents.
 
-## Overview
+Linear's identity is **dark-first, dense, and precise** — information density over whitespace, speed over decoration, keyboard-first. The aesthetic is technical and minimal, almost brutalist in its restraint, with a single **indigo-purple** accent as the only color statement. Color otherwise appears *only* as issue status, priority, and labels.
 
-Linear's design is dark-first, dense, and precise. It prioritizes information density over whitespace, speed over decoration, and keyboard-first workflows. The aesthetic is technical and minimal — almost brutalist in its restraint — with a deep purple accent as the only color statement.
+Dark is the primary experience; light is fully supported.
+
+---
 
 ## Colors
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `primary` | `#5E6AD2` | Active states, CTAs, links |
-| `primary-hover` | `#4F5BBF` | Hover on primary |
-| `background` | `#08090A` | App background |
-| `surface` | `#191D20` | Panels, sidebars |
-| `surface-raised` | `#222529` | Cards, dropdowns |
-| `surface-overlay` | `#2E3033` | Modals, popovers |
-| `text-primary` | `#F2F2F3` | Primary text |
-| `text-secondary` | `#8A8A9A` | Supporting text, metadata |
-| `text-muted` | `#5A5A6A` | Placeholders, disabled |
-| `border` | `#2A2A2E` | Dividers, subtle borders |
-| `border-strong` | `#3A3A40` | Input borders, emphasized |
-| `error` | `#E5484D` | Errors, destructive |
-| `warning` | `#FFB224` | Warnings |
-| `success` | `#46A758` | Success, completed |
-| `purple-dim` | `rgba(94,106,210,0.15)` | Subtle primary backgrounds |
+### Accent (the one color statement)
+| Token | Hex (dark) | Hex (light) | Usage |
+|-------|------------|-------------|-------|
+| `accent` | `#7170FF` | `#5E6AD2` | Selection, focus, primary button, active — **brightens on dark** |
+| `accent-hover` | `#828FFF` | `#8989F0` | Hover on accent |
+| `accent-tint` | `#18182F` | `#F1F1FF` | Subtle accent backgrounds (selected row) |
+| `brand` | `#5E6AD2` | `#5E6AD2` | The classic "Linear plurple" brand mark |
+
+> Re-audit note: Linear's accent **brightened to `#7170FF` on dark** (the old `#5E6AD2` is now the light-mode / brand value). Use the bright value on the dark app.
+
+### Surfaces
+| Token | Hex (dark) | Hex (light) | Usage |
+|-------|------------|-------------|-------|
+| `bg-primary` | `#08090A` | `#FFFFFF` | App background |
+| `bg-secondary` | `#1C1C1F` | `#F9F8F9` | Panels, sidebar |
+| `bg-tertiary` | `#232326` | `#F4F2F4` | Cards, dropdowns, rows |
+| `bg-quaternary` | `#28282C` | `#EEEDEF` | Hover / raised |
+| `bg-panel` | `#0F1011` | `#FFFFFF` | Marketing panels |
+| `border` | `#23252A` | `#E9E8EA` | Dividers, subtle |
+| `border-strong` | `#34343A` | `#E4E2E4` | Inputs, emphasized |
+
+### Text
+| Token | Hex (dark) | Hex (light) | Usage |
+|-------|------------|-------------|-------|
+| `fg-primary` | `#F7F8F8` | `#282A2F` | Primary |
+| `fg-secondary` | `#D0D6E0` | `#3C4149` | Strong secondary |
+| `fg-tertiary` | `#8A8F98` | `#6F6E77` | Metadata, muted |
+
+### Status / priority / label spectrum (the only other color)
+| Name | Hex | | Name | Hex |
+|------|-----|--|------|-----|
+| indigo (in-progress/done) | `#5E6AD2` | | orange | `#FC7840` |
+| yellow (started) | `#F0BF00` | | red (urgent) | `#EB5757` |
+| green (done) | `#27A644` | | teal | `#00B8CC` |
+| blue | `#4EA7FC` | | grey (backlog/todo) | `#8A8F98` |
+
+---
 
 ## Typography
 
-- **Font family**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`
-- **Mono font**: `JetBrains Mono`, `ui-monospace`, `monospace`
+- **Inter Variable** — the whole UI. Self-hosted at `static.linear.app/fonts/InterVariable.woff2`, **CORS-open** (`access-control-allow-origin: *`) — used directly. Linear enables the OpenType features **`cv01` + `ss03`** (`font-feature-settings:"cv01","ss03"`) — the detail that makes text look "Linear" (single-storey a, rounded g). Optical sizing `opsz auto`.
+- **Berkeley Mono** — code, issue IDs, shortcuts (proprietary → documented ≈ **JetBrains Mono**, Google-hosted).
 
-| Scale | Size | Weight | Line Height |
-|-------|------|--------|-------------|
-| `heading-lg` | 20px | 600 | 1.3 |
-| `heading-md` | 16px | 600 | 1.4 |
-| `heading-sm` | 13px | 600 | 1.4 |
-| `body` | 14px | 400 | 1.5 |
-| `body-sm` | 13px | 400 | 1.5 |
-| `caption` | 12px | 400 | 1.4 |
-| `label` | 12px | 500 | 1.3 |
-| `code` | 12px | 400 | 1.6 |
+| Scale | Size | Weight | Notes |
+|-------|------|--------|-------|
+| heading-lg | 20px | 600 | `-0.02em` |
+| heading | 16px | 600 | `-0.02em` |
+| body | 14px | 400 | `-0.01em` |
+| body-sm | 13px | 400 | list rows |
+| label | 12px | 500 | badges, meta |
 
-Letter spacing: `-0.01em` on all text, `-0.02em` on headings.
+Letter-spacing `-0.01em` on body, `-0.02em` on headings. Tight, dense.
 
-## Spacing
+---
 
-Base unit: `4px`
+## Logo
 
-| Token | Value |
-|-------|-------|
-| `space-1` | 4px |
-| `space-2` | 8px |
-| `space-3` | 12px |
-| `space-4` | 16px |
-| `space-5` | 20px |
-| `space-6` | 24px |
-| `space-8` | 32px |
+The real **Linear wordmark** (mark + "Linear", `viewBox 0 0 400 100`, single path, `fill="currentColor"`), pulled verbatim from the live nav and themed via `--logo` (off-white on dark, near-black on light).
 
-Linear is intentionally dense — prefer `space-2` and `space-3` inside components.
+---
 
-## Border Radius
+## Signature component — Issues (List ↔ Board) + ⌘K
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `radius-sm` | 3px | Tags, badges, small chips |
-| `radius-md` | 6px | Buttons, inputs, cards |
-| `radius-lg` | 8px | Modals, larger panels |
-| `radius-full` | 9999px | Avatars, status dots |
+Linear's two most iconic patterns in one frame:
 
-Linear uses tight radii — nothing feels overly rounded.
+- **Issues view** with a **List ↔ Board** toggle. List groups issues by status (In Progress / Todo / Backlog) with a status glyph + count per group; Board is a Kanban of the same issues in status columns.
+- Each issue row/card = **priority glyph** (Linear's signal-bar icons: urgent/high/med/low/none) + **status glyph** (the circular progress rings: backlog dashed, todo empty, started yellow pie, done indigo check, canceled) + `ENG-###` id (mono) + title + label chips + assignee avatar.
+- Click a status glyph to **cycle status** — the issue moves between groups (list) or columns (board), optimistically and instantly (no spinner — Linear's speed).
+- **⌘K** opens the command palette overlay — borderless input + result rows with shortcut hints — the keyboard-first heart of Linear.
 
-## Shadows
+Deterministic — fixed issues, index-driven cycling, no `Math.random`.
 
-Linear avoids decorative shadows. Elevation is communicated through background color differences, not shadows.
+---
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `shadow-sm` | `0 1px 3px rgba(0,0,0,0.4)` | Subtle separation |
-| `shadow-md` | `0 4px 12px rgba(0,0,0,0.5)` | Dropdowns, tooltips |
-| `shadow-lg` | `0 8px 32px rgba(0,0,0,0.6)` | Modals |
+## Guardrails
 
-## Components
+**Do**
+- Default to dark; keep the UI dense — whitespace is earned, not default.
+- Use the **bright `#7170FF`** accent on dark (not the old `#5E6AD2`); reserve it for selection, focus, and active only.
+- Let color otherwise mean something — status, priority, label — never decoration.
+- Set the UI in Inter with `cv01`+`ss03`; make hover transitions instant (~100ms).
 
-### Button
-
-- **Primary**: `primary` background, white text, `6px` radius, `7px 14px` padding, 500 weight
-- **Secondary**: `surface-raised` background, `border-strong` border, `text-primary`
-- **Ghost**: transparent, `text-secondary`, hover shows `surface-raised`
-- **Danger**: `error` background or `error` text with transparent bg
-- All buttons: `13px`, `font-weight: 500`, no uppercase, transition `100ms`
-- Hover states feel instant — Linear is fast
-
-### Issue Row (List Item)
-
-- Height: `36px`
-- Padding: `space-2 space-3`
-- Layout: icon + title + metadata in a horizontal row
-- Status icon: `16px`, colored dot or icon
-- Priority icon: `14px`, left of status
-- Title: `body` size, `text-primary`
-- Metadata (assignee, label, due): `text-secondary`, right-aligned
-- Hover: `surface-raised` background
-- Selected: `purple-dim` background + `primary` left border `2px`
-
-### Sidebar / Navigation
-
-- Background: `surface` (`#191D20`)
-- Width: `220px`, collapsible
-- Section headers: `label` scale, `text-muted`, uppercase, `space-2` padding
-- Nav item: `32px` height, `space-2 space-3` padding, `body-sm`
-- Active: `surface-raised` background, `text-primary`
-- Icon: `16px`, `text-secondary` default, `text-primary` on active
-
-### Command Palette (Cmd+K)
-
-- Background: `surface-overlay`
-- Border: `1px solid border-strong`
-- Radius: `radius-lg`
-- Shadow: `shadow-lg`
-- Input: borderless, `16px`, `text-primary`
-- Result item: `36px` height, icon + label + shortcut hint
-- Active result: `surface-raised` background
-
-### Input / Select
-
-- Background: `surface-raised`
-- Border: `1px solid border` → `border-strong` on hover → `primary` on focus
-- Radius: `radius-md`
-- Padding: `6px 10px`
-- Font: `body-sm`
-- Height: `32px` for single-line inputs
-
-### Badge / Label
-
-- Padding: `2px 6px`
-- Radius: `radius-sm`
-- Font: `label` (12px, 500)
-- Dot + text layout for status badges
-- Colors are muted/pastel variants of status colors on dark backgrounds
-
-## Layout
-
-- **Sidebar**: fixed `220px` left, collapsible
-- **Main**: full remaining width, with its own inner layout (list, board, etc.)
-- **Toolbar**: `48px` height, sits above content
-- **No max-width**: Linear fills the viewport — it's a dense app
-- **Board view**: Kanban columns, fixed width `280px`, horizontal scroll
-
-## Responsive
-
-Linear is desktop-first. Mobile is minimal — sidebar collapses, most features remain available but density reduces.
-
-## Tone & Guardrails
-
-- DO: Default to dark theme — it's the primary experience
-- DO: Keep UI dense; whitespace is earned, not default
-- DO: Use the purple accent only for selection, focus, and active state
-- DO: Make interactions feel instant — `100ms` max for hover transitions
-- DO: Use keyboard shortcuts everywhere; surface them in tooltips
-- DON'T: Use rounded corners larger than `8px`
-- DON'T: Add decorative gradients, illustrations, or hero images
-- DON'T: Use color for anything other than status, priority, and labels
-- DON'T: Add loading spinners where optimistic UI is possible
-- DON'T: Use modals for simple confirmations — prefer inline or toast
+**Don't**
+- Use rounded corners larger than ~8px, or add decorative gradients, illustrations, or hero images.
+- Use the accent as a fill for large areas — it's punctuation.
+- Add loading spinners where optimistic UI is possible; prefer inline/toast over modals for confirmations.
+- Use cold-neutral text on dark — Linear's greys are subtly cool but calibrated (`#8A8F98`), don't invent tints.
