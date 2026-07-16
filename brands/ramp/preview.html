@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramp — Design System</title>
+<link rel="icon" href="https://www.google.com/s2/favicons?domain=ramp.com&sz=128">
+<style>
+/* TWK Lausanne (Weltkern) — self-hosted by Ramp, CORS-open (access-control-allow-origin:*), used directly */
+@font-face{font-family:'TWK Lausanne';src:url('https://ramp.com/_next/static/media/TWKLausanne_300-s.p.0pg2wi~d-txnj.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'TWK Lausanne';src:url('https://ramp.com/_next/static/media/TWKLausanne_350-s.p.02ce1jk2zf5hx.woff2') format('woff2');font-weight:350;font-style:normal;font-display:swap}
+@font-face{font-family:'TWK Lausanne';src:url('https://ramp.com/_next/static/media/TWKLausanne_400-s.p.05uo~7m0a0ta~.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'TWK Lausanne';src:url('https://ramp.com/_next/static/media/TWKLausanne_700-s.p.010k27_h~buh-.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'TWK Lausanne';src:url('https://ramp.com/_next/static/media/TWKLausanne_400Italic-s.p.13zc6_hr3a5aj.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap}
+:root{
+  --yellow:#e4f222;--yellow-hover:#d9e70e;--blue:#0066ff;--green:#1f7a46;--red:#d4443a;
+  --sans:'TWK Lausanne',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,'JetBrains Mono',monospace;
+}
+:root[data-theme="light"]{
+  --bg:#f4f2ef;--card:#ffffff;--surface:#eeebe7;--well:#f4f2ef;
+  --border:#e4e0db;--border-strong:#d7d2cc;
+  --ink:#1a1918;--muted:#5c5a54;--faint:#93908a;
+  --logo:#1a1918;--btn-text:#1a1918;
+  --blue-fg:#0066ff;--green-fg:#1f7a46;--red-fg:#d4443a;
+  --green-bg:rgba(31,122,70,.12);--red-bg:rgba(212,68,58,.12);--yellow-bg:rgba(228,242,34,.30);
+  --shadow:0 12px 40px rgba(26,25,24,.09);
+}
+:root[data-theme="dark"]{
+  --bg:#141310;--card:#1d1b17;--surface:#242118;--well:#1a1814;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.17);
+  --ink:#f4f2ef;--muted:#a8a49b;--faint:#77736b;
+  --logo:#f4f2ef;--btn-text:#1a1918;
+  --blue-fg:#5b92ff;--green-fg:#55c88a;--red-fg:#ff7a70;
+  --green-bg:rgba(85,200,138,.15);--red-bg:rgba(255,122,112,.15);--yellow-bg:rgba(228,242,34,.16);
+  --shadow:0 22px 56px rgba(0,0,0,.62);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);font-weight:350;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--mono)}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--card);border:1px solid var(--border-strong);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--faint)}
+
+.hero{padding:84px 0 60px;border-bottom:1px solid var(--border);text-align:center}
+.hero-inner{max-width:1120px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:30px;display:flex;justify-content:center;align-items:center;color:var(--logo)}
+.hero-logo svg{height:26px;width:auto;display:block}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:400;color:var(--ink);background:var(--yellow);border-radius:999px;padding:5px 13px;margin-bottom:22px}
+.hero h1{font-weight:700;font-size:74px;letter-spacing:-.03em;line-height:.96;margin-bottom:18px}
+.hero p{font-size:19px;font-weight:350;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.4}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:30px;align-items:center;flex-wrap:wrap}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 40px 96px}
+.section{padding:54px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:26px}
+.group-label{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:24px 0 10px}
+
+/* colors */
+.strip{display:flex;height:48px;border-radius:10px;overflow:hidden;margin-bottom:28px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:76px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--card)}
+.swatch-name{font-size:11px;font-weight:400;color:var(--ink);display:block}
+.swatch-hex{font-size:11px;color:var(--faint);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--faint);margin-top:1px}
+
+/* type */
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:130px 1fr auto;align-items:baseline;gap:20px;padding:16px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--faint)}
+.type-spec{font-size:10px;color:var(--faint);margin-top:2px;font-family:var(--mono)}
+.type-sample{color:var(--ink);min-width:0}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--surface);color:var(--muted);padding:2px 7px;border-radius:5px;white-space:nowrap;font-family:var(--mono)}
+
+/* buttons + comps */
+.btn{font-family:var(--sans);font-weight:400;font-size:14px;border-radius:10px;padding:0 16px;height:42px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.12s;letter-spacing:-.005em}
+.btn-primary{background:var(--yellow);color:var(--btn-text)}
+.btn-primary:hover{background:var(--yellow-hover)}
+.btn-secondary{background:var(--card);border-color:var(--border-strong);color:var(--ink)}
+.btn-secondary:hover{background:var(--surface)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--surface)}
+.link{color:var(--blue-fg);font-weight:400;text-decoration:none;cursor:pointer}
+.link:hover{text-decoration:underline}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:400}
+.pill .dot{width:6px;height:6px;border-radius:50%}
+.pill.ok{background:var(--green-bg);color:var(--green-fg)}.pill.ok .dot{background:var(--green-fg)}
+.pill.warn{background:var(--yellow-bg);color:var(--ink)}.pill.warn .dot{background:#a6ad00}
+.pill.bad{background:var(--red-bg);color:var(--red-fg)}.pill.bad .dot{background:var(--red-fg)}
+.pill.cat{background:var(--surface);color:var(--muted)}
+.pill-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.r-input{background:var(--card);border:1px solid var(--border-strong);border-radius:10px;height:42px;padding:0 13px;font-size:14px;font-family:var(--sans);color:var(--ink);outline:none;width:100%;transition:.12s}
+.r-input:focus{border-color:var(--yellow);box-shadow:0 0 0 3px var(--yellow-bg)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:56px;height:56px;background:var(--surface);border:1px solid var(--border-strong);margin-bottom:7px}
+.radii span{font-size:10px;color:var(--faint);font-family:var(--mono)}
+/* the Ramp card */
+.rampcard{width:230px;height:145px;border-radius:14px;background:linear-gradient(150deg,#26241d,#141310);color:#f4f2ef;padding:16px 17px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.rampcard .rc-mark{color:var(--yellow)}
+.rampcard .rc-num{font-family:var(--mono);font-size:14px;letter-spacing:.14em;color:#e9e6e0}
+.rampcard .rc-foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:11px;color:#a8a49b}
+.rampcard .rc-name{font-size:12px;color:#f4f2ef;text-transform:uppercase;letter-spacing:.04em}
+
+/* ============ signature: Ramp Intelligence spend feed ============ */
+.feed{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.feed-top{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.feed-title{font-weight:400;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.feed-title .fi{width:22px;height:22px;border-radius:6px;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center}
+.saved{margin-left:auto;text-align:right}
+.saved .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.saved .v{font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--green-fg);font-variant-numeric:tabular-nums}
+.feed-tabs{display:flex;gap:2px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--well)}
+.feed-tabs button{background:none;border:none;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:400;font-family:var(--sans);transition:.12s;display:inline-flex;align-items:center;gap:7px}
+.feed-tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.feed-tabs .badge{font-family:var(--mono);font-size:10px;background:var(--yellow);color:var(--ink);border-radius:999px;padding:1px 6px;font-weight:600}
+
+.txn{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);transition:background .12s}
+.txn:hover{background:var(--well)}
+.txn.hide{display:none}
+.txn-merch{display:flex;align-items:center;gap:12px;min-width:0}
+.merch-logo{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
+:root[data-theme="dark"] .merch-logo{box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.txn-name{font-weight:400;color:var(--ink)}
+.txn-sub{font-size:12px;color:var(--faint);display:flex;gap:8px;align-items:center;margin-top:2px;flex-wrap:wrap}
+.txn-card{font-family:var(--mono);font-size:11px}
+.txn-mid{display:flex;align-items:center;gap:10px}
+.txn-amt{font-family:var(--mono);font-weight:600;font-size:14px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;min-width:82px}
+.insight{grid-column:1/-1;margin-top:12px;background:var(--yellow-bg);border:1px solid rgba(228,242,34,.55);border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+:root[data-theme="dark"] .insight{border-color:rgba(228,242,34,.4)}
+.insight .il{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
+.insight .spark{color:#8a9200;flex-shrink:0}
+:root[data-theme="dark"] .insight .spark{color:var(--yellow)}
+.insight .itxt{font-size:13px;color:var(--ink);line-height:1.4}
+.insight .itxt b{font-weight:700}
+.insight .apply{background:var(--ink);color:var(--bg);border:none;border-radius:8px;height:32px;padding:0 14px;font-family:var(--sans);font-weight:400;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:.12s}
+.insight .apply:hover{opacity:.85}
+.txn.applied .insight{background:var(--green-bg);border-color:transparent}
+.txn.applied .insight .apply{background:var(--green-fg);color:#fff;pointer-events:none}
+.txn.applied .insight .spark{color:var(--green-fg)}
+.sig-hint{font-size:12.5px;color:var(--faint);margin-top:14px;line-height:1.55;max-width:780px}
+.sig-hint b{color:var(--ink);font-weight:400}
+
+/* guardrails */
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-family:var(--mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--green-fg)}
+.gr-heading.dont{color:var(--red-fg)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:14px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--green-fg)}
+.dont .gr-item::before{background:var(--red-fg)}
+.gr-item b{color:var(--ink);font-weight:400}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:13px;font-weight:400;font-family:var(--mono);transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/ramp/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg width="75" height="20" fill="none" viewBox="0 0 71 20" xmlns="http://www.w3.org/2000/svg" aria-label="Ramp"><g fill="currentColor"><path d="M5.098 6.736c-1.768 0-2.636 1.57-2.636 3.669v5.256H-.032V4.568h2.45v2.878h.042c.524-1.77 1.565-3.2 3.174-3.2 1.132 0 1.607.399 1.607.399L6.116 6.93s-.358-.194-1.018-.194M35.237 8.26v7.401h-2.428v-6.5c0-1.865-.58-2.853-2.064-2.853s-2.28 1.251-2.28 3.647v5.706h-2.407v-6.5c0-1.794-.574-2.853-2.043-2.853-1.676 0-2.321 1.48-2.321 3.647v5.706h-2.45V4.568h2.45V7.08h.022c.38-1.737 1.424-2.811 3.182-2.811s2.878.943 3.31 2.62c.41-1.613 1.504-2.62 3.182-2.62 2.341 0 3.847 1.479 3.847 3.99M12.141 4.249c-2.255 0-3.728 1.067-4.4 2.993l2.074.762c.378-1.162 1.167-1.823 2.37-1.823 1.355 0 2.149.602 2.149 1.523 0 .922-.633 1.14-2.064 1.374-1.59.258-5.375.344-5.375 3.56 0 1.886 1.562 3.304 3.911 3.304 1.765 0 2.97-.728 3.526-2.082h.022v1.804h2.428V8.842c0-2.986-1.491-4.59-4.643-4.59zm2.257 6.19c0 2.328-1.142 3.822-2.966 3.822-1.29 0-2.065-.73-2.065-1.782 0-.988.796-1.671 2.322-1.954 1.56-.29 2.346-.646 2.707-1.501v1.418zm29.48-6.17c-1.857 0-3.086 1.03-3.61 2.575V4.568h-2.579V19.93h2.557v-6.547h.022c.569 1.676 1.755 2.598 3.61 2.598 2.944 0 5.05-2.445 5.05-5.9 0-3.431-2.106-5.812-5.05-5.812m-.636 9.655c-2.04 0-3.17-1.492-3.17-3.81 0-2.316 1.267-3.808 3.17-3.808s3.17 1.563 3.17 3.809-1.266 3.809-3.17 3.809M70.028 15.612v.07h-9.983v-.07c1.439-.82 2.432-1.654 3.327-2.526h4.1zm-2.473-13.11L65.027 0h-.074s.042 4.664-4.205 8.906c-4.156 4.15-9.046 4.16-9.046 4.16v.074l2.578 2.546s4.819.05 9.074-4.16c4.24-4.195 4.205-9.022 4.205-9.022z"></path></g></svg>
+    </div>
+    <div class="hero-eyebrow">Corporate cards · expenses · bill pay</div>
+    <h1>Time is money.<br>Save both.</h1>
+    <p>Cards, expenses, bill payments, and more — automated with AI so your finance team can focus on strategy.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Get a demo</button>
+      <button class="btn btn-secondary">Sign in</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm paper, warm near-black ink, one electric Ramp yellow">
+      <div class="strip-slab" style="background:#e4f222" onclick="copyHex('#e4f222')" title="Ramp yellow"></div>
+      <div class="strip-slab" style="background:#0066ff" onclick="copyHex('#0066ff')" title="blue"></div>
+      <div class="strip-slab" style="background:#1a1918" onclick="copyHex('#1a1918')" title="ink"></div>
+      <div class="strip-slab" style="background:#1f7a46" onclick="copyHex('#1f7a46')" title="green (saved)"></div>
+      <div class="strip-slab" style="background:#eeebe7" onclick="copyHex('#eeebe7')" title="surface"></div>
+      <div class="strip-slab" style="background:#f4f2ef" onclick="copyHex('#f4f2ef')" title="paper"></div>
+    </div>
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Surfaces (light)</div>
+    <div class="swatch-grid" id="g-surf"></div>
+    <div class="group-label">Text</div>
+    <div class="swatch-grid" id="g-text"></div>
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid" id="g-sem"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography · TWK Lausanne</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">Lausanne / 700</div><div class="type-spec">Display · 74px · -0.03em</div></div>
+        <div class="type-sample" style="font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1">Time is money. Save both.</div>
+        <div class="spec-pills"><span class="spec-pill">Lausanne 700</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Lausanne / 400</div><div class="type-spec">Heading · 24px · -0.015em</div></div>
+        <div class="type-sample" style="font-size:24px;font-weight:400;letter-spacing:-.015em">One platform for all of finance.</div>
+        <div class="spec-pills"><span class="spec-pill">Lausanne 400</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Lausanne / 350</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:16px;font-weight:350">Ramp customers save an average of 5% a year and close their books 8x faster — the details do the talking.</div>
+        <div class="spec-pills"><span class="spec-pill">Lausanne 350</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">Lausanne / 400 italic</div><div class="type-spec">Emphasis · rare</div></div>
+        <div class="type-sample" style="font-size:18px;font-weight:400;font-style:italic">We've got the receipts.</div>
+        <div class="spec-pills"><span class="spec-pill">Lausanne italic</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">system mono</div><div class="type-spec">Money · card · meta</div></div>
+        <div class="type-sample mono" style="font-size:14px">$12,480.00 · •••• 4921 · MAR 26</div>
+        <div class="spec-pills"><span class="spec-pill">ui-monospace</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · Ramp Intelligence · spend feed</div>
+    <div class="feed">
+      <div class="feed-top">
+        <span class="feed-title"><span class="fi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span>Transactions</span>
+        <span class="saved"><div class="k">Saved this year</div><div class="v" id="savedVal">$18,240</div></span>
+      </div>
+      <div class="feed-tabs">
+        <button class="on" data-f="all" onclick="filterFeed('all')">All</button>
+        <button data-f="review" onclick="filterFeed('review')">Needs review</button>
+        <button data-f="save" onclick="filterFeed('save')">Savings <span class="badge" id="saveBadge">3</span></button>
+      </div>
+      <div id="feedBody"></div>
+    </div>
+    <div class="sig-hint"><b>Ramp watches every dollar.</b> Transactions auto-categorize and check against policy the moment they post. Ramp Intelligence flags waste — a <b>duplicate subscription</b>, an <b>unused seat</b>, a better <b>annual price</b> — as a yellow insight. Hit <b>Apply</b> and the savings book instantly to the counter. Switch tabs to see what still needs review.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-primary">Get a demo</button><button class="btn btn-secondary">Sign in</button><button class="btn btn-ghost">Learn more</button></div>
+        <div style="font-size:11px;color:var(--faint);margin-top:11px" class="mono">primary = Ramp yellow (ink text) · blue = link → <a class="link">See pricing</a></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">The Ramp card</div>
+        <div class="rampcard">
+          <div class="rc-mark"><svg width="52" height="15" fill="none" viewBox="0 0 71 20" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><path d="M5.098 6.736c-1.768 0-2.636 1.57-2.636 3.669v5.256H-.032V4.568h2.45v2.878h.042c.524-1.77 1.565-3.2 3.174-3.2 1.132 0 1.607.399 1.607.399L6.116 6.93s-.358-.194-1.018-.194M35.237 8.26v7.401h-2.428v-6.5c0-1.865-.58-2.853-2.064-2.853s-2.28 1.251-2.28 3.647v5.706h-2.407v-6.5c0-1.794-.574-2.853-2.043-2.853-1.676 0-2.321 1.48-2.321 3.647v5.706h-2.45V4.568h2.45V7.08h.022c.38-1.737 1.424-2.811 3.182-2.811s2.878.943 3.31 2.62c.41-1.613 1.504-2.62 3.182-2.62 2.341 0 3.847 1.479 3.847 3.99M12.141 4.249c-2.255 0-3.728 1.067-4.4 2.993l2.074.762c.378-1.162 1.167-1.823 2.37-1.823 1.355 0 2.149.602 2.149 1.523 0 .922-.633 1.14-2.064 1.374-1.59.258-5.375.344-5.375 3.56 0 1.886 1.562 3.304 3.911 3.304 1.765 0 2.97-.728 3.526-2.082h.022v1.804h2.428V8.842c0-2.986-1.491-4.59-4.643-4.59zm2.257 6.19c0 2.328-1.142 3.822-2.966 3.822-1.29 0-2.065-.73-2.065-1.782 0-.988.796-1.671 2.322-1.954 1.56-.29 2.346-.646 2.707-1.501v1.418zm29.48-6.17c-1.857 0-3.086 1.03-3.61 2.575V4.568h-2.579V19.93h2.557v-6.547h.022c.569 1.676 1.755 2.598 3.61 2.598 2.944 0 5.05-2.445 5.05-5.9 0-3.431-2.106-5.812-5.05-5.812m-.636 9.655c-2.04 0-3.17-1.492-3.17-3.81 0-2.316 1.267-3.808 3.17-3.808s3.17 1.563 3.17 3.809-1.266 3.809-3.17 3.809M70.028 15.612v.07h-9.983v-.07c1.439-.82 2.432-1.654 3.327-2.526h4.1zm-2.473-13.11L65.027 0h-.074s.042 4.664-4.205 8.906c-4.156 4.15-9.046 4.16-9.046 4.16v.074l2.578 2.546s4.819.05 9.074-4.16c4.24-4.195 4.205-9.022 4.205-9.022z"></path></g></svg></div>
+          <div class="rc-num">4921&nbsp;&nbsp;••••&nbsp;&nbsp;••••&nbsp;&nbsp;3608</div>
+          <div class="rc-foot"><span class="rc-name">Ada Okonkwo</span><span class="mono">VISA</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Status &amp; categories</div>
+        <div class="pill-row">
+          <span class="pill ok"><span class="dot"></span>In policy</span>
+          <span class="pill warn"><span class="dot"></span>Needs review</span>
+          <span class="pill bad"><span class="dot"></span>Out of policy</span>
+        </div>
+        <div class="pill-row" style="margin-top:10px">
+          <span class="pill cat">Software</span>
+          <span class="pill cat">Travel</span>
+          <span class="pill cat">Meals</span>
+          <span class="pill cat">Advertising</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Search &amp; radius</div>
+        <input class="r-input" value="Merchant is Notion and amount > $500" spellcheck="false">
+        <div class="radii" style="margin-top:14px">
+          <div><div class="box" style="border-radius:8px"></div><span>chip · 8</span></div>
+          <div><div class="box" style="border-radius:10px"></div><span>btn · 10</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>card · 14</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas warm off-white <b>#f4f2ef</b> with warm near-black ink — the warmth is the brand.</div>
+          <div class="gr-item">Reserve <b>Ramp yellow #e4f222</b> for primary actions &amp; highlights, always with <b>ink</b> text.</div>
+          <div class="gr-item">Set everything in <b>TWK Lausanne</b> — light 350 for body, 700 for display.</div>
+          <div class="gr-item">Use <b>green</b> to celebrate money &amp; time saved — that's Ramp's whole story.</div>
+          <div class="gr-item">Render money in <b>tabular mono</b> so columns align.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Don't tint the yellow toward gold or orange, or wash it across a background.</div>
+          <div class="gr-item">Don't put <b>white</b> text on the yellow, or use yellow for body copy.</div>
+          <div class="gr-item">Don't swap the warm paper for a cold pure-grey — it flattens the identity.</div>
+          <div class="gr-item">Don't turn the <b>blue</b> into a primary button — it's for links &amp; data.</div>
+          <div class="gr-item">Don't add a second display typeface — Lausanne carries it all.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['yellow','#e4f222','Ramp yellow · CTA'],['blue','#0066ff','Links · data'],['ink','#1a1918','Warm near-black'],['green','#1f7a46','Money saved']],
+  surf:[['paper','#f4f2ef','Canvas (warm)'],['white','#ffffff','Cards'],['surface','#eeebe7','Wells · fills'],['border','#e4e0db','Hairlines']],
+  text:[['ink','#1a1918','Primary'],['muted','#5c5a54','Secondary'],['faint','#93908a','Meta']],
+  sem:[['in-policy','#1f7a46','Approved · saved'],['review','#e4f222','Needs review'],['out-of-policy','#d4443a','Declined']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1500);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: Ramp Intelligence spend feed (deterministic) ---- */
+const TXNS=[
+  {merch:'Notion',logo:'#1a1918',cat:'Software',card:'•••• 4921',who:'Ada O.',amt:'$960.00',status:'review',
+   insight:{save:840,text:'Duplicate of an existing <b>Notion</b> workspace subscription — cancel to save <b>$840/yr</b>.'}},
+  {merch:'United Airlines',logo:'#0033a0',cat:'Travel',card:'•••• 3608',who:'Marco B.',amt:'$512.40',status:'ok'},
+  {merch:'AWS',logo:'#ff9900',cat:'Software',card:'•••• 4921',who:'Priya N.',amt:'$4,180.22',status:'review',
+   insight:{save:1520,text:'<b>12 idle EC2 instances</b> flagged by Ramp Intelligence — rightsize to save ~<b>$1,520/mo</b>.'}},
+  {merch:'Figma',logo:'#a259ff',cat:'Software',card:'•••• 7715',who:'Ada O.',amt:'$720.00',status:'save',
+   insight:{save:1440,text:'Switch <b>Figma</b> from monthly to annual billing — save <b>$1,440/yr</b>.'}},
+  {merch:'The Standard',logo:'#1f7a46',cat:'Meals',card:'•••• 3608',who:'Marco B.',amt:'$284.15',status:'bad'},
+  {merch:'Slack',logo:'#611f69',cat:'Software',card:'•••• 4921',who:'Priya N.',amt:'$1,240.00',status:'save',
+   insight:{save:2100,text:'<b>14 unused seats</b> on Slack in the last 90 days — remove to save <b>$2,100/yr</b>.'}},
+  {merch:'Uber',logo:'#1a1918',cat:'Travel',card:'•••• 7715',who:'Ada O.',amt:'$47.80',status:'ok'},
+  {merch:'Google Ads',logo:'#4285f4',cat:'Advertising',card:'•••• 3608',who:'Dev A.',amt:'$8,600.00',status:'ok'},
+  {merch:'Ramp Travel',logo:'#e4f222',cat:'Travel',card:'•••• 4921',who:'Marco B.',amt:'$1,905.00',status:'ok'}
+];
+let saved=18240, curFilter='all';
+const STATUS={ok:['ok','In policy'],review:['warn','Needs review'],save:['warn','Savings found'],bad:['bad','Out of policy']};
+
+function amtNum(a){return +a.replace(/[$,]/g,'');}
+function renderFeed(){
+  document.getElementById('feedBody').innerHTML=TXNS.map((t,i)=>{
+    const st=STATUS[t.status];
+    const logoTxt=t.merch[0];
+    const dark=(t.logo==='#e4f222');
+    return `<div class="txn" id="tx${i}" data-status="${t.status}">
+      <div class="txn-merch">
+        <span class="merch-logo" style="background:${t.logo};color:${dark?'#1a1918':'#fff'}">${logoTxt}</span>
+        <span><span class="txn-name">${t.merch}</span>
+          <span class="txn-sub"><span class="pill cat">${t.cat}</span><span class="txn-card mono">${t.card}</span><span>${t.who}</span></span>
+        </span>
+      </div>
+      <div class="txn-mid"><span class="pill ${st[0]}"><span class="dot"></span>${st[1]}</span></div>
+      <div class="txn-amt">${t.amt}</div>
+      ${t.insight?`<div class="insight">
+        <span class="il"><span class="spark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span>
+          <span class="itxt">${t.insight.text}</span></span>
+        <button class="apply" onclick="applyInsight(${i})">Apply · save $${t.insight.save.toLocaleString()}</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+  applyFilter();
+}
+function applyInsight(i){
+  const el=document.getElementById('tx'+i);
+  if(el.classList.contains('applied'))return;
+  el.classList.add('applied');
+  el.querySelector('.apply').textContent='✓ Saved $'+TXNS[i].insight.save.toLocaleString();
+  saved+=TXNS[i].insight.save;
+  countUp(saved);
+  toast('Booked $'+TXNS[i].insight.save.toLocaleString()+' in savings');
+}
+let animTimer;
+function countUp(target){
+  const el=document.getElementById('savedVal');
+  let cur=+el.dataset.v|| (parseInt(el.textContent.replace(/[$,]/g,''))||0);
+  clearInterval(animTimer);const start=cur,delta=target-start,steps=18;let n=0;
+  animTimer=setInterval(()=>{n++;const v=Math.round(start+delta*(n/steps));el.textContent='$'+v.toLocaleString();el.dataset.v=v;if(n>=steps){el.textContent='$'+target.toLocaleString();el.dataset.v=target;clearInterval(animTimer);}},22);
+}
+function filterFeed(f){
+  curFilter=f;
+  [...document.querySelectorAll('.feed-tabs button')].forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+  applyFilter();
+}
+function applyFilter(){
+  TXNS.forEach((t,i)=>{
+    const el=document.getElementById('tx'+i);if(!el)return;
+    let show=true;
+    if(curFilter==='review')show=(t.status==='review'||t.status==='bad');
+    else if(curFilter==='save')show=!!t.insight;
+    el.classList.toggle('hide',!show);
+  });
+}
+document.getElementById('saveBadge').textContent=TXNS.filter(t=>t.insight).length;
+renderFeed();
+</script>
+</body>
+</html>

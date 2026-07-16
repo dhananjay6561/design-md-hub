@@ -146,6 +146,7 @@ Every spec is built from the brand's **live production site** — real fonts, ex
 | 117 | [n8n](brands/n8n/DESIGN.md) | Automation | [preview](https://dhananjay6561.github.io/design-md-hub/brands/n8n/preview.html) |
 | 118 | [Suno](brands/suno/DESIGN.md) | AI | [preview](https://dhananjay6561.github.io/design-md-hub/brands/suno/preview.html) |
 | 119 | [Attio](brands/attio/DESIGN.md) | CRM | [preview](https://dhananjay6561.github.io/design-md-hub/brands/attio/preview.html) |
+| 120 | [Ramp](brands/ramp/DESIGN.md) | Fintech | [preview](https://dhananjay6561.github.io/design-md-hub/brands/ramp/preview.html) |
 
 > Want a brand added? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
