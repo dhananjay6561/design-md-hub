@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suno — Design System</title>
+<link rel="icon" href="https://cdn.simpleicons.org/suno/FD429C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Suno's own faces — self-hosted & CORS-open (access-control-allow-origin:*), used directly */
+@font-face{font-family:'PP Editorial New';src:url('https://suno.com/static-p/PPEditorialNew-Light.35b191a6.woff') format('woff');font-weight:300;font-display:swap}
+@font-face{font-family:'PP Editorial New';src:url('https://suno.com/static-p/PPEditorialNew-Regular.e265d0d3.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'PP Neue Montreal';src:url('https://suno.com/static-p/PPNeueMontreal-Regular.7a832673.woff') format('woff');font-weight:400;font-display:swap}
+@font-face{font-family:'PP Neue Montreal';src:url('https://suno.com/static-p/PPNeueMontreal-Medium.8b97a885.woff') format('woff');font-weight:500;font-display:swap}
+@font-face{font-family:'PP Neue Montreal';src:url('https://suno.com/static-p/PPNeueMontreal-SemiBold.e62409a3.woff') format('woff');font-weight:600;font-display:swap}
+:root{
+  /* Suno — theme-invariant brand + spectrum */
+  --create-a:#E14C1E;--create-b:#DD2C5D;
+  --pink:#FD429C;--orange:#FF6A00;--red:#F8441B;--green:#02D95C;--blue:#1F8BFF;--purple:#AC4BFF;
+}
+:root[data-theme="dark"]{
+  --bg:#101012;--bg2:#1C1C1F;--raised:#252529;--field:#202024;
+  --border:rgba(255,255,255,.10);--border-strong:rgba(255,255,255,.18);
+  --ink:#F7F4EF;--muted:#C2C2C1;--faint:#A3A3A3;
+  --brand:#FD429C;--logo:#F7F4EF;--btn-glass:rgba(255,255,255,.06);
+  --shadow:0 24px 60px rgba(0,0,0,.55);--aura-op:.55;
+}
+:root[data-theme="light"]{
+  --bg:#F7F4EF;--bg2:#EDEAE4;--raised:#FCFBF9;--field:#F1EDE6;
+  --border:rgba(0,0,0,.10);--border-strong:rgba(0,0,0,.18);
+  --ink:#101012;--muted:#5B5B62;--faint:#7D7C83;
+  --brand:#DE1677;--logo:#101012;--btn-glass:rgba(0,0,0,.05);
+  --shadow:0 20px 50px rgba(40,30,25,.14);--aura-op:.34;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PP Neue Montreal',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.serif{font-family:'PP Editorial New',Georgia,serif}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-theme="dark"] .icon-moon{display:none}
+:root[data-theme="light"] .icon-sun{display:none}
+.toggle{position:fixed;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border-strong);color:var(--muted);padding:8px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:100;line-height:0}
+.toggle:hover{border-color:var(--faint)}
+
+.hero{position:relative;overflow:hidden;padding:78px 0 58px;border-bottom:1px solid var(--border);text-align:center}
+.aura{position:absolute;inset:-30% -10% auto -10%;height:560px;filter:blur(85px);opacity:var(--aura-op);pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 28% 42%,var(--create-a),transparent 46%),radial-gradient(circle at 58% 28%,var(--create-b),transparent 46%),radial-gradient(circle at 78% 58%,var(--purple),transparent 46%)}
+.hero-inner{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 40px}
+.hero-logo{margin-bottom:26px;display:flex;justify-content:center;align-items:center;gap:12px;color:var(--logo)}
+.hero-logo svg{height:30px;width:30px;display:block}
+.hero-logo .wm{font-weight:600;font-size:26px;letter-spacing:-.02em}
+.hero h1{font-family:'PP Editorial New',Georgia,serif;font-weight:400;font-size:58px;letter-spacing:-.02em;line-height:1.02;margin-bottom:18px}
+.hero p{font-size:17px;color:var(--muted);max-width:540px;margin:0 auto}
+.hero-cta{display:flex;gap:10px;justify-content:center;margin-top:28px;align-items:center;flex-wrap:wrap}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px 90px}
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-bottom:26px}
+.group-label{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin:22px 0 10px}
+
+.strip{display:flex;height:46px;border-radius:10px;overflow:hidden;margin-bottom:26px;border:1px solid var(--border)}
+.strip-slab{flex:1;cursor:pointer;transition:flex .2s}
+.strip-slab:hover{flex:1.7}
+
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;margin-bottom:4px}
+.swatch{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:border-color .12s}
+.swatch:hover{border-color:var(--border-strong)}
+.swatch-block{height:74px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.22)}
+.swatch-info{padding:9px 11px;background:var(--bg2)}
+.swatch-name{font-size:11px;font-weight:500;color:var(--ink);display:block}
+.swatch-hex{font-size:11px;color:var(--faint);margin-top:2px}
+.swatch-use{font-size:10px;color:var(--faint);margin-top:1px}
+
+.type-rows{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:160px 1fr auto;align-items:baseline;gap:20px;padding:15px 0;border-bottom:1px solid var(--border)}
+.type-row:last-child{border-bottom:none}
+.type-name{font-size:11px;color:var(--faint)}
+.type-spec{font-size:10px;color:var(--faint);margin-top:2px}
+.type-sample{color:var(--ink)}
+.spec-pills{display:flex;gap:5px;justify-content:flex-end}
+.spec-pill{font-size:10px;background:var(--bg2);color:var(--muted);padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+
+/* buttons */
+.btn{font-family:'PP Neue Montreal',sans-serif;font-weight:500;font-size:13.5px;border-radius:9999px;padding:0 18px;height:42px;border:1px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.12s;color:#fff}
+.btn-create{background:linear-gradient(to bottom,var(--create-a),var(--create-b));box-shadow:0 4px 16px rgba(221,44,93,.34)}
+.btn-create:hover{filter:brightness(1.06)}
+.btn-pink{background:var(--brand);color:#fff}.btn-pink:hover{filter:brightness(1.06)}
+.btn-glass{background:var(--btn-glass);border-color:var(--border-strong);color:var(--ink)}
+.btn-glass:hover{border-color:var(--faint)}
+.btn .ico{width:15px;height:15px}
+
+/* ============ signature: song generator ============ */
+.studio{background:var(--bg2);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.studio-top{padding:18px;border-bottom:1px solid var(--border)}
+.prompt-bar{display:flex;align-items:center;gap:10px;background:var(--raised);border:1px solid var(--border-strong);border-radius:14px;padding:8px 8px 8px 16px}
+.prompt-bar .lead{color:var(--faint);flex-shrink:0}
+.prompt-bar input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-family:'PP Neue Montreal',sans-serif;font-size:14.5px;min-width:0}
+.prompt-bar input::placeholder{color:var(--faint)}
+.chips{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:500;color:var(--muted);background:var(--raised);border:1px solid var(--border);border-radius:9999px;padding:6px 13px;cursor:pointer;transition:.12s}
+.chip:hover{border-color:var(--border-strong);color:var(--ink)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.gen{display:none;align-items:center;gap:14px;padding:15px 18px;border-bottom:1px solid var(--border)}
+.gen.show{display:flex}
+.gen .spin{width:18px;height:18px;border-radius:50%;border:2px solid var(--orange);border-right-color:transparent;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen .gtxt{font-size:13px;color:var(--ink);font-weight:500}
+.gen .gbar{flex:1;height:5px;background:var(--raised);border-radius:9999px;overflow:hidden;max-width:280px}
+.gen .gbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--create-b));transition:width .4s ease}
+
+.results{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.results{grid-template-columns:1fr}}
+.song{background:var(--raised);border:1px solid var(--border);border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:11px}
+.song-head{display:flex;gap:12px;align-items:center}
+.art{width:60px;height:60px;border-radius:10px;flex-shrink:0;position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.art::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.28),transparent 40%)}
+.song.playing .art{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+.song-info{flex:1;min-width:0}
+.song-title{font-weight:600;font-size:15px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.song-ver{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:2px}
+.play{width:38px;height:38px;border-radius:50%;flex-shrink:0;border:none;cursor:pointer;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;transition:.12s}
+.play:hover{transform:scale(1.06)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:10.5px;font-weight:500;padding:3px 9px;border-radius:9999px;color:#fff}
+.wave-wrap{display:flex;flex-direction:column;gap:6px}
+.waveform{display:flex;align-items:center;gap:2px;height:40px}
+.bar{flex:1;background:var(--faint);border-radius:2px;opacity:.5;transform-origin:center;transition:opacity .2s,background .2s}
+.song.playing .bar{opacity:1;background:var(--brand);animation:eq .7s ease-in-out infinite alternate}
+.scrub{height:3px;background:var(--border);border-radius:9999px;overflow:hidden}
+.scrub i{display:block;height:100%;width:0;background:var(--brand)}
+.song.playing .scrub i{animation:scrub 9s linear infinite}
+@keyframes eq{from{transform:scaleY(.55)}to{transform:scaleY(1)}}
+@keyframes scrub{from{width:0}to{width:100%}}
+.song-foot{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
+.sig-hint{font-size:11.5px;color:var(--faint);margin-top:14px;text-align:center;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.5}
+.sig-hint b{color:var(--ink)}
+
+/* components */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px}
+.comp-title{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag-demo{display:flex;gap:6px;flex-wrap:wrap}
+.m-input{background:var(--raised);border:1px solid var(--border-strong);border-radius:9999px;height:42px;padding:0 16px;font-size:13.5px;font-family:'PP Neue Montreal',sans-serif;color:var(--ink);outline:none;width:100%;transition:.12s}
+.m-input:focus{border-color:var(--brand)}
+.radii{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.radii div{text-align:center}
+.radii .box{width:58px;height:58px;background:linear-gradient(to bottom,var(--create-a),var(--create-b));margin-bottom:7px}
+.radii span{font-size:10px;color:var(--faint);font-family:'JetBrains Mono',monospace}
+
+.gr-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.gr-cols{grid-template-columns:1fr}}
+.gr-heading{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px}
+.gr-heading.do{color:var(--green)}
+.gr-heading.dont{color:var(--red)}
+.gr-list{display:flex;flex-direction:column;gap:10px}
+.gr-item{font-size:13px;color:var(--muted);line-height:1.5;padding-left:15px;position:relative}
+.gr-item::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:50%}
+.do .gr-item::before{background:var(--green)}
+.dont .gr-item::before{background:var(--red)}
+.gr-item b{color:var(--ink);font-weight:500}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:9999px;font-size:13px;font-weight:500;font-family:'JetBrains Mono',monospace;transition:transform .2s;z-index:200;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<style id="dmh-style">#dmh-bar,#dmh-right{position:fixed;top:14px;z-index:120;display:flex;align-items:center;gap:7px;font-family:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace}#dmh-bar{left:14px}#dmh-right{right:54px}#dmh-bar a,#dmh-right a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;text-decoration:none;padding:7px 11px;border-radius:9px;line-height:1;transition:transform .13s,box-shadow .13s,background .13s,border-color .13s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}#dmh-bar a:hover,#dmh-right a:hover{transform:translateY(-1px)}.dmh-home{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.32)}.dmh-home:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.5)}.dmh-md{color:inherit;background:rgba(140,140,140,.13);border:1px solid rgba(140,140,140,.34)}.dmh-md:hover{background:rgba(140,140,140,.24);border-color:rgba(140,140,140,.55)}.dmh-md svg{opacity:.82;transition:transform .18s,opacity .18s}.dmh-md:hover svg{opacity:1;transform:translateY(1px)}@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}.dmh-star{position:relative;isolation:isolate;color:inherit;background:rgba(140,140,140,.13);border:1px solid transparent}.dmh-star::before{content:'';position:absolute;inset:0;border-radius:inherit;padding:1.4px;background:conic-gradient(from var(--sa),rgba(140,140,140,.34) 0deg,rgba(140,140,140,.34) 232deg,#FFC21E 300deg,#FFE7A6 322deg,rgba(140,140,140,.34) 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:starspin 3s linear infinite;pointer-events:none}.dmh-star:hover{background:rgba(140,140,140,.24)}.dmh-star:hover::before{animation-duration:1.4s}.dmh-star .star-ico{color:#F5B301}@keyframes starspin{to{--sa:360deg}}:root[data-theme="light"] .dmh-star{background:#1F2328;color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(20,20,25,.22)}:root[data-theme="light"] .dmh-star:hover{background:#2C333B}:root[data-theme="light"] .dmh-star .star-ico{color:#FFC21E}:root[data-theme="light"] .dmh-star::before{background:conic-gradient(from var(--sa),rgba(150,150,150,.30) 0deg,rgba(150,150,150,.30) 232deg,#FFC21E 300deg,#FFF0C2 322deg,rgba(150,150,150,.30) 360deg)}@media(prefers-reduced-motion:reduce){.dmh-star::before{animation:none}}@media(max-width:600px){#dmh-bar .lbl,#dmh-right .lbl{display:none}#dmh-right{right:48px}}</style>
+<div id="dmh-bar"><a class="dmh-home" href="../../index.html" title="Back to the gallery" aria-label="Home"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="lbl">Home</span></a></div><div id="dmh-right"><a class="dmh-md" href="https://github.com/dhananjay6561/design-md-hub/blob/main/brands/suno/DESIGN.md" target="_blank" rel="noopener" title="Read the full DESIGN.md"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.27 19.385H1.73A1.73 1.73 0 0 1 0 17.655V6.345a1.73 1.73 0 0 1 1.73-1.73h20.54A1.73 1.73 0 0 1 24 6.345v11.31a1.73 1.73 0 0 1-1.73 1.73M5.77 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.077h-2.308l-2.307 2.885-2.308-2.885H3.46v7.846zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.038z"/></svg><span class="lbl">DESIGN.md</span></a><a class="dmh-star" href="https://github.com/dhananjay6561/design-md-hub" target="_blank" rel="noopener" title="Star this repo on GitHub"><svg class="star-ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.6-5.2 4.5 1.6 6.7L12 17.3 5.8 20.7l1.6-6.7L2.2 8.9l6.9-.6z"/></svg><span class="lbl">Star on GitHub</span></a></div>
+
+<button class="toggle" onclick="var d=document.documentElement;d.dataset.theme=d.dataset.theme==='dark'?'light':'dark'" title="Toggle theme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g class="icon-sun"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></g><g class="icon-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></g></svg></button>
+<div class="toast" id="toast"></div>
+
+<div class="hero">
+  <div class="aura"></div>
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Suno"><path d="M16.5 0C20.642 0 24 5.373 24 12h-9c0 6.627-3.358 12-7.5 12C3.358 24 0 18.627 0 12h9c0-6.627 3.358-12 7.5-12Z"/></svg>
+      <span class="wm">Suno</span>
+    </div>
+    <h1>Make a song about<br>anything you want.</h1>
+    <p>Create stunning original music for free in seconds. Start with a simple prompt — your next track is just a step away.</p>
+    <div class="hero-cta">
+      <button class="btn btn-create">✦ Create</button>
+      <button class="btn btn-glass">Explore songs</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <div class="section">
+    <div class="section-label">Colors</div>
+    <div class="strip" title="Warm dark canvas, orange→pink Create gradient, colorful spectrum">
+      <div class="strip-slab" style="background:#E14C1E" onclick="copyHex('#E14C1E')" title="create-a"></div>
+      <div class="strip-slab" style="background:#DD2C5D" onclick="copyHex('#DD2C5D')" title="create-b"></div>
+      <div class="strip-slab" style="background:#FD429C" onclick="copyHex('#FD429C')" title="strawberry"></div>
+      <div class="strip-slab" style="background:#AC4BFF" onclick="copyHex('#AC4BFF')" title="purple"></div>
+      <div class="strip-slab" style="background:#1C1C1F" onclick="copyHex('#1C1C1F')" title="bg2"></div>
+      <div class="strip-slab" style="background:#101012" onclick="copyHex('#101012')" title="bg"></div>
+    </div>
+
+    <div class="group-label">Brand</div>
+    <div class="swatch-grid" id="g-brand"></div>
+    <div class="group-label">Neutral · "dumbo" (dark)</div>
+    <div class="swatch-grid" id="g-neut"></div>
+    <div class="group-label">Accent spectrum · songs &amp; genres</div>
+    <div class="swatch-grid" id="g-spec"></div>
+    <div class="group-label">Semantic</div>
+    <div class="swatch-grid" id="g-sem"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <div class="section-label">Typography · PP Editorial New + PP Neue Montreal</div>
+    <div class="type-rows">
+      <div class="type-row">
+        <div><div class="type-name">PP Editorial New / 400</div><div class="type-spec">Display serif · 58px</div></div>
+        <div class="type-sample serif" style="font-size:36px;letter-spacing:-.02em">Make a house song about quitting your job</div>
+        <div class="spec-pills"><span class="spec-pill">PP Editorial New</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">PP Neue Montreal / 600</div><div class="type-spec">Heading · 20px</div></div>
+        <div class="type-sample" style="font-size:20px;font-weight:600">Everything you need to make music your way</div>
+        <div class="spec-pills"><span class="spec-pill">PP Neue Montreal</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">PP Neue Montreal / 400</div><div class="type-spec">Body · 15px</div></div>
+        <div class="type-sample" style="font-size:15px">Whether you have a melody in your head, lyrics you've written, or just a feeling you want to hear.</div>
+        <div class="spec-pills"><span class="spec-pill">PP Neue Montreal</span></div>
+      </div>
+      <div class="type-row">
+        <div><div class="type-name">JetBrains Mono</div><div class="type-spec">Duration · count · 12px</div></div>
+        <div class="type-sample mono" style="font-size:13px">v2 · 2:48 · house, dance</div>
+        <div class="spec-pills"><span class="spec-pill">JetBrains Mono</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="section">
+    <div class="section-label">Signature · The song generator</div>
+    <div class="studio">
+      <div class="studio-top">
+        <div class="prompt-bar">
+          <span class="lead">✦</span>
+          <input id="prompt" value="A house song about quitting your job" spellcheck="false">
+          <button class="btn btn-create" id="createBtn" onclick="generate()" style="height:38px;padding:0 16px">Create</button>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="gen" id="gen"><span class="spin"></span><span class="gtxt" id="genTxt">Composing…</span><span class="gbar"><i id="genBar"></i></span></div>
+      <div class="results" id="results"></div>
+    </div>
+    <div class="sig-hint"><b>A prompt becomes a finished song in seconds.</b> Pick a style and hit Create — Suno composes, adds vocals, and masters, then returns <b>two versions</b> with album art, genre tags, and a waveform. Hit play to hear it move.</div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <div class="section-label">Components</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-title">Buttons</div>
+        <div class="btn-row"><button class="btn btn-create">✦ Create</button><button class="btn btn-pink">Join Suno</button><button class="btn btn-glass">Explore</button></div>
+        <div style="font-size:11px;color:var(--faint);margin-top:10px" class="mono">gradient = Create only · pink = CTA · glass = secondary</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Genre tags</div>
+        <div class="tag-demo">
+          <span class="tag" style="background:#FD429C">House</span>
+          <span class="tag" style="background:#AC4BFF">Synthwave</span>
+          <span class="tag" style="background:#1F8BFF">Lo-fi</span>
+          <span class="tag" style="background:#02D95C">Folk</span>
+          <span class="tag" style="background:#FF6A00">Pop</span>
+          <span class="tag" style="background:#F8441B">Rock</span>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Prompt (input)</div>
+        <input class="m-input" value="Rainy lo-fi beats to study to" spellcheck="false">
+        <div style="font-size:11px;color:var(--faint);margin-top:8px" class="mono">describe it → hear it</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-title">Radius</div>
+        <div class="radii">
+          <div><div class="box" style="border-radius:10px"></div><span>art · 10</span></div>
+          <div><div class="box" style="border-radius:14px"></div><span>card · 14</span></div>
+          <div><div class="box" style="border-radius:9999px"></div><span>btn · pill</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUARDRAILS -->
+  <div class="section">
+    <div class="section-label">Guardrails</div>
+    <div class="gr-cols">
+      <div>
+        <div class="gr-heading do">Do</div>
+        <div class="gr-list">
+          <div class="gr-item">Keep the canvas dark warm <b>#101012</b> (light = warm paper <b>#F7F4EF</b>) — neutrals are warm, never cold grey.</div>
+          <div class="gr-item">Reserve the <b>orange→pink gradient</b> for the one <b>Create</b> action.</div>
+          <div class="gr-item">Let the accent <b>spectrum</b> carry song / genre / album variety.</div>
+          <div class="gr-item">Set the hero statement in <b>PP Editorial New</b> serif; everything else in PP Neue Montreal.</div>
+        </div>
+      </div>
+      <div>
+        <div class="gr-heading dont">Don't</div>
+        <div class="gr-list">
+          <div class="gr-item">Use cold grey neutrals — the "dumbo" scale is warm.</div>
+          <div class="gr-item">Put the Create gradient on secondary buttons, or use two gradient buttons per view.</div>
+          <div class="gr-item">Set body or UI in the serif — it's display-only.</div>
+          <div class="gr-item">Generate album art or waveforms with <b>Math.random</b> — keep them deterministic.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---- swatches ---- */
+const SW={
+  brand:[['create-a','#E14C1E','Create gradient · top'],['create-b','#DD2C5D','Create gradient · bottom'],['strawberry-600','#FD429C','Brand pink (dark)'],['strawberry-500','#DE1677','Brand pink (light)']],
+  neut:[['bg-primary','#101012','Canvas'],['bg-secondary','#1C1C1F','Panels'],['bg-raised','#252529','Wells'],['fg-primary','#F7F4EF','Text']],
+  spec:[['pink','#FD429C','strawberry'],['orange','#FF6A00','pumpkin'],['red','#F8441B','vermilion'],['green','#02D95C','slime'],['blue','#1F8BFF','dodger'],['purple','#AC4BFF','purple']],
+  sem:[['success','#02D95C','Ready'],['generating','#FF6A00','Composing'],['error','#F8441B','Failed']]
+};
+function fillSwatch(id,rows){
+  document.getElementById(id).innerHTML=rows.map(r=>
+    `<div class="swatch" onclick="copyHex('${r[1]}')"><div class="swatch-block" style="background:${r[1]}"></div><div class="swatch-info"><span class="swatch-name">${r[0]}</span><span class="swatch-hex mono">${r[1]}</span><span class="swatch-use">${r[2]}</span></div></div>`).join('');
+}
+for(const k in SW)fillSwatch('g-'+k,SW[k]);
+
+/* ---- toast + copy ---- */
+let tt;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
+function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
+
+/* ---- signature: song generator (deterministic) ---- */
+const PRESETS=[
+  {id:'house',prompt:'A house song about quitting your job',genre:['House','Dance'],pal:['#E14C1E','#DD2C5D','#AC4BFF'],title:'Quit the 9 to 5',dur:'2:48'},
+  {id:'lofi',prompt:'Rainy lo-fi beats to study to',genre:['Lo-fi','Chillhop'],pal:['#1F8BFF','#AC4BFF','#02D95C'],title:'Rain on the Window',dur:'3:12'},
+  {id:'folk',prompt:'An acoustic folk ballad about the sea',genre:['Folk','Acoustic'],pal:['#02AF4A','#FF6A00','#1F8BFF'],title:'Salt & Tide',dur:'3:41'},
+  {id:'synth',prompt:'80s synthwave for a midnight drive',genre:['Synthwave','Retro'],pal:['#AC4BFF','#1F8BFF','#FD429C'],title:'Midnight Drive',dur:'3:05'}
+];
+const TAGCOL={House:'#FD429C',Dance:'#FF6A00',"Lo-fi":'#1F8BFF',Chillhop:'#AC4BFF',Folk:'#02D95C',Acoustic:'#02AF4A',Synthwave:'#AC4BFF',Retro:'#1F8BFF'};
+let curPreset=0,busy=false;
+
+function hstr(s){let h=2166136261>>>0;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return h;}
+function waveform(seed){
+  const n=42;let html='';
+  for(let i=0;i<n;i++){const h=12+(hstr(seed+':'+i)%80);html+=`<span class="bar" style="height:${h}%"></span>`;}
+  return html;
+}
+function art(pal){
+  return `background:radial-gradient(circle at 28% 26%,${pal[0]},transparent 55%),radial-gradient(circle at 74% 34%,${pal[1]},transparent 52%),radial-gradient(circle at 52% 82%,${pal[2]},transparent 58%),#101012`;
+}
+function songCard(p,ver){
+  const seed=p.id+ver;
+  const title=ver===2?p.title+' (alt)':p.title;
+  const tags=p.genre.map(g=>`<span class="tag" style="background:${TAGCOL[g]||'#FD429C'}">${g}</span>`).join('');
+  return `<div class="song" id="song-${ver}">
+    <div class="song-head">
+      <div class="art" style="${art(p.pal)}"></div>
+      <div class="song-info"><div class="song-title serif" style="font-weight:400">${title}</div><div class="song-ver mono">v${ver} · Suno v4</div></div>
+      <button class="play" onclick="togglePlay(${ver})" aria-label="Play">${PLAY}</button>
+    </div>
+    <div class="tags">${tags}</div>
+    <div class="wave-wrap">
+      <div class="waveform">${waveform(seed)}</div>
+      <div class="scrub"><i></i></div>
+    </div>
+    <div class="song-foot"><span>0:00 / ${p.dur}</span><span>${(hstr(seed)%900+120)} plays</span></div>
+  </div>`;
+}
+const PLAY='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+const PAUSE='<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+function renderResults(){
+  const p=PRESETS[curPreset];
+  document.getElementById('results').innerHTML=songCard(p,1)+songCard(p,2);
+}
+function togglePlay(ver){
+  const el=document.getElementById('song-'+ver);const on=el.classList.toggle('playing');
+  el.querySelector('.play').innerHTML=on?PAUSE:PLAY;
+  // only one plays at a time
+  if(on){document.querySelectorAll('.song').forEach(s=>{if(s!==el){s.classList.remove('playing');s.querySelector('.play').innerHTML=PLAY;}});}
+}
+function renderChips(){
+  document.getElementById('chips').innerHTML=PRESETS.map((p,i)=>
+    `<span class="chip ${i===curPreset?'on':''}" data-c="${i}" onclick="pickPreset(${i})">${p.genre[0]}</span>`).join('');
+}
+function pickPreset(i){
+  if(busy)return;curPreset=i;
+  document.getElementById('prompt').value=PRESETS[i].prompt;
+  renderChips();renderResults();
+}
+function generate(){
+  if(busy)return;busy=true;
+  const btn=document.getElementById('createBtn');btn.disabled=true;btn.style.opacity=.6;
+  document.getElementById('results').innerHTML='';
+  const gen=document.getElementById('gen');gen.classList.add('show');
+  const steps=[['Composing…',35],['Adding vocals…',70],['Mastering…',100]];
+  let s=0;
+  function tick(){
+    document.getElementById('genTxt').textContent=steps[s][0];
+    document.getElementById('genBar').style.width=steps[s][1]+'%';
+    s++;
+    if(s<steps.length){setTimeout(tick,720);return;}
+    setTimeout(()=>{gen.classList.remove('show');document.getElementById('genBar').style.width='0';renderResults();btn.disabled=false;btn.style.opacity=1;busy=false;},720);
+  }
+  tick();
+}
+/* initial deterministic render */
+renderChips();renderResults();
+</script>
+</body>
+</html>
