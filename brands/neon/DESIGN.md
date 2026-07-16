@@ -1,145 +1,96 @@
-# Neon DESIGN.md
+# Neon — Design System
 
-> The Postgres backend designed for apps and agents.
+> Postgres backends for apps and agents.
+> The backend for apps and agents — Serverless Postgres, Auth, Functions, Storage, and an AI Gateway: instant, branchable, serverless.
 
-## Overview
+Neon's identity is **technical, dark, and fast-feeling**: deep near-black surfaces, one signature electric **green** (`#00E599`), a custom display face (**esbuild**), and monospace for anything that is code, a branch, or an ID. It references terminal culture without being retro — clean, precise, engineered.
 
-Neon's design is dark-first, minimal, and technical. It signals modern infrastructure — deep dark backgrounds, a signature green accent, and monospace-heavy UI communicate that this is a tool built for engineers. The aesthetic references terminal culture without being retro — clean, precise, and fast-feeling.
+Dark is the product/console experience (and the brand's signature); the 2025 marketing site is light-first. This showcase leads with the dark console identity, and supports light.
+
+---
 
 ## Colors
 
+### Brand
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | `#00E599` | CTAs, active states, brand accent |
-| `primary-hover` | `#00CC88` | Hover on primary |
-| `background` | `#0C0C0C` | App background |
-| `surface` | `#141414` | Cards, panels |
-| `surface-raised` | `#1C1C1C` | Elevated surfaces, dropdowns |
-| `surface-overlay` | `#242424` | Modals, tooltips |
-| `text-primary` | `#EDEDED` | Primary text |
-| `text-secondary` | `#8C8C8C` | Supporting text, metadata |
-| `text-muted` | `#555555` | Placeholders, disabled |
-| `border` | `#282828` | Dividers, subtle borders |
-| `border-strong` | `#333333` | Input borders, emphasis |
-| `error` | `#F04747` | Errors |
-| `warning` | `#F5A623` | Warnings |
-| `success` | `#00E599` | Success (same as primary) |
-| `green-dim` | `rgba(0,229,153,0.10)` | Subtle primary backgrounds |
-| `green-glow` | `rgba(0,229,153,0.15)` | Glow effects on focus |
+| `green` | `#00E599` | The brand — CTAs, active branch, success, focus glow |
+| `green-teal` | `#00E5BF` | Secondary green / gradient end |
+| `green-dim` | `rgba(0,229,153,.10)` | Subtle accent backgrounds |
+| `green-glow` | `rgba(0,229,153,.16)` | Focus glow |
+
+### Surfaces
+| Token | Hex (dark) | Hex (light) | Usage |
+|-------|------------|-------------|-------|
+| `bg` | `#0B0C0D` | `#FFFFFF` | App background |
+| `surface` | `#131415` | `#FAFAFA` | Cards, code panels (real live token) |
+| `raised` | `#18191B` | `#F4F4F5` | Elevated surfaces, rows |
+| `overlay` | `#1F1F22` | `#EDEDEF` | Modals, popovers |
+| `border` | `#2A2A2E` | `#E4E4E7` | Dividers |
+| `border-strong` | `#38383D` | `#D4D4D8` | Inputs, emphasis |
+
+### Text
+| Token | Hex (dark) | Hex (light) | Usage |
+|-------|------------|-------------|-------|
+| `fg` | `#FAFAFA` | `#1A1A1A` | Primary |
+| `fg-secondary` | `#A1A1AA` | `#52525B` | Supporting |
+| `fg-muted` | `#6E6E76` | `#8C8F94` | Placeholders, meta |
+
+### Semantic / state
+| State | Hex | Meaning |
+|-------|-----|---------|
+| active / success | `#00E599` | Active branch, query ok |
+| idle | `#6E6E76` | Idle branch (scale-to-zero) |
+| error | `#F04747` | Errors |
+| warning | `#F5A623` | Warnings |
+
+---
 
 ## Typography
 
-- **Body font**: `Inter`, `ui-sans-serif`, `system-ui`, `sans-serif`, `Apple Color Emoji`, `Segoe UI Emoji`, `Segoe UI Symbol`, `Noto Color Emoji`. Loaded via `next/font/google` as `--font-inter`; Next.js auto-generates an `Inter Fallback` metric font to prevent layout shift.
-- **Display font**: `ESBuild` (proprietary, Medium/500 only). Used for large headings and hero text. Loaded as `--font-esbuild` via a local woff2. Cannot be used outside Neon — preview falls back to Inter.
-- **Mono font**: `Geist Mono` (Variable), `ui-monospace`, `Menlo`, `monospace`. Loaded as `--font-geist-mono`.
+All three faces are used directly — **esbuild** and IBM Plex Sans are self-hosted on neon.com and **CORS-open** (`access-control-allow-origin: *`); Inter and Geist Mono are Google-hosted.
 
-| Scale | Size | Weight | Line Height |
-|-------|------|--------|-------------|
-| `heading-lg` | 24px | 600 | 1.3 |
-| `heading-md` | 18px | 600 | 1.4 |
-| `heading-sm` | 14px | 600 | 1.4 |
-| `body` | 14px | 400 | 1.5 |
-| `body-sm` | 13px | 400 | 1.5 |
-| `caption` | 12px | 400 | 1.4 |
-| `code` | 13px | 400 | 1.6 |
+- **esbuild** — Neon's custom display face (single weight, Medium 500) for the hero, the wordmark, and big headings. `neon.com/_next/static/media/ESBuild_Medium*.woff2`.
+- **Inter** — the UI/body face (`--font-inter` on `body`).
+- **Geist Mono** — code, SQL, branch names, connection strings, IDs, metrics (the site ships `GeistMono`).
 
-Mono font used heavily — SQL editors, connection strings, branch names, metrics.
+| Role | Face | Spec |
+|------|------|------|
+| Display | esbuild 500 | 44–56px, `-0.02em` |
+| Heading | esbuild 500 / Inter 600 | 20px |
+| Body | Inter 400 | 14px |
+| Code / SQL / branch | Geist Mono | 13px |
 
-## Spacing
+---
 
-Base unit: `4px`
+## Logo
 
-| Token | Value |
-|-------|-------|
-| `space-1` | 4px |
-| `space-2` | 8px |
-| `space-3` | 12px |
-| `space-4` | 16px |
-| `space-5` | 20px |
-| `space-6` | 24px |
-| `space-8` | 32px |
+The Neon **mark** — the hollow "N" formed by a rectangle with an angled internal cut (`viewBox 0 0 24 24`, single path, Simple Icons `neon`) — filled brand green `#00E599`, beside a **Neon** wordmark set in the esbuild display face. (The site favicon uses a muted `#37C38F`/`#34D59A`; the brand accent is `#00E599`.)
 
-## Border Radius
+---
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `radius-sm` | 3px | Tags, small chips |
-| `radius-md` | 6px | Buttons, inputs, cards |
-| `radius-lg` | 8px | Modals, larger panels |
-| `radius-full` | 9999px | Avatars, status dots |
+## Signature component — Branching + SQL
 
-## Shadows
+Neon's magic: **database branches are instant, copy-on-write, and serverless** — like `git branch` for Postgres.
 
-Elevation via background layering, not shadows. Dark UI only.
+- A **branch tree** (`main → dev → feat/*`) with a status dot (active green / idle grey — branches scale to zero), storage size, and latency, all in Geist Mono. Click a branch to select it.
+- **+ Create branch** forks the selected branch **instantly** — a new child node appears with `copy-on-write · 0 ms · just now`, the Neon differentiator (no data copy, ready immediately).
+- A **SQL console** scoped to the selected branch: a real Postgres query (Geist Mono, green keywords) + **Run** → a results grid with row count and query latency. Different branches return different data (prod on `main`, a subset on `dev`), proving isolation.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `shadow-sm` | `0 1px 4px rgba(0,0,0,0.5)` | Subtle |
-| `shadow-md` | `0 4px 16px rgba(0,0,0,0.6)` | Dropdowns |
-| `glow-primary` | `0 0 16px rgba(0,229,153,0.2)` | Focus glow |
+Deterministic — fixed branches/queries, index-driven forking, no `Math.random`.
 
-## Components
+---
 
-### Button
+## Guardrails
 
-- **Primary**: `primary` (#00E599) background, `#0C0C0C` text, `6px` radius, `8px 16px` padding, 500 weight
-- **Secondary**: `surface-raised` background, `border-strong` border, `text-primary`
-- **Ghost**: transparent, `text-secondary`, hover fills `surface-raised`
-- **Danger**: `#F04747` background, white text
-- All: `13px`, `100ms ease`
+**Do**
+- Use the green `#00E599` accent only for CTAs, active states, success, and focus — never decoration.
+- Set code, SQL, branch names, IDs, and connection strings in **Geist Mono**; the hero + headings in **esbuild**.
+- Build depth from layered near-black surfaces (`#0B0C0D → #131415 → #18191B`), not shadows.
+- Make metrics, branches, and query results the visual hero — this is an engineer's tool.
 
-### Input / SQL Editor
-
-- Background: `surface-raised`
-- Border: `1px solid border` → `border-strong` hover → `primary` focus with `glow-primary`
-- Radius: `radius-md`
-- Font: monospace for SQL/connection strings, sans-serif for labels
-- Height: `36px` standard inputs
-
-### Project / Branch Card
-
-- Background: `surface`
-- Border: `1px solid border`
-- Radius: `radius-lg`
-- Padding: `space-4 space-5`
-- Hover: `border-strong` border + `surface-raised` background
-- Branch indicator: green dot + monospace branch name
-
-### Metrics / Stats
-
-- Numbers in monospace, large weight 600
-- Green for positive values, red for errors
-- Subtle sparkline charts using `primary` color
-
-### Badge
-
-- Padding: `2px 6px`
-- Radius: `radius-sm`
-- Font: `caption`, 500 weight
-- Status variants: active (green-dim), idle (surface-raised), error (red)
-
-## Layout
-
-- **Sidebar**: `240px` fixed, dark background
-- **Main**: scrollable content area
-- **Max content width**: `960px` for dashboards
-- **SQL editor**: full-width, resizable panel
-- **Metrics grid**: 2–4 column responsive grid
-
-## Responsive
-
-- Desktop-first developer tool
-- Sidebar collapses on mobile
-- SQL editor simplified on small screens
-
-## Tone & Guardrails
-
-- DO: Use green accent only for CTAs, active states, and success
-- DO: Prefer monospace for all technical values (IDs, branches, SQL)
-- DO: Keep backgrounds layered — depth via color steps not shadows
-- DO: Make metrics and numbers the visual hero on dashboard screens
-- DON'T: Use the green glow decoratively — only on interactive focus
-- DON'T: Add rounded corners above `8px` — keep the UI sharp
-- DON'T: Use light mode as the primary experience
-- DON'T: Add illustrations or marketing visuals inside the dashboard
-- DON'T: Show loading spinners where skeleton screens work better
+**Don't**
+- Use the green glow decoratively — only on interactive focus/active.
+- Use corners larger than ~8px — keep the UI sharp.
+- Add marketing illustrations inside the console; prefer skeletons over spinners.
+- Invent neutral tints — Neon's darks are the real cool near-blacks (`#131415`, `#18191B`).
