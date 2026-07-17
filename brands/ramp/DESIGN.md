@@ -82,9 +82,8 @@ One superfamily does almost everything: **TWK Lausanne** (Weltkern), a warm neo-
 
 - **Buttons:** primary = **Ramp yellow** fill with **ink** text (`Get a demo`); secondary = white with a hairline border; ghost = text-only. Blue is a link color, never a button fill.
 - **Corporate card:** the iconic Ramp card — warm-black slab, yellow ramp mark, mono card number. A brand object, not just a component.
-- **Transactions feed:** merchant chip + name, amount (mono, tabular), auto-detected category pill, card •••• last-4, and a policy status.
+- **Ramp Intelligence — the savings engine (signature):** a live spend panel — a big green **Saved this year** counter, **auto-categorized** spend bars (mono, tabular amounts), and stacked yellow **savings insights** (duplicate subscription, unused seats, cheaper annual price). Each carries an **Apply** action that books the savings straight into the counter. This is the product's whole promise in one component: *time is money — save both*.
 - **Status pills:** green in-policy / approved, yellow needs-review, red out-of-policy.
-- **Savings insight:** a yellow-flagged row — duplicate subscription, unused seat, price drop — with an **Apply** action that books the savings.
 - **Inputs:** white fill, hairline border, ink text; focus ring in yellow.
 
 ---

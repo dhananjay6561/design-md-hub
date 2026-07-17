@@ -116,42 +116,50 @@ body{font-family:var(--sans);font-weight:350;background:var(--bg);color:var(--in
 .rampcard .rc-foot{display:flex;justify-content:space-between;align-items:flex-end;font-size:11px;color:#a8a49b}
 .rampcard .rc-name{font-size:12px;color:#f4f2ef;text-transform:uppercase;letter-spacing:.04em}
 
-/* ============ signature: Ramp Intelligence spend feed ============ */
-.feed{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.feed-top{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
-.feed-title{font-weight:400;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
-.feed-title .fi{width:22px;height:22px;border-radius:6px;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center}
-.saved{margin-left:auto;text-align:right}
-.saved .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
-.saved .v{font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--green-fg);font-variant-numeric:tabular-nums}
-.feed-tabs{display:flex;gap:2px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--well)}
-.feed-tabs button{background:none;border:none;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:400;font-family:var(--sans);transition:.12s;display:inline-flex;align-items:center;gap:7px}
-.feed-tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06)}
-.feed-tabs .badge{font-family:var(--mono);font-size:10px;background:var(--yellow);color:var(--ink);border-radius:999px;padding:1px 6px;font-weight:600}
+/* ============ signature: Ramp Intelligence — the savings engine ============ */
+.si{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.si-top{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.si-title{font-weight:400;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.si-title .fi{width:24px;height:24px;border-radius:7px;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center}
+.si-title small{display:block;font-size:11px;color:var(--faint);margin-top:2px}
+.si-saved{margin-left:auto;text-align:right}
+.si-saved .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--faint)}
+.si-saved .v{font-weight:700;font-size:32px;letter-spacing:-.025em;color:var(--green-fg);font-variant-numeric:tabular-nums;line-height:1.02}
+.si-saved .d{font-size:11px;color:var(--faint);margin-top:2px}
+.si-saved .d b{color:var(--green-fg);font-weight:400}
 
-.txn{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);transition:background .12s}
-.txn:hover{background:var(--well)}
-.txn.hide{display:none}
-.txn-merch{display:flex;align-items:center;gap:12px;min-width:0}
-.merch-logo{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff}
-:root[data-theme="dark"] .merch-logo{box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
-.txn-name{font-weight:400;color:var(--ink)}
-.txn-sub{font-size:12px;color:var(--faint);display:flex;gap:8px;align-items:center;margin-top:2px;flex-wrap:wrap}
-.txn-card{font-family:var(--mono);font-size:11px}
-.txn-mid{display:flex;align-items:center;gap:10px}
-.txn-amt{font-family:var(--mono);font-weight:600;font-size:14px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums;min-width:82px}
-.insight{grid-column:1/-1;margin-top:12px;background:var(--yellow-bg);border:1px solid rgba(228,242,34,.55);border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-:root[data-theme="dark"] .insight{border-color:rgba(228,242,34,.4)}
-.insight .il{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
-.insight .spark{color:#8a9200;flex-shrink:0}
-:root[data-theme="dark"] .insight .spark{color:var(--yellow)}
-.insight .itxt{font-size:13px;color:var(--ink);line-height:1.4}
-.insight .itxt b{font-weight:700}
-.insight .apply{background:var(--ink);color:var(--bg);border:none;border-radius:8px;height:32px;padding:0 14px;font-family:var(--sans);font-weight:400;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:.12s}
-.insight .apply:hover{opacity:.85}
-.txn.applied .insight{background:var(--green-bg);border-color:transparent}
-.txn.applied .insight .apply{background:var(--green-fg);color:#fff;pointer-events:none}
-.txn.applied .insight .spark{color:var(--green-fg)}
+/* spend by category */
+.spend{padding:17px 20px;border-bottom:1px solid var(--border);background:var(--well)}
+.spend-h{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);margin-bottom:15px;display:flex;justify-content:space-between;align-items:baseline}
+.spend-h b{color:var(--ink);font-weight:400}
+.spend-h .tot{color:var(--ink)}
+.cat{display:grid;grid-template-columns:104px 1fr 78px;align-items:center;gap:13px;margin-bottom:12px}
+.cat:last-child{margin-bottom:0}
+.cat-name{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.cat-name .cd{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.cat-track{height:9px;border-radius:5px;background:var(--surface);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(128,128,128,.12)}
+.cat-fill{height:100%;border-radius:5px;transition:width .55s cubic-bezier(.4,0,.2,1)}
+.cat-amt{font-family:var(--mono);font-size:12px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* insight cards */
+.ins-h{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);padding:16px 20px 2px;display:flex;align-items:center;gap:8px}
+.ins-h b{color:var(--ink);font-weight:600}
+.ins-h .badge{font-family:var(--mono);font-size:10px;background:var(--yellow);color:var(--ink);border-radius:999px;padding:1px 7px;font-weight:600}
+.ins-list{padding:10px 14px 16px;display:flex;flex-direction:column;gap:9px}
+.ins{display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid rgba(228,242,34,.6);background:var(--yellow-bg);border-radius:12px;transition:background .25s,border-color .25s,opacity .25s}
+:root[data-theme="dark"] .ins{border-color:rgba(228,242,34,.4)}
+.ins .spark{width:32px;height:32px;border-radius:9px;background:var(--yellow);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:.25s}
+.ins-body{flex:1;min-width:0}
+.ins-title{font-size:13.5px;color:var(--ink);line-height:1.35}
+.ins-title b{font-weight:700}
+.ins-sub{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.ins-sub .pill.cat{height:19px;font-size:11px}
+.ins .apply{background:var(--ink);color:var(--bg);border:none;border-radius:9px;height:34px;padding:0 15px;font-family:var(--sans);font-weight:400;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:.12s;flex-shrink:0}
+.ins .apply:hover{opacity:.85}
+.ins.applied{border-color:transparent;background:var(--green-bg)}
+.ins.applied .spark{background:var(--green-fg);color:#fff}
+.ins.applied .ins-title{color:var(--muted)}
+.ins.applied .apply{background:var(--green-fg);color:#fff;pointer-events:none}
 .sig-hint{font-size:12.5px;color:var(--faint);margin-top:14px;line-height:1.55;max-width:780px}
 .sig-hint b{color:var(--ink);font-weight:400}
 
@@ -251,20 +259,20 @@ body{font-family:var(--sans);font-weight:350;background:var(--bg);color:var(--in
 
   <!-- SIGNATURE -->
   <div class="section">
-    <div class="section-label">Signature · Ramp Intelligence · spend feed</div>
-    <div class="feed">
-      <div class="feed-top">
-        <span class="feed-title"><span class="fi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span>Transactions</span>
-        <span class="saved"><div class="k">Saved this year</div><div class="v" id="savedVal">$18,240</div></span>
+    <div class="section-label">Signature · Ramp Intelligence · the savings engine</div>
+    <div class="si">
+      <div class="si-top">
+        <span class="si-title"><span class="fi"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span><span>Ramp Intelligence<small>Watching every dollar, in real time</small></span></span>
+        <span class="si-saved"><div class="k">Saved this year</div><div class="v" id="savedVal">$18,240</div><div class="d"><b id="savedDelta">+$0</b> from applied insights</div></span>
       </div>
-      <div class="feed-tabs">
-        <button class="on" data-f="all" onclick="filterFeed('all')">All</button>
-        <button data-f="review" onclick="filterFeed('review')">Needs review</button>
-        <button data-f="save" onclick="filterFeed('save')">Savings <span class="badge" id="saveBadge">3</span></button>
+      <div class="spend">
+        <div class="spend-h"><span>Spend this month · <b>auto-categorized</b></span><span class="tot mono" id="spendTotal">$32,480</span></div>
+        <div id="catList"></div>
       </div>
-      <div id="feedBody"></div>
+      <div class="ins-h" id="insH">Ramp Intelligence found <span class="badge" id="insBadge">3</span> ways to save</div>
+      <div class="ins-list" id="insList"></div>
     </div>
-    <div class="sig-hint"><b>Ramp watches every dollar.</b> Transactions auto-categorize and check against policy the moment they post. Ramp Intelligence flags waste — a <b>duplicate subscription</b>, an <b>unused seat</b>, a better <b>annual price</b> — as a yellow insight. Hit <b>Apply</b> and the savings book instantly to the counter. Switch tabs to see what still needs review.</div>
+    <div class="sig-hint"><b>Ramp watches every dollar.</b> Spend auto-categorizes the moment a card posts, and Ramp Intelligence surfaces waste — a <b>duplicate subscription</b>, <b>unused seats</b>, a cheaper <b>annual price</b>. Hit <b>Apply</b> and the savings book instantly to the running counter. That's the whole promise: <b>time is money — save both</b>.</div>
   </div>
 
   <!-- COMPONENTS -->
@@ -358,81 +366,68 @@ let tt;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1500);}
 function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
 
-/* ---- signature: Ramp Intelligence spend feed (deterministic) ---- */
-const TXNS=[
-  {merch:'Notion',logo:'#1a1918',cat:'Software',card:'•••• 4921',who:'Ada O.',amt:'$960.00',status:'review',
-   insight:{save:840,text:'Duplicate of an existing <b>Notion</b> workspace subscription — cancel to save <b>$840/yr</b>.'}},
-  {merch:'United Airlines',logo:'#0033a0',cat:'Travel',card:'•••• 3608',who:'Marco B.',amt:'$512.40',status:'ok'},
-  {merch:'AWS',logo:'#ff9900',cat:'Software',card:'•••• 4921',who:'Priya N.',amt:'$4,180.22',status:'review',
-   insight:{save:1520,text:'<b>12 idle EC2 instances</b> flagged by Ramp Intelligence — rightsize to save ~<b>$1,520/mo</b>.'}},
-  {merch:'Figma',logo:'#a259ff',cat:'Software',card:'•••• 7715',who:'Ada O.',amt:'$720.00',status:'save',
-   insight:{save:1440,text:'Switch <b>Figma</b> from monthly to annual billing — save <b>$1,440/yr</b>.'}},
-  {merch:'The Standard',logo:'#1f7a46',cat:'Meals',card:'•••• 3608',who:'Marco B.',amt:'$284.15',status:'bad'},
-  {merch:'Slack',logo:'#611f69',cat:'Software',card:'•••• 4921',who:'Priya N.',amt:'$1,240.00',status:'save',
-   insight:{save:2100,text:'<b>14 unused seats</b> on Slack in the last 90 days — remove to save <b>$2,100/yr</b>.'}},
-  {merch:'Uber',logo:'#1a1918',cat:'Travel',card:'•••• 7715',who:'Ada O.',amt:'$47.80',status:'ok'},
-  {merch:'Google Ads',logo:'#4285f4',cat:'Advertising',card:'•••• 3608',who:'Dev A.',amt:'$8,600.00',status:'ok'},
-  {merch:'Ramp Travel',logo:'#e4f222',cat:'Travel',card:'•••• 4921',who:'Marco B.',amt:'$1,905.00',status:'ok'}
+/* ---- signature: Ramp Intelligence — the savings engine (deterministic) ---- */
+const CATS=[
+  {name:'Software',   amt:14200,color:'#1a1918'},
+  {name:'Travel',     amt:8600, color:'#0066ff'},
+  {name:'Advertising',amt:6400, color:'#e4f222'},
+  {name:'Meals',      amt:3280, color:'#93908a'}
 ];
-let saved=18240, curFilter='all';
-const STATUS={ok:['ok','In policy'],review:['warn','Needs review'],save:['warn','Savings found'],bad:['bad','Out of policy']};
+const INSIGHTS=[
+  {merch:'Notion',cat:'Software',save:840, per:'/yr',
+   title:'Duplicate <b>Notion</b> workspace subscription',sub:'Two active plans on the same team — cancel one'},
+  {merch:'Slack', cat:'Software',save:2100,per:'/yr',
+   title:'<b>14 unused Slack seats</b> in the last 90 days',sub:'No logins from these members — remove to reclaim'},
+  {merch:'Figma', cat:'Software',save:1440,per:'/yr',
+   title:'Switch <b>Figma</b> from monthly to annual',sub:'Same plan, annual price — Ramp can negotiate it'}
+];
+let saved=18240, delta=0;
+const catMax=Math.max(...CATS.map(c=>c.amt));
 
-function amtNum(a){return +a.replace(/[$,]/g,'');}
-function renderFeed(){
-  document.getElementById('feedBody').innerHTML=TXNS.map((t,i)=>{
-    const st=STATUS[t.status];
-    const logoTxt=t.merch[0];
-    const dark=(t.logo==='#e4f222');
-    return `<div class="txn" id="tx${i}" data-status="${t.status}">
-      <div class="txn-merch">
-        <span class="merch-logo" style="background:${t.logo};color:${dark?'#1a1918':'#fff'}">${logoTxt}</span>
-        <span><span class="txn-name">${t.merch}</span>
-          <span class="txn-sub"><span class="pill cat">${t.cat}</span><span class="txn-card mono">${t.card}</span><span>${t.who}</span></span>
-        </span>
-      </div>
-      <div class="txn-mid"><span class="pill ${st[0]}"><span class="dot"></span>${st[1]}</span></div>
-      <div class="txn-amt">${t.amt}</div>
-      ${t.insight?`<div class="insight">
-        <span class="il"><span class="spark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span>
-          <span class="itxt">${t.insight.text}</span></span>
-        <button class="apply" onclick="applyInsight(${i})">Apply · save $${t.insight.save.toLocaleString()}</button>
-      </div>`:''}
-    </div>`;
-  }).join('');
-  applyFilter();
+function renderCats(){
+  document.getElementById('catList').innerHTML=CATS.map(c=>
+    `<div class="cat">
+      <span class="cat-name"><span class="cd" style="background:${c.color}"></span>${c.name}</span>
+      <span class="cat-track"><span class="cat-fill" style="width:${(c.amt/catMax*100).toFixed(1)}%;background:${c.color}"></span></span>
+      <span class="cat-amt">$${c.amt.toLocaleString()}</span>
+    </div>`).join('');
+  const tot=CATS.reduce((s,c)=>s+c.amt,0);
+  document.getElementById('spendTotal').textContent='$'+tot.toLocaleString();
+}
+function renderInsights(){
+  document.getElementById('insList').innerHTML=INSIGHTS.map((n,i)=>
+    `<div class="ins" id="ins${i}">
+      <span class="spark"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.2 6.6L21 12l-6.8 2.4L12 21l-2.2-6.6L3 12l6.8-2.4z"/></svg></span>
+      <span class="ins-body">
+        <span class="ins-title">${n.title}</span>
+        <span class="ins-sub"><span class="pill cat">${n.cat}</span>${n.sub}</span>
+      </span>
+      <button class="apply" onclick="applyInsight(${i})">Apply · save $${n.save.toLocaleString()}</button>
+    </div>`).join('');
+  document.getElementById('insBadge').textContent=INSIGHTS.length;
 }
 function applyInsight(i){
-  const el=document.getElementById('tx'+i);
-  if(el.classList.contains('applied'))return;
+  const el=document.getElementById('ins'+i);
+  if(!el||el.classList.contains('applied'))return;
   el.classList.add('applied');
-  el.querySelector('.apply').textContent='✓ Saved $'+TXNS[i].insight.save.toLocaleString();
-  saved+=TXNS[i].insight.save;
-  countUp(saved);
-  toast('Booked $'+TXNS[i].insight.save.toLocaleString()+' in savings');
+  el.querySelector('.apply').textContent='✓ Booked';
+  saved+=INSIGHTS[i].save;delta+=INSIGHTS[i].save;
+  countUp('savedVal',saved);
+  document.getElementById('savedDelta').textContent='+$'+delta.toLocaleString();
+  const left=[...document.querySelectorAll('.ins')].filter(e=>!e.classList.contains('applied')).length;
+  document.getElementById('insBadge').textContent=left;
+  if(left===0)document.getElementById('insH').innerHTML='Ramp Intelligence · <b>$'+delta.toLocaleString()+'/yr booked</b> — all caught up';
+  toast('Booked $'+INSIGHTS[i].save.toLocaleString()+' in savings');
 }
 let animTimer;
-function countUp(target){
-  const el=document.getElementById('savedVal');
-  let cur=+el.dataset.v|| (parseInt(el.textContent.replace(/[$,]/g,''))||0);
-  clearInterval(animTimer);const start=cur,delta=target-start,steps=18;let n=0;
-  animTimer=setInterval(()=>{n++;const v=Math.round(start+delta*(n/steps));el.textContent='$'+v.toLocaleString();el.dataset.v=v;if(n>=steps){el.textContent='$'+target.toLocaleString();el.dataset.v=target;clearInterval(animTimer);}},22);
+function countUp(id,target){
+  const el=document.getElementById(id);
+  let cur=+el.dataset.v||(parseInt(el.textContent.replace(/[$,]/g,''))||0);
+  clearInterval(animTimer);const start=cur,d=target-start,steps=20;let n=0;
+  animTimer=setInterval(()=>{n++;const v=Math.round(start+d*(n/steps));el.textContent='$'+v.toLocaleString();el.dataset.v=v;if(n>=steps){el.textContent='$'+target.toLocaleString();el.dataset.v=target;clearInterval(animTimer);}},22);
 }
-function filterFeed(f){
-  curFilter=f;
-  [...document.querySelectorAll('.feed-tabs button')].forEach(b=>b.classList.toggle('on',b.dataset.f===f));
-  applyFilter();
-}
-function applyFilter(){
-  TXNS.forEach((t,i)=>{
-    const el=document.getElementById('tx'+i);if(!el)return;
-    let show=true;
-    if(curFilter==='review')show=(t.status==='review'||t.status==='bad');
-    else if(curFilter==='save')show=!!t.insight;
-    el.classList.toggle('hide',!show);
-  });
-}
-document.getElementById('saveBadge').textContent=TXNS.filter(t=>t.insight).length;
-renderFeed();
+renderCats();
+renderInsights();
 </script>
 </body>
 </html>
