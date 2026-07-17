@@ -93,8 +93,9 @@ Two families, three optical roles. Attio ships **Inter Display** (headings) and 
 ## Components
 
 - **Buttons:** primary = ink (`#1c1d1f` on light, inverts to white on dark) with `--btn-text`; secondary = surface with a hairline border. Accent blue is reserved for links and selection, *not* primary buttons.
-- **Records table:** the core surface. Typed attribute columns — text, domain, **connection strength**, **status/stage pill**, currency, owner avatar, relative time. Column headers sort; status pills click to cycle.
-- **Status / stage pills:** rounded, low-saturation fills keyed to semantic hue (green won, blue active, grey lead, red lost).
+- **Deal pipeline board (signature):** the Deals object as a Kanban of stage columns (Lead → Qualified → Demo → Negotiation → Won). Each card is a record — company, domain, ARR, **connection strength**, owner avatar. Attio's **AI agent** works the board on its own, advancing deals stage by stage and logging every move in an activity feed. Cards also click to advance manually.
+- **Records table:** the other core surface — typed attribute columns (text, domain, connection strength, stage pill, currency, owner, relative time) on 1px hairline grids; column headers sort.
+- **Status / stage pills:** rounded, low-saturation fills keyed to semantic hue (green won, blue active, grey lead, yellow pending, red lost).
 - **Connection strength:** Attio's signature attribute — a 4-segment strength meter derived from a team's email/calendar activity.
 - **Inputs:** surface fill, hairline border, blue focus ring (`focus-ring` token).
 

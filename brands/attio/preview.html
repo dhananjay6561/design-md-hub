@@ -128,60 +128,63 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14p
 .pull{font-family:var(--serif);font-size:23px;line-height:1.45;color:var(--ink);max-width:640px;letter-spacing:-.005em}
 .pull em{font-style:italic;color:var(--muted)}
 
-/* ============ signature: the Attio records table ============ */
-.crm{background:var(--bg);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
-.crm-top{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
-.crm-obj{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em}
-.crm-obj .oi{width:22px;height:22px;border-radius:6px;background:var(--accent-tint);color:var(--accent);display:inline-flex;align-items:center;justify-content:center}
-.crm-count{font-family:var(--mono);font-size:11px;color:var(--faint);background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:6px}
-.view-tabs{display:inline-flex;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:2px;gap:1px}
-.view-tabs button{background:none;border:none;color:var(--faint);padding:5px 9px;border-radius:6px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;font-family:var(--sans);transition:.12s}
-.view-tabs button.on{background:var(--bg);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.crm-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.ask{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:0 11px;height:32px;min-width:200px;color:var(--faint);font-size:12.5px}
+/* ============ signature: the Attio deal pipeline, worked by the agent ============ */
+.board-wrap{background:var(--bg);border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.board-top{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.board-obj{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.board-obj .oi{width:22px;height:22px;border-radius:6px;background:var(--accent-tint);color:var(--accent);display:inline-flex;align-items:center;justify-content:center}
+.board-count{font-family:var(--mono);font-size:11px;color:var(--faint);background:var(--surface-2);border:1px solid var(--border);padding:2px 8px;border-radius:6px}
+.board-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.ask{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:0 11px;height:32px;min-width:210px;color:var(--faint);font-size:12.5px}
 .ask svg{color:var(--accent);flex-shrink:0}
-@media(max-width:820px){.ask{display:none}}
-.crm-newbtn{height:32px;padding:0 12px;border-radius:8px;background:var(--btn-bg);color:var(--btn-text);border:none;font-family:var(--sans);font-weight:500;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+@media(max-width:900px){.ask{display:none}}
+.agent-btn{height:32px;padding:0 13px;border-radius:8px;background:var(--btn-bg);color:var(--btn-text);border:none;font-family:var(--sans);font-weight:500;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.12s}
+.agent-btn:hover{background:var(--btn-bg-hover)}
+.agent-btn:disabled{opacity:.55;cursor:default}
+.agent-btn .sp{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px var(--won-bg)}
 
-/* pipeline summary */
-.pipe{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg-subtle)}
-.pipe-head{display:flex;align-items:center;gap:10px;font-size:11px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
-.pipe-head b{color:var(--ink);font-weight:600}
-.pipe-head .pv{margin-left:auto;color:var(--ink);font-weight:600;letter-spacing:0}
-.pipe-bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--surface);gap:2px}
-.pipe-seg{transition:flex .3s ease;min-width:0}
-.pipe-seg.s-lead{background:var(--faintest)}
-.pipe-seg.s-warn{background:var(--yellow)}
-.pipe-seg.s-blue{background:var(--accent)}
-.pipe-seg.s-won{background:var(--green)}
-.pipe-seg.s-red{background:var(--red)}
-.pipe-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--faint)}
-.pipe-legend span{display:inline-flex;align-items:center;gap:5px}
-.pipe-legend i{width:8px;height:8px;border-radius:2px;display:inline-block}
+/* stat row */
+.stats{display:flex;gap:26px;padding:13px 16px;border-bottom:1px solid var(--border);background:var(--bg-subtle);flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:3px}
+.stat .sk{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint)}
+.stat .sv{font-weight:600;font-size:17px;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat .sv.win{color:var(--won-fg)}
 
-/* table */
-.crm-scroll{overflow-x:auto}
-table.recs{width:100%;border-collapse:collapse;min-width:720px}
-.recs th{text-align:left;font-weight:500;font-size:11px;color:var(--faint);padding:9px 14px;border-bottom:1px solid var(--border);background:var(--bg-subtle);white-space:nowrap;user-select:none}
-.recs th.sortable{cursor:pointer}
-.recs th.sortable:hover{color:var(--ink)}
-.recs th .arw{opacity:0;margin-left:4px;font-size:9px}
-.recs th.active .arw{opacity:1;color:var(--accent)}
-.recs th.num{text-align:right}
-.recs td{padding:0 14px;height:46px;border-bottom:1px solid var(--border-weak);font-size:13px;vertical-align:middle;white-space:nowrap}
-.recs tr:last-child td{border-bottom:none}
-.recs tbody tr{transition:background .12s}
-.recs tbody tr:hover{background:var(--surface-2)}
-.co{display:flex;align-items:center;gap:10px}
-.co .fav{width:22px;height:22px;border-radius:6px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff}
-.co .cn{font-weight:500;color:var(--ink)}
-.co .cd{color:var(--faint);font-size:11.5px;font-family:var(--mono)}
-.stage-pill{cursor:pointer;border:1px solid transparent;transition:.12s}
-.stage-pill:hover{filter:brightness(.97);border-color:var(--border-strong)}
-.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:12.5px;color:var(--ink)}
-.owner{display:inline-flex;align-items:center;gap:8px}
-.avatar{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff}
-.rel{color:var(--faint);font-size:12px}
+/* columns */
+.cols{display:grid;grid-template-columns:repeat(5,minmax(154px,1fr));overflow-x:auto}
+.col{border-right:1px solid var(--border);min-width:154px;display:flex;flex-direction:column}
+.col:last-child{border-right:none}
+.col-h{padding:11px 12px 10px;display:flex;align-items:center;gap:7px;background:var(--bg-subtle);border-bottom:1px solid var(--border)}
+.col-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.col-name{font-size:11.5px;font-weight:600;color:var(--ink)}
+.col-meta{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--faint)}
+.col-body{padding:9px;display:flex;flex-direction:column;gap:8px;min-height:132px;flex:1}
+.deal{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 11px;cursor:pointer;transition:border-color .16s,transform .16s,box-shadow .16s;box-shadow:0 1px 2px rgba(16,16,16,.04)}
+.deal:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow)}
+.deal.moved{animation:dealpop .9s ease}
+@keyframes dealpop{0%,40%{background:var(--accent-tint);border-color:var(--accent)}100%{background:var(--bg);border-color:var(--border)}}
+.deal-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.deal-fav{width:20px;height:20px;border-radius:5px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff}
+.deal-name{font-weight:500;font-size:12.5px;color:var(--ink);line-height:1.15}
+.deal-dom{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:1px}
+.deal-foot{display:flex;align-items:center;gap:8px}
+.deal-arr{font-family:var(--mono);font-size:11.5px;color:var(--ink);font-variant-numeric:tabular-nums}
+.deal-foot .avatar{margin-left:auto}
+.avatar{width:19px;height:19px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff}
+
+/* activity log */
+.act{border-top:1px solid var(--border);padding:14px 16px 6px;background:var(--bg-subtle)}
+.act-h{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-bottom:12px}
+.act-h .spark{color:var(--accent);display:inline-flex}
+.act-list{display:flex;flex-direction:column;gap:10px;padding-bottom:8px}
+.act-item{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--muted);line-height:1.4}
+.act-item .ai{width:17px;height:17px;border-radius:5px;background:var(--accent-tint);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.act-item.won .ai{background:var(--won-bg);color:var(--won-fg)}
+.act-item .tx{flex:1;min-width:0}
+.act-item b{color:var(--ink);font-weight:600}
+.act-item .t{font-family:var(--mono);font-size:10px;color:var(--faintest);white-space:nowrap;flex-shrink:0}
+.act-item.fresh{animation:actfade .5s ease}
+@keyframes actfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .sig-hint{font-size:12px;color:var(--faint);margin-top:14px;line-height:1.55;max-width:760px}
 .sig-hint b{color:var(--ink);font-weight:600}
 
@@ -281,44 +284,31 @@ table.recs{width:100%;border-collapse:collapse;min-width:720px}
 
   <!-- SIGNATURE -->
   <div class="section">
-    <div class="section-label">Signature · Companies · records table</div>
-    <div class="crm">
-      <div class="crm-top">
-        <span class="crm-obj"><span class="oi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V7l6-4 6 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h.01M15 17h.01"/></svg></span>Companies</span>
-        <span class="crm-count" id="recCount">9 records</span>
-        <span class="view-tabs">
-          <button class="on"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Table</button>
-          <button><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="18" rx="1"/></svg>Board</button>
-        </span>
-        <span class="crm-right">
-          <span class="ask"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/></svg>Ask Attio to summarize pipeline…</span>
-          <button class="crm-newbtn">+ New</button>
+    <div class="section-label">Signature · Deals · agentic pipeline</div>
+    <div class="board-wrap">
+      <div class="board-top">
+        <span class="board-obj"><span class="oi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V7l6-4 6 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01M9 17h.01M15 17h.01"/></svg></span>Deals</span>
+        <span class="board-count" id="dealCount">9 deals</span>
+        <span class="board-right">
+          <span class="ask"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/></svg>Ask Attio to work the pipeline…</span>
+          <button class="agent-btn" id="agentBtn" onclick="runAgent()"><span class="sp"></span>Run Attio agent</button>
         </span>
       </div>
 
-      <div class="pipe">
-        <div class="pipe-head"><span>Pipeline · <b id="openCount">0</b> open deals</span><span class="pv mono" id="pipeVal">$0</span></div>
-        <div class="pipe-bar" id="pipeBar"></div>
-        <div class="pipe-legend" id="pipeLegend"></div>
+      <div class="stats">
+        <div class="stat"><span class="sk">Open pipeline</span><span class="sv" id="stOpen">$0</span></div>
+        <div class="stat"><span class="sk">Won this quarter</span><span class="sv win" id="stWon">$0</span></div>
+        <div class="stat"><span class="sk">Advanced by agent</span><span class="sv" id="stAdv">3</span></div>
       </div>
 
-      <div class="crm-scroll">
-        <table class="recs">
-          <thead>
-            <tr>
-              <th class="sortable" data-k="name" onclick="sortBy('name')">Company<span class="arw">▲</span></th>
-              <th>Stage</th>
-              <th class="sortable" data-k="strength" onclick="sortBy('strength')">Connection<span class="arw">▲</span></th>
-              <th class="sortable num" data-k="arr" onclick="sortBy('arr')">Est. ARR<span class="arw">▲</span></th>
-              <th>Owner</th>
-              <th class="sortable" data-k="last" onclick="sortBy('last')">Last email<span class="arw">▲</span></th>
-            </tr>
-          </thead>
-          <tbody id="recBody"></tbody>
-        </table>
+      <div class="cols" id="cols"></div>
+
+      <div class="act">
+        <div class="act-h"><span class="spark"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/></svg></span>Attio agent · working the pipeline around the clock</div>
+        <div class="act-list" id="actList"></div>
       </div>
     </div>
-    <div class="sig-hint"><b>Every column is a typed attribute.</b> Companies live on Attio's flexible object model — text, domain, a <b>connection-strength</b> meter derived from your team's email &amp; calendar, a currency, an owner, a relationship. Click a <b>column header</b> to sort; click a <b>stage pill</b> to advance a deal and watch the pipeline bar re-balance.</div>
+    <div class="sig-hint"><b>Attio is the AI CRM that works deals on its own.</b> Every card is a record on Attio's flexible object model — company, domain, ARR, owner, a <b>connection-strength</b> meter derived from your team's email &amp; calendar. Hit <b>Run Attio agent</b> and the agent advances deals stage by stage — enriching, drafting follow-ups, closing — and logs every move. Or click any card to advance it yourself.</div>
   </div>
 
   <!-- COMPONENTS -->
@@ -412,89 +402,117 @@ let tt;
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),1400);}
 function copyHex(h){navigator.clipboard&&navigator.clipboard.writeText(h);toast('Copied '+h);}
 
-/* ---- signature: Attio records table (deterministic) ---- */
+/* ---- signature: Attio deal pipeline, worked by the agent (deterministic) ---- */
 const STAGES=[
-  {name:'Lead',cls:'lead'},
-  {name:'Qualified',cls:'warn'},
-  {name:'Demo',cls:'blue'},
-  {name:'Negotiation',cls:'blue'},
-  {name:'Won',cls:'won'},
-  {name:'Lost',cls:'red'}
+  {name:'Lead',       dot:'#8f99a8'},
+  {name:'Qualified',  dot:'#f5b900'},
+  {name:'Demo',       dot:'var(--accent)'},
+  {name:'Negotiation',dot:'var(--accent)'},
+  {name:'Won',        dot:'#0fc27b'}
 ];
 const OWNERS={
-  AD:{n:'Ada Okonkwo',c:'#266df0'},
-  JM:{n:'Jae Mercer',c:'#0fc27b'},
-  KP:{n:'Kai Petrov',c:'#c78a00'},
-  RT:{n:'Rye Tanaka',c:'#8f5bd0'}
+  AD:{n:'Ada',c:'#266df0'},
+  JM:{n:'Jae',c:'#0fc27b'},
+  KP:{n:'Kai',c:'#c78a00'},
+  RT:{n:'Rye',c:'#8f5bd0'}
 };
-const COMPANIES=[
-  {name:'Basepoint',dom:'basepoint.io',fav:'#266df0',stage:2,arr:48000,owner:'AD',strength:4,last:'2h'},
-  {name:'Northwind',dom:'northwind.co',fav:'#0fc27b',stage:4,arr:120000,owner:'JM',strength:3,last:'1d'},
-  {name:'Cortex Labs',dom:'cortex.dev',fav:'#8f5bd0',stage:1,arr:24000,owner:'KP',strength:2,last:'3d'},
-  {name:'Orbital',dom:'orbital.app',fav:'#f5b900',stage:3,arr:96000,owner:'AD',strength:4,last:'5h'},
-  {name:'Meridian',dom:'meridian.com',fav:'#505967',stage:0,arr:12000,owner:'RT',strength:1,last:'6d'},
-  {name:'Ridgeline',dom:'ridgeline.io',fav:'#266df0',stage:2,arr:60000,owner:'JM',strength:3,last:'1d'},
-  {name:'Fathom',dom:'fathom.co',fav:'#0fc27b',stage:4,arr:84000,owner:'KP',strength:4,last:'2d'},
-  {name:'Vela',dom:'vela.energy',fav:'#ff5b59',stage:5,arr:30000,owner:'RT',strength:1,last:'12d'},
-  {name:'Hillcrest',dom:'hillcrest.health',fav:'#c78a00',stage:1,arr:42000,owner:'AD',strength:2,last:'4d'}
+const DEALS=[
+  {name:'Meridian',   dom:'meridian.com',    fav:'#505967',stage:0,arr:12000, owner:'RT',strength:1},
+  {name:'Vela',       dom:'vela.energy',     fav:'#ff5b59',stage:0,arr:30000, owner:'RT',strength:1},
+  {name:'Cortex Labs',dom:'cortex.dev',      fav:'#8f5bd0',stage:1,arr:24000, owner:'KP',strength:2},
+  {name:'Hillcrest',  dom:'hillcrest.health',fav:'#c78a00',stage:1,arr:42000, owner:'AD',strength:2},
+  {name:'Basepoint',  dom:'basepoint.io',    fav:'#266df0',stage:2,arr:48000, owner:'AD',strength:4},
+  {name:'Orbital',    dom:'orbital.app',     fav:'#f5b900',stage:2,arr:96000, owner:'AD',strength:4},
+  {name:'Ridgeline',  dom:'ridgeline.io',    fav:'#266df0',stage:2,arr:60000, owner:'JM',strength:3},
+  {name:'Northwind',  dom:'northwind.co',    fav:'#0fc27b',stage:3,arr:120000,owner:'JM',strength:3},
+  {name:'Fathom',     dom:'fathom.co',       fav:'#0fc27b',stage:4,arr:84000, owner:'KP',strength:4}
 ];
-const lastDays={'2h':0.08,'5h':0.21,'1d':1,'2d':2,'3d':3,'4d':4,'6d':6,'12d':12};
-let sortKey='arr',sortDir=-1;
+// pre-seeded agent activity (deterministic)
+const ACTS=[
+  {won:false,t:'2m',  txt:'Enriched <b>Hillcrest</b> from 3 new signals → moved to <b>Qualified</b>'},
+  {won:false,t:'18m', txt:'Drafted a pricing follow-up for <b>Basepoint</b>'},
+  {won:false,t:'1h',  txt:'Logged a call on <b>Northwind</b> → advanced to <b>Negotiation</b>'}
+];
+// scripted agent run
+const SCRIPT=[
+  {co:'Cortex Labs',to:2,won:false,txt:'Qualified <b>Cortex Labs</b> and booked a demo'},
+  {co:'Meridian',   to:1,won:false,txt:'Enriched <b>Meridian</b> → moved to <b>Qualified</b>'},
+  {co:'Orbital',    to:3,won:false,txt:'Sent pricing to <b>Orbital</b> → <b>Negotiation</b>'},
+  {co:'Northwind',  to:4,won:true, txt:'Closed <b>Northwind</b> — <b>$120k won</b>'}
+];
+let advanced=ACTS.length,running=false,scriptIdx=0;
+const fmtArr=v=>'$'+(v/1000)+'k';
 
-function fmtArr(v){return '$'+(v/1000)+'k';}
-function stagePill(i,idx){const s=STAGES[idx];return `<span class="pill ${s.cls} stage-pill" onclick="cycleStage(${i})" title="Click to advance stage"><span class="dot"></span>${s.name}</span>`;}
-
-function renderTable(){
-  const rows=COMPANIES.map((c,i)=>({c,i})).sort((a,b)=>{
-    let x,y;
-    if(sortKey==='name'){x=a.c.name;y=b.c.name;return sortDir*x.localeCompare(y);}
-    if(sortKey==='last'){x=lastDays[a.c.last];y=lastDays[b.c.last];}
-    else{x=a.c[sortKey];y=b.c[sortKey];}
-    return sortDir*(x-y);
-  });
-  document.getElementById('recBody').innerHTML=rows.map(({c,i})=>{
-    const o=OWNERS[c.owner];
-    return `<tr>
-      <td><span class="co"><span class="fav" style="background:${c.fav}">${c.name[0]}</span><span><span class="cn">${c.name}</span> <span class="cd">${c.dom}</span></span></span></td>
-      <td>${stagePill(i,c.stage)}</td>
-      <td><span class="strength s${c.strength}"><i></i><i></i><i></i><i></i></span></td>
-      <td class="num">${fmtArr(c.arr)}</td>
-      <td><span class="owner"><span class="avatar" style="background:${o.c}">${c.owner}</span><span style="color:var(--muted);font-size:12.5px">${o.n.split(' ')[0]}</span></span></td>
-      <td class="rel">${c.last} ago</td>
-    </tr>`;
+function renderBoard(movedName){
+  document.getElementById('cols').innerHTML=STAGES.map((s,si)=>{
+    const list=DEALS.map((d,i)=>({d,i})).filter(x=>x.d.stage===si);
+    const sum=list.reduce((a,x)=>a+x.d.arr,0);
+    const cards=list.map(({d,i})=>{
+      const o=OWNERS[d.owner];
+      return `<div class="deal${d.name===movedName?' moved':''}" id="deal${i}" onclick="advance(${i})" title="Click to advance stage">
+        <div class="deal-top">
+          <span class="deal-fav" style="background:${d.fav}">${d.name[0]}</span>
+          <span><span class="deal-name">${d.name}</span><span class="deal-dom">${d.dom}</span></span>
+        </div>
+        <div class="deal-foot">
+          <span class="deal-arr">${fmtArr(d.arr)}</span>
+          <span class="strength s${d.strength}" title="Connection strength"><i></i><i></i><i></i><i></i></span>
+          <span class="avatar" style="background:${o.c}" title="${o.n}">${d.owner}</span>
+        </div>
+      </div>`;
+    }).join('')||'<div style="font-size:11px;color:var(--faintest);padding:6px 2px">—</div>';
+    return `<div class="col">
+      <div class="col-h"><span class="col-dot" style="background:${s.dot}"></span><span class="col-name">${s.name}</span><span class="col-meta">${list.length}${sum?' · $'+(sum/1000)+'k':''}</span></div>
+      <div class="col-body">${cards}</div>
+    </div>`;
   }).join('');
-  // header arrows
-  document.querySelectorAll('.recs th.sortable').forEach(th=>{
-    const on=th.dataset.k===sortKey;th.classList.toggle('active',on);
-    th.querySelector('.arw').textContent=(on&&sortDir<0)?'▼':'▲';
-  });
-  renderPipe();
+  renderStats();
 }
-function sortBy(k){
-  if(sortKey===k)sortDir*=-1;else{sortKey=k;sortDir=(k==='name')?1:-1;}
-  renderTable();
+function renderStats(){
+  let open=0,won=0;
+  DEALS.forEach(d=>{d.stage<4?open+=d.arr:won+=d.arr;});
+  document.getElementById('stOpen').textContent='$'+open.toLocaleString();
+  document.getElementById('stWon').textContent='$'+won.toLocaleString();
+  document.getElementById('stAdv').textContent=advanced;
+  document.getElementById('dealCount').textContent=DEALS.length+' deals';
 }
-function cycleStage(i){
-  // advance through active stages; Won/Lost loop back to Lead
-  COMPANIES[i].stage=(COMPANIES[i].stage+1)%STAGES.length;
-  renderTable();
-  toast(COMPANIES[i].name+' → '+STAGES[COMPANIES[i].stage].name);
+function renderActs(freshTop){
+  document.getElementById('actList').innerHTML=ACTS.map((a,i)=>
+    `<div class="act-item${a.won?' won':''}${(freshTop&&i===0)?' fresh':''}">
+      <span class="ai"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+      <span class="tx">${a.txt}</span><span class="t">${a.t}</span>
+    </div>`).join('');
 }
-function renderPipe(){
-  // pipeline = open deals (Lead..Negotiation); Won/Lost excluded from open value
-  const counts=[0,0,0,0,0,0];let openVal=0,openN=0;
-  COMPANIES.forEach(c=>{counts[c.stage]++;if(c.stage<=3){openVal+=c.arr;openN++;}});
-  const segMeta=[['s-lead','Lead'],['s-warn','Qualified'],['s-blue','Demo'],['s-blue','Negotiation'],['s-won','Won'],['s-red','Lost']];
-  const total=COMPANIES.length;
-  document.getElementById('pipeBar').innerHTML=segMeta.map((m,idx)=>
-    counts[idx]?`<div class="pipe-seg ${m[0]}" style="flex:${counts[idx]}" title="${m[1]} · ${counts[idx]}"></div>`:'').join('');
-  document.getElementById('openCount').textContent=openN;
-  document.getElementById('pipeVal').textContent='$'+openVal.toLocaleString()+' open';
-  document.getElementById('recCount').textContent=total+' records';
-  const legendStages=[[ '#8f99a8','Lead',counts[0]],['#f5b900','Qualified',counts[1]],['var(--accent)','Demo',counts[2]],['var(--accent)','Negotiation',counts[3]],['#0fc27b','Won',counts[4]],['#ff5b59','Lost',counts[5]]];
-  document.getElementById('pipeLegend').innerHTML=legendStages.map(l=>`<span><i style="background:${l[0]}"></i>${l[1]} · ${l[2]}</span>`).join('');
+function advance(i){
+  const d=DEALS[i];
+  if(d.stage>=4){toast(d.name+' is already Won');return;}
+  d.stage++;
+  advanced++;
+  ACTS.unshift({won:d.stage===4,t:'now',txt:(d.stage===4?'Closed <b>'+d.name+'</b> — <b>'+fmtArr(d.arr)+' won</b>':'You moved <b>'+d.name+'</b> → <b>'+STAGES[d.stage].name+'</b>')});
+  renderBoard(d.name);renderActs(true);
+  toast(d.name+' → '+STAGES[d.stage].name);
 }
-renderTable();
+function runAgent(){
+  if(running)return;
+  running=true;scriptIdx=0;
+  const btn=document.getElementById('agentBtn');
+  btn.disabled=true;btn.innerHTML='<span class="sp"></span>Working…';
+  step();
+}
+function step(){
+  if(scriptIdx>=SCRIPT.length){
+    running=false;
+    const btn=document.getElementById('agentBtn');
+    btn.disabled=false;btn.innerHTML='<span class="sp"></span>Agent caught up';
+    return;
+  }
+  const s=SCRIPT[scriptIdx++];
+  const i=DEALS.findIndex(d=>d.name===s.co);
+  if(i>=0){DEALS[i].stage=s.to;advanced++;ACTS.unshift({won:s.won,t:'now',txt:s.txt});renderBoard(s.co);renderActs(true);toast('Agent: '+s.co+' → '+STAGES[s.to].name);}
+  setTimeout(step,1000);
+}
+renderBoard();
+renderActs();
 </script>
 </body>
 </html>
