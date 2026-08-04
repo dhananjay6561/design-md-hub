@@ -1,8 +1,8 @@
 # design-md-hub
 
-**A specimen wall of real brand design systems — as plain text for AI agents.**
+**Real brand design systems, captured as plain text your AI agents can read.**
 
-100+ brands, each reverse-engineered from its live production site: the real colors, fonts, components and guardrails, captured in a single `DESIGN.md` (plus a self-contained `preview.html` you can open to *feel* the identity). 100% open source. No paywalls, no sign-up, no API keys. Point your coding agent at one and ship on-brand UI.
+120 brands, each reverse engineered from its live production site: the real colors, fonts, components and guardrails, captured in a single `DESIGN.md` (plus a self contained `preview.html` you can open to feel the identity). Fully open source. No paywalls, no signups, no API keys. Point your coding agent at one and ship on brand UI.
 
 **[→ Browse the live gallery](https://dhananjay6561.github.io/design-md-hub/)**
 
@@ -19,9 +19,26 @@ A `DESIGN.md` is a single markdown file that describes a brand's visual language
 - Layout principles & responsive behavior
 - Tone, guardrails & dos/don'ts
 
-AI coding agents (Cursor, Claude Code, v0, Copilot, etc.) read this file to generate UI that looks and feels like the real thing.
+AI coding agents read this file to generate UI that matches the real thing.
 
-Every spec is built from the brand's **live production site** — real fonts, exact hex values, real logos and copy. If a value can't be confirmed from the live source, it's left out rather than guessed.
+Every spec is built from the brand's **live production site**: real fonts, exact hex values, real logos and copy. If a value cannot be confirmed from the live source, it is left out rather than guessed.
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Live brand site] -->|fetch HTML + CSS + fonts| B[Extract real tokens]
+    B --> C[DESIGN.md<br/>plain text spec]
+    B --> D[preview.html<br/>self contained demo]
+    C -->|copy into your repo| E[Your coding agent]
+    E --> F[On brand UI]
+    D -->|open in a browser| G[Feel the identity]
+```
+
+1. Every brand is fetched from its live production site so tokens are ground truth, never guessed.
+2. The real colors, fonts, components and guardrails become a plain text `DESIGN.md`.
+3. A matching `preview.html` ships alongside it, so you can open the identity in a browser with no build step.
+4. Your coding agent reads the `DESIGN.md` and generates UI in that brand's voice.
 
 ## Browse the Collection
 
@@ -159,15 +176,15 @@ Every spec is built from the brand's **live production site** — real fonts, ex
 
 ## Contributing
 
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding a new brand.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on adding a new brand.
 
 ## Disclaimer
 
-These are **unofficial references** built for education and prototyping — reverse-engineered from public brand sites, not endorsed by or affiliated with any brand. All trademarks and logos belong to their respective owners.
+These are **unofficial references** built for education and prototyping, reverse engineered from public brand sites, not endorsed by or affiliated with any brand. All trademarks and logos belong to their respective owners.
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT, see [LICENSE](LICENSE)
 
 ---
 
